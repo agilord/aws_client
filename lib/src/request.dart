@@ -74,23 +74,34 @@ String _extractService(Uri uri) {
 class AwsRequestBuilder {
   /// HTTP method.
   String method;
+
   /// Full URL. If set, [baseUrl] and [queryParameters] mustn't be set.
   Uri uri;
+
   /// Base URL for easier [uri] construction.
   String baseUrl;
+
   /// Query parameters for easier [uri] construction.
   Map<String, String> queryParameters;
 
   /// HTTP Headers
   Map<String, String> headers;
+
   /// request content
   List<int> body;
+
+  /// Sets the body with the given parameters in a form-url-encoded format.
+  Map<String, String> formParameters;
+
   /// AWS region
   String region;
+
   /// AWS service
   String service;
+
   /// AWS credentials
   Credentials credentials;
+
   /// HTTP client
   BaseClient httpClient;
 
@@ -100,6 +111,7 @@ class AwsRequestBuilder {
     this.uri,
     this.headers,
     this.body,
+    this.formParameters,
     this.region,
     this.service,
     this.credentials,
@@ -136,6 +148,15 @@ class AwsRequestBuilder {
     }
     headers ??= {};
     headers.putIfAbsent('Host', () => uri.host);
+    if (body == null && formParameters != null && formParameters.isNotEmpty) {
+      body = UTF8.encode(formParameters.keys
+          .map((key) =>
+              Uri.encodeQueryComponent(key) +
+              '=' +
+              Uri.encodeQueryComponent(formParameters[key]))
+          .join('&'));
+      headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
     body ??= const [];
     headers.putIfAbsent(
         'X-Amz-Date',

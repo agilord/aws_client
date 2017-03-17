@@ -93,8 +93,9 @@ class SqsQueue {
       parameters['WaitTimeSeconds'] = waitSeconds.toString();
     }
     AwsResponse response = await new AwsRequestBuilder(
+      method: 'POST',
       baseUrl: _queueUrl,
-      queryParameters: parameters,
+      formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
     )
@@ -122,8 +123,9 @@ class SqsQueue {
       'Version': '2012-11-05',
     };
     AwsResponse response = await new AwsRequestBuilder(
+      method: 'POST',
       baseUrl: _queueUrl,
-      queryParameters: parameters,
+      formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
     )
@@ -141,8 +143,9 @@ class SqsQueue {
       'Version': '2012-11-05',
     };
     AwsResponse response = await new AwsRequestBuilder(
+      method: 'POST',
       baseUrl: _queueUrl,
-      queryParameters: parameters,
+      formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
     )
