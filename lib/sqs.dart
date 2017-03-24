@@ -8,16 +8,16 @@ import 'src/request.dart';
 import 'src/credentials.dart';
 export 'src/credentials.dart';
 
-import 'package:http_client/http_client.dart';
+import 'package:http_client/http_client.dart' as http;
 import 'package:xml/xml.dart';
 
 /// AWS SQS (Simple Queue Service).
 class Sqs {
   final Credentials _credentials;
-  final BaseClient _httpClient;
+  final http.Client _httpClient;
 
   /// AWS SQS
-  Sqs({Credentials credentials, BaseClient httpClient})
+  Sqs({Credentials credentials, http.Client httpClient})
       : _credentials = credentials,
         _httpClient = httpClient {
     assert(this._credentials != null);
@@ -51,13 +51,13 @@ class SqsMessage {
 class SqsQueue {
   final String _queueUrl;
   final Credentials _credentials;
-  final BaseClient _httpClient;
+  final http.Client _httpClient;
 
   ///
   SqsQueue(
     String queueUrl, {
     Credentials credentials,
-    BaseClient httpClient,
+    http.Client httpClient,
   })
       : _credentials = credentials,
         _httpClient = httpClient,

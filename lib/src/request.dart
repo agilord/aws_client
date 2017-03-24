@@ -103,7 +103,7 @@ class AwsRequestBuilder {
   Credentials credentials;
 
   /// HTTP client
-  BaseClient httpClient;
+  Client httpClient;
 
   /// Builds an AWS request.
   AwsRequestBuilder({
@@ -126,12 +126,10 @@ class AwsRequestBuilder {
     assert(httpClient != null);
     _initDefaults();
     _sign();
-    Request rq = new Request(method, uri)
-      ..headers.addAll(headers)
-      ..bodyBytes = body;
-    StreamedResponse rs = await httpClient.send(rq);
+    Request rq = new Request(method, uri, headers: headers, body: body);
+    Response rs = await httpClient.send(rq);
     return new AwsResponse(
-        rs.statusCode, rs.reasonPhrase, rs.headers, rs.stream);
+        rs.statusCode, rs.reasonPhrase, rs.headers.toSimpleMap(), rs.body);
   }
 
   void _initDefaults() {

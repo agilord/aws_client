@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'package:http_client/http_client.dart';
+import 'package:http_client/http_client.dart' as http;
 
 import 'src/credentials.dart';
 import 'sqs.dart';
@@ -11,12 +11,12 @@ import 'sqs.dart';
 /// settings (credentials and HTTP client).
 class Aws {
   final Credentials _credentials;
-  final BaseClient _httpClient;
+  final http.Client _httpClient;
 
   Sqs _sqs;
 
   ///
-  Aws({Credentials credentials, BaseClient httpClient})
+  Aws({Credentials credentials, http.Client httpClient})
       : _credentials = credentials,
         _httpClient = httpClient {
     assert(this._credentials != null);
