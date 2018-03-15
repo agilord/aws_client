@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Updated to use `http_client` 0.3.0.
+
 ## 0.1.0
 
 **Breaking changes**:

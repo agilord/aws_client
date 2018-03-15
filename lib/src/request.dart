@@ -48,7 +48,7 @@ class AwsResponse {
   }
 
   /// Reads the entire response into a single String.
-  Future<String> readAsString({Encoding encoding: UTF8}) async {
+  Future<String> readAsString({Encoding encoding: utf8}) async {
     return encoding.decode(await readAsBytes());
   }
 }
@@ -147,7 +147,7 @@ class AwsRequestBuilder {
     headers ??= {};
     headers.putIfAbsent('Host', () => uri.host);
     if (body == null && formParameters != null && formParameters.isNotEmpty) {
-      body = UTF8.encode(formParameters.keys
+      body = utf8.encode(formParameters.keys
           .map((key) =>
               Uri.encodeQueryComponent(key) +
               '=' +
@@ -179,7 +179,8 @@ class AwsRequestBuilder {
         .join('&');
     List<String> canonicalHeaders = headers.keys
         .map((key) => '${key.toLowerCase()}:${headers[key].trim()}')
-        .toList()..sort();
+        .toList()
+          ..sort();
     String signedHeaders =
         (headers.keys.toList()..sort()).map((s) => s.toLowerCase()).join(';');
 
@@ -206,7 +207,7 @@ class AwsRequestBuilder {
       service,
       'aws4_request',
     ];
-    String canonicalHash = sha256.convert(UTF8.encode(canonical)).toString();
+    String canonicalHash = sha256.convert(utf8.encode(canonical)).toString();
     String toSign = [
       _aws4HmacSha256,
       date,
@@ -214,12 +215,12 @@ class AwsRequestBuilder {
       canonicalHash,
     ].join('\n');
     List<int> signingKey = credentialList.fold(
-        UTF8.encode('AWS4${credentials.secretKey}'), (List<int> key, String s) {
+        utf8.encode('AWS4${credentials.secretKey}'), (List<int> key, String s) {
       Hmac hmac = new Hmac(sha256, key);
-      return hmac.convert(UTF8.encode(s)).bytes;
+      return hmac.convert(utf8.encode(s)).bytes;
     });
     String signature =
-        new Hmac(sha256, signingKey).convert(UTF8.encode(toSign)).toString();
+        new Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
 
     String auth = '$_aws4HmacSha256 '
         'Credential=${credentials.accessKey}/${credentialList.join('/')}, '

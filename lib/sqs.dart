@@ -58,8 +58,7 @@ class SqsQueue {
     String queueUrl, {
     Credentials credentials,
     http.Client httpClient,
-  })
-      : _credentials = credentials,
+  })  : _credentials = credentials,
         _httpClient = httpClient,
         _queueUrl = queueUrl {
     assert(this._credentials != null);
@@ -98,8 +97,7 @@ class SqsQueue {
       formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
-    )
-        .sendRequest();
+    ).sendRequest();
     response.validateStatus();
     XmlDocument xml = parse(await response.readAsString());
     return xml
@@ -128,8 +126,7 @@ class SqsQueue {
       formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
-    )
-        .sendRequest();
+    ).sendRequest();
     response.validateStatus();
   }
 
@@ -148,8 +145,7 @@ class SqsQueue {
       formParameters: parameters,
       credentials: _credentials,
       httpClient: _httpClient,
-    )
-        .sendRequest();
+    ).sendRequest();
     response.validateStatus();
   }
 }
