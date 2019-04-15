@@ -168,7 +168,7 @@ class AwsRequestBuilder {
                 .first +
             'Z');
     region ??= _extractRegion(uri);
-    service = _extractService(uri);
+    service ??= _extractService(uri);
   }
 
   void _sign() {
