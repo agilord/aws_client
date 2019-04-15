@@ -121,7 +121,7 @@ class AwsRequestBuilder {
   });
 
   /// Initializes and signs a request.
-  Request generateRequest() {
+  Request buildRequest() {
     assert(credentials != null);
     assert(httpClient != null);
     _initDefaults();
@@ -131,7 +131,7 @@ class AwsRequestBuilder {
 
   /// Initializes, signs and send the request.
   Future<AwsResponse> sendRequest() async {
-    Request rq = generateRequest();
+    Request rq = buildRequest();
     Response rs = await httpClient.send(rq);
     return new AwsResponse(
         rs.statusCode, rs.reasonPhrase, rs.headers.toSimpleMap(), rs.body);
