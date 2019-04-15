@@ -226,6 +226,9 @@ class AwsRequestBuilder {
     });
     String signature =
         new Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
+    if (credentials.sessionToken != null) {
+      headers['X-Amz-Security-Token'] = credentials.sessionToken;
+    }
 
     String auth = '$_aws4HmacSha256 '
         'Credential=${credentials.accessKey}/${credentialList.join('/')}, '

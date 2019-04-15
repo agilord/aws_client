@@ -10,8 +10,11 @@ class Credentials {
   /// AWS secret key
   final String secretKey;
 
+  /// AWS temporary credentials session token
+  final String sessionToken;
+
   /// AWS credentials.
-  Credentials({this.accessKey, this.secretKey}) {
+  Credentials({this.accessKey, this.secretKey, this.sessionToken}) {
     assert(accessKey != null);
     assert(secretKey != null);
   }
