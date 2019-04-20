@@ -194,7 +194,7 @@ class AwsRequestBuilder {
 
     String canonical = ([
       method.toUpperCase(),
-      uri.path,
+      Uri.encodeFull(uri.path),
       canonicalQuery,
     ]
           ..addAll(canonicalHeaders)
