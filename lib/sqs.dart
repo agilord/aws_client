@@ -27,6 +27,32 @@ class Sqs {
   /// Returns a new SQS queue, inheriting the properties of this instance.
   SqsQueue queue(String queueUrl) => new SqsQueue(queueUrl,
       credentials: _credentials, httpClient: _httpClient);
+
+  /// Create a new SQS queue
+  Future<SqsQueue> createNew({endpoint:null, queueName:null, maxSize:'1024', retentionPeriod:'345600'}) async {
+    assert(endpoint!=null);
+    assert(queueName!=null);
+    Map<String, String> parameters = {
+      'Action': 'CreateQueue',
+      'QueueName': queueName,
+      'Attribute.1.Name': 'MaximumMessageSize',
+      'Attribute.1.Value': maxSize,
+      'Attribute.2.Name': 'MessageRetentionPeriod',
+      'Attribute.2.Value': retentionPeriod
+    };
+    AwsResponse response = await new AwsRequestBuilder(
+      method: 'GET',
+      baseUrl: endpoint,
+      queryParameters: parameters,
+      credentials: this._credentials,
+      httpClient: this._httpClient,
+    ).sendRequest();
+    response.validateStatus();
+    XmlDocument xml = parse(await response.readAsString());
+    final queueUrl = xml.findAllElements('QueueUrl').first.text;
+    return this.queue(queueUrl);
+  }
+
 }
 
 /// AWS SQS message.
