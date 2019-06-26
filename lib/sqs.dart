@@ -3,7 +3,6 @@
 // in the LICENSE file.
 
 import 'dart:async';
-
 import 'src/request.dart';
 import 'src/credentials.dart';
 export 'src/credentials.dart';
@@ -29,9 +28,10 @@ class Sqs {
       credentials: _credentials, httpClient: _httpClient);
 
   /// Create a new SQS queue
-  Future<SqsQueue> createNew({endpoint:null, queueName:null, maxSize:'1024', retentionPeriod:'345600'}) async {
-    assert(endpoint!=null);
+  Future<SqsQueue> create(String region, String queueName, {String maxSize:'1024', String retentionPeriod:'345600'}) async {
+    assert(region!=null);
     assert(queueName!=null);
+    final endpoint = "https://sqs.${region}.amazonaws.com/";
     Map<String, String> parameters = {
       'Action': 'CreateQueue',
       'QueueName': queueName,
