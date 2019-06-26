@@ -3,17 +3,20 @@ library aws_client.test.impl_test;
 import 'dart:io';
 import "package:test/test.dart";
 import 'package:aws_client/aws_client.dart';
-import 'package:http_client/console.dart';
 import 'package:aws_client/src/credentials.dart';
+import 'package:aws_client/sqs.dart';
+
 
 void main() {
 
   Map<String, String> env = Platform.environment;
 
+
   final accessKey = env['AWS_ACCESS_KEY_ID'];
   final accessSecret = env['AWS_SECRET_ACCESS_KEY'];
   final region = env['AWS_DEFAULT_REGION'];
   final app_arn = env['AWS_TEST_APP_ARN'];
+
 
   group('SQS-queue', (){
 
