@@ -16,7 +16,7 @@ void main() {
       final httpClient = new ConsoleClient();
       final credentials = new Credentials(accessKey: env['AWS_ACCESS_KEY_ID'], secretKey: env['AWS_SECRET_ACCESS_KEY']);
       final aws = new Aws(credentials: credentials, httpClient: httpClient);
-      final queue = await aws.sqs.create(env['AWS_DEFAULT_REGION'], '[set your queue name]');
+      final queue = await aws.sqs.create(region:env['AWS_DEFAULT_REGION'], queueName:'[set your queue name]');
       await queue.sendMessage('test message');
       expect(true, equals(true));
     });
