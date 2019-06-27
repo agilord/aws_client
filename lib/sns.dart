@@ -23,7 +23,7 @@ class Sns {
   final String _region;
 
   /// execute real request
-  Future<String> executor(Map<String, String> parameters) async {
+  Future<String> _sendRequest(Map<String, String> parameters) async {
     final endpoint = 'https://sns.${this._region}.amazonaws.com/';
     AwsResponse response = await new AwsRequestBuilder(
       method: 'POST',
@@ -39,7 +39,7 @@ class Sns {
   }
 
   /// return an Endpoint of arn
-  SnsEndpoint endpoint(String arn) => new SnsEndpoint(this.executor, arn);
+  SnsEndpoint endpoint(String arn) => new SnsEndpoint(this._sendRequest, arn);
 
   /// create an Endpoint with push token
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreatePlatformEndpoint.html
@@ -56,12 +56,12 @@ class Sns {
       'CustomUserData': userData,
       'Version': '2010-03-31'
     };
-    XmlDocument xml = parse(await this.executor(parameters));
+    XmlDocument xml = parse(await this._sendRequest(parameters));
     final endpointArn = xml.findAllElements('EndpointArn').first.text;
     return this.endpoint(endpointArn);
   }
 
-  SnsTopic topic(String arn) => new SnsTopic(this.executor, arn);
+  SnsTopic topic(String arn) => new SnsTopic(this._sendRequest, arn);
 
   /// Create a Topic
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html
@@ -71,13 +71,13 @@ class Sns {
       'Name': name,
       'Version': '2010-03-31'
     };
-    XmlDocument xml = parse(await this.executor(parameters));
+    XmlDocument xml = parse(await this._sendRequest(parameters));
     final topicArn = xml.findAllElements('TopicArn').first.text;
     return this.topic(topicArn);
   }
 
   /// Get subscription with arn
-  SnsSubscription subscription(String arn) => new SnsSubscription(this.executor, arn);
+  SnsSubscription subscription(String arn) => new SnsSubscription(this._sendRequest, arn);
 
 }
 
@@ -85,13 +85,13 @@ class Sns {
 class SnsEndpoint {
   /// A new endpoint of device
   SnsEndpoint(
-      RequestExecutor executor,
-      String arn) : _executor = executor,
+      RequestExecutor sendRequest,
+      String arn) : _sendRequest = sendRequest,
                     _arn = arn{
-    assert(executor!=null);
+    assert(sendRequest!=null);
     assert(arn!=null);
   }
-  final RequestExecutor _executor;
+  final RequestExecutor _sendRequest;
   final String _arn;
 
   /// The endpoint arg
@@ -107,7 +107,7 @@ class SnsEndpoint {
       'Message': body,
       'Version': '2010-03-31'
     };
-    XmlDocument xml = parse(await this._executor(parameters));
+    XmlDocument xml = parse(await this._sendRequest(parameters));
     final messageId = xml.findAllElements('MessageId').first.text;
     return messageId;
   }
@@ -118,13 +118,13 @@ class SnsEndpoint {
 class SnsTopic {
   /// The SNS Topic
   SnsTopic(
-      RequestExecutor executor,
-      String arn) : _executor = executor,
+      RequestExecutor sendRequest,
+      String arn) : _sendRequest = sendRequest,
         _arn = arn{
-    assert(executor!=null);
+    assert(sendRequest!=null);
     assert(arn!=null);
   }
-  final RequestExecutor _executor;
+  final RequestExecutor _sendRequest;
   final String _arn;
 
 
@@ -138,7 +138,7 @@ class SnsTopic {
       'Message': body,
       'Version': '2010-03-31'
     };
-    XmlDocument xml = parse(await this._executor(parameters));
+    XmlDocument xml = parse(await this._sendRequest(parameters));
     final messageId = xml.findAllElements('MessageId').first.text;
     return messageId;
   }
@@ -154,10 +154,10 @@ class SnsTopic {
       'Protocol': 'application',
       'Version': '2010-03-31'
     };
-    XmlDocument xml = parse(await this._executor(parameters));
+    XmlDocument xml = parse(await this._sendRequest(parameters));
     final subscriptionArn = xml.findAllElements('SubscriptionArn').first.text;
     return new SnsSubscription(
-        this._executor,
+        this._sendRequest,
         subscriptionArn
     );
   }
@@ -168,15 +168,15 @@ class SnsTopic {
 class SnsSubscription {
   /// init subscription
   SnsSubscription(
-      RequestExecutor executor,
+      RequestExecutor sendRequest,
       String arn
-      ): _executor = executor,
+      ): _sendRequest = sendRequest,
         _arn = arn{
-    assert(executor!=null);
+    assert(sendRequest!=null);
     assert(arn!=null);
   }
 
-  final RequestExecutor _executor;
+  final RequestExecutor _sendRequest;
   final String _arn;
 
   /// unsubcribe this subscription
@@ -186,7 +186,7 @@ class SnsSubscription {
       'SubscriptionArn': this._arn,
       'Version': '2010-03-31'
     };
-    await this._executor(parameters);
+    await this._sendRequest(parameters);
   }
 
 }
