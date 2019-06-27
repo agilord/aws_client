@@ -39,7 +39,7 @@ class Sns {
   }
 
   /// return an Endpoint of arn
-  SnsEndpoint endpoint(String arn) => new SnsEndpoint(this.executor, this._region, this._credentials, this._httpClient, arn);
+  SnsEndpoint endpoint(String arn) => new SnsEndpoint(this.executor, arn);
 
   /// create an Endpoint with push token
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreatePlatformEndpoint.html
@@ -61,7 +61,7 @@ class Sns {
     return this.endpoint(endpointArn);
   }
 
-  SnsTopic topic(String arn) => new SnsTopic(this.executor, this._region, this._credentials, this._httpClient, arn);
+  SnsTopic topic(String arn) => new SnsTopic(this.executor, arn);
 
   /// Create a Topic
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html
@@ -77,7 +77,7 @@ class Sns {
   }
 
   /// Get subscription with arn
-  SnsSubscription subscription(String arn) => new SnsSubscription(this.executor, this._region, this._credentials, this._httpClient, arn);
+  SnsSubscription subscription(String arn) => new SnsSubscription(this.executor, arn);
 
 }
 
@@ -86,25 +86,13 @@ class SnsEndpoint {
   /// A new endpoint of device
   SnsEndpoint(
       RequestExecutor executor,
-      String region,
-      Credentials credentials,
-      http.Client httpClient,
       String arn) : _executor = executor,
-                    _region = region,
-                    _credentials = credentials,
-                    _httpClient = httpClient,
                     _arn = arn{
     assert(executor!=null);
-    assert(region!=null);
-    assert(credentials!=null);
-    assert(httpClient!=null);
     assert(arn!=null);
   }
   final RequestExecutor _executor;
-  final Credentials _credentials;
-  final http.Client _httpClient;
   final String _arn;
-  final String _region;
 
   /// The endpoint arg
   String get arn => this._arn;
@@ -131,24 +119,14 @@ class SnsTopic {
   /// The SNS Topic
   SnsTopic(
       RequestExecutor executor,
-      String region,
-      Credentials credentials,
-      http.Client httpClient,
       String arn) : _executor = executor,
-        _region = region,
-        _credentials = credentials,
-        _httpClient = httpClient,
         _arn = arn{
-    assert(region!=null);
-    assert(credentials!=null);
-    assert(httpClient!=null);
+    assert(executor!=null);
     assert(arn!=null);
   }
   final RequestExecutor _executor;
-  final Credentials _credentials;
-  final http.Client _httpClient;
   final String _arn;
-  final String _region;
+
 
   /// push message to this Topic
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
@@ -180,9 +158,6 @@ class SnsTopic {
     final subscriptionArn = xml.findAllElements('SubscriptionArn').first.text;
     return new SnsSubscription(
         this._executor,
-        this._region,
-        this._credentials,
-        this._httpClient,
         subscriptionArn
     );
   }
@@ -194,26 +169,15 @@ class SnsSubscription {
   /// init subscription
   SnsSubscription(
       RequestExecutor executor,
-      String region,
-      Credentials credentials,
-      http.Client httpClient,
       String arn
       ): _executor = executor,
-        _region = region,
-        _credentials = credentials,
-        _httpClient = httpClient,
         _arn = arn{
-    assert(region!=null);
-    assert(credentials!=null);
-    assert(httpClient!=null);
+    assert(executor!=null);
     assert(arn!=null);
   }
 
   final RequestExecutor _executor;
-  final Credentials _credentials;
-  final http.Client _httpClient;
   final String _arn;
-  final String _region;
 
   /// unsubcribe this subscription
   Future unsubscribe() async {
