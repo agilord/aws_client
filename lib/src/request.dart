@@ -42,13 +42,13 @@ class AwsResponse {
   Future<List<int>> readAsBytes() async {
     assert(_bodyWasUsed == false);
     _bodyWasUsed = true;
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    final builder = new BytesBuilder(copy: false);
     await _body.forEach(builder.add);
     return builder.toBytes();
   }
 
   /// Reads the entire response into a single String.
-  Future<String> readAsString({Encoding encoding: utf8}) async {
+  Future<String> readAsString({Encoding encoding = utf8}) async {
     return encoding.decode(await readAsBytes());
   }
 }
@@ -59,13 +59,13 @@ String _queryComponent(String path) =>
     Uri.encodeQueryComponent(path).replaceAll('+', '%20');
 
 String _extractRegion(Uri uri) {
-  List<String> parts = uri.host.split('.');
+  final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
   throw new Exception('Unable to detect region in ${uri.host}.');
 }
 
 String _extractService(Uri uri) {
-  List<String> parts = uri.host.split('.');
+  final parts = uri.host.split('.');
   if (parts.length == 4) return parts.first;
   throw new Exception('Unable to detect service in ${uri.host}.');
 }
@@ -107,7 +107,7 @@ class AwsRequestBuilder {
 
   /// Builds an AWS request.
   AwsRequestBuilder({
-    this.method: 'GET',
+    this.method = 'GET',
     this.uri,
     this.headers,
     this.body,
@@ -131,10 +131,10 @@ class AwsRequestBuilder {
 
   /// Initializes, signs and send the request.
   Future<AwsResponse> sendRequest() async {
-    Request rq = buildRequest();
-    Response rs = await httpClient.send(rq);
-    return new AwsResponse(
-        rs.statusCode, rs.reasonPhrase, rs.headers.toSimpleMap(), rs.body);
+    final rq = buildRequest();
+    final rs = await httpClient.send(rq);
+    return new AwsResponse(rs.statusCode, rs.reasonPhrase,
+        rs.headers.toSimpleMap(), rs.bodyAsStream);
   }
 
   void _initDefaults() {
@@ -153,46 +153,43 @@ class AwsRequestBuilder {
     headers.putIfAbsent('Host', () => uri.host);
     if (body == null && formParameters != null && formParameters.isNotEmpty) {
       body = utf8.encode(formParameters.keys
-          .map((key) =>
-              Uri.encodeQueryComponent(key) +
-              '=' +
-              Uri.encodeQueryComponent(formParameters[key]))
+          .map((key) => '${Uri.encodeQueryComponent(key)}='
+              '${Uri.encodeQueryComponent(formParameters[key])}')
           .join('&'));
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     body ??= const [];
-    headers.putIfAbsent(
-        'X-Amz-Date',
-        () =>
-            new DateTime.now()
-                .toUtc()
-                .toIso8601String()
-                .replaceAll('-', '')
-                .replaceAll(':', '')
-                .split('.')
-                .first +
-            'Z');
+    headers.putIfAbsent('X-Amz-Date', () {
+      final date = new DateTime.now()
+          .toUtc()
+          .toIso8601String()
+          .replaceAll('-', '')
+          .replaceAll(':', '')
+          .split('.')
+          .first;
+      return '${date}Z';
+    });
     region ??= _extractRegion(uri);
     service ??= _extractService(uri);
   }
 
   void _sign() {
-    List<String> queryKeys = uri.queryParameters.keys.toList()..sort();
-    String canonicalQuery = queryKeys
+    final queryKeys = uri.queryParameters.keys.toList()..sort();
+    final canonicalQuery = queryKeys
         .map((s) =>
             '${_queryComponent(s)}=${_queryComponent(uri.queryParameters[s])}')
         .join('&');
-    List<String> canonicalHeaders = headers.keys
+    final canonicalHeaders = headers.keys
         .map((key) => '${key.toLowerCase()}:${headers[key].trim()}')
         .toList()
           ..sort();
-    String signedHeaders =
+    final signedHeaders =
         (headers.keys.toList()..sort()).map((s) => s.toLowerCase()).join(';');
 
-    String payloadHash =
+    final payloadHash =
         headers['X-Amz-Content-Sha256'] ?? sha256.convert(body).toString();
 
-    String canonical = ([
+    final canonical = ([
       method.toUpperCase(),
       Uri.encodeFull(uri.path),
       canonicalQuery,
@@ -205,32 +202,32 @@ class AwsRequestBuilder {
           ]))
         .join('\n');
 
-    String date = headers['X-Amz-Date'];
-    List<String> credentialList = [
+    final date = headers['X-Amz-Date'];
+    final credentialList = [
       date.substring(0, 8),
       region,
       service,
       'aws4_request',
     ];
-    String canonicalHash = sha256.convert(utf8.encode(canonical)).toString();
-    String toSign = [
+    final canonicalHash = sha256.convert(utf8.encode(canonical)).toString();
+    final toSign = [
       _aws4HmacSha256,
       date,
       credentialList.join('/'),
       canonicalHash,
     ].join('\n');
-    List<int> signingKey = credentialList.fold(
+    final signingKey = credentialList.fold(
         utf8.encode('AWS4${credentials.secretKey}'), (List<int> key, String s) {
-      Hmac hmac = new Hmac(sha256, key);
+      final hmac = new Hmac(sha256, key);
       return hmac.convert(utf8.encode(s)).bytes;
     });
-    String signature =
+    final signature =
         new Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
     if (credentials.sessionToken != null) {
       headers['X-Amz-Security-Token'] = credentials.sessionToken;
     }
 
-    String auth = '$_aws4HmacSha256 '
+    final auth = '$_aws4HmacSha256 '
         'Credential=${credentials.accessKey}/${credentialList.join('/')}, '
         'SignedHeaders=$signedHeaders, '
         'Signature=$signature';

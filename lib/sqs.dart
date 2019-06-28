@@ -3,11 +3,13 @@
 // in the LICENSE file.
 
 import 'dart:async';
+
 import 'package:meta/meta.dart';
-import 'src/request.dart';
-import 'src/credentials.dart';
 import 'package:http_client/http_client.dart' as http;
 import 'package:xml/xml.dart';
+
+import 'src/credentials.dart';
+import 'src/request.dart';
 
 /// AWS SQS (Simple Queue Service).
 class Sqs {
@@ -18,8 +20,8 @@ class Sqs {
   Sqs({Credentials credentials, http.Client httpClient})
       : _credentials = credentials,
         _httpClient = httpClient {
-    assert(this._credentials != null);
-    assert(this._httpClient != null);
+    assert(_credentials != null);
+    assert(_httpClient != null);
   }
 
   /// Returns a new SQS queue, inheriting the properties of this instance.
@@ -27,11 +29,15 @@ class Sqs {
       credentials: _credentials, httpClient: _httpClient);
 
   /// Create a new SQS queue
-  Future<SqsQueue> create({@required String region, @required String queueName, String maxSize:'1024', String retentionPeriod:'345600'}) async {
-    assert(region!='');
-    assert(queueName!='');
-    final endpoint = "https://sqs.${region}.amazonaws.com/";
-    Map<String, String> parameters = {
+  Future<SqsQueue> create(
+      {@required String region,
+      @required String queueName,
+      String maxSize = '1024',
+      String retentionPeriod = '345600'}) async {
+    assert(region != '');
+    assert(queueName != '');
+    final endpoint = 'https://sqs.$region.amazonaws.com/';
+    final parameters = <String, String>{
       'Action': 'CreateQueue',
       'QueueName': queueName,
       'Attribute.1.Name': 'MaximumMessageSize',
@@ -39,19 +45,18 @@ class Sqs {
       'Attribute.2.Name': 'MessageRetentionPeriod',
       'Attribute.2.Value': retentionPeriod
     };
-    AwsResponse response = await new AwsRequestBuilder(
+    final response = await new AwsRequestBuilder(
       method: 'GET',
       baseUrl: endpoint,
       queryParameters: parameters,
-      credentials: this._credentials,
-      httpClient: this._httpClient,
+      credentials: _credentials,
+      httpClient: _httpClient,
     ).sendRequest();
     response.validateStatus();
-    XmlDocument xml = parse(await response.readAsString());
+    final xml = parse(await response.readAsString());
     final queueUrl = xml.findAllElements('QueueUrl').first.text;
-    return this.queue(queueUrl);
+    return queue(queueUrl);
   }
-
 }
 
 /// AWS SQS message.
@@ -86,15 +91,14 @@ class SqsQueue {
   })  : _credentials = credentials,
         _httpClient = httpClient,
         _queueUrl = queueUrl {
-    assert(this._credentials != null);
-    assert(this._httpClient != null);
-    assert(this._queueUrl != null);
+    assert(_credentials != null);
+    assert(_httpClient != null);
+    assert(_queueUrl != null);
   }
 
   /// Receives a single message from the queue.
   Future<SqsMessage> receiveOne({int waitSeconds}) async {
-    List<SqsMessage> messages =
-        await receiveMessage(1, waitSeconds: waitSeconds);
+    final messages = await receiveMessage(1, waitSeconds: waitSeconds);
     if (messages.isEmpty) return null;
     return messages.first;
   }
@@ -108,7 +112,7 @@ class SqsQueue {
   /// http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ReceiveMessage.html
   Future<List<SqsMessage>> receiveMessage(int number, {int waitSeconds}) async {
     assert(number > 0);
-    Map<String, String> parameters = {
+    final parameters = <String, String>{
       'Action': 'ReceiveMessage',
       'MaxNumberOfMessages': number.toString(),
       'Version': '2012-11-05',
@@ -116,7 +120,7 @@ class SqsQueue {
     if (waitSeconds != null) {
       parameters['WaitTimeSeconds'] = waitSeconds.toString();
     }
-    AwsResponse response = await new AwsRequestBuilder(
+    final response = await new AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
@@ -124,7 +128,7 @@ class SqsQueue {
       httpClient: _httpClient,
     ).sendRequest();
     response.validateStatus();
-    XmlDocument xml = parse(await response.readAsString());
+    final xml = parse(await response.readAsString());
     return xml
         .findAllElements('Message')
         // LOW PRIORITY: check MD5 signature
@@ -140,12 +144,12 @@ class SqsQueue {
   ///
   /// http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteMessage.html
   Future deleteMessage(String receiptHandle) async {
-    Map<String, String> parameters = {
+    final parameters = <String, String>{
       'Action': 'DeleteMessage',
       'ReceiptHandle': receiptHandle,
       'Version': '2012-11-05',
     };
-    AwsResponse response = await new AwsRequestBuilder(
+    final response = await new AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
@@ -159,12 +163,12 @@ class SqsQueue {
   ///
   /// http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html
   Future sendMessage(String body) async {
-    Map<String, String> parameters = {
+    final parameters = <String, String>{
       'Action': 'SendMessage',
       'MessageBody': body,
       'Version': '2012-11-05',
     };
-    AwsResponse response = await new AwsRequestBuilder(
+    final response = await new AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,

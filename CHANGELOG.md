@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3
+
+Thanks to [paulreimer](https://github.com/paulreimer) and [ipconfiger](https://github.com/ipconfiger)!
+
+- Allow 'service' field in AwsRequestBuilder constructor to override detection from uri.
+- URI-encoding for path in Request signature.
+- Create Queue api.
+- SNS Service API support.
+- Upgrade to `http_client` `1.0`
+- Expanded lints.
+
 ## 0.1.2
 
 - Dart 2 support.

@@ -4,9 +4,9 @@
 
 import 'package:http_client/http_client.dart' as http;
 
-import 'src/credentials.dart';
-import 'sqs.dart';
 import 'sns.dart';
+import 'sqs.dart';
+import 'src/credentials.dart';
 
 /// AWS access facade that helps to initialize multiple services with common
 /// settings (credentials and HTTP client).
@@ -20,8 +20,8 @@ class Aws {
   Aws({Credentials credentials, http.Client httpClient})
       : _credentials = credentials,
         _httpClient = httpClient {
-    assert(this._credentials != null);
-    assert(this._httpClient != null);
+    assert(_credentials != null);
+    assert(_httpClient != null);
   }
 
   /// Returns an SQS service, inheriting the properties of this instance.
@@ -29,6 +29,6 @@ class Aws {
       _sqs ??= new Sqs(credentials: _credentials, httpClient: _httpClient);
 
   /// Returns an SNS service, inheriting the properties of this instance.
-  Sns sns(String region) => new Sns(credentials: _credentials, httpClient: _httpClient, region: region);
-
+  Sns sns(String region) => new Sns(
+      credentials: _credentials, httpClient: _httpClient, region: region);
 }
