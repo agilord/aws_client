@@ -16,8 +16,6 @@ class Aws {
 
   Sqs _sqs;
 
-  Sns _sns;
-
   ///
   Aws({Credentials credentials, http.Client httpClient})
       : _credentials = credentials,
@@ -31,7 +29,6 @@ class Aws {
       _sqs ??= new Sqs(credentials: _credentials, httpClient: _httpClient);
 
   /// Returns an SNS service, inheriting the properties of this instance.
-  Sns sns(String region) =>
-      _sns ??= new Sns(credentials: _credentials, httpClient: _httpClient, region: region);
+  Sns sns(String region) => new Sns(credentials: _credentials, httpClient: _httpClient, region: region);
 
 }
