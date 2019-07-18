@@ -18,13 +18,22 @@ main(List<String> args) async {
     secretKey: environment['AWS_SECRET_ACCESS_KEY'],
     sessionToken: environment['AWS_SESSION_TOKEN'],
   );
-  final aws = Aws(credentials: credentials, httpClient: httpClient);
-  final response = await aws.lambda(environment['AWS_DEFAULT_REGION']).invoke(
-    'my-function',
-    json.encode({'payload': 4}),
-    invocationType: LambdaInvocationType.RequestResponse,
-    headers: {'X-Amz-Log-Type': 'Tail'},
-  );
-  print(response);
-  await httpClient.close();
+  try {
+    final aws = Aws(credentials: credentials, httpClient: httpClient);
+    final response = await aws.lambda(environment['AWS_DEFAULT_REGION']).invoke(
+      'my-function',
+      json.encode({'number': 4}),
+      invocationType: LambdaInvocationType.RequestResponse,
+      headers: {'X-Amz-Log-Type': 'Tail'},
+    );
+
+    print('StatusCode: ${response.statusCode}');
+    print('Headers: ${response.headers}');
+    final respPayloadString = await response.readAsString();
+    print('Payload: $respPayloadString');
+  } catch (e) {
+    print('ERROR!!! $e');
+  } finally {
+    await httpClient.close();
+  }
 }

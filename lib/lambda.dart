@@ -24,7 +24,7 @@ class Lambda {
   }
 
   /// execute real request
-  Future<String> _sendRequest(String functionName, String body,
+  Future<AwsResponse> _sendRequest(String functionName, String body,
       Map<String, String> headers, LambdaInvocationType invocationType) async {
     final response = await AwsRequestBuilder(
             method: 'POST',
@@ -38,12 +38,10 @@ class Lambda {
             httpClient: _httpClient,
             region: _region)
         .sendRequest();
-    final respString = await response.readAsString();
     response.validateStatus();
-    return respString;
+    return response;
   }
 
-  /// Returns a new Lambda, inheriting the properties of this instance.
   /// https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html
   /// **Optional additional headers**
   /// 'X-Amz-Log-Type': 'Tail',
@@ -52,7 +50,7 @@ class Lambda {
   /// functionName: arn:aws:lambda:us-west-2:123456789012:function:my-function <--format not working
   /// functionName: my-function:$LATEST, my-function:v1 <--format not working
   /// functionName: my-function <--Works!
-  Future<String> invoke(
+  Future<AwsResponse> invoke(
     String functionName,
     String payload, {
     Map<String, String> headers = const {},
