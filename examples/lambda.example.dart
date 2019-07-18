@@ -1,0 +1,30 @@
+// Copyright (c) 2016, project contributors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be found
+// in the LICENSE file.
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:http_client/console.dart';
+
+import '../lib/aws_client.dart';
+import '../lib/lambda.dart';
+import '../lib/src/credentials.dart';
+
+main(List<String> args) async {
+  final Map<String, String> environment = Platform.environment;
+  final Client httpClient = ConsoleClient();
+  final credentials = Credentials(
+    accessKey: environment['AWS_ACCESS_KEY_ID'],
+    secretKey: environment['AWS_SECRET_ACCESS_KEY'],
+    sessionToken: environment['AWS_SESSION_TOKEN'],
+  );
+  final aws = Aws(credentials: credentials, httpClient: httpClient);
+  final response = await aws.lambda(environment['AWS_DEFAULT_REGION']).invoke(
+    'my-function',
+    json.encode({'payload': 4}),
+    invocationType: LambdaInvocationType.RequestResponse,
+    headers: {'X-Amz-Log-Type': 'Tail'},
+  );
+  print(response);
+  await httpClient.close();
+}

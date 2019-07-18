@@ -4,6 +4,7 @@
 
 import 'package:http_client/http_client.dart' as http;
 
+import 'lambda.dart';
 import 'sns.dart';
 import 'sqs.dart';
 import 'src/credentials.dart';
@@ -30,5 +31,8 @@ class Aws {
 
   /// Returns an SNS service, inheriting the properties of this instance.
   Sns sns(String region) => new Sns(
+      credentials: _credentials, httpClient: _httpClient, region: region);
+
+  Lambda lambda(String region) => Lambda(
       credentials: _credentials, httpClient: _httpClient, region: region);
 }
