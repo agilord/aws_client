@@ -31,11 +31,12 @@ class AwsResponse {
       : _body = body;
 
   /// A very lousy way to validate some of the common status codes.
+  /// https://http.cat/
   void validateStatus() {
-    if (statusCode == 200) return;
+    if (statusCode >= 200 && statusCode <= 207) return;
     // TODO: check for different type of errors
     // TODO: introduce transient exception for error handling
-    throw new Exception('Bad response code=$statusCode, $statusText.');
+    throw new Exception('Bad response code=$statusCode, statusText=$statusText, headers=$headers.');
   }
 
   /// Reads the entire response into a byte array.
