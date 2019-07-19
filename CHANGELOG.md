@@ -1,6 +1,9 @@
 # Changelog
 
 ## 0.2.0
+
+Thanks to [kmcgill88](https://github.com/kmcgill88):
+
 - Add support for Lambda `invoke`
 
 ## 0.1.3
