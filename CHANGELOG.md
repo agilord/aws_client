@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0
+- Add support for Lambda `invoke`
+
 ## 0.1.3
 
 Thanks to [paulreimer](https://github.com/paulreimer) and [ipconfiger](https://github.com/ipconfiger)!
