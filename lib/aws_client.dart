@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
+import 'package:aws_client/dynamodb/dynamodb-2012-08-10.dart';
 import 'package:http_client/http_client.dart' as http;
 
 import 'lambda.dart';
@@ -27,12 +28,14 @@ class Aws {
 
   /// Returns an SQS service, inheriting the properties of this instance.
   Sqs get sqs =>
-      _sqs ??= new Sqs(credentials: _credentials, httpClient: _httpClient);
+      _sqs ??= Sqs(credentials: _credentials, httpClient: _httpClient);
 
   /// Returns an SNS service, inheriting the properties of this instance.
-  Sns sns(String region) => new Sns(
+  Sns sns(String region) => Sns(
       credentials: _credentials, httpClient: _httpClient, region: region);
 
   Lambda lambda(String region) => Lambda(
       credentials: _credentials, httpClient: _httpClient, region: region);
+
+  DynamoDB dynamoDB(String region) => DynamoDB(region: region, credentials: _credentials);
 }
