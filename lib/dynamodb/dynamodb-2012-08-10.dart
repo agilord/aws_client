@@ -42,34 +42,33 @@ class DynamoDB {
   Credentials credentials;
   final Map<String, String> environment = Platform.environment;
 
-  DynamoDB({this.region = 'eu-west-1', this.credentials}) {
-    dio = Dio();
+  DynamoDB({this.region = 'eu-west-1', this.credentials, this.dio}) {
+    dio ??= Dio()
+      ..interceptors.add(InterceptorsWrapper(
+        onRequest: (RequestOptions options) async {
+          options.headers.putIfAbsent(
+            'X-Amz-Date',
+            () => DateTime.now()
+                .toUtc()
+                .toIso8601String()
+                .replaceAll('-', '')
+                .replaceAll(':', '')
+                .split('.')
+                .first,
+          );
+
+          _sign(credentials, options);
+
+          return options;
+        },
+      ))
+      ..options.baseUrl = 'https://$endpointPrefix.$region.amazonaws.com';
 
     credentials ??= Credentials(
       accessKey: environment['AWS_ACCESS_KEY_ID'],
       secretKey: environment['AWS_SECRET_ACCESS_KEY'],
       sessionToken: environment['AWS_SESSION_TOKEN'],
     );
-
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (RequestOptions options) async {
-        options.headers.putIfAbsent(
-          'X-Amz-Date',
-          () => DateTime.now()
-              .toUtc()
-              .toIso8601String()
-              .replaceAll('-', '')
-              .replaceAll(':', '')
-              .split('.')
-              .first,
-        );
-
-        _sign(credentials, options);
-
-        return options;
-      },
-    ));
-    dio..options.baseUrl = 'https://$endpointPrefix.$region.amazonaws.com';
   }
 
   /// The BatchGetItem operation returns the attributes of one or more items
@@ -822,6 +821,8 @@ class AttributeDefinition {
   /// The data type for the attribute, where:    S - the attribute is of type
   /// String    N - the attribute is of type Number    B - the attribute is of
   /// type Binary
+  ///
+  /// Possible values: [S, N, B]
   @JsonKey(name: 'AttributeType')
   final String attributeType;
 
@@ -973,6 +974,8 @@ class AttributeValueUpdate {
   /// key and number (or set of numbers) for the attribute value. The only data
   /// types allowed are number and number set; no other data types can be specified.
   ///
+  ///
+  /// Possible values: [ADD, PUT, DELETE]
   @JsonKey(name: 'Action')
   final String action;
 
@@ -1253,6 +1256,8 @@ class BackupDetails {
   final String backupName;
 
   /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
+  ///
+  /// Possible values: [CREATING, DELETED, AVAILABLE]
   @JsonKey(name: 'BackupStatus')
   final String backupStatus;
 
@@ -1262,6 +1267,8 @@ class BackupDetails {
   /// days (at no additional cost). System backups allow you to restore the deleted
   /// table to the state it was in just before the point of deletion.     AWS_BACKUP
   /// - On-demand backup created by you from AWS Backup service.
+  ///
+  /// Possible values: [USER, SYSTEM, AWS_BACKUP]
   @JsonKey(name: 'BackupType')
   final String backupType;
 
@@ -1327,6 +1334,8 @@ class BackupSummary {
   final String backupExpiryDateTime;
 
   /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
+  ///
+  /// Possible values: [CREATING, DELETED, AVAILABLE]
   @JsonKey(name: 'BackupStatus')
   final String backupStatus;
 
@@ -1336,6 +1345,8 @@ class BackupSummary {
   /// days (at no additional cost). System backups allow you to restore the deleted
   /// table to the state it was in just before the point of deletion.     AWS_BACKUP
   /// - On-demand backup created by you from AWS Backup service.
+  ///
+  /// Possible values: [USER, SYSTEM, AWS_BACKUP]
   @JsonKey(name: 'BackupType')
   final String backupType;
 
@@ -1403,6 +1414,9 @@ class BatchGetItemInput {
   /// Developer Guide.
   @JsonKey(name: 'RequestItems')
   final Map<String, KeysAndAttributes> requestItems;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -1484,6 +1498,9 @@ class BatchWriteItemInput {
   /// in the table's attribute definition.
   @JsonKey(name: 'RequestItems')
   final Map<String, List<WriteRequest>> requestItems;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -1491,6 +1508,8 @@ class BatchWriteItemInput {
   /// the response includes statistics about item collections, if any, that were
   /// modified during the operation are returned in the response. If set to NONE
   /// (the default), no statistics are returned.
+  ///
+  /// Possible values: [SIZE, NONE]
   @JsonKey(name: 'ReturnItemCollectionMetrics')
   final String returnItemCollectionMetrics;
 
@@ -1576,6 +1595,8 @@ class BillingModeSummary {
   /// for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity
   /// mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable
   /// workloads.
+  ///
+  /// Possible values: [PROVISIONED, PAY_PER_REQUEST]
   @JsonKey(name: 'BillingMode')
   final String billingMode;
 
@@ -1719,6 +1740,8 @@ class Condition {
   /// {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples
   /// of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters
   /// in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [EQ, NE, IN, LE, LT, GE, GT, BETWEEN, NOT_NULL, NULL, CONTAINS, NOT_CONTAINS, BEGINS_WITH]
   @JsonKey(name: 'ComparisonOperator')
   final String comparisonOperator;
 
@@ -1773,6 +1796,8 @@ class ConditionCheck {
   /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the
   /// ConditionCheck condition fails. For ReturnValuesOnConditionCheckFailure,
   /// the valid values are: NONE and ALL_OLD.
+  ///
+  /// Possible values: [ALL_OLD, NONE]
   @JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
   final String returnValuesOnConditionCheckFailure;
 
@@ -1848,6 +1873,8 @@ class ConsumedCapacity {
 @JsonSerializable()
 class ContinuousBackupsDescription {
   /// ContinuousBackupsStatus can be one of the following states: ENABLED, DISABLED
+  ///
+  /// Possible values: [ENABLED, DISABLED]
   @JsonKey(name: 'ContinuousBackupsStatus')
   final String continuousBackupsStatus;
 
@@ -2078,6 +2105,8 @@ class CreateTableInput {
   /// the billing mode to PROVISIONED. We recommend using PROVISIONED for predictable
   /// workloads.    PAY_PER_REQUEST - Sets the billing mode to PAY_PER_REQUEST.
   /// We recommend using PAY_PER_REQUEST for unpredictable workloads.
+  ///
+  /// Possible values: [PROVISIONED, PAY_PER_REQUEST]
   @JsonKey(name: 'BillingMode')
   final String billingMode;
 
@@ -2176,6 +2205,8 @@ class Delete {
   /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the
   /// Delete condition fails. For ReturnValuesOnConditionCheckFailure, the valid
   /// values are: NONE and ALL_OLD.
+  ///
+  /// Possible values: [ALL_OLD, NONE]
   @JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
   final String returnValuesOnConditionCheckFailure;
 
@@ -2266,6 +2297,8 @@ class DeleteItemInput {
 
   /// This is a legacy parameter. Use ConditionExpression instead. For more information,
   /// see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [AND, OR]
   @JsonKey(name: 'ConditionalOperator')
   final String conditionalOperator;
 
@@ -2276,8 +2309,13 @@ class DeleteItemInput {
   /// - The content of the old item is returned.    The ReturnValues parameter
   /// is used by several DynamoDB operations; however, DeleteItem does not recognize
   /// any values other than NONE or ALL_OLD.
+  ///
+  /// Possible values: [NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW]
   @JsonKey(name: 'ReturnValues')
   final String returnValues;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -2285,6 +2323,8 @@ class DeleteItemInput {
   /// the response includes statistics about item collections, if any, that were
   /// modified during the operation are returned in the response. If set to NONE
   /// (the default), no statistics are returned.
+  ///
+  /// Possible values: [SIZE, NONE]
   @JsonKey(name: 'ReturnItemCollectionMetrics')
   final String returnItemCollectionMetrics;
 
@@ -2874,6 +2914,8 @@ class ExpectedAttributeValue {
   /// of a different type than the one provided in the request, the value does
   /// not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also,
   /// {"N":"6"} does not compare to {"NS":["6", "2", "1"]}
+  ///
+  /// Possible values: [EQ, NE, IN, LE, LT, GE, GT, BETWEEN, NOT_NULL, NULL, CONTAINS, NOT_CONTAINS, BEGINS_WITH]
   @JsonKey(name: 'ComparisonOperator')
   final String comparisonOperator;
 
@@ -2965,6 +3007,9 @@ class GetItemInput {
   /// consistent reads.
   @JsonKey(name: 'ConsistentRead')
   final bool consistentRead;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -3112,6 +3157,8 @@ class GlobalSecondaryIndexDescription {
   /// The current state of the global secondary index:    CREATING - The index
   /// is being created.    UPDATING - The index is being updated.    DELETING
   /// - The index is being deleted.    ACTIVE - The index is ready for use.
+  ///
+  /// Possible values: [CREATING, UPDATING, DELETING, ACTIVE]
   @JsonKey(name: 'IndexStatus')
   final String indexStatus;
 
@@ -3285,6 +3332,8 @@ class GlobalTableDescription {
   /// being created.    UPDATING - The global table is being updated.    DELETING
   /// - The global table is being deleted.    ACTIVE - The global table is ready
   /// for use.
+  ///
+  /// Possible values: [CREATING, ACTIVE, DELETING, UPDATING]
   @JsonKey(name: 'GlobalTableStatus')
   final String globalTableStatus;
 
@@ -3412,6 +3461,8 @@ class KeySchemaElement {
   /// as its range attribute. The term "range attribute" derives from the way
   /// DynamoDB stores items with the same partition key physically close together,
   /// in sorted order by the sort key value.
+  ///
+  /// Possible values: [HASH, RANGE]
   @JsonKey(name: 'KeyType')
   final String keyType;
 
@@ -3523,6 +3574,8 @@ class ListBackupsInput {
   /// can be:    USER - On-demand backup created by you.    SYSTEM - On-demand
   /// backup automatically created by DynamoDB.    ALL - All types of on-demand
   /// backups (USER and SYSTEM).
+  ///
+  /// Possible values: [USER, SYSTEM, AWS_BACKUP, ALL]
   @JsonKey(name: 'BackupType')
   final String backupType;
 
@@ -3857,6 +3910,8 @@ class PointInTimeRecoveryDescription {
   /// The current state of point in time recovery:    ENABLING - Point in time
   /// recovery is being enabled.    ENABLED - Point in time recovery is enabled.
   ///    DISABLED - Point in time recovery is disabled.
+  ///
+  /// Possible values: [ENABLED, DISABLED]
   @JsonKey(name: 'PointInTimeRecoveryStatus')
   final String pointInTimeRecoveryStatus;
 
@@ -3911,6 +3966,8 @@ class Projection {
   /// - Only the specified table attributes are projected into the index. The
   /// list of projected attributes are in NonKeyAttributes.    ALL - All of the
   /// table attributes are projected into the index.
+  ///
+  /// Possible values: [ALL, KEYS_ONLY, INCLUDE]
   @JsonKey(name: 'ProjectionType')
   final String projectionType;
 
@@ -4044,6 +4101,8 @@ class Put {
   /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the
   /// Put condition fails. For ReturnValuesOnConditionCheckFailure, the valid
   /// values are: NONE and ALL_OLD.
+  ///
+  /// Possible values: [ALL_OLD, NONE]
   @JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
   final String returnValuesOnConditionCheckFailure;
 
@@ -4095,8 +4154,13 @@ class PutItemInput {
   /// content of the old item is returned.    The ReturnValues parameter is used
   /// by several DynamoDB operations; however, PutItem does not recognize any
   /// values other than NONE or ALL_OLD.
+  ///
+  /// Possible values: [NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW]
   @JsonKey(name: 'ReturnValues')
   final String returnValues;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -4104,11 +4168,15 @@ class PutItemInput {
   /// the response includes statistics about item collections, if any, that were
   /// modified during the operation are returned in the response. If set to NONE
   /// (the default), no statistics are returned.
+  ///
+  /// Possible values: [SIZE, NONE]
   @JsonKey(name: 'ReturnItemCollectionMetrics')
   final String returnItemCollectionMetrics;
 
   /// This is a legacy parameter. Use ConditionExpression instead. For more information,
   /// see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [AND, OR]
   @JsonKey(name: 'ConditionalOperator')
   final String conditionalOperator;
 
@@ -4285,6 +4353,8 @@ class QueryInput {
   /// for Select.)  If you use the ProjectionExpression parameter, then the value
   /// for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select
   /// will return an error.
+  ///
+  /// Possible values: [ALL_ATTRIBUTES, ALL_PROJECTED_ATTRIBUTES, SPECIFIC_ATTRIBUTES, COUNT]
   @JsonKey(name: 'Select')
   final String select;
 
@@ -4326,6 +4396,8 @@ class QueryInput {
 
   /// This is a legacy parameter. Use FilterExpression instead. For more information,
   /// see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [AND, OR]
   @JsonKey(name: 'ConditionalOperator')
   final String conditionalOperator;
 
@@ -4349,6 +4421,9 @@ class QueryInput {
   /// No set data types are allowed.
   @JsonKey(name: 'ExclusiveStartKey')
   final Map<String, AttributeValue> exclusiveStartKey;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -4572,6 +4647,8 @@ class ReplicaGlobalSecondaryIndexSettingsDescription {
   /// secondary index is being created.    UPDATING - The global secondary index
   /// is being updated.    DELETING - The global secondary index is being deleted.
   ///    ACTIVE - The global secondary index is ready for use.
+  ///
+  /// Possible values: [CREATING, UPDATING, DELETING, ACTIVE]
   @JsonKey(name: 'IndexStatus')
   final String indexStatus;
 
@@ -4658,6 +4735,8 @@ class ReplicaSettingsDescription {
   /// The current state of the region:    CREATING - The region is being created.
   ///    UPDATING - The region is being updated.    DELETING - The region is
   /// being deleted.    ACTIVE - The region is ready for use.
+  ///
+  /// Possible values: [CREATING, UPDATING, DELETING, ACTIVE]
   @JsonKey(name: 'ReplicaStatus')
   final String replicaStatus;
 
@@ -4895,12 +4974,16 @@ class SSEDescription {
   /// Represents the current state of server-side encryption. The only supported
   /// values are:    ENABLED - Server-side encryption is enabled.    UPDATING
   /// - Server-side encryption is being updated.
+  ///
+  /// Possible values: [ENABLING, ENABLED, DISABLING, DISABLED, UPDATING]
   @JsonKey(name: 'Status')
   final String status;
 
   /// Server-side encryption type. The only supported value is:    KMS - Server-side
   /// encryption which uses AWS Key Management Service. Key is stored in your
   /// account and is managed by AWS KMS (KMS charges apply).
+  ///
+  /// Possible values: [AES256, KMS]
   @JsonKey(name: 'SSEType')
   final String sSEType;
 
@@ -4933,6 +5016,8 @@ class SSESpecification {
   /// Server-side encryption type. The only supported value is:    KMS - Server-side
   /// encryption which uses AWS Key Management Service. Key is stored in your
   /// account and is managed by AWS KMS (KMS charges apply).
+  ///
+  /// Possible values: [AES256, KMS]
   @JsonKey(name: 'SSEType')
   final String sSEType;
 
@@ -5018,6 +5103,8 @@ class ScanInput {
   /// for Select.)  If you use the ProjectionExpression parameter, then the value
   /// for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select
   /// will return an error.
+  ///
+  /// Possible values: [ALL_ATTRIBUTES, ALL_PROJECTED_ATTRIBUTES, SPECIFIC_ATTRIBUTES, COUNT]
   @JsonKey(name: 'Select')
   final String select;
 
@@ -5028,6 +5115,8 @@ class ScanInput {
 
   /// This is a legacy parameter. Use FilterExpression instead. For more information,
   /// see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [AND, OR]
   @JsonKey(name: 'ConditionalOperator')
   final String conditionalOperator;
 
@@ -5039,6 +5128,9 @@ class ScanInput {
   /// the corresponding value of LastEvaluatedKey.
   @JsonKey(name: 'ExclusiveStartKey')
   final Map<String, AttributeValue> exclusiveStartKey;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -5252,6 +5344,8 @@ class SourceTableDetails {
   /// for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity
   /// mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable
   /// workloads.
+  ///
+  /// Possible values: [PROVISIONED, PAY_PER_REQUEST]
   @JsonKey(name: 'BillingMode')
   final String billingMode;
 
@@ -5332,6 +5426,8 @@ class StreamSpecification {
   /// it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES
   /// - Both the new and the old item images of the item are written to the stream.
   ///
+  ///
+  /// Possible values: [NEW_IMAGE, OLD_IMAGE, NEW_AND_OLD_IMAGES, KEYS_ONLY]
   @JsonKey(name: 'StreamViewType')
   final String streamViewType;
 
@@ -5377,6 +5473,8 @@ class TableDescription {
   /// The current state of the table:    CREATING - The table is being created.
   ///    UPDATING - The table is being updated.    DELETING - The table is being
   /// deleted.    ACTIVE - The table is ready for use.
+  ///
+  /// Possible values: [CREATING, UPDATING, DELETING, ACTIVE]
   @JsonKey(name: 'TableStatus')
   final String tableStatus;
 
@@ -5588,6 +5686,8 @@ class TagResourceInput {
 @JsonSerializable()
 class TimeToLiveDescription {
   /// The TTL status for the table.
+  ///
+  /// Possible values: [ENABLING, DISABLING, ENABLED, DISABLED]
   @JsonKey(name: 'TimeToLiveStatus')
   final String timeToLiveStatus;
 
@@ -5660,6 +5760,8 @@ class TransactGetItemsInput {
   /// A value of TOTAL causes consumed capacity information to be returned, and
   /// a value of NONE prevents that information from being returned. No other
   /// value is valid.
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -5745,6 +5847,9 @@ class TransactWriteItemsInput {
   /// and Region, and no two of them can operate on the same item.
   @JsonKey(name: 'TransactItems')
   final List<TransactWriteItem> transactItems;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -5752,6 +5857,8 @@ class TransactWriteItemsInput {
   /// the response includes statistics about item collections (if any), that
   /// were modified during the operation and are returned in the response. If
   /// set to NONE (the default), no statistics are returned.
+  ///
+  /// Possible values: [SIZE, NONE]
   @JsonKey(name: 'ReturnItemCollectionMetrics')
   final String returnItemCollectionMetrics;
 
@@ -5867,6 +5974,8 @@ class Update {
   /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the
   /// Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid
   /// values are: NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW.
+  ///
+  /// Possible values: [ALL_OLD, NONE]
   @JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
   final String returnValuesOnConditionCheckFailure;
 
@@ -5995,6 +6104,8 @@ class UpdateGlobalTableSettingsInput {
 
   /// The billing mode of the global table. If GlobalTableBillingMode is not
   /// specified, the global table defaults to PROVISIONED capacity billing mode.
+  ///
+  /// Possible values: [PROVISIONED, PAY_PER_REQUEST]
   @JsonKey(name: 'GlobalTableBillingMode')
   final String globalTableBillingMode;
 
@@ -6084,6 +6195,8 @@ class UpdateItemInput {
 
   /// This is a legacy parameter. Use ConditionExpression instead. For more information,
   /// see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+  ///
+  /// Possible values: [AND, OR]
   @JsonKey(name: 'ConditionalOperator')
   final String conditionalOperator;
 
@@ -6100,8 +6213,13 @@ class UpdateItemInput {
   /// with requesting a return value aside from the small network and processing
   /// overhead of receiving a larger response. No read capacity units are consumed.
   /// The values returned are strongly consistent.
+  ///
+  /// Possible values: [NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW]
   @JsonKey(name: 'ReturnValues')
   final String returnValues;
+
+  ///
+  /// Possible values: [INDEXES, TOTAL, NONE]
   @JsonKey(name: 'ReturnConsumedCapacity')
   final String returnConsumedCapacity;
 
@@ -6109,6 +6227,8 @@ class UpdateItemInput {
   /// the response includes statistics about item collections, if any, that were
   /// modified during the operation are returned in the response. If set to NONE
   /// (the default), no statistics are returned.
+  ///
+  /// Possible values: [SIZE, NONE]
   @JsonKey(name: 'ReturnItemCollectionMetrics')
   final String returnItemCollectionMetrics;
 
@@ -6294,6 +6414,8 @@ class UpdateTableInput {
   /// PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the billing
   /// mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable
   /// workloads.
+  ///
+  /// Possible values: [PROVISIONED, PAY_PER_REQUEST]
   @JsonKey(name: 'BillingMode')
   final String billingMode;
 
