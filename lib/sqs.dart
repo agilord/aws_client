@@ -4,8 +4,8 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:http_client/http_client.dart' as http;
+import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import 'src/credentials.dart';
@@ -25,8 +25,8 @@ class Sqs {
   }
 
   /// Returns a new SQS queue, inheriting the properties of this instance.
-  SqsQueue queue(String queueUrl) => new SqsQueue(queueUrl,
-      credentials: _credentials, httpClient: _httpClient);
+  SqsQueue queue(String queueUrl) =>
+      SqsQueue(queueUrl, credentials: _credentials, httpClient: _httpClient);
 
   /// Create a new SQS queue
   Future<SqsQueue> create(
@@ -45,7 +45,7 @@ class Sqs {
       'Attribute.2.Name': 'MessageRetentionPeriod',
       'Attribute.2.Value': retentionPeriod
     };
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'GET',
       baseUrl: endpoint,
       queryParameters: parameters,
@@ -120,7 +120,7 @@ class SqsQueue {
     if (waitSeconds != null) {
       parameters['WaitTimeSeconds'] = waitSeconds.toString();
     }
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
@@ -132,7 +132,7 @@ class SqsQueue {
     return xml
         .findAllElements('Message')
         // LOW PRIORITY: check MD5 signature
-        .map((XmlElement elem) => new SqsMessage(
+        .map((XmlElement elem) => SqsMessage(
               elem.findElements('MessageId').first.text,
               elem.findElements('ReceiptHandle').first.text,
               elem.findElements('Body').first.text,
@@ -149,7 +149,7 @@ class SqsQueue {
       'ReceiptHandle': receiptHandle,
       'Version': '2012-11-05',
     };
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
@@ -168,7 +168,7 @@ class SqsQueue {
       'MessageBody': body,
       'Version': '2012-11-05',
     };
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,

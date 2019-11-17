@@ -20,6 +20,7 @@ class Sns {
     assert(_httpClient != null);
     assert(_region != null);
   }
+
   final Credentials _credentials;
   final http.Client _httpClient;
   final String _region;
@@ -27,7 +28,7 @@ class Sns {
   /// execute real request
   Future<String> _sendRequest(Map<String, String> parameters) async {
     final endpoint = 'https://sns.$_region.amazonaws.com/';
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: endpoint,
       formParameters: parameters,
@@ -40,7 +41,7 @@ class Sns {
   }
 
   /// return an Endpoint of arn
-  SnsEndpoint endpoint(String arn) => new SnsEndpoint(_sendRequest, arn);
+  SnsEndpoint endpoint(String arn) => SnsEndpoint(_sendRequest, arn);
 
   /// create an Endpoint with push token
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreatePlatformEndpoint.html
@@ -62,7 +63,7 @@ class Sns {
     return endpoint(endpointArn);
   }
 
-  SnsTopic topic(String arn) => new SnsTopic(_sendRequest, arn);
+  SnsTopic topic(String arn) => SnsTopic(_sendRequest, arn);
 
   /// Create a Topic
   /// implements of https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html
@@ -79,7 +80,7 @@ class Sns {
 
   /// Get subscription with arn
   SnsSubscription subscription(String arn) =>
-      new SnsSubscription(_sendRequest, arn);
+      SnsSubscription(_sendRequest, arn);
 }
 
 /// The device endpoint
@@ -91,6 +92,7 @@ class SnsEndpoint {
     assert(sendRequest != null);
     assert(arn != null);
   }
+
   final RequestExecutor _sendRequest;
   final String _arn;
 
@@ -107,7 +109,7 @@ class SnsEndpoint {
       'Message': body,
       'Version': '2010-03-31'
     };
-    final xml = parse(await this._sendRequest(parameters));
+    final xml = parse(await _sendRequest(parameters));
     final messageId = xml.findAllElements('MessageId').first.text;
     return messageId;
   }
@@ -122,6 +124,7 @@ class SnsTopic {
     assert(sendRequest != null);
     assert(arn != null);
   }
+
   final RequestExecutor _sendRequest;
   final String _arn;
 
@@ -135,7 +138,7 @@ class SnsTopic {
       'Message': body,
       'Version': '2010-03-31'
     };
-    final xml = parse(await this._sendRequest(parameters));
+    final xml = parse(await _sendRequest(parameters));
     final messageId = xml.findAllElements('MessageId').first.text;
     return messageId;
   }
@@ -151,9 +154,9 @@ class SnsTopic {
       'Protocol': 'application',
       'Version': '2010-03-31'
     };
-    final xml = parse(await this._sendRequest(parameters));
+    final xml = parse(await _sendRequest(parameters));
     final subscriptionArn = xml.findAllElements('SubscriptionArn').first.text;
-    return new SnsSubscription(_sendRequest, subscriptionArn);
+    return SnsSubscription(_sendRequest, subscriptionArn);
   }
 }
 
@@ -177,6 +180,6 @@ class SnsSubscription {
       'SubscriptionArn': _arn,
       'Version': '2010-03-31'
     };
-    await this._sendRequest(parameters);
+    await _sendRequest(parameters);
   }
 }

@@ -27,11 +27,11 @@ class Aws {
 
   /// Returns an SQS service, inheriting the properties of this instance.
   Sqs get sqs =>
-      _sqs ??= new Sqs(credentials: _credentials, httpClient: _httpClient);
+      _sqs ??= Sqs(credentials: _credentials, httpClient: _httpClient);
 
   /// Returns an SNS service, inheriting the properties of this instance.
-  Sns sns(String region) => new Sns(
-      credentials: _credentials, httpClient: _httpClient, region: region);
+  Sns sns(String region) =>
+      Sns(credentials: _credentials, httpClient: _httpClient, region: region);
 
   Lambda lambda(String region) => Lambda(
       credentials: _credentials, httpClient: _httpClient, region: region);
