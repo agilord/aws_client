@@ -36,14 +36,15 @@ class AwsResponse {
     if (statusCode >= 200 && statusCode <= 207) return;
     // TODO: check for different type of errors
     // TODO: introduce transient exception for error handling
-    throw new Exception('Bad response code=$statusCode, statusText=$statusText, headers=$headers.');
+    throw Exception(
+        'Bad response code=$statusCode, statusText=$statusText, headers=$headers.');
   }
 
   /// Reads the entire response into a byte array.
   Future<List<int>> readAsBytes() async {
     assert(_bodyWasUsed == false);
     _bodyWasUsed = true;
-    final builder = new BytesBuilder(copy: false);
+    final builder = BytesBuilder(copy: false);
     await _body.forEach(builder.add);
     return builder.toBytes();
   }
@@ -62,13 +63,13 @@ String _queryComponent(String path) =>
 String _extractRegion(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
-  throw new Exception('Unable to detect region in ${uri.host}.');
+  throw Exception('Unable to detect region in ${uri.host}.');
 }
 
 String _extractService(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4) return parts.first;
-  throw new Exception('Unable to detect service in ${uri.host}.');
+  throw Exception('Unable to detect service in ${uri.host}.');
 }
 
 /// Builds an AWS request.
@@ -127,15 +128,15 @@ class AwsRequestBuilder {
     assert(httpClient != null);
     _initDefaults();
     _sign();
-    return new Request(method, uri, headers: headers, body: body);
+    return Request(method, uri, headers: headers, body: body);
   }
 
   /// Initializes, signs and send the request.
   Future<AwsResponse> sendRequest() async {
     final rq = buildRequest();
     final rs = await httpClient.send(rq);
-    return new AwsResponse(rs.statusCode, rs.reasonPhrase,
-        rs.headers.toSimpleMap(), rs.bodyAsStream);
+    return AwsResponse(rs.statusCode, rs.reasonPhrase, rs.headers.toSimpleMap(),
+        rs.bodyAsStream);
   }
 
   void _initDefaults() {
@@ -146,7 +147,7 @@ class AwsRequestBuilder {
       assert(baseUrl != null);
       String url = baseUrl;
       if (queryParameters != null) {
-        url = '$url${new Uri(queryParameters: queryParameters)}';
+        url = '$url${Uri(queryParameters: queryParameters)}';
       }
       uri = Uri.parse(url);
     }
@@ -161,7 +162,7 @@ class AwsRequestBuilder {
     }
     body ??= const [];
     headers.putIfAbsent('X-Amz-Date', () {
-      final date = new DateTime.now()
+      final date = DateTime.now()
           .toUtc()
           .toIso8601String()
           .replaceAll('-', '')
@@ -219,11 +220,11 @@ class AwsRequestBuilder {
     ].join('\n');
     final signingKey = credentialList.fold(
         utf8.encode('AWS4${credentials.secretKey}'), (List<int> key, String s) {
-      final hmac = new Hmac(sha256, key);
+      final hmac = Hmac(sha256, key);
       return hmac.convert(utf8.encode(s)).bytes;
     });
     final signature =
-        new Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
+        Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
     if (credentials.sessionToken != null) {
       headers['X-Amz-Security-Token'] = credentials.sessionToken;
     }

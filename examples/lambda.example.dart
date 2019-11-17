@@ -4,11 +4,11 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:http_client/console.dart';
 
-import '../lib/aws_client.dart';
-import '../lib/lambda.dart';
-import '../lib/src/credentials.dart';
+import 'package:aws_client/aws_client.dart';
+import 'package:aws_client/lambda.dart';
+import 'package:aws_client/src/credentials.dart';
+import 'package:http_client/console.dart';
 
 main(List<String> args) async {
   final Map<String, String> environment = Platform.environment;
