@@ -7,14 +7,6 @@ import 'package:html/parser.dart' as html;
 import 'generator.dart';
 import 'library_builder.dart';
 
-ArgParser downloadCommandArgParser() {
-  return ArgParser()
-    ..addOption('output-dir',
-        abbr: 'o',
-        help: 'Output directory of aws-sdk-js.',
-        defaultsTo: 'aws-sdk-js');
-}
-
 ArgParser runGenerateCommandArgParser() {
   return ArgParser()
     ..addFlag(
@@ -26,7 +18,7 @@ ArgParser runGenerateCommandArgParser() {
 
 ArgParser globalArgParser() {
   return ArgParser()
-    ..addCommand('download', downloadCommandArgParser())
+    ..addCommand('download')
     ..addCommand('generate', runGenerateCommandArgParser())
     ..addFlag('help', abbr: 'h', help: 'Displays usage information.');
 }
@@ -50,11 +42,7 @@ void dieWithUsage([String message]) {
   print('  download');
   print('  generate');
   print('');
-  print("""
-The 'download' subcommand downloads all API definitions.
-It takes the following options: """);
-  print('');
-  print(downloadCommandArgParser().usage);
+  print("""The 'download' subcommand downloads all API definitions.""");
   print('');
   print("The 'generate' subcommand generates the API and "
       'It takes the following options:');
@@ -85,7 +73,9 @@ void main(List<String> arguments) async {
         await downloadJsSdk();
       }
 
-      final dir = Directory("./apis");
+      print('Generating Dart classes...');
+
+      final dir = Directory('./apis');
       final files = dir.listSync();
       final Set<String> services = {};
 
@@ -132,6 +122,32 @@ void main(List<String> arguments) async {
             ..writeAsStringSync(jsonEncode(pagJson), mode: FileMode.append)
             ..writeAsStringSync(';', mode: FileMode.append);
         }
+      });
+
+      print('Dart classes generated');
+
+      // Generate serialization classes
+      print('Running build_runner...');
+      await Process.run(
+        'pub',
+        ['run', 'build_runner', 'build'],
+        workingDirectory: '..',
+      ).then((result) {
+        stdout.write(result.stdout);
+        stderr.write(result.stderr);
+      });
+
+      // Format the generated classes
+      print('Running dartfmt...');
+      await Process.run(
+        'dartfmt',
+        ['--overwrite', '--fix', '.'],
+        workingDirectory: '..',
+      ).then((result) {
+        File('dartfmtErrors.txt')
+          ..createSync()
+          ..writeAsStringSync(result.stderr.toString());
+        stderr.write(result.stderr);
       });
 
       break;
