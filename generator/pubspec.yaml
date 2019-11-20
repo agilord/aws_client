@@ -1,0 +1,16 @@
+name: aws_client_generator
+description: Code generator for package:aws_client
+version: 0.2.0
+publish_to: none
+
+environment:
+  sdk: '>=2.6.0 <3.0.0'
+
+dependencies:
+  archive: ^2.0.11
+  args: ^1.5.2
+  html: ^0.14.0
+  http: ^0.12.0
+
+dev_dependencies:
+  pedantic: ^1.8.0+1
