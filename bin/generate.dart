@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:html/parser.dart' as html;
 
 import 'generator.dart';
+import 'library_builder.dart';
 
 ArgParser downloadCommandArgParser() {
   return ArgParser()
@@ -60,7 +63,7 @@ It takes the following options: """);
   exit(1);
 }
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   final parser = globalArgParser();
   final options = parseArguments(parser, arguments);
   final commandOptions = options.command;
@@ -75,20 +78,88 @@ void main(List<String> arguments) {
 
   switch (commandOptions.name) {
     case 'download':
-      downloadJsSdk(commandOptions['output-dir'] as String);
+      await downloadJsSdk();
       break;
     case 'generate':
-      if (commandOptions.command == null ||
-          !['download'].contains(commandOptions.command.name)) {
-        dieWithUsage('The `generate` command has only one subcommand: '
-            '`download`.');
+      if (commandOptions['download'] as bool ?? false) {
+        await downloadJsSdk();
       }
 
-      switch (commandOptions.command.name) {
-        case 'generate':
-          print('Not implemented');
-          break;
-      }
+      final dir = Directory("./apis");
+      final files = dir.listSync();
+      final Set<String> services = {};
+
+      files.forEach((ent) {
+        final parts = ent.uri.pathSegments.last.split('.')
+          ..removeLast()
+          ..removeLast();
+        services.add(parts.join('.'));
+      });
+
+      services.forEach((service) {
+        final def = File('./apis/$service.normal.json');
+        final pag = File('./apis/$service.paginators.json');
+
+        final Map<String, dynamic> defJson =
+            jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
+
+        Map<String, dynamic> pagJson;
+        if (pag.existsSync()) {
+          pagJson = jsonDecode(pag.readAsStringSync()) as Map<String, dynamic>;
+        }
+
+        final serviceFile = buildService(
+          defJson,
+          pagJson,
+        );
+
+        final serviceDirectory = serviceFile.parent;
+        final metadataFile = File(
+            '${serviceDirectory.path}/${defJson['metadata']['uid']}.meta.dart');
+        cleanJson(defJson);
+        metadataFile
+          ..createSync(recursive: true)
+          ..writeAsStringSync('final Map<String, dynamic> meta = ')
+          ..writeAsStringSync(jsonEncode(defJson), mode: FileMode.append)
+          ..writeAsStringSync(';', mode: FileMode.append);
+
+        if (pagJson != null) {
+          final paginatorsFile = File(
+              '${serviceDirectory.path}/${defJson['metadata']['uid']}.paginators.dart');
+          paginatorsFile
+            ..createSync(recursive: true)
+            ..writeAsStringSync('final Map<String, dynamic> paginators = ')
+            ..writeAsStringSync(jsonEncode(pagJson), mode: FileMode.append)
+            ..writeAsStringSync(';', mode: FileMode.append);
+        }
+      });
+
       break;
   }
 }
+
+Map<String, dynamic> cleanJson(Map<String, dynamic> json) => json
+  ..keys.forEach((key) {
+    final value = json[key];
+    if (value is Map) {
+      cleanJson(value as Map<String, dynamic>);
+    } else if (value is String) {
+      if (key == 'documentation') {
+        final document = html.parse(value);
+        json[key] = html
+            .parse(document.body.text)
+            .documentElement
+            .text
+            .replaceAll(r'$', '');
+      } else if (key == 'pattern') {
+        // TODO: keep the regexes, but parse the string to be valid Dart Strings
+        json[key] = null;
+      } else {
+        String temp = value.replaceAll(RegExp(r'((?<=[^\\]+)\$)'), r'\$');
+        if (temp.startsWith(r'$')) {
+          temp = temp.replaceFirst(r'$', r'\$');
+        }
+        json[key] = temp;
+      }
+    }
+  });
