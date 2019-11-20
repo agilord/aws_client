@@ -5,7 +5,9 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> downloadJsSdk() async {
+  print('Downloading JSON definitions from Github...');
   await fetchApiDefinitions();
+  print('Definitions downloaded');
 }
 
 Future<void> fetchApiDefinitions() async {
