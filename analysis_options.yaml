@@ -2,6 +2,8 @@
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
+  exclude:
+    - lib/generated/**
   errors:
     override_on_non_overriding_method: error
     unused_element: error
