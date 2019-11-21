@@ -7,7 +7,8 @@ import 'package:xml/xml.dart';
 import 'src/credentials.dart';
 import 'src/request.dart';
 
-typedef Future<String> RequestExecutor(Map<String, String> parameter);
+typedef RequestExecutor = Future<String> Function(
+    Map<String, String> parameter);
 
 /// AWS SQS (Simple Queue Service).
 class Sns {
