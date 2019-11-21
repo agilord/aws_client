@@ -1,16 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:args/command_runner.dart';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> downloadJsSdk() async {
-  print('Downloading JSON definitions from Github...');
-  await fetchApiDefinitions();
-  print('Definitions downloaded');
+class DownloadCommand extends Command {
+  @override
+  String get name => 'download';
+
+  @override
+  String get description => 'Downloads JSON definitions from GitHub.';
+
+  @override
+  Future<void> run() async {
+    print('Downloading JSON definitions from Github...');
+    await _fetchApiDefinitions();
+    print('Definitions downloaded');
+  }
 }
 
-Future<void> fetchApiDefinitions() async {
+Future<void> _fetchApiDefinitions() async {
   final response = await http
       .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/master');
   final Archive archive = ZipDecoder().decodeBytes(response.bodyBytes);
