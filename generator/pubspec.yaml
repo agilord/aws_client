@@ -1,4 +1,4 @@
-name: aws_client_generator
+name: aws_client.generator
 description: Code generator for package:aws_client
 version: 0.2.0
 publish_to: none
