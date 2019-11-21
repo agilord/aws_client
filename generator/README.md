@@ -1,9 +1,9 @@
 # Generating the SDK
 
-In order to generate the SDK from scratch, run the `generate.dart` file:
+In order to generate the SDK from scratch, run the `generate.dart` file, while the working directory is `generator/`.
 
 ```bash
-dart generate.dart generate --download
+dart bin/generate.dart generate --download
 ```
 
 This will download the JSON definitions first from Github at 
@@ -14,11 +14,11 @@ If you are developing the [library_builder.dart](bin/library_builder.dart), it i
 To skip the download, omit the `--download` argument:
 
 ```bash
-dart generate.dart generate
+dart bin/generate.dart generate
 ```
 
 If you just want to download the definitions, then run:
 
 ```bash
-dart generate.dart download
+dart bin/generate.dart download
 ```

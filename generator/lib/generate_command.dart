@@ -92,7 +92,7 @@ Future _generateClasses() async {
   await Process.run(
     'pub',
     ['run', 'build_runner', 'build'],
-    workingDirectory: '..',
+    workingDirectory: '../aws_client',
   ).then((result) {
     stdout.write(result.stdout);
     stderr.write(result.stderr);
@@ -103,7 +103,7 @@ Future _generateClasses() async {
   await Process.run(
     'dartfmt',
     ['--overwrite', '--fix', '.'],
-    workingDirectory: '..',
+    workingDirectory: '../aws_client/lib',
   ).then((result) {
     File('dartfmtErrors.txt')
       ..createSync()
