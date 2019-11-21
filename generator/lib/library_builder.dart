@@ -33,7 +33,7 @@ ${paginators == null ? '' : "import '${metadata['uid']}.paginators.dart';"}
     ..putShapes(shapes)
     ..putBase64Converter();
 
-  return File('../lib/generated/$classname/${metadata['uid']}.dart')
+  return File('../aws_client/lib/generated/$classname/${metadata['uid']}.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(buf.toString());
 }
