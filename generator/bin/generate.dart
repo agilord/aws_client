@@ -22,8 +22,20 @@ class GenerateCommand extends Command {
   String get description =>
       'Generates the API from the downloaded API definitions.';
 
+  GenerateCommand() {
+    argParser
+      ..addFlag(
+        'download',
+        abbr: 'd',
+        help: 'Downloads the definitions first before generating',
+      );
+  }
+
   @override
   Future<void> run() async {
+    if (argResults['download'] == true) {
+      await DownloadCommand().run();
+    }
     await _generateClasses();
   }
 }
