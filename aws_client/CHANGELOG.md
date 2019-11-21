@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Repository refactoring in preparation for API code generator.
+
 ## 0.2.0
 
 Thanks to [kmcgill88](https://github.com/kmcgill88):
