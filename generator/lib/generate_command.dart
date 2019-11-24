@@ -69,18 +69,18 @@ Future _generateClasses() async {
     _cleanJson(defJson);
     metadataFile
       ..createSync(recursive: true)
-      ..writeAsStringSync('const Map<String, dynamic> spec = ')
-      ..writeAsStringSync(jsonEncode(defJson), mode: FileMode.append)
-      ..writeAsStringSync(';', mode: FileMode.append);
+      ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
+      const Map<String, dynamic> spec = ${jsonEncode(defJson)};
+      """);
 
     if (pagJson != null) {
       final paginatorsFile = File(
           '${serviceDirectory.path}/${defJson['metadata']['uid']}.paginators.dart');
       paginatorsFile
         ..createSync(recursive: true)
-        ..writeAsStringSync('final Map<String, dynamic> paginators = ')
-        ..writeAsStringSync(jsonEncode(pagJson), mode: FileMode.append)
-        ..writeAsStringSync(';', mode: FileMode.append);
+        ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
+        final Map<String, dynamic> paginators = ${jsonEncode(pagJson)};
+        """);
     }
   });
 

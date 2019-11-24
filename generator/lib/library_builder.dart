@@ -20,6 +20,7 @@ File buildService(Map<String, dynamic> def, Map<String, dynamic> paginators) {
 
   final buf = StringBuffer()
     ..writeln("""
+// ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
 import 'package:aws_client/src/protocol/$protocol.dart';
