@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:html/parser.dart' as html;
 
 import 'download_command.dart';
 import 'library_builder.dart';
@@ -70,7 +69,7 @@ Future _generateClasses() async {
     _cleanJson(defJson);
     metadataFile
       ..createSync(recursive: true)
-      ..writeAsStringSync('final Map<String, dynamic> meta = ')
+      ..writeAsStringSync('const Map<String, dynamic> spec = ')
       ..writeAsStringSync(jsonEncode(defJson), mode: FileMode.append)
       ..writeAsStringSync(';', mode: FileMode.append);
 
@@ -119,12 +118,9 @@ Map<String, dynamic> _cleanJson(Map<String, dynamic> json) => json
       _cleanJson(value as Map<String, dynamic>);
     } else if (value is String) {
       if (key == 'documentation') {
-        final document = html.parse(value);
-        json[key] = html
-            .parse(document.body.text)
-            .documentElement
-            .text
-            .replaceAll(r'$', '');
+        // TODO: do something constructive with the documentation.
+        // At the moment, there is no runtime use of it.
+        json[key] = null;
       } else if (key == 'pattern') {
         // TODO: keep the regexes, but parse the string to be valid Dart Strings
         json[key] = null;
