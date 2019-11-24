@@ -23,7 +23,6 @@ File buildService(Map<String, dynamic> def, Map<String, dynamic> paginators) {
 import 'dart:convert';
 
 import 'package:aws_client/src/protocol/$protocol.dart';
-import 'package:aws_client/src/protocol/request_wrapper.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -206,10 +205,8 @@ class $className {""");
 
     writeln("""
     buildRequest(
-      RequestWrapper(
         spec,
-        ${parameterMembers.isNotEmpty ? "param.toJson()..addAll({'operation': '$methodName'})," : "{'operation': '$methodName'}"}
-      ),
+        ${parameterMembers.isNotEmpty ? "param.toJson()..addAll({'operation': '$methodName'})" : "{'operation': '$methodName'}"},
     );
     """);
     writeln('// TODO');

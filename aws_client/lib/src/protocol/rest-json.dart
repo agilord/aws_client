@@ -1,6 +1,5 @@
-import 'package:aws_client/src/protocol/request_wrapper.dart';
 import 'package:http_client/http_client.dart';
 
-Request buildRequest(RequestWrapper req) {
+Request buildRequest(Map<String, dynamic> spec, Map<String, dynamic> data) {
   throw Exception('Protocol not implemented: "rest_json" ');
 }
