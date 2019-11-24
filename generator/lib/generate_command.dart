@@ -88,27 +88,26 @@ Future _generateClasses() async {
 
   // Generate serialization classes
   print('Running build_runner...');
-  await Process.run(
+  final pr1 = await Process.run(
     'pub',
     ['run', 'build_runner', 'build'],
     workingDirectory: '../aws_client',
-  ).then((result) {
-    stdout.write(result.stdout);
-    stderr.write(result.stderr);
-  });
+  );
+  print(pr1.stdout);
+  if (pr1.exitCode != 0 || (pr1.stderr as String).isNotEmpty) {
+    throw StateError('pub build error:\n${pr1.stderr}');
+  }
 
   // Format the generated classes
   print('Running dartfmt...');
-  await Process.run(
+  final pr2 = await Process.run(
     'dartfmt',
     ['--overwrite', '--fix', '.'],
     workingDirectory: '../aws_client/lib',
-  ).then((result) {
-    File('dartfmtErrors.txt')
-      ..createSync()
-      ..writeAsStringSync(result.stderr.toString());
-    stderr.write(result.stderr);
-  });
+  );
+  if (pr2.exitCode != 0 || (pr2.stderr as String).isNotEmpty) {
+    throw StateError('dartfmt error:\n${pr2.stderr}');
+  }
 }
 
 Map<String, dynamic> _cleanJson(Map<String, dynamic> json) => json

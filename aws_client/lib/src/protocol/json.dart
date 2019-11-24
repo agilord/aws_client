@@ -17,5 +17,5 @@ Request buildRequest(Map<String, dynamic> spec, Map<String, dynamic> data) {
 
   // TODO: Use body and headers in a request
 
-  throw Exception('Protocol not implemented: "json" ');
+  throw Exception('Protocol not implemented: "json" ($headers, $body)');
 }
