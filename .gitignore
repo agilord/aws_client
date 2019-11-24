@@ -22,3 +22,9 @@ doc/api/
 *.iml
 *.ipr
 *.iws
+
+# Generated directories
+**/generated/
+**/apis/
+
+**/dartFmtErrors.txt

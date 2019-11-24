@@ -13,14 +13,17 @@ File buildService(Map<String, dynamic> def, Map<String, dynamic> paginators) {
   definition = def;
   metadata = (def['metadata'] as Map).cast<String, String>();
   String classname = definition['metadata']['serviceId'] as String;
+  final String protocol = definition['metadata']['protocol'] as String;
   classname = classname.replaceAll(' ', '');
 
   shapes = definition['shapes'] as Map<String, dynamic>;
 
   final buf = StringBuffer()
     ..writeln("""
+// ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
+import 'package:aws_client/src/protocol/$protocol.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -201,6 +204,12 @@ class $className {""");
     writeln(
         "  Future<$returnType> $methodName(${parameterMembers.isNotEmpty ? "$parameterType param" : ""}) async {");
 
+    writeln("""
+    buildRequest(
+        spec,
+        ${parameterMembers.isNotEmpty ? "param.toJson()..addAll({'operation': '$methodName'})" : "{'operation': '$methodName'}"},
+    );
+    """);
     writeln('// TODO');
 
     final bool voidReturn = returnType == 'void';

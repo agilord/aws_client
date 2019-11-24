@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:html/parser.dart' as html;
 
 import 'download_command.dart';
 import 'library_builder.dart';
@@ -70,18 +69,18 @@ Future _generateClasses() async {
     _cleanJson(defJson);
     metadataFile
       ..createSync(recursive: true)
-      ..writeAsStringSync('final Map<String, dynamic> meta = ')
-      ..writeAsStringSync(jsonEncode(defJson), mode: FileMode.append)
-      ..writeAsStringSync(';', mode: FileMode.append);
+      ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
+      const Map<String, dynamic> spec = ${jsonEncode(defJson)};
+      """);
 
     if (pagJson != null) {
       final paginatorsFile = File(
           '${serviceDirectory.path}/${defJson['metadata']['uid']}.paginators.dart');
       paginatorsFile
         ..createSync(recursive: true)
-        ..writeAsStringSync('final Map<String, dynamic> paginators = ')
-        ..writeAsStringSync(jsonEncode(pagJson), mode: FileMode.append)
-        ..writeAsStringSync(';', mode: FileMode.append);
+        ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
+        final Map<String, dynamic> paginators = ${jsonEncode(pagJson)};
+        """);
     }
   });
 
@@ -119,12 +118,9 @@ Map<String, dynamic> _cleanJson(Map<String, dynamic> json) => json
       _cleanJson(value as Map<String, dynamic>);
     } else if (value is String) {
       if (key == 'documentation') {
-        final document = html.parse(value);
-        json[key] = html
-            .parse(document.body.text)
-            .documentElement
-            .text
-            .replaceAll(r'$', '');
+        // TODO: do something constructive with the documentation.
+        // At the moment, there is no runtime use of it.
+        json[key] = null;
       } else if (key == 'pattern') {
         // TODO: keep the regexes, but parse the string to be valid Dart Strings
         json[key] = null;
