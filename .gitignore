@@ -26,5 +26,3 @@ doc/api/
 # Generated directories
 **/generated/
 **/apis/
-
-**/dartFmtErrors.txt
