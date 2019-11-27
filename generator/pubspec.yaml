@@ -11,6 +11,9 @@ dependencies:
   args: ^1.5.2
   html: ^0.14.0
   http: ^0.12.0
+  json_annotation: ^3.0.0
 
 dev_dependencies:
   pedantic: ^1.8.0+1
+  build_runner: ^1.7.2
+  json_serializable: ^3.2.0

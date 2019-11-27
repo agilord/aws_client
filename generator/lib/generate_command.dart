@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:aws_client.generator/model/api.dart';
 
 import 'download_command.dart';
 import 'library_builder.dart';
@@ -48,40 +49,11 @@ Future _generateClasses() async {
 
   services.forEach((service) {
     final def = File('./apis/$service.normal.json');
-    final pag = File('./apis/$service.paginators.json');
 
-    final Map<String, dynamic> defJson =
-        jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
+    final Map<String, dynamic> defJson = jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
+    final Api api = Api.fromJson(defJson);
 
-    Map<String, dynamic> pagJson;
-    if (pag.existsSync()) {
-      pagJson = jsonDecode(pag.readAsStringSync()) as Map<String, dynamic>;
-    }
-
-    final serviceFile = buildService(
-      defJson,
-      pagJson,
-    );
-
-    final serviceDirectory = serviceFile.parent;
-    final metadataFile = File(
-        '${serviceDirectory.path}/${defJson['metadata']['uid']}.meta.dart');
-    _cleanJson(defJson);
-    metadataFile
-      ..createSync(recursive: true)
-      ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
-      const Map<String, dynamic> spec = ${jsonEncode(defJson)};
-      """);
-
-    if (pagJson != null) {
-      final paginatorsFile = File(
-          '${serviceDirectory.path}/${defJson['metadata']['uid']}.paginators.dart');
-      paginatorsFile
-        ..createSync(recursive: true)
-        ..writeAsStringSync("""// ignore_for_file: prefer_single_quotes
-        final Map<String, dynamic> paginators = ${jsonEncode(pagJson)};
-        """);
-    }
+     buildService(api);
   });
 
   print('Dart classes generated');
@@ -109,26 +81,3 @@ Future _generateClasses() async {
     throw StateError('dartfmt error:\n${pr2.stderr}');
   }
 }
-
-Map<String, dynamic> _cleanJson(Map<String, dynamic> json) => json
-  ..keys.forEach((key) {
-    final value = json[key];
-    if (value is Map) {
-      _cleanJson(value as Map<String, dynamic>);
-    } else if (value is String) {
-      if (key == 'documentation') {
-        // TODO: do something constructive with the documentation.
-        // At the moment, there is no runtime use of it.
-        json[key] = null;
-      } else if (key == 'pattern') {
-        // TODO: keep the regexes, but parse the string to be valid Dart Strings
-        json[key] = null;
-      } else {
-        String temp = value.replaceAll(RegExp(r'((?<=[^\\]+)\$)'), r'\$');
-        if (temp.startsWith(r'$')) {
-          temp = temp.replaceFirst(r'$', r'\$');
-        }
-        json[key] = temp;
-      }
-    }
-  });

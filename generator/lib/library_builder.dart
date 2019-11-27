@@ -1,89 +1,86 @@
 import 'dart:io';
 
+import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client.generator/model/operation.dart';
+import 'package:aws_client.generator/model/shape.dart';
+
 //import 'package:html/parser.dart' as htmlparser;
 
 Map<String, String> typeMap = {};
 Map<String, String> uriArgsMap = {};
 
-Map<String, dynamic> shapes;
-Map<String, String> metadata;
-Map<String, dynamic> definition;
+Map<String, Shape> shapes;
+Metadata metadata;
+Api definition;
 
-File buildService(Map<String, dynamic> def, Map<String, dynamic> paginators) {
+File buildService(Api def) {
   definition = def;
-  metadata = (def['metadata'] as Map).cast<String, String>();
-  String classname = definition['metadata']['serviceId'] as String;
-  final String protocol = definition['metadata']['protocol'] as String;
+  metadata = def.metadata;
+  String classname = metadata.serviceId;
   classname = classname.replaceAll(' ', '');
 
-  shapes = definition['shapes'] as Map<String, dynamic>;
+  shapes = def.shapes;
 
   final buf = StringBuffer()
     ..writeln("""
 // ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
-import 'package:aws_client/src/protocol/$protocol.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-import '${metadata['uid']}.meta.dart';
-${paginators == null ? '' : "import '${metadata['uid']}.paginators.dart';"}
-
 """)
-    ..writeln("part '${metadata['uid']}.g.dart';\n")
+    ..writeln("part '${metadata.uid}.g.dart';\n")
     ..putMainClass(definition)
     ..putShapes(shapes)
     ..putBase64Converter();
 
-  return File('../aws_client/lib/generated/$classname/${metadata['uid']}.dart')
+  return File('../aws_client/lib/generated/$classname/${metadata.uid}.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(buf.toString());
 }
 
-String getListOrMapDartType(Map<String, dynamic> shape) {
+String getListOrMapDartType(Shape shape) {
   final StringBuffer buf = StringBuffer();
-  if (shape['type'] == 'list') {
+  if (shape.type == 'list') {
     buf.write('List<');
 
-    final String memberShape = shape['member']['shape'] as String;
-    final String memberType = shapes[memberShape]['type'] as String;
+    final String memberShape = shape.member?.shape;
+    final String memberType = shapes[memberShape].type;
 
     if (memberType.isBasicType()) {
       buf.write(memberType.getDartType());
     } else if (memberType.isMapOrList()) {
-      final String type =
-          getListOrMapDartType(shapes[memberShape] as Map<String, dynamic>);
+      final String type = getListOrMapDartType(shapes[memberShape]);
       buf.write(type);
     } else {
       buf.write(memberShape);
     }
     buf.write('>');
-  } else if (shape['type'] == 'map') {
+  } else if (shape.type == 'map') {
     buf.write('Map<');
 
-    final String memberKey = shape['key']['shape'] as String;
-    final String memberKeyType = shapes[memberKey]['type'] as String;
+    final String memberKey = shape.key.shape;
+    final String memberKeyType = shapes[memberKey].type;
 
     if (memberKeyType.isBasicType()) {
       buf.write(memberKeyType.getDartType());
     } else if (memberKeyType.isMapOrList()) {
       final String type =
-          getListOrMapDartType(shapes[memberKey] as Map<String, dynamic>);
+          getListOrMapDartType(shapes[memberKey]);
       buf.write(type);
     } else {
       buf.write(memberKey);
     }
     buf.write(', ');
 
-    final String memberValue = shape['value']['shape'] as String;
-    final String memberValueType = shapes[memberValue]['type'] as String;
+    final String memberValue = shape.value.shape;
+    final String memberValueType = shapes[memberValue].type;
 
     if (memberValueType.isBasicType()) {
       buf.write(memberValueType.getDartType());
     } else if (memberValueType.isMapOrList()) {
-      final String type =
-          getListOrMapDartType(shapes[memberValue] as Map<String, dynamic>);
+      final String type = getListOrMapDartType(shapes[memberValue]);
       buf.write(type);
     } else {
       buf.write(memberValue);
@@ -157,40 +154,36 @@ extension StringStuff on String {
 }
 
 extension StringBufferStuff on StringBuffer {
-  void putMainClass(dynamic contents) {
-    final String className = metadata['serviceId'].replaceAll(' ', '');
+  void putMainClass(Api contents) {
+    final String className = metadata.className;
 
-    writeln("""
-${(contents["documentation"] as String).splitToComment()}
-class $className {""");
+    writeln('''
+${contents.documentation.splitToComment()}
+class $className {''');
 
-    (contents['operations'] as Map<String, dynamic>)
-        .values
-        .cast<Map<String, dynamic>>()
-        .forEach(putOperation);
+    contents.operations.values.forEach(putOperation);
 
     writeln('}');
   }
 
-  void putOperation(Map<String, dynamic> method) {
-    final String docs = method['documentation'] as String;
-    final bool deprecated = (method['deprecated'] ?? false) as bool;
+  void putOperation(Operation method) {
+    final String docs = method.documentation;
+    final bool deprecated = method.deprecated;
 
-    var returnType = (method['output'] ?? {})['shape'] ?? 'void';
-    final Map returnShape = (shapes[returnType] as Map) ?? {};
-    final Map<String, dynamic> returnMembers =
-        returnShape['members'] as Map<String, dynamic>;
+    var returnType = method.output?.shape ?? 'void';
+    final Shape returnShape = shapes[returnType];
+    final Map<String, Member> returnMembers =
+        returnShape?.members;
     if (returnShape != null &&
-        returnShape['type'] == 'structure' &&
+        returnShape?.type == 'structure' &&
         returnMembers.isEmpty) {
       returnType = 'void';
     }
-    final input = method['input'] ?? {};
-    final parameterType = input['shape'];
+    final input = method.input;
+    final parameterType = input?.shape;
 
-    final parameterShape = shapes[parameterType] ?? <String, dynamic>{};
-    final Map<String, dynamic> parameterMembers = (parameterShape['members'] ??
-        <String, dynamic>{}) as Map<String, dynamic>;
+    final Map<String, Member> parameterMembers =
+        (shapes[parameterType]?.members ?? <String, Member>{});
 
     if (docs != null) {
       writeln(docs.splitToComment());
@@ -199,17 +192,11 @@ class $className {""");
       writeln("@Deprecated('Deprecated')");
     }
 
-    final String methodName = method['name'] as String;
+    final String methodName = method.name;
 
     writeln(
         "  Future<$returnType> $methodName(${parameterMembers.isNotEmpty ? "$parameterType param" : ""}) async {");
 
-    writeln("""
-    buildRequest(
-        spec,
-        ${parameterMembers.isNotEmpty ? "param.toJson()..addAll({'operation': '$methodName'})" : "{'operation': '$methodName'}"},
-    );
-    """);
     writeln('// TODO');
 
     final bool voidReturn = returnType == 'void';
@@ -220,14 +207,13 @@ class $className {""");
     writeln('  }');
   }
 
-  void putShapes(Map<String, dynamic> shapes) => shapes.keys
-      .forEach((key) => putShape(key, shapes[key] as Map<String, dynamic>));
+  void putShapes(Map<String, Shape> shapes) =>
+      shapes.keys.forEach((key) => putShape(key, shapes[key]));
 
-  void putShape(String name, Map<String, dynamic> shape) {
-    final String docs = shape['documentation'] as String;
-    final bool deprecated = (shape['deprecated'] ?? false) as bool;
-    final Map<String, dynamic> members =
-        shape['members'] as Map<String, dynamic>;
+  void putShape(String name, Shape shape) {
+    final String docs = shape.documentation;
+    final bool deprecated = shape.deprecated;
+    final Map<String, Member> members = shape.members;
 
     // There is no reason to generate something empty
     if (members?.isEmpty ?? true) return;
@@ -237,21 +223,19 @@ class $className {""");
       writeln(r"@Deprecated('Deprecated')");
     }
 
-    if (shape['enum'] != null) {
-      if (shape['type'] == 'string') {
+    if (shape.enumeration != null) {
+      if (shape.type == 'string') {
         writeln('class $name {');
-        final List<String> enumValues =
-            shape['enum'].cast<String>() as List<String>;
+        final List<String> enumValues = shape.enumeration;
         enumValues.forEach((value) => writeln(
             "  static const ${value.replaceAll(".", "_").replaceAll("-", "_")} = \"$value\";"));
         writeln('}');
       }
     } else {
-      if (shape['type'] == 'structure') {
+      if (shape.type == 'structure') {
         writeln('@JsonSerializable(includeIfNull: false)');
         writeln('class $name {');
-        final List<String> required =
-            shape['required']?.cast<String>() as List<String>;
+        final List<String> required = shape.required;
         final memberNames = members.keys.toList();
 
         if (required?.isNotEmpty ?? false) {
@@ -267,23 +251,23 @@ class $className {""");
 
         memberNames.forEach((memberName) {
           final memberStruct = members[memberName];
-          String shapename = memberStruct['shape'] as String;
-          final Map<String, dynamic> shape =
-              shapes[shapename] as Map<String, dynamic>;
+          String shapename = memberStruct.shape;
+          final Shape shape = shapes[shapename];
 
-          final String type = shape['type'] as String;
+          final String type = shape.type;
           if (type.isBasicType()) {
             shapename = type.getDartType();
           } else if (type.isMapOrList()) {
             shapename = getListOrMapDartType(shape);
           }
 
-          final String documentation = memberStruct['documentation'] as String;
+          final String documentation = memberStruct.documentation;
           if (documentation != null) {
             writeln(documentation.splitToComment());
           }
 
-          final List valueEnum = shapes[memberStruct['shape']]['enum'] as List;
+          final List<String> valueEnum =
+              shapes[memberStruct.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");
