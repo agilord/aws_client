@@ -50,10 +50,11 @@ Future _generateClasses() async {
   services.forEach((service) {
     final def = File('./apis/$service.normal.json');
 
-    final Map<String, dynamic> defJson = jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
+    final Map<String, dynamic> defJson =
+        jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
     final Api api = Api.fromJson(defJson);
 
-     buildService(api);
+    buildService(api);
   });
 
   print('Dart classes generated');

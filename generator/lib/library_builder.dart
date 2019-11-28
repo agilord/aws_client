@@ -66,8 +66,7 @@ String getListOrMapDartType(Shape shape) {
     if (memberKeyType.isBasicType()) {
       buf.write(memberKeyType.getDartType());
     } else if (memberKeyType.isMapOrList()) {
-      final String type =
-          getListOrMapDartType(shapes[memberKey]);
+      final String type = getListOrMapDartType(shapes[memberKey]);
       buf.write(type);
     } else {
       buf.write(memberKey);
@@ -172,8 +171,7 @@ class $className {''');
 
     var returnType = method.output?.shape ?? 'void';
     final Shape returnShape = shapes[returnType];
-    final Map<String, Member> returnMembers =
-        returnShape?.members;
+    final Map<String, Member> returnMembers = returnShape?.members;
     if (returnShape != null &&
         returnShape?.type == 'structure' &&
         returnMembers.isEmpty) {
@@ -266,8 +264,7 @@ class $className {''');
             writeln(documentation.splitToComment());
           }
 
-          final List<String> valueEnum =
-              shapes[memberStruct.shape].enumeration;
+          final List<String> valueEnum = shapes[memberStruct.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");

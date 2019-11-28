@@ -35,7 +35,8 @@ class Shape {
     this.documentation,
     this.location,
     this.streaming,
-    this.deprecated, this.member,
+    this.deprecated,
+    this.member,
   );
 
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);
