@@ -28,10 +28,12 @@ class Operation {
     this.errors,
     this.documentation,
     this.documentationUrl,
-    this.idempotent, this.deprecated,
+    this.idempotent,
+    this.deprecated,
   );
 
-  factory Operation.fromJson(Map<String, dynamic> json) => _$OperationFromJson(json);
+  factory Operation.fromJson(Map<String, dynamic> json) =>
+      _$OperationFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)

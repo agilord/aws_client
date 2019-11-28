@@ -12,7 +12,8 @@ class Api {
   final Map<String, Shape> shapes;
   final String documentation;
 
-  Api(this.metadata, this.operations, this.shapes, this.version, this.documentation);
+  Api(this.metadata, this.operations, this.shapes, this.version,
+      this.documentation);
 
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 }

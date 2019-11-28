@@ -1,0 +1,36 @@
+# Created with package:mono_repo v2.3.0
+language: dart
+
+jobs:
+  include:
+    - stage: smoke_test
+      name: "SDK: stable; PKG: aws_client; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="aws_client"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generator"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: unit_test
+      name: "SDK: stable; PKG: generator; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generator"
+      script: ./tool/travis.sh test
+
+stages:
+  - smoke_test
+  - unit_test
+
+# Only building master means that we don't run two builds for each pull request.
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - "$HOME/.pub-cache"
