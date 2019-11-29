@@ -145,7 +145,7 @@ extension StringStuff on String {
       case 'blob':
         return 'blob';
       case 'timestamp':
-        return 'String';
+        return 'DateTime';
       default:
         return '???';
     }
@@ -278,11 +278,11 @@ class $className {''');
 
           shapename = shapename.replaceAll('blob', 'String');
           writeln("  @JsonKey(name: '$memberName')");
-          writeln('  final $shapename m$memberName;');
+          writeln('  final $shapename ${_lowercaseName(memberName)};');
         });
 
         writeln(
-            "\n  $name(${memberNames.isNotEmpty ? "{" : ""}${memberNames.map((name) => "${(required?.contains(name) ?? false) ? "@required " : ""}this.m$name, ").join()}${memberNames.isNotEmpty ? "}" : ""});");
+            "\n  $name(${memberNames.isNotEmpty ? "{" : ""}${memberNames.map((name) => "${(required?.contains(name) ?? false) ? "@required " : ""}this.${_lowercaseName(name)}, ").join()}${memberNames.isNotEmpty ? "}" : ""});");
         writeln(
             '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
         writeln('  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
@@ -316,4 +316,10 @@ class Base64ListConverter implements JsonConverter<List<String>, List<String>> {
 }
     ''');
   }
+}
+
+// TODO: refactor members and move this method inside Member (e.g. Member.fieldName)
+String _lowercaseName(String name) {
+  if (name == null || name.isEmpty) return name;
+  return name.substring(0, 1).toLowerCase() + name.substring(1);
 }
