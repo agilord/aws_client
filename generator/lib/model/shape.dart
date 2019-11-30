@@ -12,7 +12,8 @@ class Shape {
   @JsonKey(name: 'enum')
   final List<String> enumeration;
   final List<String> required;
-  final Map<String, Member> members;
+  @JsonKey(name: 'members')
+  final Map<String, Member> membersMap;
   final Descriptor member;
   final Descriptor key;
   final Descriptor value;
@@ -47,12 +48,13 @@ class Shape {
   final XmlNamespace xmlNamespace;
   @JsonKey(defaultValue: false)
   final bool eventstream;
+  List<Member> _members;
 
   Shape(
     this.type,
     this.enumeration,
     this.required,
-    this.members,
+    this.membersMap,
     this.key,
     this.value,
     this.max,
@@ -78,13 +80,32 @@ class Shape {
     this.event,
     this.xmlNamespace,
     this.eventstream,
-  );
+  ) {
+    membersMap?.entries?.forEach((e) {
+      e.value.name = e.key;
+    });
+    _members = membersMap?.values?.toList() ?? <Member>[];
+    required?.forEach((name) {
+      _members.firstWhere((m) => m.name == name).isRequired = true;
+    });
+    _members.sort((a, b) {
+      if (a.isRequired && !b.isRequired) return -1;
+      if (!a.isRequired && b.isRequired) return 1;
+      return a.name.compareTo(b.name);
+    });
+  }
 
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);
+
+  List<Member> get members => _members;
+  bool get hasMembers => _members.isNotEmpty;
+  bool get hasEmptyMembers => _members.isEmpty;
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
+  String name;
+  bool isRequired = false;
   final String shape;
   final String documentation;
   final String location;
@@ -131,4 +152,20 @@ class Member {
   );
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  String get fieldName {
+    final lc = _lowercaseName(name);
+    if (_reservedNames.contains(lc)) {
+      return '${lc}Value';
+    } else {
+      return lc;
+    }
+  }
+}
+
+final _reservedNames = <String>{'default', 'return'};
+
+String _lowercaseName(String name) {
+  if (name == null || name.isEmpty) return name;
+  return name.substring(0, 1).toLowerCase() + name.substring(1);
 }

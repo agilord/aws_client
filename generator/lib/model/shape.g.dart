@@ -86,6 +86,8 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
 
 Member _$MemberFromJson(Map<String, dynamic> json) {
   $checkKeys(json, allowedKeys: const [
+    'name',
+    'isRequired',
     'shape',
     'documentation',
     'location',
@@ -122,5 +124,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
     json['streaming'] as bool ?? false,
     json['xmlAttribute'] as bool ?? false,
     json['eventpayload'] as bool ?? false,
-  );
+  )
+    ..name = json['name'] as String
+    ..isRequired = json['isRequired'] as bool;
 }
