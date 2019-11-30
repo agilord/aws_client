@@ -7,9 +7,28 @@ part of 'operation.dart';
 // **************************************************************************
 
 Operation _$OperationFromJson(Map<String, dynamic> json) {
+  $checkKeys(json, allowedKeys: const [
+    'name',
+    'http',
+    'authtype',
+    'input',
+    'output',
+    'errors',
+    'documentation',
+    'documentationUrl',
+    'idempotent',
+    'deprecated',
+    'deprecatedMessage',
+    'endpoint',
+    'alias',
+    'endpointdiscovery',
+    'endpointoperation'
+  ]);
   return Operation(
     json['name'] as String,
-    Http.fromJsonOrDefault(json['http']),
+    json['http'] == null
+        ? null
+        : Http.fromJson(json['http'] as Map<String, dynamic>),
     json['authtype'] as String ?? '',
     json['input'] == null
         ? null
@@ -23,12 +42,29 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
         ?.toList(),
     json['documentation'] as String,
     json['documentationUrl'] as String,
-    json['idempotent'] as bool,
+    json['idempotent'] as bool ?? false,
     json['deprecated'] as bool ?? false,
+    json['deprecatedMessage'] as String,
+    json['endpoint'] == null
+        ? null
+        : EndPoint.fromJson(json['endpoint'] as Map<String, dynamic>),
+    json['alias'] as String,
+    (json['endpointdiscovery'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    json['endpointoperation'] as bool ?? false,
+  );
+}
+
+EndPoint _$EndPointFromJson(Map<String, dynamic> json) {
+  $checkKeys(json, allowedKeys: const ['hostPrefix']);
+  return EndPoint(
+    json['hostPrefix'] as String,
   );
 }
 
 Http _$HttpFromJson(Map<String, dynamic> json) {
+  $checkKeys(json, allowedKeys: const ['method', 'requestUri', 'responseCode']);
   return Http(
     json['method'] as String ?? 'POST',
     json['requestUri'] as String ?? '/',
