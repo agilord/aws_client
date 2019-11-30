@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:aws_client.generator/model/api.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'download_command.dart';
 import 'library_builder.dart';
@@ -52,9 +53,17 @@ Future _generateClasses() async {
 
     final Map<String, dynamic> defJson =
         jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
-    final Api api = Api.fromJson(defJson);
-
-    buildService(api);
+    try {
+      final Api api = Api.fromJson(defJson);
+      buildService(api);
+    } on UnrecognizedKeysException catch (e) {
+      print('Error deserializing $service');
+      print(e.message);
+      rethrow;
+    } catch (e) {
+      print('Error "${e.runtimeType}" deserializing $service');
+      rethrow;
+    }
   });
 
   print('Dart classes generated');

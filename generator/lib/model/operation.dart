@@ -1,12 +1,12 @@
-import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'descriptor.dart';
 
 part 'operation.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Operation {
   final String name;
-  @JsonKey(fromJson: Http.fromJsonOrDefault)
   final Http http;
   @JsonKey(defaultValue: '')
   final String authtype;
@@ -15,9 +15,16 @@ class Operation {
   final List<Descriptor> errors;
   final String documentation;
   final String documentationUrl;
+  @JsonKey(defaultValue: false)
   final bool idempotent;
   @JsonKey(defaultValue: false)
   final bool deprecated;
+  final String deprecatedMessage;
+  final EndPoint endpoint;
+  final String alias;
+  final Map<String, String> endpointdiscovery;
+  @JsonKey(defaultValue: false)
+  final bool endpointoperation;
 
   Operation(
     this.name,
@@ -30,13 +37,28 @@ class Operation {
     this.documentationUrl,
     this.idempotent,
     this.deprecated,
+    this.deprecatedMessage,
+    this.endpoint,
+    this.alias,
+    this.endpointdiscovery,
+    this.endpointoperation,
   );
 
   factory Operation.fromJson(Map<String, dynamic> json) =>
       _$OperationFromJson(json);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+class EndPoint {
+  final String hostPrefix;
+
+  EndPoint(this.hostPrefix);
+
+  factory EndPoint.fromJson(Map<String, dynamic> json) =>
+      _$EndPointFromJson(json);
+}
+
+@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Http {
   @JsonKey(defaultValue: 'POST')
   final String method;
@@ -49,10 +71,6 @@ class Http {
     this.requestUri,
     this.responseCode,
   );
-
-  static Http fromJsonOrDefault(wut) {
-    return wut == null ? Http('POST', '/', null) : null;
-  }
 
   factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
 }
