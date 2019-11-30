@@ -104,7 +104,9 @@ class Shape {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
+  @JsonKey(ignore: true)
   String name;
+  @JsonKey(ignore: true)
   bool isRequired = false;
   final String shape;
   final String documentation;
