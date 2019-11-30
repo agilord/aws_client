@@ -11,5 +11,6 @@ class HttpError {
 
   HttpError(this.code, this.httpStatusCode, this.senderFault);
 
-  factory HttpError.fromJson(Map<String, dynamic> json) => _$HttpErrorFromJson(json);
+  factory HttpError.fromJson(Map<String, dynamic> json) =>
+      _$HttpErrorFromJson(json);
 }

@@ -60,7 +60,7 @@ Future _generateClasses() async {
       print('Error deserializing $service');
       print(e.message);
       rethrow;
-    } catch(e) {
+    } catch (e) {
       print('Error "${e.runtimeType}" deserializing $service');
       rethrow;
     }

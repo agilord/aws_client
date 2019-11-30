@@ -27,7 +27,9 @@ class Descriptor {
     this.documentation,
     this.exception,
     this.error,
-    this.fault, this.xmlNamespace, this.jsonvalue,
+    this.fault,
+    this.xmlNamespace,
+    this.jsonvalue,
   );
 
   factory Descriptor.fromJson(Map<String, dynamic> json) =>
