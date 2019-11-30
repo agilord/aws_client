@@ -145,7 +145,7 @@ extension StringStuff on String {
       case 'blob':
         return 'blob';
       case 'timestamp':
-        return 'String';
+        return 'DateTime';
       default:
         return '???';
     }
@@ -171,17 +171,16 @@ class $className {''');
 
     var returnType = method.output?.shape ?? 'void';
     final Shape returnShape = shapes[returnType];
-    final Map<String, Member> returnMembers = returnShape?.members;
     if (returnShape != null &&
         returnShape?.type == 'structure' &&
-        returnMembers.isEmpty) {
+        returnShape.hasEmptyMembers) {
       returnType = 'void';
     }
     final input = method.input;
     final parameterType = input?.shape;
 
-    final Map<String, Member> parameterMembers =
-        (shapes[parameterType]?.members ?? <String, Member>{});
+    final parameterShape = shapes[parameterType];
+    final useParameter = parameterShape != null && parameterShape.hasMembers;
 
     if (docs != null) {
       writeln(docs.splitToComment());
@@ -193,7 +192,7 @@ class $className {''');
     final String methodName = method.name;
 
     writeln(
-        "  Future<$returnType> $methodName(${parameterMembers.isNotEmpty ? "$parameterType param" : ""}) async {");
+        "  Future<$returnType> $methodName(${useParameter ? "$parameterType param" : ""}) async {");
 
     writeln('// TODO');
 
@@ -211,10 +210,9 @@ class $className {''');
   void putShape(String name, Shape shape) {
     final String docs = shape.documentation;
     final bool deprecated = shape.deprecated;
-    final Map<String, Member> members = shape.members;
 
     // There is no reason to generate something empty
-    if (members?.isEmpty ?? true) return;
+    if (shape.hasEmptyMembers) return;
 
     if (docs != null) writeln(docs.splitToComment());
     if (deprecated) {
@@ -233,23 +231,8 @@ class $className {''');
       if (shape.type == 'structure') {
         writeln('@JsonSerializable(includeIfNull: false)');
         writeln('class $name {');
-        final List<String> required = shape.required;
-        final memberNames = members.keys.toList();
-
-        if (required?.isNotEmpty ?? false) {
-          memberNames.sort((a, b) {
-            if (required.contains(a) && !required.contains(b)) {
-              return -1;
-            } else if (!required.contains(a) && required.contains(b)) {
-              return 1;
-            }
-            return 0;
-          });
-        }
-
-        memberNames.forEach((memberName) {
-          final memberStruct = members[memberName];
-          String shapename = memberStruct.shape;
+        for (final member in shape.members) {
+          String shapename = member.shape;
           final Shape shape = shapes[shapename];
 
           final String type = shape.type;
@@ -259,12 +242,12 @@ class $className {''');
             shapename = getListOrMapDartType(shape);
           }
 
-          final String documentation = memberStruct.documentation;
+          final String documentation = member.documentation;
           if (documentation != null) {
             writeln(documentation.splitToComment());
           }
 
-          final List<String> valueEnum = shapes[memberStruct.shape].enumeration;
+          final List<String> valueEnum = shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");
@@ -277,12 +260,18 @@ class $className {''');
           }
 
           shapename = shapename.replaceAll('blob', 'String');
-          writeln("  @JsonKey(name: '$memberName')");
-          writeln('  final $shapename m$memberName;');
-        });
+          writeln("  @JsonKey(name: '${member.name}')");
+          writeln('  final $shapename ${member.fieldName};');
+        }
 
-        writeln(
-            "\n  $name(${memberNames.isNotEmpty ? "{" : ""}${memberNames.map((name) => "${(required?.contains(name) ?? false) ? "@required " : ""}this.m$name, ").join()}${memberNames.isNotEmpty ? "}" : ""});");
+        final constructorMembers = shape.members.map((member) {
+          return "${member.isRequired ? "@required " : ""}this.${member.fieldName}, ";
+        }).join();
+        if (shape.hasEmptyMembers) {
+          writeln('\n  $name();');
+        } else {
+          writeln('\n  $name({$constructorMembers});');
+        }
         writeln(
             '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
         writeln('  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
