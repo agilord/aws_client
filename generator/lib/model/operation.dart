@@ -46,6 +46,9 @@ class Operation {
 
   factory Operation.fromJson(Map<String, dynamic> json) =>
       _$OperationFromJson(json);
+
+  String get methodName =>
+      name.substring(0, 1).toLowerCase() + name.substring(1);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
