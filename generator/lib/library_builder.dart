@@ -11,27 +11,29 @@ Map<String, String> uriArgsMap = {};
 
 Map<String, Shape> shapes;
 Metadata metadata;
-Api definition;
 
-File buildService(Api def) {
-  definition = def;
-  metadata = def.metadata;
+File buildService(Api api) {
+  metadata = api.metadata;
   String classname = metadata.serviceId;
   classname = classname.replaceAll(' ', '');
 
-  shapes = def.shapes;
+  shapes = api.shapes;
 
-  final buf = StringBuffer()
-    ..writeln("""
+  final buf = StringBuffer()..writeln("""
 // ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-""")
+""");
+  if (api.metadata.protocol == 'query') {
+    buf.writeln('import \'package:aws_client/src/protocol/query.dart\';');
+  }
+  buf
     ..writeln("part '${metadata.uid}.g.dart';\n")
-    ..putMainClass(definition)
+    ..putMainClass(api)
     ..putShapes(shapes)
     ..putBase64Converter();
 
@@ -158,7 +160,11 @@ extension StringBufferStuff on StringBuffer {
 
     writeln('''
 ${api.documentation.splitToComment()}
-class $className {''');
+class $className {
+  final QueryProtocol _protocol;
+
+  $className({Client client}) : _protocol = QueryProtocol(client: client);  
+''');
 
     api.operations.values.forEach((op) => putOperation(api, op));
 
@@ -169,13 +175,14 @@ class $className {''');
     final String docs = operation.documentation;
     final bool deprecated = operation.deprecated;
 
-    var returnType = operation.output?.shape ?? 'void';
+    String returnType = operation.output?.shape ?? 'void';
     final Shape returnShape = shapes[returnType];
     if (returnShape != null &&
         returnShape?.type == 'structure' &&
         returnShape.hasEmptyMembers) {
       returnType = 'void';
     }
+    final hasReturnType = returnType != 'void';
     final input = operation.input;
     final parameterType = input?.shape;
 
@@ -189,14 +196,39 @@ class $className {''');
       writeln("@Deprecated('Deprecated')");
     }
 
-    writeln(
-        "  Future<$returnType> ${operation.methodName}(${useParameter ? "$parameterType param" : ""}) async {");
+    write('  Future<$returnType> ${operation.methodName}(');
+    if (useParameter) write('$parameterType input');
+//    TODO: migrate to per-member input parameters
+//    if (useParameter) write('{');
+//    for (final member in parameterShape?.members ?? <Member>[]) {
+//    }
+//    if (useParameter) write('}');
+    writeln(') async {');
+    if (useParameter) {
+      writeln('    ArgumentError.checkNotNull(input, \'input\');');
+    }
 
     // final voidReturn = returnType == 'void';
     if (api.metadata.protocol == 'query') {
-      // TODO: implement query protocol
-      writeln('    // TODO: implement query');
-      writeln('    throw UnimplementedError();');
+      writeln('    final \$request = <String, String>{\n'
+          '      \'Action\': \'${operation.name}\',\n'
+          '      \'Version\': \'${api.metadata.apiVersion}\',');
+      if (useParameter) {
+        writeln('      ...input.toJson(),');
+      }
+      writeln('    };');
+      final params = StringBuffer('\$request, '
+          'method: \'${operation.http.method}\', '
+          'requestUri: \'${operation.http.requestUri}\'');
+      if (operation.output?.resultWrapper != null) {
+        params.write(', resultWrapper: \'${operation.output.resultWrapper}\',');
+      }
+      if (hasReturnType) {
+        writeln('    final \$result = await _protocol.send($params);');
+        writeln('    return $returnType.fromJson(\$result);');
+      } else {
+        writeln('    await _protocol.send($params);');
+      }
     } else if (api.metadata.protocol == 'rest-json') {
       writeln('    // TODO: implement rest-json');
       writeln('    throw UnimplementedError();');
@@ -238,7 +270,8 @@ class $className {''');
       }
     } else {
       if (shape.type == 'structure') {
-        writeln('@JsonSerializable(includeIfNull: false)');
+        writeln(
+            '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
           String shapename = member.shape;
