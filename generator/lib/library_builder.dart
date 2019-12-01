@@ -28,7 +28,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 """);
-  if (api.metadata.protocol == 'query') {
+  if (api.usesQueryProtocol) {
     buf.writeln('import \'package:aws_client/src/protocol/query.dart\';');
   }
   buf
@@ -158,12 +158,18 @@ extension StringBufferStuff on StringBuffer {
   void putMainClass(Api api) {
     final String className = metadata.className;
 
+    final constructor = StringBuffer();
+    if (api.usesQueryProtocol) {
+      constructor
+        ..writeln('  final QueryProtocol _protocol;')
+        ..writeln('\n  $className({Client client}) '
+            ': _protocol = QueryProtocol(client: client);');
+    }
+
     writeln('''
 ${api.documentation.splitToComment()}
 class $className {
-  final QueryProtocol _protocol;
-
-  $className({Client client}) : _protocol = QueryProtocol(client: client);  
+$constructor
 ''');
 
     api.operations.values.forEach((op) => putOperation(api, op));
@@ -209,8 +215,8 @@ class $className {
     }
 
     // final voidReturn = returnType == 'void';
-    if (api.metadata.protocol == 'query') {
-      writeln('    final \$request = <String, String>{\n'
+    if (api.usesQueryProtocol) {
+      writeln('    final \$request = <String, dynamic>{\n'
           '      \'Action\': \'${operation.name}\',\n'
           '      \'Version\': \'${api.metadata.apiVersion}\',');
       if (useParameter) {

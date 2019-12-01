@@ -26,6 +26,8 @@ class Api {
   );
 
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
+
+  bool get usesQueryProtocol => metadata.protocol == 'query';
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
