@@ -153,30 +153,30 @@ extension StringStuff on String {
 }
 
 extension StringBufferStuff on StringBuffer {
-  void putMainClass(Api contents) {
+  void putMainClass(Api api) {
     final String className = metadata.className;
 
     writeln('''
-${contents.documentation.splitToComment()}
+${api.documentation.splitToComment()}
 class $className {''');
 
-    contents.operations.values.forEach(putOperation);
+    api.operations.values.forEach((op) => putOperation(api, op));
 
     writeln('}');
   }
 
-  void putOperation(Operation method) {
-    final String docs = method.documentation;
-    final bool deprecated = method.deprecated;
+  void putOperation(Api api, Operation operation) {
+    final String docs = operation.documentation;
+    final bool deprecated = operation.deprecated;
 
-    var returnType = method.output?.shape ?? 'void';
+    var returnType = operation.output?.shape ?? 'void';
     final Shape returnShape = shapes[returnType];
     if (returnShape != null &&
         returnShape?.type == 'structure' &&
         returnShape.hasEmptyMembers) {
       returnType = 'void';
     }
-    final input = method.input;
+    final input = operation.input;
     final parameterType = input?.shape;
 
     final parameterShape = shapes[parameterType];
@@ -189,18 +189,27 @@ class $className {''');
       writeln("@Deprecated('Deprecated')");
     }
 
-    final String methodName = method.name;
-
     writeln(
-        "  Future<$returnType> $methodName(${useParameter ? "$parameterType param" : ""}) async {");
+        "  Future<$returnType> ${operation.methodName}(${useParameter ? "$parameterType param" : ""}) async {");
 
-    writeln('// TODO');
-
-    final bool voidReturn = returnType == 'void';
-
-    if (!voidReturn) {
-      writeln('    return null;');
+    // final voidReturn = returnType == 'void';
+    if (api.metadata.protocol == 'query') {
+      // TODO: implement query protocol
+      writeln('    // TODO: implement query');
+      writeln('    throw UnimplementedError();');
+    } else if (api.metadata.protocol == 'rest-json') {
+      writeln('    // TODO: implement rest-json');
+      writeln('    throw UnimplementedError();');
+    } else if (api.metadata.protocol == 'rest-xml') {
+      // TODO: implement rest-xml protocol
+      writeln('    // TODO: implement rest-xml');
+      writeln('    throw UnimplementedError();');
+    } else {
+      // TODO: unknown protocol, investigate and implement
+      writeln('    // TODO: implement ${api.metadata.protocol}');
+      writeln('    throw UnimplementedError();');
     }
+
     writeln('  }');
   }
 
