@@ -22,7 +22,8 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     'endpoint',
     'alias',
     'endpointdiscovery',
-    'endpointoperation'
+    'endpointoperation',
+    'internal'
   ]);
   return Operation(
     json['name'] as String,
@@ -53,6 +54,7 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     json['endpointoperation'] as bool ?? false,
+    json['internal'] as bool,
   );
 }
 

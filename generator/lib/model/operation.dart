@@ -25,6 +25,7 @@ class Operation {
   final Map<String, String> endpointdiscovery;
   @JsonKey(defaultValue: false)
   final bool endpointoperation;
+  final bool internal;
 
   Operation(
     this.name,
@@ -42,6 +43,7 @@ class Operation {
     this.alias,
     this.endpointdiscovery,
     this.endpointoperation,
+    this.internal,
   );
 
   factory Operation.fromJson(Map<String, dynamic> json) =>
@@ -49,6 +51,10 @@ class Operation {
 
   String get methodName =>
       name.substring(0, 1).toLowerCase() + name.substring(1);
+
+  String get returnType => output?.shape ?? 'void';
+
+  String get parameterType => input?.shape;
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
