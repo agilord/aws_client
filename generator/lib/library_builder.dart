@@ -1,26 +1,35 @@
 import 'dart:io';
 
+import 'package:aws_client.generator/builders/builder.dart';
+import 'package:aws_client.generator/builders/ec2_builder.dart';
+import 'package:aws_client.generator/builders/json_builder.dart';
+import 'package:aws_client.generator/builders/rest_json_builder.dart';
+import 'package:aws_client.generator/builders/rest_xml_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
-//import 'package:html/parser.dart' as htmlparser;
-
-Map<String, String> typeMap = {};
-Map<String, String> uriArgsMap = {};
-
-Map<String, Shape> shapes;
-Metadata metadata;
+import 'builders/query_builder.dart';
 
 File buildService(Api api) {
-  metadata = api.metadata;
-  String classname = metadata.serviceId;
-  classname = classname.replaceAll(' ', '');
+  ServiceBuilder builder;
 
-  shapes = api.shapes;
+  if (api.usesQueryProtocol) {
+    builder = QueryServiceBuilder(api);
+  } else if (api.usesJsonProtocol) {
+    builder = JsonServiceBuilder(api);
+  } else if (api.usesRestJsonProtocol) {
+    builder = RestJsonServiceBuilder(api);
+  } else if (api.usesRestXmlProtocol) {
+    builder = RestXmlServiceBuilder(api);
+  } else if (api.usesEc2Protocol) {
+    builder = Ec2ServiceBuilder(api);
+  } else {
+    throw UnimplementedError(
+        'Protocol not implemented: ${api.metadata.protocol}');
+  }
 
   final buf = StringBuffer()..writeln("""
-// ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -28,32 +37,31 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 """);
-  if (api.usesQueryProtocol) {
-    buf.writeln('import \'package:aws_client/src/protocol/query.dart\';');
-  }
   buf
-    ..writeln("part '${metadata.uid}.g.dart';\n")
-    ..putMainClass(api)
-    ..putShapes(shapes)
+    ..writeln(builder.imports())
+    ..writeln("part '${api.metadata.uid}.g.dart';\n")
+    ..putMainClass(api, builder)
+    ..putShapes(api)
     ..putBase64Converter();
 
-  return File('../aws_client/lib/generated/$classname/${metadata.uid}.dart')
+  return File(
+      '../aws_client/lib/generated/${api.metadata.className}/${api.metadata.uid}.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(buf.toString());
 }
 
-String getListOrMapDartType(Shape shape) {
+String getListOrMapDartType(Shape shape, Api api) {
   final StringBuffer buf = StringBuffer();
   if (shape.type == 'list') {
     buf.write('List<');
 
     final String memberShape = shape.member?.shape;
-    final String memberType = shapes[memberShape].type;
+    final String memberType = api.shapes[memberShape].type;
 
     if (memberType.isBasicType()) {
       buf.write(memberType.getDartType());
     } else if (memberType.isMapOrList()) {
-      final String type = getListOrMapDartType(shapes[memberShape]);
+      final String type = getListOrMapDartType(api.shapes[memberShape], api);
       buf.write(type);
     } else {
       buf.write(memberShape);
@@ -63,12 +71,12 @@ String getListOrMapDartType(Shape shape) {
     buf.write('Map<');
 
     final String memberKey = shape.key.shape;
-    final String memberKeyType = shapes[memberKey].type;
+    final String memberKeyType = api.shapes[memberKey].type;
 
     if (memberKeyType.isBasicType()) {
       buf.write(memberKeyType.getDartType());
     } else if (memberKeyType.isMapOrList()) {
-      final String type = getListOrMapDartType(shapes[memberKey]);
+      final String type = getListOrMapDartType(api.shapes[memberKey], api);
       buf.write(type);
     } else {
       buf.write(memberKey);
@@ -76,12 +84,12 @@ String getListOrMapDartType(Shape shape) {
     buf.write(', ');
 
     final String memberValue = shape.value.shape;
-    final String memberValueType = shapes[memberValue].type;
+    final String memberValueType = api.shapes[memberValue].type;
 
     if (memberValueType.isBasicType()) {
       buf.write(memberValueType.getDartType());
     } else if (memberValueType.isMapOrList()) {
-      final String type = getListOrMapDartType(shapes[memberValue]);
+      final String type = getListOrMapDartType(api.shapes[memberValue], api);
       buf.write(type);
     } else {
       buf.write(memberValue);
@@ -100,27 +108,6 @@ extension Casting on dynamic {
 }
 
 extension StringStuff on String {
-  String splitToComment() {
-    return '';
-    // Making commented code from JSON is basically impossible, don' try it
-    /*if (this != null) {
-      String toSplit = this;
-      final document = htmlparser.parse(this);
-      String body = document.body.text;
-      if (body != null) {
-        body = htmlparser.parse(body).documentElement.text;
-        if (body != null) {
-          toSplit = body;
-        }
-      }
-
-      toSplit.replaceAll('\n', '');
-
-      return "/** \n ${RegExp(r"(.{70,}?\s)|(.+)", dotAll: true).allMatches(toSplit).map((match) => match[0]).join("\n")}\n*/";
-    }
-    return "";*/
-  }
-
   bool isBasicType() =>
       this == 'string' ||
       this == 'boolean' ||
@@ -155,49 +142,34 @@ extension StringStuff on String {
 }
 
 extension StringBufferStuff on StringBuffer {
-  void putMainClass(Api api) {
-    final String className = metadata.className;
-
-    final constructor = StringBuffer();
-    if (api.usesQueryProtocol) {
-      constructor
-        ..writeln('  final QueryProtocol _protocol;')
-        ..writeln('\n  $className({Client client}) '
-            ': _protocol = QueryProtocol(client: client);');
-    }
-
+  void putMainClass(Api api, ServiceBuilder builder) {
     writeln('''
-${api.documentation.splitToComment()}
-class $className {
-$constructor
+class ${api.metadata.className} {
+${builder.constructor()}
 ''');
 
-    api.operations.values.forEach((op) => putOperation(api, op));
+    api.operations.values.forEach((op) => putOperation(api, op, builder));
 
     writeln('}');
   }
 
-  void putOperation(Api api, Operation operation) {
-    final String docs = operation.documentation;
+  void putOperation(Api api, Operation operation, ServiceBuilder builder) {
     final bool deprecated = operation.deprecated;
 
     String returnType = operation.output?.shape ?? 'void';
-    final Shape returnShape = shapes[returnType];
+    final Shape returnShape = api.shapes[returnType];
     if (returnShape != null &&
         returnShape?.type == 'structure' &&
         returnShape.hasEmptyMembers) {
       returnType = 'void';
     }
-    final hasReturnType = returnType != 'void';
+
     final input = operation.input;
     final parameterType = input?.shape;
 
-    final parameterShape = shapes[parameterType];
+    final parameterShape = api.shapes[parameterType];
     final useParameter = parameterShape != null && parameterShape.hasMembers;
 
-    if (docs != null) {
-      writeln(docs.splitToComment());
-    }
     if (deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
@@ -214,54 +186,20 @@ $constructor
       writeln('    ArgumentError.checkNotNull(input, \'input\');');
     }
 
-    // final voidReturn = returnType == 'void';
-    if (api.usesQueryProtocol) {
-      writeln('    final \$request = <String, dynamic>{\n'
-          '      \'Action\': \'${operation.name}\',\n'
-          '      \'Version\': \'${api.metadata.apiVersion}\',');
-      if (useParameter) {
-        writeln('      ...input.toJson(),');
-      }
-      writeln('    };');
-      final params = StringBuffer('\$request, '
-          'method: \'${operation.http.method}\', '
-          'requestUri: \'${operation.http.requestUri}\'');
-      if (operation.output?.resultWrapper != null) {
-        params.write(', resultWrapper: \'${operation.output.resultWrapper}\',');
-      }
-      if (hasReturnType) {
-        writeln('    final \$result = await _protocol.send($params);');
-        writeln('    return $returnType.fromJson(\$result);');
-      } else {
-        writeln('    await _protocol.send($params);');
-      }
-    } else if (api.metadata.protocol == 'rest-json') {
-      writeln('    // TODO: implement rest-json');
-      writeln('    throw UnimplementedError();');
-    } else if (api.metadata.protocol == 'rest-xml') {
-      // TODO: implement rest-xml protocol
-      writeln('    // TODO: implement rest-xml');
-      writeln('    throw UnimplementedError();');
-    } else {
-      // TODO: unknown protocol, investigate and implement
-      writeln('    // TODO: implement ${api.metadata.protocol}');
-      writeln('    throw UnimplementedError();');
-    }
+    writeln(builder.operationContent(operation));
 
     writeln('  }');
   }
 
-  void putShapes(Map<String, Shape> shapes) =>
-      shapes.keys.forEach((key) => putShape(key, shapes[key]));
+  void putShapes(Api api) =>
+      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key], api));
 
-  void putShape(String name, Shape shape) {
-    final String docs = shape.documentation;
+  void putShape(String name, Shape shape, Api api) {
     final bool deprecated = shape.deprecated;
 
     // There is no reason to generate something empty
     if (shape.hasEmptyMembers) return;
 
-    if (docs != null) writeln(docs.splitToComment());
     if (deprecated) {
       writeln(r"@Deprecated('Deprecated')");
     }
@@ -281,21 +219,16 @@ $constructor
         writeln('class $name {');
         for (final member in shape.members) {
           String shapename = member.shape;
-          final Shape shape = shapes[shapename];
+          final Shape shape = api.shapes[shapename];
 
           final String type = shape.type;
           if (type.isBasicType()) {
             shapename = type.getDartType();
           } else if (type.isMapOrList()) {
-            shapename = getListOrMapDartType(shape);
+            shapename = getListOrMapDartType(shape, api);
           }
 
-          final String documentation = member.documentation;
-          if (documentation != null) {
-            writeln(documentation.splitToComment());
-          }
-
-          final List<String> valueEnum = shapes[member.shape].enumeration;
+          final List<String> valueEnum = api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");

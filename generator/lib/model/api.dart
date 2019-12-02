@@ -28,6 +28,10 @@ class Api {
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 
   bool get usesQueryProtocol => metadata.protocol == 'query';
+  bool get usesJsonProtocol => metadata.protocol == 'json';
+  bool get usesRestJsonProtocol => metadata.protocol == 'rest-json';
+  bool get usesRestXmlProtocol => metadata.protocol == 'rest-xml';
+  bool get usesEc2Protocol => metadata.protocol == 'ec2';
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
