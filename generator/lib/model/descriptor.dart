@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'api.dart';
 import 'error.dart';
 import 'xml_namespace.dart';
 
@@ -7,6 +8,8 @@ part 'descriptor.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Descriptor {
+  @JsonKey(ignore: true)
+  Api api;
   final String shape;
   final String resultWrapper;
   final String locationName;

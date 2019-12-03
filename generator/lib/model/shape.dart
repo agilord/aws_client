@@ -100,6 +100,12 @@ class Shape {
 
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);
 
+  void initReferences() {
+    member.api = api;
+    key.api = api;
+    value.api = api;
+  }
+
   List<Member> get members => _members;
   bool get hasMembers => _members.isNotEmpty;
   bool get hasEmptyMembers => _members.isEmpty;

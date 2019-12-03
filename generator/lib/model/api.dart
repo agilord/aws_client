@@ -30,9 +30,11 @@ class Api {
   void initReferences() {
     operations?.values?.forEach((o) {
       o.api = this;
+      o.initReferences();
     });
     shapes?.values?.forEach((s) {
       s.api = this;
+      s.initReferences();
     });
   }
 

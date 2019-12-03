@@ -52,6 +52,12 @@ class Operation {
   factory Operation.fromJson(Map<String, dynamic> json) =>
       _$OperationFromJson(json);
 
+  void initReferences() {
+    input.api = api;
+    output.api = api;
+    errors?.forEach((e) => e.api = api);
+  }
+
   String get methodName =>
       name.substring(0, 1).toLowerCase() + name.substring(1);
 
