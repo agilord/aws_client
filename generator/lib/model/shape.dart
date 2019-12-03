@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'api.dart';
+import 'dart_type.dart';
 import 'descriptor.dart';
 import 'error.dart';
 import 'xml_namespace.dart';
@@ -104,6 +105,7 @@ class Shape {
     member?.api = api;
     key?.api = api;
     value?.api = api;
+    members.forEach((m) => m.api = api);
   }
 
   List<Member> get members => _members;
@@ -113,6 +115,8 @@ class Shape {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
+  @JsonKey(ignore: true)
+  Api api;
   @JsonKey(ignore: true)
   String name;
   @JsonKey(ignore: true)
@@ -171,6 +175,18 @@ class Member {
     } else {
       return lc;
     }
+  }
+
+  String get dartType {
+    String dartType = shape;
+    final shapeRef = api.shapes[shape];
+    final String type = shapeRef.type;
+    if (type.isBasicType()) {
+      dartType = type.getDartType();
+    } else if (type.isMapOrList()) {
+      dartType = getListOrMapDartType(shapeRef);
+    }
+    return dartType;
   }
 }
 

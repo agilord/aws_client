@@ -10,7 +10,6 @@ import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
 import 'builders/query_builder.dart';
-import 'model/dart_type.dart';
 
 File buildService(Api api) {
   api.initReferences();
@@ -126,16 +125,7 @@ ${builder.constructor()}
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
-          String shapename = member.shape;
-          final Shape memberShape = shape.api.shapes[shapename];
-
-          final String type = memberShape.type;
-          if (type.isBasicType()) {
-            shapename = type.getDartType();
-          } else if (type.isMapOrList()) {
-            shapename = getListOrMapDartType(memberShape);
-          }
-
+          String shapename = member.dartType;
           final List<String> valueEnum =
               shape.api.shapes[member.shape].enumeration;
 
