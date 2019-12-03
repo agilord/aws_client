@@ -53,8 +53,8 @@ class Operation {
       _$OperationFromJson(json);
 
   void initReferences() {
-    input.api = api;
-    output.api = api;
+    input?.api = api;
+    output?.api = api;
     errors?.forEach((e) => e.api = api);
   }
 

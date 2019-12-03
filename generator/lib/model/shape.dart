@@ -101,9 +101,9 @@ class Shape {
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);
 
   void initReferences() {
-    member.api = api;
-    key.api = api;
-    value.api = api;
+    member?.api = api;
+    key?.api = api;
+    value?.api = api;
   }
 
   List<Member> get members => _members;
