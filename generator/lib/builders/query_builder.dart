@@ -20,7 +20,6 @@ class QueryServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-    final hasReturnType = operation.returnType != 'void';
     final parameterShape = api.shapes[operation.parameterType];
     final useParameter = parameterShape != null && parameterShape.hasMembers;
 
@@ -38,7 +37,7 @@ class QueryServiceBuilder extends ServiceBuilder {
     if (operation.output?.resultWrapper != null) {
       params.write(', resultWrapper: \'${operation.output.resultWrapper}\',');
     }
-    if (hasReturnType) {
+    if (operation.hasReturnType) {
       buf.writeln('    final \$result = await _protocol.send($params);');
       buf.writeln('    return ${operation.returnType}.fromJson(\$result);');
     } else {

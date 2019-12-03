@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'api.dart';
 import 'descriptor.dart';
 import 'error.dart';
 import 'xml_namespace.dart';
@@ -8,6 +9,8 @@ part 'shape.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Shape {
+  @JsonKey(ignore: true)
+  Api api;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -169,5 +172,6 @@ final _reservedNames = <String>{'default', 'return'};
 
 String _lowercaseName(String name) {
   if (name == null || name.isEmpty) return name;
+  if (name.startsWith('AWS')) name = name.replaceFirst('AWS', 'aws');
   return name.substring(0, 1).toLowerCase() + name.substring(1);
 }

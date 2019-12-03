@@ -12,6 +12,8 @@ import 'package:aws_client.generator/model/shape.dart';
 import 'builders/query_builder.dart';
 
 File buildService(Api api) {
+  api.initReferences();
+
   ServiceBuilder builder;
 
   if (api.usesQueryProtocol) {
@@ -50,18 +52,18 @@ import 'package:meta/meta.dart';
     ..writeAsStringSync(buf.toString());
 }
 
-String getListOrMapDartType(Shape shape, Api api) {
+String getListOrMapDartType(Shape shape) {
   final StringBuffer buf = StringBuffer();
   if (shape.type == 'list') {
     buf.write('List<');
 
     final String memberShape = shape.member?.shape;
-    final String memberType = api.shapes[memberShape].type;
+    final String memberType = shape.api.shapes[memberShape].type;
 
     if (memberType.isBasicType()) {
       buf.write(memberType.getDartType());
     } else if (memberType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberShape], api);
+      final String type = getListOrMapDartType(shape.api.shapes[memberShape]);
       buf.write(type);
     } else {
       buf.write(memberShape);
@@ -71,12 +73,12 @@ String getListOrMapDartType(Shape shape, Api api) {
     buf.write('Map<');
 
     final String memberKey = shape.key.shape;
-    final String memberKeyType = api.shapes[memberKey].type;
+    final String memberKeyType = shape.api.shapes[memberKey].type;
 
     if (memberKeyType.isBasicType()) {
       buf.write(memberKeyType.getDartType());
     } else if (memberKeyType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberKey], api);
+      final String type = getListOrMapDartType(shape.api.shapes[memberKey]);
       buf.write(type);
     } else {
       buf.write(memberKey);
@@ -84,12 +86,12 @@ String getListOrMapDartType(Shape shape, Api api) {
     buf.write(', ');
 
     final String memberValue = shape.value.shape;
-    final String memberValueType = api.shapes[memberValue].type;
+    final String memberValueType = shape.api.shapes[memberValue].type;
 
     if (memberValueType.isBasicType()) {
       buf.write(memberValueType.getDartType());
     } else if (memberValueType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberValue], api);
+      final String type = getListOrMapDartType(shape..api.shapes[memberValue]);
       buf.write(type);
     } else {
       buf.write(memberValue);
@@ -156,14 +158,6 @@ ${builder.constructor()}
   void putOperation(Api api, Operation operation, ServiceBuilder builder) {
     final bool deprecated = operation.deprecated;
 
-    String returnType = operation.output?.shape ?? 'void';
-    final Shape returnShape = api.shapes[returnType];
-    if (returnShape != null &&
-        returnShape?.type == 'structure' &&
-        returnShape.hasEmptyMembers) {
-      returnType = 'void';
-    }
-
     final input = operation.input;
     final parameterType = input?.shape;
 
@@ -174,7 +168,7 @@ ${builder.constructor()}
       writeln("@Deprecated('Deprecated')");
     }
 
-    write('  Future<$returnType> ${operation.methodName}(');
+    write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('$parameterType input');
 //    TODO: migrate to per-member input parameters
 //    if (useParameter) write('{');
@@ -192,9 +186,9 @@ ${builder.constructor()}
   }
 
   void putShapes(Api api) =>
-      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key], api));
+      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key]));
 
-  void putShape(String name, Shape shape, Api api) {
+  void putShape(String name, Shape shape) {
     final bool deprecated = shape.deprecated;
 
     // There is no reason to generate something empty
@@ -219,16 +213,17 @@ ${builder.constructor()}
         writeln('class $name {');
         for (final member in shape.members) {
           String shapename = member.shape;
-          final Shape shape = api.shapes[shapename];
+          final Shape memberShape = shape.api.shapes[shapename];
 
-          final String type = shape.type;
+          final String type = memberShape.type;
           if (type.isBasicType()) {
             shapename = type.getDartType();
           } else if (type.isMapOrList()) {
-            shapename = getListOrMapDartType(shape, api);
+            shapename = getListOrMapDartType(memberShape);
           }
 
-          final List<String> valueEnum = api.shapes[member.shape].enumeration;
+          final List<String> valueEnum =
+              shape.api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");

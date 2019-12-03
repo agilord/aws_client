@@ -27,6 +27,15 @@ class Api {
 
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 
+  void initReferences() {
+    operations?.values?.forEach((o) {
+      o.api = this;
+    });
+    shapes?.values?.forEach((s) {
+      s.api = this;
+    });
+  }
+
   bool get usesQueryProtocol => metadata.protocol == 'query';
   bool get usesJsonProtocol => metadata.protocol == 'json';
   bool get usesRestJsonProtocol => metadata.protocol == 'rest-json';
