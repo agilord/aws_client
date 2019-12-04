@@ -21,16 +21,20 @@ class QueryServiceBuilder extends ServiceBuilder {
   @override
   String operationContent(Operation operation) {
     final parameterShape = api.shapes[operation.parameterType];
-    final useParameter = parameterShape != null && parameterShape.hasMembers;
 
     final StringBuffer buf = StringBuffer();
     buf.writeln('    final \$request = <String, dynamic>{\n'
         '      \'Action\': \'${operation.name}\',\n'
         '      \'Version\': \'${api.metadata.apiVersion}\',');
-    if (useParameter) {
-      buf.writeln('      ...input.toJson(),');
-    }
     buf.writeln('    };');
+    parameterShape?.members?.forEach((member) {
+      if (member.isRequired) {
+        buf.writeln("\$request['${member.name}'] = ${member.fieldName};");
+      } else {
+        buf.writeln(
+            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg);");
+      }
+    });
     final params = StringBuffer('\$request, '
         'method: \'${operation.http.method}\', '
         'requestUri: \'${operation.http.requestUri}\'');

@@ -38,6 +38,7 @@ import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import 'package:aws_client/src/scoping_extensions.dart';
 """);
   buf
     ..writeln(builder.imports())
@@ -76,21 +77,29 @@ ${builder.constructor()}
 
     final parameterShape = api.shapes[parameterType];
     final useParameter = parameterShape != null && parameterShape.hasMembers;
+    parameterShape?.isNotUsed = true;
 
     if (deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
 
     write('  Future<${operation.returnType}> ${operation.methodName}(');
-    if (useParameter) write('$parameterType input');
-//    TODO: migrate to per-member input parameters
-//    if (useParameter) write('{');
-//    for (final member in parameterShape?.members ?? <Member>[]) {
-//    }
-//    if (useParameter) write('}');
+    if (useParameter) write('{');
+
+    for (final member in parameterShape?.members ?? <Member>[]) {
+      if (member.isRequired) {
+        write('@required ');
+      }
+      write('${member.dartType} ${member.fieldName}, ');
+    }
+
+    if (useParameter) write('}');
     writeln(') async {');
-    if (useParameter) {
-      writeln('    ArgumentError.checkNotNull(input, \'input\');');
+    for (final member in parameterShape?.members ?? <Member>[]) {
+      if (member.isRequired) {
+        final name = member.fieldName;
+        writeln('    ArgumentError.checkNotNull($name, \'$name\');');
+      }
     }
 
     writeln(builder.operationContent(operation));
@@ -104,8 +113,8 @@ ${builder.constructor()}
   void putShape(String name, Shape shape) {
     final bool deprecated = shape.deprecated;
 
-    // There is no reason to generate something empty
-    if (shape.hasEmptyMembers) return;
+    // There is no reason to generate something empty or not used
+    if (shape.hasEmptyMembers || shape.isNotUsed) return;
 
     if (deprecated) {
       writeln(r"@Deprecated('Deprecated')");

@@ -12,6 +12,8 @@ part 'shape.g.dart';
 class Shape {
   @JsonKey(ignore: true)
   Api api;
+  @JsonKey(ignore: true)
+  bool isNotUsed = false;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -109,7 +111,9 @@ class Shape {
   }
 
   List<Member> get members => _members;
+
   bool get hasMembers => _members.isNotEmpty;
+
   bool get hasEmptyMembers => _members.isEmpty;
 }
 
