@@ -46,7 +46,7 @@ class GenerateCommand extends Command {
     }
     await _generateClasses();
 
-    if (argResults['build_runner'] == true) {
+    if (argResults['build-runner'] == true) {
       await _runBuildRunner();
     }
     if (argResults['format'] == true) {
