@@ -31,7 +31,8 @@ class QueryServiceBuilder extends ServiceBuilder {
       if (member.isRequired) {
         buf.writeln("\$request['${member.name}'] = ${member.fieldName};");
       } else {
-        buf.writeln("${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg);");
+        buf.writeln(
+            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg);");
       }
     });
     final params = StringBuffer('\$request, '
