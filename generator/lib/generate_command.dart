@@ -24,7 +24,7 @@ class GenerateCommand extends Command {
         help: 'Downloads the definitions first before generating',
       )
       ..addFlag(
-        'build_runner',
+        'build-runner',
         abbr: 'b',
         help: 'Runs build_runner to generate json_serialization classes',
         defaultsTo: true,
