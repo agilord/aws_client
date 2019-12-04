@@ -22,6 +22,20 @@ class GenerateCommand extends Command {
         'download',
         abbr: 'd',
         help: 'Downloads the definitions first before generating',
+      )
+      ..addFlag(
+        'build_runner',
+        abbr: 'b',
+        help: 'Runs build_runner to generate json_serialization classes',
+        defaultsTo: true,
+        negatable: true,
+      )
+      ..addFlag(
+        'format',
+        abbr: 'f',
+        help: 'Runs dartfmt on the generated code',
+        defaultsTo: true,
+        negatable: true,
       );
   }
 
@@ -31,6 +45,13 @@ class GenerateCommand extends Command {
       await DownloadCommand().run();
     }
     await _generateClasses();
+
+    if (argResults['build_runner'] == true) {
+      await _runBuildRunner();
+    }
+    if (argResults['format'] == true) {
+      await _runDartFmt();
+    }
   }
 }
 
@@ -67,7 +88,9 @@ Future _generateClasses() async {
   });
 
   print('Dart classes generated');
+}
 
+Future _runBuildRunner() async {
   // Generate serialization classes
   print('Running build_runner...');
   final pr1 = await Process.run(
@@ -79,7 +102,9 @@ Future _generateClasses() async {
   if (pr1.exitCode != 0 || (pr1.stderr as String).isNotEmpty) {
     throw StateError('pub build error:\n${pr1.stderr}');
   }
+}
 
+Future _runDartFmt() async {
   // Format the generated classes
   print('Running dartfmt...');
   final pr2 = await Process.run(
