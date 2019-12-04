@@ -1,11 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'api.dart';
 import 'descriptor.dart';
 
 part 'operation.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Operation {
+  @JsonKey(ignore: true)
+  Api api;
   final String name;
   final Http http;
   @JsonKey(defaultValue: '')
@@ -49,10 +52,27 @@ class Operation {
   factory Operation.fromJson(Map<String, dynamic> json) =>
       _$OperationFromJson(json);
 
+  void initReferences() {
+    input?.api = api;
+    output?.api = api;
+    errors?.forEach((e) => e.api = api);
+  }
+
   String get methodName =>
       name.substring(0, 1).toLowerCase() + name.substring(1);
 
-  String get returnType => output?.shape ?? 'void';
+  bool get hasReturnType => returnType != 'void';
+
+  String get returnType {
+    String returnType = output?.shape ?? 'void';
+    final returnShape = api.shapes[returnType];
+    if (returnShape != null &&
+        returnShape?.type == 'structure' &&
+        returnShape.hasEmptyMembers) {
+      returnType = 'void';
+    }
+    return returnType;
+  }
 
   String get parameterType => input?.shape;
 }

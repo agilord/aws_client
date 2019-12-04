@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'api.dart';
+import 'dart_type.dart';
 import 'descriptor.dart';
 import 'error.dart';
 import 'xml_namespace.dart';
@@ -8,6 +10,8 @@ part 'shape.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Shape {
+  @JsonKey(ignore: true)
+  Api api;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -97,6 +101,13 @@ class Shape {
 
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);
 
+  void initReferences() {
+    member?.api = api;
+    key?.api = api;
+    value?.api = api;
+    members.forEach((m) => m.api = api);
+  }
+
   List<Member> get members => _members;
   bool get hasMembers => _members.isNotEmpty;
   bool get hasEmptyMembers => _members.isEmpty;
@@ -104,6 +115,8 @@ class Shape {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
+  @JsonKey(ignore: true)
+  Api api;
   @JsonKey(ignore: true)
   String name;
   @JsonKey(ignore: true)
@@ -163,11 +176,24 @@ class Member {
       return lc;
     }
   }
+
+  String get dartType {
+    String dartType = shape;
+    final shapeRef = api.shapes[shape];
+    final String type = shapeRef.type;
+    if (type.isBasicType()) {
+      dartType = type.getDartType();
+    } else if (type.isMapOrList()) {
+      dartType = getListOrMapDartType(shapeRef);
+    }
+    return dartType;
+  }
 }
 
 final _reservedNames = <String>{'default', 'return'};
 
 String _lowercaseName(String name) {
   if (name == null || name.isEmpty) return name;
+  if (name.startsWith('AWS')) name = name.replaceFirst('AWS', 'aws');
   return name.substring(0, 1).toLowerCase() + name.substring(1);
 }

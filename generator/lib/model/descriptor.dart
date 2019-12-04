@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'api.dart';
+import 'dart_type.dart';
 import 'error.dart';
 import 'xml_namespace.dart';
 
@@ -7,6 +9,8 @@ part 'descriptor.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Descriptor {
+  @JsonKey(ignore: true)
+  Api api;
   final String shape;
   final String resultWrapper;
   final String locationName;
@@ -34,4 +38,17 @@ class Descriptor {
 
   factory Descriptor.fromJson(Map<String, dynamic> json) =>
       _$DescriptorFromJson(json);
+
+  String get dartType {
+    final shapeRef = api.shapes[shape];
+    final shapeRefType = shapeRef.type;
+
+    if (shapeRefType.isBasicType()) {
+      return shapeRefType.getDartType();
+    } else if (shapeRefType.isMapOrList()) {
+      return getListOrMapDartType(shapeRef);
+    } else {
+      return shape;
+    }
+  }
 }

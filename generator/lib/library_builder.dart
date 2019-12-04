@@ -12,6 +12,8 @@ import 'package:aws_client.generator/model/shape.dart';
 import 'builders/query_builder.dart';
 
 File buildService(Api api) {
+  api.initReferences();
+
   ServiceBuilder builder;
 
   if (api.usesQueryProtocol) {
@@ -50,95 +52,8 @@ import 'package:meta/meta.dart';
     ..writeAsStringSync(buf.toString());
 }
 
-String getListOrMapDartType(Shape shape, Api api) {
-  final StringBuffer buf = StringBuffer();
-  if (shape.type == 'list') {
-    buf.write('List<');
-
-    final String memberShape = shape.member?.shape;
-    final String memberType = api.shapes[memberShape].type;
-
-    if (memberType.isBasicType()) {
-      buf.write(memberType.getDartType());
-    } else if (memberType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberShape], api);
-      buf.write(type);
-    } else {
-      buf.write(memberShape);
-    }
-    buf.write('>');
-  } else if (shape.type == 'map') {
-    buf.write('Map<');
-
-    final String memberKey = shape.key.shape;
-    final String memberKeyType = api.shapes[memberKey].type;
-
-    if (memberKeyType.isBasicType()) {
-      buf.write(memberKeyType.getDartType());
-    } else if (memberKeyType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberKey], api);
-      buf.write(type);
-    } else {
-      buf.write(memberKey);
-    }
-    buf.write(', ');
-
-    final String memberValue = shape.value.shape;
-    final String memberValueType = api.shapes[memberValue].type;
-
-    if (memberValueType.isBasicType()) {
-      buf.write(memberValueType.getDartType());
-    } else if (memberValueType.isMapOrList()) {
-      final String type = getListOrMapDartType(api.shapes[memberValue], api);
-      buf.write(type);
-    } else {
-      buf.write(memberValue);
-    }
-
-    buf.write('>');
-  } else {
-    throw Exception('No type found');
-  }
-
-  return buf.toString();
-}
-
 extension Casting on dynamic {
   T cast<T>() => this is T ? this as T : null;
-}
-
-extension StringStuff on String {
-  bool isBasicType() =>
-      this == 'string' ||
-      this == 'boolean' ||
-      this == 'double' ||
-      this == 'integer' ||
-      this == 'long' ||
-      this == 'blob' ||
-      this == 'timestamp';
-
-  bool isMapOrList() => this == 'list' || this == 'map';
-
-  String getDartType() {
-    switch (this) {
-      case 'string':
-        return 'String';
-      case 'boolean':
-        return 'bool';
-      case 'double':
-        return this;
-      case 'integer':
-        return 'int';
-      case 'long':
-        return 'int';
-      case 'blob':
-        return 'blob';
-      case 'timestamp':
-        return 'DateTime';
-      default:
-        return '???';
-    }
-  }
 }
 
 extension StringBufferStuff on StringBuffer {
@@ -156,14 +71,6 @@ ${builder.constructor()}
   void putOperation(Api api, Operation operation, ServiceBuilder builder) {
     final bool deprecated = operation.deprecated;
 
-    String returnType = operation.output?.shape ?? 'void';
-    final Shape returnShape = api.shapes[returnType];
-    if (returnShape != null &&
-        returnShape?.type == 'structure' &&
-        returnShape.hasEmptyMembers) {
-      returnType = 'void';
-    }
-
     final input = operation.input;
     final parameterType = input?.shape;
 
@@ -174,7 +81,7 @@ ${builder.constructor()}
       writeln("@Deprecated('Deprecated')");
     }
 
-    write('  Future<$returnType> ${operation.methodName}(');
+    write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('$parameterType input');
 //    TODO: migrate to per-member input parameters
 //    if (useParameter) write('{');
@@ -192,9 +99,9 @@ ${builder.constructor()}
   }
 
   void putShapes(Api api) =>
-      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key], api));
+      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key]));
 
-  void putShape(String name, Shape shape, Api api) {
+  void putShape(String name, Shape shape) {
     final bool deprecated = shape.deprecated;
 
     // There is no reason to generate something empty
@@ -218,17 +125,9 @@ ${builder.constructor()}
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
-          String shapename = member.shape;
-          final Shape shape = api.shapes[shapename];
-
-          final String type = shape.type;
-          if (type.isBasicType()) {
-            shapename = type.getDartType();
-          } else if (type.isMapOrList()) {
-            shapename = getListOrMapDartType(shape, api);
-          }
-
-          final List<String> valueEnum = api.shapes[member.shape].enumeration;
+          String shapename = member.dartType;
+          final List<String> valueEnum =
+              shape.api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");
