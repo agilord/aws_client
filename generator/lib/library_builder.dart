@@ -56,10 +56,6 @@ import 'package:aws_client/src/scoping_extensions.dart';
     ..writeAsStringSync(buf.toString());
 }
 
-extension Casting on dynamic {
-  T cast<T>() => this is T ? this as T : null;
-}
-
 extension StringBufferStuff on StringBuffer {
   void putMainClass(Api api, ServiceBuilder builder) {
     writeln('''
