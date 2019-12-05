@@ -85,7 +85,7 @@ ${builder.constructor()}
     }
 
     operation?.errors?.map((d) => d.shape)?.forEach((e) {
-      writeln('  /// May throw $e.');
+      writeln('  /// May throw [$e].');
     });
 
     write('  Future<${operation.returnType}> ${operation.methodName}(');
