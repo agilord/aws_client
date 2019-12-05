@@ -136,7 +136,6 @@ ${builder.constructor()}
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
-          var shapename = member.dartType;
           final valueEnum = shape.api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
@@ -144,7 +143,7 @@ ${builder.constructor()}
           }
 
           writeln("  @JsonKey(name: '${member.name}')");
-          writeln('  final $shapename ${member.fieldName};');
+          writeln('  final ${member.dartType} ${member.fieldName};');
         }
 
         final constructorMembers = shape.members.map((member) {
