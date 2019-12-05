@@ -1,5 +1,10 @@
-import 'package:http_client/http_client.dart';
+import 'package:http/http.dart';
 
-Request buildRequest(Map<String, dynamic> spec, Map<String, dynamic> data) {
-  throw Exception('Protocol not implemented: "rest_json" ');
+class RestJsonProtocol {
+  final String _endpointUrl;
+  final Client _client;
+
+  RestJsonProtocol({String endpointUrl, Client client})
+      : _endpointUrl = endpointUrl,
+        _client = client ?? Client();
 }
