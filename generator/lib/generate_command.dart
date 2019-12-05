@@ -60,7 +60,7 @@ Future _generateClasses() async {
 
   final dir = Directory('./apis');
   final files = dir.listSync();
-  final Set<String> services = {};
+  final services = <String>{};
 
   files.forEach((ent) {
     final parts = ent.uri.pathSegments.last.split('.')
@@ -72,10 +72,9 @@ Future _generateClasses() async {
   services.forEach((service) {
     final def = File('./apis/$service.normal.json');
 
-    final Map<String, dynamic> defJson =
-        jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
+    final defJson = jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
     try {
-      final Api api = Api.fromJson(defJson);
+      final api = Api.fromJson(defJson);
       buildService(api);
     } on UnrecognizedKeysException catch (e) {
       print('Error deserializing $service');

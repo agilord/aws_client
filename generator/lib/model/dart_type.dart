@@ -1,7 +1,7 @@
 import 'shape.dart';
 
 String getListOrMapDartType(Shape shape) {
-  final StringBuffer buf = StringBuffer();
+  final buf = StringBuffer();
   if (shape.type == 'list') {
     buf.write('List<');
     buf.write(shape.member.dartType);

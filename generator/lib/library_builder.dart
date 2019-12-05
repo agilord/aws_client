@@ -70,8 +70,6 @@ ${builder.constructor()}
   }
 
   void putOperation(Api api, Operation operation, ServiceBuilder builder) {
-    final bool deprecated = operation.deprecated;
-
     final input = operation.input;
     final parameterType = input?.shape;
 
@@ -79,7 +77,7 @@ ${builder.constructor()}
     final useParameter = parameterShape != null && parameterShape.hasMembers;
     parameterShape?.isNotUsed = true;
 
-    if (deprecated) {
+    if (operation.deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
 
@@ -111,20 +109,17 @@ ${builder.constructor()}
       api.shapes.keys.forEach((key) => putShape(key, api.shapes[key]));
 
   void putShape(String name, Shape shape) {
-    final bool deprecated = shape.deprecated;
-
     // There is no reason to generate something empty or not used
     if (shape.hasEmptyMembers || shape.isNotUsed) return;
 
-    if (deprecated) {
+    if (shape.deprecated) {
       writeln(r"@Deprecated('Deprecated')");
     }
 
     if (shape.enumeration != null) {
       if (shape.type == 'string') {
         writeln('class $name {');
-        final List<String> enumValues = shape.enumeration;
-        enumValues.forEach((value) => writeln(
+        shape.enumeration.forEach((value) => writeln(
             "  static const ${value.replaceAll(".", "_").replaceAll("-", "_")} = \"$value\";"));
         writeln('}');
       }
@@ -134,9 +129,8 @@ ${builder.constructor()}
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
-          String shapename = member.dartType;
-          final List<String> valueEnum =
-              shape.api.shapes[member.shape].enumeration;
+          var shapename = member.dartType;
+          final valueEnum = shape.api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");

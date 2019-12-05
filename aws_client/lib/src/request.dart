@@ -145,7 +145,7 @@ class AwsRequestBuilder {
       assert(queryParameters == null);
     } else {
       assert(baseUrl != null);
-      String url = baseUrl;
+      var url = baseUrl;
       if (queryParameters != null) {
         url = '$url${Uri(queryParameters: queryParameters)}';
       }
@@ -191,18 +191,15 @@ class AwsRequestBuilder {
     final payloadHash =
         headers['X-Amz-Content-Sha256'] ?? sha256.convert(body).toString();
 
-    final canonical = ([
+    final canonical = [
       method.toUpperCase(),
       Uri.encodeFull(uri.path),
       canonicalQuery,
-    ]
-          ..addAll(canonicalHeaders)
-          ..addAll([
-            '',
-            signedHeaders,
-            payloadHash,
-          ]))
-        .join('\n');
+      ...canonicalHeaders,
+      '',
+      signedHeaders,
+      payloadHash,
+    ].join('\n');
 
     final date = headers['X-Amz-Date'];
     final credentialList = [

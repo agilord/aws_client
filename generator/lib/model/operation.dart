@@ -64,7 +64,7 @@ class Operation {
   bool get hasReturnType => returnType != 'void';
 
   String get returnType {
-    String returnType = output?.shape ?? 'void';
+    var returnType = output?.shape ?? 'void';
     final returnShape = api.shapes[returnType];
     if (returnShape != null &&
         returnShape?.type == 'structure' &&

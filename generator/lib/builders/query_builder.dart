@@ -22,7 +22,7 @@ class QueryServiceBuilder extends ServiceBuilder {
   String operationContent(Operation operation) {
     final parameterShape = api.shapes[operation.parameterType];
 
-    final StringBuffer buf = StringBuffer();
+    final buf = StringBuffer();
     buf.writeln('    final \$request = <String, dynamic>{\n'
         '      \'Action\': \'${operation.name}\',\n'
         '      \'Version\': \'${api.metadata.apiVersion}\',');

@@ -2,6 +2,8 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
+import 'shared.dart';
+
 class QueryProtocol {
   final String _endpointUrl;
   final Client _client;
@@ -18,11 +20,16 @@ class QueryProtocol {
   }) async {
     final rq = _buildRequest(data, method, requestUri);
     final rs = await _client.send(rq);
-    _verifyStatusCode(rs);
-    // TODO: throw exception on error codes
     final body = await rs.stream.bytesToString();
     final root = parse(body);
-    XmlElement elem = root.rootElement;
+    var elem = root.rootElement;
+    if (elem.name.local == 'ErrorResponse') {
+      final error = elem.findElements('Error').first;
+      final type = error.findElements('Type').first.text;
+      final code = error.findElements('Code').first.text;
+      final message = error.findElements('Message').first.text;
+      throw AwsException(type: type, code: code, message: message);
+    }
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
     }
@@ -37,11 +44,6 @@ class QueryProtocol {
     rq.headers['X-Amz-Date'] = _currentDateHeader();
     // TODO: sign request
     return rq;
-  }
-
-  void _verifyStatusCode(BaseResponse rs) {
-    if (rs.statusCode >= 200 && rs.statusCode <= 207) return;
-    throw Exception('Bad response code=${rs.statusCode}.');
   }
 
   Map<String, dynamic> _xmlToMap(XmlElement elem) {
