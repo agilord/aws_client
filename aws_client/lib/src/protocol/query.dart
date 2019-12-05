@@ -16,6 +16,7 @@ class QueryProtocol {
     Map<String, dynamic> data, {
     @required String method,
     @required String requestUri,
+    @required Map<String, AwsExceptionFn> exceptionFnMap,
     String resultWrapper,
   }) async {
     final rq = _buildRequest(data, method, requestUri);
@@ -28,7 +29,11 @@ class QueryProtocol {
       final type = error.findElements('Type').first.text;
       final code = error.findElements('Code').first.text;
       final message = error.findElements('Message').first.text;
-      throw AwsException(type: type, code: code, message: message);
+      final fn = exceptionFnMap[code];
+      final exception = fn != null
+          ? fn(type, message)
+          : AwsException(type: type, code: code, message: message);
+      throw exception;
     }
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
