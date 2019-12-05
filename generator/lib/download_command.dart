@@ -23,19 +23,18 @@ class DownloadCommand extends Command {
 Future<void> _fetchApiDefinitions() async {
   final response = await http
       .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/master');
-  final Archive archive = ZipDecoder().decodeBytes(response.bodyBytes);
+  final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   // Extract the contents of the Zip archive to disk.
-  for (ArchiveFile file in archive) {
-    final String filename = file.name;
+  for (final file in archive) {
+    final filename = file.name;
 
     // Only keep the API definitions
     if (file.isFile &&
         filename.contains('apis') &&
         filename.endsWith('json') &&
         (filename.contains('.normal.') || filename.contains('.paginators.'))) {
-      final String data = utf8.decode(file.content as List<int>);
-      final Map<String, dynamic> json =
-          jsonDecode(data) as Map<String, dynamic>;
+      final data = utf8.decode(file.content as List<int>);
+      final json = jsonDecode(data) as Map<String, dynamic>;
 
       final zipFileUri = Uri.file(filename);
       final unzippedFileUri = Uri.file('apis/${zipFileUri.pathSegments.last}');

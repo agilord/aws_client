@@ -182,9 +182,9 @@ class Member {
   }
 
   String get dartType {
-    String dartType = shape;
+    var dartType = shape;
     final shapeRef = api.shapes[shape];
-    final String type = shapeRef.type;
+    final type = shapeRef.type;
     if (type.isBasicType()) {
       dartType = type.getDartType();
     } else if (type.isMapOrList()) {

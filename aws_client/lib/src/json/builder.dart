@@ -25,5 +25,5 @@ class JsonBuilder {
 
   List<dynamic> _translateList() => null;
 
-  _translateScalar() => null;
+  dynamic _translateScalar() => null;
 }

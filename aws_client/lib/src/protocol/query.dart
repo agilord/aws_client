@@ -22,7 +22,7 @@ class QueryProtocol {
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = parse(body);
-    XmlElement elem = root.rootElement;
+    var elem = root.rootElement;
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
       final type = error.findElements('Type').first.text;

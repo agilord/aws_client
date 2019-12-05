@@ -10,8 +10,8 @@ import 'package:aws_client/lambda.dart';
 import 'package:aws_client/src/credentials.dart';
 import 'package:http_client/console.dart';
 
-main(List<String> args) async {
-  final Map<String, String> environment = Platform.environment;
+Future main(List<String> args) async {
+  final environment = Platform.environment;
   final Client httpClient = ConsoleClient();
   final credentials = Credentials(
     accessKey: environment['AWS_ACCESS_KEY_ID'],
