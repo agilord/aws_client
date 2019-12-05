@@ -37,9 +37,10 @@ class QueryServiceBuilder extends ServiceBuilder {
     });
     final params = StringBuffer('\$request, '
         'method: \'${operation.http.method}\', '
-        'requestUri: \'${operation.http.requestUri}\'');
+        'requestUri: \'${operation.http.requestUri}\', '
+        'exceptionFnMap: _exceptionFns, ');
     if (operation.output?.resultWrapper != null) {
-      params.write(', resultWrapper: \'${operation.output.resultWrapper}\',');
+      params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
     }
     if (operation.hasReturnType) {
       buf.writeln('    final \$result = await _protocol.send($params);');

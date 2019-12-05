@@ -8,3 +8,5 @@ class AwsException implements Exception {
   @override
   String toString() => '$code: $message';
 }
+
+typedef AwsExceptionFn = AwsException Function(String type, String message);

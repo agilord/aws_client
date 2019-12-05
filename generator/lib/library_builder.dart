@@ -6,6 +6,7 @@ import 'package:aws_client.generator/builders/json_builder.dart';
 import 'package:aws_client.generator/builders/rest_json_builder.dart';
 import 'package:aws_client.generator/builders/rest_xml_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
@@ -38,6 +39,7 @@ import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import 'package:aws_client/src/protocol/shared.dart';
 import 'package:aws_client/src/scoping_extensions.dart';
 """);
   buf
@@ -45,6 +47,7 @@ import 'package:aws_client/src/scoping_extensions.dart';
     ..writeln("part '${api.metadata.uid}.g.dart';\n")
     ..putMainClass(api, builder)
     ..putShapes(api)
+    ..putExceptions(api)
     ..putBase64Converter();
 
   return File(
@@ -80,6 +83,10 @@ ${builder.constructor()}
     if (operation.deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
+
+    operation?.errors?.map((d) => d.shape)?.forEach((e) {
+      writeln('  /// May throw [$e].');
+    });
 
     write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
@@ -161,6 +168,29 @@ ${builder.constructor()}
         writeln('}');
       }
     }
+  }
+
+  void putExceptions(Api api) {
+    final exceptions = api.operations?.values
+            ?.expand((o) => o.errors ?? <Descriptor>[])
+            ?.map((d) => d.shape)
+            ?.where((s) => s != null)
+            ?.toSet() ??
+        <String>{};
+
+    for (final exception in exceptions) {
+      writeln('\nclass $exception extends AwsException {');
+      writeln('  $exception({String type, String message}) '
+          ': super(type: type, code: \'$exception\', message: message);');
+      writeln('}');
+    }
+
+    writeln('\nfinal _exceptionFns = <String, AwsExceptionFn>{');
+    for (final exception in exceptions) {
+      writeln(
+          '  \'$exception\': (type, message) => $exception(type: type, message: message),');
+    }
+    writeln('};');
   }
 
   void putBase64Converter() {
