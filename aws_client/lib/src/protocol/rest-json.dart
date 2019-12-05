@@ -6,5 +6,8 @@ class RestJsonProtocol {
 
   RestJsonProtocol({String endpointUrl, Client client})
       : _endpointUrl = endpointUrl,
-        _client = client ?? Client();
+        _client = client ?? Client() {
+    print(_endpointUrl);
+    print(_client);
+  }
 }
