@@ -44,7 +44,7 @@ extension StringStuff on String {
       case 'long':
         return 'int';
       case 'blob':
-        return 'blob';
+        return 'Uint8List';
       case 'timestamp':
         return 'DateTime';
       default:

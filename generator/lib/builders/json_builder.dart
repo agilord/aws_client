@@ -8,13 +8,20 @@ class JsonServiceBuilder extends ServiceBuilder {
   JsonServiceBuilder(this.api);
 
   @override
-  String constructor() => '';
+  String constructor() => '''
+  final JsonProtocol _protocol;
+  ${api.metadata.className}({Client client})
+  : _protocol = JsonProtocol(client: client);
+  ''';
 
   @override
-  String imports() => '';
+  String imports() => "import 'package:aws_client/src/protocol/json.dart';";
 
   @override
-  String operationContent(Operation operation) =>
-      '''// TODO: implement rest-json
+  String operationContent(Operation operation) => '''// TODO: implement json
+      final headers = {
+        'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ?? '1.0'}',
+        'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'
+      };
       throw UnimplementedError();''';
 }

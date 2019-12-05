@@ -1,21 +1,13 @@
-import 'package:aws_client/src/json/builder.dart';
-import 'package:http_client/http_client.dart';
+import 'package:http/http.dart';
 
-Request buildRequest(Map<String, dynamic> spec, Map<String, dynamic> data) {
-  final metadata = spec['metadata'] as Map<String, String>;
-  final target = '${metadata['targetPrefix']}.${data['operation']}';
-  final version = metadata['jsonVersion'] ?? '1.0';
-  final input =
-      spec['operations'][data['operation']]['input'] as Map<String, dynamic>;
-  final builder = JsonBuilder();
+class JsonProtocol {
+  final String _endpointUrl;
+  final Client _client;
 
-  final body = builder.build(data ?? {}, input);
-  final headers = {
-    'Content-Type': 'application/x-amz-json-$version',
-    'X-Amz-Target': target
-  };
-
-  // TODO: Use body and headers in a request
-
-  throw Exception('Protocol not implemented: "json" ($headers, $body)');
+  JsonProtocol({String endpointUrl, Client client})
+      : _endpointUrl = endpointUrl,
+        _client = client ?? Client() {
+    print(_endpointUrl);
+    print(_client);
+  }
 }

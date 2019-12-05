@@ -34,6 +34,7 @@ File buildService(Api api) {
 
   final buf = StringBuffer()..writeln("""
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -47,17 +48,12 @@ import 'package:aws_client/src/scoping_extensions.dart';
     ..writeln("part '${api.metadata.uid}.g.dart';\n")
     ..putMainClass(api, builder)
     ..putShapes(api)
-    ..putExceptions(api)
-    ..putBase64Converter();
+    ..putExceptions(api);
 
   return File(
       '../aws_client/lib/generated/${api.metadata.className}/${api.metadata.uid}.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(buf.toString());
-}
-
-extension Casting on dynamic {
-  T cast<T>() => this is T ? this as T : null;
 }
 
 extension StringBufferStuff on StringBuffer {
@@ -136,22 +132,14 @@ ${builder.constructor()}
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
         writeln('class $name {');
         for (final member in shape.members) {
-          var shapename = member.dartType;
           final valueEnum = shape.api.shapes[member.shape].enumeration;
 
           if (valueEnum?.isNotEmpty ?? false) {
             writeln("/// Possible values: [${valueEnum.join(", ")}]");
           }
 
-          if (shapename == 'blob') {
-            writeln('  @Base64Converter()');
-          } else if (shapename.contains('blob')) {
-            writeln('  @Base64ListConverter()');
-          }
-
-          shapename = shapename.replaceAll('blob', 'String');
           writeln("  @JsonKey(name: '${member.name}')");
-          writeln('  final $shapename ${member.fieldName};');
+          writeln('  final ${member.dartType} ${member.fieldName};');
         }
 
         final constructorMembers = shape.members.map((member) {
@@ -191,31 +179,5 @@ ${builder.constructor()}
           '  \'$exception\': (type, message) => $exception(type: type, message: message),');
     }
     writeln('};');
-  }
-
-  void putBase64Converter() {
-    writeln('''
-class Base64Converter implements JsonConverter<String, String> {
-  const Base64Converter();
-
-  @override
-  String fromJson(String json) => utf8.decode(base64Decode(json));
-
-  @override
-  String toJson(String object) => base64Encode(utf8.encode(object));
-}
-
-class Base64ListConverter implements JsonConverter<List<String>, List<String>> {
-  const Base64ListConverter();
-
-  @override
-  List<String> fromJson(List<String> json) =>
-      json.map((x) => utf8.decode(base64Decode(x))).toList(growable: false);
-
-  @override
-  List<String> toJson(List<String> object) =>
-      object.map((x) => base64Encode(utf8.encode(x))).toList(growable: false);
-}
-    ''');
   }
 }
