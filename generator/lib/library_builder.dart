@@ -33,6 +33,7 @@ File buildService(Api api) {
   }
 
   final buf = StringBuffer()..writeln("""
+// ignore_for_file: unused_import
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -130,6 +131,9 @@ ${builder.constructor()}
       if (shape.type == 'structure') {
         writeln(
             '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
+        if (shape.members.any((m) => m.dartType == 'Uint8List')) {
+          writeln('@Uint8ListConverter()');
+        }
         writeln('class $name {');
         for (final member in shape.members) {
           final valueEnum = shape.api.shapes[member.shape].enumeration;
