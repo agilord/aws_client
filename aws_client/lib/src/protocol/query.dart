@@ -97,7 +97,7 @@ Iterable<MapEntry<String, String>> _flatten(
   }
 
   if (data is Map) {
-    var i = 1;
+    var i = 0;
     for (final e in data.entries) {
       yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], e.key);
       yield* _flatten([...prefixes, 'entry', '${i + 1}', 'value'], e.value);
