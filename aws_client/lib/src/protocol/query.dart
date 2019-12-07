@@ -44,8 +44,8 @@ class QueryProtocol {
   Request _buildRequest(
       Map<String, dynamic> data, String method, String requestUri) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
-    // TODO: handle data that does not conform <String, String>.
-    rq.bodyFields = data.cast<String, String>();
+    final flatData = _flatQueryParams(data);
+    rq.bodyFields = flatData;
     rq.headers['X-Amz-Date'] = _currentDateHeader();
     // TODO: sign request
     return rq;
@@ -74,4 +74,37 @@ String _currentDateHeader() {
       .split('.')
       .first;
   return '${date}Z';
+}
+
+Map<String, String> _flatQueryParams(dynamic data) {
+  return Map.fromEntries(_flatten([], data));
+}
+
+Iterable<MapEntry<String, String>> _flatten(
+    List<String> prefixes, dynamic data) sync* {
+  if (data == null) return;
+
+  if (data is String) {
+    final key = prefixes.join('.');
+    yield MapEntry(key, data);
+  }
+
+  if (data is List) {
+    for (var i = 0; i < data.length; i++) {
+      final newPrefixes = [...prefixes, '${i + 1}'];
+      yield* _flatten(newPrefixes, data[i]);
+    }
+  }
+
+  if (data is Map) {
+    var i = 1;
+    for (final e in data.entries) {
+      yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], e.key);
+      yield* _flatten([...prefixes, 'entry', '${i + 1}', 'value'], e.value);
+      i++;
+    }
+  }
+
+  throw ArgumentError(
+      'Unknown type at "${prefixes.join('.')}": ${data.runtimeType} ($data)');
 }
