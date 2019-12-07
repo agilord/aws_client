@@ -43,6 +43,7 @@ import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import 'package:aws_client/src/credentials.dart';
 import 'package:aws_client/src/protocol/shared.dart';
 import 'package:aws_client/src/scoping_extensions.dart';
 """);

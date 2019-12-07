@@ -11,8 +11,9 @@ class QueryServiceBuilder extends ServiceBuilder {
   @override
   String constructor() => '''
   final QueryProtocol _protocol;
-  ${api.metadata.className}({Client client})
-  : _protocol = QueryProtocol(client: client);
+
+  ${api.metadata.className}({@required String region, @required Credentials credentials, Client client,})
+  : _protocol = QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
   ''';
 
   @override
