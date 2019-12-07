@@ -67,7 +67,7 @@ class QueryProtocol {
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
     }
-    return _xmlToMap(elem);
+    return xmlToMap(elem);
   }
 
   Request _buildRequest(
@@ -78,19 +78,6 @@ class QueryProtocol {
     // TODO: handle if the API is using different signing
     _signAws4HmacSha256(rq);
     return rq;
-  }
-
-  Map<String, dynamic> _xmlToMap(XmlElement elem) {
-    return Map<String, dynamic>.fromEntries(
-      elem.children.whereType<XmlElement>().map((e) {
-        if (e.firstChild is XmlElement) {
-          return MapEntry<String, dynamic>(
-              e.name.local, _xmlToMap(e.firstChild as XmlElement));
-        } else {
-          return MapEntry<String, dynamic>(e.name.local, e.text);
-        }
-      }),
-    );
   }
 
   void _signAws4HmacSha256(Request rq) {
@@ -150,6 +137,25 @@ class QueryProtocol {
         'SignedHeaders=${headerKeys.join(';')}, '
         'Signature=$signature';
     rq.headers['Authorization'] = auth;
+  }
+}
+
+@visibleForTesting
+Map<String, dynamic> xmlToMap(XmlElement elem) {
+  final m = <String, dynamic>{};
+  _xmlToMap(elem, m);
+  return m;
+}
+
+void _xmlToMap(XmlElement elem, Map<String, dynamic> m) {
+  if (elem.firstChild is XmlElement) {
+    final sub = <String, dynamic>{};
+    elem.children.whereType<XmlElement>().forEach((e) => _xmlToMap(e, sub));
+    if (sub.isNotEmpty) {
+      m[elem.name.local] = sub;
+    }
+  } else {
+    m[elem.name.local] = elem.text;
   }
 }
 
