@@ -1,16 +1,45 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
+import '../credentials.dart';
+
 import 'shared.dart';
 
 class QueryProtocol {
-  final String _endpointUrl;
   final Client _client;
+  final String _service;
+  final String _region;
+  final String _endpointUrl;
+  final Credentials _credentials;
 
-  QueryProtocol({String endpointUrl, Client client})
-      : _endpointUrl = endpointUrl,
-        _client = client ?? Client();
+  QueryProtocol._(
+    this._client,
+    this._service,
+    this._region,
+    this._endpointUrl,
+    this._credentials,
+  );
+
+  factory QueryProtocol({
+    Client client,
+    String service,
+    String region,
+    String endpointUrl,
+    Credentials credentials,
+  }) {
+    client ??= Client();
+    if (service == null || region == null) {
+      ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
+    }
+    endpointUrl ??= 'https://$service.$region.amazonaws.com';
+    service ??= _extractService(Uri.parse(endpointUrl));
+    region ??= _extractRegion(Uri.parse(endpointUrl));
+    return QueryProtocol._(client, service, region, endpointUrl, credentials);
+  }
 
   Future<Map<String, dynamic>> send(
     Map<String, dynamic> data, {
@@ -38,30 +67,95 @@ class QueryProtocol {
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
     }
-    return _xmlToMap(elem);
+    return xmlToMap(elem);
   }
 
   Request _buildRequest(
       Map<String, dynamic> data, String method, String requestUri) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
-    final flatData = flatQueryParams(data);
-    rq.bodyFields = flatData;
-    rq.headers['X-Amz-Date'] = _currentDateHeader();
-    // TODO: sign request
+    rq.body = _canonical(flatQueryParams(data));
+    rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    // TODO: handle if the API is using different signing
+    _signAws4HmacSha256(rq);
     return rq;
   }
 
-  Map<String, dynamic> _xmlToMap(XmlElement elem) {
-    return Map<String, dynamic>.fromEntries(
-      elem.children.whereType<XmlElement>().map((e) {
-        if (e.firstChild is XmlElement) {
-          return MapEntry<String, dynamic>(
-              e.name.local, _xmlToMap(e.firstChild as XmlElement));
-        } else {
-          return MapEntry<String, dynamic>(e.name.local, e.text);
-        }
-      }),
-    );
+  void _signAws4HmacSha256(Request rq) {
+    final date = _currentDateHeader();
+    rq.headers['X-Amz-Date'] = date;
+    rq.headers['Host'] = rq.url.host;
+
+    // sorted list of key:value header entries
+    final canonicalHeaders = rq.headers.keys
+        .map((key) => '${key.toLowerCase()}:${rq.headers[key].trim()}')
+        .toList()
+          ..sort();
+    // sorted list of header keys
+    final headerKeys = rq.headers.keys.map((s) => s.toLowerCase()).toList()
+      ..sort();
+
+    final payloadHash = sha256.convert(rq.bodyBytes).toString();
+    final canonical = [
+      rq.method.toUpperCase(),
+      Uri.encodeFull(rq.url.path),
+      '',
+      ...canonicalHeaders,
+      '',
+      headerKeys.join(';'),
+      payloadHash,
+    ].join('\n');
+    final canonicalHash = sha256.convert(utf8.encode(canonical)).toString();
+
+    final credentialList = [
+      date.substring(0, 8),
+      _region,
+      _service,
+      'aws4_request',
+    ];
+    const _aws4HmacSha256 = 'AWS4-HMAC-SHA256';
+    final toSign = [
+      _aws4HmacSha256,
+      date,
+      credentialList.join('/'),
+      canonicalHash,
+    ].join('\n');
+
+    final signingKey = credentialList
+        .fold(utf8.encode('AWS4${_credentials.secretKey}'),
+            (List<int> key, String s) {
+      final hmac = Hmac(sha256, key);
+      return hmac.convert(utf8.encode(s)).bytes;
+    });
+    final signature =
+        Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
+    if (_credentials.sessionToken != null) {
+      rq.headers['X-Amz-Security-Token'] = _credentials.sessionToken;
+    }
+
+    final auth = '$_aws4HmacSha256 '
+        'Credential=${_credentials.accessKey}/${credentialList.join('/')}, '
+        'SignedHeaders=${headerKeys.join(';')}, '
+        'Signature=$signature';
+    rq.headers['Authorization'] = auth;
+  }
+}
+
+@visibleForTesting
+Map<String, dynamic> xmlToMap(XmlElement elem) {
+  final m = <String, dynamic>{};
+  _xmlToMap(elem, m);
+  return m;
+}
+
+void _xmlToMap(XmlElement elem, Map<String, dynamic> m) {
+  if (elem.firstChild is XmlElement) {
+    final sub = <String, dynamic>{};
+    elem.children.whereType<XmlElement>().forEach((e) => _xmlToMap(e, sub));
+    if (sub.isNotEmpty) {
+      m[elem.name.local] = sub;
+    }
+  } else {
+    m[elem.name.local] = elem.text;
   }
 }
 
@@ -90,6 +184,11 @@ Iterable<MapEntry<String, String>> _flatten(
   if (data is String) {
     final key = prefixes.join('.');
     yield MapEntry(key, data);
+    return;
+  }
+  if (data is int) {
+    final key = prefixes.join('.');
+    yield MapEntry(key, data.toString());
     return;
   }
 
@@ -126,4 +225,25 @@ Iterable<MapEntry<String, String>> _flatten(
 
   throw ArgumentError(
       'Unknown type at "${prefixes.join('.')}": ${data.runtimeType} ($data)');
+}
+
+String _canonical(Map<String, String> data) {
+  final list = data.entries
+      .map((e) =>
+          '${Uri.encodeQueryComponent(e.key)}=${Uri.encodeQueryComponent(e.value)}')
+      .toList();
+  list.sort();
+  return list.join('&');
+}
+
+String _extractRegion(Uri uri) {
+  final parts = uri.host.split('.');
+  if (parts.length == 4 && parts[1].contains('-')) return parts[1];
+  throw Exception('Unable to detect region in ${uri.host}.');
+}
+
+String _extractService(Uri uri) {
+  final parts = uri.host.split('.');
+  if (parts.length == 4) return parts.first;
+  throw Exception('Unable to detect service in ${uri.host}.');
 }
