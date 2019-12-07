@@ -44,7 +44,7 @@ class QueryProtocol {
   Request _buildRequest(
       Map<String, dynamic> data, String method, String requestUri) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
-    final flatData = _flatQueryParams(data);
+    final flatData = flatQueryParams(data);
     rq.bodyFields = flatData;
     rq.headers['X-Amz-Date'] = _currentDateHeader();
     // TODO: sign request
@@ -76,33 +76,52 @@ String _currentDateHeader() {
   return '${date}Z';
 }
 
-Map<String, String> _flatQueryParams(dynamic data) {
+@visibleForTesting
+Map<String, String> flatQueryParams(dynamic data) {
   return Map.fromEntries(_flatten([], data));
 }
 
 Iterable<MapEntry<String, String>> _flatten(
     List<String> prefixes, dynamic data) sync* {
-  if (data == null) return;
+  if (data == null) {
+    return;
+  }
 
   if (data is String) {
     final key = prefixes.join('.');
     yield MapEntry(key, data);
+    return;
   }
 
   if (data is List) {
-    for (var i = 0; i < data.length; i++) {
-      final newPrefixes = [...prefixes, '${i + 1}'];
-      yield* _flatten(newPrefixes, data[i]);
+    if (data.isEmpty) {
+      final key = prefixes.join('.');
+      yield MapEntry(key, '');
+    } else {
+      for (var i = 0; i < data.length; i++) {
+        final newPrefixes = [...prefixes, '${i + 1}'];
+        yield* _flatten(newPrefixes, data[i]);
+      }
     }
+    return;
   }
 
   if (data is Map) {
+    var flat = false;
+    if (prefixes.isEmpty) flat = true;
+
     var i = 0;
     for (final e in data.entries) {
-      yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], e.key);
-      yield* _flatten([...prefixes, 'entry', '${i + 1}', 'value'], e.value);
+      final key = e.key;
+      if (flat && key is String) {
+        yield* _flatten([...prefixes, key], e.value);
+      } else {
+        yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], key);
+        yield* _flatten([...prefixes, 'entry', '${i + 1}', 'value'], e.value);
+      }
       i++;
     }
+    return;
   }
 
   throw ArgumentError(
