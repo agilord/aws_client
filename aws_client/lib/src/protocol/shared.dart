@@ -17,6 +17,21 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   }
 }
 
+class Uint8ListListConverter
+    implements JsonConverter<List<Uint8List>, List<String>> {
+  const Uint8ListListConverter();
+
+  @override
+  List<Uint8List> fromJson(List<String> json) {
+    return json.map((x) => base64.decode(x)).toList(growable: false);
+  }
+
+  @override
+  List<String> toJson(List<Uint8List> list) {
+    return list.map((x) => base64.encode(x)).toList(growable: false);
+  }
+}
+
 class AwsException implements Exception {
   final String type;
   final String code;
