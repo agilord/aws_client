@@ -45,7 +45,7 @@ class QueryServiceBuilder extends ServiceBuilder {
     }
     if (operation.hasReturnType) {
       buf.writeln('    final \$result = await _protocol.send($params);');
-      buf.writeln('    return ${operation.returnType}.fromJson(\$result);');
+      buf.writeln('    return ${operation.returnType}.fromXml(\$result);');
     } else {
       buf.writeln('    await _protocol.send($params);');
     }

@@ -41,7 +41,7 @@ class QueryProtocol {
     return QueryProtocol._(client, service, region, endpointUrl, credentials);
   }
 
-  Future<Map<String, dynamic>> send(
+  Future<XmlElement> send(
     Map<String, dynamic> data, {
     @required String method,
     @required String requestUri,
@@ -67,7 +67,7 @@ class QueryProtocol {
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
     }
-    return xmlToMap(elem);
+    return elem;
   }
 
   Request _buildRequest(
@@ -137,25 +137,6 @@ class QueryProtocol {
         'SignedHeaders=${headerKeys.join(';')}, '
         'Signature=$signature';
     rq.headers['Authorization'] = auth;
-  }
-}
-
-@visibleForTesting
-Map<String, dynamic> xmlToMap(XmlElement elem) {
-  final m = <String, dynamic>{};
-  _xmlToMap(elem, m);
-  return m;
-}
-
-void _xmlToMap(XmlElement elem, Map<String, dynamic> m) {
-  if (elem.firstChild is XmlElement) {
-    final sub = <String, dynamic>{};
-    elem.children.whereType<XmlElement>().forEach((e) => _xmlToMap(e, sub));
-    if (sub.isNotEmpty) {
-      m[elem.name.local] = sub;
-    }
-  } else {
-    m[elem.name.local] = elem.text;
   }
 }
 
