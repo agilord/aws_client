@@ -115,6 +115,9 @@ class Shape {
   bool get hasMembers => _members.isNotEmpty;
 
   bool get hasEmptyMembers => _members.isEmpty;
+
+  Member get payloadMember =>
+      _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
