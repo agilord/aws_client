@@ -201,9 +201,8 @@ extension on String {
       <String>{'default', 'return', 'if', 'bool', 'null'}.contains(this);
 
   String get lowercaseName {
-    var name = this;
-    if (name == null || name.isEmpty) return name;
-    if (name.startsWith('AWS')) name = name.replaceFirst('AWS', 'aws');
-    return name.substring(0, 1).toLowerCase() + name.substring(1);
+    if (this == null || isEmpty) return this;
+    if (startsWith('AWS')) return replaceFirst('AWS', 'aws');
+    return substring(0, 1).toLowerCase() + substring(1);
   }
 }
