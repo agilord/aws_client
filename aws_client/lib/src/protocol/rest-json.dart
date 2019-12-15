@@ -44,6 +44,7 @@ class RestJsonProtocol {
     @required Map<String, AwsExceptionFn> exceptionFnMap,
     Map<String, String> headers,
   }) async {
+    print('$_endpointUrl$_client$_service$_region$_credentials');
     throw UnimplementedError('rest-json not implemented');
   }
 }
