@@ -13,6 +13,8 @@ class Shape {
   @JsonKey(ignore: true)
   Api api;
   @JsonKey(ignore: true)
+  String name;
+  @JsonKey(ignore: true)
   bool isNotUsed = false;
   final String type;
   @JsonKey(name: 'enum')
@@ -118,6 +120,8 @@ class Shape {
 
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
+
+  bool get isException => api.exceptions.contains(name);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)

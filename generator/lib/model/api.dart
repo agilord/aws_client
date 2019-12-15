@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';
 
@@ -32,9 +33,10 @@ class Api {
       o.api = this;
       o.initReferences();
     });
-    shapes?.values?.forEach((s) {
-      s.api = this;
-      s.initReferences();
+    shapes?.entries?.forEach((e) {
+      e.value.name = e.key;
+      e.value.api = this;
+      e.value.initReferences();
     });
   }
 
@@ -54,6 +56,20 @@ class Api {
   String get fileBasename {
     // TODO: lowercase file name
     return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
+  }
+
+  List<String> _exceptions;
+  List<String> get exceptions {
+    if (_exceptions == null) {
+      final set = operations?.values
+              ?.expand((o) => o.errors ?? <Descriptor>[])
+              ?.map((d) => d.shape)
+              ?.where((s) => s != null)
+              ?.toSet() ??
+          <String>{};
+      _exceptions = set.toList()..sort();
+    }
+    return _exceptions;
   }
 }
 
