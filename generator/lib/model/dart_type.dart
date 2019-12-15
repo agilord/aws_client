@@ -24,6 +24,7 @@ extension StringStuff on String {
       this == 'string' ||
       this == 'boolean' ||
       this == 'double' ||
+      this == 'float' ||
       this == 'integer' ||
       this == 'long' ||
       this == 'blob' ||
@@ -38,9 +39,9 @@ extension StringStuff on String {
       case 'boolean':
         return 'bool';
       case 'double':
-        return this;
+      case 'float':
+        return 'double';
       case 'integer':
-        return 'int';
       case 'long':
         return 'int';
       case 'blob':
@@ -48,7 +49,7 @@ extension StringStuff on String {
       case 'timestamp':
         return 'DateTime';
       default:
-        return '???';
+        throw ArgumentError('Unknown type: $this');
     }
   }
 }
