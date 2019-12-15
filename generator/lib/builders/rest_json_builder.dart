@@ -24,12 +24,14 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     final input = operation.input;
     final members = input?.shapeClass?.members;
     final uriMembers = members?.where((m) => m.location == 'uri');
-    final headerMembers = members?.where((m) => m.location?.contains('header') == true);
+    final headerMembers =
+        members?.where((m) => m.location?.contains('header') == true);
     if (headerMembers != null && headerMembers.isNotEmpty) {
       buf.writeln('final headers = <String, String>{};');
       headerMembers.forEach((m) {
-        if(m.location == 'headers') {
-          buf.writeln('${m.fieldName}.forEach((key, value) => headers[${m.name} + key] = value);');
+        if (m.location == 'headers') {
+          buf.writeln(
+              '${m.fieldName}.forEach((key, value) => headers[${m.name} + key] = value);');
         } else {
           buf.writeln("headers['${m.name}'] = ${m.fieldName};");
         }
