@@ -45,7 +45,6 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-${api.usesXml ? 'import \'package:xml/xml.dart\';' : ''}
 
 import 'package:aws_client/src/credentials.dart';
 import 'package:aws_client/src/protocol/shared.dart';
