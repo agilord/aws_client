@@ -168,19 +168,22 @@ ${builder.constructor()}
         writeln(
             '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
 
-        writeln('\n  factory $name.fromXml(XmlElement elem) {');
-        final constructorParams = <String>[];
-        for (final member in shape.members) {
-          final extractor = _xmlExtractorFn(
-            shape.api,
-            elemName: 'elem',
-            shape: member.shape,
-            fieldName: member.locationName ?? member.name,
-          );
-          constructorParams.add('    ${member.fieldName}: $extractor,');
+        // XML marshalling
+        if (shape.api.usesRestXmlProtocol || shape.api.usesQueryProtocol) {
+          writeln('\n  factory $name.fromXml(XmlElement elem) {');
+          final constructorParams = <String>[];
+          for (final member in shape.members) {
+            final extractor = _xmlExtractorFn(
+              shape.api,
+              elemName: 'elem',
+              shape: member.shape,
+              fieldName: member.locationName ?? member.name,
+            );
+            constructorParams.add('    ${member.fieldName}: $extractor,');
+          }
+          writeln('    return $name(${constructorParams.join('\n')});');
+          writeln('  }');
         }
-        writeln('    return $name(${constructorParams.join('\n')});');
-        writeln('  }');
 
         writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
         writeln('}');
