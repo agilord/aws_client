@@ -194,11 +194,21 @@ class Member {
   }
 }
 
-extension on String {
+extension NameStuff on String {
   bool get isAllUpperCase => toUpperCase() == this;
 
-  bool get isReserved =>
-      <String>{'default', 'return', 'if', 'bool', 'null'}.contains(this);
+  bool get isReserved => <String>{
+        'bool',
+        'continue',
+        'default',
+        'false',
+        'if',
+        'in',
+        'new',
+        'null',
+        'return',
+        'true',
+      }.contains(this);
 
   String get lowercaseName {
     if (this == null || isEmpty) return this;

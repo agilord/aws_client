@@ -119,73 +119,79 @@ ${builder.constructor()}
       api.shapes.keys.forEach((key) => putShape(key, api.shapes[key]));
 
   void putShape(String name, Shape shape) {
-    // There is no reason to generate something empty or not used
-    if (shape.hasEmptyMembers || shape.isNotUsed) return;
+    // There is no reason to generate something not used
+    if (shape.isNotUsed) return;
 
-    if (shape.deprecated) {
-      writeln(r"@Deprecated('Deprecated')");
-    }
-
-    if (shape.enumeration != null) {
-      if (shape.type == 'string') {
-        writeln('class $name {');
-        shape.enumeration.forEach((value) => writeln(
-            "  static const ${value.replaceAll(".", "_").replaceAll("-", "_")} = \"$value\";"));
-        writeln('}');
+    if (shape.type == 'string' && shape.enumeration != null) {
+      if (shape.deprecated) {
+        writeln(r"@Deprecated('Deprecated')");
       }
-    } else {
-      if (shape.type == 'structure') {
-        writeln(
-            '@JsonSerializable(includeIfNull: false, explicitToJson: true)');
+      writeln('abstract class $name {');
+      shape.enumeration.forEach((value) {
+        var fieldName = value
+            .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
+            .replaceAll(RegExp(r'_+'), '_')
+            .lowercaseName;
+        if (fieldName.isEmpty) return;
+        if (fieldName.isReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
+          fieldName = '\$$fieldName';
+        }
+        writeln("  static const $fieldName = \'$value\';");
+      });
+      writeln('}');
+    } else if (shape.type == 'structure') {
+      if (shape.deprecated) {
+        writeln(r'@deprecated');
+      }
+      writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true)');
 
-        writeln('class $name {');
+      writeln('class $name {');
+      for (final member in shape.members) {
+        final valueEnum = shape.api.shapes[member.shape].enumeration;
+
+        if (valueEnum?.isNotEmpty ?? false) {
+          writeln("/// Possible values: [${valueEnum.join(", ")}]");
+        }
+
+        if (member.dartType == 'Uint8List') {
+          writeln('@Uint8ListConverter()');
+        } else if (member.dartType == 'List<Uint8List>') {
+          writeln('@Uint8ListListConverter()');
+        }
+
+        writeln("  @JsonKey(name: '${member.name}')");
+        writeln('  final ${member.dartType} ${member.fieldName};');
+      }
+
+      final constructorMembers = shape.members.map((member) {
+        return "${member.isRequired ? "@required " : ""}this.${member.fieldName}, ";
+      }).join();
+      if (shape.hasEmptyMembers) {
+        writeln('\n  $name();');
+      } else {
+        writeln('\n  $name({$constructorMembers});');
+      }
+      writeln(
+          '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
+
+      if (shape.api.usesXml) {
+        writeln('\n  factory $name.fromXml(XmlElement elem) {');
+        final constructorParams = <String>[];
         for (final member in shape.members) {
-          final valueEnum = shape.api.shapes[member.shape].enumeration;
-
-          if (valueEnum?.isNotEmpty ?? false) {
-            writeln("/// Possible values: [${valueEnum.join(", ")}]");
-          }
-
-          if (member.dartType == 'Uint8List') {
-            writeln('@Uint8ListConverter()');
-          } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@Uint8ListListConverter()');
-          }
-
-          writeln("  @JsonKey(name: '${member.name}')");
-          writeln('  final ${member.dartType} ${member.fieldName};');
+          final extractor = _xmlExtractorFn(
+            shape.api,
+            elemName: 'elem',
+            shape: member.shape,
+            fieldName: member.locationName ?? member.name,
+          );
+          constructorParams.add('    ${member.fieldName}: $extractor,');
         }
-
-        final constructorMembers = shape.members.map((member) {
-          return "${member.isRequired ? "@required " : ""}this.${member.fieldName}, ";
-        }).join();
-        if (shape.hasEmptyMembers) {
-          writeln('\n  $name();');
-        } else {
-          writeln('\n  $name({$constructorMembers});');
-        }
-        writeln(
-            '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
-
-        if (shape.api.usesXml) {
-          writeln('\n  factory $name.fromXml(XmlElement elem) {');
-          final constructorParams = <String>[];
-          for (final member in shape.members) {
-            final extractor = _xmlExtractorFn(
-              shape.api,
-              elemName: 'elem',
-              shape: member.shape,
-              fieldName: member.locationName ?? member.name,
-            );
-            constructorParams.add('    ${member.fieldName}: $extractor,');
-          }
-          writeln('    return $name(${constructorParams.join('\n')});');
-          writeln('  }');
-        }
-
-        writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
-        writeln('}');
+        writeln('    return $name(${constructorParams.join('\n')});');
+        writeln('  }');
       }
+
+      writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
+      writeln('}');
     }
   }
 
