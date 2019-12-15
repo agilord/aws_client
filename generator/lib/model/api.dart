@@ -43,6 +43,8 @@ class Api {
   bool get usesRestJsonProtocol => metadata.protocol == 'rest-json';
   bool get usesRestXmlProtocol => metadata.protocol == 'rest-xml';
   bool get usesEc2Protocol => metadata.protocol == 'ec2';
+
+  bool get usesXml => usesQueryProtocol || usesRestXmlProtocol;
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
