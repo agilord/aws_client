@@ -45,7 +45,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:xml/xml.dart';
+${api.usesXml ? 'import \'package:xml/xml.dart\';' : ''}
 
 import 'package:aws_client/src/credentials.dart';
 import 'package:aws_client/src/protocol/shared.dart';
@@ -168,19 +168,21 @@ ${builder.constructor()}
         writeln(
             '  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
 
-        writeln('\n  factory $name.fromXml(XmlElement elem) {');
-        final constructorParams = <String>[];
-        for (final member in shape.members) {
-          final extractor = _xmlExtractorFn(
-            shape.api,
-            elemName: 'elem',
-            shape: member.shape,
-            fieldName: member.locationName ?? member.name,
-          );
-          constructorParams.add('    ${member.fieldName}: $extractor,');
+        if (shape.api.usesXml) {
+          writeln('\n  factory $name.fromXml(XmlElement elem) {');
+          final constructorParams = <String>[];
+          for (final member in shape.members) {
+            final extractor = _xmlExtractorFn(
+              shape.api,
+              elemName: 'elem',
+              shape: member.shape,
+              fieldName: member.locationName ?? member.name,
+            );
+            constructorParams.add('    ${member.fieldName}: $extractor,');
+          }
+          writeln('    return $name(${constructorParams.join('\n')});');
+          writeln('  }');
         }
-        writeln('    return $name(${constructorParams.join('\n')});');
-        writeln('  }');
 
         writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
         writeln('}');
