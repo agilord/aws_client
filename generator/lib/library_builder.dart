@@ -34,9 +34,11 @@ File buildService(Api api) {
   }
 
   final buf = StringBuffer()..writeln("""
+// ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
-// ignore_for_file: unused_element
+
 import 'dart:convert';
 import 'dart:typed_data';
 
