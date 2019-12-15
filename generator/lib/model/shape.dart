@@ -173,8 +173,8 @@ class Member {
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
 
   String get fieldName {
-    final lc = _lowercaseName(name);
-    if (_reservedNames.contains(lc)) {
+    final lc = name.isAllUpperCase ? name.toLowerCase() : name.lowercaseName;
+    if (lc.isReserved) {
       return '${lc}Value';
     } else {
       return lc;
@@ -194,10 +194,16 @@ class Member {
   }
 }
 
-final _reservedNames = <String>{'default', 'return'};
+extension on String {
+  bool get isAllUpperCase => toUpperCase() == this;
 
-String _lowercaseName(String name) {
-  if (name == null || name.isEmpty) return name;
-  if (name.startsWith('AWS')) name = name.replaceFirst('AWS', 'aws');
-  return name.substring(0, 1).toLowerCase() + name.substring(1);
+  bool get isReserved =>
+      <String>{'default', 'return', 'if', 'bool', 'null'}.contains(this);
+
+  String get lowercaseName {
+    var name = this;
+    if (name == null || name.isEmpty) return name;
+    if (name.startsWith('AWS')) name = name.replaceFirst('AWS', 'aws');
+    return name.substring(0, 1).toLowerCase() + name.substring(1);
+  }
 }
