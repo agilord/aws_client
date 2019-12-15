@@ -52,13 +52,13 @@ import 'package:aws_client/src/scoping_extensions.dart';
 """);
   buf
     ..writeln(builder.imports())
-    ..writeln("part '${api.metadata.uid}.g.dart';\n")
+    ..writeln("part '${api.fileBasename}.g.dart';\n")
     ..putMainClass(api, builder)
     ..putShapes(api)
     ..putExceptions(api);
 
   return File(
-      '../aws_client/lib/generated/${api.metadata.className}/${api.metadata.uid}.dart')
+      '../aws_client/lib/generated/${api.directoryPath}/${api.fileBasename}.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(buf.toString());
 }

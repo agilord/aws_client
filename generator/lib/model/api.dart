@@ -45,6 +45,16 @@ class Api {
   bool get usesEc2Protocol => metadata.protocol == 'ec2';
 
   bool get usesXml => usesQueryProtocol || usesRestXmlProtocol;
+
+  String get directoryPath {
+    // TODO: lowercase directory name
+    return metadata.className;
+  }
+
+  String get fileBasename {
+    // TODO: lowercase file name
+    return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
+  }
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
