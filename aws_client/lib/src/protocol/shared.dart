@@ -57,15 +57,17 @@ int extractXmlIntValue(XmlElement elem, String name) {
 }
 
 bool extractXmlBoolValue(XmlElement elem, String name) {
+  return _parseBool(extractXmlStringValue(elem, name));
+}
+
+DateTime extractXmlDateTimeValue(XmlElement elem, String name) {
   final str = extractXmlStringValue(elem, name);
-  if (str == null) return null;
-  switch (str.toLowerCase()) {
-    case 'true':
-      return true;
-    case 'false':
-      return false;
-  }
-  throw ArgumentError('Unable to parse bool value: $str');
+  return str == null ? null : DateTime.parse(str);
+}
+
+double extractXmlDoubleValue(XmlElement elem, String name) {
+  final str = extractXmlStringValue(elem, name);
+  return str == null ? null : double.parse(str);
 }
 
 Uint8List extractXmlUint8ListValue(XmlElement elem, String name) {
@@ -77,8 +79,35 @@ List<String> extractXmlStringListValues(XmlElement elem, String name) {
   return elem.findElements(name).map((e) => e.text).toList();
 }
 
+List<bool> extractXmlBoolListValues(XmlElement elem, String name) {
+  return extractXmlStringListValues(elem, name).map(_parseBool).toList();
+}
+
+List<int> extractXmlIntListValues(XmlElement elem, String name) {
+  return extractXmlStringListValues(elem, name).map(int.parse).toList();
+}
+
+List<double> extractXmlDoubleListValues(XmlElement elem, String name) {
+  return extractXmlStringListValues(elem, name).map(double.parse).toList();
+}
+
+List<DateTime> extractXmlDateTimeListValues(XmlElement elem, String name) {
+  return extractXmlStringListValues(elem, name).map(DateTime.parse).toList();
+}
+
 List<Uint8List> extractXmlUint8ListListValues(XmlElement elem, String name) {
   return extractXmlStringListValues(elem, name)
       .map((str) => base64.decode(str))
       .toList();
+}
+
+bool _parseBool(String value) {
+  if (value == null) return null;
+  switch (value.toLowerCase()) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+  }
+  throw ArgumentError('Unable to parse bool value: $value');
 }
