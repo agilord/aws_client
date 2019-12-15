@@ -17,7 +17,8 @@ class QueryServiceBuilder extends ServiceBuilder {
   ''';
 
   @override
-  String imports() => 'import \'package:aws_client/src/protocol/query.dart\';';
+  String imports() => 'import \'package:aws_client/src/protocol/query.dart\';\n'
+      'import \'package:xml/xml.dart\';';
 
   @override
   String operationContent(Operation operation) {
