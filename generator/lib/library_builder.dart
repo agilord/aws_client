@@ -179,7 +179,10 @@ ${builder.constructor()}
           '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
 
       if (shape.api.usesXml) {
-        writeln('\n  factory $name.fromXml(XmlElement elem) {');
+        final lintComment = shape.hasEmptyMembers
+            ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
+            : '';
+        writeln('\n  factory $name.fromXml(${lintComment}XmlElement elem) {');
         final constructorParams = <String>[];
         for (final member in shape.members) {
           final extractor = _xmlExtractorFn(
