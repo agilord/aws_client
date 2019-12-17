@@ -61,7 +61,7 @@ class QueryProtocol {
       final fn = exceptionFnMap[code];
       final exception = fn != null
           ? fn(type, message)
-          : AwsException(type: type, code: code, message: message);
+          : GenericAwsException(type: type, code: code, message: message);
       throw exception;
     }
     if (resultWrapper != null) {

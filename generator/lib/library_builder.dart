@@ -145,14 +145,10 @@ ${builder.constructor()}
       }
       writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true)');
 
-      var hasTypeParam = false;
-      var hasMessageParam = false;
-      final extendsBlock = shape.isException ? 'extends AwsException ' : '';
+      final extendsBlock = shape.isException ? 'implements AwsException ' : '';
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
-        hasTypeParam |= member.fieldName == 'type';
-        hasMessageParam |= member.fieldName == 'message';
         final valueEnum = shape.api.shapes[member.shape].enumeration;
 
         if (valueEnum?.isNotEmpty ?? false) {
@@ -172,25 +168,12 @@ ${builder.constructor()}
       final constructorMembers = shape.members.map((member) {
         return "${member.isRequired ? "@required " : ""}this.${member.fieldName}, ";
       }).toList();
-      if (shape.isException) {
-        if (!hasTypeParam) {
-          constructorMembers.add('String type, ');
-        }
-        if (!hasMessageParam) {
-          constructorMembers.add('String message, ');
-        }
-      }
 
       if (constructorMembers.isEmpty) {
-        write('\n  $name()');
+        write('\n  $name();');
       } else {
-        write('\n  $name({${constructorMembers.join()}})');
+        write('\n  $name({${constructorMembers.join()}});');
       }
-      if (shape.isException) {
-        writeln(
-            ': super(type: type, code: \'${shape.name}\', message: message)');
-      }
-      writeln(';');
 
       writeln(
           '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
@@ -219,7 +202,7 @@ ${builder.constructor()}
   void putExceptions(Api api) {
     for (final exception in api.exceptions) {
       if (api.shapes.containsKey(exception)) continue;
-      writeln('\nclass $exception extends AwsException {');
+      writeln('\nclass $exception extends GenericAwsException {');
       writeln('  $exception({String type, String message}) '
           ': super(type: type, code: \'$exception\', message: message);');
       writeln('}');
@@ -227,8 +210,21 @@ ${builder.constructor()}
 
     writeln('\nfinal _exceptionFns = <String, AwsExceptionFn>{');
     for (final exception in api.exceptions) {
-      writeln(
-          '  \'$exception\': (type, message) => $exception(type: type, message: message),');
+      final shape = api.shapes[exception];
+      final hasMessage = shape != null &&
+          shape.members
+              .any((m) => m.fieldName == 'message' && m.dartType == 'String');
+
+      if (shape == null) {
+        writeln(
+            '  \'$exception\': (type, message) => $exception(type: type, message: message),');
+      } else if (hasMessage) {
+        writeln(
+            '  \'$exception\': (type, message) => $exception(message: message),');
+      } else {
+        writeln(
+            '  \'$exception\': (type, message) => $exception(),');
+      }
     }
     writeln('};');
   }
