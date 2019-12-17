@@ -33,12 +33,14 @@ class Uint8ListListConverter
   }
 }
 
-class AwsException implements Exception {
+abstract class AwsException implements Exception {}
+
+class GenericAwsException implements AwsException {
   final String type;
   final String code;
   final String message;
 
-  AwsException({this.type, this.code, this.message});
+  GenericAwsException({this.type, this.code, this.message});
 
   @override
   String toString() => '$code: $message';
