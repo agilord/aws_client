@@ -222,8 +222,7 @@ ${builder.constructor()}
         writeln(
             '  \'$exception\': (type, message) => $exception(message: message),');
       } else {
-        writeln(
-            '  \'$exception\': (type, message) => $exception(),');
+        writeln('  \'$exception\': (type, message) => $exception(),');
       }
     }
     writeln('};');
