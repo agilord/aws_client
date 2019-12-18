@@ -119,8 +119,11 @@ class Metadata {
     this.protocolSettings,
   );
 
-  String get className => (serviceAbbreviation ?? serviceFullName)
-      .replaceAll(RegExp(r'^Amazon|AWS\s*|\(.*|\s+|\W+'), '');
+  String get className {
+    final name = (serviceAbbreviation ?? serviceFullName)
+        .replaceAll(RegExp(r'^Amazon|AWS\s*|\(.*|\s+|\W+'), '');
+    return name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
 
   factory Metadata.fromJson(Map<String, dynamic> json) =>
       _$MetadataFromJson(json);

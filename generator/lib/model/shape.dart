@@ -122,6 +122,9 @@ class Shape {
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
 
   bool get isException => api.exceptions.contains(name);
+
+  String get className =>
+      name.substring(0, 1).toUpperCase() + name.substring(1);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
