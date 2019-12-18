@@ -44,7 +44,7 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' as _meta;
 
 import 'package:aws_client/src/credentials.dart' as _src_credentials;
 import 'package:aws_client/src/protocol/shared.dart';
@@ -96,7 +96,7 @@ ${builder.constructor()}
 
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
-        write('@required ');
+        write('@_meta.required ');
       }
       write('${member.dartType} ${member.fieldName}, ');
     }
@@ -166,7 +166,7 @@ ${builder.constructor()}
       }
 
       final constructorMembers = shape.members.map((member) {
-        return "${member.isRequired ? "@required " : ""}this.${member.fieldName}, ";
+        return "${member.isRequired ? "@_meta.required " : ""}this.${member.fieldName}, ";
       }).toList();
 
       if (constructorMembers.isEmpty) {
