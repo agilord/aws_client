@@ -206,11 +206,15 @@ extension NameStuff on String {
 
   bool get isReserved => <String>{
         'bool',
+        'break',
         'continue',
         'default',
+        'do',
+        'enum',
         'false',
         'if',
         'in',
+        'is',
         'new',
         'null',
         'return',
