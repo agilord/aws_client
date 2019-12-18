@@ -81,7 +81,6 @@ ${builder.constructor()}
 
     final parameterShape = api.shapes[parameterType];
     final useParameter = parameterShape != null && parameterShape.hasMembers;
-    parameterShape?.isNotUsed = true;
 
     if (operation.deprecated) {
       writeln("@Deprecated('Deprecated')");
@@ -91,6 +90,7 @@ ${builder.constructor()}
       writeln('  /// May throw [$e].');
     });
 
+    operation.output?.shapeClass?.markUsed();
     write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
 
@@ -99,6 +99,7 @@ ${builder.constructor()}
         write('@_meta.required ');
       }
       write('${member.dartType} ${member.fieldName}, ');
+      member.shapeClass.markUsed();
     }
 
     if (useParameter) write('}');
@@ -121,7 +122,9 @@ ${builder.constructor()}
   void putShape(Shape shape) {
     final name = shape.className;
     // There is no reason to generate something not used
-    if (shape.isNotUsed) return;
+    if (!shape.isUsed) return;
+    // Flattened shapes are typically not used.
+    if (shape.flattened) return;
 
     if (shape.type == 'string' && shape.enumeration != null) {
       if (shape.deprecated) {
@@ -146,7 +149,7 @@ ${builder.constructor()}
       }
       writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true)');
 
-      final extendsBlock = shape.isException ? 'implements AwsException ' : '';
+      final extendsBlock = shape.exception ? 'implements AwsException ' : '';
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {

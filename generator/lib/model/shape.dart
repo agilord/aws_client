@@ -15,7 +15,7 @@ class Shape {
   @JsonKey(ignore: true)
   String name;
   @JsonKey(ignore: true)
-  bool isNotUsed = false;
+  bool isUsed = false;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -121,10 +121,17 @@ class Shape {
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
 
-  bool get isException => api.exceptions.contains(name);
-
   String get className =>
       name.substring(0, 1).toUpperCase() + name.substring(1);
+
+  void markUsed() {
+    if (isUsed) return;
+    isUsed = true;
+    members.forEach((m) => m.shapeClass.markUsed());
+    member?.shapeClass?.markUsed();
+    key?.shapeClass?.markUsed();
+    value?.shapeClass?.markUsed();
+  }
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
@@ -182,6 +189,8 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
 
+  Shape get shapeClass => api.shapes[shape];
+
   String get fieldName {
     final lc = name.lowercaseName;
     if (lc.isReserved) {
@@ -193,12 +202,11 @@ class Member {
 
   String get dartType {
     var dartType = shape;
-    final shapeRef = api.shapes[shape];
-    final type = shapeRef.type;
+    final type = shapeClass.type;
     if (type.isBasicType()) {
       dartType = type.getDartType();
     } else if (type.isMapOrList()) {
-      dartType = getListOrMapDartType(shapeRef);
+      dartType = getListOrMapDartType(shapeClass);
     }
     return dartType;
   }

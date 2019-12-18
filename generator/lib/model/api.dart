@@ -37,6 +37,9 @@ class Api {
       e.value.name = e.key;
       e.value.api = this;
       e.value.initReferences();
+      if (e.value.exception) {
+        e.value.markUsed();
+      }
     });
   }
 
@@ -67,6 +70,7 @@ class Api {
               ?.where((s) => s != null)
               ?.toSet() ??
           <String>{};
+      set.addAll(shapes.values.where((s) => s.exception).map((s) => s.name));
       _exceptions = set.toList()..sort();
     }
     return _exceptions;
