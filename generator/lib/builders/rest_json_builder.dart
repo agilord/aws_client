@@ -10,7 +10,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
   @override
   String constructor() => '''
   final RestJsonProtocol _protocol;
-  ${api.metadata.className}({@required String region, @required Credentials credentials, Client client, String endpointUrl,})
+  ${api.metadata.className}({@required String region, @required _src_credentials.Credentials credentials, Client client, String endpointUrl,})
   : _protocol = RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
 
