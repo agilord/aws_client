@@ -40,12 +40,12 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     if (!operation.http.bodyForbidden && input != null) {
       final payload = input?.shapeClass?.payloadMember;
       if (payload == null) {
-        buf.writeln('final payload = <String, dynamic>{');
+        buf.writeln('final \$payload = <String, dynamic>{');
         members.where((m) => m.location == null).forEach((member) {
           buf.writeln("'${member.name}': ${member.fieldName},");
         });
         buf.writeln('};');
-        buf.writeln('await _protocol.send(payload,');
+        buf.writeln('await _protocol.send(\$payload,');
       } else {
         buf.writeln('await _protocol.send(${payload.fieldName},');
       }
