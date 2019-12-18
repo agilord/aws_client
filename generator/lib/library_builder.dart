@@ -116,9 +116,10 @@ ${builder.constructor()}
   }
 
   void putShapes(Api api) =>
-      api.shapes.keys.forEach((key) => putShape(key, api.shapes[key]));
+      api.shapes.keys.forEach((key) => putShape(api.shapes[key]));
 
-  void putShape(String name, Shape shape) {
+  void putShape(Shape shape) {
+    final name = shape.className;
     // There is no reason to generate something not used
     if (shape.isNotUsed) return;
 
