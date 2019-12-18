@@ -12,7 +12,7 @@ class QueryServiceBuilder extends ServiceBuilder {
   String constructor() => '''
   final QueryProtocol _protocol;
 
-  ${api.metadata.className}({@required String region, @required Credentials credentials, Client client,})
+  ${api.metadata.className}({@required String region, @required _src_credentials.Credentials credentials, Client client,})
   : _protocol = QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
   ''';
 
