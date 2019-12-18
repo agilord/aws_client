@@ -180,7 +180,7 @@ class Member {
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
 
   String get fieldName {
-    final lc = name.isAllUpperCase ? name.toLowerCase() : name.lowercaseName;
+    final lc = name.lowercaseName;
     if (lc.isReserved) {
       return '${lc}Value';
     } else {
@@ -206,11 +206,15 @@ extension NameStuff on String {
 
   bool get isReserved => <String>{
         'bool',
+        'break',
         'continue',
         'default',
+        'do',
+        'enum',
         'false',
         'if',
         'in',
+        'is',
         'new',
         'null',
         'return',
@@ -219,6 +223,7 @@ extension NameStuff on String {
 
   String get lowercaseName {
     if (this == null || isEmpty) return this;
+    if (isAllUpperCase) return toLowerCase();
     if (startsWith('AWS')) return replaceFirst('AWS', 'aws');
     return substring(0, 1).toLowerCase() + substring(1);
   }
