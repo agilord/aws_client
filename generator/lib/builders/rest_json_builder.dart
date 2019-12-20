@@ -50,7 +50,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
         buf.writeln('await _protocol.send(${payload.fieldName},');
       }
 
-      var uri = operation.http.requestUri;
+      var uri = operation.http.requestUri.replaceAll(r'$', r'\$');
       uriMembers?.forEach((m) {
         uri = uri.replaceAll('{${m.locationName}}', '\$${m.fieldName}');
       });
