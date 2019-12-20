@@ -49,7 +49,7 @@ class Descriptor {
     } else if (shapeRefType.isMapOrList()) {
       return getListOrMapDartType(shapeRef);
     } else {
-      return shape;
+      return shapeRef.className;
     }
   }
 

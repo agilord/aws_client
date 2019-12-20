@@ -121,8 +121,11 @@ class Shape {
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
 
-  String get className =>
-      name.substring(0, 1).toUpperCase() + name.substring(1);
+  String get className {
+    var cn = name.substring(0, 1).toUpperCase() + name.substring(1);
+    if (cn == 'Function') cn = '\$$cn';
+    return cn;
+  }
 
   void markUsed() {
     if (isUsed) return;
