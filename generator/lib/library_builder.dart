@@ -50,9 +50,11 @@ import 'package:aws_client/src/credentials.dart' as _src_credentials;
 import 'package:aws_client/src/protocol/shared.dart';
 import 'package:aws_client/src/scoping_extensions.dart';
 """);
+  buf.writeln(builder.imports());
+  if (api.generateJson) {
+    buf.writeln("part '${api.fileBasename}.g.dart';\n");
+  }
   buf
-    ..writeln(builder.imports())
-    ..writeln("part '${api.fileBasename}.g.dart';\n")
     ..putMainClass(api, builder)
     ..putShapes(api)
     ..putExceptions(api);
@@ -90,7 +92,7 @@ ${builder.constructor()}
       writeln('  /// May throw [$e].');
     });
 
-    operation.output?.shapeClass?.markUsed();
+    operation.output?.shapeClass?.markUsed(false);
     write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
 
@@ -99,7 +101,7 @@ ${builder.constructor()}
         write('@_meta.required ');
       }
       write('${member.dartType} ${member.fieldName}, ');
-      member.shapeClass.markUsed();
+      member.shapeClass.markUsed(true);
     }
 
     if (useParameter) write('}');
@@ -122,7 +124,7 @@ ${builder.constructor()}
   void putShape(Shape shape) {
     final name = shape.className;
     // There is no reason to generate something not used
-    if (!shape.isUsed) return;
+    if (!shape.isUsedInInput && !shape.isUsedInOutput) return;
     // Flattened shapes are typically not used.
     if (shape.flattened) return;
 
@@ -147,7 +149,10 @@ ${builder.constructor()}
       if (shape.deprecated) {
         writeln(r'@deprecated');
       }
-      writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true)');
+      if (shape.api.generateJson) {
+        writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true, '
+            'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
+      }
 
       final extendsBlock = shape.exception ? 'implements AwsException ' : '';
 
@@ -159,13 +164,15 @@ ${builder.constructor()}
           writeln("/// Possible values: [${valueEnum.join(", ")}]");
         }
 
-        if (member.dartType == 'Uint8List') {
-          writeln('@Uint8ListConverter()');
-        } else if (member.dartType == 'List<Uint8List>') {
-          writeln('@Uint8ListListConverter()');
+        if (shape.api.generateJson) {
+          if (member.dartType == 'Uint8List') {
+            writeln('@Uint8ListConverter()');
+          } else if (member.dartType == 'List<Uint8List>') {
+            writeln('@Uint8ListListConverter()');
+          }
+          writeln("  @JsonKey(name: '${member.name}')");
         }
 
-        writeln("  @JsonKey(name: '${member.name}')");
         writeln('  final ${member.dartType} ${member.fieldName};');
       }
 
@@ -179,10 +186,12 @@ ${builder.constructor()}
         write('\n  $name({${constructorMembers.join()}});');
       }
 
-      writeln(
-          '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
+      if (shape.api.generateFromJson && shape.isUsedInOutput) {
+        writeln(
+            '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
+      }
 
-      if (shape.api.generateFromXml) {
+      if (shape.api.generateFromXml && shape.isUsedInOutput) {
         final lintComment = shape.hasNoBodyMembers
             ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
             : '';
@@ -202,9 +211,11 @@ ${builder.constructor()}
         writeln('  }');
       }
 
-      writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
+      if (shape.api.generateToJson && shape.isUsedInInput) {
+        writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
+      }
 
-      if (shape.api.generateToXml) {
+      if (shape.api.generateToXml && shape.isUsedInInput) {
         writeln('\n  XmlElement toXml(String elemName) {');
         writeln('    final \$children = <XmlNode>[');
         for (final member in shape.members) {

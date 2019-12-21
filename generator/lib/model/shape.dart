@@ -15,7 +15,9 @@ class Shape {
   @JsonKey(ignore: true)
   String name;
   @JsonKey(ignore: true)
-  bool isUsed = false;
+  bool isUsedInInput = false;
+  @JsonKey(ignore: true)
+  bool isUsedInOutput = false;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -128,13 +130,18 @@ class Shape {
     return cn;
   }
 
-  void markUsed() {
-    if (isUsed) return;
-    isUsed = true;
-    members.forEach((m) => m.shapeClass.markUsed());
-    member?.shapeClass?.markUsed();
-    key?.shapeClass?.markUsed();
-    value?.shapeClass?.markUsed();
+  void markUsed(bool isInput) {
+    if (isInput && isUsedInInput) return;
+    if (!isInput && isUsedInOutput) return;
+    if (isInput) {
+      isUsedInInput = true;
+    } else {
+      isUsedInOutput = true;
+    }
+    members.forEach((m) => m.shapeClass.markUsed(isInput));
+    member?.shapeClass?.markUsed(isInput);
+    key?.shapeClass?.markUsed(isInput);
+    value?.shapeClass?.markUsed(isInput);
   }
 }
 
