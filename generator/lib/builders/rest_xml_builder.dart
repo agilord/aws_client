@@ -22,23 +22,26 @@ class RestXmlServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-//    final parameterShape = api.shapes[operation.parameterType];
-
     final buf = StringBuffer();
-    buf.writeln('final headers = <String, String>{};');
+    final shapeClass = operation.input?.shapeClass;
+    buildRequestHeaders(operation, buf);
 
-    final params = StringBuffer('method: \'${operation.http.method}\', '
-        'requestUri: \'${operation.http.requestUri}\', '
-        'headers: headers,'
-        'exceptionFnMap: _exceptionFns, ');
+    // TODO: handle querystring too
+    final params = [
+      'method: \'${operation.http.method}\',',
+      'requestUri: \'${buildRequestUri(operation)}\',',
+      if (shapeClass?.hasHeaderMembers ?? false) 'headers: headers,',
+      'exceptionFnMap: _exceptionFns,',
+    ];
     if (operation.output?.resultWrapper != null) {
-      params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
+      params.add('resultWrapper: \'${operation.output.resultWrapper}\',');
     }
     if (operation.hasReturnType) {
-      buf.writeln('    final \$result = await _protocol.send($params);');
+      buf.writeln(
+          '    final \$result = await _protocol.send(${params.join('\n')});');
       buf.writeln('    return ${operation.returnType}.fromXml(\$result);');
     } else {
-      buf.writeln('    await _protocol.send($params);');
+      buf.writeln('    await _protocol.send(${params.join('\n')});');
     }
     return buf.toString();
   }

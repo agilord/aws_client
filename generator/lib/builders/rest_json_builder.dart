@@ -21,26 +21,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
   @override
   String operationContent(Operation operation) {
     final buf = StringBuffer();
-    final input = operation.input;
-    final members = input?.shapeClass?.members;
-    final uriMembers = members?.where((m) => m.isUri);
-    final headerMembers = members?.where((m) => m.isHeader);
-    if (headerMembers != null && headerMembers.isNotEmpty) {
-      buf.writeln('final headers = <String, String>{};');
-      headerMembers.forEach((m) {
-        if (m.location == 'headers') {
-          buf.writeln(
-              '${m.fieldName}.forEach((key, value) => headers[${m.name} + key] = value);');
-        } else {
-          buf.writeln("headers['${m.name}'] = ${m.fieldName};");
-        }
-      });
-    }
-    if (!operation.http.bodyForbidden && input != null) {
-      final payload = input?.shapeClass?.payloadMember;
+    final shapeClass = operation.input?.shapeClass;
+    buildRequestHeaders(operation, buf);
+    if (!operation.http.bodyForbidden && shapeClass != null) {
+      final payload = shapeClass?.payloadMember;
       if (payload == null) {
         buf.writeln('final \$payload = <String, dynamic>{');
-        members.where((m) => m.location == null).forEach((member) {
+        shapeClass.members.where((m) => m.isBody).forEach((member) {
           buf.writeln("'${member.name}': ${member.fieldName},");
         });
         buf.writeln('};');
@@ -49,17 +36,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
         buf.writeln('await _protocol.send(${payload.fieldName},');
       }
 
-      var uri = operation.http.requestUri.replaceAll(r'$', r'\$');
-      uriMembers?.forEach((m) {
-        uri = uri.replaceAll('{${m.locationName}}', '\$${m.fieldName}');
-      });
-
-      if (headerMembers != null && headerMembers.isNotEmpty) {
+      if (shapeClass.hasHeaderMembers) {
         buf.writeln('headers: headers,');
       }
+      // TODO: handle querystring too
 
       buf.writeln('method: \'${operation.http.method}\', '
-          'requestUri: \'$uri\', '
+          'requestUri: \'${buildRequestUri(operation)}\', '
           'exceptionFnMap: _exceptionFns, '
           ');');
     } else {}
