@@ -119,7 +119,12 @@ class Shape {
   bool get hasMembers => _members.isNotEmpty;
 
   bool get hasEmptyMembers => _members.isEmpty;
+  bool get hasHeaderMembers => headerMembers.isNotEmpty;
+  bool get hasUriMembers => uriMembers.isNotEmpty;
   bool get hasNoBodyMembers => _members.where((m) => m.isBody).isEmpty;
+
+  Iterable<Member> get headerMembers => _members.where((m) => m.isHeader);
+  Iterable<Member> get uriMembers => _members.where((m) => m.isUri);
 
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
