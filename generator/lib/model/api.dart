@@ -49,7 +49,8 @@ class Api {
   bool get usesRestXmlProtocol => metadata.protocol == 'rest-xml';
   bool get usesEc2Protocol => metadata.protocol == 'ec2';
 
-  bool get usesXml => usesQueryProtocol || usesRestXmlProtocol;
+  bool get generateFromXml => usesQueryProtocol || usesRestXmlProtocol;
+  bool get generateToXml => usesRestXmlProtocol;
 
   String get directoryPath {
     // TODO: lowercase directory name

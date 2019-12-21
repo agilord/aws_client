@@ -117,6 +117,7 @@ class Shape {
   bool get hasMembers => _members.isNotEmpty;
 
   bool get hasEmptyMembers => _members.isEmpty;
+  bool get hasNoBodyMembers => _members.where((m) => m.isBody).isEmpty;
 
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
@@ -213,6 +214,10 @@ class Member {
     }
     return dartType;
   }
+
+  bool get isHeader => location == 'header' || location == 'headers';
+  bool get isUri => location == 'uri';
+  bool get isBody => !isHeader && !isUri;
 }
 
 extension NameStuff on String {

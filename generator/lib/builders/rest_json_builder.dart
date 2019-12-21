@@ -23,9 +23,8 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     final buf = StringBuffer();
     final input = operation.input;
     final members = input?.shapeClass?.members;
-    final uriMembers = members?.where((m) => m.location == 'uri');
-    final headerMembers =
-        members?.where((m) => m.location?.contains('header') == true);
+    final uriMembers = members?.where((m) => m.isUri);
+    final headerMembers = members?.where((m) => m.isHeader);
     if (headerMembers != null && headerMembers.isNotEmpty) {
       buf.writeln('final headers = <String, String>{};');
       headerMembers.forEach((m) {
