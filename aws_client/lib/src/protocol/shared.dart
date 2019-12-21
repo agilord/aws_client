@@ -48,8 +48,12 @@ class GenericAwsException implements AwsException {
 
 typedef AwsExceptionFn = AwsException Function(String type, String message);
 
+XmlElement extractXmlChild(XmlElement elem, String name) {
+  return elem.findElements(name).firstWhere((e) => true, orElse: () => null);
+}
+
 String extractXmlStringValue(XmlElement elem, String name) {
-  final c = elem.findElements(name).firstWhere((e) => true, orElse: () => null);
+  final c = extractXmlChild(elem, name);
   return c?.text;
 }
 
@@ -112,4 +116,30 @@ bool _parseBool(String value) {
       return false;
   }
   throw ArgumentError('Unable to parse bool value: $value');
+}
+
+XmlElement encodeXmlStringValue(String name, String value) {
+  if (value == null) return null;
+  return XmlElement(XmlName(name), [], [XmlText(value)]);
+}
+
+XmlElement encodeXmlBoolValue(String name, bool value) {
+  return encodeXmlStringValue(name, value?.toString());
+}
+
+XmlElement encodeXmlIntValue(String name, int value) {
+  return encodeXmlStringValue(name, value?.toString());
+}
+
+XmlElement encodeXmlDoubleValue(String name, double value) {
+  return encodeXmlStringValue(name, value?.toString());
+}
+
+XmlElement encodeXmlDateTimeValue(String name, DateTime value) {
+  return encodeXmlStringValue(name, value?.toUtc()?.toIso8601String());
+}
+
+XmlElement encodeXmlUint8ListValue(String name, Uint8List value) {
+  if (value == null) return null;
+  return encodeXmlStringValue(name, base64.encode(value));
 }

@@ -182,18 +182,19 @@ ${builder.constructor()}
       writeln(
           '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
 
-      if (shape.api.usesXml) {
-        final lintComment = shape.hasEmptyMembers
+      if (shape.api.generateFromXml) {
+        final lintComment = shape.hasNoBodyMembers
             ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
             : '';
         writeln('\n  factory $name.fromXml(${lintComment}XmlElement elem) {');
         final constructorParams = <String>[];
         for (final member in shape.members) {
+          if (!member.isBody) continue;
           final extractor = _xmlExtractorFn(
             shape.api,
-            elemName: 'elem',
+            elemVar: 'elem',
             shape: member.shape,
-            fieldName: member.locationName ?? member.name,
+            elemName: member.locationName ?? member.name,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
         }
@@ -202,6 +203,26 @@ ${builder.constructor()}
       }
 
       writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
+
+      if (shape.api.generateToXml) {
+        writeln('\n  XmlElement toXml(String elemName) {');
+        writeln('    final \$children = <XmlNode>[');
+        for (final member in shape.members) {
+          if (!member.isBody) continue;
+          final fn = _toXmlFn(
+            shape.api,
+            shape: member.shape,
+            fieldName: member.fieldName,
+            elemName: member.locationName ?? member.name,
+          );
+          writeln('      $fn,');
+        }
+        writeln('    ];');
+        writeln(
+            '    return XmlElement(XmlName(elemName), [], \$children.where((e) => e != null),);');
+        writeln('  }');
+      }
+
       writeln('}');
     }
   }
@@ -238,45 +259,68 @@ ${builder.constructor()}
 
 String _xmlExtractorFn(
   Api api, {
-  String elemName,
+  String elemVar,
   String shape,
-  String fieldName,
-  bool insideMapper = false,
+  String elemName,
 }) {
   final shapeRef = api.shapes[shape];
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return 'extractXml${_uppercaseName(dartType)}Value($elemName, \'$fieldName\')';
+    return 'extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     if (memberShape.type.isBasicType()) {
-      return 'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemName, \'${shapeRef.member.locationName}\')';
+      return 'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$elemName\')';
     } else {
-      return '$elemName.findElements(\'${shapeRef.member.locationName}\')'
+      return '$elemVar.findElements(\'$elemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
   } else if (type == 'map') {
     final keyExtractor = _xmlExtractorFn(
       api,
-      elemName: 'c',
+      elemVar: 'c',
       shape: shapeRef.key.shape,
-      fieldName: shapeRef.key.locationName,
-      insideMapper: true,
+      elemName: shapeRef.key.locationName,
     );
     final valueExtractor = _xmlExtractorFn(
       api,
-      elemName: 'c',
+      elemVar: 'c',
       shape: shapeRef.value.shape,
-      fieldName: shapeRef.value.locationName,
-      insideMapper: true,
+      elemName: shapeRef.value.locationName,
     );
-    return 'Map.fromEntries($elemName.findElements(\'$fieldName\')'
+    return 'Map.fromEntries($elemVar.findElements(\'$elemName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
-  } else if (insideMapper) {
-    return '$shape.fromXml($elemName.findElements(\'$fieldName\').first)';
   } else {
-    return '$shape.fromXml($elemName)';
+    return 'extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
+  }
+}
+
+String _toXmlFn(
+  Api api, {
+  String shape,
+  String fieldName,
+  String elemName,
+}) {
+  final shapeRef = api.shapes[shape];
+  final type = shapeRef.type;
+  if (type.isBasicType()) {
+    final dartType = type.getDartType();
+    return 'encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
+  } else if (type == 'list') {
+    final memberShape = api.shapes[shapeRef.member.shape];
+    final en = shapeRef.member.locationName ?? elemName;
+    if (memberShape.type.isBasicType()) {
+      final mdt = memberShape.type.getDartType();
+      return 'if ($fieldName != null) ...$fieldName.map((v) => encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
+    } else {
+      return 'if ($fieldName != null) ...$fieldName.map((v) => v.toXml(\'$elemName\'))';
+    }
+  } else if (type == 'map') {
+    // TODO: implement
+    return 'if (true == true) throw UnimplementedError(\'XML map: $shape\')';
+  } else {
+    return '$fieldName.toXml(\'$elemName\')';
   }
 }
 
