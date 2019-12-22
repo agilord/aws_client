@@ -212,7 +212,7 @@ ${builder.constructor()}
             writeln('if (1 == 1) throw UnimplementedError();');
             continue;
           }
-          var extractor;
+          String extractor;
           if (member.isHeader) {
             if (member.shapeClass.type == 'map') {
               extractor =
