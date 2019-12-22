@@ -1,4 +1,5 @@
 import 'package:aws_client.generator/model/operation.dart';
+import 'package:aws_client.generator/model/shape.dart';
 
 abstract class ServiceBuilder {
   String imports();
@@ -10,17 +11,7 @@ abstract class ServiceBuilder {
   void buildRequestHeaders(Operation operation, StringBuffer out) {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasHeaderMembers) return;
-    out.writeln('final headers = <String, String>{};');
-    sc.headerMembers.forEach((m) {
-      if (m.location == 'headers') {
-        out.writeln(
-            '${m.fieldName}?.forEach((key, value) => headers[\'${m.locationName ?? m.name}\$key\'] = value);');
-      } else {
-        // TODO: implement proper value -> String conversion (e.g. date values).
-        out.writeln(
-            '${m.fieldName}?.let((v) => headers[\'${m.locationName ?? m.name}\'] = v.toString());');
-      }
-    });
+    _buildMap(out, sc.headerMembers, 'headers');
   }
 
   String buildRequestUri(Operation operation) {
@@ -34,5 +25,28 @@ abstract class ServiceBuilder {
       });
     }
     return uri;
+  }
+
+  void buildRequestQueryParams(Operation operation, StringBuffer out) {
+    final sc = operation.input?.shapeClass;
+    if (sc == null || !sc.hasQueryMembers) return;
+    _buildMap(out, sc.queryMembers, 'queryParams');
+  }
+
+  void _buildMap(StringBuffer out, Iterable<Member> members, String varName) {
+    out.writeln('final $varName = <String, String>{};');
+    members.forEach((m) {
+      if (m.location == 'headers') {
+        out.writeln(
+            '${m.fieldName}?.forEach((key, value) => $varName[\'${m.locationName ?? m.name}\$key\'] = value);');
+      } else {
+        var converter = 'v.toString()';
+        if (m.dartType == 'DateTime') {
+          converter = 'v.toUtc().toIso8601String()';
+        }
+        out.writeln(
+            '${m.fieldName}?.let((v) => $varName[\'${m.locationName ?? m.name}\'] = $converter);');
+      }
+    });
   }
 }

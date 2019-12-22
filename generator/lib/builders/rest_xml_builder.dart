@@ -25,11 +25,12 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final buf = StringBuffer();
     final shapeClass = operation.input?.shapeClass;
     buildRequestHeaders(operation, buf);
+    buildRequestQueryParams(operation, buf);
 
-    // TODO: handle querystring too
     final params = [
       'method: \'${operation.http.method}\',',
       'requestUri: \'${buildRequestUri(operation)}\',',
+      if (shapeClass?.hasQueryMembers ?? false) 'queryParams: queryParams,',
       if (shapeClass?.hasHeaderMembers ?? false) 'headers: headers,',
       'exceptionFnMap: _exceptionFns,',
     ];
