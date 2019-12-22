@@ -143,3 +143,31 @@ XmlElement encodeXmlUint8ListValue(String name, Uint8List value) {
   if (value == null) return null;
   return encodeXmlStringValue(name, base64.encode(value));
 }
+
+String extractHeaderStringValue(Map<String, String> headers, String name) {
+  if (headers == null) return null;
+  return headers[name] ?? headers[name.toLowerCase()];
+}
+
+int extractHeaderIntValue(Map<String, String> headers, String name) {
+  final v = extractHeaderStringValue(headers, name);
+  return v == null ? null : int.parse(v);
+}
+
+bool extractHeaderBoolValue(Map<String, String> headers, String name) {
+  final v = extractHeaderStringValue(headers, name);
+  return v?.toLowerCase() == 'true';
+}
+
+DateTime extractHeaderDateTimeValue(Map<String, String> headers, String name) {
+  final v = extractHeaderStringValue(headers, name);
+  return v == null ? null : DateTime.parse(v);
+}
+
+Map<String, String> extractHeaderMapValues(
+    Map<String, String> headers, String name) {
+  if (headers == null) return null;
+  return Map<String, String>.fromEntries(headers.entries
+      .where((e) => e.key.toLowerCase().startsWith(name.toLowerCase()))
+      .map((e) => MapEntry(e.key.substring(name.length), e.value)));
+}

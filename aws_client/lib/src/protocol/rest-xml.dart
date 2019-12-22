@@ -37,7 +37,7 @@ class RestXmlProtocol {
     return RestXmlProtocol._(client, service, region, endpointUrl, credentials);
   }
 
-  Future<XmlElement> send({
+  Future<RestXmlResponse> send({
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
@@ -47,6 +47,13 @@ class RestXmlProtocol {
     print('$_endpointUrl$_client$_service$_region$_credentials');
     throw UnimplementedError('rest-xml not implemented');
   }
+}
+
+class RestXmlResponse {
+  final Map<String, String> headers;
+  final XmlElement body;
+
+  RestXmlResponse(this.headers, this.body);
 }
 
 String _extractService(Uri uri) {

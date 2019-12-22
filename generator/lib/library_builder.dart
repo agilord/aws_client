@@ -195,11 +195,35 @@ ${builder.constructor()}
         final lintComment = shape.hasNoBodyMembers
             ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
             : '';
-        writeln('\n  factory $name.fromXml(${lintComment}XmlElement elem) {');
+        var params = '';
+        if (shape.hasHeaderMembers) {
+          params += 'Map<String, String> headers,';
+        }
+        if (params.isNotEmpty) {
+          params = ', {$params}';
+        }
+        writeln(
+            '\n  factory $name.fromXml(${lintComment}XmlElement elem$params) {');
         final constructorParams = <String>[];
         for (final member in shape.members) {
-          if (!member.isBody) continue;
-          final extractor = _xmlExtractorFn(
+          if (member.isQuery || member.isUri) {
+            writeln(
+                '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
+            writeln('if (1 == 1) throw UnimplementedError();');
+            continue;
+          }
+          String extractor;
+          if (member.isHeader) {
+            if (member.shapeClass.type == 'map') {
+              extractor =
+                  'extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
+            } else {
+              extractor =
+                  'extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
+            }
+          }
+
+          extractor ??= _xmlExtractorFn(
             shape.api,
             elemVar: 'elem',
             shape: member.shape,
@@ -219,7 +243,12 @@ ${builder.constructor()}
         writeln('\n  XmlElement toXml(String elemName) {');
         writeln('    final \$children = <XmlNode>[');
         for (final member in shape.members) {
-          if (!member.isBody) continue;
+          if (member.isQuery || member.isUri || member.isHeader) {
+            writeln(
+                '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
+            writeln('if (1 == 1) throw UnimplementedError();');
+            continue;
+          }
           final fn = _toXmlFn(
             shape.api,
             shape: member.shape,
