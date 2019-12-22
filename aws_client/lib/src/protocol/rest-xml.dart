@@ -41,6 +41,7 @@ class RestXmlProtocol {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
     print('$_endpointUrl$_client$_service$_region$_credentials');

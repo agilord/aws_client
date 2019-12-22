@@ -121,10 +121,12 @@ class Shape {
   bool get hasEmptyMembers => _members.isEmpty;
   bool get hasHeaderMembers => headerMembers.isNotEmpty;
   bool get hasUriMembers => uriMembers.isNotEmpty;
+  bool get hasQueryMembers => queryMembers.isNotEmpty;
   bool get hasNoBodyMembers => _members.where((m) => m.isBody).isEmpty;
 
   Iterable<Member> get headerMembers => _members.where((m) => m.isHeader);
   Iterable<Member> get uriMembers => _members.where((m) => m.isUri);
+  Iterable<Member> get queryMembers => _members.where((m) => m.isQuery);
 
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
@@ -229,7 +231,8 @@ class Member {
 
   bool get isHeader => location == 'header' || location == 'headers';
   bool get isUri => location == 'uri';
-  bool get isBody => !isHeader && !isUri;
+  bool get isQuery => location == 'querystring';
+  bool get isBody => !isHeader && !isUri && !isQuery;
 }
 
 extension NameStuff on String {
