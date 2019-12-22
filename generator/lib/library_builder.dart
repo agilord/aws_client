@@ -310,10 +310,11 @@ String _xmlExtractorFn(
     return 'extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
+    final memberElemName = shapeRef.member.locationName ?? elemName;
     if (memberShape.type.isBasicType()) {
-      return 'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$elemName\')';
+      return 'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
     } else {
-      return '$elemVar.findElements(\'$elemName\')'
+      return '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
   } else if (type == 'map') {
