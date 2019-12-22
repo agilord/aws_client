@@ -40,7 +40,12 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     if (operation.hasReturnType) {
       buf.writeln(
           '    final \$result = await _protocol.send(${params.join('\n')});');
-      buf.writeln('    return ${operation.returnType}.fromXml(\$result);');
+      var fromXmlParams = '';
+      if (operation.output.shapeClass.hasHeaderMembers ?? false) {
+        fromXmlParams += ', headers: \$result.headers';
+      }
+      buf.writeln(
+          '    return ${operation.returnType}.fromXml(\$result.body$fromXmlParams);');
     } else {
       buf.writeln('    await _protocol.send(${params.join('\n')});');
     }
