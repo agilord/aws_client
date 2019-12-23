@@ -15,6 +15,8 @@ void signAws4HmacSha256({
   final date = _currentDateHeader();
   rq.headers['X-Amz-Date'] = date;
   rq.headers['Host'] = rq.url.host;
+  rq.headers['x-amz-content-sha256'] ??=
+      sha256.convert(rq.bodyBytes).toString();
 
   // sorted list of key:value header entries
   final canonicalHeaders = rq.headers.keys

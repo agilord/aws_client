@@ -78,6 +78,7 @@ class RestXmlProtocol {
     Map<String, String> queryParams,
     dynamic payload,
   ) {
+    queryParams ??= <String, String>{};
     final rq = Request(
       method,
       Uri.parse(
