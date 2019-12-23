@@ -1,5 +1,6 @@
 import 'package:aws_client.generator/builders/builder.dart';
 import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/operation.dart';
 
 class RestXmlServiceBuilder extends ServiceBuilder {
@@ -26,12 +27,26 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final shapeClass = operation.input?.shapeClass;
     buildRequestHeaders(operation, buf);
     buildRequestQueryParams(operation, buf);
+    String payloadArg;
+    if (shapeClass?.payload != null) {
+      final payloadMember =
+          shapeClass.members.firstWhere((m) => m.name == shapeClass.payload);
+      if (payloadMember.streaming) {
+        payloadArg = 'payload: ${payloadMember.fieldName},';
+      } else if (payloadMember.shapeClass.type.isBasicType()) {
+        payloadArg = 'payload: ${payloadMember.fieldName},';
+      } else {
+        payloadArg =
+            'payload: ${payloadMember.fieldName}.toXml(\'${shapeClass.payload}\'),';
+      }
+    }
 
     final params = [
       'method: \'${operation.http.method}\',',
       'requestUri: \'${buildRequestUri(operation)}\',',
       if (shapeClass?.hasQueryMembers ?? false) 'queryParams: queryParams,',
       if (shapeClass?.hasHeaderMembers ?? false) 'headers: headers,',
+      if (payloadArg != null) payloadArg,
       'exceptionFnMap: _exceptionFns,',
     ];
     if (operation.output?.resultWrapper != null) {
