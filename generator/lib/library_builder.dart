@@ -228,6 +228,7 @@ ${builder.constructor()}
             elemVar: 'elem',
             shape: member.shape,
             elemName: member.locationName ?? member.name,
+            flattened: member.flattened,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
         }
@@ -254,6 +255,7 @@ ${builder.constructor()}
             shape: member.shape,
             fieldName: member.fieldName,
             elemName: member.locationName ?? member.name,
+            flattened: member.flattened,
           );
           writeln('      $fn,');
         }
@@ -302,8 +304,10 @@ String _xmlExtractorFn(
   String elemVar,
   String shape,
   String elemName,
+  bool flattened = false,
 }) {
   final shapeRef = api.shapes[shape];
+  flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
@@ -311,12 +315,18 @@ String _xmlExtractorFn(
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
+    String fn;
     if (memberShape.type.isBasicType()) {
-      return 'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
+      fn =
+          'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
     } else {
-      return '$elemVar.findElements(\'$memberElemName\')'
+      fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
+    if (!flattened) {
+      fn = 'extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
+    }
+    return fn;
   } else if (type == 'map') {
     final keyExtractor = _xmlExtractorFn(
       api,
@@ -342,8 +352,10 @@ String _toXmlFn(
   String shape,
   String fieldName,
   String elemName,
+  bool flattened,
 }) {
   final shapeRef = api.shapes[shape];
+  flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
@@ -351,12 +363,18 @@ String _toXmlFn(
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
+    String fn;
     if (memberShape.type.isBasicType()) {
       final mdt = memberShape.type.getDartType();
-      return 'if ($fieldName != null) ...$fieldName.map((v) => encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
+      fn =
+          '...$fieldName.map((v) => encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
     } else {
-      return 'if ($fieldName != null) ...$fieldName.map((v) => v.toXml(\'$elemName\'))';
+      fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
+    if (!flattened) {
+      fn = 'XmlElement(XmlName(\'$elemName\'), [], <XmlNode>[$fn])';
+    }
+    return 'if ($fieldName != null) $fn';
   } else if (type == 'map') {
     // TODO: implement
     return 'if (true == true) throw UnimplementedError(\'XML map: $shape\')';
