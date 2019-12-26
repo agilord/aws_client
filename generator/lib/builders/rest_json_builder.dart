@@ -35,17 +35,18 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       } else {
         buf.writeln('await _protocol.send(${payload.fieldName},');
       }
+    } else {
+      buf.writeln('await _protocol.send(null,');
+    }
+    if (shapeClass?.hasHeaderMembers == true) {
+      buf.writeln('headers: headers,');
+    }
+    // TODO: handle querystring too
 
-      if (shapeClass.hasHeaderMembers) {
-        buf.writeln('headers: headers,');
-      }
-      // TODO: handle querystring too
-
-      buf.writeln('method: \'${operation.http.method}\', '
-          'requestUri: \'${buildRequestUri(operation)}\', '
-          'exceptionFnMap: _exceptionFns, '
-          ');');
-    } else {}
+    buf.writeln('method: \'${operation.http.method}\', '
+        'requestUri: \'${buildRequestUri(operation)}\', '
+        'exceptionFnMap: _exceptionFns, '
+        ');');
     buf.writeln('''// TODO: implement rest-json
       throw UnimplementedError();''');
     return buf.toString();
