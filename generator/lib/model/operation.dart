@@ -103,5 +103,5 @@ class Http {
 
   factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
 
-  bool get bodyForbidden => method == 'GET' || method == 'DELETE';
+  bool get bodyForbidden => method == 'GET' || method == 'HEAD';
 }

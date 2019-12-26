@@ -15,6 +15,7 @@ abstract class ServiceBuilder {
   }
 
   String buildRequestUri(Operation operation) {
+    // TODO implement UriEscape and UriEscapePath according to https://github.com/aws/aws-sdk-js/blob/master/lib/util.js#L39..L57
     var uri = operation.http.requestUri.replaceAll(r'$', r'\$');
     final sc = operation.input?.shapeClass;
     if (sc != null) {
