@@ -75,7 +75,12 @@ Future _generateClasses() async {
     final defJson = jsonDecode(def.readAsStringSync()) as Map<String, dynamic>;
     try {
       final api = Api.fromJson(defJson);
-      buildService(api);
+      if (api.isRecognized) {
+        print('Generating sources for package:${api.packageName}');
+        buildService(api);
+      } else {
+        print('API in ${def.path} was not recognized.');
+      }
     } on UnrecognizedKeysException catch (e) {
       print('Error deserializing $service');
       print(e.message);

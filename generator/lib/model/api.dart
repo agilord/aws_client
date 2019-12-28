@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../utils/aws_names.dart';
+
 import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';
@@ -64,6 +66,42 @@ class Api {
   String get fileBasename {
     // TODO: lowercase file name
     return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
+  }
+
+  bool get isRecognized => _packageBaseName != null;
+
+  String get packageName {
+    if (_packageBaseName == null) {
+      throw ArgumentError('API not recognized: $fileBasename');
+    }
+    return 'aws_${_packageBaseName.replaceAll('-', '_')}_api';
+  }
+
+  String get _packageBaseName {
+    final candidates = <String>[
+      metadata.endpointPrefix,
+      metadata.uid?.split('-20')?.first,
+      metadata.className.toLowerCase(),
+    ];
+    final identified = candidates
+        .firstWhere((c) => awsCliServiceNames.contains(c), orElse: () => null);
+    if (identified != null) {
+      return identified;
+    }
+
+    final mapped = <String, String>{
+      'codedeploy-2014-10-06': 'deploy',
+      'elasticloadbalancing-2012-06-01': 'elb',
+      'elasticloadbalancingv2-2015-12-01': 'elbv2',
+      'devices-2018-05-14': 'iot1click-devices',
+      'runtime.lex-2016-11-28': 'lex-runtime',
+      'entitlement.marketplace-2017-01-11': 'marketplace-entitlement',
+      'runtime.sagemaker-2017-05-13': 'sagemaker-runtime',
+    }[fileBasename];
+    if (mapped != null && awsCliServiceNames.contains(mapped)) {
+      return mapped;
+    }
+    return null;
   }
 
   List<String> _exceptions;
