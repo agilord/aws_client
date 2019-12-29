@@ -11,6 +11,7 @@ import 'package:yaml/yaml.dart';
 import 'download_command.dart';
 import 'library_builder.dart';
 import 'model/config.dart';
+import 'pubspec_builder.dart';
 
 class GenerateCommand extends Command {
   @override
@@ -103,7 +104,7 @@ class GenerateCommand extends Command {
             serviceText = formatter.format(serviceText, uri: serviceFile.uri);
           }
 
-          dynamic pubspecJson;
+          String pubspecYaml;
           final sharedVersion = config.sharedVersions[api.metadata.protocol];
 
           if (pubspecFile.existsSync() && !devMode) {
@@ -113,44 +114,34 @@ class GenerateCommand extends Command {
               oldServiceText = serviceFile.readAsStringSync();
             }
 
-            pubspecJson = jsonDecode(pubspecFile.readAsStringSync());
+            final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
             final version = Version.parse(pubspecJson['version'] as String);
-            final bumpedVersion = version.incrementPatch().toString();
+            var newVersion = version.toString();
             final shouldBump =
                 pubspecJson['dependencies']['aws_client'] != sharedVersion ||
                     oldServiceText != serviceText;
 
             if (shouldBump && argResults['bump'] == true) {
-              print(
-                  'Bumping ${api.packageName} from $version to $bumpedVersion');
-
-              pubspecJson['version'] = bumpedVersion;
+              newVersion = version.incrementPatch().toString();
+              print('Bumping ${api.packageName} from $version to $newVersion');
             }
 
-            pubspecJson['dependencies']['aws_client'] = sharedVersion;
+            pubspecYaml = buildPubspecYaml(
+              api,
+              packageVersion: newVersion,
+              sharedVersion: sharedVersion,
+              isDevMode: devMode,
+            );
           } else {
-            pubspecJson = {
-              'environment': {'sdk': '>=2.6.0 <3.0.0'},
-              'version': '0.0.1',
-              'name': 'aws_client.${api.packageName}',
-              'dependencies': {
-                'json_annotation': '^3.0.0',
-                'aws_client': sharedVersion,
-                'http_client': '>=0.5.0 <2.0.0',
-              },
-              if (devMode)
-                'dependency_overrides': {
-                  'aws_client': {'path': '../../aws_client'},
-                },
-              'dev_dependencies': {
-                'build_runner': '^1.7.2',
-                'json_serializable': '^3.2.0'
-              },
-              'publish_to': 'none',
-            };
+            pubspecYaml = buildPubspecYaml(
+              api,
+              packageVersion: '0.0.1',
+              sharedVersion: sharedVersion,
+              isDevMode: devMode,
+            );
           }
 
-          pubspecFile.writeAsStringSync(jsonEncode(pubspecJson));
+          pubspecFile.writeAsStringSync(pubspecYaml);
           serviceFile.writeAsStringSync(serviceText);
         } else {
           print('API in ${def.path} was not recognized.');
