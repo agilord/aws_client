@@ -13,7 +13,7 @@ import 'package:aws_client.generator/model/shape.dart';
 
 import 'builders/query_builder.dart';
 
-File buildService(Api api) {
+String buildService(Api api) {
   api.initReferences();
 
   ServiceBuilder builder;
@@ -59,10 +59,7 @@ import 'package:aws_client/src/scoping_extensions.dart';
     ..putShapes(api)
     ..putExceptions(api);
 
-  return File(
-      '../aws_client/lib/generated/${api.directoryPath}/${api.fileBasename}.dart')
-    ..createSync(recursive: true)
-    ..writeAsStringSync(buf.toString());
+  return buf.toString();
 }
 
 extension StringBufferStuff on StringBuffer {
