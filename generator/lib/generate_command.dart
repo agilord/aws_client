@@ -114,7 +114,7 @@ class GenerateCommand extends Command {
               oldServiceText = serviceFile.readAsStringSync();
             }
 
-            final pubspecJson = jsonDecode(pubspecFile.readAsStringSync());
+            final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
             final version = Version.parse(pubspecJson['version'] as String);
             var newVersion = version.toString();
             final shouldBump =
