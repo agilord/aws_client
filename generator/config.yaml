@@ -1,0 +1,15 @@
+# Shared library version for each protocol
+shared_version:
+  json: 0.3.0-dev
+  rest-json: 0.3.0-dev
+  rest-xml: 0.3.0-dev
+  query: 0.3.0-dev
+  ec2: 0.3.0-dev
+
+# Packages to generate
+packages:
+  - aws_lambda_api # rest-json
+  - aws_dynamodb_api # json
+  - aws_sns_api # query
+  - aws_route53_api # rest-xml
+  - aws_ec2_api # ec2
