@@ -79,7 +79,7 @@ class GenerateCommand extends Command {
       services.add(parts.join('.'));
     });
 
-    final touchedDirs = <String>[];
+    final touchedDirs = <String>{};
 
     for (final service in services) {
       final def = File('./apis/$service.normal.json');
