@@ -10,11 +10,12 @@ String buildPubspecYaml(
 }) {
   var dependenciesOverride = '';
   if (isDevMode) {
-  dependenciesOverride = '''
+    dependenciesOverride = '''
 dependency_overrides:
   aws_client:
     path: ../../aws_client
 ''';
+  }
 
   return '''name: ${api.packageName}
 version: $packageVersion
