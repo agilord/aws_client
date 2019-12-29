@@ -28,6 +28,12 @@ class GenerateCommand extends Command {
         help: 'Downloads the definitions first before generating',
       )
       ..addFlag(
+        'build',
+        help: 'Runs pub get and build_runner on the generated code',
+        defaultsTo: true,
+        negatable: true,
+      )
+      ..addFlag(
         'format',
         abbr: 'f',
         help: 'Runs dartfmt on the generated code',
@@ -168,11 +174,13 @@ class GenerateCommand extends Command {
       }
     }
 
-    for (final baseDir in touchedDirs) {
-      // TODO: once in git, detect if there was no change, and skip when not needed
-      await _runPubGet(baseDir);
-      // TODO: once in git, detect if there was no change, and skip when not needed
-      await _runBuildRunner(baseDir);
+    if (argResults['build'] == true) {
+      for (final baseDir in touchedDirs) {
+        // TODO: once in git, detect if there was no change, and skip when not needed
+        await _runPubGet(baseDir);
+        // TODO: once in git, detect if there was no change, and skip when not needed
+        await _runBuildRunner(baseDir);
+      }
     }
 
     print('Dart classes generated');
