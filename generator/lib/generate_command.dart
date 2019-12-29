@@ -10,6 +10,7 @@ import 'package:yaml/yaml.dart';
 
 import 'download_command.dart';
 import 'library_builder.dart';
+import 'model/config.dart';
 
 class GenerateCommand extends Command {
   @override
@@ -61,9 +62,9 @@ class GenerateCommand extends Command {
   Future _generateClasses() async {
     print('Generating Dart classes...');
 
-    final config =
-        loadYaml(File(argResults['config-file'] as String).readAsStringSync());
-    final packagesToGenerate = config['packages'] as YamlList;
+    final config = Config.fromJson(json.decode(json.encode(loadYaml(
+            File(argResults['config-file'] as String).readAsStringSync())))
+        as Map<String, dynamic>);
 
     final formatter = DartFormatter(fixes: StyleFix.all);
     final dir = Directory('./apis');
@@ -85,7 +86,9 @@ class GenerateCommand extends Command {
 
       try {
         final api = Api.fromJson(defJson);
-        if (api.isRecognized && packagesToGenerate.contains(api.packageName)) {
+        if (api.isRecognized &&
+            (config.packages == null ||
+                config.packages.contains(api.packageName))) {
           print(
               'Generating ${api.fileBasename} for package:${api.packageName}');
           var serviceText = buildService(api);
@@ -106,8 +109,7 @@ class GenerateCommand extends Command {
           final pubspecUri = Uri(pathSegments: pubspecSegments);
           final pubspec = File.fromUri(pubspecUri);
           dynamic pubspecJson;
-          final sharedVersion =
-              config['shared_version'][api.metadata.protocol] as String;
+          final sharedVersion = config.sharedVersions[api.metadata.protocol];
 
           final devMode = argResults['dev'] == true;
 
