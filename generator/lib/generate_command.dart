@@ -61,6 +61,7 @@ class GenerateCommand extends Command {
 
   Future _generateClasses() async {
     print('Generating Dart classes...');
+    final devMode = argResults['dev'] == true;
 
     final config = Config.fromJson(json.decode(json.encode(loadYaml(
             File(argResults['config-file'] as String).readAsStringSync())))
@@ -91,36 +92,28 @@ class GenerateCommand extends Command {
                 config.packages.contains(api.packageName))) {
           print(
               'Generating ${api.fileBasename} for package:${api.packageName}');
+          // create directories
+          final baseDir = '../generated/${api.packageName}';
+          final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
+          final pubspecFile = File('$baseDir/pubspec.yaml');
+          serviceFile.parent.createSync(recursive: true);
+
           var serviceText = buildService(api);
-
-          final serviceFile = File(
-              '../generated/${api.packageName}/lib/${api.fileBasename}.dart')
-            ..createSync(recursive: true);
-
           if (argResults['format'] == true) {
             serviceText = formatter.format(serviceText, uri: serviceFile.uri);
           }
 
-          final pubspecSegments = serviceFile.uri.pathSegments.toList()
-            ..removeLast()
-            ..removeLast()
-            ..add('pubspec.yaml');
-
-          final pubspecUri = Uri(pathSegments: pubspecSegments);
-          final pubspec = File.fromUri(pubspecUri);
           dynamic pubspecJson;
           final sharedVersion = config.sharedVersions[api.metadata.protocol];
 
-          final devMode = argResults['dev'] == true;
-
-          if (pubspec.existsSync() && !devMode) {
+          if (pubspecFile.existsSync() && !devMode) {
             String oldServiceText;
 
             if (serviceFile.existsSync()) {
               oldServiceText = serviceFile.readAsStringSync();
             }
 
-            pubspecJson = jsonDecode(pubspec.readAsStringSync());
+            pubspecJson = jsonDecode(pubspecFile.readAsStringSync());
             final version = Version.parse(pubspecJson['version'] as String);
             final bumpedVersion = version.incrementPatch().toString();
             final shouldBump =
@@ -157,7 +150,7 @@ class GenerateCommand extends Command {
             };
           }
 
-          pubspec.writeAsStringSync(jsonEncode(pubspecJson));
+          pubspecFile.writeAsStringSync(jsonEncode(pubspecJson));
           serviceFile.writeAsStringSync(serviceText);
         } else {
           print('API in ${def.path} was not recognized.');
