@@ -29,6 +29,12 @@ class GenerateCommand extends Command {
         help: 'Downloads the definitions first before generating',
       )
       ..addFlag(
+        'build',
+        help: 'Runs pub get and build_runner on the generated code',
+        defaultsTo: true,
+        negatable: true,
+      )
+      ..addFlag(
         'format',
         abbr: 'f',
         help: 'Runs dartfmt on the generated code',
@@ -80,7 +86,9 @@ class GenerateCommand extends Command {
       services.add(parts.join('.'));
     });
 
-    services.forEach((service) {
+    final touchedDirs = <String>{};
+
+    for (final service in services) {
       final def = File('./apis/$service.normal.json');
 
       final defJson =
@@ -143,6 +151,7 @@ class GenerateCommand extends Command {
 
           pubspecFile.writeAsStringSync(pubspecYaml);
           serviceFile.writeAsStringSync(serviceText);
+          touchedDirs.add(baseDir);
         } else {
           print('API in ${def.path} was not recognized.');
         }
@@ -154,8 +163,45 @@ class GenerateCommand extends Command {
         print('Error "${e.runtimeType}" deserializing $service');
         rethrow;
       }
-    });
+    }
+
+    if (argResults['build'] == true) {
+      for (final baseDir in touchedDirs) {
+        // TODO: once in git, detect if there was no change, and skip when not needed
+        await _runPubGet(baseDir);
+        // TODO: once in git, detect if there was no change, and skip when not needed
+        await _runBuildRunner(baseDir);
+      }
+    }
 
     print('Dart classes generated');
+  }
+
+  Future<void> _runPubGet(String baseDir) async {
+    print('Running pub get in $baseDir ...');
+    final pr = await Process.run(
+      'pub',
+      ['get'],
+      workingDirectory: baseDir,
+    );
+    if (pr.exitCode != 0) {
+      print(pr.stdout);
+      print(pr.stderr);
+      throw Exception('pub get failed at $baseDir');
+    }
+  }
+
+  Future<void> _runBuildRunner(String baseDir) async {
+    print('Running build_runner in $baseDir ...');
+    final pr = await Process.run(
+      'pub',
+      ['run', 'build_runner', 'build'],
+      workingDirectory: baseDir,
+    );
+    if (pr.exitCode != 0) {
+      print(pr.stdout);
+      print(pr.stderr);
+      throw Exception('build_runner failed at $baseDir');
+    }
   }
 }
