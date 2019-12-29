@@ -11,10 +11,10 @@ class Ec2ServiceBuilder extends ServiceBuilder {
   String constructor() => '';
 
   @override
-  String imports() => '';
+  String imports() => "import 'package:aws_client/src/protocol/ec2.dart';";
 
   @override
   String operationContent(Operation operation) =>
-      '''// TODO: implement rest-json
+      '''// TODO: implement ec2
       throw UnimplementedError();''';
 }
