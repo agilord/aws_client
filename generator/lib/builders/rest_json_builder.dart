@@ -9,14 +9,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final RestJsonProtocol _protocol;
-  ${api.metadata.className}({@_meta.required String region, @_meta.required _src_credentials.Credentials credentials, Client client, String endpointUrl,})
-  : _protocol = RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
+  final shared.RestJsonProtocol _protocol;
+  ${api.metadata.className}({@_meta.required String region, @_meta.required shared.Credentials credentials, shared.Client client, String endpointUrl,})
+  : _protocol = shared.RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
 
   @override
-  String imports() =>
-      "import 'package:aws_client/src/protocol/rest-json.dart';";
+  String imports() => '';
 
   @override
   String operationContent(Operation operation) {

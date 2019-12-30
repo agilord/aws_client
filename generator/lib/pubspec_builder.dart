@@ -26,7 +26,6 @@ environment:
 
 dependencies:
   aws_client: $sharedVersion
-  http: ^0.12.0
   json_annotation: ^3.0.0
 
 dev_dependencies:

@@ -11,7 +11,7 @@ class Ec2ServiceBuilder extends ServiceBuilder {
   String constructor() => '';
 
   @override
-  String imports() => "import 'package:aws_client/src/protocol/ec2.dart';";
+  String imports() => '';
 
   @override
   String operationContent(Operation operation) => '''// TODO: implement ec2

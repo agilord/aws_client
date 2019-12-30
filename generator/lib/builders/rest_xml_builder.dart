@@ -11,15 +11,14 @@ class RestXmlServiceBuilder extends ServiceBuilder {
   @override
   String constructor() {
     return '''
-    final RestXmlProtocol _protocol;
-    ${api.metadata.className}({@_meta.required String region, @_meta.required _src_credentials.Credentials credentials, Client client, String endpointUrl,})
-        : _protocol = RestXmlProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
+    final shared.RestXmlProtocol _protocol;
+    ${api.metadata.className}({@_meta.required String region, @_meta.required shared.Credentials credentials, shared.Client client, String endpointUrl,})
+        : _protocol = shared.RestXmlProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
     ''';
   }
 
   @override
-  String imports() => 'import \'package:xml/xml.dart\';\n'
-      'import \'package:aws_client/src/protocol/rest-xml.dart\';';
+  String imports() => 'import \'package:xml/xml.dart\';\n';
 
   @override
   String operationContent(Operation operation) {
