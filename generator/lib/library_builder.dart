@@ -42,13 +42,10 @@ String buildService(Api api) {
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' as _meta;
 
-import 'package:aws_client/src/credentials.dart' as _src_credentials;
-import 'package:aws_client/src/protocol/shared.dart';
-import 'package:aws_client/src/scoping_extensions.dart';
+import 'package:aws_client/shared.dart' as shared;
 """);
   buf.writeln(builder.imports());
   if (api.generateJson) {
@@ -151,7 +148,8 @@ ${builder.constructor()}
             'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
       }
 
-      final extendsBlock = shape.exception ? 'implements AwsException ' : '';
+      final extendsBlock =
+          shape.exception ? 'implements shared.AwsException ' : '';
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
@@ -163,9 +161,9 @@ ${builder.constructor()}
 
         if (shape.api.generateJson) {
           if (member.dartType == 'Uint8List') {
-            writeln('@Uint8ListConverter()');
+            writeln('@shared.Uint8ListConverter()');
           } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@Uint8ListListConverter()');
+            writeln('@shared.Uint8ListListConverter()');
           }
           writeln("  @JsonKey(name: '${member.name}')");
         }
@@ -269,13 +267,13 @@ ${builder.constructor()}
   void putExceptions(Api api) {
     for (final exception in api.exceptions) {
       if (api.shapes.containsKey(exception)) continue;
-      writeln('\nclass $exception extends GenericAwsException {');
+      writeln('\nclass $exception extends shared.GenericAwsException {');
       writeln('  $exception({String type, String message}) '
           ': super(type: type, code: \'$exception\', message: message);');
       writeln('}');
     }
 
-    writeln('\nfinal _exceptionFns = <String, AwsExceptionFn>{');
+    writeln('\nfinal _exceptionFns = <String, shared.AwsExceptionFn>{');
     for (final exception in api.exceptions) {
       final shape = api.shapes[exception];
       final hasMessage = shape != null &&

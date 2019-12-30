@@ -9,13 +9,13 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final JsonProtocol _protocol;
-  ${api.metadata.className}({Client client})
-  : _protocol = JsonProtocol(client: client);
+  final shared.JsonProtocol _protocol;
+  ${api.metadata.className}({shared.Client client})
+  : _protocol = shared.JsonProtocol(client: client);
   ''';
 
   @override
-  String imports() => "import 'package:aws_client/src/protocol/json.dart';";
+  String imports() => '';
 
   @override
   String operationContent(Operation operation) => '''// TODO: implement json

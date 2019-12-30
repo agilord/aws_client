@@ -10,15 +10,14 @@ class QueryServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final QueryProtocol _protocol;
+  final shared.QueryProtocol _protocol;
 
-  ${api.metadata.className}({@_meta.required String region, @_meta.required _src_credentials.Credentials credentials, Client client,})
-  : _protocol = QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
+  ${api.metadata.className}({@_meta.required String region, @_meta.required shared.Credentials credentials, shared.Client client,})
+  : _protocol = shared.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
   ''';
 
   @override
-  String imports() => 'import \'package:aws_client/src/protocol/query.dart\';\n'
-      'import \'package:xml/xml.dart\';';
+  String imports() => 'import \'package:xml/xml.dart\';';
 
   @override
   String operationContent(Operation operation) {
