@@ -171,3 +171,15 @@ Map<String, String> extractHeaderMapValues(
       .where((e) => e.key.toLowerCase().startsWith(name.toLowerCase()))
       .map((e) => MapEntry(e.key.substring(name.length), e.value)));
 }
+
+String extractService(Uri uri) {
+  final parts = uri.host.split('.');
+  if (parts.length == 4) return parts.first;
+  throw Exception('Unable to detect service in ${uri.host}.');
+}
+
+String extractRegion(Uri uri) {
+  final parts = uri.host.split('.');
+  if (parts.length == 4 && parts[1].contains('-')) return parts[1];
+  throw Exception('Unable to detect region in ${uri.host}.');
+}

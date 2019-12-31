@@ -34,8 +34,8 @@ class QueryProtocol {
       ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
     }
     endpointUrl ??= 'https://$service.$region.amazonaws.com';
-    service ??= _extractService(Uri.parse(endpointUrl));
-    region ??= _extractRegion(Uri.parse(endpointUrl));
+    service ??= extractService(Uri.parse(endpointUrl));
+    region ??= extractRegion(Uri.parse(endpointUrl));
     return QueryProtocol._(client, service, region, endpointUrl, credentials);
   }
 
@@ -148,16 +148,4 @@ String _canonical(Map<String, String> data) {
       .toList();
   list.sort();
   return list.join('&');
-}
-
-String _extractRegion(Uri uri) {
-  final parts = uri.host.split('.');
-  if (parts.length == 4 && parts[1].contains('-')) return parts[1];
-  throw Exception('Unable to detect region in ${uri.host}.');
-}
-
-String _extractService(Uri uri) {
-  final parts = uri.host.split('.');
-  if (parts.length == 4) return parts.first;
-  throw Exception('Unable to detect service in ${uri.host}.');
 }
