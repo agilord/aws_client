@@ -31,8 +31,8 @@ class RestJsonProtocol {
       ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
     }
     endpointUrl ??= 'https://$service.$region.amazonaws.com';
-    service ??= _extractService(Uri.parse(endpointUrl));
-    region ??= _extractRegion(Uri.parse(endpointUrl));
+    service ??= extractService(Uri.parse(endpointUrl));
+    region ??= extractRegion(Uri.parse(endpointUrl));
     return RestJsonProtocol._(
         client, service, region, endpointUrl, credentials);
   }
@@ -47,16 +47,4 @@ class RestJsonProtocol {
     print('$_endpointUrl$_client$_service$_region$_credentials');
     throw UnimplementedError('rest-json not implemented');
   }
-}
-
-String _extractService(Uri uri) {
-  final parts = uri.host.split('.');
-  if (parts.length == 4) return parts.first;
-  throw Exception('Unable to detect service in ${uri.host}.');
-}
-
-String _extractRegion(Uri uri) {
-  final parts = uri.host.split('.');
-  if (parts.length == 4 && parts[1].contains('-')) return parts[1];
-  throw Exception('Unable to detect region in ${uri.host}.');
 }
