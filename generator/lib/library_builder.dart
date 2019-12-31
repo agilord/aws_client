@@ -46,6 +46,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' as _meta;
 
 import 'package:aws_client/shared.dart' as shared;
+import 'package:aws_client/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
 """);
   buf.writeln(builder.imports());
   if (api.generateJson) {
@@ -161,9 +162,9 @@ ${builder.constructor()}
 
         if (shape.api.generateJson) {
           if (member.dartType == 'Uint8List') {
-            writeln('@shared.Uint8ListConverter()');
+            writeln('@Uint8ListConverter()');
           } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@shared.Uint8ListListConverter()');
+            writeln('@Uint8ListListConverter()');
           }
           writeln("  @JsonKey(name: '${member.name}')");
         }
