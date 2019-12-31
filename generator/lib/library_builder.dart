@@ -212,10 +212,10 @@ ${builder.constructor()}
           if (member.isHeader) {
             if (member.shapeClass.type == 'map') {
               extractor =
-                  'extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
+                  'shared.extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
             } else {
               extractor =
-                  'extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
+                  'shared.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
             }
           }
 
@@ -307,20 +307,21 @@ String _xmlExtractorFn(
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return 'extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
+    return 'shared.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
-          'extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
+          'shared.extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
     if (!flattened) {
-      fn = 'extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
+      fn =
+          'shared.extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
     }
     return fn;
   } else if (type == 'map') {
@@ -339,7 +340,7 @@ String _xmlExtractorFn(
     return 'Map.fromEntries($elemVar.findElements(\'$elemName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
   } else {
-    return 'extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
+    return 'shared.extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
   }
 }
 
@@ -355,7 +356,7 @@ String _toXmlFn(
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return 'encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
+    return 'shared.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
@@ -363,7 +364,7 @@ String _toXmlFn(
     if (memberShape.type.isBasicType()) {
       final mdt = memberShape.type.getDartType();
       fn =
-          '...$fieldName.map((v) => encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
+          '...$fieldName.map((v) => shared.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
     } else {
       fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
