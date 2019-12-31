@@ -162,9 +162,9 @@ ${builder.constructor()}
 
         if (shape.api.generateJson) {
           if (member.dartType == 'Uint8List') {
-            writeln('@shared.Uint8ListConverter()');
+            writeln('@Uint8ListConverter()');
           } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@shared.Uint8ListListConverter()');
+            writeln('@Uint8ListListConverter()');
           }
           writeln("  @JsonKey(name: '${member.name}')");
         }
