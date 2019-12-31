@@ -38,6 +38,7 @@ String buildService(Api api) {
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
+// ignore_for_file: unused_shown_name
 
 import 'dart:convert';
 import 'dart:typed_data';
