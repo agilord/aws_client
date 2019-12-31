@@ -64,6 +64,7 @@ import 'package:aws_client/shared.dart' show Uint8ListConverter, Uint8ListListCo
 extension StringBufferStuff on StringBuffer {
   void putMainClass(Api api, ServiceBuilder builder) {
     writeln('''
+${_convertDocumentation(api.documentation)}
 class ${api.metadata.className} {
 ${builder.constructor()}
 ''');
@@ -80,13 +81,19 @@ ${builder.constructor()}
     final parameterShape = api.shapes[parameterType];
     final useParameter = parameterShape != null && parameterShape.hasMembers;
 
+    writeln(_convertDocumentation(operation.documentation ?? '', indent: 2));
+    var firstError = true;
+    operation?.errors?.map((d) => d.shape)?.forEach((e) {
+      if (firstError) {
+        firstError = false;
+        writeln('  ///');
+      }
+      writeln('  /// May throw [$e].');
+    });
+
     if (operation.deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
-
-    operation?.errors?.map((d) => d.shape)?.forEach((e) {
-      writeln('  /// May throw [$e].');
-    });
 
     operation.output?.shapeClass?.markUsed(false);
     write('  Future<${operation.returnType}> ${operation.methodName}(');
@@ -125,6 +132,7 @@ ${builder.constructor()}
     if (shape.flattened) return;
 
     if (shape.type == 'string' && shape.enumeration != null) {
+      writeln(_convertDocumentation(shape.documentation ?? ''));
       if (shape.deprecated) {
         writeln(r"@Deprecated('Deprecated')");
       }
@@ -142,6 +150,7 @@ ${builder.constructor()}
       });
       writeln('}');
     } else if (shape.type == 'structure') {
+      writeln(_convertDocumentation(shape.documentation ?? ''));
       if (shape.deprecated) {
         writeln(r'@deprecated');
       }
@@ -383,3 +392,48 @@ String _toXmlFn(
 
 String _uppercaseName(String value) =>
     value.substring(0, 1).toUpperCase() + value.substring(1);
+
+// TODO: parse <ul> / <li> structures
+String _convertDocumentation(String text, {int indent = 0}) {
+  if (text == null || text.isEmpty) return '';
+  final lines = text
+      .replaceAll('</p>', '\n')
+      .replaceAll('<ul>', '\n<ul>')
+      .replaceAll('</ul>', '\n</ul>')
+      .replaceAll('<li>', '\n<li>')
+      .split('\n')
+      .expand((s) => s.split('<p>'))
+      .map((s) => s.trim())
+      .expand((s) => _wrapLines(s, 75 - indent))
+      .map((s) => '/// $s')
+      .toList();
+  if (lines.isNotEmpty && lines.first.length <= 4) {
+    lines.removeAt(0);
+  }
+  if (lines.isNotEmpty && lines.last.length <= 4) {
+    lines.removeLast();
+  }
+  return lines.map((s) => (' ' * indent) + s).join('\n');
+}
+
+Iterable<String> _wrapLines(String line, int length) sync* {
+  if (line.isEmpty) {
+    yield '';
+    return;
+  }
+  final parts = line.split(' ');
+  final sb = StringBuffer();
+  for (var i = 0; i < parts.length; i++) {
+    if (sb.isNotEmpty && sb.length + parts[i].length > length) {
+      yield sb.toString();
+      sb.clear();
+    }
+    if (sb.isNotEmpty) {
+      sb.write(' ');
+    }
+    sb.write(parts[i]);
+  }
+  if (sb.isNotEmpty) {
+    yield sb.toString();
+  }
+}
