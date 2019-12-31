@@ -46,6 +46,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' as _meta;
 
 import 'package:aws_client/shared.dart' as shared;
+import 'package:aws_client/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
 """);
   buf.writeln(builder.imports());
   if (api.generateJson) {
