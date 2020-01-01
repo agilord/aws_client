@@ -114,7 +114,7 @@ class GenerateCommand extends Command {
           }
 
           String pubspecYaml;
-          final sharedVersion = config.sharedVersions[api.metadata.protocol];
+          final protocolConfig = config.protocols[api.metadata.protocol];
 
           if (pubspecFile.existsSync() && !devMode) {
             String oldServiceText;
@@ -126,9 +126,9 @@ class GenerateCommand extends Command {
             final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
             final version = Version.parse(pubspecJson['version'] as String);
             var newVersion = version.toString();
-            final shouldBump =
-                pubspecJson['dependencies']['aws_client'] != sharedVersion ||
-                    oldServiceText != serviceText;
+            final shouldBump = pubspecJson['dependencies']['aws_client'] !=
+                    protocolConfig.shared ||
+                oldServiceText != serviceText;
 
             if (shouldBump && argResults['bump'] == true) {
               newVersion = version.incrementPatch().toString();
@@ -138,17 +138,15 @@ class GenerateCommand extends Command {
             pubspecYaml = buildPubspecYaml(
               api,
               packageVersion: newVersion,
-              sharedVersion: sharedVersion,
               isDevMode: devMode,
-              protocol: api.metadata.protocol,
+              protocolConfig: protocolConfig,
             );
           } else {
             pubspecYaml = buildPubspecYaml(
               api,
               packageVersion: '0.0.1',
-              sharedVersion: sharedVersion,
               isDevMode: devMode,
-              protocol: api.metadata.protocol,
+              protocolConfig: protocolConfig,
             );
           }
 
