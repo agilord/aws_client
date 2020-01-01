@@ -34,6 +34,8 @@ dependencies:
 dev_dependencies:
   build_runner: ^1.7.2
   json_serializable: ^3.2.0
+  build_verify: ^1.1.1
+  test: ^1.9.4
 $dependenciesOverride
 ''';
 }
