@@ -139,6 +139,7 @@ class GenerateCommand extends Command {
               packageVersion: newVersion,
               sharedVersion: sharedVersion,
               isDevMode: devMode,
+              protocol: api.metadata.protocol,
             );
           } else {
             pubspecYaml = buildPubspecYaml(
@@ -146,6 +147,7 @@ class GenerateCommand extends Command {
               packageVersion: '0.0.1',
               sharedVersion: sharedVersion,
               isDevMode: devMode,
+              protocol: api.metadata.protocol,
             );
           }
 

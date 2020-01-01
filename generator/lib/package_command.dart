@@ -97,8 +97,13 @@ class BumpVersionCommand extends Command {
             '## 0.0.0\n\n(git hash: 174403e7de7d5e7b96f987f34481209b3c3ee265)';
       }
 
+      final newSharedVersion = config.sharedVersions[pubspecMap['protocol']];
+      final oldSharedVersion =
+          pubspecMap['dependencies']['aws_client'] as String;
       // no change needed ?
-      if (currentHash != null && changelogContent.contains(currentHash)) {
+      if (currentHash != null &&
+          changelogContent.contains(currentHash) &&
+          oldSharedVersion == newSharedVersion) {
         continue;
       }
 
@@ -123,10 +128,15 @@ class BumpVersionCommand extends Command {
           '${updateLines.join('\n')}\n\n$changelogContent';
       changelogFile.writeAsStringSync(newChangelogContent);
 
-      final newPubspecString = pubspecString.replaceAll(
-        RegExp(r'version: \d\.\d\.\d'),
-        'version: $newVersion',
-      );
+      final newPubspecString = pubspecString
+          .replaceAll(
+            RegExp(r'version: \d\.\d\.\d'),
+            'version: $newVersion',
+          )
+          .replaceAll(
+            RegExp(r'aws_client: \d\.\d\.\d(.)*'),
+            'aws_client: $newSharedVersion',
+          );
       pubspecFile.writeAsStringSync(newPubspecString);
       // TODO: commit new changelog and pubspec.yaml with the updates (+ push?)
     }

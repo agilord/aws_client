@@ -7,6 +7,7 @@ String buildPubspecYaml(
   @required String packageVersion,
   @required String sharedVersion,
   @required bool isDevMode,
+  @required String protocol,
 }) {
   var dependenciesOverride = '';
   if (isDevMode) {
@@ -20,6 +21,8 @@ dependency_overrides:
   return '''name: ${api.packageName}
 version: $packageVersion
 publish_to: none
+
+protocol: $protocol
 
 environment:
   sdk: '>=2.6.0 <3.0.0'
