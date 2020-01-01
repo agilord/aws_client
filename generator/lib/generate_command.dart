@@ -12,6 +12,7 @@ import 'download_command.dart';
 import 'library_builder.dart';
 import 'model/config.dart';
 import 'pubspec_builder.dart';
+import 'test_builder.dart';
 
 class GenerateCommand extends Command {
   @override
@@ -174,6 +175,17 @@ class GenerateCommand extends Command {
         // TODO: once in git, detect if there was no change, and skip when not needed
         await _runBuildRunner(baseDir);
       }
+    }
+
+    final monoPkgFile = File('mono_pkg.yaml');
+
+    for (final baseDir in touchedDirs) {
+      final pathParts = baseDir.split('/')..removeAt(0);
+      File('$baseDir/test/ensure_build_test.dart')
+        ..createSync(recursive: true)
+        ..writeAsStringSync(buildTest(pathParts.join('/')));
+
+      monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
     }
 
     print('Dart classes generated');
