@@ -91,6 +91,13 @@ ${builder.constructor()}
       writeln('  /// May throw [$e].');
     });
 
+    for (final member in parameterShape?.members ?? <Member>[]) {
+      if (member.documentation != null) {
+        writeln('///\n/// Parameter [${member.fieldName}] :');
+        writeln(_convertDocumentation(member.documentation, indent: 2));
+      }
+    }
+
     if (operation.deprecated) {
       writeln("@Deprecated('Deprecated')");
     }
@@ -164,6 +171,10 @@ ${builder.constructor()}
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
+        if (member.documentation != null) {
+          writeln(_convertDocumentation(member.documentation));
+        }
+
         final valueEnum = shape.api.shapes[member.shape].enumeration;
 
         if (valueEnum?.isNotEmpty ?? false) {
