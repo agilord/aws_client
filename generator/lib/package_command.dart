@@ -31,11 +31,11 @@ class BumpVersionCommand extends Command {
     argParser
       ..addOption(
         'version',
-        help: 'The new version to use.',
+        help: 'Force a specific new version to use.',
       )
       ..addOption(
         'version-increment',
-        help: 'The increment type to use.',
+        help: 'The increment type to use (augments commit messages).',
         allowed: ['major', 'minor', 'patch'],
         defaultsTo: 'patch',
       )
@@ -68,19 +68,36 @@ class BumpVersionCommand extends Command {
       final currentVersion = Version.parse(pubspecMap['version'] as String);
       Version newVersion;
 
+      final changelogFile = File('$pkgDir/CHANGELOG.md');
+      var changelogContent = '## $currentVersion\n- initial release';
+      if (changelogFile.existsSync()) {
+        changelogContent = changelogFile.readAsStringSync();
+      }
+
+      final oldCommit = allChanges.firstWhere(
+          (c) => changelogContent.contains(c.hash),
+          orElse: () => null);
+      final currentChanges = oldCommit == null
+          ? allChanges
+          : allChanges.sublist(0, allChanges.indexOf(oldCommit));
+
       if (argResults['version'] == null) {
-        switch (argResults['version-increment'] as String) {
-          case 'major':
-            newVersion = currentVersion.incrementMajor();
-            break;
-          case 'minor':
-            newVersion = currentVersion.incrementMinor();
-            break;
-          case 'patch':
-            newVersion = currentVersion.incrementPatch();
-            break;
-          default:
-            throw ArgumentError('Unknown "--version-increment" argument');
+        final increment = argResults['version-increment'] as String;
+        final changeMajor =
+            increment == 'major' || currentChanges.any((c) => c.isMajor);
+        final changeMinor =
+            increment == 'minor' || currentChanges.any((c) => c.isMinor);
+        final changePatch =
+            increment == 'patch' || currentChanges.any((c) => c.isPatch);
+
+        if (changeMajor) {
+          newVersion = currentVersion.incrementMajor();
+        } else if (changeMinor) {
+          newVersion = currentVersion.incrementMinor();
+        } else if (changePatch) {
+          newVersion = currentVersion.incrementPatch();
+        } else {
+          newVersion = currentVersion;
         }
       } else {
         newVersion = Version.parse(argResults['version'] as String);
@@ -91,12 +108,6 @@ class BumpVersionCommand extends Command {
       final oldSharedVersion =
           pubspecMap['dependencies']['aws_client'] as String;
 
-      final changelogFile = File('$pkgDir/CHANGELOG.md');
-      var changelogContent = '## $currentVersion\n- initial release';
-      if (changelogFile.existsSync()) {
-        changelogContent = changelogFile.readAsStringSync();
-      }
-
       // no change needed ?
       if (currentHash != null &&
           currentHash.trim().isNotEmpty &&
@@ -106,14 +117,6 @@ class BumpVersionCommand extends Command {
         continue;
       }
 
-      // TODO: filter out changelog-related commits
-      final oldCommit = allChanges.firstWhere(
-          (c) => changelogContent.contains(c.hash),
-          orElse: () => null);
-      final currentChanges = oldCommit == null
-          ? allChanges
-          : allChanges.sublist(0, allChanges.indexOf(oldCommit));
-
       final updateLines = [
         '## $newVersion',
         if (currentHash?.trim()?.isNotEmpty == true) ...[
@@ -121,7 +124,9 @@ class BumpVersionCommand extends Command {
           '(git hash: $currentHash)',
           '',
         ],
-        ...currentChanges.map((c) => '- ${c.message}'),
+        ...currentChanges
+            .where((c) => c.isQualified)
+            .map((c) => '- ${c.formattedMessage}'),
       ];
 
       // insert new entries in the beginning of the file
@@ -139,7 +144,6 @@ class BumpVersionCommand extends Command {
             'aws_client: $newSharedVersion',
           );
       pubspecFile.writeAsStringSync(newPubspecString);
-      // TODO: commit new changelog and pubspec.yaml with the updates (+ push?)
     }
   }
 }
@@ -167,4 +171,20 @@ class _Commit {
 
   @override
   String toString() => '$hash $message';
+
+  bool get isMajor => message.contains('[major]');
+  bool get isMinor => message.contains('[minor]');
+  bool get isPatch => message.contains('[patch]');
+
+  bool get isQualified => isMajor || isMinor || isPatch;
+
+  String get formattedMessage {
+    // TODO: convert (#XYZ) to GitHub PR links.
+    return message
+        .replaceAll('[major]', '')
+        .replaceAll('[minor]', '')
+        .replaceAll('[patch]', '')
+        .replaceAll('  ', ' ')
+        .trim();
+  }
 }
