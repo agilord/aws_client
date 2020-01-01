@@ -20,6 +20,7 @@ dependency_overrides:
   final publishTo = protocolConfig.publish ? '\n' : 'publish_to: none\n';
 
   return '''name: ${api.packageName}
+description: AWS API client for ${api.metadata.serviceFullName}
 version: $packageVersion
 $publishTo
 protocol: ${api.metadata.protocol}
