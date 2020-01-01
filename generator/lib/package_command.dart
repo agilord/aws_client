@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
 import 'model/config.dart';
@@ -53,26 +54,48 @@ class BumpVersionCommand extends Command {
 
     // TODO: scan ../generated/ directory for packages if config.packages is empty
     final packages = config.packages;
+    final allChanges = await _listChanges();
+    final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
+
     for (final package in packages) {
       final pkgDir = '../generated/$package';
-      final allChanges = await _listChanges(pkgDir);
-      final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
+
+      final pubspecFile = File('$pkgDir/pubspec.yaml');
+      final pubspecString = pubspecFile.readAsStringSync();
+      final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
+          as Map<String, dynamic>;
+
+      final currentVersion = Version.parse(pubspecMap['version'] as String);
+      Version newVersion;
+      switch (argResults['version-increment'] as String) {
+        case 'major':
+          newVersion = currentVersion.incrementMajor();
+          break;
+        case 'minor':
+          newVersion = currentVersion.incrementMinor();
+          break;
+        case 'patch':
+          newVersion = currentVersion.incrementPatch();
+          break;
+        default:
+          throw ArgumentError('Unknown "--version-increment" argument');
+      }
 
       final changelogFile = File('$pkgDir/CHANGELOG.md');
       String changelogContent;
       if (changelogFile.existsSync()) {
         changelogContent = changelogFile.readAsStringSync();
       } else {
-        changelogContent = '';
+        changelogFile.createSync();
+        // Beginning of package generation
+        changelogContent =
+            '## 0.0.0\n\n(git hash: 174403e7de7d5e7b96f987f34481209b3c3ee265)';
       }
 
       // no change needed ?
       if (currentHash != null && changelogContent.contains(currentHash)) {
         continue;
       }
-
-      // TODO: read current version
-      // TODO: increment version per the command line arguments
 
       // TODO: filter out changelog-related commits
       final oldCommit = allChanges.firstWhere(
@@ -83,8 +106,7 @@ class BumpVersionCommand extends Command {
           : allChanges.sublist(0, allChanges.indexOf(oldCommit));
 
       final updateLines = [
-        // TODO: use the correct version
-        '## 0.0.1',
+        '## $newVersion',
         '',
         '(git hash: $currentHash)',
         '',
@@ -96,16 +118,20 @@ class BumpVersionCommand extends Command {
           '${updateLines.join('\n')}\n\n$changelogContent';
       changelogFile.writeAsStringSync(newChangelogContent);
 
-      // TODO: update pubspec.yaml with the new version
+      final newPubspecString = pubspecString.replaceAll(
+        RegExp(r'version: \d\.\d\.\d'),
+        'version: $newVersion',
+      );
+      pubspecFile.writeAsStringSync(newPubspecString);
       // TODO: commit new changelog and pubspec.yaml with the updates (+ push?)
     }
   }
 }
 
-Future<List<_Commit>> _listChanges(String dir) async {
-  final pr = await Process.run('git', ['log', '--format=oneline', '--', dir]);
+Future<List<_Commit>> _listChanges() async {
+  final pr = await Process.run('git', ['log', '--format=oneline', '--']);
   if (pr.exitCode != 0) {
-    throw Exception('Error while running git log in $dir: ${pr.stderr}');
+    throw Exception('Error while running git log: ${pr.stderr}');
   }
   final lines = pr.stdout.toString().split('\n');
   return lines.map((line) => _Commit.parse(line)).toList();
@@ -122,4 +148,7 @@ class _Commit {
     final message = line.substring(hash.length).trim();
     return _Commit(hash, message);
   }
+
+  @override
+  String toString() => '$hash $message';
 }
