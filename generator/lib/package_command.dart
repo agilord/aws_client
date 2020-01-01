@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
 import 'model/config.dart';
@@ -53,26 +54,56 @@ class BumpVersionCommand extends Command {
 
     // TODO: scan ../generated/ directory for packages if config.packages is empty
     final packages = config.packages;
+
     for (final package in packages) {
       final pkgDir = '../generated/$package';
       final allChanges = await _listChanges(pkgDir);
       final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
 
+      final pubspecFile = File('$pkgDir/pubspec.yaml');
+      final pubspecString = pubspecFile.readAsStringSync();
+      final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
+          as Map<String, dynamic>;
+
+      final currentVersion = Version.parse(pubspecMap['version'] as String);
+      Version newVersion;
+
+      if (argResults['version'] == null) {
+        switch (argResults['version-increment'] as String) {
+          case 'major':
+            newVersion = currentVersion.incrementMajor();
+            break;
+          case 'minor':
+            newVersion = currentVersion.incrementMinor();
+            break;
+          case 'patch':
+            newVersion = currentVersion.incrementPatch();
+            break;
+          default:
+            throw ArgumentError('Unknown "--version-increment" argument');
+        }
+      } else {
+        newVersion = Version.parse(argResults['version'] as String);
+      }
+
+      final newSharedVersion = config.sharedVersions[pubspecMap['protocol']];
+      final oldSharedVersion =
+          pubspecMap['dependencies']['aws_client'] as String;
+
       final changelogFile = File('$pkgDir/CHANGELOG.md');
-      String changelogContent;
+      var changelogContent = '## $currentVersion\n- initial release';
       if (changelogFile.existsSync()) {
         changelogContent = changelogFile.readAsStringSync();
-      } else {
-        changelogContent = '';
       }
 
       // no change needed ?
-      if (currentHash != null && changelogContent.contains(currentHash)) {
+      if (currentHash != null &&
+          currentHash.trim().isNotEmpty &&
+          changelogContent.contains(currentHash) &&
+          oldSharedVersion == newSharedVersion) {
+        print('$package will not be bumped');
         continue;
       }
-
-      // TODO: read current version
-      // TODO: increment version per the command line arguments
 
       // TODO: filter out changelog-related commits
       final oldCommit = allChanges.firstWhere(
@@ -83,11 +114,12 @@ class BumpVersionCommand extends Command {
           : allChanges.sublist(0, allChanges.indexOf(oldCommit));
 
       final updateLines = [
-        // TODO: use the correct version
-        '## 0.0.1',
-        '',
-        '(git hash: $currentHash)',
-        '',
+        '## $newVersion',
+        if (currentHash?.trim()?.isNotEmpty == true) ...[
+          '',
+          '(git hash: $currentHash)',
+          '',
+        ],
         ...currentChanges.map((c) => '- ${c.message}'),
       ];
 
@@ -96,7 +128,16 @@ class BumpVersionCommand extends Command {
           '${updateLines.join('\n')}\n\n$changelogContent';
       changelogFile.writeAsStringSync(newChangelogContent);
 
-      // TODO: update pubspec.yaml with the new version
+      final newPubspecString = pubspecString
+          .replaceAll(
+            RegExp(r'version: \d\.\d\.\d'),
+            'version: $newVersion',
+          )
+          .replaceAll(
+            RegExp(r'aws_client: \d\.\d\.\d(.)*'),
+            'aws_client: $newSharedVersion',
+          );
+      pubspecFile.writeAsStringSync(newPubspecString);
       // TODO: commit new changelog and pubspec.yaml with the updates (+ push?)
     }
   }
@@ -122,4 +163,7 @@ class _Commit {
     final message = line.substring(hash.length).trim();
     return _Commit(hash, message);
   }
+
+  @override
+  String toString() => '$hash $message';
 }
