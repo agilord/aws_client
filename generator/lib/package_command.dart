@@ -86,7 +86,8 @@ class BumpVersionCommand extends Command {
         newVersion = Version.parse(argResults['version'] as String);
       }
 
-      final newSharedVersion = config.sharedVersions[pubspecMap['protocol']];
+      final protocolConfig = config.protocols[pubspecMap['protocol']];
+      final newSharedVersion = protocolConfig.shared;
       final oldSharedVersion =
           pubspecMap['dependencies']['aws_client'] as String;
 
