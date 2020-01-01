@@ -67,18 +67,23 @@ class BumpVersionCommand extends Command {
 
       final currentVersion = Version.parse(pubspecMap['version'] as String);
       Version newVersion;
-      switch (argResults['version-increment'] as String) {
-        case 'major':
-          newVersion = currentVersion.incrementMajor();
-          break;
-        case 'minor':
-          newVersion = currentVersion.incrementMinor();
-          break;
-        case 'patch':
-          newVersion = currentVersion.incrementPatch();
-          break;
-        default:
-          throw ArgumentError('Unknown "--version-increment" argument');
+
+      if (argResults['version'] == null) {
+        switch (argResults['version-increment'] as String) {
+          case 'major':
+            newVersion = currentVersion.incrementMajor();
+            break;
+          case 'minor':
+            newVersion = currentVersion.incrementMinor();
+            break;
+          case 'patch':
+            newVersion = currentVersion.incrementPatch();
+            break;
+          default:
+            throw ArgumentError('Unknown "--version-increment" argument');
+        }
+      } else {
+        newVersion = Version.parse(argResults['version'] as String);
       }
 
       final changelogFile = File('$pkgDir/CHANGELOG.md');
