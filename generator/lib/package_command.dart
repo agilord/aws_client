@@ -54,11 +54,11 @@ class BumpVersionCommand extends Command {
 
     // TODO: scan ../generated/ directory for packages if config.packages is empty
     final packages = config.packages;
-    final allChanges = await _listChanges();
-    final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
 
     for (final package in packages) {
       final pkgDir = '../generated/$package';
+      final allChanges = await _listChanges(pkgDir);
+      final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
 
       final pubspecFile = File('$pkgDir/pubspec.yaml');
       final pubspecString = pubspecFile.readAsStringSync();
@@ -86,24 +86,22 @@ class BumpVersionCommand extends Command {
         newVersion = Version.parse(argResults['version'] as String);
       }
 
-      final changelogFile = File('$pkgDir/CHANGELOG.md');
-      String changelogContent;
-      if (changelogFile.existsSync()) {
-        changelogContent = changelogFile.readAsStringSync();
-      } else {
-        changelogFile.createSync();
-        // Beginning of package generation
-        changelogContent =
-            '## 0.0.0\n\n(git hash: 174403e7de7d5e7b96f987f34481209b3c3ee265)';
-      }
-
       final newSharedVersion = config.sharedVersions[pubspecMap['protocol']];
       final oldSharedVersion =
           pubspecMap['dependencies']['aws_client'] as String;
+
+      final changelogFile = File('$pkgDir/CHANGELOG.md');
+      var changelogContent = '## $currentVersion\n- initial release';
+      if (changelogFile.existsSync()) {
+        changelogContent = changelogFile.readAsStringSync();
+      }
+
       // no change needed ?
       if (currentHash != null &&
+          currentHash.trim().isNotEmpty &&
           changelogContent.contains(currentHash) &&
           oldSharedVersion == newSharedVersion) {
+        print('$package will not be bumped');
         continue;
       }
 
@@ -117,9 +115,11 @@ class BumpVersionCommand extends Command {
 
       final updateLines = [
         '## $newVersion',
-        '',
-        '(git hash: $currentHash)',
-        '',
+        if (currentHash?.trim()?.isNotEmpty == true) ...[
+          '',
+          '(git hash: $currentHash)',
+          '',
+        ],
         ...currentChanges.map((c) => '- ${c.message}'),
       ];
 
@@ -143,10 +143,10 @@ class BumpVersionCommand extends Command {
   }
 }
 
-Future<List<_Commit>> _listChanges() async {
-  final pr = await Process.run('git', ['log', '--format=oneline', '--']);
+Future<List<_Commit>> _listChanges(String dir) async {
+  final pr = await Process.run('git', ['log', '--format=oneline', '--', dir]);
   if (pr.exitCode != 0) {
-    throw Exception('Error while running git log: ${pr.stderr}');
+    throw Exception('Error while running git log in $dir: ${pr.stderr}');
   }
   final lines = pr.stdout.toString().split('\n');
   return lines.map((line) => _Commit.parse(line)).toList();
