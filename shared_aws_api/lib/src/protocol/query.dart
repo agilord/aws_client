@@ -12,7 +12,7 @@ class QueryProtocol {
   final String _service;
   final String _region;
   final String _endpointUrl;
-  final Credentials _credentials;
+  final AwsClientCredentials _credentials;
 
   QueryProtocol._(
     this._client,
@@ -27,7 +27,7 @@ class QueryProtocol {
     String service,
     String region,
     String endpointUrl,
-    Credentials credentials,
+    AwsClientCredentials credentials,
   }) {
     client ??= Client();
     if (service == null || region == null) {

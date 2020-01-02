@@ -11,7 +11,7 @@ class QueryServiceBuilder extends ServiceBuilder {
   String constructor() => '''
   final shared.QueryProtocol _protocol;
 
-  ${api.metadata.className}({@_meta.required String region, @_meta.required shared.Credentials credentials, shared.Client client,})
+  ${api.metadata.className}({@_meta.required String region, @_meta.required shared.AwsClientCredentials credentials, shared.Client client,})
   : _protocol = shared.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
   ''';
 

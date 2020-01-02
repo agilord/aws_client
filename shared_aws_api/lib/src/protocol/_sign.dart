@@ -10,7 +10,7 @@ void signAws4HmacSha256({
   @required Request rq,
   @required String service,
   @required String region,
-  @required Credentials credentials,
+  @required AwsClientCredentials credentials,
 }) {
   final date = _currentDateHeader();
   rq.headers['X-Amz-Date'] = date;
