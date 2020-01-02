@@ -12,6 +12,7 @@ import 'download_command.dart';
 import 'library_builder.dart';
 import 'model/config.dart';
 import 'pubspec_builder.dart';
+import 'readme_builder.dart';
 import 'test_builder.dart';
 
 class GenerateCommand extends Command {
@@ -106,6 +107,7 @@ class GenerateCommand extends Command {
           final baseDir = '../generated/${api.packageName}';
           final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
           final pubspecFile = File('$baseDir/pubspec.yaml');
+          final readmeFile = File('$baseDir/README.md');
           serviceFile.parent.createSync(recursive: true);
 
           var serviceText = buildService(api);
@@ -152,6 +154,7 @@ class GenerateCommand extends Command {
 
           pubspecFile.writeAsStringSync(pubspecYaml);
           serviceFile.writeAsStringSync(serviceText);
+          readmeFile.writeAsStringSync(buildReadmeMd(api));
           touchedDirs.add(baseDir);
         } else {
           print('API in ${def.path} was not recognized.');
