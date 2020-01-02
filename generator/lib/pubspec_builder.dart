@@ -22,6 +22,7 @@ dependency_overrides:
   return '''name: ${api.packageName}
 description: AWS API client for ${api.metadata.serviceFullName}
 version: $packageVersion
+homepage: https://github.com/agilord/aws_client/tree/master/generated/${api.packageName}
 $publishTo
 protocol: ${api.metadata.protocol}
 
