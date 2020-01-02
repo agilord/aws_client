@@ -9,7 +9,7 @@ class JsonProtocol {
   final Client _client;
   final String _service;
   final String _region;
-  final Credentials _credentials;
+  final AwsClientCredentials _credentials;
 
   JsonProtocol._(
     this._client,
@@ -24,7 +24,7 @@ class JsonProtocol {
     String service,
     String region,
     String endpointUrl,
-    Credentials credentials,
+    AwsClientCredentials credentials,
   }) {
     client ??= Client();
     if (service == null || region == null) {

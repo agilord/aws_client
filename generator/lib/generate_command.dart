@@ -128,7 +128,7 @@ class GenerateCommand extends Command {
             final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
             final version = Version.parse(pubspecJson['version'] as String);
             var newVersion = version.toString();
-            final shouldBump = pubspecJson['dependencies']['aws_client'] !=
+            final shouldBump = pubspecJson['dependencies']['shared_aws_api'] !=
                     protocolConfig.shared ||
                 oldServiceText != serviceText;
 

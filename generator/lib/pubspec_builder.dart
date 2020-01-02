@@ -13,8 +13,8 @@ String buildPubspecYaml(
   if (isDevMode) {
     dependenciesOverride = '''
 dependency_overrides:
-  aws_client:
-    path: ../../aws_client''';
+  shared_aws_api:
+    path: ../../shared_aws_api''';
   }
 
   final publishTo = protocolConfig.publish ? '\n' : 'publish_to: none\n';
@@ -30,7 +30,7 @@ environment:
   sdk: '>=2.6.0 <3.0.0'
 
 dependencies:
-  aws_client: ${protocolConfig.shared}
+  shared_aws_api: ${protocolConfig.shared}
   json_annotation: ^3.0.0
 
 dev_dependencies:

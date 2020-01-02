@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:aws_client/src/protocol/query.dart';
+import 'package:shared_aws_api/src/protocol/query.dart';
 
 void main() {
   group('flatQueryParams', () {
