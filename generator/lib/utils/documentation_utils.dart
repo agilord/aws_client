@@ -27,8 +27,17 @@ String _parseAndBuild(String text, {int indent = 0, String prefix = ''}) {
   }
   if (lines.isNotEmpty && lines.first.startsWith('<fullname>')) {
     lines.removeAt(0);
+    if (lines.isNotEmpty && lines.first.isEmpty) {
+      lines.removeAt(0);
+    }
+    if (lines.isNotEmpty && lines.first.startsWith('<b>Overview</b>')) {
+      lines.removeAt(0);
+    }
+    if (lines.isNotEmpty && lines.first.isEmpty) {
+      lines.removeAt(0);
+    }
     final firstEmpty = lines.indexOf('');
-    if (firstEmpty != null) {
+    if (firstEmpty > 0) {
       lines.removeRange(firstEmpty, lines.length);
     }
   }
