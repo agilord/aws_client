@@ -1,7 +1,6 @@
+import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
-
-import 'builder.dart';
 
 class QueryServiceBuilder extends ServiceBuilder {
   final Api api;

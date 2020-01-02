@@ -1,17 +1,16 @@
 import 'dart:io';
 
-import 'package:aws_client.generator/builders/builder.dart';
-import 'package:aws_client.generator/builders/ec2_builder.dart';
-import 'package:aws_client.generator/builders/json_builder.dart';
-import 'package:aws_client.generator/builders/rest_json_builder.dart';
-import 'package:aws_client.generator/builders/rest_xml_builder.dart';
+import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
+import 'package:aws_client.generator/builders/protocols/json_builder.dart';
+import 'package:aws_client.generator/builders/protocols/query_builder.dart';
+import 'package:aws_client.generator/builders/protocols/rest_json_builder.dart';
+import 'package:aws_client.generator/builders/protocols/rest_xml_builder.dart';
+import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
-
-import 'builders/query_builder.dart';
 
 String buildService(Api api) {
   api.initReferences();
