@@ -1,5 +1,3 @@
-export 'package:http/http.dart' show Client;
-
 export 'src/credentials.dart';
 export 'src/protocol/ec2.dart';
 export 'src/protocol/json.dart';

@@ -44,6 +44,7 @@ String buildService(Api api) {
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:http/http.dart' as _http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' as _meta;
 
