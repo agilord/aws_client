@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
-import 'model/api.dart';
-import 'model/config.dart';
+import '../model/api.dart';
+import '../model/config.dart';
 
 String buildPubspecYaml(
   Api api, {

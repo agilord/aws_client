@@ -8,12 +8,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
+import 'builders/library_builder.dart';
+import 'builders/pubspec_builder.dart';
+import 'builders/readme_builder.dart';
+import 'builders/test_builder.dart';
 import 'download_command.dart';
-import 'library_builder.dart';
 import 'model/config.dart';
-import 'pubspec_builder.dart';
-import 'readme_builder.dart';
-import 'test_builder.dart';
 
 class GenerateCommand extends Command {
   @override

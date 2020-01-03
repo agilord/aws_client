@@ -1,4 +1,4 @@
-export 'package:http/http.dart';
+export 'package:http/http.dart' show Client;
 
 export 'src/credentials.dart';
 export 'src/protocol/ec2.dart';

@@ -1,5 +1,5 @@
-import 'model/api.dart';
-import 'utils/documentation_utils.dart';
+import '../model/api.dart';
+import '../utils/documentation_utils.dart';
 
 // TODO: add option to update existing readme.
 String buildReadmeMd(Api api) {
