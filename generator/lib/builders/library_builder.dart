@@ -12,7 +12,7 @@ import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
-import 'utils/documentation_utils.dart';
+import '../utils/documentation_utils.dart';
 
 String buildService(Api api) {
   api.initReferences();
