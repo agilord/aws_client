@@ -165,8 +165,7 @@ ${builder.constructor()}
             'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
       }
 
-      final extendsBlock =
-          shape.exception ? 'implements _s.AwsException ' : '';
+      final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
