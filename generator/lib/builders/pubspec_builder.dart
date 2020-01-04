@@ -31,7 +31,6 @@ environment:
 
 dependencies:
   shared_aws_api: ${protocolConfig.shared}
-  json_annotation: ^3.0.0
 
 dev_dependencies:
   build_runner: ^1.7.2

@@ -1,4 +1,6 @@
 export 'package:http/http.dart' show Client;
+export 'package:json_annotation/json_annotation.dart';
+export 'package:meta/meta.dart' show required;
 
 export 'src/credentials.dart';
 export 'src/protocol/ec2.dart';
