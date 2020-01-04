@@ -179,6 +179,8 @@ class GenerateCommand extends Command {
     }
 
     final monoPkgFile = File('mono_pkg.yaml');
+    // Downloaded from: https://raw.githubusercontent.com/aws/aws-sdk-js/master/LICENSE.txt
+    final licenseFile = File('aws-sdk-js-license.txt');
 
     for (final baseDir in touchedDirs) {
       final pathParts = baseDir.split('/')..removeAt(0);
@@ -187,6 +189,7 @@ class GenerateCommand extends Command {
         ..writeAsStringSync(buildTest(pathParts.join('/')));
 
       monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
+      licenseFile.copySync('$baseDir/LICENSE.txt');
     }
 
     print('Dart classes generated');
