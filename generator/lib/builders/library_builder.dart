@@ -44,9 +44,6 @@ String buildService(Api api) {
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart' as _meta;
-
 import 'package:shared_aws_api/shared.dart' as shared;
 import 'package:shared_aws_api/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
 """);
@@ -109,7 +106,7 @@ ${builder.constructor()}
 
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
-        write('@_meta.required ');
+        write('@shared.required ');
       }
       write('${member.dartType} ${member.fieldName}, ');
       member.shapeClass.markUsed(true);
@@ -163,7 +160,8 @@ ${builder.constructor()}
         writeln(r'@deprecated');
       }
       if (shape.api.generateJson) {
-        writeln('@JsonSerializable(includeIfNull: false, explicitToJson: true, '
+        writeln(
+            '@shared.JsonSerializable(includeIfNull: false, explicitToJson: true, '
             'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
       }
 
@@ -188,14 +186,14 @@ ${builder.constructor()}
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
           }
-          writeln("  @JsonKey(name: '${member.name}')");
+          writeln("  @shared.JsonKey(name: '${member.name}')");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');
       }
 
       final constructorMembers = shape.members.map((member) {
-        return "${member.isRequired ? "@_meta.required " : ""}this.${member.fieldName}, ";
+        return "${member.isRequired ? "@shared.required " : ""}this.${member.fieldName}, ";
       }).toList();
 
       if (constructorMembers.isEmpty) {
