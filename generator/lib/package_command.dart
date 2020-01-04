@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:http/http.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
@@ -16,7 +17,7 @@ class PackageCommand extends Command {
 
   PackageCommand() {
     addSubcommand(BumpVersionCommand());
-    // TODO: add sub-command for releasing the packages
+    addSubcommand(PublishCommand());
   }
 }
 
@@ -48,12 +49,8 @@ class BumpVersionCommand extends Command {
 
   @override
   Future<void> run() async {
-    final config = Config.fromJson(json.decode(json.encode(loadYaml(
-            File(argResults['config-file'] as String).readAsStringSync())))
-        as Map<String, dynamic>);
-
-    // TODO: scan ../generated/ directory for packages if config.packages is empty
-    final packages = config.packages;
+    final config = _loadConfig(argResults['config-file'] as String);
+    final packages = await _scanPackages(config);
 
     for (final package in packages) {
       final pkgDir = '../generated/$package';
@@ -186,5 +183,106 @@ class _Commit {
         .replaceAll('[patch]', '')
         .replaceAll('  ', ' ')
         .trim();
+  }
+}
+
+Config _loadConfig(String configFilePath) {
+  return Config.fromJson(json.decode(
+          json.encode(loadYaml(File(configFilePath).readAsStringSync())))
+      as Map<String, dynamic>);
+}
+
+Future<List<String>> _scanPackages(Config config) async {
+  // TODO: scan ../generated/ directory for packages if config.packages is empty
+  return config.packages;
+}
+
+class PublishCommand extends Command {
+  @override
+  String get name => 'publish';
+
+  @override
+  String get description =>
+      'Publish the packages that are not yet published with their last commited version.';
+
+  PublishCommand() {
+    argParser
+      ..addFlag(
+        'dry-run',
+        abbr: 'n',
+        help: 'Do not actually publish the packages.',
+      )
+      ..addOption(
+        'config-file',
+        help: 'Configuration file describing package generation.',
+        defaultsTo: 'config.yaml',
+      );
+  }
+
+  @override
+  Future<void> run() async {
+    final isDryRun = argResults['dry-run'] as bool;
+    final config = _loadConfig(argResults['config-file'] as String);
+    final packages = await _scanPackages(config);
+
+    final client = Client();
+
+    for (final package in packages) {
+      final pkgDir = '../generated/$package';
+
+      final pubspecFile = File('$pkgDir/pubspec.yaml');
+      final pubspecString = pubspecFile.readAsStringSync();
+      final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
+          as Map<String, dynamic>;
+      final version = pubspecMap['version'] as String;
+      final protocol = pubspecMap['protocol'] as String;
+      final protocolConfig = config.protocols[protocol];
+      assert(protocolConfig != null);
+
+      if (!protocolConfig.publish) continue;
+
+      final currentPublishedVersion =
+          await _currentPublishedVersion(client, package);
+
+      if (version == currentPublishedVersion) {
+        // print?
+        continue;
+      }
+
+      print('$package: $currentPublishedVersion -> $version.');
+      if (!isDryRun) {
+        final pr = await Process.run(
+          'pub',
+          ['publish', '--force'],
+          workingDirectory: pkgDir,
+        );
+        print(pr.stdout
+            .toString()
+            .split('\n')
+            .map((l) => '  [OUT] $l')
+            .join('\n'));
+        print(pr.stderr
+            .toString()
+            .split('\n')
+            .map((l) => '  [ERR] $l')
+            .join('\n'));
+        if (pr.exitCode != 0) {
+          throw Exception('Unable to publish.');
+        }
+      }
+    }
+
+    client.close();
+  }
+
+  Future<String> _currentPublishedVersion(Client client, String package) async {
+    final rs = await client.get('https://pub.dev/api/packages/$package');
+    if (rs.statusCode == 404) return null;
+    if (rs.statusCode == 200) {
+      final body = json.decode(rs.body);
+      final latest = body['latest'] as Map<String, dynamic>;
+      return latest['version'] as String;
+    }
+    throw Exception('Unexpected status code: ${rs.statusCode}');
   }
 }
