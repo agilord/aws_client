@@ -182,9 +182,11 @@ class GenerateCommand extends Command {
 
     for (final baseDir in touchedDirs) {
       final pathParts = baseDir.split('/')..removeAt(0);
+      final ensureBuildTestContent =
+          formatter.format(buildTest(pathParts.join('/')));
       File('$baseDir/test/ensure_build_test.dart')
         ..createSync(recursive: true)
-        ..writeAsStringSync(buildTest(pathParts.join('/')));
+        ..writeAsStringSync(ensureBuildTestContent);
 
       monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
     }
