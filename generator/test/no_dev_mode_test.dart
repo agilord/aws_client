@@ -7,7 +7,9 @@ import 'package:test/test.dart';
 
 void main() {
   test('Generated pubspec.yaml should not have dev mode artifacts.', () async {
-    final pubspecFiles = await Directory('../generated')
+    final generatedDir = Directory('../generated');
+    await generatedDir.create(recursive: true);
+    final pubspecFiles = await generatedDir
         .list(recursive: true)
         .where((f) => f is File)
         .cast<File>()
