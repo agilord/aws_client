@@ -245,7 +245,7 @@ class PublishCommand extends Command {
           await _currentPublishedVersion(client, package);
 
       if (version == currentPublishedVersion) {
-        // print?
+        print('Version $version of $package is already published.');
         continue;
       }
 
