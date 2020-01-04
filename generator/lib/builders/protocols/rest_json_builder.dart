@@ -9,9 +9,9 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final shared.RestJsonProtocol _protocol;
-  ${api.metadata.className}({@shared.required String region, @shared.required shared.AwsClientCredentials credentials, shared.Client client, String endpointUrl,})
-  : _protocol = shared.RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
+  final _s.RestJsonProtocol _protocol;
+  ${api.metadata.className}({@_s.required String region, @_s.required _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+  : _protocol = _s.RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
 
   @override

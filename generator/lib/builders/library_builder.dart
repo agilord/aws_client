@@ -44,7 +44,7 @@ String buildService(Api api) {
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:shared_aws_api/shared.dart' as shared;
+import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
 """);
   buf.writeln(builder.imports());
@@ -106,7 +106,7 @@ ${builder.constructor()}
 
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
-        write('@shared.required ');
+        write('@_s.required ');
       }
       write('${member.dartType} ${member.fieldName}, ');
       member.shapeClass.markUsed(true);
@@ -161,12 +161,11 @@ ${builder.constructor()}
       }
       if (shape.api.generateJson) {
         writeln(
-            '@shared.JsonSerializable(includeIfNull: false, explicitToJson: true, '
+            '@_s.JsonSerializable(includeIfNull: false, explicitToJson: true, '
             'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
       }
 
-      final extendsBlock =
-          shape.exception ? 'implements shared.AwsException ' : '';
+      final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';
 
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
@@ -186,14 +185,14 @@ ${builder.constructor()}
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
           }
-          writeln("  @shared.JsonKey(name: '${member.name}')");
+          writeln("  @_s.JsonKey(name: '${member.name}')");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');
       }
 
       final constructorMembers = shape.members.map((member) {
-        return "${member.isRequired ? "@shared.required " : ""}this.${member.fieldName}, ";
+        return "${member.isRequired ? "@_s.required " : ""}this.${member.fieldName}, ";
       }).toList();
 
       if (constructorMembers.isEmpty) {
@@ -232,10 +231,10 @@ ${builder.constructor()}
           if (member.isHeader) {
             if (member.shapeClass.type == 'map') {
               extractor =
-                  'shared.extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
+                  '_s.extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
             } else {
               extractor =
-                  'shared.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
+                  '_s.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
             }
           }
 
@@ -288,13 +287,13 @@ ${builder.constructor()}
   void putExceptions(Api api) {
     for (final exception in api.exceptions) {
       if (api.shapes.containsKey(exception)) continue;
-      writeln('\nclass $exception extends shared.GenericAwsException {');
+      writeln('\nclass $exception extends _s.GenericAwsException {');
       writeln('  $exception({String type, String message}) '
           ': super(type: type, code: \'$exception\', message: message);');
       writeln('}');
     }
 
-    writeln('\nfinal _exceptionFns = <String, shared.AwsExceptionFn>{');
+    writeln('\nfinal _exceptionFns = <String, _s.AwsExceptionFn>{');
     for (final exception in api.exceptions) {
       final shape = api.shapes[exception];
       final hasMessage = shape != null &&
@@ -327,21 +326,21 @@ String _xmlExtractorFn(
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return 'shared.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
+    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
-          'shared.extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
+          '_s.extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
     if (!flattened) {
       fn =
-          'shared.extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
+          '_s.extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
     }
     return fn;
   } else if (type == 'map') {
@@ -360,7 +359,7 @@ String _xmlExtractorFn(
     return 'Map.fromEntries($elemVar.findElements(\'$elemName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
   } else {
-    return 'shared.extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
+    return '_s.extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
   }
 }
 
@@ -376,7 +375,7 @@ String _toXmlFn(
   final type = shapeRef.type;
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return 'shared.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
+    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
@@ -384,7 +383,7 @@ String _toXmlFn(
     if (memberShape.type.isBasicType()) {
       final mdt = memberShape.type.getDartType();
       fn =
-          '...$fieldName.map((v) => shared.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
+          '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
     } else {
       fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
