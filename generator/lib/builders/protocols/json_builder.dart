@@ -9,9 +9,9 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final shared.JsonProtocol _protocol;
-  ${api.metadata.className}({@shared.required String region, @shared.required shared.AwsClientCredentials credentials, shared.Client client, String endpointUrl,})
-  : _protocol = shared.JsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
+  final _s.JsonProtocol _protocol;
+  ${api.metadata.className}({@_s.required String region, @_s.required _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+  : _protocol = _s.JsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
 
   @override

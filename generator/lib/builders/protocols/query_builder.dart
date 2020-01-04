@@ -9,10 +9,10 @@ class QueryServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() => '''
-  final shared.QueryProtocol _protocol;
+  final _s.QueryProtocol _protocol;
 
-  ${api.metadata.className}({@shared.required String region, @shared.required shared.AwsClientCredentials credentials, shared.Client client,})
-  : _protocol = shared.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
+  ${api.metadata.className}({@_s.required String region, @_s.required _s.AwsClientCredentials credentials, _s.Client client,})
+  : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
   ''';
 
   @override
