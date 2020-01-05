@@ -6,12 +6,21 @@ String buildReadmeMd(Api api) {
   return '''
 # AWS API client for ${api.metadata.serviceFullName}
 
+**Warning: This is a generated library, some operations may not work.**
+
+*About the service:*
 ${markdownText(api.documentation)}
 
-## Warning
+## Links
 
-**This is a generated library, some operations may not work.**
-Please report bugs at [our issue tracker](https://github.com/agilord/aws_client/issues).
+- [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
+- [Issue tracker](https://github.com/agilord/aws_client/issues).
+- [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
+
+## Contributors
+
+- [Jonathan Böcker](https://github.com/Schwusch)
+- [Istvan Soós](https://github.com/isoos)
 
 ''';
 }
