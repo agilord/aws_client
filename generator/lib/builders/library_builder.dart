@@ -218,7 +218,7 @@ ${builder.constructor()}
           params = ', {$params}';
         }
         writeln(
-            '\n  factory $name.fromXml(${lintComment}XmlElement elem$params) {');
+            '\n  factory $name.fromXml(${lintComment}_s.XmlElement elem$params) {');
         final constructorParams = <String>[];
         for (final member in shape.members) {
           if (member.isQuery || member.isUri) {
@@ -256,8 +256,8 @@ ${builder.constructor()}
       }
 
       if (shape.api.generateToXml && shape.isUsedInInput) {
-        writeln('\n  XmlElement toXml(String elemName) {');
-        writeln('    final \$children = <XmlNode>[');
+        writeln('\n  _s.XmlElement toXml(String elemName) {');
+        writeln('    final \$children = <_s.XmlNode>[');
         for (final member in shape.members) {
           if (member.isQuery || member.isUri || member.isHeader) {
             writeln(
@@ -276,7 +276,7 @@ ${builder.constructor()}
         }
         writeln('    ];');
         writeln(
-            '    return XmlElement(XmlName(elemName), [], \$children.where((e) => e != null),);');
+            '    return _s.XmlElement(_s.XmlName(elemName), [], \$children.where((e) => e != null),);');
         writeln('  }');
       }
 
@@ -388,7 +388,7 @@ String _toXmlFn(
       fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
     if (!flattened) {
-      fn = 'XmlElement(XmlName(\'$elemName\'), [], <XmlNode>[$fn])';
+      fn = '_s.XmlElement(_s.XmlName(\'$elemName\'), [], <_s.XmlNode>[$fn])';
     }
     return 'if ($fieldName != null) $fn';
   } else if (type == 'map') {

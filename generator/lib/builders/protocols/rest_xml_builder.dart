@@ -18,7 +18,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
   }
 
   @override
-  String imports() => 'import \'package:xml/xml.dart\';\n';
+  String imports() => '';
 
   @override
   String operationContent(Operation operation) {
