@@ -136,12 +136,13 @@ ${builder.constructor()}
     // Flattened shapes are typically not used.
     if (shape.flattened) return;
 
-    if (shape.type == 'string' && shape.enumeration != null) {
+    if (shape.enumeration != null && shape.isUsedInInput) {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
         writeln(r"@Deprecated('Deprecated')");
       }
-      writeln('abstract class $name {');
+      writeln('enum $name {');
+
       shape.enumeration.forEach((value) {
         var fieldName = value
             .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
@@ -151,7 +152,8 @@ ${builder.constructor()}
         if (fieldName.isReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
           fieldName = '\$$fieldName';
         }
-        writeln("  static const $fieldName = \'$value\';");
+        writeln("  @_s.JsonValue('$value')");
+        writeln('  $fieldName,');
       });
       writeln('}');
     } else if (shape.type == 'structure') {
@@ -173,7 +175,8 @@ ${builder.constructor()}
           writeln(dartdocComment(member.documentation));
         }
 
-        final valueEnum = shape.api.shapes[member.shape].enumeration;
+        final shapeClass = member.shapeClass;
+        final valueEnum = shapeClass.enumeration;
 
         if (valueEnum?.isNotEmpty ?? false) {
           writeln("/// Possible values: [${valueEnum.join(", ")}]");
