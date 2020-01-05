@@ -27,8 +27,8 @@ class Shape {
   final Descriptor member;
   final Descriptor key;
   final Descriptor value;
-  final num max;
-  final num min;
+  final int max;
+  final int min;
   final List<String> xmlOrder;
   final String pattern;
   final String documentation;

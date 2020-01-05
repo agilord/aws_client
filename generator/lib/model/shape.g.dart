@@ -52,8 +52,8 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
     json['value'] == null
         ? null
         : Descriptor.fromJson(json['value'] as Map<String, dynamic>),
-    json['max'] as num,
-    json['min'] as num,
+    json['max'] as int,
+    json['min'] as int,
     json['pattern'] as String,
     json['documentation'] as String,
     json['location'] as String,
