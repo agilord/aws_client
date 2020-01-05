@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
 import 'package:aws_client.generator/builders/protocols/json_builder.dart';
@@ -115,9 +116,26 @@ ${builder.constructor()}
     if (useParameter) write('}');
     writeln(') async {');
     for (final member in parameterShape?.members ?? <Member>[]) {
+      final name = member.fieldName;
       if (member.isRequired) {
-        final name = member.fieldName;
         writeln('    ArgumentError.checkNotNull($name, \'$name\');');
+      }
+
+      if (member.shapeClass?.max != null || member.shapeClass?.min != null) {
+        final max = member.shapeClass?.max ?? pow(2, 60).toInt();
+        final min = member.shapeClass?.min ?? pow(2, -60).toInt();
+
+        if (member.dartType == 'String') {
+          writeln("_s.validateStringLength('$name', $name, $min, $max,);");
+        } else if (member.dartType == 'int' || member.dartType == 'double') {
+          writeln("_s.validateNumRange('$name', $name, $min, $max,);");
+        }
+      }
+
+      final pattern = member.shapeClass?.pattern;
+
+      if (pattern != null) {
+        writeln("_s.validateStringPattern('$name', $name, r'$pattern',);");
       }
     }
 

@@ -12,3 +12,4 @@ export 'src/protocol/rest-json.dart';
 export 'src/protocol/rest-xml.dart';
 export 'src/protocol/shared.dart';
 export 'src/scoping_extensions.dart';
+export 'src/validation/utils.dart';
