@@ -1,16 +1,16 @@
 protocols:
   ec2:
-    shared: 0.3.0-dev
+    shared: ^0.1.0
   json:
-    shared: 0.3.0-dev
+    shared: ^0.1.0
   query:
-    shared: 0.3.0-dev
-    # publish: true
+    shared: ^0.1.0
+    publish: true
   rest-json:
-    shared: 0.3.0-dev
+    shared: ^0.1.0
   rest-xml:
-    shared: 0.3.0-dev
-    # publish: true
+    shared: ^0.1.0
+    publish: true
 
 # Packages to generate
 packages:
