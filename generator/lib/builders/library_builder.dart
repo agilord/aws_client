@@ -47,6 +47,8 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
+
+export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 """);
   buf.writeln(builder.imports());
   if (api.generateJson) {
