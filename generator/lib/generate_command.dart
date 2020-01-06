@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:aws_client.generator/builders/example_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -108,7 +109,10 @@ class GenerateCommand extends Command {
           final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
           final pubspecFile = File('$baseDir/pubspec.yaml');
           final readmeFile = File('$baseDir/README.md');
+          final exampleFile = File('$baseDir/example/README.md');
+
           serviceFile.parent.createSync(recursive: true);
+          exampleFile.createSync(recursive: true);
 
           var serviceText = buildService(api);
           if (argResults['format'] == true) {
@@ -155,6 +159,7 @@ class GenerateCommand extends Command {
           pubspecFile.writeAsStringSync(pubspecYaml);
           serviceFile.writeAsStringSync(serviceText);
           readmeFile.writeAsStringSync(buildReadmeMd(api));
+          exampleFile.writeAsStringSync(buildExampleReadme(api));
           touchedDirs.add(baseDir);
         } else {
           print('API in ${def.path} was not recognized.');
