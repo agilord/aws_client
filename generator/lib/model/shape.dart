@@ -269,7 +269,14 @@ extension NameStuff on String {
         // otherwise uppercase the first, and keep the rest the same
         return s.substring(0, 1).toUpperCase() + s.substring(1);
       }
+    }).map((s) {
+      if (s.startsWith(RegExp('[0-9]'))) {
+        return '_$s';
+      } else {
+        return s;
+      }
     }).join('');
+    if (value.startsWith('_')) value = value.substring(1);
     if (value.isEmpty) return this;
     if (value.isAllUpperCase) value = value.toLowerCase();
     if (value.startsWith('AWS')) value = value.replaceFirst('AWS', 'aws');
