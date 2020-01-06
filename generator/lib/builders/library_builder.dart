@@ -106,7 +106,7 @@ ${builder.constructor()}
     operation.output?.shapeClass?.markUsed(false);
     write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
-    parameterShape.markUsed(true);
+
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
         write('@_s.required ');
