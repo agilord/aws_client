@@ -259,9 +259,27 @@ extension NameStuff on String {
       }.contains(this);
 
   String get lowercaseName {
-    if (this == null || isEmpty) return this;
-    if (isAllUpperCase) return toLowerCase();
-    if (startsWith('AWS')) return replaceFirst('AWS', 'aws');
-    return substring(0, 1).toLowerCase() + substring(1);
+    if (this == null) return this;
+    var value = this;
+    value = value.split('_').where((s) => s.isNotEmpty).map((s) {
+      // convert only if all characters are the same case
+      if (s.toLowerCase() == s || s.toUpperCase() == s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+      } else {
+        // otherwise uppercase the first, and keep the rest the same
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
+      }
+    }).map((s) {
+      if (s.startsWith(RegExp('[0-9]'))) {
+        return '_$s';
+      } else {
+        return s;
+      }
+    }).join('');
+    if (value.startsWith('_')) value = value.substring(1);
+    if (value.isEmpty) return this;
+    if (value.isAllUpperCase) value = value.toLowerCase();
+    if (value.startsWith('AWS')) value = value.replaceFirst('AWS', 'aws');
+    return value.substring(0, 1).toLowerCase() + value.substring(1);
   }
 }
