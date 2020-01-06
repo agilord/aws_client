@@ -362,7 +362,7 @@ String _xmlExtractorFn(
 
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '.to${parent.className}()' : ''}';
+    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
@@ -413,7 +413,7 @@ String _toXmlFn(
 
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '.toValue()' : ''})';
+    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '?.toValue()' : ''})';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
