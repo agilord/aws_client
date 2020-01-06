@@ -222,7 +222,7 @@ class Member {
     final dartType = shape;
     final type = shapeClass.type;
     // There should be an enum for enumerated parameters
-    if (shapeClass.isUsedInInput && shapeClass.enumeration != null) {
+    if (shapeClass.enumeration != null) {
       return shapeClass.className;
     } else if (type.isBasicType()) {
       return type.getDartType();

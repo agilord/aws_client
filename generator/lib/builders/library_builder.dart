@@ -103,7 +103,7 @@ ${builder.constructor()}
     operation.output?.shapeClass?.markUsed(false);
     write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
-
+    parameterShape.markUsed(true);
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
         write('@_s.required ');
@@ -136,26 +136,54 @@ ${builder.constructor()}
     // Flattened shapes are typically not used.
     if (shape.flattened) return;
 
-    if (shape.enumeration != null && shape.isUsedInInput) {
+    if (shape.enumeration != null) {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
         writeln(r"@Deprecated('Deprecated')");
       }
       writeln('enum $name {');
 
-      shape.enumeration.forEach((value) {
+      final enumFieldNames =
+          shape.enumeration.where((s) => s.isNotEmpty).map((value) {
         var fieldName = value
             .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
             .replaceAll(RegExp(r'_+'), '_')
             .lowercaseName;
-        if (fieldName.isEmpty) return;
         if (fieldName.isReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
           fieldName = '\$$fieldName';
         }
-        writeln("  @_s.JsonValue('$value')");
+        if (shape.api.generateJson) {
+          writeln("  @_s.JsonValue('$value')");
+        }
         writeln('  $fieldName,');
-      });
+        return fieldName;
+      }).toList();
       writeln('}');
+
+      if (shape.api.generateToXml) {
+        writeln("""extension on $name {
+  String toValue() {
+    switch (this) {
+    ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
+    return '$value';
+    ''').join()}
+    }
+    throw Exception('Unknown enum value: \$this');
+  }
+}
+        """);
+        writeln("""extension on String {
+  $name to$name() {
+    switch (this) {
+    ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case '$value':
+    return $name.${enumFieldNames[index]};
+    ''').join()}
+    }
+    throw Exception('Unknown enum value: \$this');
+  }
+}
+        """);
+      }
     } else if (shape.type == 'structure') {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
@@ -227,7 +255,7 @@ ${builder.constructor()}
           if (member.isQuery || member.isUri) {
             writeln(
                 '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
-            writeln('if (1 == 1) throw UnimplementedError();');
+            writeln('if (1 == 1) throw UnimplementedError(),');
             continue;
           }
           String extractor;
@@ -247,6 +275,7 @@ ${builder.constructor()}
             shape: member.shape,
             elemName: member.locationName ?? member.name,
             flattened: member.flattened,
+            parent: member.shapeClass,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
         }
@@ -265,15 +294,15 @@ ${builder.constructor()}
           if (member.isQuery || member.isUri || member.isHeader) {
             writeln(
                 '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
-            writeln('if (1 == 1) throw UnimplementedError();');
+            writeln('if (1 == 1) throw UnimplementedError(),');
             continue;
           }
           final fn = _toXmlFn(
             shape.api,
-            shape: member.shape,
             fieldName: member.fieldName,
             elemName: member.locationName ?? member.name,
             flattened: member.flattened,
+            shapeRef: member.shapeClass,
           );
           writeln('      $fn,');
         }
@@ -323,13 +352,17 @@ String _xmlExtractorFn(
   String shape,
   String elemName,
   bool flattened = false,
+  Shape parent,
 }) {
   final shapeRef = api.shapes[shape];
   flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
+
+  final enumeration = parent?.enumeration?.isNotEmpty ?? false;
+
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')';
+    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
@@ -352,13 +385,13 @@ String _xmlExtractorFn(
       elemVar: 'c',
       shape: shapeRef.key.shape,
       elemName: shapeRef.key.locationName,
+      parent: shapeRef,
     );
-    final valueExtractor = _xmlExtractorFn(
-      api,
-      elemVar: 'c',
-      shape: shapeRef.value.shape,
-      elemName: shapeRef.value.locationName,
-    );
+    final valueExtractor = _xmlExtractorFn(api,
+        elemVar: 'c',
+        shape: shapeRef.value.shape,
+        elemName: shapeRef.value.locationName,
+        parent: shapeRef);
     return 'Map.fromEntries($elemVar.findElements(\'$elemName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
   } else {
@@ -368,17 +401,19 @@ String _xmlExtractorFn(
 
 String _toXmlFn(
   Api api, {
-  String shape,
   String fieldName,
   String elemName,
   bool flattened,
+  Shape shapeRef,
 }) {
-  final shapeRef = api.shapes[shape];
   flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
+
+  final enumeration = shapeRef?.enumeration?.isNotEmpty ?? false;
+
   if (type.isBasicType()) {
     final dartType = type.getDartType();
-    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName)';
+    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '.toValue()' : ''})';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
@@ -396,7 +431,7 @@ String _toXmlFn(
     return 'if ($fieldName != null) $fn';
   } else if (type == 'map') {
     // TODO: implement
-    return 'if (true == true) throw UnimplementedError(\'XML map: $shape\')';
+    return 'if (true == true) throw UnimplementedError(\'XML map: ${shapeRef.name}\'),';
   } else {
     return '$fieldName.toXml(\'$elemName\')';
   }
@@ -404,3 +439,16 @@ String _toXmlFn(
 
 String _uppercaseName(String value) =>
     value.substring(0, 1).toUpperCase() + value.substring(1);
+
+extension Utils<T> on Iterable<T> {
+  Iterable<E> mapIndexed<E, T>(
+    E Function(int index, T item) f,
+  ) sync* {
+    var index = 0;
+
+    for (final item in this) {
+      yield f(index, item as T);
+      index = index + 1;
+    }
+  }
+}
