@@ -1,6 +1,6 @@
 export 'package:http/http.dart' show Client;
 export 'package:json_annotation/json_annotation.dart'
-    show JsonKey, JsonSerializable;
+    show JsonKey, JsonSerializable, JsonValue;
 export 'package:meta/meta.dart' show required;
 export 'package:xml/xml.dart' show XmlElement, XmlName, XmlNode;
 

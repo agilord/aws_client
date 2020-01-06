@@ -219,12 +219,15 @@ class Member {
   }
 
   String get dartType {
-    var dartType = shape;
+    final dartType = shape;
     final type = shapeClass.type;
-    if (type.isBasicType()) {
-      dartType = type.getDartType();
+    // There should be an enum for enumerated parameters
+    if (shapeClass.enumeration != null) {
+      return shapeClass.className;
+    } else if (type.isBasicType()) {
+      return type.getDartType();
     } else if (type.isMapOrList()) {
-      dartType = getListOrMapDartType(shapeClass);
+      return getListOrMapDartType(shapeClass);
     }
     return dartType;
   }
