@@ -226,10 +226,6 @@ ${builder.constructor()}
         final shapeClass = member.shapeClass;
         final valueEnum = shapeClass.enumeration;
 
-        if (valueEnum?.isNotEmpty ?? false) {
-          writeln("/// Possible values: [${valueEnum.join(", ")}]");
-        }
-
         if (shape.api.generateJson) {
           if (member.dartType == 'Uint8List') {
             writeln('@Uint8ListConverter()');
