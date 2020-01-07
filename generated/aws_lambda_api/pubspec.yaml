@@ -1,5 +1,5 @@
 name: aws_lambda_api
-description: AWS API client for AWS Lambda
+description: AWS API client for AWS Lambda (generated from SDK API specification).
 version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_lambda_api
 publish_to: none

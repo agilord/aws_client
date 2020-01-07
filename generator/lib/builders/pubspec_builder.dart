@@ -20,7 +20,7 @@ dependency_overrides:
   final publishTo = protocolConfig.publish ? '\n' : 'publish_to: none\n';
 
   return '''name: ${api.packageName}
-description: AWS API client for ${api.metadata.serviceFullName}
+description: AWS API client for ${api.metadata.serviceFullName} (generated from SDK API specification).
 version: $packageVersion
 homepage: https://github.com/agilord/aws_client/tree/master/generated/${api.packageName}
 $publishTo
