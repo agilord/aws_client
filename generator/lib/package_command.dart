@@ -38,7 +38,6 @@ class BumpVersionCommand extends Command {
         'version-increment',
         help: 'The increment type to use (augments commit messages).',
         allowed: ['major', 'minor', 'patch'],
-        defaultsTo: 'patch',
       )
       ..addOption(
         'config-file',
@@ -66,8 +65,9 @@ class BumpVersionCommand extends Command {
       Version newVersion;
 
       final changelogFile = File('$pkgDir/CHANGELOG.md');
-      var changelogContent = '## $currentVersion\n- initial release';
-      if (changelogFile.existsSync()) {
+      var changelogExists = changelogFile.existsSync();
+      var changelogContent = '';
+      if (changelogExists) {
         changelogContent = changelogFile.readAsStringSync();
       }
 
@@ -121,6 +121,7 @@ class BumpVersionCommand extends Command {
           '(git hash: $currentHash)',
           '',
         ],
+        if (!currentChanges.any((c) => c.isQualified)) '- initial release',
         ...currentChanges
             .where((c) => c.isQualified)
             .map((c) => '- ${c.formattedMessage}'),
