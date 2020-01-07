@@ -1,5 +1,5 @@
 name: aws_dynamodb_api
-description: AWS API client for Amazon DynamoDB
+description: AWS API client for Amazon DynamoDB (generated from SDK API specification).
 version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_dynamodb_api
 publish_to: none
