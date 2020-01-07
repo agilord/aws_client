@@ -65,7 +65,7 @@ class BumpVersionCommand extends Command {
       Version newVersion;
 
       final changelogFile = File('$pkgDir/CHANGELOG.md');
-      var changelogExists = changelogFile.existsSync();
+      final changelogExists = changelogFile.existsSync();
       var changelogContent = '';
       if (changelogExists) {
         changelogContent = changelogFile.readAsStringSync();
