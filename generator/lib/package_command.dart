@@ -60,6 +60,8 @@ class BumpVersionCommand extends Command {
       final pubspecString = pubspecFile.readAsStringSync();
       final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
           as Map<String, dynamic>;
+      final protocolConfig = config.protocols[pubspecMap['protocol']];
+      if (!protocolConfig.publish) continue;
 
       final currentVersion = Version.parse(pubspecMap['version'] as String);
       Version newVersion;
@@ -100,7 +102,6 @@ class BumpVersionCommand extends Command {
         newVersion = Version.parse(argResults['version'] as String);
       }
 
-      final protocolConfig = config.protocols[pubspecMap['protocol']];
       final newSharedVersion = protocolConfig.shared;
       final oldSharedVersion =
           pubspecMap['dependencies']['aws_client'] as String;
@@ -183,6 +184,7 @@ class _Commit {
         .replaceAll('[minor]', '')
         .replaceAll('[patch]', '')
         .replaceAll('  ', ' ')
+        .replaceAll(' . (', '. (') // xyz [patch]. (#XX)
         .trim();
   }
 }
