@@ -101,8 +101,7 @@ class GenerateCommand extends Command {
         final api = Api.fromJson(defJson);
         final protocolConfig = config.protocols[api.metadata.protocol];
         if (api.isRecognized &&
-            (protocolConfig.generate ||
-                config.packages == null ||
+            (config.packages == null ||
                 config.packages.contains(api.packageName))) {
           print(
               'Generating ${api.fileBasename} for package:${api.packageName}');

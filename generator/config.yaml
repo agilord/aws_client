@@ -5,7 +5,6 @@ protocols:
     shared: ^0.1.0
   query:
     shared: ^0.1.0
-    generate: true # extend packages list
     publish: true
   rest-json:
     shared: ^0.1.0
