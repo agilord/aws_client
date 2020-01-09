@@ -16,6 +16,7 @@ class Config {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class ProtocolConfig {
   final String shared;
+
   @JsonKey(defaultValue: false)
   final bool publish;
 
