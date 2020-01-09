@@ -90,6 +90,7 @@ class GenerateCommand extends Command {
     });
 
     final touchedDirs = <String>{};
+    final notGeneratedApis = <String, Map<String, List<String>>>{};
 
     for (final service in services) {
       final def = File('./apis/$service.normal.json');
@@ -162,7 +163,12 @@ class GenerateCommand extends Command {
           exampleFile.writeAsStringSync(buildExampleReadme(api));
           touchedDirs.add(baseDir);
         } else {
-          print('API in ${def.path} was not recognized.');
+          notGeneratedApis[api.metadata.protocol] ??= {};
+          notGeneratedApis[api.metadata.protocol]
+              [api.packageBaseName ?? 'NO_PACKAGE_BASENAME'] ??= [];
+          notGeneratedApis[api.metadata.protocol]
+                  [api.packageBaseName ?? 'NO_PACKAGE_BASENAME']
+              .add(api.fileBasename);
         }
       } on UnrecognizedKeysException catch (e) {
         print('Error deserializing $service');
@@ -199,7 +205,8 @@ class GenerateCommand extends Command {
       licenseFile.copySync('$baseDir/LICENSE.txt');
     }
 
-    print('Dart classes generated');
+    print('APIs not generated:');
+    printPretty(notGeneratedApis);
   }
 
   Future<void> _runPubGet(String baseDir) async {
@@ -227,6 +234,15 @@ class GenerateCommand extends Command {
       print(pr.stdout);
       print(pr.stderr);
       throw Exception('build_runner failed at $baseDir');
+    }
+  }
+}
+
+void printPretty(Map<String, Map<String, List<String>>> foo) {
+  for (final protocol in foo.keys.toList()..sort()) {
+    print('$protocol:');
+    for (final service in foo[protocol].keys.toList()..sort()) {
+      print('  - $service: ${foo[protocol][service]}');
     }
   }
 }
