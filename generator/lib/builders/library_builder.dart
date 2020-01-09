@@ -281,6 +281,9 @@ ${builder.constructor()}
             if (member.shapeClass.type == 'map') {
               extractor =
                   '_s.extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
+            } else if (member.shapeClass.enumeration?.isNotEmpty ?? false) {
+              extractor =
+                  '_s.extractHeaderStringValue(headers, \'${member.locationName ?? member.name}\')?.to${_uppercaseName(member.dartType)}()';
             } else {
               extractor =
                   '_s.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
@@ -449,7 +452,7 @@ String _toXmlFn(
     return 'if ($fieldName != null) $fn';
   } else if (type == 'map') {
     // TODO: implement
-    return 'if (true == true) throw UnimplementedError(\'XML map: ${shapeRef.name}\'),';
+    return 'if ($fieldName != null) throw UnimplementedError(\'XML map: ${shapeRef.name}\')';
   } else {
     return '$fieldName.toXml(\'$elemName\')';
   }
