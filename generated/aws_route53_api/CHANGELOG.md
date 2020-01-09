@@ -1,5 +1,11 @@
 ## 0.0.2
 
+(git hash: 29ed568e1905ae0e34f7eab6a8fd833e26d80e03)
+
+- initial release
+
+## 0.0.2
+
 (git hash: f6f5e5db87ff6de5f814cd1527ce9df83c90b202)
 
 - Extend package description. (#127)
