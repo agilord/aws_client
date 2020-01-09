@@ -16,11 +16,16 @@ class Config {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class ProtocolConfig {
   final String shared;
+
+  @JsonKey(defaultValue: false)
+  final bool generate;
+
   @JsonKey(defaultValue: false)
   final bool publish;
 
   ProtocolConfig({
     this.shared,
+    this.generate,
     this.publish,
   });
 

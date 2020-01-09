@@ -21,9 +21,10 @@ Config _$ConfigFromJson(Map<String, dynamic> json) {
 }
 
 ProtocolConfig _$ProtocolConfigFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, allowedKeys: const ['shared', 'publish']);
+  $checkKeys(json, allowedKeys: const ['shared', 'generate', 'publish']);
   return ProtocolConfig(
     shared: json['shared'] as String,
+    generate: json['generate'] as bool ?? false,
     publish: json['publish'] as bool ?? false,
   );
 }

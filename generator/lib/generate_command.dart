@@ -99,8 +99,10 @@ class GenerateCommand extends Command {
 
       try {
         final api = Api.fromJson(defJson);
+        final protocolConfig = config.protocols[api.metadata.protocol];
         if (api.isRecognized &&
-            (config.packages == null ||
+            (protocolConfig.generate ||
+                config.packages == null ||
                 config.packages.contains(api.packageName))) {
           print(
               'Generating ${api.fileBasename} for package:${api.packageName}');
@@ -120,7 +122,6 @@ class GenerateCommand extends Command {
           }
 
           String pubspecYaml;
-          final protocolConfig = config.protocols[api.metadata.protocol];
 
           if (pubspecFile.existsSync() && !devMode) {
             String oldServiceText;

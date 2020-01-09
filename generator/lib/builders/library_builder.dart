@@ -192,6 +192,8 @@ ${builder.constructor()}
   }
 }
         """);
+      }
+      if (shape.api.generateFromXml) {
         writeln("""extension on String {
   $name to$name() {
     switch (this) {
