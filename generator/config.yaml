@@ -16,6 +16,23 @@ protocols:
 packages:
   - aws_lambda_api # rest-json
   - aws_dynamodb_api # json
-  - aws_sns_api # query
   - aws_route53_api # rest-xml
   - aws_ec2_api # ec2
+## query protocol APIs
+  - aws_autoscaling_api
+  - aws_cloudformation_api
+  - aws_cloudsearch_api
+  - aws_cloudwatch_api
+  - aws_elasticache_api
+  - aws_elasticbeanstalk_api
+  - aws_elb_api
+  - aws_elbv2_api
+  - aws_iam_api
+  - aws_importexport_api
+  - aws_rds_api
+  - aws_redshift_api
+  - aws_sdb_api
+  - aws_ses_api
+  - aws_sns_api
+  - aws_sqs_api
+  - aws_sts_api
