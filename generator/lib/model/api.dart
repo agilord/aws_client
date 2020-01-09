@@ -68,16 +68,16 @@ class Api {
     return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
   }
 
-  bool get isRecognized => _packageBaseName != null;
+  bool get isRecognized => packageBaseName != null;
 
   String get packageName {
-    if (_packageBaseName == null) {
+    if (packageBaseName == null) {
       throw ArgumentError('API not recognized: $fileBasename');
     }
-    return 'aws_${_packageBaseName.replaceAll('-', '_')}_api';
+    return 'aws_${packageBaseName.replaceAll('-', '_')}_api';
   }
 
-  String get _packageBaseName {
+  String get packageBaseName {
     final candidates = <String>[
       metadata.endpointPrefix,
       metadata.uid?.split('-20')?.first,
