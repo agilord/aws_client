@@ -36,3 +36,7 @@ packages:
   - aws_sns_api
   - aws_sqs_api
   - aws_sts_api
+## rest-xml protocol APIs
+  - aws_cloudfront_api
+  - aws_s3_api
+  - aws_s3control_api

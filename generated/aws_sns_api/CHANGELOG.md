@@ -1,5 +1,11 @@
 ## 0.0.2
 
+(git hash: 9f95ffeaee28d3c62ee0380c32b58f27491840fe)
+
+- initial release
+
+## 0.0.2
+
 (git hash: 29ed568e1905ae0e34f7eab6a8fd833e26d80e03)
 
 - initial release
