@@ -16,7 +16,6 @@ protocols:
 packages:
   - aws_lambda_api # rest-json
   - aws_dynamodb_api # json
-  - aws_route53_api # rest-xml
   - aws_ec2_api # ec2
 ## query protocol APIs
   - aws_autoscaling_api
@@ -36,3 +35,8 @@ packages:
   - aws_sns_api
   - aws_sqs_api
   - aws_sts_api
+## rest-xml protocol APIs
+  - aws_cloudfront_api
+  - aws_route53_api
+  - aws_s3_api
+  - aws_s3control_api
