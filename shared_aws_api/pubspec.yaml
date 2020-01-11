@@ -13,6 +13,7 @@ dependencies:
   json_annotation: ^3.0.0
   meta: ^1.1.8
   xml: ^3.7.0
+  intl: ^0.16.1
 
 dev_dependencies:
   pedantic: ^1.8.0+1

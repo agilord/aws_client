@@ -9,7 +9,15 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -60,12 +68,19 @@ class DynamoDB {
     @_s.required Map<String, KeysAndAttributes> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.BatchGetItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return BatchGetItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Allows to execute a batch of Put and/or Delete Requests for many tables in
@@ -87,12 +102,19 @@ class DynamoDB {
     @_s.required Map<String, List<WriteRequest>> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.BatchWriteItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return BatchWriteItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds a new table to your account.
@@ -134,12 +156,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.CreateTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return CreateTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a single item in a table by primary key.
@@ -178,12 +207,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DeleteItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DeleteItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a table and all of its items.
@@ -218,12 +254,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DeleteTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DeleteTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves information about the table, including the current status of the
@@ -254,12 +297,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DescribeTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a set of Attributes for an item that matches the primary key.
@@ -298,12 +348,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.GetItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a paginated list of table names created by the AWS Account of
@@ -337,12 +394,19 @@ class DynamoDB {
       1,
       100,
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.ListTables'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return ListTablesOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a new item, or replaces an old item with a new item (including all
@@ -384,12 +448,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.PutItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return PutItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets the values of one or more items and its attributes by primary key
@@ -476,12 +547,19 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Query'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return QueryOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves one or more items and its attributes by performing a full scan
@@ -552,12 +630,19 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Scan'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return ScanOutput.fromJson(jsonResponse.body);
   }
 
   /// Edits an existing item's attributes.
@@ -599,12 +684,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.UpdateItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return UpdateItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the provisioned throughput for the given table.
@@ -638,12 +730,19 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
     final headers = {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.UpdateTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return UpdateTableOutput.fromJson(jsonResponse.body);
   }
 }
 
@@ -1212,9 +1311,11 @@ class ProvisionedThroughput {
     createFactory: true,
     createToJson: false)
 class ProvisionedThroughputDescription {
-  @_s.JsonKey(name: 'LastDecreaseDateTime')
+  @_s.JsonKey(
+      name: 'LastDecreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastDecreaseDateTime;
-  @_s.JsonKey(name: 'LastIncreaseDateTime')
+  @_s.JsonKey(
+      name: 'LastIncreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastIncreaseDateTime;
   @_s.JsonKey(name: 'NumberOfDecreasesToday')
   final int numberOfDecreasesToday;
@@ -1395,7 +1496,8 @@ class ScanOutput {
     createFactory: true,
     createToJson: false)
 class TableDescription {
-  @_s.JsonKey(name: 'CreationDateTime')
+  @_s.JsonKey(
+      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime creationDateTime;
   @_s.JsonKey(name: 'ItemCount')
   final int itemCount;

@@ -400,12 +400,8 @@ Map<String, dynamic> _$ProvisionedThroughputToJson(
 ProvisionedThroughputDescription _$ProvisionedThroughputDescriptionFromJson(
     Map<String, dynamic> json) {
   return ProvisionedThroughputDescription(
-    lastDecreaseDateTime: json['LastDecreaseDateTime'] == null
-        ? null
-        : DateTime.parse(json['LastDecreaseDateTime'] as String),
-    lastIncreaseDateTime: json['LastIncreaseDateTime'] == null
-        ? null
-        : DateTime.parse(json['LastIncreaseDateTime'] as String),
+    lastDecreaseDateTime: unixFromJson(json['LastDecreaseDateTime']),
+    lastIncreaseDateTime: unixFromJson(json['LastIncreaseDateTime']),
     numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int,
     readCapacityUnits: json['ReadCapacityUnits'] as int,
     writeCapacityUnits: json['WriteCapacityUnits'] as int,
@@ -491,9 +487,7 @@ ScanOutput _$ScanOutputFromJson(Map<String, dynamic> json) {
 
 TableDescription _$TableDescriptionFromJson(Map<String, dynamic> json) {
   return TableDescription(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixFromJson(json['CreationDateTime']),
     itemCount: json['ItemCount'] as int,
     keySchema: json['KeySchema'] == null
         ? null

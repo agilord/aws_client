@@ -1,8 +1,33 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:xml/xml.dart';
+
+final rfc822Formatter = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
+final iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ssZ", 'en_US');
+
+DateTime rfc822fromJson(String date) => rfc822Formatter.parse(date);
+
+String rfc822toJson(DateTime date) => rfc822Formatter.format(date);
+
+DateTime iso8601fromJson(String date) => iso8601Formatter.parse(date);
+
+String iso8601toJson(DateTime date) => iso8601Formatter.format(date);
+
+DateTime unixFromJson(dynamic date) {
+  if (date is String) {
+    return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
+  } else if (date is num) {
+    return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000);
+  }
+
+  throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
+}
+
+int unixToJson(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
 class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   const Uint8ListConverter();
@@ -182,4 +207,35 @@ String extractRegion(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
   throw Exception('Unable to detect region in ${uri.host}.');
+}
+
+extension Operations on Client {
+  Future<Response> sendRequest(String method, dynamic body,
+      Map<String, String> headers, String url) async {
+    Response rs;
+    switch (method.toLowerCase()) {
+      case 'get':
+        rs = await this.get(url, headers: headers);
+        break;
+      case 'post':
+        rs = await this.post(url, headers: headers, body: body);
+        break;
+      case 'delete':
+        rs = await this.delete(url, headers: headers);
+        break;
+      case 'put':
+        rs = await this.put(url, headers: headers, body: body);
+        break;
+      case 'head':
+        rs = await this.head(url, headers: headers);
+        break;
+      case 'patch':
+        rs = await this.patch(url, headers: headers, body: body);
+        break;
+      default:
+        throw ArgumentError.value(method, 'method', 'Unknown method');
+    }
+
+    return rs;
+  }
 }

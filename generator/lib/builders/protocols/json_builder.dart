@@ -18,10 +18,30 @@ class JsonServiceBuilder extends ServiceBuilder {
   String imports() => '';
 
   @override
-  String operationContent(Operation operation) => '''// TODO: implement json
+  String operationContent(Operation operation) {
+    final payloadMembers = operation.input?.shapeClass?.members?.map((m) => '''''')?.join();
+    var payload = '';
+    if (payloadMembers?.isNotEmpty == true) {
+      payload = 'payload: {$payloadMembers},';
+    }
+
+    final outputClass = operation.output?.shapeClass?.className;
+
+    return '''
       final headers = {
-        'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ?? '1.0'}',
+        'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ??
+        '1.0'}',
         'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'
       };
-      throw UnimplementedError();''';
+      final jsonResponse = await _protocol.send(
+        method: '${operation.http.method}',
+        requestUri: '${operation.http.requestUri}',
+        exceptionFnMap: _exceptionFns,
+        // TODO queryParams
+        headers: headers,
+        $payload
+      );
+      
+      ${outputClass == null ? '': 'return $outputClass.fromJson(jsonResponse.body);'}''';
+  }
 }
