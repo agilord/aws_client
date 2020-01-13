@@ -68,7 +68,7 @@ class DynamoDB {
     @_s.required Map<String, KeysAndAttributes> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.BatchGetItem'
     };
@@ -78,6 +78,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+      },
     );
 
     return BatchGetItemOutput.fromJson(jsonResponse.body);
@@ -102,7 +105,7 @@ class DynamoDB {
     @_s.required Map<String, List<WriteRequest>> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.BatchWriteItem'
     };
@@ -112,6 +115,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+      },
     );
 
     return BatchWriteItemOutput.fromJson(jsonResponse.body);
@@ -156,7 +162,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.CreateTable'
     };
@@ -166,6 +172,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'KeySchema': keySchema,
+        'ProvisionedThroughput': provisionedThroughput,
+        'TableName': tableName,
+      },
     );
 
     return CreateTableOutput.fromJson(jsonResponse.body);
@@ -207,7 +218,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DeleteItem'
     };
@@ -217,6 +228,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'Expected': expected,
+        'ReturnValues': returnValues,
+      },
     );
 
     return DeleteItemOutput.fromJson(jsonResponse.body);
@@ -254,7 +271,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DeleteTable'
     };
@@ -264,6 +281,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DeleteTableOutput.fromJson(jsonResponse.body);
@@ -297,7 +317,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.DescribeTable'
     };
@@ -307,6 +327,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DescribeTableOutput.fromJson(jsonResponse.body);
@@ -348,7 +371,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.GetItem'
     };
@@ -358,6 +381,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConsistentRead': consistentRead,
+      },
     );
 
     return GetItemOutput.fromJson(jsonResponse.body);
@@ -394,7 +423,7 @@ class DynamoDB {
       1,
       100,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.ListTables'
     };
@@ -404,6 +433,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ExclusiveStartTableName': exclusiveStartTableName,
+        'Limit': limit,
+      },
     );
 
     return ListTablesOutput.fromJson(jsonResponse.body);
@@ -448,7 +481,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.PutItem'
     };
@@ -458,6 +491,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Item': item,
+        'TableName': tableName,
+        'Expected': expected,
+        'ReturnValues': returnValues,
+      },
     );
 
     return PutItemOutput.fromJson(jsonResponse.body);
@@ -547,7 +586,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Query'
     };
@@ -557,6 +596,17 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'HashKeyValue': hashKeyValue,
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConsistentRead': consistentRead,
+        'Count': count,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'Limit': limit,
+        'RangeKeyCondition': rangeKeyCondition,
+        'ScanIndexForward': scanIndexForward,
+      },
     );
 
     return QueryOutput.fromJson(jsonResponse.body);
@@ -630,7 +680,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Scan'
     };
@@ -640,6 +690,14 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'Count': count,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'Limit': limit,
+        'ScanFilter': scanFilter,
+      },
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
@@ -684,7 +742,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.UpdateItem'
     };
@@ -694,6 +752,13 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'AttributeUpdates': attributeUpdates,
+        'Key': key,
+        'TableName': tableName,
+        'Expected': expected,
+        'ReturnValues': returnValues,
+      },
     );
 
     return UpdateItemOutput.fromJson(jsonResponse.body);
@@ -730,7 +795,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.UpdateTable'
     };
@@ -740,6 +805,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ProvisionedThroughput': provisionedThroughput,
+        'TableName': tableName,
+      },
     );
 
     return UpdateTableOutput.fromJson(jsonResponse.body);

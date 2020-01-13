@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:xml/xml.dart';
@@ -34,12 +33,18 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
 
   @override
   Uint8List fromJson(String json) {
-    return base64.decode(json);
+    if (json != null) {
+      return base64.decode(json);
+    }
+    return null;
   }
 
   @override
   String toJson(Uint8List object) {
-    return base64.encode(object);
+    if (object != null) {
+      return base64.encode(object);
+    }
+    return null;
   }
 }
 
@@ -49,12 +54,26 @@ class Uint8ListListConverter
 
   @override
   List<Uint8List> fromJson(List<String> json) {
-    return json.map((x) => base64.decode(x)).toList(growable: false);
+    if (json != null) {
+      return json.map((x) {
+        if (x != null) {
+          return base64.decode(x);
+        }
+        return null;
+      }).toList(growable: false);
+    }
   }
 
   @override
   List<String> toJson(List<Uint8List> list) {
-    return list.map((x) => base64.encode(x)).toList(growable: false);
+    if (list != null) {
+      return list.map((x) {
+        if (x != null) {
+          return base64.encode(x);
+        }
+        return null;
+      }).toList(growable: false);
+    }
   }
 }
 
@@ -68,7 +87,13 @@ class GenericAwsException implements AwsException {
   GenericAwsException({this.type, this.code, this.message});
 
   @override
-  String toString() => '$code: $message';
+  String toString() => '$code $type: $message';
+
+  Map<String, String> toJson() => {
+        'type': type,
+        'code': code,
+        'message': message,
+      };
 }
 
 typedef AwsExceptionFn = AwsException Function(String type, String message);
@@ -207,35 +232,4 @@ String extractRegion(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
   throw Exception('Unable to detect region in ${uri.host}.');
-}
-
-extension Operations on Client {
-  Future<Response> sendRequest(String method, dynamic body,
-      Map<String, String> headers, String url) async {
-    Response rs;
-    switch (method.toLowerCase()) {
-      case 'get':
-        rs = await this.get(url, headers: headers);
-        break;
-      case 'post':
-        rs = await this.post(url, headers: headers, body: body);
-        break;
-      case 'delete':
-        rs = await this.delete(url, headers: headers);
-        break;
-      case 'put':
-        rs = await this.put(url, headers: headers, body: body);
-        break;
-      case 'head':
-        rs = await this.head(url, headers: headers);
-        break;
-      case 'patch':
-        rs = await this.patch(url, headers: headers, body: body);
-        break;
-      default:
-        throw ArgumentError.value(method, 'method', 'Unknown method');
-    }
-
-    return rs;
-  }
 }

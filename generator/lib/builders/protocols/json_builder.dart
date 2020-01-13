@@ -19,7 +19,9 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-    final payloadMembers = operation.input?.shapeClass?.members?.map((m) => '''''')?.join();
+    final payloadMembers = operation.input?.shapeClass?.members?.map((m) => '''
+    '${m.name}': ${m.fieldName}, 
+    ''')?.join();
     var payload = '';
     if (payloadMembers?.isNotEmpty == true) {
       payload = 'payload: {$payloadMembers},';
@@ -28,7 +30,7 @@ class JsonServiceBuilder extends ServiceBuilder {
     final outputClass = operation.output?.shapeClass?.className;
 
     return '''
-      final headers = {
+      final headers = <String, dynamic>{
         'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ??
         '1.0'}',
         'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'

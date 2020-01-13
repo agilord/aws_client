@@ -210,7 +210,7 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchGetItem'
     };
@@ -220,6 +220,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
     );
 
     return BatchGetItemOutput.fromJson(jsonResponse.body);
@@ -377,7 +381,7 @@ class DynamoDB {
     ReturnItemCollectionMetrics returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchWriteItem'
     };
@@ -387,6 +391,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+      },
     );
 
     return BatchWriteItemOutput.fromJson(jsonResponse.body);
@@ -473,7 +482,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateBackup'
     };
@@ -483,6 +492,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'BackupName': backupName,
+        'TableName': tableName,
+      },
     );
 
     return CreateBackupOutput.fromJson(jsonResponse.body);
@@ -564,7 +577,7 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicationGroup, 'replicationGroup');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateGlobalTable'
     };
@@ -574,6 +587,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'ReplicationGroup': replicationGroup,
+      },
     );
 
     return CreateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -866,7 +883,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateTable'
     };
@@ -876,6 +893,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'AttributeDefinitions': attributeDefinitions,
+        'KeySchema': keySchema,
+        'TableName': tableName,
+        'BillingMode': billingMode,
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+        'ProvisionedThroughput': provisionedThroughput,
+        'SSESpecification': sSESpecification,
+        'StreamSpecification': streamSpecification,
+        'Tags': tags,
+      },
     );
 
     return CreateTableOutput.fromJson(jsonResponse.body);
@@ -903,7 +932,7 @@ class DynamoDB {
       37,
       1024,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteBackup'
     };
@@ -913,6 +942,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+      },
     );
 
     return DeleteBackupOutput.fromJson(jsonResponse.body);
@@ -1118,7 +1150,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteItem'
     };
@@ -1128,6 +1160,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+      },
     );
 
     return DeleteItemOutput.fromJson(jsonResponse.body);
@@ -1178,7 +1222,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteTable'
     };
@@ -1188,6 +1232,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DeleteTableOutput.fromJson(jsonResponse.body);
@@ -1213,7 +1260,7 @@ class DynamoDB {
       37,
       1024,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeBackup'
     };
@@ -1223,6 +1270,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+      },
     );
 
     return DescribeBackupOutput.fromJson(jsonResponse.body);
@@ -1266,7 +1316,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContinuousBackups'
     };
@@ -1276,6 +1326,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DescribeContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -1319,7 +1372,7 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContributorInsights'
     };
@@ -1329,6 +1382,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'IndexName': indexName,
+      },
     );
 
     return DescribeContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -1336,7 +1393,7 @@ class DynamoDB {
 
   /// Returns the regional endpoint information.
   Future<DescribeEndpointsResponse> describeEndpoints() async {
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeEndpoints'
     };
@@ -1378,7 +1435,7 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTable'
     };
@@ -1388,6 +1445,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+      },
     );
 
     return DescribeGlobalTableOutput.fromJson(jsonResponse.body);
@@ -1420,7 +1480,7 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTableSettings'
     };
@@ -1430,6 +1490,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+      },
     );
 
     return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -1511,7 +1574,7 @@ class DynamoDB {
   ///
   /// May throw [InternalServerError].
   Future<DescribeLimitsOutput> describeLimits() async {
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeLimits'
     };
@@ -1558,7 +1621,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTable'
     };
@@ -1568,6 +1631,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DescribeTableOutput.fromJson(jsonResponse.body);
@@ -1602,7 +1668,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTableReplicaAutoScaling'
     };
@@ -1612,6 +1678,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DescribeTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -1640,7 +1709,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTimeToLive'
     };
@@ -1650,6 +1719,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
     );
 
     return DescribeTimeToLiveOutput.fromJson(jsonResponse.body);
@@ -1781,7 +1853,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.GetItem'
     };
@@ -1791,6 +1863,15 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConsistentRead': consistentRead,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ProjectionExpression': projectionExpression,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
     );
 
     return GetItemOutput.fromJson(jsonResponse.body);
@@ -1879,7 +1960,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListBackups'
     };
@@ -1889,6 +1970,14 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'BackupType': backupType,
+        'ExclusiveStartBackupArn': exclusiveStartBackupArn,
+        'Limit': limit,
+        'TableName': tableName,
+        'TimeRangeLowerBound': timeRangeLowerBound,
+        'TimeRangeUpperBound': timeRangeUpperBound,
+      },
     );
 
     return ListBackupsOutput.fromJson(jsonResponse.body);
@@ -1930,7 +2019,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListContributorInsights'
     };
@@ -1940,6 +2029,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'MaxResults': maxResults,
+        'NextToken': nextToken,
+        'TableName': tableName,
+      },
     );
 
     return ListContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -1984,7 +2078,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListGlobalTables'
     };
@@ -1994,6 +2088,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ExclusiveStartGlobalTableName': exclusiveStartGlobalTableName,
+        'Limit': limit,
+        'RegionName': regionName,
+      },
     );
 
     return ListGlobalTablesOutput.fromJson(jsonResponse.body);
@@ -2034,7 +2133,7 @@ class DynamoDB {
       1,
       100,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTables'
     };
@@ -2044,6 +2143,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ExclusiveStartTableName': exclusiveStartTableName,
+        'Limit': limit,
+      },
     );
 
     return ListTablesOutput.fromJson(jsonResponse.body);
@@ -2078,7 +2181,7 @@ class DynamoDB {
       1,
       1283,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTagsOfResource'
     };
@@ -2088,6 +2191,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'NextToken': nextToken,
+      },
     );
 
     return ListTagsOfResourceOutput.fromJson(jsonResponse.body);
@@ -2368,7 +2475,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.PutItem'
     };
@@ -2378,6 +2485,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Item': item,
+        'TableName': tableName,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+      },
     );
 
     return PutItemOutput.fromJson(jsonResponse.body);
@@ -2838,7 +2957,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Query'
     };
@@ -2848,6 +2967,25 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConditionalOperator': conditionalOperator,
+        'ConsistentRead': consistentRead,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'FilterExpression': filterExpression,
+        'IndexName': indexName,
+        'KeyConditionExpression': keyConditionExpression,
+        'KeyConditions': keyConditions,
+        'Limit': limit,
+        'ProjectionExpression': projectionExpression,
+        'QueryFilter': queryFilter,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ScanIndexForward': scanIndexForward,
+        'Select': select,
+      },
     );
 
     return QueryOutput.fromJson(jsonResponse.body);
@@ -2938,7 +3076,7 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableFromBackup'
     };
@@ -2948,6 +3086,14 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+        'TargetTableName': targetTableName,
+        'BillingModeOverride': billingModeOverride,
+        'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
+        'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      },
     );
 
     return RestoreTableFromBackupOutput.fromJson(jsonResponse.body);
@@ -3080,7 +3226,7 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableToPointInTime'
     };
@@ -3090,6 +3236,16 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'SourceTableName': sourceTableName,
+        'TargetTableName': targetTableName,
+        'BillingModeOverride': billingModeOverride,
+        'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
+        'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+        'RestoreDateTime': restoreDateTime,
+        'UseLatestRestorableTime': useLatestRestorableTime,
+      },
     );
 
     return RestoreTableToPointInTimeOutput.fromJson(jsonResponse.body);
@@ -3469,7 +3625,7 @@ class DynamoDB {
       1,
       1000000,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Scan'
     };
@@ -3479,6 +3635,24 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConditionalOperator': conditionalOperator,
+        'ConsistentRead': consistentRead,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'FilterExpression': filterExpression,
+        'IndexName': indexName,
+        'Limit': limit,
+        'ProjectionExpression': projectionExpression,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ScanFilter': scanFilter,
+        'Segment': segment,
+        'Select': select,
+        'TotalSegments': totalSegments,
+      },
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
@@ -3516,7 +3690,7 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TagResource'
     };
@@ -3526,6 +3700,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
     );
   }
 
@@ -3577,7 +3755,7 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactGetItems'
     };
@@ -3587,6 +3765,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TransactItems': transactItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
     );
 
     return TransactGetItemsOutput.fromJson(jsonResponse.body);
@@ -3722,7 +3904,7 @@ class DynamoDB {
       1,
       36,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactWriteItems'
     };
@@ -3732,6 +3914,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TransactItems': transactItems,
+        'ClientRequestToken': clientRequestToken,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+      },
     );
 
     return TransactWriteItemsOutput.fromJson(jsonResponse.body);
@@ -3768,7 +3956,7 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UntagResource'
     };
@@ -3778,6 +3966,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
     );
   }
 
@@ -3826,7 +4018,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContinuousBackups'
     };
@@ -3836,6 +4028,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'PointInTimeRecoverySpecification': pointInTimeRecoverySpecification,
+        'TableName': tableName,
+      },
     );
 
     return UpdateContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -3884,7 +4080,7 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContributorInsights'
     };
@@ -3894,6 +4090,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'ContributorInsightsAction': contributorInsightsAction,
+        'TableName': tableName,
+        'IndexName': indexName,
+      },
     );
 
     return UpdateContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -3954,7 +4155,7 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicaUpdates, 'replicaUpdates');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTable'
     };
@@ -3964,6 +4165,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'ReplicaUpdates': replicaUpdates,
+      },
     );
 
     return UpdateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -4046,7 +4251,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTableSettings'
     };
@@ -4056,6 +4261,17 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'GlobalTableBillingMode': globalTableBillingMode,
+        'GlobalTableGlobalSecondaryIndexSettingsUpdate':
+            globalTableGlobalSecondaryIndexSettingsUpdate,
+        'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate':
+            globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
+        'GlobalTableProvisionedWriteCapacityUnits':
+            globalTableProvisionedWriteCapacityUnits,
+        'ReplicaSettingsUpdate': replicaSettingsUpdate,
+      },
     );
 
     return UpdateGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -4380,7 +4596,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateItem'
     };
@@ -4390,6 +4606,20 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'AttributeUpdates': attributeUpdates,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+        'UpdateExpression': updateExpression,
+      },
     );
 
     return UpdateItemOutput.fromJson(jsonResponse.body);
@@ -4530,7 +4760,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTable'
     };
@@ -4540,6 +4770,16 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributeDefinitions': attributeDefinitions,
+        'BillingMode': billingMode,
+        'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
+        'ProvisionedThroughput': provisionedThroughput,
+        'ReplicaUpdates': replicaUpdates,
+        'SSESpecification': sSESpecification,
+        'StreamSpecification': streamSpecification,
+      },
     );
 
     return UpdateTableOutput.fromJson(jsonResponse.body);
@@ -4585,7 +4825,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTableReplicaAutoScaling'
     };
@@ -4595,6 +4835,13 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
+        'ProvisionedWriteCapacityAutoScalingUpdate':
+            provisionedWriteCapacityAutoScalingUpdate,
+        'ReplicaUpdates': replicaUpdates,
+      },
     );
 
     return UpdateTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -4660,7 +4907,7 @@ class DynamoDB {
     );
     ArgumentError.checkNotNull(
         timeToLiveSpecification, 'timeToLiveSpecification');
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTimeToLive'
     };
@@ -4670,6 +4917,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        'TableName': tableName,
+        'TimeToLiveSpecification': timeToLiveSpecification,
+      },
     );
 
     return UpdateTimeToLiveOutput.fromJson(jsonResponse.body);
