@@ -9,7 +9,15 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4529,7 +4537,7 @@ class EventSourceMappingConfiguration {
 
   /// The date that the event source mapping was last updated, or its state
   /// changed.
-  @_s.JsonKey(name: 'LastModified')
+  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastModified;
 
   /// The result of the last AWS Lambda invocation of your Lambda function.
@@ -4841,7 +4849,7 @@ class FunctionEventInvokeConfig {
   final String functionArn;
 
   /// The date and time that the configuration was last updated.
-  @_s.JsonKey(name: 'LastModified')
+  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastModified;
 
   /// The maximum age of a request that Lambda sends to a function for processing.

@@ -9,7 +9,15 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -202,12 +210,23 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchGetItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
+    );
+
+    return BatchGetItemOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>BatchWriteItem</code> operation puts or deletes multiple items
@@ -362,12 +381,24 @@ class DynamoDB {
     ReturnItemCollectionMetrics returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchWriteItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RequestItems': requestItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+      },
+    );
+
+    return BatchWriteItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a backup for an existing table.
@@ -451,12 +482,23 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateBackup'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupName': backupName,
+        'TableName': tableName,
+      },
+    );
+
+    return CreateBackupOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a global table from an existing table. A global table creates a
@@ -535,12 +577,23 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicationGroup, 'replicationGroup');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateGlobalTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'ReplicationGroup': replicationGroup,
+      },
+    );
+
+    return CreateGlobalTableOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>CreateTable</code> operation adds a new table to your account.
@@ -830,12 +883,31 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AttributeDefinitions': attributeDefinitions,
+        'KeySchema': keySchema,
+        'TableName': tableName,
+        'BillingMode': billingMode,
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+        'ProvisionedThroughput': provisionedThroughput,
+        'SSESpecification': sSESpecification,
+        'StreamSpecification': streamSpecification,
+        'Tags': tags,
+      },
+    );
+
+    return CreateTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes an existing backup of a table.
@@ -860,12 +932,22 @@ class DynamoDB {
       37,
       1024,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteBackup'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+      },
+    );
+
+    return DeleteBackupOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a single item in a table by primary key. You can perform a
@@ -1068,12 +1150,31 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+      },
+    );
+
+    return DeleteItemOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>DeleteTable</code> operation deletes a table and all of its
@@ -1121,12 +1222,22 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DeleteTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Describes an existing backup of a table.
@@ -1149,12 +1260,22 @@ class DynamoDB {
       37,
       1024,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeBackup'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+      },
+    );
+
+    return DescribeBackupOutput.fromJson(jsonResponse.body);
   }
 
   /// Checks the status of continuous backups and point in time recovery on the
@@ -1195,12 +1316,22 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContinuousBackups'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DescribeContinuousBackupsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about contributor insights, for a given table or
@@ -1241,22 +1372,40 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContributorInsights'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'IndexName': indexName,
+      },
+    );
+
+    return DescribeContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns the regional endpoint information.
   Future<DescribeEndpointsResponse> describeEndpoints() async {
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeEndpoints'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeEndpointsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the specified global table.
@@ -1286,12 +1435,22 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+      },
+    );
+
+    return DescribeGlobalTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Describes Region-specific settings for a global table.
@@ -1321,12 +1480,22 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTableSettings'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+      },
+    );
+
+    return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns the current provisioned-capacity limits for your AWS account in a
@@ -1405,12 +1574,19 @@ class DynamoDB {
   ///
   /// May throw [InternalServerError].
   Future<DescribeLimitsOutput> describeLimits() async {
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeLimits'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeLimitsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the table, including the current status of the
@@ -1445,12 +1621,22 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DescribeTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Describes auto scaling settings across replicas of the global table at
@@ -1482,12 +1668,22 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTableReplicaAutoScaling'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DescribeTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
   }
 
   /// Gives a description of the Time to Live (TTL) status on the specified
@@ -1513,12 +1709,22 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTimeToLive'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DescribeTimeToLiveOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>GetItem</code> operation returns a set of attributes for the
@@ -1647,12 +1853,28 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.GetItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConsistentRead': consistentRead,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ProjectionExpression': projectionExpression,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
+    );
+
+    return GetItemOutput.fromJson(jsonResponse.body);
   }
 
   /// List backups associated with an AWS account. To list backups for a given
@@ -1738,12 +1960,27 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListBackups'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupType': backupType,
+        'ExclusiveStartBackupArn': exclusiveStartBackupArn,
+        'Limit': limit,
+        'TableName': tableName,
+        'TimeRangeLowerBound': timeRangeLowerBound,
+        'TimeRangeUpperBound': timeRangeUpperBound,
+      },
+    );
+
+    return ListBackupsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of ContributorInsightsSummary for a table and all its
@@ -1782,12 +2019,24 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListContributorInsights'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MaxResults': maxResults,
+        'NextToken': nextToken,
+        'TableName': tableName,
+      },
+    );
+
+    return ListContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists all global tables that have a replica in the specified Region.
@@ -1829,12 +2078,24 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListGlobalTables'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExclusiveStartGlobalTableName': exclusiveStartGlobalTableName,
+        'Limit': limit,
+        'RegionName': regionName,
+      },
+    );
+
+    return ListGlobalTablesOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns an array of table names associated with the current account and
@@ -1872,12 +2133,23 @@ class DynamoDB {
       1,
       100,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTables'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExclusiveStartTableName': exclusiveStartTableName,
+        'Limit': limit,
+      },
+    );
+
+    return ListTablesOutput.fromJson(jsonResponse.body);
   }
 
   /// List all tags on an Amazon DynamoDB resource. You can call
@@ -1909,12 +2181,23 @@ class DynamoDB {
       1,
       1283,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTagsOfResource'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'NextToken': nextToken,
+      },
+    );
+
+    return ListTagsOfResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a new item, or replaces an old item with a new item. If an item
@@ -2192,12 +2475,31 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.PutItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Item': item,
+        'TableName': tableName,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+      },
+    );
+
+    return PutItemOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>Query</code> operation finds items based on primary key values.
@@ -2655,12 +2957,38 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Query'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConditionalOperator': conditionalOperator,
+        'ConsistentRead': consistentRead,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'FilterExpression': filterExpression,
+        'IndexName': indexName,
+        'KeyConditionExpression': keyConditionExpression,
+        'KeyConditions': keyConditions,
+        'Limit': limit,
+        'ProjectionExpression': projectionExpression,
+        'QueryFilter': queryFilter,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ScanIndexForward': scanIndexForward,
+        'Select': select,
+      },
+    );
+
+    return QueryOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a new table from an existing backup. Any number of users can
@@ -2748,12 +3076,27 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableFromBackup'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupArn': backupArn,
+        'TargetTableName': targetTableName,
+        'BillingModeOverride': billingModeOverride,
+        'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
+        'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      },
+    );
+
+    return RestoreTableFromBackupOutput.fromJson(jsonResponse.body);
   }
 
   /// Restores the specified table to the specified point in time within
@@ -2883,12 +3226,29 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableToPointInTime'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SourceTableName': sourceTableName,
+        'TargetTableName': targetTableName,
+        'BillingModeOverride': billingModeOverride,
+        'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
+        'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+        'RestoreDateTime': restoreDateTime,
+        'UseLatestRestorableTime': useLatestRestorableTime,
+      },
+    );
+
+    return RestoreTableToPointInTimeOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>Scan</code> operation returns one or more items and item
@@ -3265,12 +3625,37 @@ class DynamoDB {
       1,
       1000000,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Scan'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributesToGet': attributesToGet,
+        'ConditionalOperator': conditionalOperator,
+        'ConsistentRead': consistentRead,
+        'ExclusiveStartKey': exclusiveStartKey,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'FilterExpression': filterExpression,
+        'IndexName': indexName,
+        'Limit': limit,
+        'ProjectionExpression': projectionExpression,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ScanFilter': scanFilter,
+        'Segment': segment,
+        'Select': select,
+        'TotalSegments': totalSegments,
+      },
+    );
+
+    return ScanOutput.fromJson(jsonResponse.body);
   }
 
   /// Associate a set of tags with an Amazon DynamoDB resource. You can then
@@ -3305,12 +3690,21 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TagResource'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
+    );
   }
 
   /// <code>TransactGetItems</code> is a synchronous operation that atomically
@@ -3361,12 +3755,23 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactGetItems'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TransactItems': transactItems,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+      },
+    );
+
+    return TransactGetItemsOutput.fromJson(jsonResponse.body);
   }
 
   /// <code>TransactWriteItems</code> is a synchronous write operation that
@@ -3499,12 +3904,25 @@ class DynamoDB {
       1,
       36,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactWriteItems'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TransactItems': transactItems,
+        'ClientRequestToken': clientRequestToken,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+      },
+    );
+
+    return TransactWriteItemsOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes the association of tags from an Amazon DynamoDB resource. You can
@@ -3538,12 +3956,21 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UntagResource'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
+    );
   }
 
   /// <code>UpdateContinuousBackups</code> enables or disables point in time
@@ -3591,12 +4018,23 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContinuousBackups'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PointInTimeRecoverySpecification': pointInTimeRecoverySpecification,
+        'TableName': tableName,
+      },
+    );
+
+    return UpdateContinuousBackupsOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the status for contributor insights for a specific table or index.
@@ -3642,12 +4080,24 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContributorInsights'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ContributorInsightsAction': contributorInsightsAction,
+        'TableName': tableName,
+        'IndexName': indexName,
+      },
+    );
+
+    return UpdateContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds or removes replicas in the specified global table. The global table
@@ -3705,12 +4155,23 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicaUpdates, 'replicaUpdates');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'ReplicaUpdates': replicaUpdates,
+      },
+    );
+
+    return UpdateGlobalTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates settings for a global table.
@@ -3790,12 +4251,30 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTableSettings'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlobalTableName': globalTableName,
+        'GlobalTableBillingMode': globalTableBillingMode,
+        'GlobalTableGlobalSecondaryIndexSettingsUpdate':
+            globalTableGlobalSecondaryIndexSettingsUpdate,
+        'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate':
+            globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
+        'GlobalTableProvisionedWriteCapacityUnits':
+            globalTableProvisionedWriteCapacityUnits,
+        'ReplicaSettingsUpdate': replicaSettingsUpdate,
+      },
+    );
+
+    return UpdateGlobalTableSettingsOutput.fromJson(jsonResponse.body);
   }
 
   /// Edits an existing item's attributes, or adds a new item to the table if it
@@ -4117,12 +4596,33 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateItem'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Key': key,
+        'TableName': tableName,
+        'AttributeUpdates': attributeUpdates,
+        'ConditionExpression': conditionExpression,
+        'ConditionalOperator': conditionalOperator,
+        'Expected': expected,
+        'ExpressionAttributeNames': expressionAttributeNames,
+        'ExpressionAttributeValues': expressionAttributeValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnValues': returnValues,
+        'UpdateExpression': updateExpression,
+      },
+    );
+
+    return UpdateItemOutput.fromJson(jsonResponse.body);
   }
 
   /// Modifies the provisioned throughput settings, global secondary indexes, or
@@ -4260,12 +4760,29 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTable'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'AttributeDefinitions': attributeDefinitions,
+        'BillingMode': billingMode,
+        'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
+        'ProvisionedThroughput': provisionedThroughput,
+        'ReplicaUpdates': replicaUpdates,
+        'SSESpecification': sSESpecification,
+        'StreamSpecification': streamSpecification,
+      },
+    );
+
+    return UpdateTableOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates auto scaling settings on your global tables at once.
@@ -4308,12 +4825,26 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTableReplicaAutoScaling'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
+        'ProvisionedWriteCapacityAutoScalingUpdate':
+            provisionedWriteCapacityAutoScalingUpdate,
+        'ReplicaUpdates': replicaUpdates,
+      },
+    );
+
+    return UpdateTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateTimeToLive</code> method enables or disables Time to Live
@@ -4376,12 +4907,23 @@ class DynamoDB {
     );
     ArgumentError.checkNotNull(
         timeToLiveSpecification, 'timeToLiveSpecification');
-// TODO: implement json
-    final headers = {
+    final headers = <String, dynamic>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTimeToLive'
     };
-    throw UnimplementedError();
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+        'TimeToLiveSpecification': timeToLiveSpecification,
+      },
+    );
+
+    return UpdateTimeToLiveOutput.fromJson(jsonResponse.body);
   }
 }
 
@@ -4400,7 +4942,8 @@ class ArchivalSummary {
 
   /// The date and time when table archival was initiated by DynamoDB, in UNIX
   /// epoch time format.
-  @_s.JsonKey(name: 'ArchivalDateTime')
+  @_s.JsonKey(
+      name: 'ArchivalDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime archivalDateTime;
 
   /// The reason DynamoDB archived the table. Currently, the only possible value
@@ -4969,7 +5512,10 @@ class BackupDetails {
 
   /// Time at which the backup was created. This is the request time of the
   /// backup.
-  @_s.JsonKey(name: 'BackupCreationDateTime')
+  @_s.JsonKey(
+      name: 'BackupCreationDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime backupCreationDateTime;
 
   /// Name of the requested backup.
@@ -5005,7 +5551,8 @@ class BackupDetails {
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @_s.JsonKey(name: 'BackupExpiryDateTime')
+  @_s.JsonKey(
+      name: 'BackupExpiryDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime backupExpiryDateTime;
 
   /// Size of the backup in bytes.
@@ -5046,13 +5593,17 @@ class BackupSummary {
   final String backupArn;
 
   /// Time at which the backup was created.
-  @_s.JsonKey(name: 'BackupCreationDateTime')
+  @_s.JsonKey(
+      name: 'BackupCreationDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime backupCreationDateTime;
 
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @_s.JsonKey(name: 'BackupExpiryDateTime')
+  @_s.JsonKey(
+      name: 'BackupExpiryDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime backupExpiryDateTime;
 
   /// Name of the specified backup.
@@ -5344,7 +5895,10 @@ class BillingModeSummary {
 
   /// Represents the time when <code>PAY_PER_REQUEST</code> was last set as the
   /// read/write capacity mode.
-  @_s.JsonKey(name: 'LastUpdateToPayPerRequestDateTime')
+  @_s.JsonKey(
+      name: 'LastUpdateToPayPerRequestDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime lastUpdateToPayPerRequestDateTime;
 
   BillingModeSummary({
@@ -6276,7 +6830,8 @@ class DescribeContributorInsightsOutput {
   final String indexName;
 
   /// Timestamp of the last time the status was changed.
-  @_s.JsonKey(name: 'LastUpdateDateTime')
+  @_s.JsonKey(
+      name: 'LastUpdateDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastUpdateDateTime;
 
   /// The name of the table being described.
@@ -7194,7 +7749,8 @@ class GlobalTable {
     createToJson: false)
 class GlobalTableDescription {
   /// The creation time of the global table.
-  @_s.JsonKey(name: 'CreationDateTime')
+  @_s.JsonKey(
+      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime creationDateTime;
 
   /// The unique identifier of the global table.
@@ -7838,12 +8394,18 @@ class LocalSecondaryIndexInfo {
 class PointInTimeRecoveryDescription {
   /// Specifies the earliest point in time you can restore your table to. You can
   /// restore your table to any point in time during the last 35 days.
-  @_s.JsonKey(name: 'EarliestRestorableDateTime')
+  @_s.JsonKey(
+      name: 'EarliestRestorableDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime earliestRestorableDateTime;
 
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
-  @_s.JsonKey(name: 'LatestRestorableDateTime')
+  @_s.JsonKey(
+      name: 'LatestRestorableDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime latestRestorableDateTime;
 
   /// The current state of point in time recovery:
@@ -8012,12 +8574,14 @@ class ProvisionedThroughput {
 class ProvisionedThroughputDescription {
   /// The date and time of the last provisioned throughput decrease for this
   /// table.
-  @_s.JsonKey(name: 'LastDecreaseDateTime')
+  @_s.JsonKey(
+      name: 'LastDecreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastDecreaseDateTime;
 
   /// The date and time of the last provisioned throughput increase for this
   /// table.
-  @_s.JsonKey(name: 'LastIncreaseDateTime')
+  @_s.JsonKey(
+      name: 'LastIncreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastIncreaseDateTime;
 
   /// The number of provisioned throughput decreases for this table during this
@@ -8888,7 +9452,8 @@ class ReplicationGroupUpdate {
     createToJson: false)
 class RestoreSummary {
   /// Point in time or source backup time.
-  @_s.JsonKey(name: 'RestoreDateTime')
+  @_s.JsonKey(
+      name: 'RestoreDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime restoreDateTime;
 
   /// Indicates if a restore is in progress or not.
@@ -9020,7 +9585,10 @@ class SSEDescription {
   /// be cleared when DynamoDB detects that the table's AWS KMS key is accessible
   /// again. DynamoDB will initiate the table archival process when table's AWS
   /// KMS key remains inaccessible for more than seven days from this date.
-  @_s.JsonKey(name: 'InaccessibleEncryptionDateTime')
+  @_s.JsonKey(
+      name: 'InaccessibleEncryptionDateTime',
+      fromJson: unixFromJson,
+      toJson: unixToJson)
   final DateTime inaccessibleEncryptionDateTime;
 
   /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
@@ -9234,7 +9802,8 @@ class SourceTableDetails {
   final ProvisionedThroughput provisionedThroughput;
 
   /// Time when the source table was created.
-  @_s.JsonKey(name: 'TableCreationDateTime')
+  @_s.JsonKey(
+      name: 'TableCreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime tableCreationDateTime;
 
   /// Unique identifier for the table for which the backup was created.
@@ -9468,7 +10037,8 @@ class TableDescription {
 
   /// The date and time when the table was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  @_s.JsonKey(name: 'CreationDateTime')
+  @_s.JsonKey(
+      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime creationDateTime;
 
   /// The global secondary indexes, if any, on the table. Each index is scoped to

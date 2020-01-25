@@ -46,7 +46,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
-import 'package:shared_aws_api/shared.dart' show Uint8ListConverter, Uint8ListListConverter;
+import 'package:shared_aws_api/shared.dart' 
+  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822fromJson, rfc822toJson, iso8601fromJson, iso8601toJson, unixFromJson, unixToJson' : ''};
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 """);
@@ -229,12 +230,27 @@ ${builder.constructor()}
         final valueEnum = shapeClass.enumeration;
 
         if (shape.api.generateJson) {
+          var dateTimeConversion = '';
+
           if (member.dartType == 'Uint8List') {
             writeln('@Uint8ListConverter()');
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
+          } else if (member.dartType == 'DateTime') {
+            var timeStampFormat = 'unix';
+
+            if (member.shapeClass.timestampFormat != null) {
+              timeStampFormat = member.shapeClass.timestampFormat;
+            } else if (member.location == 'header') {
+              timeStampFormat = 'rfc822';
+            } else if (member.location == 'querystring') {
+              timeStampFormat = 'iso8601';
+            }
+
+            dateTimeConversion =
+                ', fromJson: ${timeStampFormat}FromJson, toJson: ${timeStampFormat}ToJson';
           }
-          writeln("  @_s.JsonKey(name: '${member.name}')");
+          writeln("  @_s.JsonKey(name: '${member.name}'$dateTimeConversion)");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');

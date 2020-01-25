@@ -9,7 +9,15 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -693,7 +701,7 @@ class EventSourceConfiguration {
   final bool isActive;
 
   /// The UTC time string indicating the last time the event mapping was updated.
-  @_s.JsonKey(name: 'LastModified')
+  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastModified;
 
   /// The map (key-value pairs) defining the configuration for AWS Lambda to use
@@ -789,7 +797,7 @@ class FunctionConfiguration {
   final String handler;
 
   /// The timestamp of the last time you updated the function.
-  @_s.JsonKey(name: 'LastModified')
+  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
   final DateTime lastModified;
 
   /// The memory size, in MB, you configured for the function. Must be a multiple
