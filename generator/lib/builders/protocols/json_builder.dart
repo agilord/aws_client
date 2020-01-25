@@ -30,9 +30,8 @@ class JsonServiceBuilder extends ServiceBuilder {
     final outputClass = operation.output?.shapeClass?.className;
 
     return '''
-      final headers = <String, dynamic>{
-        'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ??
-        '1.0'}',
+      final headers = <String, String>{
+        'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ?? '1.0'}',
         'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'
       };
       final jsonResponse = await _protocol.send(
@@ -44,6 +43,6 @@ class JsonServiceBuilder extends ServiceBuilder {
         $payload
       );
       
-      ${outputClass == null ? '': 'return $outputClass.fromJson(jsonResponse.body);'}''';
+      ${outputClass == null ? '' : 'return $outputClass.fromJson(jsonResponse.body);'}''';
   }
 }
