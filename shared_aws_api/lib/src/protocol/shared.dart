@@ -54,7 +54,9 @@ class Uint8ListListConverter
 
   @override
   List<Uint8List> fromJson(List<String> json) {
-    if (json != null) {
+    if (json == null) {
+      return null;
+    } else {
       return json.map((x) {
         if (x != null) {
           return base64.decode(x);
@@ -66,7 +68,9 @@ class Uint8ListListConverter
 
   @override
   List<String> toJson(List<Uint8List> list) {
-    if (list != null) {
+    if (list == null) {
+      return null;
+    } else {
       return list.map((x) {
         if (x != null) {
           return base64.encode(x);

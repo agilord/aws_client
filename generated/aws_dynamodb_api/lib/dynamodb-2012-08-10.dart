@@ -210,7 +210,7 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchGetItem'
     };
@@ -381,7 +381,7 @@ class DynamoDB {
     ReturnItemCollectionMetrics returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.BatchWriteItem'
     };
@@ -482,7 +482,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateBackup'
     };
@@ -577,7 +577,7 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicationGroup, 'replicationGroup');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateGlobalTable'
     };
@@ -883,7 +883,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.CreateTable'
     };
@@ -932,7 +932,7 @@ class DynamoDB {
       37,
       1024,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteBackup'
     };
@@ -1150,7 +1150,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteItem'
     };
@@ -1222,7 +1222,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DeleteTable'
     };
@@ -1260,7 +1260,7 @@ class DynamoDB {
       37,
       1024,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeBackup'
     };
@@ -1316,7 +1316,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContinuousBackups'
     };
@@ -1372,7 +1372,7 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContributorInsights'
     };
@@ -1393,7 +1393,7 @@ class DynamoDB {
 
   /// Returns the regional endpoint information.
   Future<DescribeEndpointsResponse> describeEndpoints() async {
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeEndpoints'
     };
@@ -1435,7 +1435,7 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTable'
     };
@@ -1480,7 +1480,7 @@ class DynamoDB {
       globalTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeGlobalTableSettings'
     };
@@ -1574,7 +1574,7 @@ class DynamoDB {
   ///
   /// May throw [InternalServerError].
   Future<DescribeLimitsOutput> describeLimits() async {
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeLimits'
     };
@@ -1621,7 +1621,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTable'
     };
@@ -1668,7 +1668,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTableReplicaAutoScaling'
     };
@@ -1709,7 +1709,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeTimeToLive'
     };
@@ -1853,7 +1853,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.GetItem'
     };
@@ -1960,7 +1960,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListBackups'
     };
@@ -2019,7 +2019,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListContributorInsights'
     };
@@ -2078,7 +2078,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListGlobalTables'
     };
@@ -2133,7 +2133,7 @@ class DynamoDB {
       1,
       100,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTables'
     };
@@ -2181,7 +2181,7 @@ class DynamoDB {
       1,
       1283,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTagsOfResource'
     };
@@ -2957,7 +2957,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Query'
     };
@@ -3076,7 +3076,7 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableFromBackup'
     };
@@ -3226,7 +3226,7 @@ class DynamoDB {
       targetTableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableToPointInTime'
     };
@@ -3625,7 +3625,7 @@ class DynamoDB {
       1,
       1000000,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Scan'
     };
@@ -3690,7 +3690,7 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TagResource'
     };
@@ -3755,7 +3755,7 @@ class DynamoDB {
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactGetItems'
     };
@@ -3904,7 +3904,7 @@ class DynamoDB {
       1,
       36,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactWriteItems'
     };
@@ -3956,7 +3956,7 @@ class DynamoDB {
       1283,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UntagResource'
     };
@@ -4018,7 +4018,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContinuousBackups'
     };
@@ -4080,7 +4080,7 @@ class DynamoDB {
       indexName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContributorInsights'
     };
@@ -4155,7 +4155,7 @@ class DynamoDB {
       r'[a-zA-Z0-9_.-]+',
     );
     ArgumentError.checkNotNull(replicaUpdates, 'replicaUpdates');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTable'
     };
@@ -4251,7 +4251,7 @@ class DynamoDB {
       1,
       1152921504606846976,
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTableSettings'
     };
@@ -4596,7 +4596,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateItem'
     };
@@ -4760,7 +4760,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTable'
     };
@@ -4825,7 +4825,7 @@ class DynamoDB {
       tableName,
       r'[a-zA-Z0-9_.-]+',
     );
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTableReplicaAutoScaling'
     };
@@ -4907,7 +4907,7 @@ class DynamoDB {
     );
     ArgumentError.checkNotNull(
         timeToLiveSpecification, 'timeToLiveSpecification');
-    final headers = <String, dynamic>{
+    final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTimeToLive'
     };
