@@ -1,6 +1,6 @@
 name: shared_aws_api
 description: Shared protocol implementation and utilities for generated AWS API clients.
-version: 0.1.1
+version: 0.1.2
 
 homepage: https://github.com/agilord/aws_client/tree/master/shared_aws_api
 
@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   crypto: ^2.1.3
-  http: 0.12.0+2
+  http: ^0.12.0+2
   json_annotation: ^3.0.0
   meta: ^1.1.8
   xml: ^3.7.0
