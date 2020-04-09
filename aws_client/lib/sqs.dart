@@ -170,7 +170,7 @@ class SqsQueue {
     };
     if (messageGroupId != null) parameters['MessageGroupId'] = messageGroupId;
     if (messageDeduplicationId != null) parameters['MessageDeduplicationId'] = messageDeduplicationId;
-    final response = await new AwsRequestBuilder(
+    final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
