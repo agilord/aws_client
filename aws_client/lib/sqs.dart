@@ -162,13 +162,15 @@ class SqsQueue {
   /// Sends a new message into the queue.
   ///
   /// http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html
-  Future sendMessage(String body) async {
+  Future sendMessage(String body, {String messageGroupId, String messageDeduplicationId}) async {
     final parameters = <String, String>{
       'Action': 'SendMessage',
       'MessageBody': body,
-      'Version': '2012-11-05',
+      'Version': '2012-11-05'
     };
-    final response = await AwsRequestBuilder(
+    if (messageGroupId != null) parameters['MessageGroupId'] = messageGroupId;
+    if (messageDeduplicationId != null) parameters['MessageDeduplicationId'] = messageDeduplicationId;
+    final response = await new AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
       formParameters: parameters,
