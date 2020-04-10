@@ -169,9 +169,12 @@ class SqsQueue {
       'MessageBody': body,
       'Version': '2012-11-05'
     };
-    if (messageGroupId != null) parameters['MessageGroupId'] = messageGroupId;
-    if (messageDeduplicationId != null)
+    if (messageGroupId != null) {
+      parameters['MessageGroupId'] = messageGroupId;
+    }
+    if (messageDeduplicationId != null) {
       parameters['MessageDeduplicationId'] = messageDeduplicationId;
+    }
     final response = await AwsRequestBuilder(
       method: 'POST',
       baseUrl: _queueUrl,
