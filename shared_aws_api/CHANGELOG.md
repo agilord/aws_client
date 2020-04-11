@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Upgraded `package:sigv4` dependency.
+
 ## 0.1.2
 
 - Fixed constraint on `package:http`.
