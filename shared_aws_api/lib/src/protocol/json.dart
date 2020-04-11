@@ -87,7 +87,7 @@ class JsonProtocol {
           method: method.toUpperCase(),
           query: queryParams,
           headers: headers,
-          body: body,
+          body: json.encode(body),
         );
         rs = await _client.post(rq.url, headers: rq.headers, body: rq.body);
         break;
@@ -106,7 +106,7 @@ class JsonProtocol {
           method: method.toUpperCase(),
           query: queryParams,
           headers: headers,
-          body: body,
+          body: json.encode(body),
         );
         rs = await _client.put(rq.url, headers: rq.headers, body: rq.body);
         break;
@@ -125,7 +125,7 @@ class JsonProtocol {
           method: method.toUpperCase(),
           query: queryParams,
           headers: headers,
-          body: body,
+          body: json.encode(body),
         );
         rs = await _client.patch(rq.url, headers: rq.headers, body: rq.body);
         break;
