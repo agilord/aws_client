@@ -6,7 +6,6 @@ import '../credentials.dart';
 
 import '_sign.dart';
 import 'shared.dart';
-import 'shared.dart';
 
 class QueryProtocol {
   final Client _client;
