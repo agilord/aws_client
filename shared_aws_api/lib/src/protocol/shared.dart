@@ -103,9 +103,13 @@ class GenericAwsException implements AwsException {
 
 class MessageAttributeValue {
   final String dataType;
-  final List<Uint8List> binaryListValues; /// Not implemented. Reserved for future use.
+  final List<Uint8List> binaryListValues;
+
+  /// Not implemented. Reserved for future use.
   final Uint8List binaryValue;
-  final List<String> stringListValues; /// Not implemented. Reserved for future use.
+  final List<String> stringListValues;
+
+  /// Not implemented. Reserved for future use.
   final String stringValue;
 
   MessageAttributeValue({
@@ -128,9 +132,13 @@ class MessageAttributeValue {
 
 class MessageSystemAttributeValue {
   final String dataType;
-  final List<Uint8List> binaryListValues; /// Not implemented. Reserved for future use.
+  final List<Uint8List> binaryListValues;
+
+  /// Not implemented. Reserved for future use.
   final Uint8List binaryValue;
-  final List<String> stringListValues; /// Not implemented. Reserved for future use.
+  final List<String> stringListValues;
+
+  /// Not implemented. Reserved for future use.
   final String stringValue;
 
   MessageSystemAttributeValue({
