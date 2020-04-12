@@ -1682,10 +1682,10 @@ class SQS {
     @_s.required String messageBody,
     @_s.required String queueUrl,
     int delaySeconds,
-    Map<String, MessageAttributeValue> messageAttributes,
+    Map<String, _s.MessageAttributeValue> messageAttributes,
     String messageDeduplicationId,
     String messageGroupId,
-    Map<String, MessageSystemAttributeValue> messageSystemAttributes,
+    Map<String, _s.MessageSystemAttributeValue> messageSystemAttributes,
   }) async {
     ArgumentError.checkNotNull(messageBody, 'messageBody');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -2417,7 +2417,7 @@ class Message {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  final Map<String, MessageAttributeValue> messageAttributes;
+  final Map<String, _s.MessageAttributeValue> messageAttributes;
 
   /// A unique identifier for the message. A <code>MessageId</code>is considered
   /// unique across all AWS accounts for an extended period of time.
@@ -2457,66 +2457,12 @@ class Message {
                 _s.extractXmlStringValue(c, 'Name'),
                 _s
                     .extractXmlChild(c, 'Value')
-                    ?.let((e) => MessageAttributeValue.fromXml(e)),
+                    ?.let((e) => _s.MessageAttributeValue.fromXml(e)),
               ),
             ),
       ),
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
       receiptHandle: _s.extractXmlStringValue(elem, 'ReceiptHandle'),
-    );
-  }
-}
-
-/// The user-specified message attribute value. For string data types, the
-/// <code>Value</code> attribute has the same restrictions on the content as the
-/// message body. For more information, see <code> <a>SendMessage</a>.</code>
-///
-/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
-/// body must not be empty or null. All parts of the message attribute,
-/// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
-/// part of the message size restriction (256 KB or 262,144 bytes).
-class MessageAttributeValue {
-  /// Amazon SQS supports the following logical data types: <code>String</code>,
-  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
-  /// data type, you must use <code>StringValue</code>.
-  ///
-  /// You can also append custom labels. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
-  /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
-  /// Guide</i>.
-  final String dataType;
-
-  /// Not implemented. Reserved for future use.
-  final List<Uint8List> binaryListValues;
-
-  /// Binary type attributes can store any binary data, such as compressed data,
-  /// encrypted data, or images.
-  final Uint8List binaryValue;
-
-  /// Not implemented. Reserved for future use.
-  final List<String> stringListValues;
-
-  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
-  /// see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
-  /// Printable Characters</a>.
-  final String stringValue;
-
-  MessageAttributeValue({
-    @_s.required this.dataType,
-    this.binaryListValues,
-    this.binaryValue,
-    this.stringListValues,
-    this.stringValue,
-  });
-  factory MessageAttributeValue.fromXml(_s.XmlElement elem) {
-    return MessageAttributeValue(
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      binaryListValues:
-          _s.extractXmlUint8ListListValues(elem, 'BinaryListValue'),
-      binaryValue: _s.extractXmlUint8ListValue(elem, 'BinaryValue'),
-      stringListValues: _s.extractXmlStringListValues(elem, 'StringListValue'),
-      stringValue: _s.extractXmlStringValue(elem, 'StringValue'),
     );
   }
 }
@@ -2568,49 +2514,6 @@ extension on String {
     }
     throw Exception('Unknown enum value: $this');
   }
-}
-
-/// The user-specified message system attribute value. For string data types,
-/// the <code>Value</code> attribute has the same restrictions on the content as
-/// the message body. For more information, see <code>
-/// <a>SendMessage</a>.</code>
-///
-/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
-/// body must not be empty or null.
-class MessageSystemAttributeValue {
-  /// Amazon SQS supports the following logical data types: <code>String</code>,
-  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
-  /// data type, you must use <code>StringValue</code>.
-  ///
-  /// You can also append custom labels. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
-  /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
-  /// Guide</i>.
-  final String dataType;
-
-  /// Not implemented. Reserved for future use.
-  final List<Uint8List> binaryListValues;
-
-  /// Binary type attributes can store any binary data, such as compressed data,
-  /// encrypted data, or images.
-  final Uint8List binaryValue;
-
-  /// Not implemented. Reserved for future use.
-  final List<String> stringListValues;
-
-  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
-  /// see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
-  /// Printable Characters</a>.
-  final String stringValue;
-
-  MessageSystemAttributeValue({
-    @_s.required this.dataType,
-    this.binaryListValues,
-    this.binaryValue,
-    this.stringListValues,
-    this.stringValue,
-  });
 }
 
 enum QueueAttributeName {
@@ -2725,7 +2628,7 @@ class SendMessageBatchRequestEntry {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  final Map<String, MessageAttributeValue> messageAttributes;
+  final Map<String, _s.MessageAttributeValue> messageAttributes;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -2846,7 +2749,7 @@ class SendMessageBatchRequestEntry {
   /// of a message.
   /// </li>
   /// </ul> </important>
-  final Map<String, MessageSystemAttributeValue> messageSystemAttributes;
+  final Map<String, _s.MessageSystemAttributeValue> messageSystemAttributes;
 
   SendMessageBatchRequestEntry({
     @_s.required this.id,

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 final rfc822Formatter = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
@@ -98,6 +99,47 @@ class GenericAwsException implements AwsException {
         'code': code,
         'message': message,
       };
+}
+
+class MessageAttributeValue {
+  final String dataType;
+  final List<Uint8List> binaryListValues; /// Not implemented. Reserved for future use.
+  final Uint8List binaryValue;
+  final List<String> stringListValues; /// Not implemented. Reserved for future use.
+  final String stringValue;
+
+  MessageAttributeValue({
+    @required this.dataType,
+    this.binaryListValues,
+    this.binaryValue,
+    this.stringListValues,
+    this.stringValue,
+  });
+  factory MessageAttributeValue.fromXml(XmlElement elem) {
+    return MessageAttributeValue(
+      dataType: extractXmlStringValue(elem, 'DataType'),
+      binaryListValues: extractXmlUint8ListListValues(elem, 'BinaryListValue'),
+      binaryValue: extractXmlUint8ListValue(elem, 'BinaryValue'),
+      stringListValues: extractXmlStringListValues(elem, 'StringListValue'),
+      stringValue: extractXmlStringValue(elem, 'StringValue'),
+    );
+  }
+}
+
+class MessageSystemAttributeValue {
+  final String dataType;
+  final List<Uint8List> binaryListValues; /// Not implemented. Reserved for future use.
+  final Uint8List binaryValue;
+  final List<String> stringListValues; /// Not implemented. Reserved for future use.
+  final String stringValue;
+
+  MessageSystemAttributeValue({
+    @required this.dataType,
+    this.binaryListValues,
+    this.binaryValue,
+    this.stringListValues,
+    this.stringValue,
+  });
 }
 
 typedef AwsExceptionFn = AwsException Function(String type, String message);
