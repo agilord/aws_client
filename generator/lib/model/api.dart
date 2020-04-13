@@ -46,16 +46,24 @@ class Api {
   }
 
   bool get usesQueryProtocol => metadata.protocol == 'query';
+
   bool get usesJsonProtocol => metadata.protocol == 'json';
+
   bool get usesRestJsonProtocol => metadata.protocol == 'rest-json';
+
   bool get usesRestXmlProtocol => metadata.protocol == 'rest-xml';
+
   bool get usesEc2Protocol => metadata.protocol == 'ec2';
 
   bool get generateFromJson => usesJsonProtocol || usesRestJsonProtocol;
-  bool get generateToJson => usesJsonProtocol || usesRestJsonProtocol;
+
+  bool get generateToJson =>
+      usesJsonProtocol || usesRestJsonProtocol || usesQueryProtocol;
+
   bool get generateJson => generateFromJson || generateToJson;
 
   bool get generateFromXml => usesQueryProtocol || usesRestXmlProtocol;
+
   bool get generateToXml => usesRestXmlProtocol;
 
   String get directoryPath {
@@ -105,6 +113,7 @@ class Api {
   }
 
   List<String> _exceptions;
+
   List<String> get exceptions {
     if (_exceptions == null) {
       final set = operations?.values

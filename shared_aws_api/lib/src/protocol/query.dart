@@ -119,6 +119,10 @@ Iterable<MapEntry<String, String>> _flatten(
     return;
   }
 
+  if (data is! Map) {
+    data = data.toJson();
+  }
+
   if (data is Map) {
     var flat = false;
     if (prefixes.isEmpty) flat = true;
