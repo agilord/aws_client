@@ -72,7 +72,6 @@ class QueryProtocol {
       Map<String, dynamic> data, String method, String requestUri) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
     rq.body = _canonical(flatQueryParams(data));
-    print(rq.body);
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
