@@ -215,7 +215,8 @@ ${builder.constructor()}
       if (shape.api.generateJson) {
         writeln(
             '@_s.JsonSerializable(includeIfNull: false, explicitToJson: true, '
-            'createFactory: ${shape.isUsedInOutput}, createToJson: ${shape.isUsedInInput})');
+            'createFactory: ${shape.isUsedInOutput && shape.api.generateFromJson},'
+            'createToJson: ${shape.isUsedInInput && shape.api.generateToJson})');
       }
 
       final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';

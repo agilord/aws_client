@@ -91,6 +91,7 @@ class GenerateCommand extends Command {
 
     final touchedDirs = <String>{};
     final notGeneratedApis = <String, Map<String, List<String>>>{};
+    final latestBuiltApi = <String, String>{};
 
     for (final service in services) {
       final def = File('./apis/$service.normal.json');
@@ -159,8 +160,16 @@ class GenerateCommand extends Command {
 
           pubspecFile.writeAsStringSync(pubspecYaml);
           serviceFile.writeAsStringSync(serviceText);
-          readmeFile.writeAsStringSync(buildReadmeMd(api));
-          exampleFile.writeAsStringSync(buildExampleReadme(api));
+
+          final latestBuiltApiVersion = latestBuiltApi[api.metadata.serviceId];
+
+          if (latestBuiltApiVersion == null ||
+              latestBuiltApiVersion.compareTo(api.metadata.apiVersion) < 0) {
+            latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
+            readmeFile.writeAsStringSync(buildReadmeMd(api));
+            exampleFile.writeAsStringSync(buildExampleReadme(api));
+          }
+
           touchedDirs.add(baseDir);
         } else {
           notGeneratedApis[api.metadata.protocol] ??= {};
@@ -227,7 +236,7 @@ class GenerateCommand extends Command {
     print('Running build_runner in $baseDir ...');
     final pr = await Process.run(
       'pub',
-      ['run', 'build_runner', 'build'],
+      ['run', 'build_runner', 'build', '--delete-conflicting-outputs'],
       workingDirectory: baseDir,
     );
     if (pr.exitCode != 0) {

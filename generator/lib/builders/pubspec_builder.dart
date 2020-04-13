@@ -33,10 +33,10 @@ dependencies:
   shared_aws_api: ${protocolConfig.shared}
 
 dev_dependencies:
-  build_runner: ^1.7.2
-  json_serializable: ^3.2.0
+  build_runner: ^1.8.1
+  json_serializable: ^3.3.0
   build_verify: ^1.1.1
-  test: ^1.9.4
+  test: ^1.14.2
 
 $dependenciesOverride
 ''';
