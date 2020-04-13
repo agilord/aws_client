@@ -119,6 +119,7 @@ Iterable<MapEntry<String, String>> _flatten(
     return;
   }
 
+  // TODO: to remove it once we call .toJson at request building time.
   if (data is! Map) {
     data = data.toJson();
   }
