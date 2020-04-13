@@ -101,7 +101,8 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
     'flattened',
     'streaming',
     'xmlAttribute',
-    'eventpayload'
+    'eventpayload',
+    'tags'
   ]);
   return Member(
     json['shape'] as String,
@@ -122,5 +123,6 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
     json['streaming'] as bool ?? false,
     json['xmlAttribute'] as bool ?? false,
     json['eventpayload'] as bool ?? false,
+    (json['tags'] as List)?.map((e) => e as String)?.toList(),
   );
 }

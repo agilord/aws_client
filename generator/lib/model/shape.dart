@@ -119,13 +119,19 @@ class Shape {
   bool get hasMembers => _members.isNotEmpty;
 
   bool get hasEmptyMembers => _members.isEmpty;
+
   bool get hasHeaderMembers => headerMembers.isNotEmpty;
+
   bool get hasUriMembers => uriMembers.isNotEmpty;
+
   bool get hasQueryMembers => queryMembers.isNotEmpty;
+
   bool get hasNoBodyMembers => _members.where((m) => m.isBody).isEmpty;
 
   Iterable<Member> get headerMembers => _members.where((m) => m.isHeader);
+
   Iterable<Member> get uriMembers => _members.where((m) => m.isUri);
+
   Iterable<Member> get queryMembers => _members.where((m) => m.isQuery);
 
   Member get payloadMember =>
@@ -185,6 +191,7 @@ class Member {
   final bool xmlAttribute;
   @JsonKey(defaultValue: false)
   final bool eventpayload;
+  final List<String> tags;
 
   Member(
     this.shape,
@@ -203,6 +210,7 @@ class Member {
     this.streaming,
     this.xmlAttribute,
     this.eventpayload,
+    this.tags,
   );
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
@@ -233,8 +241,11 @@ class Member {
   }
 
   bool get isHeader => location == 'header' || location == 'headers';
+
   bool get isUri => location == 'uri';
+
   bool get isQuery => location == 'querystring';
+
   bool get isBody => !isHeader && !isUri && !isQuery;
 }
 

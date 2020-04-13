@@ -35,6 +35,8 @@ packages:
   - aws_sns_api
   - aws_sqs_api
   - aws_sts_api
+  - aws_neptune_api
+  - aws_docdb_api
 ## rest-xml protocol APIs
   - aws_cloudfront_api
   - aws_route53_api

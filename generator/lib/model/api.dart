@@ -79,9 +79,9 @@ class Api {
 
   String get packageBaseName {
     final candidates = <String>[
-      metadata.endpointPrefix,
       metadata.uid?.split('-20')?.first,
       metadata.className.toLowerCase(),
+      metadata.endpointPrefix
     ];
     final identified = candidates
         .firstWhere((c) => awsCliServiceNames.contains(c), orElse: () => null);
