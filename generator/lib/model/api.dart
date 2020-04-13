@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/aws_names.dart';
 
+import 'dart_type.dart';
 import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';
@@ -61,6 +62,12 @@ class Api {
       usesJsonProtocol || usesRestJsonProtocol || usesQueryProtocol;
 
   bool get generateJson => generateFromJson || generateToJson;
+
+  bool get requiresJsonMethods =>
+      (generateFromJson &&
+          shapes.values.any((s) => s.isUsedInOutput && s.requiresJson)) ||
+      (generateToJson &&
+          shapes.values.any((s) => s.isUsedInInput && s.requiresJson));
 
   bool get generateFromXml => usesQueryProtocol || usesRestXmlProtocol;
 

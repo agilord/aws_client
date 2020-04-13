@@ -134,6 +134,19 @@ class Shape {
 
   Iterable<Member> get queryMembers => _members.where((m) => m.isQuery);
 
+  bool get requiresJson {
+    if (type.isBasicType()) {
+      return false;
+    }
+    if (member != null && member.shapeClass.type.isBasicType()) {
+      return false;
+    }
+    if (value != null && value.shapeClass.type.isBasicType()) {
+      return false;
+    }
+    return true;
+  }
+
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
 
