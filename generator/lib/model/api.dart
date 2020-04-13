@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/aws_names.dart';
 
-import 'dart_type.dart';
 import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';
