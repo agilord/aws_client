@@ -52,14 +52,16 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 """);
   buf.writeln(builder.imports());
-  if (api.generateJson) {
-    buf.writeln("part '${api.fileBasename}.g.dart';\n");
-  }
-  buf
+
+  final body = StringBuffer()
     ..putMainClass(api, builder)
     ..putShapes(api)
     ..putExceptions(api);
 
+  if (api.requiresJsonMethods) {
+    buf.writeln("part '${api.fileBasename}.g.dart';\n");
+  }
+  buf.writeln(body);
   return buf.toString();
 }
 

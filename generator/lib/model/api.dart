@@ -62,6 +62,12 @@ class Api {
 
   bool get generateJson => generateFromJson || generateToJson;
 
+  bool get requiresJsonMethods =>
+      (generateFromJson &&
+          shapes.values.any((s) => s.isUsedInOutput && s.requiresJson)) ||
+      (generateToJson &&
+          shapes.values.any((s) => s.isUsedInInput && s.requiresJson));
+
   bool get generateFromXml => usesQueryProtocol || usesRestXmlProtocol;
 
   bool get generateToXml => usesRestXmlProtocol;
