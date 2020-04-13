@@ -1,3 +1,11 @@
+## 0.2.0
+
+**BREAKING CHANGES**
+
+- Updated query protocol's flattening algorithm:
+  - map of maps will use special handling (required by `SQS`)
+  - key segments are now CamelCased (`Key`, `Value`...)
+
 ## 0.1.3
 
 - Upgraded `package:sigv4` dependency.

@@ -72,6 +72,7 @@ class QueryProtocol {
       Map<String, dynamic> data, String method, String requestUri) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
     rq.body = _canonical(flatQueryParams(data));
+    print(rq.body);
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
@@ -89,8 +90,8 @@ Map<String, String> flatQueryParams(dynamic data) {
   return Map.fromEntries(_flatten([], data));
 }
 
-Iterable<MapEntry<String, String>> _flatten(
-    List<String> prefixes, dynamic data) sync* {
+Iterable<MapEntry<String, String>> _flatten(List<String> prefixes, dynamic data,
+    {bool flat}) sync* {
   if (data == null) {
     return;
   }
@@ -119,23 +120,24 @@ Iterable<MapEntry<String, String>> _flatten(
     return;
   }
 
-  // TODO: to remove it once we call .toJson at request building time.
-  if (data is! Map) {
-    data = data.toJson();
-  }
-
   if (data is Map) {
-    var flat = false;
-    if (prefixes.isEmpty) flat = true;
+    if (flat == null) {
+      flat = false;
+      if (prefixes.isEmpty) flat = true;
+    }
 
     var i = 0;
     for (final e in data.entries) {
       final key = e.key;
       if (flat && key is String) {
         yield* _flatten([...prefixes, key], e.value);
+      } else if (e.value is Map) {
+        yield* _flatten([...prefixes, '${i + 1}', 'Name'], key);
+        yield* _flatten([...prefixes, '${i + 1}', 'Value'], e.value,
+            flat: true);
       } else {
-        yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], key);
-        yield* _flatten([...prefixes, 'entry', '${i + 1}', 'value'], e.value);
+        yield* _flatten([...prefixes, 'Entry', '${i + 1}', 'Key'], key);
+        yield* _flatten([...prefixes, 'Entry', '${i + 1}', 'Value'], e.value);
       }
       i++;
     }
