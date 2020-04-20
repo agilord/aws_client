@@ -14,7 +14,6 @@ dependencies:
   meta: ^1.1.8
   xml: ^3.7.0
   intl: ^0.16.1
-  sigv4: ^4.0.0
 
 dev_dependencies:
   pedantic: ^1.8.0+1
