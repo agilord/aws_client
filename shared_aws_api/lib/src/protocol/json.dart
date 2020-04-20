@@ -57,7 +57,7 @@ class JsonProtocol {
       rq: rq,
       service: _service,
       region: _region,
-      credentials: _credentials
+      credentials: _credentials,
     );
 
     final rs = await _client.send(rq);
