@@ -399,7 +399,7 @@ class STS {
     _s.validateStringPattern(
       'roleArn',
       roleArn,
-      r'[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -411,7 +411,7 @@ class STS {
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
-      r'[\w+=,.@-]*',
+      r'''[\w+=,.@-]*''',
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -428,7 +428,7 @@ class STS {
     _s.validateStringPattern(
       'externalId',
       externalId,
-      r'[\w+=,.@:\/-]*',
+      r'''[\w+=,.@:\/-]*''',
     );
     _s.validateStringLength(
       'policy',
@@ -439,7 +439,7 @@ class STS {
     _s.validateStringPattern(
       'policy',
       policy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'serialNumber',
@@ -450,7 +450,7 @@ class STS {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]*',
+      r'''[\w+=/:,.@-]*''',
     );
     _s.validateStringLength(
       'tokenCode',
@@ -461,7 +461,7 @@ class STS {
     _s.validateStringPattern(
       'tokenCode',
       tokenCode,
-      r'[\d]*',
+      r'''[\d]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'AssumeRole',
@@ -758,7 +758,7 @@ class STS {
     _s.validateStringPattern(
       'principalArn',
       principalArn,
-      r'[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -770,7 +770,7 @@ class STS {
     _s.validateStringPattern(
       'roleArn',
       roleArn,
-      r'[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
     );
     ArgumentError.checkNotNull(sAMLAssertion, 'sAMLAssertion');
     _s.validateStringLength(
@@ -794,7 +794,7 @@ class STS {
     _s.validateStringPattern(
       'policy',
       policy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'AssumeRoleWithSAML',
@@ -1130,7 +1130,7 @@ class STS {
     _s.validateStringPattern(
       'roleArn',
       roleArn,
-      r'[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -1142,7 +1142,7 @@ class STS {
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
-      r'[\w+=,.@-]*',
+      r'''[\w+=,.@-]*''',
     );
     ArgumentError.checkNotNull(webIdentityToken, 'webIdentityToken');
     _s.validateStringLength(
@@ -1166,7 +1166,7 @@ class STS {
     _s.validateStringPattern(
       'policy',
       policy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'providerId',
@@ -1313,7 +1313,7 @@ class STS {
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
-      r'[\w]*',
+      r'''[\w]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetAccessKeyInfo',
@@ -1623,7 +1623,7 @@ class STS {
     _s.validateStringPattern(
       'name',
       name,
-      r'[\w+=,.@-]*',
+      r'''[\w+=,.@-]*''',
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -1640,7 +1640,7 @@ class STS {
     _s.validateStringPattern(
       'policy',
       policy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetFederationToken',
@@ -1780,7 +1780,7 @@ class STS {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]*',
+      r'''[\w+=/:,.@-]*''',
     );
     _s.validateStringLength(
       'tokenCode',
@@ -1791,7 +1791,7 @@ class STS {
     _s.validateStringPattern(
       'tokenCode',
       tokenCode,
-      r'[\d]*',
+      r'''[\d]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetSessionToken',

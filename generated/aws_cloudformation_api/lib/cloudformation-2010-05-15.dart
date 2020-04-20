@@ -66,7 +66,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'CancelUpdateStack',
@@ -190,7 +190,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     _s.validateStringLength(
       'clientRequestToken',
@@ -201,7 +201,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -504,7 +504,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'changeSetName',
       changeSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*',
+      r'''[a-zA-Z][-a-zA-Z0-9]*''',
     );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -516,7 +516,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     _s.validateStringLength(
       'clientToken',
@@ -590,7 +590,7 @@ class CloudFormation {
   ///
   /// Parameter [stackName] :
   /// The name that is associated with the stack. The name must be unique in the
-  /// region in which you are creating the stack.
+  /// Region in which you are creating the stack.
   /// <note>
   /// A stack name can contain only alphanumeric characters (case sensitive) and
   /// hyphens. It must start with an alphabetic character and cannot be longer
@@ -817,7 +817,7 @@ class CloudFormation {
   ///
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the stack policy. The URL must point to a
-  /// policy (maximum size: 16 KB) located in an S3 bucket in the same region as
+  /// policy (maximum size: 16 KB) located in an S3 bucket in the same Region as
   /// the stack. You can specify either the <code>StackPolicyBody</code> or the
   /// <code>StackPolicyURL</code> parameter, but not both.
   ///
@@ -878,7 +878,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -950,9 +950,10 @@ class CloudFormation {
   }
 
   /// Creates stack instances for the specified accounts, within the specified
-  /// regions. A stack instance refers to a stack in a specific account and
-  /// region. <code>Accounts</code> and <code>Regions</code> are required
-  /// parameters—you must specify at least one account and one region.
+  /// Regions. A stack instance refers to a stack in a specific account and
+  /// Region. You must specify at least one value for either
+  /// <code>Accounts</code> or <code>DeploymentTargets</code>, and you must
+  /// specify at least one value for <code>Regions</code>.
   ///
   /// May throw [StackSetNotFoundException].
   /// May throw [OperationInProgressException].
@@ -961,17 +962,28 @@ class CloudFormation {
   /// May throw [InvalidOperationException].
   /// May throw [LimitExceededException].
   ///
-  /// Parameter [accounts] :
-  /// The names of one or more AWS accounts that you want to create stack
-  /// instances in the specified region(s) for.
-  ///
   /// Parameter [regions] :
-  /// The names of one or more regions where you want to create stack instances
+  /// The names of one or more Regions where you want to create stack instances
   /// using the specified AWS account(s).
   ///
   /// Parameter [stackSetName] :
   /// The name or unique ID of the stack set that you want to create stack
   /// instances from.
+  ///
+  /// Parameter [accounts] :
+  /// [<code>Self-managed</code> permissions] The names of one or more AWS
+  /// accounts that you want to create stack instances in the specified
+  /// Region(s) for.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
+  ///
+  /// Parameter [deploymentTargets] :
+  /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
+  /// for which to create stack instances in the specified Regions.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
   ///
   /// Parameter [operationId] :
   /// The unique identifier for this stack set operation.
@@ -994,7 +1006,7 @@ class CloudFormation {
   /// selected stack instances.
   ///
   /// Any overridden parameter values will be applied to all stack instances in
-  /// the specified accounts and regions. When specifying parameters and their
+  /// the specified accounts and Regions. When specifying parameters and their
   /// values, be aware of how AWS CloudFormation sets parameter values during
   /// stack instance operations:
   ///
@@ -1034,14 +1046,14 @@ class CloudFormation {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
   /// to update the stack set template.
   Future<CreateStackInstancesOutput> createStackInstances({
-    @_s.required List<String> accounts,
     @_s.required List<String> regions,
     @_s.required String stackSetName,
+    List<String> accounts,
+    DeploymentTargets deploymentTargets,
     String operationId,
     StackSetOperationPreferences operationPreferences,
     List<Parameter> parameterOverrides,
   }) async {
-    ArgumentError.checkNotNull(accounts, 'accounts');
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateStringLength(
@@ -1053,15 +1065,16 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateStackInstances',
       'Version': '2010-05-15',
     };
-    $request['Accounts'] = accounts;
     $request['Regions'] = regions;
     $request['StackSetName'] = stackSetName;
+    accounts?.also((arg) => $request['Accounts'] = arg);
+    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
@@ -1083,7 +1096,7 @@ class CloudFormation {
   ///
   /// Parameter [stackSetName] :
   /// The name to associate with the stack set. The name must be unique in the
-  /// region where you create your stack set.
+  /// Region where you create your stack set.
   /// <note>
   /// A stack name can contain only alphanumeric characters (case-sensitive) and
   /// hyphens. It must start with an alphabetic character and can't be longer
@@ -1100,6 +1113,12 @@ class CloudFormation {
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
   /// Granting Permissions for Stack Set Operations</a> in the <i>AWS
   /// CloudFormation User Guide</i>.
+  ///
+  /// Parameter [autoDeployment] :
+  /// Describes whether StackSets automatically deploys to AWS Organizations
+  /// accounts that are added to the target organization or organizational unit
+  /// (OU). Specify only if <code>PermissionModel</code> is
+  /// <code>SERVICE_MANAGED</code>.
   ///
   /// Parameter [capabilities] :
   /// In some cases, you must explicitly acknowledge that your stack set
@@ -1224,6 +1243,27 @@ class CloudFormation {
   /// Parameter [parameters] :
   /// The input parameters for the stack set template.
   ///
+  /// Parameter [permissionModel] :
+  /// Describes how the IAM roles required for stack set operations are created.
+  /// By default, <code>SELF-MANAGED</code> is specified.
+  ///
+  /// <ul>
+  /// <li>
+  /// With <code>self-managed</code> permissions, you must create the
+  /// administrator and execution roles required to deploy to target accounts.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html">Grant
+  /// Self-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// <li>
+  /// With <code>service-managed</code> permissions, StackSets automatically
+  /// creates the IAM roles required to deploy to accounts managed by AWS
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html">Grant
+  /// Service-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
   /// The key-value pairs to associate with this stack set and the stacks
   /// created from it. AWS CloudFormation also propagates these tags to
@@ -1257,11 +1297,13 @@ class CloudFormation {
   Future<CreateStackSetOutput> createStackSet({
     @_s.required String stackSetName,
     String administrationRoleARN,
+    AutoDeployment autoDeployment,
     List<String> capabilities,
     String clientRequestToken,
     String description,
     String executionRoleName,
     List<Parameter> parameters,
+    PermissionModels permissionModel,
     List<Tag> tags,
     String templateBody,
     String templateURL,
@@ -1282,7 +1324,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'description',
@@ -1299,7 +1341,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'executionRoleName',
       executionRoleName,
-      r'[a-zA-Z_0-9+=,.@-]+',
+      r'''[a-zA-Z_0-9+=,.@-]+''',
     );
     _s.validateStringLength(
       'templateBody',
@@ -1320,11 +1362,13 @@ class CloudFormation {
     $request['StackSetName'] = stackSetName;
     administrationRoleARN
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
+    autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
     capabilities?.also((arg) => $request['Capabilities'] = arg);
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
+    permissionModel?.also((arg) => $request['PermissionModel'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
@@ -1367,7 +1411,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'changeSetName',
       changeSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*',
+      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
     );
     _s.validateStringLength(
       'stackName',
@@ -1378,7 +1422,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteChangeSet',
@@ -1460,7 +1504,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -1485,7 +1529,7 @@ class CloudFormation {
   }
 
   /// Deletes stack instances for the specified accounts, in the specified
-  /// regions.
+  /// Regions.
   ///
   /// May throw [StackSetNotFoundException].
   /// May throw [OperationInProgressException].
@@ -1493,11 +1537,8 @@ class CloudFormation {
   /// May throw [StaleRequestException].
   /// May throw [InvalidOperationException].
   ///
-  /// Parameter [accounts] :
-  /// The names of the AWS accounts that you want to delete stack instances for.
-  ///
   /// Parameter [regions] :
-  /// The regions where you want to delete stack set instances.
+  /// The Regions where you want to delete stack set instances.
   ///
   /// Parameter [retainStacks] :
   /// Removes the stack instances from the specified stack set, but doesn't
@@ -1511,6 +1552,20 @@ class CloudFormation {
   /// Parameter [stackSetName] :
   /// The name or unique ID of the stack set that you want to delete stack
   /// instances for.
+  ///
+  /// Parameter [accounts] :
+  /// [<code>Self-managed</code> permissions] The names of the AWS accounts that
+  /// you want to delete stack instances for.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
+  ///
+  /// Parameter [deploymentTargets] :
+  /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
+  /// from which to delete stack instances.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
   ///
   /// Parameter [operationId] :
   /// The unique identifier for this stack set operation.
@@ -1528,14 +1583,14 @@ class CloudFormation {
   /// Parameter [operationPreferences] :
   /// Preferences for how AWS CloudFormation performs this stack set operation.
   Future<DeleteStackInstancesOutput> deleteStackInstances({
-    @_s.required List<String> accounts,
     @_s.required List<String> regions,
     @_s.required bool retainStacks,
     @_s.required String stackSetName,
+    List<String> accounts,
+    DeploymentTargets deploymentTargets,
     String operationId,
     StackSetOperationPreferences operationPreferences,
   }) async {
-    ArgumentError.checkNotNull(accounts, 'accounts');
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(retainStacks, 'retainStacks');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
@@ -1548,16 +1603,17 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteStackInstances',
       'Version': '2010-05-15',
     };
-    $request['Accounts'] = accounts;
     $request['Regions'] = regions;
     $request['RetainStacks'] = retainStacks;
     $request['StackSetName'] = stackSetName;
+    accounts?.also((arg) => $request['Accounts'] = arg);
+    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     final $result = await _protocol.send(
@@ -1616,17 +1672,22 @@ class CloudFormation {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [type] :
   /// The kind of type.
   ///
   /// Currently the only valid value is <code>RESOURCE</code>.
   ///
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
+  ///
   /// Parameter [typeName] :
   /// The name of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [versionId] :
   /// The ID of a specific version of the type. The version ID is the value at
@@ -1647,7 +1708,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'arn',
       arn,
-      r'arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+',
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
     );
     _s.validateStringLength(
       'typeName',
@@ -1658,7 +1719,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -1669,7 +1730,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'[A-Za-z0-9-]+',
+      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeregisterType',
@@ -1755,7 +1816,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'changeSetName',
       changeSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*',
+      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1772,7 +1833,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeChangeSet',
@@ -1895,7 +1956,7 @@ class CloudFormation {
   }
 
   /// Returns the stack instance that's associated with the specified stack set,
-  /// AWS account, and region.
+  /// AWS account, and Region.
   ///
   /// For a list of stack instances that are associated with a specific stack
   /// set, use <a>ListStackInstances</a>.
@@ -1907,7 +1968,7 @@ class CloudFormation {
   /// The ID of an AWS account that's associated with this stack instance.
   ///
   /// Parameter [stackInstanceRegion] :
-  /// The name of a region that's associated with this stack instance.
+  /// The name of a Region that's associated with this stack instance.
   ///
   /// Parameter [stackSetName] :
   /// The name or the unique stack ID of the stack set that you want to get
@@ -1921,9 +1982,14 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackInstanceAccount',
       stackInstanceAccount,
-      r'[0-9]{12}',
+      r'''^[0-9]{12}$''',
     );
     ArgumentError.checkNotNull(stackInstanceRegion, 'stackInstanceRegion');
+    _s.validateStringPattern(
+      'stackInstanceRegion',
+      stackInstanceRegion,
+      r'''^[a-zA-Z0-9-]{1,128}$''',
+    );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{
       'Action': 'DescribeStackInstance',
@@ -2055,7 +2121,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -2222,7 +2288,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{
@@ -2304,17 +2370,22 @@ class CloudFormation {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [type] :
   /// The kind of type.
   ///
   /// Currently the only valid value is <code>RESOURCE</code>.
   ///
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
+  ///
   /// Parameter [typeName] :
   /// The name of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [versionId] :
   /// The ID of a specific version of the type. The version ID is the value at
@@ -2339,7 +2410,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'arn',
       arn,
-      r'arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+',
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
     );
     _s.validateStringLength(
       'typeName',
@@ -2350,7 +2421,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -2361,7 +2432,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'[A-Za-z0-9-]+',
+      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeType',
@@ -2411,7 +2482,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'registrationToken',
       registrationToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeTypeRegistration',
@@ -2479,7 +2550,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'DetectStackDrift',
@@ -2536,7 +2607,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'DetectStackResourceDrift',
@@ -2618,7 +2689,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackSetName',
       stackSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?',
+      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
     );
     _s.validateStringLength(
       'operationId',
@@ -2629,7 +2700,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DetectStackSetDrift',
@@ -2757,7 +2828,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'changeSetName',
       changeSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*',
+      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
     );
     _s.validateStringLength(
       'clientRequestToken',
@@ -2768,7 +2839,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'stackName',
@@ -2779,7 +2850,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'ExecuteChangeSet',
@@ -2877,7 +2948,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'changeSetName',
       changeSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*',
+      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetTemplate',
@@ -2964,12 +3035,12 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     _s.validateStringPattern(
       'stackSetName',
       stackSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?',
+      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
     );
     _s.validateStringLength(
       'templateBody',
@@ -3026,7 +3097,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -3050,7 +3121,7 @@ class CloudFormation {
     return ListChangeSetsOutput.fromXml($result);
   }
 
-  /// Lists all exported output values in the account and region in which you
+  /// Lists all exported output values in the account and Region in which you
   /// call this action. Use this action to see the exported output values that
   /// you can import into other stacks. To import values, use the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
@@ -3134,7 +3205,7 @@ class CloudFormation {
 
   /// Returns summary information about stack instances that are associated with
   /// the specified stack set. You can filter for stack instances that are
-  /// associated with a specific AWS account name or region.
+  /// associated with a specific AWS account name or Region.
   ///
   /// May throw [StackSetNotFoundException].
   ///
@@ -3160,7 +3231,7 @@ class CloudFormation {
   /// The name of the AWS account that you want to list stack instances for.
   ///
   /// Parameter [stackInstanceRegion] :
-  /// The name of the region where you want to list stack instances.
+  /// The name of the Region where you want to list stack instances.
   Future<ListStackInstancesOutput> listStackInstances({
     @_s.required String stackSetName,
     int maxResults,
@@ -3184,7 +3255,12 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackInstanceAccount',
       stackInstanceAccount,
-      r'[0-9]{12}',
+      r'''^[0-9]{12}$''',
+    );
+    _s.validateStringPattern(
+      'stackInstanceRegion',
+      stackInstanceRegion,
+      r'''^[a-zA-Z0-9-]{1,128}$''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListStackInstances',
@@ -3297,7 +3373,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateNumRange(
@@ -3483,7 +3559,7 @@ class CloudFormation {
     return ListStacksOutput.fromXml($result);
   }
 
-  /// Returns a list of registration tokens for the specified type.
+  /// Returns a list of registration tokens for the specified type(s).
   ///
   /// May throw [CFNRegistryException].
   ///
@@ -3504,20 +3580,27 @@ class CloudFormation {
   /// Parameter [registrationStatusFilter] :
   /// The current status of the type registration request.
   ///
+  /// The default is <code>IN_PROGRESS</code>.
+  ///
   /// Parameter [type] :
   /// The kind of type.
   ///
   /// Currently the only valid value is <code>RESOURCE</code>.
   ///
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
+  ///
   /// Parameter [typeArn] :
   /// The Amazon Resource Name (ARN) of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [typeName] :
   /// The name of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   Future<ListTypeRegistrationsOutput> listTypeRegistrations({
     int maxResults,
     String nextToken,
@@ -3547,7 +3630,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeArn',
       typeArn,
-      r'arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+',
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
     );
     _s.validateStringLength(
       'typeName',
@@ -3558,7 +3641,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListTypeRegistrations',
@@ -3589,7 +3672,8 @@ class CloudFormation {
   /// The Amazon Resource Name (ARN) of the type for which you want version
   /// summary information.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [deprecatedStatus] :
   /// The deprecation status of the type versions that you want to get summary
@@ -3608,6 +3692,7 @@ class CloudFormation {
   /// longer be used in CloudFormation operations.
   /// </li>
   /// </ul>
+  /// The default is <code>LIVE</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned with a single call. If the
@@ -3628,10 +3713,14 @@ class CloudFormation {
   ///
   /// Currently the only valid value is <code>RESOURCE</code>.
   ///
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
+  ///
   /// Parameter [typeName] :
   /// The name of the type for which you want version summary information.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   Future<ListTypeVersionsOutput> listTypeVersions({
     String arn,
     DeprecatedStatus deprecatedStatus,
@@ -3649,7 +3738,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'arn',
       arn,
-      r'arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+',
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -3672,7 +3761,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListTypeVersions',
@@ -3770,6 +3859,7 @@ class CloudFormation {
   /// Amazon account.
   /// </li>
   /// </ul>
+  /// The default is <code>PRIVATE</code>.
   Future<ListTypesOutput> listTypes({
     DeprecatedStatus deprecatedStatus,
     int maxResults,
@@ -3877,7 +3967,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'resourceModel',
@@ -3929,8 +4019,13 @@ class CloudFormation {
   /// </ul>
   /// For more information on how to develop types and ready them for
   /// registeration, see <a
-  /// href="cloudformation-cli/latest/userguide/resource-types.html">Creating
+  /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html">Creating
   /// Resource Providers</a> in the <i>CloudFormation CLI User Guide</i>.
+  ///
+  /// You can have a maximum of 50 resource type versions registered at a time.
+  /// This maximum is per account and per region. Use <a
+  /// href="AWSCloudFormation/latest/APIReference/API_DeregisterType.html">DeregisterType</a>
+  /// to deregister specific resource type versions if necessary.
   ///
   /// Once you have initiated a registration request using <code>
   /// <a>RegisterType</a> </code>, you can use <code>
@@ -3948,6 +4043,14 @@ class CloudFormation {
   /// want to register, see <a
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html">submit</a>
   /// in the <i>CloudFormation CLI User Guide</i>.
+  /// <note>
+  /// As part of registering a resource provider type, CloudFormation must be
+  /// able to access the S3 bucket which contains the schema handler package for
+  /// that resource provider. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-register-permissions">IAM
+  /// Permissions for Registering a Resource Provider</a> in the <i>AWS
+  /// CloudFormation User Guide</i>.
+  /// </note>
   ///
   /// Parameter [typeName] :
   /// The name of the type being registered.
@@ -4027,7 +4130,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     _s.validateStringLength(
       'clientRequestToken',
@@ -4038,7 +4141,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'executionRoleArn',
@@ -4049,7 +4152,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'executionRoleArn',
       executionRoleArn,
-      r'arn:.+:iam::[0-9]{12}:role/.+',
+      r'''arn:.+:iam::[0-9]{12}:role/.+''',
     );
     final $request = <String, dynamic>{
       'Action': 'RegisterType',
@@ -4085,7 +4188,7 @@ class CloudFormation {
   ///
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the stack policy. The URL must point to a
-  /// policy (maximum size: 16 KB) located in an S3 bucket in the same region as
+  /// policy (maximum size: 16 KB) located in an S3 bucket in the same Region as
   /// the stack. You can specify either the <code>StackPolicyBody</code> or the
   /// <code>StackPolicyURL</code> parameter, but not both.
   Future<void> setStackPolicy({
@@ -4131,15 +4234,20 @@ class CloudFormation {
   /// The Amazon Resource Name (ARN) of the type for which you want version
   /// summary information.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [type] :
   /// The kind of type.
   ///
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
+  ///
   /// Parameter [typeName] :
   /// The name of the type.
   ///
-  /// Conditional: You must specify <code>TypeName</code> or <code>Arn</code>.
+  /// Conditional: You must specify either <code>TypeName</code> and
+  /// <code>Type</code>, or <code>Arn</code>.
   ///
   /// Parameter [versionId] :
   /// The ID of a specific version of the type. The version ID is the value at
@@ -4160,7 +4268,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'arn',
       arn,
-      r'arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+',
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
     );
     _s.validateStringLength(
       'typeName',
@@ -4171,7 +4279,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -4182,7 +4290,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'[A-Za-z0-9-]+',
+      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'SetTypeDefaultVersion',
@@ -4244,7 +4352,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(uniqueId, 'uniqueId');
@@ -4297,7 +4405,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{
@@ -4531,7 +4639,7 @@ class CloudFormation {
   /// Parameter [stackPolicyDuringUpdateURL] :
   /// Location of a file containing the temporary overriding stack policy. The
   /// URL must point to a policy (max size: 16KB) located in an S3 bucket in the
-  /// same region as the stack. You can specify either the
+  /// same Region as the stack. You can specify either the
   /// <code>StackPolicyDuringUpdateBody</code> or the
   /// <code>StackPolicyDuringUpdateURL</code> parameter, but not both.
   ///
@@ -4541,7 +4649,7 @@ class CloudFormation {
   ///
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the updated stack policy. The URL must point
-  /// to a policy (max size: 16KB) located in an S3 bucket in the same region as
+  /// to a policy (max size: 16KB) located in an S3 bucket in the same Region as
   /// the stack. You can specify either the <code>StackPolicyBody</code> or the
   /// <code>StackPolicyURL</code> parameter, but not both.
   ///
@@ -4615,7 +4723,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -4693,10 +4801,10 @@ class CloudFormation {
   }
 
   /// Updates the parameter values for stack instances for the specified
-  /// accounts, within the specified regions. A stack instance refers to a stack
-  /// in a specific account and region.
+  /// accounts, within the specified Regions. A stack instance refers to a stack
+  /// in a specific account and Region.
   ///
-  /// You can only update stack instances in regions and accounts where they
+  /// You can only update stack instances in Regions and accounts where they
   /// already exist; to create additional stack instances, use <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html">CreateStackInstances</a>.
   ///
@@ -4722,19 +4830,34 @@ class CloudFormation {
   /// May throw [StaleRequestException].
   /// May throw [InvalidOperationException].
   ///
-  /// Parameter [accounts] :
-  /// The names of one or more AWS accounts for which you want to update
-  /// parameter values for stack instances. The overridden parameter values will
-  /// be applied to all stack instances in the specified accounts and regions.
-  ///
   /// Parameter [regions] :
-  /// The names of one or more regions in which you want to update parameter
+  /// The names of one or more Regions in which you want to update parameter
   /// values for stack instances. The overridden parameter values will be
-  /// applied to all stack instances in the specified accounts and regions.
+  /// applied to all stack instances in the specified accounts and Regions.
   ///
   /// Parameter [stackSetName] :
   /// The name or unique ID of the stack set associated with the stack
   /// instances.
+  ///
+  /// Parameter [accounts] :
+  /// [<code>Self-managed</code> permissions] The names of one or more AWS
+  /// accounts for which you want to update parameter values for stack
+  /// instances. The overridden parameter values will be applied to all stack
+  /// instances in the specified accounts and Regions.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
+  ///
+  /// Parameter [deploymentTargets] :
+  /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
+  /// for which you want to update parameter values for stack instances. If your
+  /// update targets OUs, the overridden parameter values only apply to the
+  /// accounts that are currently in the target OUs and their child OUs.
+  /// Accounts added to the target OUs and their child OUs in the future won't
+  /// use the overridden values.
+  ///
+  /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
+  /// but not both.
   ///
   /// Parameter [operationId] :
   /// The unique identifier for this stack set operation.
@@ -4754,7 +4877,7 @@ class CloudFormation {
   /// specified stack instances.
   ///
   /// Any overridden parameter values will be applied to all stack instances in
-  /// the specified accounts and regions. When specifying parameters and their
+  /// the specified accounts and Regions. When specifying parameters and their
   /// values, be aware of how AWS CloudFormation sets parameter values during
   /// stack instance update operations:
   ///
@@ -4800,20 +4923,20 @@ class CloudFormation {
   /// with the new parameter, you can then override the parameter value using
   /// <code>UpdateStackInstances</code>.
   Future<UpdateStackInstancesOutput> updateStackInstances({
-    @_s.required List<String> accounts,
     @_s.required List<String> regions,
     @_s.required String stackSetName,
+    List<String> accounts,
+    DeploymentTargets deploymentTargets,
     String operationId,
     StackSetOperationPreferences operationPreferences,
     List<Parameter> parameterOverrides,
   }) async {
-    ArgumentError.checkNotNull(accounts, 'accounts');
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateStringPattern(
       'stackSetName',
       stackSetName,
-      r'[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?',
+      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
     );
     _s.validateStringLength(
       'operationId',
@@ -4824,15 +4947,16 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateStackInstances',
       'Version': '2010-05-15',
     };
-    $request['Accounts'] = accounts;
     $request['Regions'] = regions;
     $request['StackSetName'] = stackSetName;
+    accounts?.also((arg) => $request['Accounts'] = arg);
+    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
@@ -4847,7 +4971,7 @@ class CloudFormation {
   }
 
   /// Updates the stack set, and associated stack instances in the specified
-  /// accounts and regions.
+  /// accounts and Regions.
   ///
   /// Even if the stack set operation created by updating the stack set fails
   /// (completely or partially, below or above a specified failure tolerance),
@@ -4866,9 +4990,9 @@ class CloudFormation {
   /// The name or unique ID of the stack set that you want to update.
   ///
   /// Parameter [accounts] :
-  /// The accounts in which to update associated stack instances. If you specify
-  /// accounts, you must also specify the regions in which to update stack set
-  /// instances.
+  /// [<code>Self-managed</code> permissions] The accounts in which to update
+  /// associated stack instances. If you specify accounts, you must also specify
+  /// the Regions in which to update stack set instances.
   ///
   /// To update <i>all</i> the stack instances associated with this stack set,
   /// do not specify the <code>Accounts</code> or <code>Regions</code>
@@ -4878,10 +5002,10 @@ class CloudFormation {
   /// <code>TemplateBody</code> or <code>TemplateURL</code> properties are
   /// specified), or the <code>Parameters</code> property, AWS CloudFormation
   /// marks all stack instances with a status of <code>OUTDATED</code> prior to
-  /// updating the stack instances in the specified accounts and regions. If the
+  /// updating the stack instances in the specified accounts and Regions. If the
   /// stack set update does not include changes to the template or parameters,
   /// AWS CloudFormation updates the stack instances in the specified accounts
-  /// and regions, while leaving all other stack instances with their existing
+  /// and Regions, while leaving all other stack instances with their existing
   /// stack instance status.
   ///
   /// Parameter [administrationRoleARN] :
@@ -4899,6 +5023,14 @@ class CloudFormation {
   /// stack set, you must specify a customized administrator role, even if it is
   /// the same customized administrator role used with this stack set
   /// previously.
+  ///
+  /// Parameter [autoDeployment] :
+  /// [<code>Service-managed</code> permissions] Describes whether StackSets
+  /// automatically deploys to AWS Organizations accounts that are added to a
+  /// target organization or organizational unit (OU).
+  ///
+  /// If you specify <code>AutoDeployment</code>, do not specify
+  /// <code>DeploymentTargets</code> or <code>Regions</code>.
   ///
   /// Parameter [capabilities] :
   /// In some cases, you must explicitly acknowledge that your stack template
@@ -4997,6 +5129,23 @@ class CloudFormation {
   /// </important> </li>
   /// </ul>
   ///
+  /// Parameter [deploymentTargets] :
+  /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
+  /// in which to update associated stack instances.
+  ///
+  /// To update all the stack instances associated with this stack set, do not
+  /// specify <code>DeploymentTargets</code> or <code>Regions</code>.
+  ///
+  /// If the stack set update includes changes to the template (that is, if
+  /// <code>TemplateBody</code> or <code>TemplateURL</code> is specified), or
+  /// the <code>Parameters</code>, AWS CloudFormation marks all stack instances
+  /// with a status of <code>OUTDATED</code> prior to updating the stack
+  /// instances in the specified accounts and Regions. If the stack set update
+  /// does not include changes to the template or parameters, AWS CloudFormation
+  /// updates the stack instances in the specified accounts and Regions, while
+  /// leaving all other stack instances with their existing stack instance
+  /// status.
+  ///
   /// Parameter [description] :
   /// A brief description of updates that you are making.
   ///
@@ -5036,9 +5185,31 @@ class CloudFormation {
   /// Parameter [parameters] :
   /// A list of input parameters for the stack set template.
   ///
+  /// Parameter [permissionModel] :
+  /// Describes how the IAM roles required for stack set operations are created.
+  /// You cannot modify <code>PermissionModel</code> if there are stack
+  /// instances associated with your stack set.
+  ///
+  /// <ul>
+  /// <li>
+  /// With <code>self-managed</code> permissions, you must create the
+  /// administrator and execution roles required to deploy to target accounts.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html">Grant
+  /// Self-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// <li>
+  /// With <code>service-managed</code> permissions, StackSets automatically
+  /// creates the IAM roles required to deploy to accounts managed by AWS
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html">Grant
+  /// Service-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [regions] :
-  /// The regions in which to update associated stack instances. If you specify
-  /// regions, you must also specify accounts in which to update stack set
+  /// The Regions in which to update associated stack instances. If you specify
+  /// Regions, you must also specify accounts in which to update stack set
   /// instances.
   ///
   /// To update <i>all</i> the stack instances associated with this stack set,
@@ -5049,10 +5220,10 @@ class CloudFormation {
   /// <code>TemplateBody</code> or <code>TemplateURL</code> properties are
   /// specified), or the <code>Parameters</code> property, AWS CloudFormation
   /// marks all stack instances with a status of <code>OUTDATED</code> prior to
-  /// updating the stack instances in the specified accounts and regions. If the
+  /// updating the stack instances in the specified accounts and Regions. If the
   /// stack set update does not include changes to the template or parameters,
   /// AWS CloudFormation updates the stack instances in the specified accounts
-  /// and regions, while leaving all other stack instances with their existing
+  /// and Regions, while leaving all other stack instances with their existing
   /// stack instance status.
   ///
   /// Parameter [tags] :
@@ -5123,12 +5294,15 @@ class CloudFormation {
     @_s.required String stackSetName,
     List<String> accounts,
     String administrationRoleARN,
+    AutoDeployment autoDeployment,
     List<String> capabilities,
+    DeploymentTargets deploymentTargets,
     String description,
     String executionRoleName,
     String operationId,
     StackSetOperationPreferences operationPreferences,
     List<Parameter> parameters,
+    PermissionModels permissionModel,
     List<String> regions,
     List<Tag> tags,
     String templateBody,
@@ -5157,7 +5331,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'executionRoleName',
       executionRoleName,
-      r'[a-zA-Z_0-9+=,.@-]+',
+      r'''[a-zA-Z_0-9+=,.@-]+''',
     );
     _s.validateStringLength(
       'operationId',
@@ -5168,7 +5342,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'operationId',
       operationId,
-      r'[a-zA-Z0-9][-a-zA-Z0-9]*',
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'templateBody',
@@ -5190,12 +5364,15 @@ class CloudFormation {
     accounts?.also((arg) => $request['Accounts'] = arg);
     administrationRoleARN
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
+    autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
     capabilities?.also((arg) => $request['Capabilities'] = arg);
+    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
+    permissionModel?.also((arg) => $request['PermissionModel'] = arg);
     regions?.also((arg) => $request['Regions'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
@@ -5245,7 +5422,7 @@ class CloudFormation {
     _s.validateStringPattern(
       'stackName',
       stackName,
-      r'([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)',
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateTerminationProtection',
@@ -5323,16 +5500,16 @@ class CloudFormation {
 
 /// Structure that contains the results of the account gate function which AWS
 /// CloudFormation invokes, if present, before proceeding with a stack set
-/// operation in an account and region.
+/// operation in an account and Region.
 ///
-/// For each account and region, AWS CloudFormation lets you specify a Lamdba
+/// For each account and Region, AWS CloudFormation lets you specify a Lamdba
 /// function that encapsulates any requirements that must be met before
 /// CloudFormation can proceed with a stack set operation in that account and
-/// region. CloudFormation invokes the function each time a stack set operation
-/// is requested for that account and region; if the function returns
+/// Region. CloudFormation invokes the function each time a stack set operation
+/// is requested for that account and Region; if the function returns
 /// <code>FAILED</code>, CloudFormation cancels the operation in that account
-/// and region, and sets the stack set operation result status for that account
-/// and region to <code>FAILED</code>.
+/// and Region, and sets the stack set operation result status for that account
+/// and Region to <code>FAILED</code>.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-account-gating.html">Configuring
@@ -5343,42 +5520,42 @@ class AccountGateResult {
   /// <ul>
   /// <li>
   /// <code>SUCCEEDED</code>: The account gate function has determined that the
-  /// account and region passes any requirements for a stack set operation to
+  /// account and Region passes any requirements for a stack set operation to
   /// occur. AWS CloudFormation proceeds with the stack operation in that account
-  /// and region.
+  /// and Region.
   /// </li>
   /// <li>
   /// <code>FAILED</code>: The account gate function has determined that the
-  /// account and region does not meet the requirements for a stack set operation
+  /// account and Region does not meet the requirements for a stack set operation
   /// to occur. AWS CloudFormation cancels the stack set operation in that account
-  /// and region, and sets the stack set operation result status for that account
-  /// and region to <code>FAILED</code>.
+  /// and Region, and sets the stack set operation result status for that account
+  /// and Region to <code>FAILED</code>.
   /// </li>
   /// <li>
   /// <code>SKIPPED</code>: AWS CloudFormation has skipped calling the account
-  /// gate function for this account and region, for one of the following reasons:
+  /// gate function for this account and Region, for one of the following reasons:
   ///
   /// <ul>
   /// <li>
-  /// An account gate function has not been specified for the account and region.
+  /// An account gate function has not been specified for the account and Region.
   /// AWS CloudFormation proceeds with the stack set operation in this account and
-  /// region.
+  /// Region.
   /// </li>
   /// <li>
   /// The <code>AWSCloudFormationStackSetExecutionRole</code> of the stack set
   /// adminstration account lacks permissions to invoke the function. AWS
   /// CloudFormation proceeds with the stack set operation in this account and
-  /// region.
+  /// Region.
   /// </li>
   /// <li>
   /// Either no action is necessary, or no action is possible, on the stack. AWS
-  /// CloudFormation skips the stack set operation in this account and region.
+  /// CloudFormation skips the stack set operation in this account and Region.
   /// </li>
   /// </ul> </li>
   /// </ul>
   final AccountGateStatus status;
 
-  /// The reason for the account gate status assigned to this account and region
+  /// The reason for the account gate status assigned to this account and Region
   /// for the stack set operation.
   final String statusReason;
 
@@ -5451,6 +5628,36 @@ class AccountLimit {
     return AccountLimit(
       name: _s.extractXmlStringValue(elem, 'Name'),
       value: _s.extractXmlIntValue(elem, 'Value'),
+    );
+  }
+}
+
+/// [<code>Service-managed</code> permissions] Describes whether StackSets
+/// automatically deploys to AWS Organizations accounts that are added to a
+/// target organization or organizational unit (OU).
+class AutoDeployment {
+  /// If set to <code>true</code>, StackSets automatically deploys additional
+  /// stack instances to AWS Organizations accounts that are added to a target
+  /// organization or organizational unit (OU) in the specified Regions. If an
+  /// account is removed from a target organization or OU, StackSets deletes stack
+  /// instances from the account in the specified Regions.
+  final bool enabled;
+
+  /// If set to <code>true</code>, stack resources are retained when an account is
+  /// removed from a target organization or OU. If set to <code>false</code>,
+  /// stack resources are deleted. Specify only if <code>Enabled</code> is set to
+  /// <code>True</code>.
+  final bool retainStacksOnAccountRemoval;
+
+  AutoDeployment({
+    this.enabled,
+    this.retainStacksOnAccountRemoval,
+  });
+  factory AutoDeployment.fromXml(_s.XmlElement elem) {
+    return AutoDeployment(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      retainStacksOnAccountRemoval:
+          _s.extractXmlBoolValue(elem, 'RetainStacksOnAccountRemoval'),
     );
   }
 }
@@ -5778,6 +5985,40 @@ class DeleteStackSetOutput {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteStackSetOutput();
+  }
+}
+
+/// [<code>Service-managed</code> permissions] The AWS Organizations accounts to
+/// which StackSets deploys. StackSets does not deploy stack instances to the
+/// organization master account, even if the master account is in your
+/// organization or in an OU in your organization.
+///
+/// For update operations, you can specify either <code>Accounts</code> or
+/// <code>OrganizationalUnitIds</code>. For create and delete operations,
+/// specify <code>OrganizationalUnitIds</code>.
+class DeploymentTargets {
+  /// The names of one or more AWS accounts for which you want to deploy stack set
+  /// updates.
+  final List<String> accounts;
+
+  /// The organization root ID or organizational unit (OU) IDs to which StackSets
+  /// deploys.
+  final List<String> organizationalUnitIds;
+
+  DeploymentTargets({
+    this.accounts,
+    this.organizationalUnitIds,
+  });
+  factory DeploymentTargets.fromXml(_s.XmlElement elem) {
+    return DeploymentTargets(
+      accounts: _s
+          .extractXmlChild(elem, 'Accounts')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Accounts')),
+      organizationalUnitIds: _s
+          .extractXmlChild(elem, 'OrganizationalUnitIds')
+          ?.let((elem) =>
+              _s.extractXmlStringListValues(elem, 'OrganizationalUnitIds')),
+    );
   }
 }
 
@@ -6924,7 +7165,7 @@ class ListStackSetOperationResultsOutput {
 
   /// A list of <code>StackSetOperationResultSummary</code> structures that
   /// contain information about the specified operation results, for accounts and
-  /// regions that are included in the operation.
+  /// Regions that are included in the operation.
   final List<StackSetOperationResultSummary> summaries;
 
   ListStackSetOperationResultsOutput({
@@ -7299,6 +7540,23 @@ class ParameterDeclaration {
       parameterKey: _s.extractXmlStringValue(elem, 'ParameterKey'),
       parameterType: _s.extractXmlStringValue(elem, 'ParameterType'),
     );
+  }
+}
+
+enum PermissionModels {
+  serviceManaged,
+  selfManaged,
+}
+
+extension on String {
+  PermissionModels toPermissionModels() {
+    switch (this) {
+      case 'SERVICE_MANAGED':
+        return PermissionModels.serviceManaged;
+      case 'SELF_MANAGED':
+        return PermissionModels.selfManaged;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8375,15 +8633,16 @@ class StackEvent {
   }
 }
 
-/// An AWS CloudFormation stack, in a specific account and region, that's part
+/// An AWS CloudFormation stack, in a specific account and Region, that's part
 /// of a stack set operation. A stack instance is a reference to an attempted or
-/// actual stack in a given account within a given region. A stack instance can
+/// actual stack in a given account within a given Region. A stack instance can
 /// exist without a stack—for example, if the stack couldn't be created for some
 /// reason. A stack instance is associated with only one stack set. Each stack
 /// instance contains the ID of its associated stack set, as well as the ID of
 /// the actual stack and the stack status.
 class StackInstance {
-  /// The name of the AWS account that the stack instance is associated with.
+  /// [<code>Self-managed</code> permissions] The name of the AWS account that the
+  /// stack instance is associated with.
   final String account;
 
   /// Status of the stack instance's actual configuration compared to the expected
@@ -8415,11 +8674,14 @@ class StackInstance {
   /// instance on which drift detection has not yet been performed.
   final DateTime lastDriftCheckTimestamp;
 
+  /// Reserved for internal use. No data returned.
+  final String organizationalUnitId;
+
   /// A list of parameters from the stack set template whose values have been
   /// overridden in this stack instance.
   final List<Parameter> parameterOverrides;
 
-  /// The name of the AWS region that the stack instance is associated with.
+  /// The name of the AWS Region that the stack instance is associated with.
   final String region;
 
   /// The ID of the stack instance.
@@ -8470,6 +8732,7 @@ class StackInstance {
     this.account,
     this.driftStatus,
     this.lastDriftCheckTimestamp,
+    this.organizationalUnitId,
     this.parameterOverrides,
     this.region,
     this.stackId,
@@ -8484,6 +8747,8 @@ class StackInstance {
           _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
+      organizationalUnitId:
+          _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       parameterOverrides: _s.extractXmlChild(elem, 'ParameterOverrides')?.let(
           (elem) => elem
               .findElements('ParameterOverrides')
@@ -8520,7 +8785,8 @@ extension on String {
 
 /// The structure that contains summary information about a stack instance.
 class StackInstanceSummary {
-  /// The name of the AWS account that the stack instance is associated with.
+  /// [<code>Self-managed</code> permissions] The name of the AWS account that the
+  /// stack instance is associated with.
   final String account;
 
   /// Status of the stack instance's actual configuration compared to the expected
@@ -8552,7 +8818,10 @@ class StackInstanceSummary {
   /// instance on which drift detection has not yet been performed.
   final DateTime lastDriftCheckTimestamp;
 
-  /// The name of the AWS region that the stack instance is associated with.
+  /// Reserved for internal use. No data returned.
+  final String organizationalUnitId;
+
+  /// The name of the AWS Region that the stack instance is associated with.
   final String region;
 
   /// The ID of the stack instance.
@@ -8603,6 +8872,7 @@ class StackInstanceSummary {
     this.account,
     this.driftStatus,
     this.lastDriftCheckTimestamp,
+    this.organizationalUnitId,
     this.region,
     this.stackId,
     this.stackSetId,
@@ -8616,6 +8886,8 @@ class StackInstanceSummary {
           _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
+      organizationalUnitId:
+          _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       region: _s.extractXmlStringValue(elem, 'Region'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
@@ -9088,7 +9360,7 @@ class StackResourceSummary {
 }
 
 /// A structure that contains information about a stack set. A stack set enables
-/// you to provision stacks into AWS accounts and across regions by using a
+/// you to provision stacks into AWS accounts and across Regions by using a
 /// single CloudFormation template. In the stack set, you specify the template
 /// to use, as well as any parameters and capabilities that the template
 /// requires.
@@ -9103,6 +9375,11 @@ class StackSet {
   /// Granting Permissions for Stack Set Operations</a> in the <i>AWS
   /// CloudFormation User Guide</i>.
   final String administrationRoleARN;
+
+  /// [<code>Service-managed</code> permissions] Describes whether StackSets
+  /// automatically deploys to AWS Organizations accounts that are added to a
+  /// target organization or organizational unit (OU).
+  final AutoDeployment autoDeployment;
 
   /// The capabilities that are allowed in the stack set. Some stack set templates
   /// might include resources that can affect permissions in your AWS account—for
@@ -9122,8 +9399,31 @@ class StackSet {
   /// groups can include in their stack sets.
   final String executionRoleName;
 
+  /// Reserved for internal use. No data returned.
+  final List<String> organizationalUnitIds;
+
   /// A list of input parameters for a stack set.
   final List<Parameter> parameters;
+
+  /// Describes how the IAM roles required for stack set operations are created.
+  ///
+  /// <ul>
+  /// <li>
+  /// With <code>self-managed</code> permissions, you must create the
+  /// administrator and execution roles required to deploy to target accounts. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html">Grant
+  /// Self-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// <li>
+  /// With <code>service-managed</code> permissions, StackSets automatically
+  /// creates the IAM roles required to deploy to accounts managed by AWS
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html">Grant
+  /// Service-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// </ul>
+  final PermissionModels permissionModel;
 
   /// The Amazon Resource Number (ARN) of the stack set.
   final String stackSetARN;
@@ -9154,10 +9454,13 @@ class StackSet {
 
   StackSet({
     this.administrationRoleARN,
+    this.autoDeployment,
     this.capabilities,
     this.description,
     this.executionRoleName,
+    this.organizationalUnitIds,
     this.parameters,
+    this.permissionModel,
     this.stackSetARN,
     this.stackSetDriftDetectionDetails,
     this.stackSetId,
@@ -9170,15 +9473,25 @@ class StackSet {
     return StackSet(
       administrationRoleARN:
           _s.extractXmlStringValue(elem, 'AdministrationRoleARN'),
+      autoDeployment: _s
+          .extractXmlChild(elem, 'AutoDeployment')
+          ?.let((e) => AutoDeployment.fromXml(e)),
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionRoleName: _s.extractXmlStringValue(elem, 'ExecutionRoleName'),
+      organizationalUnitIds: _s
+          .extractXmlChild(elem, 'OrganizationalUnitIds')
+          ?.let((elem) =>
+              _s.extractXmlStringListValues(elem, 'OrganizationalUnitIds')),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
           .findElements('Parameters')
           .map((c) => Parameter.fromXml(c))
           .toList()),
+      permissionModel: _s
+          .extractXmlStringValue(elem, 'PermissionModel')
+          ?.toPermissionModels(),
       stackSetARN: _s.extractXmlStringValue(elem, 'StackSetARN'),
       stackSetDriftDetectionDetails: _s
           .extractXmlChild(elem, 'StackSetDriftDetectionDetails')
@@ -9401,12 +9714,16 @@ class StackSetOperation {
   /// for the stack set operation might differ from the creation time of the
   /// individual stacks themselves. This is because AWS CloudFormation needs to
   /// perform preparatory work for the operation, such as dispatching the work to
-  /// the requested regions, before actually creating the first stacks.
+  /// the requested Regions, before actually creating the first stacks.
   final DateTime creationTimestamp;
 
+  /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
+  /// affected by the stack operation.
+  final DeploymentTargets deploymentTargets;
+
   /// The time at which the stack set operation ended, across all accounts and
-  /// regions specified. Note that this doesn't necessarily mean that the stack
-  /// set operation was successful, or even attempted, in each account or region.
+  /// Regions specified. Note that this doesn't necessarily mean that the stack
+  /// set operation was successful, or even attempted, in each account or Region.
   final DateTime endTimestamp;
 
   /// The name of the IAM execution role used to create or update the stack set.
@@ -9449,11 +9766,18 @@ class StackSetOperation {
   /// <li>
   /// <code>FAILED</code>: The operation exceeded the specified failure tolerance.
   /// The failure tolerance value that you've set for an operation is applied for
-  /// each region during stack create and update operations. If the number of
-  /// failed stacks within a region exceeds the failure tolerance, the status of
-  /// the operation in the region is set to <code>FAILED</code>. This in turn sets
+  /// each Region during stack create and update operations. If the number of
+  /// failed stacks within a Region exceeds the failure tolerance, the status of
+  /// the operation in the Region is set to <code>FAILED</code>. This in turn sets
   /// the status of the operation as a whole to <code>FAILED</code>, and AWS
-  /// CloudFormation cancels the operation in any remaining regions.
+  /// CloudFormation cancels the operation in any remaining Regions.
+  /// </li>
+  /// <li>
+  /// <code>QUEUED</code>: [<code>Service-managed</code> permissions] For
+  /// automatic deployments that require a sequence of operations, the operation
+  /// is queued to be performed. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">stack
+  /// set operation status codes</a> in the AWS CloudFormation User Guide.
   /// </li>
   /// <li>
   /// <code>RUNNING</code>: The operation is currently being performed.
@@ -9476,6 +9800,7 @@ class StackSetOperation {
     this.action,
     this.administrationRoleARN,
     this.creationTimestamp,
+    this.deploymentTargets,
     this.endTimestamp,
     this.executionRoleName,
     this.operationId,
@@ -9492,6 +9817,9 @@ class StackSetOperation {
       administrationRoleARN:
           _s.extractXmlStringValue(elem, 'AdministrationRoleARN'),
       creationTimestamp: _s.extractXmlDateTimeValue(elem, 'CreationTimestamp'),
+      deploymentTargets: _s
+          .extractXmlChild(elem, 'DeploymentTargets')
+          ?.let((e) => DeploymentTargets.fromXml(e)),
       endTimestamp: _s.extractXmlDateTimeValue(elem, 'EndTimestamp'),
       executionRoleName: _s.extractXmlStringValue(elem, 'ExecutionRoleName'),
       operationId: _s.extractXmlStringValue(elem, 'OperationId'),
@@ -9540,19 +9868,19 @@ extension on String {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a>.
 class StackSetOperationPreferences {
-  /// The number of accounts, per region, for which this operation can fail before
-  /// AWS CloudFormation stops the operation in that region. If the operation is
-  /// stopped in a region, AWS CloudFormation doesn't attempt the operation in any
-  /// subsequent regions.
+  /// The number of accounts, per Region, for which this operation can fail before
+  /// AWS CloudFormation stops the operation in that Region. If the operation is
+  /// stopped in a Region, AWS CloudFormation doesn't attempt the operation in any
+  /// subsequent Regions.
   ///
   /// Conditional: You must specify either <code>FailureToleranceCount</code> or
   /// <code>FailureTolerancePercentage</code> (but not both).
   final int failureToleranceCount;
 
-  /// The percentage of accounts, per region, for which this stack operation can
-  /// fail before AWS CloudFormation stops the operation in that region. If the
-  /// operation is stopped in a region, AWS CloudFormation doesn't attempt the
-  /// operation in any subsequent regions.
+  /// The percentage of accounts, per Region, for which this stack operation can
+  /// fail before AWS CloudFormation stops the operation in that Region. If the
+  /// operation is stopped in a Region, AWS CloudFormation doesn't attempt the
+  /// operation in any subsequent Regions.
   ///
   /// When calculating the number of accounts based on the specified percentage,
   /// AWS CloudFormation rounds <i>down</i> to the next whole number.
@@ -9590,7 +9918,7 @@ class StackSetOperationPreferences {
   /// <code>MaxConcurrentPercentage</code>, but not both.
   final int maxConcurrentPercentage;
 
-  /// The order of the regions in where you want to perform the stack operation.
+  /// The order of the Regions in where you want to perform the stack operation.
   final List<String> regionOrder;
 
   StackSetOperationPreferences({
@@ -9643,45 +9971,49 @@ extension on String {
 }
 
 /// The structure that contains information about a specified operation's
-/// results for a given account in a given region.
+/// results for a given account in a given Region.
 class StackSetOperationResultSummary {
-  /// The name of the AWS account for this operation result.
+  /// [<code>Self-managed</code> permissions] The name of the AWS account for this
+  /// operation result.
   final String account;
 
   /// The results of the account gate function AWS CloudFormation invokes, if
   /// present, before proceeding with stack set operations in an account
   final AccountGateResult accountGateResult;
 
-  /// The name of the AWS region for this operation result.
+  /// Reserved for internal use. No data returned.
+  final String organizationalUnitId;
+
+  /// The name of the AWS Region for this operation result.
   final String region;
 
   /// The result status of the stack set operation for the given account in the
-  /// given region.
+  /// given Region.
   ///
   /// <ul>
   /// <li>
-  /// <code>CANCELLED</code>: The operation in the specified account and region
+  /// <code>CANCELLED</code>: The operation in the specified account and Region
   /// has been cancelled. This is either because a user has stopped the stack set
   /// operation, or because the failure tolerance of the stack set operation has
   /// been exceeded.
   /// </li>
   /// <li>
-  /// <code>FAILED</code>: The operation in the specified account and region
+  /// <code>FAILED</code>: The operation in the specified account and Region
   /// failed.
   ///
-  /// If the stack set operation fails in enough accounts within a region, the
+  /// If the stack set operation fails in enough accounts within a Region, the
   /// failure tolerance for the stack set operation as a whole might be exceeded.
   /// </li>
   /// <li>
-  /// <code>RUNNING</code>: The operation in the specified account and region is
+  /// <code>RUNNING</code>: The operation in the specified account and Region is
   /// currently in progress.
   /// </li>
   /// <li>
-  /// <code>PENDING</code>: The operation in the specified account and region has
+  /// <code>PENDING</code>: The operation in the specified account and Region has
   /// yet to start.
   /// </li>
   /// <li>
-  /// <code>SUCCEEDED</code>: The operation in the specified account and region
+  /// <code>SUCCEEDED</code>: The operation in the specified account and Region
   /// completed successfully.
   /// </li>
   /// </ul>
@@ -9693,6 +10025,7 @@ class StackSetOperationResultSummary {
   StackSetOperationResultSummary({
     this.account,
     this.accountGateResult,
+    this.organizationalUnitId,
     this.region,
     this.status,
     this.statusReason,
@@ -9703,6 +10036,8 @@ class StackSetOperationResultSummary {
       accountGateResult: _s
           .extractXmlChild(elem, 'AccountGateResult')
           ?.let((e) => AccountGateResult.fromXml(e)),
+      organizationalUnitId:
+          _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       region: _s.extractXmlStringValue(elem, 'Region'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
@@ -9718,6 +10053,7 @@ enum StackSetOperationStatus {
   failed,
   stopping,
   stopped,
+  queued,
 }
 
 extension on String {
@@ -9733,6 +10069,8 @@ extension on String {
         return StackSetOperationStatus.stopping;
       case 'STOPPED':
         return StackSetOperationStatus.stopped;
+      case 'QUEUED':
+        return StackSetOperationStatus.queued;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9752,12 +10090,12 @@ class StackSetOperationSummary {
   /// for the stack set operation might differ from the creation time of the
   /// individual stacks themselves. This is because AWS CloudFormation needs to
   /// perform preparatory work for the operation, such as dispatching the work to
-  /// the requested regions, before actually creating the first stacks.
+  /// the requested Regions, before actually creating the first stacks.
   final DateTime creationTimestamp;
 
   /// The time at which the stack set operation ended, across all accounts and
-  /// regions specified. Note that this doesn't necessarily mean that the stack
-  /// set operation was successful, or even attempted, in each account or region.
+  /// Regions specified. Note that this doesn't necessarily mean that the stack
+  /// set operation was successful, or even attempted, in each account or Region.
   final DateTime endTimestamp;
 
   /// The unique ID of the stack set operation.
@@ -9769,11 +10107,18 @@ class StackSetOperationSummary {
   /// <li>
   /// <code>FAILED</code>: The operation exceeded the specified failure tolerance.
   /// The failure tolerance value that you've set for an operation is applied for
-  /// each region during stack create and update operations. If the number of
-  /// failed stacks within a region exceeds the failure tolerance, the status of
-  /// the operation in the region is set to <code>FAILED</code>. This in turn sets
+  /// each Region during stack create and update operations. If the number of
+  /// failed stacks within a Region exceeds the failure tolerance, the status of
+  /// the operation in the Region is set to <code>FAILED</code>. This in turn sets
   /// the status of the operation as a whole to <code>FAILED</code>, and AWS
-  /// CloudFormation cancels the operation in any remaining regions.
+  /// CloudFormation cancels the operation in any remaining Regions.
+  /// </li>
+  /// <li>
+  /// <code>QUEUED</code>: [<code>Service-managed</code> permissions] For
+  /// automatic deployments that require a sequence of operations, the operation
+  /// is queued to be performed. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">stack
+  /// set operation status codes</a> in the AWS CloudFormation User Guide.
   /// </li>
   /// <li>
   /// <code>RUNNING</code>: The operation is currently being performed.
@@ -9832,6 +10177,11 @@ extension on String {
 /// The structures that contain summary information about the specified stack
 /// set.
 class StackSetSummary {
+  /// [<code>Service-managed</code> permissions] Describes whether StackSets
+  /// automatically deploys to AWS Organizations accounts that are added to a
+  /// target organizational unit (OU).
+  final AutoDeployment autoDeployment;
+
   /// A description of the stack set that you specify when the stack set is
   /// created or updated.
   final String description;
@@ -9867,6 +10217,26 @@ class StackSetSummary {
   /// which drift detection has not yet been performed.
   final DateTime lastDriftCheckTimestamp;
 
+  /// Describes how the IAM roles required for stack set operations are created.
+  ///
+  /// <ul>
+  /// <li>
+  /// With <code>self-managed</code> permissions, you must create the
+  /// administrator and execution roles required to deploy to target accounts. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html">Grant
+  /// Self-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// <li>
+  /// With <code>service-managed</code> permissions, StackSets automatically
+  /// creates the IAM roles required to deploy to accounts managed by AWS
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html">Grant
+  /// Service-Managed Stack Set Permissions</a>.
+  /// </li>
+  /// </ul>
+  final PermissionModels permissionModel;
+
   /// The ID of the stack set.
   final String stackSetId;
 
@@ -9877,20 +10247,28 @@ class StackSetSummary {
   final StackSetStatus status;
 
   StackSetSummary({
+    this.autoDeployment,
     this.description,
     this.driftStatus,
     this.lastDriftCheckTimestamp,
+    this.permissionModel,
     this.stackSetId,
     this.stackSetName,
     this.status,
   });
   factory StackSetSummary.fromXml(_s.XmlElement elem) {
     return StackSetSummary(
+      autoDeployment: _s
+          .extractXmlChild(elem, 'AutoDeployment')
+          ?.let((e) => AutoDeployment.fromXml(e)),
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftStatus:
           _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
+      permissionModel: _s
+          .extractXmlStringValue(elem, 'PermissionModel')
+          ?.toPermissionModels(),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toStackSetStatus(),

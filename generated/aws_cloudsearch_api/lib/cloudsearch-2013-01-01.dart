@@ -51,7 +51,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'BuildSuggesters',
@@ -94,7 +94,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateDomain',
@@ -138,7 +138,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DefineAnalysisScheme',
@@ -183,7 +183,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(expression, 'expression');
     final $request = <String, dynamic>{
@@ -236,7 +236,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(indexField, 'indexField');
     final $request = <String, dynamic>{
@@ -283,7 +283,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(suggester, 'suggester');
     final $request = <String, dynamic>{
@@ -328,7 +328,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'analysisSchemeName',
       analysisSchemeName,
-      r'[a-z][a-z0-9_]*',
+      r'''[a-z][a-z0-9_]*''',
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -340,7 +340,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAnalysisScheme',
@@ -382,7 +382,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteDomain',
@@ -426,7 +426,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(expressionName, 'expressionName');
     _s.validateStringLength(
@@ -438,7 +438,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'expressionName',
       expressionName,
-      r'[a-z][a-z0-9_]*',
+      r'''[a-z][a-z0-9_]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteExpression',
@@ -484,7 +484,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(indexFieldName, 'indexFieldName');
     _s.validateStringLength(
@@ -496,7 +496,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'indexFieldName',
       indexFieldName,
-      r'([a-z][a-z0-9_]*\*?|\*[a-z0-9_]*)',
+      r'''([a-z][a-z0-9_]*\*?|\*[a-z0-9_]*)''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteIndexField',
@@ -540,7 +540,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(suggesterName, 'suggesterName');
     _s.validateStringLength(
@@ -552,7 +552,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'suggesterName',
       suggesterName,
-      r'[a-z][a-z0-9_]*',
+      r'''[a-z][a-z0-9_]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteSuggester',
@@ -610,7 +610,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAnalysisSchemes',
@@ -665,7 +665,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAvailabilityOptions',
@@ -716,7 +716,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeDomainEndpointOptions',
@@ -806,7 +806,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeExpressions',
@@ -864,7 +864,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeIndexFields',
@@ -906,7 +906,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeScalingParameters',
@@ -957,7 +957,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeServiceAccessPolicies',
@@ -1014,7 +1014,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeSuggesters',
@@ -1053,7 +1053,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'IndexDocuments',
@@ -1124,7 +1124,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(multiAZ, 'multiAZ');
     final $request = <String, dynamic>{
@@ -1180,7 +1180,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateDomainEndpointOptions',
@@ -1227,7 +1227,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     ArgumentError.checkNotNull(scalingParameters, 'scalingParameters');
     final $request = <String, dynamic>{
@@ -1275,7 +1275,7 @@ class CloudSearch {
     _s.validateStringPattern(
       'domainName',
       domainName,
-      r'[a-z][a-z0-9\-]+',
+      r'''[a-z][a-z0-9\-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateServiceAccessPolicies',

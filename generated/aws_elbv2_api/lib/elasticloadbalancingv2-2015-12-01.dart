@@ -104,7 +104,7 @@ class ElasticLoadBalancingv2 {
   /// The Amazon Resource Name (ARN) of the resource.
   ///
   /// Parameter [tags] :
-  /// The tags. Each resource can have a maximum of 10 tags.
+  /// The tags.
   Future<void> addTags({
     @_s.required List<String> resourceArns,
     @_s.required List<Tag> tags,
@@ -207,9 +207,43 @@ class ElasticLoadBalancingv2 {
   /// <a>AddListenerCertificates</a>.
   ///
   /// Parameter [sslPolicy] :
-  /// [HTTPS and TLS listeners] The security policy that defines which ciphers
-  /// and protocols are supported. The default is the current predefined
-  /// security policy.
+  /// [HTTPS and TLS listeners] The security policy that defines which protocols
+  /// and ciphers are supported. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ELBSecurityPolicy-2016-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-0-2015-04</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-1-2017-01</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-2-2017-01</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-2-Ext-2018-06</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-2018-06</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-1-2019-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-2-2019-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-2-Res-2019-08</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
+  /// Policies</a> in the <i>Application Load Balancers Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// Policies</a> in the <i>Network Load Balancers Guide</i>.
   Future<CreateListenerOutput> createListener({
     @_s.required List<Action> defaultActions,
     @_s.required String loadBalancerArn,
@@ -1187,7 +1221,8 @@ class ElasticLoadBalancingv2 {
   /// May throw [RuleNotFoundException].
   ///
   /// Parameter [resourceArns] :
-  /// The Amazon Resource Names (ARN) of the resources.
+  /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20
+  /// resources in a single call.
   Future<DescribeTagsOutput> describeTags({
     @_s.required List<String> resourceArns,
   }) async {
@@ -1402,9 +1437,42 @@ class ElasticLoadBalancingv2 {
   ///
   /// Parameter [sslPolicy] :
   /// [HTTPS and TLS listeners] The security policy that defines which protocols
-  /// and ciphers are supported. For more information, see <a
+  /// and ciphers are supported. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ELBSecurityPolicy-2016-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-0-2015-04</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-1-2017-01</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-2-2017-01</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-TLS-1-2-Ext-2018-06</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-2018-06</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-1-2019-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-2-2019-08</code>
+  /// </li>
+  /// <li>
+  /// <code>ELBSecurityPolicy-FS-1-2-Res-2019-08</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Application Load Balancers Guide</i>.
+  /// Policies</a> in the <i>Application Load Balancers Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// Policies</a> in the <i>Network Load Balancers Guide</i>.
   Future<ModifyListenerOutput> modifyListener({
     @_s.required String listenerArn,
     List<Certificate> certificates,
@@ -2697,7 +2765,7 @@ class DescribeSSLPoliciesOutput {
   /// results. Otherwise, this is null.
   final String nextMarker;
 
-  /// Information about the policies.
+  /// Information about the security policies.
   final List<SslPolicy> sslPolicies;
 
   DescribeSSLPoliciesOutput({
@@ -3036,9 +3104,8 @@ class Listener {
   /// The protocol for connections from clients to the load balancer.
   final ProtocolEnum protocol;
 
-  /// [HTTPS or TLS listener] The security policy that defines which ciphers and
-  /// protocols are supported. The default is the current predefined security
-  /// policy.
+  /// [HTTPS or TLS listener] The security policy that defines which protocols and
+  /// ciphers are supported.
   final String sslPolicy;
 
   Listener({
@@ -3233,7 +3300,8 @@ class LoadBalancerAttribute {
   /// <li>
   /// <code>routing.http2.enabled</code> - Indicates whether HTTP/2 is enabled.
   /// The value is <code>true</code> or <code>false</code>. The default is
-  /// <code>true</code>.
+  /// <code>true</code>. Elastic Load Balancing requires that message header names
+  /// contain only alphanumeric characters and hyphens.
   /// </li>
   /// </ul>
   /// The following attributes are supported by only Network Load Balancers:
@@ -4206,8 +4274,8 @@ class TargetGroup {
 class TargetGroupAttribute {
   /// The name of the attribute.
   ///
-  /// The following attribute is supported by both Application Load Balancers and
-  /// Network Load Balancers:
+  /// The following attributes are supported by both Application Load Balancers
+  /// and Network Load Balancers:
   ///
   /// <ul>
   /// <li>
@@ -4216,6 +4284,16 @@ class TargetGroupAttribute {
   /// deregistering target from <code>draining</code> to <code>unused</code>. The
   /// range is 0-3600 seconds. The default value is 300 seconds. If the target is
   /// a Lambda function, this attribute is not supported.
+  /// </li>
+  /// <li>
+  /// <code>stickiness.enabled</code> - Indicates whether sticky sessions are
+  /// enabled. The value is <code>true</code> or <code>false</code>. The default
+  /// is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>stickiness.type</code> - The type of sticky sessions. The possible
+  /// values are <code>lb_cookie</code> for Application Load Balancers or
+  /// <code>source_ip</code> for Network Load Balancers.
   /// </li>
   /// </ul>
   /// The following attributes are supported by Application Load Balancers if the
@@ -4235,15 +4313,6 @@ class TargetGroupAttribute {
   /// of the traffic to the target group. After this time period ends, the target
   /// receives its full share of traffic. The range is 30-900 seconds (15
   /// minutes). Slow start mode is disabled by default.
-  /// </li>
-  /// <li>
-  /// <code>stickiness.enabled</code> - Indicates whether sticky sessions are
-  /// enabled. The value is <code>true</code> or <code>false</code>. The default
-  /// is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>stickiness.type</code> - The type of sticky sessions. The possible
-  /// value is <code>lb_cookie</code>.
   /// </li>
   /// <li>
   /// <code>stickiness.lb_cookie.duration_seconds</code> - The time period, in

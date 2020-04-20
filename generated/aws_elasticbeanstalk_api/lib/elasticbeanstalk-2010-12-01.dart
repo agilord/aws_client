@@ -202,17 +202,13 @@ class ElasticBeanstalk {
   /// May throw [TooManyApplicationsException].
   ///
   /// Parameter [applicationName] :
-  /// The name of the application.
-  ///
-  /// Constraint: This name must be unique within your account. If the specified
-  /// name already exists, the action returns an
-  /// <code>InvalidParameterValue</code> error.
+  /// The name of the application. Must be unique within your account.
   ///
   /// Parameter [description] :
-  /// Describes the application.
+  /// Your description of the application.
   ///
   /// Parameter [resourceLifecycleConfig] :
-  /// Specify an application resource lifecycle configuration to prevent your
+  /// Specifies an application resource lifecycle configuration to prevent your
   /// application from accumulating too many versions.
   ///
   /// Parameter [tags] :
@@ -273,8 +269,8 @@ class ElasticBeanstalk {
   /// Omit both <code>SourceBuildInformation</code> and
   /// <code>SourceBundle</code> to use the default sample application.
   /// <note>
-  /// Once you create an application version with a specified Amazon S3 bucket
-  /// and key location, you cannot change that Amazon S3 location. If you change
+  /// After you create an application version with a specified Amazon S3 bucket
+  /// and key location, you can't change that Amazon S3 location. If you change
   /// the Amazon S3 location, you receive an exception when you attempt to
   /// launch an environment from the application version.
   /// </note>
@@ -305,7 +301,7 @@ class ElasticBeanstalk {
   /// Settings for an AWS CodeBuild build.
   ///
   /// Parameter [description] :
-  /// Describes this version.
+  /// A description of this application version.
   ///
   /// Parameter [process] :
   /// Pre-processes and validates the environment manifest
@@ -399,8 +395,10 @@ class ElasticBeanstalk {
     return ApplicationVersionDescriptionMessage.fromXml($result);
   }
 
-  /// Creates a configuration template. Templates are associated with a specific
-  /// application and are used to deploy different versions of the application
+  /// Creates an AWS Elastic Beanstalk configuration template, associated with a
+  /// specific Elastic Beanstalk application. You define application
+  /// configuration settings in a configuration template. You can then use the
+  /// configuration template to deploy different versions of the application
   /// with the same configuration settings.
   ///
   /// Templates aren't associated with any environment. The
@@ -425,64 +423,75 @@ class ElasticBeanstalk {
   /// May throw [TooManyConfigurationTemplatesException].
   ///
   /// Parameter [applicationName] :
-  /// The name of the application to associate with this configuration template.
-  /// If no application is found with this name, AWS Elastic Beanstalk returns
-  /// an <code>InvalidParameterValue</code> error.
+  /// The name of the Elastic Beanstalk application to associate with this
+  /// configuration template.
   ///
   /// Parameter [templateName] :
   /// The name of the configuration template.
   ///
   /// Constraint: This name must be unique per application.
   ///
-  /// Default: If a configuration template already exists with this name, AWS
-  /// Elastic Beanstalk returns an <code>InvalidParameterValue</code> error.
-  ///
   /// Parameter [description] :
-  /// Describes this configuration.
+  /// An optional description for this configuration.
   ///
   /// Parameter [environmentId] :
-  /// The ID of the environment used with this configuration template.
+  /// The ID of an environment whose settings you want to use to create the
+  /// configuration template. You must specify <code>EnvironmentId</code> if you
+  /// don't specify <code>PlatformArn</code>, <code>SolutionStackName</code>, or
+  /// <code>SourceConfiguration</code>.
   ///
   /// Parameter [optionSettings] :
-  /// If specified, AWS Elastic Beanstalk sets the specified configuration
-  /// option to the requested value. The new value overrides the value obtained
-  /// from the solution stack or the source configuration template.
+  /// Option values for the Elastic Beanstalk configuration, such as the
+  /// instance type. If specified, these values override the values obtained
+  /// from the solution stack or the source configuration template. For a
+  /// complete list of Elastic Beanstalk configuration options, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
+  /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
   ///
   /// Parameter [platformArn] :
-  /// The ARN of the custom platform.
+  /// The Amazon Resource Name (ARN) of the custom platform. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html">
+  /// Custom Platforms</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  /// <note>
+  /// If you specify <code>PlatformArn</code>, then don't specify
+  /// <code>SolutionStackName</code>.
+  /// </note>
   ///
   /// Parameter [solutionStackName] :
-  /// The name of the solution stack used by this configuration. The solution
-  /// stack specifies the operating system, architecture, and application server
-  /// for a configuration template. It determines the set of configuration
-  /// options as well as the possible and default values.
+  /// The name of an Elastic Beanstalk solution stack (platform version) that
+  /// this configuration uses. For example, <code>64bit Amazon Linux 2013.09
+  /// running Tomcat 7 Java 7</code>. A solution stack specifies the operating
+  /// system, runtime, and application server for a configuration template. It
+  /// also determines the set of configuration options as well as the possible
+  /// and default values. For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html">Supported
+  /// Platforms</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
   ///
-  /// Use <a>ListAvailableSolutionStacks</a> to obtain a list of available
-  /// solution stacks.
+  /// You must specify <code>SolutionStackName</code> if you don't specify
+  /// <code>PlatformArn</code>, <code>EnvironmentId</code>, or
+  /// <code>SourceConfiguration</code>.
   ///
-  /// A solution stack name or a source configuration parameter must be
-  /// specified, otherwise AWS Elastic Beanstalk returns an
-  /// <code>InvalidParameterValue</code> error.
-  ///
-  /// If a solution stack name is not specified and the source configuration
-  /// parameter is specified, AWS Elastic Beanstalk uses the same solution stack
-  /// as the source configuration template.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html">
+  /// <code>ListAvailableSolutionStacks</code> </a> API to obtain a list of
+  /// available solution stacks.
   ///
   /// Parameter [sourceConfiguration] :
-  /// If specified, AWS Elastic Beanstalk uses the configuration values from the
+  /// An Elastic Beanstalk configuration template to base this one on. If
+  /// specified, Elastic Beanstalk uses the configuration values from the
   /// specified configuration template to create a new configuration.
   ///
-  /// Values specified in the <code>OptionSettings</code> parameter of this call
-  /// overrides any values obtained from the <code>SourceConfiguration</code>.
+  /// Values specified in <code>OptionSettings</code> override any values
+  /// obtained from the <code>SourceConfiguration</code>.
   ///
-  /// If no configuration template is found, returns an
-  /// <code>InvalidParameterValue</code> error.
+  /// You must specify <code>SourceConfiguration</code> if you don't specify
+  /// <code>PlatformArn</code>, <code>EnvironmentId</code>, or
+  /// <code>SolutionStackName</code>.
   ///
-  /// Constraint: If both the solution stack name parameter and the source
-  /// configuration parameters are specified, the solution stack of the source
-  /// configuration template must match the specified solution stack name or
-  /// else AWS Elastic Beanstalk returns an
-  /// <code>InvalidParameterCombination</code> error.
+  /// Constraint: If both solution stack name and source configuration are
+  /// specified, the solution stack of the source configuration template must
+  /// match the specified solution stack name.
   ///
   /// Parameter [tags] :
   /// Specifies the tags applied to the configuration template.
@@ -540,38 +549,36 @@ class ElasticBeanstalk {
     return ConfigurationSettingsDescription.fromXml($result);
   }
 
-  /// Launches an environment for the specified application using the specified
-  /// configuration.
+  /// Launches an AWS Elastic Beanstalk environment for the specified
+  /// application using the specified configuration.
   ///
   /// May throw [TooManyEnvironmentsException].
   /// May throw [InsufficientPrivilegesException].
   ///
   /// Parameter [applicationName] :
-  /// The name of the application that contains the version to be deployed.
-  ///
-  /// If no application is found with this name, <code>CreateEnvironment</code>
-  /// returns an <code>InvalidParameterValue</code> error.
+  /// The name of the application that is associated with this environment.
   ///
   /// Parameter [cNAMEPrefix] :
   /// If specified, the environment attempts to use this value as the prefix for
-  /// the CNAME. If not specified, the CNAME is generated automatically by
-  /// appending a random alphanumeric string to the environment name.
+  /// the CNAME in your Elastic Beanstalk environment URL. If not specified, the
+  /// CNAME is generated automatically by appending a random alphanumeric string
+  /// to the environment name.
   ///
   /// Parameter [description] :
-  /// Describes this environment.
+  /// Your description for this environment.
   ///
   /// Parameter [environmentName] :
-  /// A unique name for the deployment environment. Used in the application URL.
+  /// A unique name for the environment.
   ///
   /// Constraint: Must be from 4 to 40 characters in length. The name can
-  /// contain only letters, numbers, and hyphens. It cannot start or end with a
+  /// contain only letters, numbers, and hyphens. It can't start or end with a
   /// hyphen. This name must be unique within a region in your account. If the
-  /// specified name already exists in the region, AWS Elastic Beanstalk returns
-  /// an <code>InvalidParameterValue</code> error.
+  /// specified name already exists in the region, Elastic Beanstalk returns an
+  /// <code>InvalidParameterValue</code> error.
   ///
-  /// Default: If the CNAME parameter is not specified, the environment name
-  /// becomes part of the CNAME, and therefore part of the visible URL for your
-  /// application.
+  /// If you don't specify the <code>CNAMEPrefix</code> parameter, the
+  /// environment name becomes part of the CNAME, and therefore part of the
+  /// visible URL for your application.
   ///
   /// Parameter [groupName] :
   /// The name of the group to which the target environment belongs. Specify a
@@ -591,37 +598,50 @@ class ElasticBeanstalk {
   /// configuration set for this new environment.
   ///
   /// Parameter [platformArn] :
-  /// The ARN of the platform.
+  /// The Amazon Resource Name (ARN) of the custom platform to use with the
+  /// environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html">
+  /// Custom Platforms</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  /// <note>
+  /// If you specify <code>PlatformArn</code>, don't specify
+  /// <code>SolutionStackName</code>.
+  /// </note>
   ///
   /// Parameter [solutionStackName] :
-  /// This is an alternative to specifying a template name. If specified, AWS
-  /// Elastic Beanstalk sets the configuration values to the default values
-  /// associated with the specified solution stack.
-  ///
-  /// For a list of current solution stacks, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html">Elastic
-  /// Beanstalk Supported Platforms</a>.
+  /// The name of an Elastic Beanstalk solution stack (platform version) to use
+  /// with the environment. If specified, Elastic Beanstalk sets the
+  /// configuration values to the default values associated with the specified
+  /// solution stack. For a list of current solution stacks, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html">Elastic
+  /// Beanstalk Supported Platforms</a> in the <i>AWS Elastic Beanstalk
+  /// Platforms</i> guide.
+  /// <note>
+  /// If you specify <code>SolutionStackName</code>, don't specify
+  /// <code>PlatformArn</code> or <code>TemplateName</code>.
+  /// </note>
   ///
   /// Parameter [tags] :
   /// Specifies the tags applied to resources in the environment.
   ///
   /// Parameter [templateName] :
-  /// The name of the configuration template to use in deployment. If no
-  /// configuration template is found with this name, AWS Elastic Beanstalk
-  /// returns an <code>InvalidParameterValue</code> error.
+  /// The name of the Elastic Beanstalk configuration template to use with the
+  /// environment.
+  /// <note>
+  /// If you specify <code>TemplateName</code>, then don't specify
+  /// <code>SolutionStackName</code>.
+  /// </note>
   ///
   /// Parameter [tier] :
-  /// This specifies the tier to use for creating this environment.
+  /// Specifies the tier to use in creating this environment. The environment
+  /// tier that you choose determines whether Elastic Beanstalk provisions
+  /// resources to support a web application that handles HTTP(S) requests or a
+  /// web application that handles background-processing tasks.
   ///
   /// Parameter [versionLabel] :
   /// The name of the application version to deploy.
   ///
-  /// If the specified application has no associated application versions, AWS
-  /// Elastic Beanstalk <code>UpdateEnvironment</code> returns an
-  /// <code>InvalidParameterValue</code> error.
-  ///
-  /// Default: If not specified, AWS Elastic Beanstalk attempts to launch the
-  /// sample application in the container.
+  /// Default: If not specified, Elastic Beanstalk attempts to deploy the sample
+  /// application.
   Future<EnvironmentDescription> createEnvironment({
     @_s.required String applicationName,
     String cNAMEPrefix,
@@ -1571,7 +1591,9 @@ class ElasticBeanstalk {
   /// results.
   ///
   /// Parameter [platformArn] :
-  /// The ARN of the version of the custom platform.
+  /// The ARN of a custom platform version. If specified, AWS Elastic Beanstalk
+  /// restricts the returned descriptions to those associated with this custom
+  /// platform version.
   ///
   /// Parameter [requestId] :
   /// If specified, AWS Elastic Beanstalk restricts the described events to
@@ -1719,13 +1741,20 @@ class ElasticBeanstalk {
     return DescribeInstancesHealthResult.fromXml($result);
   }
 
-  /// Describes the version of the platform.
+  /// Describes a platform version. Provides full details. Compare to
+  /// <a>ListPlatformVersions</a>, which provides summary information about a
+  /// list of platform versions.
+  ///
+  /// For definitions of platform version and other platform-related terms, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html">AWS
+  /// Elastic Beanstalk Platforms Glossary</a>.
   ///
   /// May throw [InsufficientPrivilegesException].
   /// May throw [ElasticBeanstalkServiceException].
   ///
   /// Parameter [platformArn] :
-  /// The ARN of the version of the platform.
+  /// The ARN of the platform version.
   Future<DescribePlatformVersionResult> describePlatformVersion({
     String platformArn,
   }) async {
@@ -1762,22 +1791,140 @@ class ElasticBeanstalk {
     return ListAvailableSolutionStacksResultMessage.fromXml($result);
   }
 
-  /// Lists the available platforms.
+  /// Lists the platform branches available for your account in an AWS Region.
+  /// Provides summary information about each platform branch.
+  ///
+  /// For definitions of platform branch and other platform-related terms, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html">AWS
+  /// Elastic Beanstalk Platforms Glossary</a>.
+  ///
+  /// Parameter [filters] :
+  /// Criteria for restricting the resulting list of platform branches. The
+  /// filter is evaluated as a logical conjunction (AND) of the separate
+  /// <code>SearchFilter</code> terms.
+  ///
+  /// The following list shows valid attribute values for each of the
+  /// <code>SearchFilter</code> terms. Most operators take a single value. The
+  /// <code>in</code> and <code>not_in</code> operators can take multiple
+  /// values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Attribute = BranchName</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Operator</code>: <code>=</code> | <code>!=</code> |
+  /// <code>begins_with</code> | <code>ends_with</code> | <code>contains</code>
+  /// | <code>in</code> | <code>not_in</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>Attribute = LifecycleState</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Operator</code>: <code>=</code> | <code>!=</code> | <code>in</code>
+  /// | <code>not_in</code>
+  /// </li>
+  /// <li>
+  /// <code>Values</code>: <code>beta</code> | <code>supported</code> |
+  /// <code>deprecated</code> | <code>retired</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>Attribute = PlatformName</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Operator</code>: <code>=</code> | <code>!=</code> |
+  /// <code>begins_with</code> | <code>ends_with</code> | <code>contains</code>
+  /// | <code>in</code> | <code>not_in</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>Attribute = TierType</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Operator</code>: <code>=</code> | <code>!=</code>
+  /// </li>
+  /// <li>
+  /// <code>Values</code>: <code>WebServer/Standard</code> |
+  /// <code>Worker/SQS/HTTP</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// Array size: limited to 10 <code>SearchFilter</code> objects.
+  ///
+  /// Within each <code>SearchFilter</code> item, the <code>Values</code> array
+  /// is limited to 10 items.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of platform branch values returned in one call.
+  ///
+  /// Parameter [nextToken] :
+  /// For a paginated request. Specify a token from a previous response page to
+  /// retrieve the next response page. All other parameter values must be
+  /// identical to the ones specified in the initial request.
+  ///
+  /// If no <code>NextToken</code> is specified, the first page is retrieved.
+  Future<ListPlatformBranchesResult> listPlatformBranches({
+    List<SearchFilter> filters,
+    int maxRecords,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      1,
+      1152921504606846976,
+    );
+    final $request = <String, dynamic>{
+      'Action': 'ListPlatformBranches',
+      'Version': '2010-12-01',
+    };
+    filters?.also((arg) => $request['Filters'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListPlatformBranchesResult',
+    );
+    return ListPlatformBranchesResult.fromXml($result);
+  }
+
+  /// Lists the platform versions available for your account in an AWS Region.
+  /// Provides summary information about each platform version. Compare to
+  /// <a>DescribePlatformVersion</a>, which provides full details about a single
+  /// platform version.
+  ///
+  /// For definitions of platform version and other platform-related terms, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html">AWS
+  /// Elastic Beanstalk Platforms Glossary</a>.
   ///
   /// May throw [InsufficientPrivilegesException].
   /// May throw [ElasticBeanstalkServiceException].
   ///
   /// Parameter [filters] :
-  /// List only the platforms where the platform member value relates to one of
-  /// the supplied values.
+  /// Criteria for restricting the resulting list of platform versions. The
+  /// filter is interpreted as a logical conjunction (AND) of the separate
+  /// <code>PlatformFilter</code> terms.
   ///
   /// Parameter [maxRecords] :
-  /// The maximum number of platform values returned in one call.
+  /// The maximum number of platform version values returned in one call.
   ///
   /// Parameter [nextToken] :
-  /// The starting index into the remaining list of platforms. Use the
-  /// <code>NextToken</code> value from a previous
-  /// <code>ListPlatformVersion</code> call.
+  /// For a paginated request. Specify a token from a previous response page to
+  /// retrieve the next response page. All other parameter values must be
+  /// identical to the ones specified in the initial request.
+  ///
+  /// If no <code>NextToken</code> is specified, the first page is retrieved.
   Future<ListPlatformVersionsResult> listPlatformVersions({
     List<PlatformFilter> filters,
     int maxRecords,
@@ -1806,13 +1953,13 @@ class ElasticBeanstalk {
     return ListPlatformVersionsResult.fromXml($result);
   }
 
-  /// Returns the tags applied to an AWS Elastic Beanstalk resource. The
-  /// response contains a list of tag key-value pairs.
+  /// Return the tags applied to an AWS Elastic Beanstalk resource. The response
+  /// contains a list of tag key-value pairs.
   ///
-  /// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk
-  /// environments. For details about environment tagging, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
-  /// Resources in Your Elastic Beanstalk Environment</a>.
+  /// Elastic Beanstalk supports tagging of all of its resources. For details
+  /// about resource tagging, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html">Tagging
+  /// Application Resources</a>.
   ///
   /// May throw [InsufficientPrivilegesException].
   /// May throw [ResourceNotFoundException].
@@ -1822,7 +1969,7 @@ class ElasticBeanstalk {
   /// The Amazon Resource Name (ARN) of the resouce for which a tag list is
   /// requested.
   ///
-  /// Must be the ARN of an Elastic Beanstalk environment.
+  /// Must be the ARN of an Elastic Beanstalk resource.
   Future<ResourceTagsDescriptionMessage> listTagsForResource({
     @_s.required String resourceArn,
   }) async {
@@ -2610,10 +2757,10 @@ class ElasticBeanstalk {
   /// lists can be passed: <code>TagsToAdd</code> for tags to add or update, and
   /// <code>TagsToRemove</code>.
   ///
-  /// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk
-  /// environments. For details about environment tagging, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
-  /// Resources in Your Elastic Beanstalk Environment</a>.
+  /// Elastic Beanstalk supports tagging of all of its resources. For details
+  /// about resource tagging, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html">Tagging
+  /// Application Resources</a>.
   ///
   /// If you create a custom IAM user policy to control permission to this
   /// operation, specify one of the following two virtual actions (or both)
@@ -2638,7 +2785,7 @@ class ElasticBeanstalk {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resouce to be updated.
   ///
-  /// Must be the ARN of an Elastic Beanstalk environment.
+  /// Must be the ARN of an Elastic Beanstalk resource.
   ///
   /// Parameter [tagsToAdd] :
   /// A list of tags to add or update.
@@ -2937,7 +3084,7 @@ class ApplicationMetrics {
 
 /// The resource lifecycle configuration for an application. Defines lifecycle
 /// settings for resources that belong to the application, and the service role
-/// that Elastic Beanstalk assumes in order to apply lifecycle settings. The
+/// that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The
 /// version lifecycle configuration defines lifecycle settings for application
 /// versions.
 class ApplicationResourceLifecycleConfig {
@@ -2954,7 +3101,7 @@ class ApplicationResourceLifecycleConfig {
   /// specify it in subsequent calls to change the Service Role to another value.
   final String serviceRole;
 
-  /// The application version lifecycle configuration.
+  /// Defines lifecycle settings for application versions.
   final ApplicationVersionLifecycleConfig versionLifecycleConfig;
 
   ApplicationResourceLifecycleConfig({
@@ -3573,17 +3720,19 @@ class ConfigurationOptionDescription {
 }
 
 /// A specification identifying an individual configuration option along with
-/// its current value. For a list of possible option values, go to <a
+/// its current value. For a list of possible namespaces and option values, see
+/// <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
 /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
 class ConfigurationOptionSetting {
-  /// A unique namespace identifying the option's associated AWS resource.
+  /// A unique namespace that identifies the option's associated AWS resource.
   final String namespace;
 
   /// The name of the configuration option.
   final String optionName;
 
-  /// A unique resource name for a time-based scaling configuration option.
+  /// A unique resource name for the option setting. Use it for a time–based
+  /// scaling configuration option.
   final String resourceName;
 
   /// The current value for the configuration option.
@@ -3627,7 +3776,7 @@ class ConfigurationOptionsDescription {
   /// A list of <a>ConfigurationOptionDescription</a>.
   final List<ConfigurationOptionDescription> options;
 
-  /// The ARN of the platform.
+  /// The ARN of the platform version.
   final String platformArn;
 
   /// The name of the solution stack these configuration options belong to.
@@ -3696,7 +3845,7 @@ class ConfigurationSettingsDescription {
   /// set.
   final List<ConfigurationOptionSetting> optionSettings;
 
-  /// The ARN of the platform.
+  /// The ARN of the platform version.
   final String platformArn;
 
   /// The name of the solution stack this configuration set uses.
@@ -4059,7 +4208,7 @@ class DescribeInstancesHealthResult {
 }
 
 class DescribePlatformVersionResult {
-  /// Detailed information about the version of the platform.
+  /// Detailed information about the platform version.
   final PlatformDescription platformDescription;
 
   DescribePlatformVersionResult({
@@ -4148,7 +4297,7 @@ class EnvironmentDescription {
   /// Colors and Statuses</a>.
   final EnvironmentHealthStatus healthStatus;
 
-  /// The ARN of the platform.
+  /// The ARN of the platform version.
   final String platformArn;
 
   /// The description of the AWS resources used by this environment.
@@ -4646,7 +4795,7 @@ class EventDescription {
   /// The event message.
   final String message;
 
-  /// The ARN of the platform.
+  /// The ARN of the platform version.
   final String platformArn;
 
   /// The web service request ID for the activity of this event.
@@ -5008,13 +5157,39 @@ class ListAvailableSolutionStacksResultMessage {
   }
 }
 
-class ListPlatformVersionsResult {
-  /// The starting index into the remaining list of platforms. if this value is
-  /// not <code>null</code>, you can use it in a subsequent
-  /// <code>ListPlatformVersion</code> call.
+class ListPlatformBranchesResult {
+  /// In a paginated request, if this value isn't <code>null</code>, it's the
+  /// token that you can pass in a subsequent request to get the next response
+  /// page.
   final String nextToken;
 
-  /// Detailed information about the platforms.
+  /// Summary information about the platform branches.
+  final List<PlatformBranchSummary> platformBranchSummaryList;
+
+  ListPlatformBranchesResult({
+    this.nextToken,
+    this.platformBranchSummaryList,
+  });
+  factory ListPlatformBranchesResult.fromXml(_s.XmlElement elem) {
+    return ListPlatformBranchesResult(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      platformBranchSummaryList: _s
+          .extractXmlChild(elem, 'PlatformBranchSummaryList')
+          ?.let((elem) => elem
+              .findElements('PlatformBranchSummaryList')
+              .map((c) => PlatformBranchSummary.fromXml(c))
+              .toList()),
+    );
+  }
+}
+
+class ListPlatformVersionsResult {
+  /// In a paginated request, if this value isn't <code>null</code>, it's the
+  /// token that you can pass in a subsequent request to get the next response
+  /// page.
+  final String nextToken;
+
+  /// Summary information about the platform versions.
   final List<PlatformSummary> platformSummaryList;
 
   ListPlatformVersionsResult({
@@ -5280,60 +5455,126 @@ class OptionSpecification {
   });
 }
 
-/// Detailed information about a platform.
-class PlatformDescription {
-  /// The custom AMIs supported by the platform.
-  final List<CustomAmi> customAmiList;
+/// Summary information about a platform branch.
+class PlatformBranchSummary {
+  /// The name of the platform branch.
+  final String branchName;
 
-  /// The date when the platform was created.
-  final DateTime dateCreated;
+  /// An ordinal number that designates the order in which platform branches have
+  /// been added to a platform. This can be helpful, for example, if your code
+  /// calls the <code>ListPlatformBranches</code> action and then displays a list
+  /// of platform branches.
+  ///
+  /// A larger <code>BranchOrder</code> value designates a newer platform branch
+  /// within the platform.
+  final int branchOrder;
 
-  /// The date when the platform was last updated.
-  final DateTime dateUpdated;
+  /// The support life cycle state of the platform branch.
+  ///
+  /// Possible values: <code>beta</code> | <code>supported</code> |
+  /// <code>deprecated</code> | <code>retired</code>
+  final String lifecycleState;
 
-  /// The description of the platform.
-  final String description;
-
-  /// The frameworks supported by the platform.
-  final List<PlatformFramework> frameworks;
-
-  /// Information about the maintainer of the platform.
-  final String maintainer;
-
-  /// The operating system used by the platform.
-  final String operatingSystemName;
-
-  /// The version of the operating system used by the platform.
-  final String operatingSystemVersion;
-
-  /// The ARN of the platform.
-  final String platformArn;
-
-  /// The category of the platform.
-  final String platformCategory;
-
-  /// The name of the platform.
+  /// The name of the platform to which this platform branch belongs.
   final String platformName;
 
-  /// The AWS account ID of the person who created the platform.
+  /// The environment tiers that platform versions in this branch support.
+  ///
+  /// Possible values: <code>WebServer/Standard</code> |
+  /// <code>Worker/SQS/HTTP</code>
+  final List<String> supportedTierList;
+
+  PlatformBranchSummary({
+    this.branchName,
+    this.branchOrder,
+    this.lifecycleState,
+    this.platformName,
+    this.supportedTierList,
+  });
+  factory PlatformBranchSummary.fromXml(_s.XmlElement elem) {
+    return PlatformBranchSummary(
+      branchName: _s.extractXmlStringValue(elem, 'BranchName'),
+      branchOrder: _s.extractXmlIntValue(elem, 'BranchOrder'),
+      lifecycleState: _s.extractXmlStringValue(elem, 'LifecycleState'),
+      platformName: _s.extractXmlStringValue(elem, 'PlatformName'),
+      supportedTierList: _s.extractXmlChild(elem, 'SupportedTierList')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'SupportedTierList')),
+    );
+  }
+}
+
+/// Detailed information about a platform version.
+class PlatformDescription {
+  /// The custom AMIs supported by the platform version.
+  final List<CustomAmi> customAmiList;
+
+  /// The date when the platform version was created.
+  final DateTime dateCreated;
+
+  /// The date when the platform version was last updated.
+  final DateTime dateUpdated;
+
+  /// The description of the platform version.
+  final String description;
+
+  /// The frameworks supported by the platform version.
+  final List<PlatformFramework> frameworks;
+
+  /// Information about the maintainer of the platform version.
+  final String maintainer;
+
+  /// The operating system used by the platform version.
+  final String operatingSystemName;
+
+  /// The version of the operating system used by the platform version.
+  final String operatingSystemVersion;
+
+  /// The ARN of the platform version.
+  final String platformArn;
+
+  /// The state of the platform version's branch in its lifecycle.
+  ///
+  /// Possible values: <code>Beta</code> | <code>Supported</code> |
+  /// <code>Deprecated</code> | <code>Retired</code>
+  final String platformBranchLifecycleState;
+
+  /// The platform branch to which the platform version belongs.
+  final String platformBranchName;
+
+  /// The category of the platform version.
+  final String platformCategory;
+
+  /// The state of the platform version in its lifecycle.
+  ///
+  /// Possible values: <code>Recommended</code> | <code>null</code>
+  ///
+  /// If a null value is returned, the platform version isn't the recommended one
+  /// for its branch. Each platform branch has a single recommended platform
+  /// version, typically the most recent one.
+  final String platformLifecycleState;
+
+  /// The name of the platform version.
+  final String platformName;
+
+  /// The AWS account ID of the person who created the platform version.
   final String platformOwner;
 
-  /// The status of the platform.
+  /// The status of the platform version.
   final PlatformStatus platformStatus;
 
-  /// The version of the platform.
+  /// The version of the platform version.
   final String platformVersion;
 
-  /// The programming languages supported by the platform.
+  /// The programming languages supported by the platform version.
   final List<PlatformProgrammingLanguage> programmingLanguages;
 
-  /// The name of the solution stack used by the platform.
+  /// The name of the solution stack used by the platform version.
   final String solutionStackName;
 
-  /// The additions supported by the platform.
+  /// The additions supported by the platform version.
   final List<String> supportedAddonList;
 
-  /// The tiers supported by the platform.
+  /// The tiers supported by the platform version.
   final List<String> supportedTierList;
 
   PlatformDescription({
@@ -5346,7 +5587,10 @@ class PlatformDescription {
     this.operatingSystemName,
     this.operatingSystemVersion,
     this.platformArn,
+    this.platformBranchLifecycleState,
+    this.platformBranchName,
     this.platformCategory,
+    this.platformLifecycleState,
     this.platformName,
     this.platformOwner,
     this.platformStatus,
@@ -5376,7 +5620,12 @@ class PlatformDescription {
       operatingSystemVersion:
           _s.extractXmlStringValue(elem, 'OperatingSystemVersion'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
+      platformBranchLifecycleState:
+          _s.extractXmlStringValue(elem, 'PlatformBranchLifecycleState'),
+      platformBranchName: _s.extractXmlStringValue(elem, 'PlatformBranchName'),
       platformCategory: _s.extractXmlStringValue(elem, 'PlatformCategory'),
+      platformLifecycleState:
+          _s.extractXmlStringValue(elem, 'PlatformLifecycleState'),
       platformName: _s.extractXmlStringValue(elem, 'PlatformName'),
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
       platformStatus:
@@ -5397,29 +5646,49 @@ class PlatformDescription {
   }
 }
 
-/// Specify criteria to restrict the results when listing custom platforms.
+/// Describes criteria to restrict the results when listing platform versions.
 ///
-/// The filter is evaluated as the expression:
-///
-/// <code>Type</code> <code>Operator</code> <code>Values[i]</code>
+/// The filter is evaluated as follows: <code>Type Operator Values[1]</code>
 class PlatformFilter {
   /// The operator to apply to the <code>Type</code> with each of the
   /// <code>Values</code>.
   ///
-  /// Valid Values: <code>=</code> (equal to) | <code>!=</code> (not equal to) |
-  /// <code>&lt;</code> (less than) | <code>&lt;=</code> (less than or equal to) |
-  /// <code>&gt;</code> (greater than) | <code>&gt;=</code> (greater than or equal
-  /// to) | <code>contains</code> | <code>begins_with</code> |
-  /// <code>ends_with</code>
+  /// Valid values: <code>=</code> | <code>!=</code> | <code>&lt;</code> |
+  /// <code>&lt;=</code> | <code>&gt;</code> | <code>&gt;=</code> |
+  /// <code>contains</code> | <code>begins_with</code> | <code>ends_with</code>
   final String operator;
 
-  /// The custom platform attribute to which the filter values are applied.
+  /// The platform version attribute to which the filter values are applied.
   ///
-  /// Valid Values: <code>PlatformName</code> | <code>PlatformVersion</code> |
-  /// <code>PlatformStatus</code> | <code>PlatformOwner</code>
+  /// Valid values: <code>PlatformName</code> | <code>PlatformVersion</code> |
+  /// <code>PlatformStatus</code> | <code>PlatformBranchName</code> |
+  /// <code>PlatformLifecycleState</code> | <code>PlatformOwner</code> |
+  /// <code>SupportedTier</code> | <code>SupportedAddon</code> |
+  /// <code>ProgrammingLanguageName</code> | <code>OperatingSystemName</code>
   final String type;
 
-  /// The list of values applied to the custom platform attribute.
+  /// The list of values applied to the filtering platform version attribute. Only
+  /// one value is supported for all current operators.
+  ///
+  /// The following list shows valid filter values for some filter attributes.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PlatformStatus</code>: <code>Creating</code> | <code>Failed</code> |
+  /// <code>Ready</code> | <code>Deleting</code> | <code>Deleted</code>
+  /// </li>
+  /// <li>
+  /// <code>PlatformLifecycleState</code>: <code>recommended</code>
+  /// </li>
+  /// <li>
+  /// <code>SupportedTier</code>: <code>WebServer/Standard</code> |
+  /// <code>Worker/SQS/HTTP</code>
+  /// </li>
+  /// <li>
+  /// <code>SupportedAddon</code>: <code>Log/S3</code> |
+  /// <code>Monitoring/Healthd</code> | <code>WorkerDaemon/SQSD</code>
+  /// </li>
+  /// </ul>
   final List<String> values;
 
   PlatformFilter({
@@ -5429,7 +5698,7 @@ class PlatformFilter {
   });
 }
 
-/// A framework supported by the custom platform.
+/// A framework supported by the platform.
 class PlatformFramework {
   /// The name of the framework.
   final String name;
@@ -5495,40 +5764,64 @@ extension on String {
   }
 }
 
-/// Detailed information about a platform.
+/// Summary information about a platform version.
 class PlatformSummary {
-  /// The operating system used by the platform.
+  /// The operating system used by the platform version.
   final String operatingSystemName;
 
-  /// The version of the operating system used by the platform.
+  /// The version of the operating system used by the platform version.
   final String operatingSystemVersion;
 
-  /// The ARN of the platform.
+  /// The ARN of the platform version.
   final String platformArn;
 
-  /// The category of platform.
+  /// The state of the platform version's branch in its lifecycle.
+  ///
+  /// Possible values: <code>beta</code> | <code>supported</code> |
+  /// <code>deprecated</code> | <code>retired</code>
+  final String platformBranchLifecycleState;
+
+  /// The platform branch to which the platform version belongs.
+  final String platformBranchName;
+
+  /// The category of platform version.
   final String platformCategory;
 
-  /// The AWS account ID of the person who created the platform.
+  /// The state of the platform version in its lifecycle.
+  ///
+  /// Possible values: <code>recommended</code> | empty
+  ///
+  /// If an empty value is returned, the platform version is supported but isn't
+  /// the recommended one for its branch.
+  final String platformLifecycleState;
+
+  /// The AWS account ID of the person who created the platform version.
   final String platformOwner;
 
-  /// The status of the platform. You can create an environment from the platform
-  /// once it is ready.
+  /// The status of the platform version. You can create an environment from the
+  /// platform version once it is ready.
   final PlatformStatus platformStatus;
 
-  /// The additions associated with the platform.
+  /// The version string of the platform version.
+  final String platformVersion;
+
+  /// The additions associated with the platform version.
   final List<String> supportedAddonList;
 
-  /// The tiers in which the platform runs.
+  /// The tiers in which the platform version runs.
   final List<String> supportedTierList;
 
   PlatformSummary({
     this.operatingSystemName,
     this.operatingSystemVersion,
     this.platformArn,
+    this.platformBranchLifecycleState,
+    this.platformBranchName,
     this.platformCategory,
+    this.platformLifecycleState,
     this.platformOwner,
     this.platformStatus,
+    this.platformVersion,
     this.supportedAddonList,
     this.supportedTierList,
   });
@@ -5539,10 +5832,16 @@ class PlatformSummary {
       operatingSystemVersion:
           _s.extractXmlStringValue(elem, 'OperatingSystemVersion'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
+      platformBranchLifecycleState:
+          _s.extractXmlStringValue(elem, 'PlatformBranchLifecycleState'),
+      platformBranchName: _s.extractXmlStringValue(elem, 'PlatformBranchName'),
       platformCategory: _s.extractXmlStringValue(elem, 'PlatformCategory'),
+      platformLifecycleState:
+          _s.extractXmlStringValue(elem, 'PlatformLifecycleState'),
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
       platformStatus:
           _s.extractXmlStringValue(elem, 'PlatformStatus')?.toPlatformStatus(),
+      platformVersion: _s.extractXmlStringValue(elem, 'PlatformVersion'),
       supportedAddonList: _s.extractXmlChild(elem, 'SupportedAddonList')?.let(
           (elem) => _s.extractXmlStringListValues(elem, 'SupportedAddonList')),
       supportedTierList: _s.extractXmlChild(elem, 'SupportedTierList')?.let(
@@ -5635,7 +5934,7 @@ class ResourceQuotas {
 }
 
 class ResourceTagsDescriptionMessage {
-  /// The Amazon Resource Name (ARN) of the resouce for which a tag list was
+  /// The Amazon Resource Name (ARN) of the resource for which a tag list was
   /// requested.
   final String resourceArn;
 
@@ -5694,6 +5993,40 @@ class S3Location {
       s3Key: _s.extractXmlStringValue(elem, 'S3Key'),
     );
   }
+}
+
+/// Describes criteria to restrict a list of results.
+///
+/// For operators that apply a single value to the attribute, the filter is
+/// evaluated as follows: <code>Attribute Operator Values[1]</code>
+///
+/// Some operators, e.g. <code>in</code>, can apply multiple values. In this
+/// case, the filter is evaluated as a logical union (OR) of applications of the
+/// operator to the attribute with each one of the values: <code>(Attribute
+/// Operator Values[1]) OR (Attribute Operator Values[2]) OR ...</code>
+///
+/// The valid values for attributes of <code>SearchFilter</code> depend on the
+/// API action. For valid values, see the reference page for the API action
+/// you're calling that takes a <code>SearchFilter</code> parameter.
+class SearchFilter {
+  /// The result attribute to which the filter values are applied. Valid values
+  /// vary by API action.
+  final String attribute;
+
+  /// The operator to apply to the <code>Attribute</code> with each of the
+  /// <code>Values</code>. Valid values vary by <code>Attribute</code>.
+  final String operator;
+
+  /// The list of values applied to the <code>Attribute</code> and
+  /// <code>Operator</code> attributes. Number of values and valid values vary by
+  /// <code>Attribute</code>.
+  final List<String> values;
+
+  SearchFilter({
+    this.attribute,
+    this.operator,
+    this.values,
+  });
 }
 
 /// Detailed health information about an Amazon EC2 instance in your Elastic
@@ -5852,7 +6185,7 @@ class SourceBuildInformation {
   }
 }
 
-/// A specification for an environment configuration
+/// A specification for an environment configuration.
 class SourceConfiguration {
   /// The name of the application associated with the configuration.
   final String applicationName;

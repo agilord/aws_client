@@ -31,18 +31,31 @@ class Route53 {
         );
 
   /// Associates an Amazon VPC with a private hosted zone.
-  /// <important>
+  /// <note>
   /// To perform the association, the VPC and the private hosted zone must
-  /// already exist. You can't convert a public hosted zone into a private
+  /// already exist. Also, you can't convert a public hosted zone into a private
   /// hosted zone.
-  /// </important> <note>
-  /// If you want to associate a VPC that was created by using one AWS account
-  /// with a private hosted zone that was created by using a different account,
-  /// the AWS account that created the private hosted zone must first submit a
-  /// <code>CreateVPCAssociationAuthorization</code> request. Then the account
-  /// that created the VPC must submit an
-  /// <code>AssociateVPCWithHostedZone</code> request.
   /// </note>
+  /// If you want to associate a VPC that was created by one AWS account with a
+  /// private hosted zone that was created by a different account, do one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use the AWS account that created the private hosted zone to submit a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateVPCAssociationAuthorization.html">CreateVPCAssociationAuthorization</a>
+  /// request. Then use the account that created the VPC to submit an
+  /// <code>AssociateVPCWithHostedZone</code> request.
+  /// </li>
+  /// <li>
+  /// If a subnet in the VPC was shared with another account, you can use the
+  /// account that the subnet was shared with to submit an
+  /// <code>AssociateVPCWithHostedZone</code> request. For more information
+  /// about sharing subnets, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html">Working
+  /// with Shared VPCs</a>.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [NotAuthorizedException].
@@ -126,7 +139,7 @@ class Route53 {
   /// www.example.com), in the same hosted zone or in multiple hosted zones. You
   /// can roll back the updates if the new configuration isn't performing as
   /// expected. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html">Using
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html">Using
   /// Traffic Flow to Route DNS Traffic</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   ///
@@ -313,7 +326,7 @@ class Route53 {
   /// the metric, and then create a health check that is based on the state of
   /// the alarm. For information about creating CloudWatch metrics and alarms by
   /// using the CloudWatch console, see the <a
-  /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
   /// CloudWatch User Guide</a>.
   /// </li>
   /// </ul>
@@ -397,10 +410,10 @@ class Route53 {
   /// You can't create a hosted zone for a top-level domain (TLD) such as .com.
   /// </li>
   /// <li>
-  /// For public hosted zones, Amazon Route 53 automatically creates a default
-  /// SOA record and four NS records for the zone. For more information about
-  /// SOA and NS records, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
+  /// For public hosted zones, Route 53 automatically creates a default SOA
+  /// record and four NS records for the zone. For more information about SOA
+  /// and NS records, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
   /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
@@ -412,7 +425,7 @@ class Route53 {
   /// If your domain is registered with a registrar other than Route 53, you
   /// must update the name servers with your registrar to make Route 53 the DNS
   /// service for the domain. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
   /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
   /// Route 53 Developer Guide</i>.
   /// </li>
@@ -685,15 +698,17 @@ class Route53 {
   }
 
   /// Creates a delegation set (a group of four name servers) that can be reused
-  /// by multiple hosted zones. If a hosted zoned ID is specified,
-  /// <code>CreateReusableDelegationSet</code> marks the delegation set
-  /// associated with that zone as reusable.
+  /// by multiple hosted zones that were created by the same AWS account.
+  ///
+  /// You can also create a reusable delegation set that uses the four name
+  /// servers that are associated with an existing hosted zone. Specify the
+  /// hosted zone ID in the <code>CreateReusableDelegationSet</code> request.
   /// <note>
   /// You can't associate a reusable delegation set with a private hosted zone.
   /// </note>
   /// For information about using a reusable delegation set to configure white
   /// label name servers, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html">Configuring
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html">Configuring
   /// White Label Name Servers</a>.
   ///
   /// The process for migrating existing hosted zones to use a reusable
@@ -1047,10 +1062,16 @@ class Route53 {
   /// record sets, the future status of the health check can't be predicted and
   /// may change. This will affect the routing of DNS queries for your DNS
   /// failover configuration. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html">Replacing
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html">Replacing
   /// and Deleting Health Checks</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   /// </important>
+  /// If you're using AWS Cloud Map and you configured Cloud Map to create a
+  /// Route 53 health check when you register an instance, you can't use the
+  /// Route 53 <code>DeleteHealthCheck</code> command to delete the health
+  /// check. The health check is deleted automatically when you deregister the
+  /// instance; there can be a delay of several hours before the health check is
+  /// deleted from Route 53.
   ///
   /// May throw [NoSuchHealthCheck].
   /// May throw [HealthCheckInUse].
@@ -1498,7 +1519,7 @@ class Route53 {
   /// <code>GetCheckerIpRanges</code> still works, but we recommend that you
   /// download ip-ranges.json, which includes IP address ranges for all AWS
   /// services. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
   /// Address Ranges of Amazon Route 53 Servers</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   /// </important>
@@ -1536,7 +1557,9 @@ class Route53 {
   /// May throw [InvalidInput].
   ///
   /// Parameter [continentCode] :
-  /// Amazon Route 53 supports the following continent codes:
+  /// For geolocation resource record sets, a two-letter abbreviation that
+  /// identifies a continent. Amazon Route 53 supports the following continent
+  /// codes:
   ///
   /// <ul>
   /// <li>
@@ -1568,12 +1591,14 @@ class Route53 {
   /// 3166-1 alpha-2</a>.
   ///
   /// Parameter [subdivisionCode] :
-  /// Amazon Route 53 uses the one- to three-letter subdivision codes that are
-  /// specified in <a
-  /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard
-  /// 3166-1 alpha-2</a>. Route 53 doesn't support subdivision codes for all
-  /// countries. If you specify <code>subdivisioncode</code>, you must also
-  /// specify <code>countrycode</code>.
+  /// For <code>SubdivisionCode</code>, Amazon Route 53 supports only states of
+  /// the United States. For a list of state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter
+  /// State and Possession Abbreviations</a> on the United States Postal Service
+  /// website.
+  ///
+  /// If you specify <code>subdivisioncode</code>, you must also specify
+  /// <code>US</code> for <code>CountryCode</code>.
   Future<GetGeoLocationResponse> getGeoLocation({
     String continentCode,
     String countryCode,
@@ -1999,6 +2024,10 @@ class Route53 {
   /// provinces), the subdivisions for that country are listed in alphabetical
   /// order immediately after the corresponding country.
   ///
+  /// For a list of supported geolocation codes, see the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
+  /// data type.
+  ///
   /// May throw [InvalidInput].
   ///
   /// Parameter [maxItems] :
@@ -2027,20 +2056,16 @@ class Route53 {
   /// response has a value, enter that value in <code>startcountrycode</code> to
   /// return the next page of results.
   ///
-  /// Route 53 uses the two-letter country codes that are specified in <a
-  /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard
-  /// 3166-1 alpha-2</a>.
-  ///
   /// Parameter [startSubdivisionCode] :
-  /// The code for the subdivision (for example, state or province) with which
-  /// you want to start listing locations that Amazon Route 53 supports for
-  /// geolocation. If Route 53 has already returned a page or more of results,
-  /// if <code>IsTruncated</code> is <code>true</code>, and if
+  /// The code for the state of the United States with which you want to start
+  /// listing locations that Amazon Route 53 supports for geolocation. If Route
+  /// 53 has already returned a page or more of results, if
+  /// <code>IsTruncated</code> is <code>true</code>, and if
   /// <code>NextSubdivisionCode</code> from the previous response has a value,
   /// enter that value in <code>startsubdivisioncode</code> to return the next
   /// page of results.
   ///
-  /// To list subdivisions of a country, you must include both
+  /// To list subdivisions (U.S. states), you must include both
   /// <code>startcountrycode</code> and <code>startsubdivisioncode</code>.
   Future<ListGeoLocationsResponse> listGeoLocations({
     String maxItems,
@@ -2221,7 +2246,7 @@ class Route53 {
   /// The labels are reversed and alphabetized using the escaped value. For more
   /// information about valid domain name formats, including internationalized
   /// domain names, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
   /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// Route 53 returns up to 100 items in each response. If you have a lot of
@@ -2490,7 +2515,9 @@ class Route53 {
   ///
   /// Parameter [startRecordName] :
   /// The first name in the lexicographic ordering of resource record sets that
-  /// you want to list.
+  /// you want to list. If the specified record name doesn't exist, the results
+  /// begin with the first resource record set that has a name greater than the
+  /// value of <code>name</code>.
   ///
   /// Parameter [startRecordType] :
   /// The type of resource record set to begin the record listing from.
@@ -2522,10 +2549,10 @@ class Route53 {
   /// <b>Elastic Load Balancing load balancer</b>: A | AAAA
   /// </li>
   /// <li>
-  /// <b>Amazon S3 bucket</b>: A
+  /// <b>S3 bucket</b>: A
   /// </li>
   /// <li>
-  /// <b>Amazon VPC interface VPC endpoint</b>: A
+  /// <b>VPC interface VPC endpoint</b>: A
   /// </li>
   /// <li>
   /// <b>Another resource record set in this hosted zone:</b> The type of the
@@ -3280,7 +3307,7 @@ class Route53 {
     _s.validateStringPattern(
       'eDNS0ClientSubnetIP',
       eDNS0ClientSubnetIP,
-      r'(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)',
+      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
     );
     _s.validateStringLength(
       'eDNS0ClientSubnetMask',
@@ -3297,7 +3324,7 @@ class Route53 {
     _s.validateStringPattern(
       'resolverIP',
       resolverIP,
-      r'(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)',
+      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
     );
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
@@ -3320,7 +3347,7 @@ class Route53 {
   /// Updates an existing health check. Note that some values can't be updated.
   ///
   /// For more information about updating health checks, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html">Creating,
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html">Creating,
   /// Updating, and Deleting Health Checks</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   ///
@@ -3401,7 +3428,7 @@ class Route53 {
   /// The number of consecutive health checks that an endpoint must pass or fail
   /// for Amazon Route 53 to change the current status of the endpoint from
   /// unhealthy to healthy or vice versa. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
   /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
@@ -3632,8 +3659,13 @@ class Route53 {
   /// would be considered healthy.
   ///
   /// Parameter [port] :
-  /// The port on the endpoint on which you want Amazon Route 53 to perform
-  /// health checks.
+  /// The port on the endpoint that you want Amazon Route 53 to perform health
+  /// checks on.
+  /// <note>
+  /// Don't specify a value for <code>Port</code> when you specify a value for
+  /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
+  /// <code>CALCULATED</code>.
+  /// </note>
   ///
   /// Parameter [regions] :
   /// A complex type that contains one <code>Region</code> element for each
@@ -3680,7 +3712,7 @@ class Route53 {
   ///
   /// Parameter [searchString] :
   /// If the value of <code>Type</code> is <code>HTTP_STR_MATCH</code> or
-  /// <code>HTTP_STR_MATCH</code>, the string that you want Amazon Route 53 to
+  /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
   /// search for in the response body from the specified resource. If the string
   /// appears in the response body, Route 53 considers the resource healthy.
   /// (You can't change the value of <code>Type</code> when you update a health
@@ -3744,7 +3776,7 @@ class Route53 {
     _s.validateStringPattern(
       'iPAddress',
       iPAddress,
-      r'(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)',
+      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
     );
     _s.validateNumRange(
       'port',
@@ -4050,7 +4082,7 @@ class AlarmIdentifier {
   /// <li>
   /// Standard-resolution metrics. High-resolution metrics aren't supported. For
   /// more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics">High-Resolution
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics">High-Resolution
   /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
   /// </li>
   /// <li>
@@ -4065,9 +4097,9 @@ class AlarmIdentifier {
   /// was created in.
   ///
   /// For the current list of CloudWatch regions, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
-  /// CloudWatch</a> in the <i>AWS Regions and Endpoints</i> chapter of the
-  /// <i>Amazon Web Services General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
+  /// CloudWatch</a> in the <i>AWS Service Endpoints</i> chapter of the <i>Amazon
+  /// Web Services General Reference</i>.
   final CloudWatchRegion region;
 
   AlarmIdentifier({
@@ -4109,7 +4141,7 @@ class AlarmIdentifier {
 /// <li>
 /// For information about creating failover resource record sets in a private
 /// hosted zone, see <a
-/// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
 /// Failover in a Private Hosted Zone</a>.
 /// </li>
 /// </ul>
@@ -4151,7 +4183,7 @@ class AliasTarget {
   /// resource record set is <i>acme.example.com</i>, your CloudFront distribution
   /// must include <i>acme.example.com</i> as one of the alternate domain names.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html">Using
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html">Using
   /// Alternate Domain Names (CNAMEs)</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
   ///
@@ -4187,7 +4219,7 @@ class AliasTarget {
   /// <li>
   /// <i>AWS Management Console</i>: For information about how to get the value by
   /// using the console, see <a
-  /// href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
   /// Custom Domains with AWS Elastic Beanstalk</a> in the <i>AWS Elastic
   /// Beanstalk Developer Guide</i>.
   /// </li>
@@ -4195,14 +4227,14 @@ class AliasTarget {
   /// <i>Elastic Beanstalk API</i>: Use the <code>DescribeEnvironments</code>
   /// action to get the value of the <code>CNAME</code> attribute. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
   /// in the <i>AWS Elastic Beanstalk API Reference</i>.
   /// </li>
   /// <li>
   /// <i>AWS CLI</i>: Use the <code>describe-environments</code> command to get
   /// the value of the <code>CNAME</code> attribute. For more information, see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
-  /// in the <i>AWS Command Line Interface Reference</i>.
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
+  /// in the <i>AWS CLI Command Reference</i>.
   /// </li>
   /// </ul> </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the DNS name that is associated with the load balancer. Get the DNS
@@ -4226,11 +4258,11 @@ class AliasTarget {
   /// <ul>
   /// <li>
   /// Classic Load Balancers: <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
   /// </li>
   /// <li>
   /// Application and Network Load Balancers: <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -4247,16 +4279,28 @@ class AliasTarget {
   /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
   /// </li>
   /// </ul> </li>
+  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// Specify the DNS name for your accelerator:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Global Accelerator API:</b> To get the DNS name, use <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_DescribeAccelerator.html">DescribeAccelerator</a>.
+  /// </li>
+  /// <li>
+  /// <b>AWS CLI:</b> To get the DNS name, use <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html">describe-accelerator</a>.
+  /// </li>
   /// </ul> </dd> <dt>Amazon S3 bucket that is configured as a static website</dt>
   /// <dd>
   /// Specify the domain name of the Amazon S3 website endpoint that you created
   /// the bucket in, for example, <code>s3-website.us-east-2.amazonaws.com</code>.
   /// For more information about valid values, see the table <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Amazon
-  /// Simple Storage Service (S3) Website Endpoints</a> in the <i>Amazon Web
-  /// Services General Reference</i>. For more information about using S3 buckets
-  /// for websites, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html">Getting
+  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
+  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>. For more information about using S3 buckets for websites, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html">Getting
   /// Started with Amazon Route 53</a> in the <i>Amazon Route 53 Developer
   /// Guide.</i>
   /// </dd> <dt>Another Route 53 resource record set</dt> <dd>
@@ -4339,12 +4383,12 @@ class AliasTarget {
   /// a group of records (for example, a group of weighted records) but is not
   /// another alias record, we recommend that you associate a health check with
   /// all of the records in the alias target. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
   /// Happens When You Omit Health Checks?</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   /// </dd> </dl>
   /// For more information and examples, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Amazon
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Amazon
   /// Route 53 Health Checks and DNS Failover</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   final bool evaluateTargetHealth;
@@ -4379,8 +4423,8 @@ class AliasTarget {
   /// Specify the hosted zone ID for the region that you created the environment
   /// in. The environment must have a regionalized subdomain. For a list of
   /// regions and the corresponding hosted zone IDs, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">AWS
-  /// Elastic Beanstalk</a> in the "AWS Regions and Endpoints" chapter of the
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">AWS
+  /// Elastic Beanstalk</a> in the "AWS Service Endpoints" chapter of the
   /// <i>Amazon Web Services General Reference</i>.
   /// </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the value of the hosted zone ID for the load balancer. Use the
@@ -4388,13 +4432,12 @@ class AliasTarget {
   ///
   /// <ul>
   /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#elb_region">Elastic
-  /// Load Balancing</a> table in the "AWS Regions and Endpoints" chapter of the
-  /// <i>Amazon Web Services General Reference</i>: Use the value that corresponds
-  /// with the region that you created your load balancer in. Note that there are
-  /// separate columns for Application and Classic Load Balancers and for Network
-  /// Load Balancers.
+  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Service
+  /// Endpoints</a> table in the "Elastic Load Balancing Endpoints and Quotas"
+  /// topic in the <i>Amazon Web Services General Reference</i>: Use the value
+  /// that corresponds with the region that you created your load balancer in.
+  /// Note that there are separate columns for Application and Classic Load
+  /// Balancers and for Network Load Balancers.
   /// </li>
   /// <li>
   /// <b>AWS Management Console</b>: Go to the Amazon EC2 page, choose <b>Load
@@ -4408,12 +4451,12 @@ class AliasTarget {
   /// <ul>
   /// <li>
   /// Classic Load Balancers: Use <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
   /// to get the value of <code>CanonicalHostedZoneNameId</code>.
   /// </li>
   /// <li>
   /// Application and Network Load Balancers: Use <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
   /// to get the value of <code>CanonicalHostedZoneId</code>.
   /// </li>
   /// </ul> </li>
@@ -4433,12 +4476,14 @@ class AliasTarget {
   /// to get the value of <code>CanonicalHostedZoneId</code>.
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
+  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// Specify <code>Z2BJ6XQ5FK7U4H</code>.
+  /// </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
   /// Specify the hosted zone ID for the region that you created the bucket in.
-  /// For more information about valid values, see the <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Amazon
-  /// Simple Storage Service Website Endpoints</a> table in the "AWS Regions and
-  /// Endpoints" chapter of the <i>Amazon Web Services General Reference</i>.
+  /// For more information about valid values, see the table <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
+  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   /// </dd> <dt>Another Route 53 resource record set in your hosted zone</dt> <dd>
   /// Specify the hosted zone ID of your hosted zone. (An alias resource record
   /// set can't reference a resource record set in a different hosted zone.)
@@ -4720,7 +4765,7 @@ class CloudWatchAlarmConfiguration {
 
   /// The namespace of the metric that the alarm is associated with. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
   /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
   /// <i>Amazon CloudWatch User Guide</i>.
   final String namespace;
@@ -4740,7 +4785,7 @@ class CloudWatchAlarmConfiguration {
   /// For the metric that the CloudWatch alarm is associated with, a complex type
   /// that contains information about the dimensions for the metric. For
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
   /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
   /// <i>Amazon CloudWatch User Guide</i>.
   final List<Dimension> dimensions;
@@ -5314,19 +5359,52 @@ class DisassociateVPCFromHostedZoneResponse {
 class GeoLocation {
   /// The two-letter code for the continent.
   ///
-  /// Valid values: <code>AF</code> | <code>AN</code> | <code>AS</code> |
-  /// <code>EU</code> | <code>OC</code> | <code>NA</code> | <code>SA</code>
+  /// Amazon Route 53 supports the following continent codes:
   ///
+  /// <ul>
+  /// <li>
+  /// <b>AF</b>: Africa
+  /// </li>
+  /// <li>
+  /// <b>AN</b>: Antarctica
+  /// </li>
+  /// <li>
+  /// <b>AS</b>: Asia
+  /// </li>
+  /// <li>
+  /// <b>EU</b>: Europe
+  /// </li>
+  /// <li>
+  /// <b>OC</b>: Oceania
+  /// </li>
+  /// <li>
+  /// <b>NA</b>: North America
+  /// </li>
+  /// <li>
+  /// <b>SA</b>: South America
+  /// </li>
+  /// </ul>
   /// Constraint: Specifying <code>ContinentCode</code> with either
   /// <code>CountryCode</code> or <code>SubdivisionCode</code> returns an
   /// <code>InvalidInput</code> error.
   final String continentCode;
 
-  /// The two-letter code for the country.
+  /// For geolocation resource record sets, the two-letter code for a country.
+  ///
+  /// Amazon Route 53 uses the two-letter country codes that are specified in <a
+  /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard 3166-1
+  /// alpha-2</a>.
   final String countryCode;
 
-  /// The code for the subdivision. Route 53 currently supports only states in the
-  /// United States.
+  /// For geolocation resource record sets, the two-letter code for a state of the
+  /// United States. Route 53 doesn't support any other values for
+  /// <code>SubdivisionCode</code>. For a list of state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
+  /// and Possession Abbreviations</a> on the United States Postal Service
+  /// website.
+  ///
+  /// If you specify <code>subdivisioncode</code>, you must also specify
+  /// <code>US</code> for <code>CountryCode</code>.
   final String subdivisionCode;
 
   GeoLocation({
@@ -5938,7 +6016,7 @@ class HealthCheckConfig {
   /// The number of consecutive health checks that an endpoint must pass or fail
   /// for Amazon Route 53 to change the current status of the endpoint from
   /// unhealthy to healthy or vice versa. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
   /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
@@ -6130,9 +6208,13 @@ class HealthCheckConfig {
   /// </important>
   final bool measureLatency;
 
-  /// The port on the endpoint on which you want Amazon Route 53 to perform health
-  /// checks. Specify a value for <code>Port</code> only when you specify a value
-  /// for <code>IPAddress</code>.
+  /// The port on the endpoint that you want Amazon Route 53 to perform health
+  /// checks on.
+  /// <note>
+  /// Don't specify a value for <code>Port</code> when you specify a value for
+  /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
+  /// <code>CALCULATED</code>.
+  /// </note>
   final int port;
 
   /// A complex type that contains one <code>Region</code> element for each region
@@ -6168,7 +6250,7 @@ class HealthCheckConfig {
   final String resourcePath;
 
   /// If the value of Type is <code>HTTP_STR_MATCH</code> or
-  /// <code>HTTP_STR_MATCH</code>, the string that you want Amazon Route 53 to
+  /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
   /// search for in the response body from the specified resource. If the string
   /// appears in the response body, Route 53 considers the resource healthy.
   ///
@@ -7565,7 +7647,7 @@ class ResourceRecordSet {
   /// For information about how to specify characters other than <code>a-z</code>,
   /// <code>0-9</code>, and <code>-</code> (hyphen) and how to specify
   /// internationalized domain names, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
   /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// You can use the asterisk (*) wildcard to replace the leftmost label in a
@@ -7597,7 +7679,7 @@ class ResourceRecordSet {
 
   /// The DNS record type. For information about different record types and how
   /// data is encoded for them, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html">Supported
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html">Supported
   /// DNS Resource Record Types</a> in the <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// Valid values for basic resource record sets: <code>A</code> |
@@ -7642,7 +7724,7 @@ class ResourceRecordSet {
   /// one with a value of <code>AAAA</code>.
   /// </li>
   /// <li>
-  /// <b>AWS Elastic Beanstalk environment that has a regionalized subdomain</b>:
+  /// <b>Amazon API Gateway environment that has a regionalized subdomain</b>:
   /// <code>A</code>
   /// </li>
   /// <li>
@@ -7688,7 +7770,7 @@ class ResourceRecordSet {
   /// <li>
   /// For information about creating failover resource record sets in a private
   /// hosted zone, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
   /// Failover in a Private Hosted Zone</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   /// </li>
@@ -7744,12 +7826,12 @@ class ResourceRecordSet {
   /// <ul>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
   /// 53 Health Checks and DNS Failover</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
   /// Failover in a Private Hosted Zone</a>
   /// </li>
   /// </ul>
@@ -7762,8 +7844,8 @@ class ResourceRecordSet {
   /// create a resource record set with a <code>Type</code> of <code>A</code> and
   /// a <code>ContinentCode</code> of <code>AF</code>.
   /// <note>
-  /// Creating geolocation and geolocation alias resource record sets in private
-  /// hosted zones is not supported.
+  /// Although creating geolocation and geolocation alias resource record sets in
+  /// a private hosted zone is allowed, it's not supported.
   /// </note>
   /// If you create separate resource record sets for overlapping geographic
   /// regions (for example, one resource record set for a continent and one for a
@@ -7785,11 +7867,12 @@ class ResourceRecordSet {
   /// geolocation resource record sets that cover all seven continents, Route 53
   /// will receive some DNS queries from locations that it can't identify. We
   /// recommend that you create a resource record set for which the value of
-  /// <code>CountryCode</code> is <code>*</code>, which handles both queries that
-  /// come from locations for which you haven't created geolocation resource
-  /// record sets and queries from IP addresses that aren't mapped to a location.
-  /// If you don't create a <code>*</code> resource record set, Route 53 returns a
-  /// "no answer" response for queries from those locations.
+  /// <code>CountryCode</code> is <code>*</code>. Two groups of queries are routed
+  /// to the resource that you specify in this record: queries that come from
+  /// locations for which you haven't created geolocation resource record sets and
+  /// queries from IP addresses that aren't mapped to a location. If you don't
+  /// create a <code>*</code> resource record set, Route 53 returns a "no answer"
+  /// response for queries from those locations.
   /// </important>
   /// You can't create non-geolocation resource record sets that have the same
   /// values for the <code>Name</code> and <code>Type</code> elements as
@@ -7835,12 +7918,12 @@ class ResourceRecordSet {
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
   /// 53 Health Checks and DNS Failover</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
   /// Failover in a Private Hosted Zone</a>
   /// </li>
   /// </ul>
@@ -7990,8 +8073,8 @@ class ResourceRecordSet {
   /// load balancer, and is referred to by an IP address or a DNS domain name,
   /// depending on the record type.
   /// <note>
-  /// Creating latency and latency alias resource record sets in private hosted
-  /// zones is not supported.
+  /// Although creating latency and latency alias resource record sets in a
+  /// private hosted zone is allowed, it's not supported.
   /// </note>
   /// When Amazon Route 53 receives a DNS query for a domain name and type for
   /// which you have created latency resource record sets, Route 53 selects the
@@ -8123,7 +8206,7 @@ class ResourceRecordSet {
   /// The effect of setting <code>Weight</code> to <code>0</code> is different
   /// when you associate health checks with weighted resource record sets. For
   /// more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-configuring-options.html">Options
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-configuring-options.html">Options
   /// for Configuring Route 53 Active-Active and Active-Passive Failover</a> in
   /// the <i>Amazon Route 53 Developer Guide</i>.
   /// </li>

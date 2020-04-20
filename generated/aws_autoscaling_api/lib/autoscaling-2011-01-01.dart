@@ -70,7 +70,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'AttachInstances',
@@ -123,7 +123,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{
@@ -178,7 +178,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{
@@ -221,7 +221,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(scheduledActionNames, 'scheduledActionNames');
     final $request = <String, dynamic>{
@@ -269,7 +269,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(
         scheduledUpdateGroupActions, 'scheduledUpdateGroupActions');
@@ -359,7 +359,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(lifecycleActionResult, 'lifecycleActionResult');
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
@@ -372,7 +372,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
-      r'[A-Za-z0-9\-_\/]+',
+      r'''[A-Za-z0-9\-_\/]+''',
     );
     _s.validateStringLength(
       'instanceId',
@@ -383,7 +383,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'lifecycleActionToken',
@@ -416,7 +416,7 @@ class AutoScaling {
   /// <a>DescribeAccountLimits</a>. For information about updating this limit,
   /// see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
-  /// EC2 Auto Scaling Limits</a> in the <i>Amazon EC2 Auto Scaling User
+  /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
   ///
   /// May throw [AlreadyExistsFault].
@@ -534,6 +534,11 @@ class AutoScaling {
   /// Parameter [maxInstanceLifetime] :
   /// The maximum amount of time, in seconds, that an instance can be in
   /// service.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html">Replacing
+  /// Auto Scaling Instances Based on Maximum Instance Lifetime</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// Valid Range: Minimum value of 604800.
   ///
@@ -656,7 +661,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(maxSize, 'maxSize');
     ArgumentError.checkNotNull(minSize, 'minSize');
@@ -669,7 +674,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'healthCheckType',
       healthCheckType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'instanceId',
@@ -680,7 +685,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'launchConfigurationName',
@@ -691,7 +696,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'placementGroup',
@@ -702,7 +707,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'placementGroup',
       placementGroup,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'serviceLinkedRoleARN',
@@ -713,7 +718,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'serviceLinkedRoleARN',
       serviceLinkedRoleARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'vPCZoneIdentifier',
@@ -724,7 +729,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'vPCZoneIdentifier',
       vPCZoneIdentifier,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateAutoScalingGroup',
@@ -771,7 +776,7 @@ class AutoScaling {
   /// <a>DescribeAccountLimits</a>. For information about updating this limit,
   /// see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
-  /// EC2 Auto Scaling Limits</a> in the <i>Amazon EC2 Auto Scaling User
+  /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
   ///
   /// For more information, see <a
@@ -1006,7 +1011,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'classicLinkVPCId',
@@ -1017,7 +1022,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'classicLinkVPCId',
       classicLinkVPCId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'iamInstanceProfile',
@@ -1028,7 +1033,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'iamInstanceProfile',
       iamInstanceProfile,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'imageId',
@@ -1039,7 +1044,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'imageId',
       imageId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'instanceId',
@@ -1050,7 +1055,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'instanceType',
@@ -1061,7 +1066,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceType',
       instanceType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'kernelId',
@@ -1072,7 +1077,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'kernelId',
       kernelId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'keyName',
@@ -1083,7 +1088,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'keyName',
       keyName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'placementTenancy',
@@ -1094,7 +1099,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'placementTenancy',
       placementTenancy,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'ramdiskId',
@@ -1105,7 +1110,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'ramdiskId',
       ramdiskId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'spotPrice',
@@ -1122,7 +1127,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'userData',
       userData,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateLaunchConfiguration',
@@ -1235,7 +1240,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAutoScalingGroup',
@@ -1276,7 +1281,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLaunchConfiguration',
@@ -1318,7 +1323,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -1330,7 +1335,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
-      r'[A-Za-z0-9\-_\/]+',
+      r'''[A-Za-z0-9\-_\/]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLifecycleHook',
@@ -1371,7 +1376,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(topicARN, 'topicARN');
     _s.validateStringLength(
@@ -1383,7 +1388,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'topicARN',
       topicARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteNotificationConfiguration',
@@ -1431,7 +1436,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -1442,7 +1447,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeletePolicy',
@@ -1481,7 +1486,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -1493,7 +1498,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteScheduledAction',
@@ -1533,12 +1538,12 @@ class AutoScaling {
     );
   }
 
-  /// Describes the current Amazon EC2 Auto Scaling resource limits for your AWS
+  /// Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS
   /// account.
   ///
-  /// For information about requesting an increase in these limits, see <a
+  /// For information about requesting an increase, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
-  /// EC2 Auto Scaling Limits</a> in the <i>Amazon EC2 Auto Scaling User
+  /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
   ///
   /// May throw [ResourceContentionFault].
@@ -1604,7 +1609,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAutoScalingGroups',
@@ -1649,7 +1654,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAutoScalingInstances',
@@ -1712,7 +1717,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLaunchConfigurations',
@@ -1785,7 +1790,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLifecycleHooks',
@@ -1833,12 +1838,12 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancerTargetGroups',
@@ -1890,12 +1895,12 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',
@@ -1962,7 +1967,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeNotificationConfigurations',
@@ -2024,12 +2029,12 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribePolicies',
@@ -2088,12 +2093,12 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeScalingActivities',
@@ -2179,12 +2184,12 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeScheduledActions',
@@ -2240,7 +2245,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'nextToken',
       nextToken,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeTags',
@@ -2327,7 +2332,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -2372,7 +2377,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{
@@ -2423,7 +2428,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{
@@ -2492,7 +2497,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DisableMetricsCollection',
@@ -2568,7 +2573,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(granularity, 'granularity');
     _s.validateStringLength(
@@ -2580,7 +2585,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'granularity',
       granularity,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'EnableMetricsCollection',
@@ -2639,7 +2644,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -2717,7 +2722,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -2728,7 +2733,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ExecutePolicy',
@@ -2778,7 +2783,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ExitStandby',
@@ -2925,7 +2930,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -2937,7 +2942,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
-      r'[A-Za-z0-9\-_\/]+',
+      r'''[A-Za-z0-9\-_\/]+''',
     );
     _s.validateStringLength(
       'notificationMetadata',
@@ -2948,7 +2953,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'notificationMetadata',
       notificationMetadata,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'notificationTargetARN',
@@ -2959,7 +2964,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'notificationTargetARN',
       notificationTargetARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -2970,7 +2975,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'roleARN',
       roleARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutLifecycleHook',
@@ -3035,7 +3040,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(notificationTypes, 'notificationTypes');
     ArgumentError.checkNotNull(topicARN, 'topicARN');
@@ -3048,7 +3053,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'topicARN',
       topicARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutNotificationConfiguration',
@@ -3065,10 +3070,7 @@ class AutoScaling {
     );
   }
 
-  /// Creates or updates a scaling policy for an Auto Scaling group. To update
-  /// an existing scaling policy, use the existing policy name and set the
-  /// parameters to change. Any existing parameter not changed in an update to
-  /// an existing policy is not changed in this update request.
+  /// Creates or updates a scaling policy for an Auto Scaling group.
   ///
   /// For more information about using scaling policies to scale your Auto
   /// Scaling group automatically, see <a
@@ -3105,6 +3107,13 @@ class AutoScaling {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html">Scaling
   /// Cooldowns</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [enabled] :
+  /// Indicates whether the scaling policy is enabled or disabled. The default
+  /// is enabled. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enable-disable-scaling-policy.html">Disabling
+  /// a Scaling Policy for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto
+  /// Scaling User Guide</i>.
   ///
   /// Parameter [estimatedInstanceWarmup] :
   /// The estimated time, in seconds, until a newly launched instance can
@@ -3184,6 +3193,7 @@ class AutoScaling {
     @_s.required String policyName,
     String adjustmentType,
     int cooldown,
+    bool enabled,
     int estimatedInstanceWarmup,
     String metricAggregationType,
     int minAdjustmentMagnitude,
@@ -3203,7 +3213,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3215,7 +3225,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'adjustmentType',
@@ -3226,7 +3236,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'adjustmentType',
       adjustmentType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'metricAggregationType',
@@ -3237,7 +3247,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'metricAggregationType',
       metricAggregationType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'policyType',
@@ -3248,7 +3258,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'policyType',
       policyType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutScalingPolicy',
@@ -3258,6 +3268,7 @@ class AutoScaling {
     $request['PolicyName'] = policyName;
     adjustmentType?.also((arg) => $request['AdjustmentType'] = arg);
     cooldown?.also((arg) => $request['Cooldown'] = arg);
+    enabled?.also((arg) => $request['Enabled'] = arg);
     estimatedInstanceWarmup
         ?.also((arg) => $request['EstimatedInstanceWarmup'] = arg);
     metricAggregationType
@@ -3358,7 +3369,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -3370,7 +3381,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'recurrence',
@@ -3381,7 +3392,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'recurrence',
       recurrence,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutScheduledUpdateGroupAction',
@@ -3469,7 +3480,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -3481,7 +3492,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
-      r'[A-Za-z0-9\-_\/]+',
+      r'''[A-Za-z0-9\-_\/]+''',
     );
     _s.validateStringLength(
       'instanceId',
@@ -3492,7 +3503,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'lifecycleActionToken',
@@ -3575,7 +3586,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ResumeProcesses',
@@ -3628,7 +3639,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(desiredCapacity, 'desiredCapacity');
     final $request = <String, dynamic>{
@@ -3687,7 +3698,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'healthStatus',
       healthStatus,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3699,7 +3710,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'SetInstanceHealth',
@@ -3751,7 +3762,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     ArgumentError.checkNotNull(protectedFromScaleIn, 'protectedFromScaleIn');
@@ -3835,7 +3846,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'SuspendProcesses',
@@ -3852,10 +3863,22 @@ class AutoScaling {
   }
 
   /// Terminates the specified instance and optionally adjusts the desired group
-  /// size.
+  /// size. This call simply makes a termination request. The instance is not
+  /// terminated immediately. When an instance is terminated, the instance
+  /// status changes to <code>terminated</code>. You can't connect to or start
+  /// an instance after you've terminated it.
   ///
-  /// This call simply makes a termination request. The instance is not
-  /// terminated immediately.
+  /// If you do not specify the option to decrement the desired capacity, Amazon
+  /// EC2 Auto Scaling launches instances to replace the ones that are
+  /// terminated.
+  ///
+  /// By default, Amazon EC2 Auto Scaling balances instances across all
+  /// Availability Zones. If you decrement the desired capacity, your Auto
+  /// Scaling group can become unbalanced between Availability Zones. Amazon EC2
+  /// Auto Scaling tries to rebalance the group, and rebalancing might terminate
+  /// instances in other zones. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage">Rebalancing
+  /// Activities</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceContentionFault].
@@ -3880,7 +3903,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'instanceId',
       instanceId,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -4011,6 +4034,11 @@ class AutoScaling {
   /// The maximum amount of time, in seconds, that an instance can be in
   /// service.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html">Replacing
+  /// Auto Scaling Instances Based on Maximum Instance Lifetime</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
   /// Valid Range: Minimum value of 604800.
   ///
   /// Parameter [maxSize] :
@@ -4102,7 +4130,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'healthCheckType',
@@ -4113,7 +4141,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'healthCheckType',
       healthCheckType,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'launchConfigurationName',
@@ -4124,7 +4152,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'placementGroup',
@@ -4135,7 +4163,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'placementGroup',
       placementGroup,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'serviceLinkedRoleARN',
@@ -4146,7 +4174,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'serviceLinkedRoleARN',
       serviceLinkedRoleARN,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'vPCZoneIdentifier',
@@ -4157,7 +4185,7 @@ class AutoScaling {
     _s.validateStringPattern(
       'vPCZoneIdentifier',
       vPCZoneIdentifier,
-      r'[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*',
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateAutoScalingGroup',
@@ -4820,12 +4848,12 @@ class DeleteLifecycleHookAnswer {
 }
 
 class DescribeAccountLimitsAnswer {
-  /// The maximum number of groups allowed for your AWS account. The default limit
-  /// is 200 per AWS Region.
+  /// The maximum number of groups allowed for your AWS account. The default is
+  /// 200 groups per AWS Region.
   final int maxNumberOfAutoScalingGroups;
 
   /// The maximum number of launch configurations allowed for your AWS account.
-  /// The default limit is 200 per AWS Region.
+  /// The default is 200 launch configurations per AWS Region.
   final int maxNumberOfLaunchConfigurations;
 
   /// The current number of groups for your AWS account.
@@ -5793,6 +5821,11 @@ class LaunchTemplateOverrides {
   /// units that you chose to set the desired capacity in terms of instances, or a
   /// performance attribute such as vCPUs, memory, or I/O.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html">Instance
+  /// Weighting for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  ///
   /// Valid Range: Minimum value of 1. Maximum value of 999.
   final String weightedCapacity;
 
@@ -6651,6 +6684,10 @@ class ScalingPolicy {
   /// any further dynamic scaling activities can start.
   final int cooldown;
 
+  /// Indicates whether the policy is enabled (<code>true</code>) or disabled
+  /// (<code>false</code>).
+  final bool enabled;
+
   /// The estimated time, in seconds, until a newly launched instance can
   /// contribute to the CloudWatch metrics.
   final int estimatedInstanceWarmup;
@@ -6697,6 +6734,7 @@ class ScalingPolicy {
     this.alarms,
     this.autoScalingGroupName,
     this.cooldown,
+    this.enabled,
     this.estimatedInstanceWarmup,
     this.metricAggregationType,
     this.minAdjustmentMagnitude,
@@ -6716,6 +6754,7 @@ class ScalingPolicy {
       autoScalingGroupName:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
       cooldown: _s.extractXmlIntValue(elem, 'Cooldown'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
       estimatedInstanceWarmup:
           _s.extractXmlIntValue(elem, 'EstimatedInstanceWarmup'),
       metricAggregationType:

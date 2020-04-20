@@ -162,7 +162,7 @@ class IAM {
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -174,7 +174,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'AddRoleToInstanceProfile',
@@ -225,7 +225,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -237,7 +237,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'AddUserToGroup',
@@ -297,7 +297,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -378,7 +378,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'AttachRolePolicy',
@@ -445,7 +445,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'AttachUserPolicy',
@@ -483,9 +483,10 @@ class IAM {
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter is a string of characters. That string can
-  /// include almost any printable ASCII character from the space (\u0020)
-  /// through the end of the ASCII character range (\u00FF). You can also
-  /// include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+  /// include almost any printable ASCII character from the space
+  /// (<code>\u0020</code>) through the end of the ASCII character range
+  /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
+  /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
   /// tools, such as the AWS Management Console, might restrict the ability to
   /// type certain characters because they have special meaning within that
@@ -507,7 +508,7 @@ class IAM {
     _s.validateStringPattern(
       'newPassword',
       newPassword,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(oldPassword, 'oldPassword');
     _s.validateStringLength(
@@ -519,7 +520,7 @@ class IAM {
     _s.validateStringPattern(
       'oldPassword',
       oldPassword,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ChangePassword',
@@ -579,7 +580,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateAccessKey',
@@ -625,7 +626,7 @@ class IAM {
     _s.validateStringPattern(
       'accountAlias',
       accountAlias,
-      r'^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$',
+      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateAccountAlias',
@@ -670,9 +671,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<CreateGroupResponse> createGroup({
     @_s.required String groupName,
     String path,
@@ -687,7 +688,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'path',
@@ -698,7 +699,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateGroup',
@@ -750,9 +751,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<CreateInstanceProfileResponse> createInstanceProfile({
     @_s.required String instanceProfileName,
     String path,
@@ -767,7 +768,7 @@ class IAM {
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'path',
@@ -778,7 +779,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateInstanceProfile',
@@ -813,9 +814,10 @@ class IAM {
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter is a string of characters. That string can
-  /// include almost any printable ASCII character from the space (\u0020)
-  /// through the end of the ASCII character range (\u00FF). You can also
-  /// include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+  /// include almost any printable ASCII character from the space
+  /// (<code>\u0020</code>) through the end of the ASCII character range
+  /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
+  /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
   /// tools, such as the AWS Management Console, might restrict the ability to
   /// type certain characters because they have special meaning within that
@@ -848,7 +850,7 @@ class IAM {
     _s.validateStringPattern(
       'password',
       password,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -860,7 +862,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateLoginProfile',
@@ -899,7 +901,7 @@ class IAM {
   /// OIDC provider
   /// </li>
   /// <li>
-  /// A list of thumbprints of the server certificate(s) that the IdP uses
+  /// A list of thumbprints of one or more server certificates that the IdP uses
   /// </li>
   /// </ul>
   /// You get all of this information from the OIDC IdP that you want to use to
@@ -1027,16 +1029,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -1070,9 +1072,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<CreatePolicyResponse> createPolicy({
     @_s.required String policyDocument,
     @_s.required String policyName,
@@ -1089,7 +1091,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -1101,7 +1103,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'description',
@@ -1118,7 +1120,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'((/[A-Za-z0-9\.,\+@=_-]+)*)/',
+      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreatePolicy',
@@ -1182,16 +1184,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -1227,7 +1229,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreatePolicyVersion',
@@ -1276,16 +1278,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   /// Upon success, the response includes the same trust policy in JSON format.
@@ -1332,9 +1334,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [permissionsBoundary] :
   /// The ARN of the policy that is used to set the permissions boundary for the
@@ -1370,7 +1372,7 @@ class IAM {
     _s.validateStringPattern(
       'assumeRolePolicyDocument',
       assumeRolePolicyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -1382,7 +1384,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'description',
@@ -1393,7 +1395,7 @@ class IAM {
     _s.validateStringPattern(
       'description',
       description,
-      r'[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*',
+      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -1410,7 +1412,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1503,7 +1505,7 @@ class IAM {
     _s.validateStringPattern(
       'name',
       name,
-      r'[\w._-]+',
+      r'''[\w._-]+''',
     );
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
     _s.validateStringLength(
@@ -1589,7 +1591,7 @@ class IAM {
     _s.validateStringPattern(
       'awsServiceName',
       awsServiceName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'customSuffix',
@@ -1600,7 +1602,7 @@ class IAM {
     _s.validateStringPattern(
       'customSuffix',
       customSuffix,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'description',
@@ -1611,7 +1613,7 @@ class IAM {
     _s.validateStringPattern(
       'description',
       description,
-      r'[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*',
+      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateServiceLinkedRole',
@@ -1683,7 +1685,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateServiceSpecificCredential',
@@ -1734,9 +1736,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [permissionsBoundary] :
   /// The ARN of the policy that is used to set the permissions boundary for the
@@ -1768,7 +1770,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'path',
@@ -1779,7 +1781,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1850,9 +1852,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<CreateVirtualMFADeviceResponse> createVirtualMFADevice({
     @_s.required String virtualMFADeviceName,
     String path,
@@ -1867,7 +1869,7 @@ class IAM {
     _s.validateStringPattern(
       'virtualMFADeviceName',
       virtualMFADeviceName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'path',
@@ -1878,7 +1880,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'CreateVirtualMFADevice',
@@ -1940,7 +1942,7 @@ class IAM {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]+',
+      r'''[\w+=/:,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -1952,7 +1954,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeactivateMFADevice',
@@ -2009,7 +2011,7 @@ class IAM {
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     _s.validateStringLength(
       'userName',
@@ -2020,7 +2022,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAccessKey',
@@ -2065,7 +2067,7 @@ class IAM {
     _s.validateStringPattern(
       'accountAlias',
       accountAlias,
-      r'^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$',
+      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAccountAlias',
@@ -2126,7 +2128,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteGroup',
@@ -2184,7 +2186,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -2196,7 +2198,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteGroupPolicy',
@@ -2249,7 +2251,7 @@ class IAM {
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteInstanceProfile',
@@ -2299,7 +2301,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLoginProfile',
@@ -2474,7 +2476,7 @@ class IAM {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'v[1-9][0-9]*(\.[A-Za-z0-9-]*)?',
+      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeletePolicyVersion',
@@ -2528,7 +2530,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRole',
@@ -2570,7 +2572,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRolePermissionsBoundary',
@@ -2629,7 +2631,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2641,7 +2643,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRolePolicy',
@@ -2739,7 +2741,7 @@ class IAM {
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -2751,7 +2753,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteSSHPublicKey',
@@ -2811,7 +2813,7 @@ class IAM {
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteServerCertificate',
@@ -2868,7 +2870,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteServiceLinkedRole',
@@ -2921,7 +2923,7 @@ class IAM {
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     _s.validateStringLength(
       'userName',
@@ -2932,7 +2934,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteServiceSpecificCredential',
@@ -2988,7 +2990,7 @@ class IAM {
     _s.validateStringPattern(
       'certificateId',
       certificateId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     _s.validateStringLength(
       'userName',
@@ -2999,7 +3001,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteSigningCertificate',
@@ -3079,7 +3081,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUser',
@@ -3120,7 +3122,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUserPermissionsBoundary',
@@ -3178,7 +3180,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3190,7 +3192,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUserPolicy',
@@ -3239,7 +3241,7 @@ class IAM {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]+',
+      r'''[\w+=/:,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteVirtualMFADevice',
@@ -3297,7 +3299,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3371,7 +3373,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DetachRolePolicy',
@@ -3437,7 +3439,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'DetachUserPolicy',
@@ -3524,7 +3526,7 @@ class IAM {
     _s.validateStringPattern(
       'authenticationCode1',
       authenticationCode1,
-      r'[\d]+',
+      r'''[\d]+''',
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
@@ -3536,7 +3538,7 @@ class IAM {
     _s.validateStringPattern(
       'authenticationCode2',
       authenticationCode2,
-      r'[\d]+',
+      r'''[\d]+''',
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -3548,7 +3550,7 @@ class IAM {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]+',
+      r'''[\w+=/:,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3560,7 +3562,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'EnableMFADevice',
@@ -3770,12 +3772,12 @@ class IAM {
     _s.validateStringPattern(
       'entityPath',
       entityPath,
-      r'^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*',
+      r'''^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*''',
     );
     _s.validateStringPattern(
       'organizationsPolicyId',
       organizationsPolicyId,
-      r'^p-[0-9a-zA-Z_]{8,128}$',
+      r'''^p-[0-9a-zA-Z_]{8,128}$''',
     );
     final $request = <String, dynamic>{
       'Action': 'GenerateOrganizationsAccessReport',
@@ -3824,6 +3826,11 @@ class IAM {
   /// groups, roles, or policies to list every AWS service that the resource
   /// could access using permissions policies. For each service, the response
   /// includes information about the most recent access attempt.
+  ///
+  /// The <code>JobId</code> returned by
+  /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same
+  /// role within a session, or by the same user when used to call
+  /// <code>GetServiceLastAccessedDetail</code>.
   /// </li>
   /// <li>
   /// <a>GetServiceLastAccessedDetailsWithEntities</a> – Use this operation for
@@ -3909,7 +3916,7 @@ class IAM {
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetAccessKeyLastUsed',
@@ -3986,7 +3993,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4082,16 +4089,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForCustomPolicy({
@@ -4162,16 +4169,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForPrincipalPolicy({
@@ -4273,7 +4280,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -4284,7 +4291,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4360,7 +4367,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -4372,7 +4379,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetGroupPolicy',
@@ -4419,7 +4426,7 @@ class IAM {
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetInstanceProfile',
@@ -4463,7 +4470,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetLoginProfile',
@@ -4598,7 +4605,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4740,7 +4747,7 @@ class IAM {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'v[1-9][0-9]*(\.[A-Za-z0-9-]*)?',
+      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetPolicyVersion',
@@ -4795,7 +4802,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetRole',
@@ -4867,7 +4874,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -4879,7 +4886,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetRolePolicy',
@@ -4990,7 +4997,7 @@ class IAM {
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -5002,7 +5009,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetSSHPublicKey',
@@ -5053,7 +5060,7 @@ class IAM {
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetServerCertificate',
@@ -5123,7 +5130,11 @@ class IAM {
   ///
   /// Parameter [jobId] :
   /// The ID of the request generated by the
-  /// <a>GenerateServiceLastAccessedDetails</a> operation.
+  /// <a>GenerateServiceLastAccessedDetails</a> operation. The
+  /// <code>JobId</code> returned by
+  /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same
+  /// role within a session, or by the same user when used to call
+  /// <code>GetServiceLastAccessedDetail</code>.
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -5164,7 +5175,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5281,7 +5292,7 @@ class IAM {
     _s.validateStringPattern(
       'serviceNamespace',
       serviceNamespace,
-      r'[\w-]*',
+      r'''[\w-]*''',
     );
     _s.validateStringLength(
       'marker',
@@ -5292,7 +5303,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5389,7 +5400,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetUser',
@@ -5457,7 +5468,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -5469,7 +5480,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetUserPolicy',
@@ -5547,7 +5558,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5564,7 +5575,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListAccessKeys',
@@ -5621,7 +5632,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5700,9 +5711,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListAttachedGroupPoliciesResponse> listAttachedGroupPolicies({
     @_s.required String groupName,
     String marker,
@@ -5719,7 +5730,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -5730,7 +5741,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5747,7 +5758,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'((/[A-Za-z0-9\.,\+@=_-]+)*)/',
+      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListAttachedGroupPolicies',
@@ -5822,9 +5833,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListAttachedRolePoliciesResponse> listAttachedRolePolicies({
     @_s.required String roleName,
     String marker,
@@ -5841,7 +5852,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -5852,7 +5863,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5869,7 +5880,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'((/[A-Za-z0-9\.,\+@=_-]+)*)/',
+      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListAttachedRolePolicies',
@@ -5944,9 +5955,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListAttachedUserPoliciesResponse> listAttachedUserPolicies({
     @_s.required String userName,
     String marker,
@@ -5963,7 +5974,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -5974,7 +5985,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5991,7 +6002,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'((/[A-Za-z0-9\.,\+@=_-]+)*)/',
+      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListAttachedUserPolicies',
@@ -6071,9 +6082,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [policyUsageFilter] :
   /// The policy usage method to use for filtering the results.
@@ -6109,7 +6120,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6126,7 +6137,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListEntitiesForPolicy',
@@ -6206,7 +6217,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -6217,7 +6228,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6278,9 +6289,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListGroupsResponse> listGroups({
     String marker,
     int maxItems,
@@ -6295,7 +6306,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6312,7 +6323,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'\u002F[\u0021-\u007F]*',
+      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListGroups',
@@ -6380,7 +6391,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -6391,7 +6402,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6456,9 +6467,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListInstanceProfilesResponse> listInstanceProfiles({
     String marker,
     int maxItems,
@@ -6473,7 +6484,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6490,7 +6501,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'\u002F[\u0021-\u007F]*',
+      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListInstanceProfiles',
@@ -6562,7 +6573,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -6573,7 +6584,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6650,7 +6661,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6667,7 +6678,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListMFADevices',
@@ -6759,9 +6770,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [policyUsageFilter] :
   /// The policy usage method to use for filtering the results.
@@ -6800,7 +6811,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6817,7 +6828,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'((/[A-Za-z0-9\.,\+@=_-]+)*)/',
+      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListPolicies',
@@ -6932,7 +6943,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListPoliciesGrantingServiceAccess',
@@ -7011,7 +7022,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7094,7 +7105,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -7105,7 +7116,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7179,7 +7190,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -7190,7 +7201,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7255,9 +7266,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListRolesResponse> listRoles({
     String marker,
     int maxItems,
@@ -7272,7 +7283,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7289,7 +7300,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'\u002F[\u0021-\u007F]*',
+      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListRoles',
@@ -7390,7 +7401,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7407,7 +7418,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListSSHPublicKeys',
@@ -7469,9 +7480,9 @@ class IAM {
   /// <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListServerCertificatesResponse> listServerCertificates({
     String marker,
     int maxItems,
@@ -7486,7 +7497,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7503,7 +7514,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'\u002F[\u0021-\u007F]*',
+      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListServerCertificates',
@@ -7562,7 +7573,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListServiceSpecificCredentials',
@@ -7636,7 +7647,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7653,7 +7664,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListSigningCertificates',
@@ -7729,7 +7740,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -7740,7 +7751,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7814,7 +7825,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'marker',
@@ -7825,7 +7836,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7888,9 +7899,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<ListUsersResponse> listUsers({
     String marker,
     int maxItems,
@@ -7905,7 +7916,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7922,7 +7933,7 @@ class IAM {
     _s.validateStringPattern(
       'pathPrefix',
       pathPrefix,
-      r'\u002F[\u0021-\u007F]*',
+      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListUsers',
@@ -7987,7 +7998,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8060,16 +8071,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -8095,7 +8106,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8107,7 +8118,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8119,7 +8130,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutGroupPolicy',
@@ -8185,7 +8196,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutRolePermissionsBoundary',
@@ -8250,16 +8261,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -8293,7 +8304,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8305,7 +8316,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -8317,7 +8328,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutRolePolicy',
@@ -8380,7 +8391,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutUserPermissionsBoundary',
@@ -8437,16 +8448,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -8480,7 +8491,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8492,7 +8503,7 @@ class IAM {
     _s.validateStringPattern(
       'policyName',
       policyName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8504,7 +8515,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutUserPolicy',
@@ -8626,7 +8637,7 @@ class IAM {
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -8638,7 +8649,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'RemoveRoleFromInstanceProfile',
@@ -8689,7 +8700,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8701,7 +8712,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'RemoveUserFromGroup',
@@ -8756,7 +8767,7 @@ class IAM {
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     _s.validateStringLength(
       'userName',
@@ -8767,7 +8778,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ResetServiceSpecificCredential',
@@ -8839,7 +8850,7 @@ class IAM {
     _s.validateStringPattern(
       'authenticationCode1',
       authenticationCode1,
-      r'[\d]+',
+      r'''[\d]+''',
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
@@ -8851,7 +8862,7 @@ class IAM {
     _s.validateStringPattern(
       'authenticationCode2',
       authenticationCode2,
-      r'[\d]+',
+      r'''[\d]+''',
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -8863,7 +8874,7 @@ class IAM {
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
-      r'[\w+=/:,.@-]+',
+      r'''[\w+=/:,.@-]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8875,7 +8886,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'ResyncMFADevice',
@@ -8939,7 +8950,7 @@ class IAM {
     _s.validateStringPattern(
       'versionId',
       versionId,
-      r'v[1-9][0-9]*(\.[A-Za-z0-9-]*)?',
+      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
     );
     final $request = <String, dynamic>{
       'Action': 'SetDefaultPolicyVersion',
@@ -9020,14 +9031,14 @@ class IAM {
   /// authorization to determine if the simulated policies allow or deny the
   /// operations.
   ///
-  /// If you want to simulate existing policies attached to an IAM user, group,
-  /// or role, use <a>SimulatePrincipalPolicy</a> instead.
+  /// If you want to simulate existing policies that are attached to an IAM
+  /// user, group, or role, use <a>SimulatePrincipalPolicy</a> instead.
   ///
-  /// Context keys are variables maintained by AWS and its services that provide
-  /// details about the context of an API query request. You can use the
-  /// <code>Condition</code> element of an IAM policy to evaluate context keys.
-  /// To get the list of context keys that the policies require for correct
-  /// simulation, use <a>GetContextKeysForCustomPolicy</a>.
+  /// Context keys are variables that are maintained by AWS and its services and
+  /// which provide details about the context of an API query request. You can
+  /// use the <code>Condition</code> element of an IAM policy to evaluate
+  /// context keys. To get the list of context keys that the policies require
+  /// for correct simulation, use <a>GetContextKeysForCustomPolicy</a>.
   ///
   /// If the output is long, you can use <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
@@ -9060,16 +9071,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -9105,6 +9116,35 @@ class IAM {
   /// returns <code>true</code>, and <code>Marker</code> contains a value to
   /// include in the subsequent call that tells the service where to continue
   /// from.
+  ///
+  /// Parameter [permissionsBoundaryPolicyInputList] :
+  /// The IAM permissions boundary policy to simulate. The permissions boundary
+  /// sets the maximum permissions that an IAM entity can have. You can input
+  /// only one permissions boundary when you pass a policy to this operation.
+  /// For more information about permissions boundaries, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy
+  /// input is specified as a string that contains the complete, valid JSON text
+  /// of a permissions boundary policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
+  /// validate this parameter is a string of characters consisting of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
+  /// </li>
+  /// <li>
+  /// The printable characters in the Basic Latin and Latin-1 Supplement
+  /// character set (through <code>\u00FF</code>)
+  /// </li>
+  /// <li>
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [resourceArns] :
   /// A list of ARNs of AWS resources to include in the simulation. If this
@@ -9209,16 +9249,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulateCustomPolicy({
@@ -9228,6 +9268,7 @@ class IAM {
     List<ContextEntry> contextEntries,
     String marker,
     int maxItems,
+    List<String> permissionsBoundaryPolicyInputList,
     List<String> resourceArns,
     String resourceHandlingOption,
     String resourceOwner,
@@ -9250,7 +9291,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -9279,7 +9320,7 @@ class IAM {
     _s.validateStringPattern(
       'resourcePolicy',
       resourcePolicy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'SimulateCustomPolicy',
@@ -9291,6 +9332,8 @@ class IAM {
     contextEntries?.also((arg) => $request['ContextEntries'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
+    permissionsBoundaryPolicyInputList
+        ?.also((arg) => $request['PermissionsBoundaryPolicyInputList'] = arg);
     resourceArns?.also((arg) => $request['ResourceArns'] = arg);
     resourceHandlingOption
         ?.also((arg) => $request['ResourceHandlingOption'] = arg);
@@ -9408,6 +9451,39 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   ///
+  /// Parameter [permissionsBoundaryPolicyInputList] :
+  /// The IAM permissions boundary policy to simulate. The permissions boundary
+  /// sets the maximum permissions that the entity can have. You can input only
+  /// one permissions boundary when you pass a policy to this operation. An IAM
+  /// entity can only have one permissions boundary in effect at a time. For
+  /// example, if a permissions boundary is attached to an entity and you pass
+  /// in a different permissions boundary policy using this parameter, then the
+  /// new permission boundary policy is used for the simulation. For more
+  /// information about permissions boundaries, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy
+  /// input is specified as a string containing the complete, valid JSON text of
+  /// a permissions boundary policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
+  /// validate this parameter is a string of characters consisting of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
+  /// </li>
+  /// <li>
+  /// The printable characters in the Basic Latin and Latin-1 Supplement
+  /// character set (through <code>\u00FF</code>)
+  /// </li>
+  /// <li>
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [policyInputList] :
   /// An optional list of additional policy documents to include in the
   /// simulation. Each document is specified as a string containing the
@@ -9419,16 +9495,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -9526,16 +9602,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulatePrincipalPolicy({
@@ -9545,6 +9621,7 @@ class IAM {
     List<ContextEntry> contextEntries,
     String marker,
     int maxItems,
+    List<String> permissionsBoundaryPolicyInputList,
     List<String> policyInputList,
     List<String> resourceArns,
     String resourceHandlingOption,
@@ -9574,7 +9651,7 @@ class IAM {
     _s.validateStringPattern(
       'marker',
       marker,
-      r'[\u0020-\u00FF]+',
+      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -9603,7 +9680,7 @@ class IAM {
     _s.validateStringPattern(
       'resourcePolicy',
       resourcePolicy,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'SimulatePrincipalPolicy',
@@ -9615,6 +9692,8 @@ class IAM {
     contextEntries?.also((arg) => $request['ContextEntries'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
+    permissionsBoundaryPolicyInputList
+        ?.also((arg) => $request['PermissionsBoundaryPolicyInputList'] = arg);
     policyInputList?.also((arg) => $request['PolicyInputList'] = arg);
     resourceArns?.also((arg) => $request['ResourceArns'] = arg);
     resourceHandlingOption
@@ -9709,7 +9788,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{
@@ -9804,7 +9883,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'TagUser',
@@ -9855,7 +9934,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{
@@ -9908,7 +9987,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UntagUser',
@@ -9976,7 +10055,7 @@ class IAM {
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -9988,7 +10067,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateAccessKey',
@@ -10183,16 +10262,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -10217,7 +10296,7 @@ class IAM {
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10229,7 +10308,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateAssumeRolePolicy',
@@ -10293,9 +10372,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   Future<void> updateGroup({
     @_s.required String groupName,
     String newGroupName,
@@ -10311,7 +10390,7 @@ class IAM {
     _s.validateStringPattern(
       'groupName',
       groupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'newGroupName',
@@ -10322,7 +10401,7 @@ class IAM {
     _s.validateStringPattern(
       'newGroupName',
       newGroupName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'newPath',
@@ -10333,7 +10412,7 @@ class IAM {
     _s.validateStringPattern(
       'newPath',
       newPath,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateGroup',
@@ -10380,16 +10459,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   /// However, the format can be further restricted by the account administrator
@@ -10414,7 +10493,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'password',
@@ -10425,7 +10504,7 @@ class IAM {
     _s.validateStringPattern(
       'password',
       password,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateLoginProfile',
@@ -10553,7 +10632,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'description',
@@ -10564,7 +10643,7 @@ class IAM {
     _s.validateStringPattern(
       'description',
       description,
-      r'[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*',
+      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -10617,7 +10696,7 @@ class IAM {
     _s.validateStringPattern(
       'description',
       description,
-      r'[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*',
+      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10629,7 +10708,7 @@ class IAM {
     _s.validateStringPattern(
       'roleName',
       roleName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateRoleDescription',
@@ -10758,7 +10837,7 @@ class IAM {
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10771,7 +10850,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateSSHPublicKey',
@@ -10835,9 +10914,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [newServerCertificateName] :
   /// The new name for the server certificate. Include this only if you are
@@ -10863,7 +10942,7 @@ class IAM {
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'newPath',
@@ -10874,7 +10953,7 @@ class IAM {
     _s.validateStringPattern(
       'newPath',
       newPath,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'newServerCertificateName',
@@ -10885,7 +10964,7 @@ class IAM {
     _s.validateStringPattern(
       'newServerCertificateName',
       newServerCertificateName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateServerCertificate',
@@ -10946,7 +11025,7 @@ class IAM {
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -10958,7 +11037,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateServiceSpecificCredential',
@@ -11023,7 +11102,7 @@ class IAM {
     _s.validateStringPattern(
       'certificateId',
       certificateId,
-      r'[\w]+',
+      r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -11035,7 +11114,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateSigningCertificate',
@@ -11094,9 +11173,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   ///
   /// Parameter [newUserName] :
   /// New name for the user. Include this parameter only if you're changing the
@@ -11120,7 +11199,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'newPath',
@@ -11131,7 +11210,7 @@ class IAM {
     _s.validateStringPattern(
       'newPath',
       newPath,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'newUserName',
@@ -11142,7 +11221,7 @@ class IAM {
     _s.validateStringPattern(
       'newUserName',
       newUserName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateUser',
@@ -11187,16 +11266,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -11221,7 +11300,7 @@ class IAM {
     _s.validateStringPattern(
       'sSHPublicKeyBody',
       sSHPublicKeyBody,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11233,7 +11312,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UploadSSHPublicKey',
@@ -11300,16 +11379,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -11322,16 +11401,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -11354,16 +11433,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -11378,9 +11457,9 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of either a forward slash (/) by itself or a string
   /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (\u0021) through the DEL character
-  /// (\u007F), including most punctuation characters, digits, and upper and
-  /// lowercased letters.
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
   /// <note>
   /// If you are uploading a server certificate specifically for use with Amazon
   /// CloudFront distributions, you must specify a path using the
@@ -11405,7 +11484,7 @@ class IAM {
     _s.validateStringPattern(
       'certificateBody',
       certificateBody,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(privateKey, 'privateKey');
     _s.validateStringLength(
@@ -11417,7 +11496,7 @@ class IAM {
     _s.validateStringPattern(
       'privateKey',
       privateKey,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -11429,7 +11508,7 @@ class IAM {
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     _s.validateStringLength(
       'certificateChain',
@@ -11440,7 +11519,7 @@ class IAM {
     _s.validateStringPattern(
       'certificateChain',
       certificateChain,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'path',
@@ -11451,7 +11530,7 @@ class IAM {
     _s.validateStringPattern(
       'path',
       path,
-      r'(\u002F)|(\u002F[\u0021-\u007F]+\u002F)',
+      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{
       'Action': 'UploadServerCertificate',
@@ -11511,16 +11590,16 @@ class IAM {
   ///
   /// <ul>
   /// <li>
-  /// Any printable ASCII character ranging from the space character (\u0020)
-  /// through the end of the ASCII character range
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
   /// </li>
   /// <li>
   /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through \u00FF)
+  /// character set (through <code>\u00FF</code>)
   /// </li>
   /// <li>
-  /// The special characters tab (\u0009), line feed (\u000A), and carriage
-  /// return (\u000D)
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
   ///
@@ -11545,7 +11624,7 @@ class IAM {
     _s.validateStringPattern(
       'certificateBody',
       certificateBody,
-      r'[\u0009\u000A\u000D\u0020-\u00FF]+',
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'userName',
@@ -11556,7 +11635,7 @@ class IAM {
     _s.validateStringPattern(
       'userName',
       userName,
-      r'[\w+=,.@-]+',
+      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'UploadSigningCertificate',
@@ -11875,9 +11954,8 @@ class AttachedPolicy {
 /// multiple values) to use in the simulation. This information is used when
 /// evaluating the <code>Condition</code> elements of the input policies.
 ///
-/// This data type is used as an input parameter to <code>
-/// <a>SimulateCustomPolicy</a> </code> and <code>
-/// <a>SimulatePrincipalPolicy</a> </code>.
+/// This data type is used as an input parameter to <a>SimulateCustomPolicy</a>
+/// and <a>SimulatePrincipalPolicy</a>.
 class ContextEntry {
   /// The full name of a condition context key, including the service prefix. For
   /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
@@ -12367,13 +12445,26 @@ class EvaluationResult {
   /// The result of the simulation.
   final PolicyEvaluationDecisionType evalDecision;
 
-  /// Additional details about the results of the evaluation decision. When there
-  /// are both IAM policies and resource policies, this parameter explains how
-  /// each set of policies contributes to the final evaluation decision. When
-  /// simulating cross-account access to a resource, both the resource-based
-  /// policy and the caller's IAM policy must grant access. See <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html">How
-  /// IAM Roles Differ from Resource-based Policies</a>
+  /// Additional details about the results of the cross-account evaluation
+  /// decision. This parameter is populated for only cross-account simulations. It
+  /// contains a brief summary of how each policy type contributes to the final
+  /// evaluation decision.
+  ///
+  /// If the simulation evaluates policies within the same account and includes a
+  /// resource ARN, then the parameter is present but the response is empty. If
+  /// the simulation evaluates policies within the same account and specifies all
+  /// resources (<code>*</code>), then the parameter is not returned.
+  ///
+  /// When you make a cross-account request, AWS evaluates the request in the
+  /// trusting account and the trusted account. The request is allowed only if
+  /// both evaluations return <code>true</code>. For more information about how
+  /// policies are evaluated, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+  /// Policies Within a Single Account</a>.
+  ///
+  /// If an AWS Organizations SCP included in the evaluation denies access, the
+  /// simulation ends. In this case, policy evaluation does not proceed any
+  /// further and this parameter is not returned.
   final Map<String, String> evalDecisionDetails;
 
   /// The ARN of the resource that the indicated API operation was tested on.
@@ -12401,6 +12492,10 @@ class EvaluationResult {
   /// account is part of an organization.
   final OrganizationsDecisionDetail organizationsDecisionDetail;
 
+  /// Contains information about the effect that a permissions boundary has on a
+  /// policy simulation when the boundary is applied to an IAM entity.
+  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+
   /// The individual results of the simulation of the API operation specified in
   /// EvalActionName on each resource.
   final List<ResourceSpecificResult> resourceSpecificResults;
@@ -12413,6 +12508,7 @@ class EvaluationResult {
     this.matchedStatements,
     this.missingContextValues,
     this.organizationsDecisionDetail,
+    this.permissionsBoundaryDecisionDetail,
     this.resourceSpecificResults,
   });
   factory EvaluationResult.fromXml(_s.XmlElement elem) {
@@ -12442,6 +12538,9 @@ class EvaluationResult {
       organizationsDecisionDetail: _s
           .extractXmlChild(elem, 'OrganizationsDecisionDetail')
           ?.let((e) => OrganizationsDecisionDetail.fromXml(e)),
+      permissionsBoundaryDecisionDetail: _s
+          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
+          ?.let((e) => PermissionsBoundaryDecisionDetail.fromXml(e)),
       resourceSpecificResults: _s
           .extractXmlChild(elem, 'ResourceSpecificResults')
           ?.let((elem) => elem
@@ -12490,8 +12589,13 @@ class GenerateOrganizationsAccessReportResponse {
 }
 
 class GenerateServiceLastAccessedDetailsResponse {
-  /// The job ID that you can use in the <a>GetServiceLastAccessedDetails</a> or
-  /// <a>GetServiceLastAccessedDetailsWithEntities</a> operations.
+  /// The <code>JobId</code> that you can use in the
+  /// <a>GetServiceLastAccessedDetails</a> or
+  /// <a>GetServiceLastAccessedDetailsWithEntities</a> operations. The
+  /// <code>JobId</code> returned by
+  /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same role
+  /// within a session, or by the same user when used to call
+  /// <code>GetServiceLastAccessedDetail</code>.
   final String jobId;
 
   GenerateServiceLastAccessedDetailsResponse({
@@ -14756,6 +14860,31 @@ extension on String {
   }
 }
 
+/// Contains information about the effect that a permissions boundary has on a
+/// policy simulation when the boundary is applied to an IAM entity.
+class PermissionsBoundaryDecisionDetail {
+  /// Specifies whether an action is allowed by a permissions boundary that is
+  /// applied to an IAM entity (user or role). A value of <code>true</code> means
+  /// that the permissions boundary does not deny the action. This means that the
+  /// policy includes an <code>Allow</code> statement that matches the request. In
+  /// this case, if an identity-based policy also allows the action, the request
+  /// is allowed. A value of <code>false</code> means that either the requested
+  /// action is not allowed (implicitly denied) or that the action is explicitly
+  /// denied by the permissions boundary. In both of these cases, the action is
+  /// not allowed, regardless of the identity-based policy.
+  final bool allowedByPermissionsBoundary;
+
+  PermissionsBoundaryDecisionDetail({
+    this.allowedByPermissionsBoundary,
+  });
+  factory PermissionsBoundaryDecisionDetail.fromXml(_s.XmlElement elem) {
+    return PermissionsBoundaryDecisionDetail(
+      allowedByPermissionsBoundary:
+          _s.extractXmlBoolValue(elem, 'AllowedByPermissionsBoundary'),
+    );
+  }
+}
+
 /// Contains information about a managed policy.
 ///
 /// This data type is used as a response element in the <a>CreatePolicy</a>,
@@ -15241,11 +15370,10 @@ class ResourceSpecificResult {
   /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
   final String evalResourceName;
 
-  /// Additional details about the results of the evaluation decision. When there
-  /// are both IAM policies and resource policies, this parameter explains how
-  /// each set of policies contributes to the final evaluation decision. When
-  /// simulating cross-account access to a resource, both the resource-based
-  /// policy and the caller's IAM policy must grant access.
+  /// Additional details about the results of the evaluation decision on a single
+  /// resource. This parameter is returned only for cross-account simulations.
+  /// This parameter explains how each policy type contributes to the
+  /// resource-specific evaluation decision.
   final Map<String, String> evalDecisionDetails;
 
   /// A list of the statements in the input policies that determine the result for
@@ -15267,12 +15395,17 @@ class ResourceSpecificResult {
   /// <a>GetContextKeysForPrincipalPolicy</a>.
   final List<String> missingContextValues;
 
+  /// Contains information about the effect that a permissions boundary has on a
+  /// policy simulation when that boundary is applied to an IAM entity.
+  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+
   ResourceSpecificResult({
     @_s.required this.evalResourceDecision,
     @_s.required this.evalResourceName,
     this.evalDecisionDetails,
     this.matchedStatements,
     this.missingContextValues,
+    this.permissionsBoundaryDecisionDetail,
   });
   factory ResourceSpecificResult.fromXml(_s.XmlElement elem) {
     return ResourceSpecificResult(
@@ -15297,6 +15430,9 @@ class ResourceSpecificResult {
           .extractXmlChild(elem, 'MissingContextValues')
           ?.let((elem) =>
               _s.extractXmlStringListValues(elem, 'MissingContextValues')),
+      permissionsBoundaryDecisionDetail: _s
+          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
+          ?.let((e) => PermissionsBoundaryDecisionDetail.fromXml(e)),
     );
   }
 }
