@@ -1,6 +1,6 @@
 name: aws_iam_api
 description: AWS API client for AWS Identity and Access Management (generated from SDK API specification).
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_iam_api
 
 
