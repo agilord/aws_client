@@ -46,7 +46,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
-import 'package:shared_aws_api/shared.dart' 
+import 'package:shared_aws_api/shared.dart'
   show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822fromJson, rfc822toJson, iso8601fromJson, iso8601toJson, unixFromJson, unixToJson' : ''};
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -140,7 +140,7 @@ ${builder.constructor()}
       final pattern = member.shapeClass?.pattern;
 
       if (pattern != null) {
-        writeln("_s.validateStringPattern('$name', $name, r'$pattern',);");
+        writeln("_s.validateStringPattern('$name', $name, r'''$pattern''',);");
       }
     }
 
