@@ -211,7 +211,7 @@ class Member {
   Member(
     this.shape,
     this.documentation,
-      this.enumeration,
+    this.enumeration,
     this.location,
     this.locationName,
     this.queryName,
