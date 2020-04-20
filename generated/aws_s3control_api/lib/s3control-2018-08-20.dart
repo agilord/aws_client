@@ -127,6 +127,9 @@ class S3Control {
   /// A description for this job. You can use any string within the permitted
   /// length. Descriptions don't need to be unique and can be used for multiple
   /// jobs.
+  ///
+  /// Parameter [tags] :
+  /// An optional set of tags to associate with the job when it is created.
   Future<CreateJobResult> createJob({
     @_s.required String accountId,
     @_s.required String clientRequestToken,
@@ -137,6 +140,7 @@ class S3Control {
     @_s.required String roleArn,
     bool confirmationRequired,
     String description,
+    List<S3Tag> tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -251,6 +255,46 @@ class S3Control {
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/accesspoint/$name/policy',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Delete the tags on a Amazon S3 batch operations job, if any.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the Amazon Web Services account associated with the
+  /// Amazon S3 batch operations job you want to remove tags from.
+  ///
+  /// Parameter [jobId] :
+  /// The ID for the job whose tags you want to delete.
+  Future<void> deleteJobTagging({
+    @_s.required String accountId,
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      64,
+    );
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      5,
+      36,
+    );
+    final headers = <String, String>{};
+    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/v20180820/jobs/$jobId/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -437,6 +481,47 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointPolicyStatusResult.fromXml($result.body);
+  }
+
+  /// Retrieve the tags on a Amazon S3 batch operations job.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the Amazon Web Services account associated with the
+  /// Amazon S3 batch operations job you want to retrieve tags for.
+  ///
+  /// Parameter [jobId] :
+  /// The ID for the job whose tags you want to retrieve.
+  Future<GetJobTaggingResult> getJobTagging({
+    @_s.required String accountId,
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      64,
+    );
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      5,
+      36,
+    );
+    final headers = <String, String>{};
+    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/jobs/$jobId/tagging',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetJobTaggingResult.fromXml($result.body);
   }
 
   /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon
@@ -655,6 +740,52 @@ class S3Control {
     );
   }
 
+  /// Replace the set of tags on a Amazon S3 batch operations job.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyTagsException].
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the Amazon Web Services account associated with the
+  /// Amazon S3 batch operations job you want to replace tags on.
+  ///
+  /// Parameter [jobId] :
+  /// The ID for the job whose tags you want to replace.
+  ///
+  /// Parameter [tags] :
+  /// The set of tags to associate with the job.
+  Future<void> putJobTagging({
+    @_s.required String accountId,
+    @_s.required String jobId,
+    @_s.required List<S3Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      64,
+    );
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      5,
+      36,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{};
+    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '/v20180820/jobs/$jobId/tagging',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
   /// an Amazon Web Services account.
   ///
@@ -865,6 +996,15 @@ class CreateJobResult {
   }
 }
 
+class DeleteJobTaggingResult {
+  DeleteJobTaggingResult();
+  factory DeleteJobTaggingResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteJobTaggingResult();
+  }
+}
+
 class DescribeJobResult {
   /// Contains the configuration parameters and status for the job specified in
   /// the <code>Describe Job</code> request.
@@ -955,6 +1095,21 @@ class GetAccessPointResult {
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
           ?.let((e) => VpcConfiguration.fromXml(e)),
+    );
+  }
+}
+
+class GetJobTaggingResult {
+  /// The set of tags associated with the job.
+  final List<S3Tag> tags;
+
+  GetJobTaggingResult({
+    this.tags,
+  });
+  factory GetJobTaggingResult.fromXml(_s.XmlElement elem) {
+    return GetJobTaggingResult(
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('Tags').map((c) => S3Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -1899,6 +2054,15 @@ class PublicAccessBlockConfiguration {
       [],
       $children.where((e) => e != null),
     );
+  }
+}
+
+class PutJobTaggingResult {
+  PutJobTaggingResult();
+  factory PutJobTaggingResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return PutJobTaggingResult();
   }
 }
 
@@ -2943,6 +3107,11 @@ class TooManyRequestsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String type, String message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
@@ -2962,4 +3131,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NotFoundException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>
       TooManyRequestsException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

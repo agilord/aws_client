@@ -1206,7 +1206,7 @@ class CloudFront {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:aws:cloudfront::[0-9]+:.*',
+      r'''arn:aws:cloudfront::[0-9]+:.*''',
     );
     final queryParams = <String, String>{};
     resource?.let((v) => queryParams['Resource'] = v.toString());
@@ -1239,7 +1239,7 @@ class CloudFront {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:aws:cloudfront::[0-9]+:.*',
+      r'''arn:aws:cloudfront::[0-9]+:.*''',
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final queryParams = <String, String>{};
@@ -1273,7 +1273,7 @@ class CloudFront {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:aws:cloudfront::[0-9]+:.*',
+      r'''arn:aws:cloudfront::[0-9]+:.*''',
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final queryParams = <String, String>{};

@@ -1,5 +1,5 @@
 ```dart
-import 'package:aws_cloudfront_api/cloudfront-2018-11-05.dart';
+import 'package:aws_cloudfront_api/cloudfront-2019-03-26.dart';
 
 void main() {
   final credentials = AwsClientCredentials(accessKey: '', secretKey: '');

@@ -328,7 +328,7 @@ class S3 {
   /// regardless of the form of server-side encryption that was used to encrypt
   /// the source, or even if the source object was not encrypted. For more
   /// information about server-side encryption, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
   /// Server-Side Encryption</a>.
   ///
   /// A copy request might return an error when Amazon S3 receives the copy
@@ -453,10 +453,16 @@ class S3 {
   /// <code>x-amz-server-side-encryption-context</code>
   /// </li>
   /// </ul> <note>
-  /// If you specify <code>x-amz-server-side-encryption:aws:kms</code> but don't
-  /// provide <code>x-amz-server-side- encryption-aws-kms-key-id</code>, Amazon
-  /// S3 uses the AWS managed customer master key (CMK) in AWS KMS to protect
-  /// the data.
+  /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
+  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
+  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
+  /// want to use a customer managed AWS KMS CMK, you must provide the
+  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
+  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
+  /// asymmetric CMKs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   /// </note> <important>
   /// All GET and PUT requests for an object protected by AWS KMS fail if you
   /// don't make them with SSL or by using SigV4.
@@ -702,7 +708,7 @@ class S3 {
   /// requests for an object protected by AWS KMS will fail if not made via SSL
   /// or using SigV4. For information about configuring using any of the
   /// officially supported AWS SDKs and AWS CLI, see <a
-  /// href="https://docs.aws.amazon.com/http:/docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
   /// Developer Guide</i>.
   ///
@@ -770,7 +776,7 @@ class S3 {
     _s.validateStringPattern(
       'copySource',
       copySource,
-      r'\/.+\/.+',
+      r'''\/.+\/.+''',
     );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -1124,7 +1130,7 @@ class S3 {
   /// </li>
   /// </ul> <note>
   /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side- encryption-aws-kms-key-id</code>,
+  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
   /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data.
   /// </note> <important>
   /// All GET and PUT requests for an object protected by AWS KMS fail if you
@@ -1323,10 +1329,11 @@ class S3 {
   /// the encryption context key-value pairs.
   ///
   /// Parameter [sSEKMSKeyId] :
-  /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT
-  /// requests for an object protected by AWS KMS will fail if not made via SSL
-  /// or using SigV4. For information about configuring using any of the
-  /// officially supported AWS SDKs and AWS CLI, see <a
+  /// Specifies the ID of the symmetric customer managed AWS KMS CMK to use for
+  /// object encryption. All GET and PUT requests for an object protected by AWS
+  /// KMS will fail if not made via SSL or using SigV4. For information about
+  /// configuring using any of the officially supported AWS SDKs and AWS CLI,
+  /// see <a
   /// href="https://docs.aws.amazon.com/http:/docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
   /// Developer Guide</i>.
@@ -1999,7 +2006,7 @@ class S3 {
 
   /// Removes the entire tag set from the specified object. For more information
   /// about managing object tags, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete">
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">
   /// Object Tagging</a>.
   ///
   /// To use this operation, you must have permission to perform the
@@ -5211,9 +5218,8 @@ class S3 {
   /// an existing bucket.
   ///
   /// This implementation of the <code>PUT</code> operation sets default
-  /// encryption for a buckets using server-side encryption with Amazon
-  /// S3-managed keys SSE-S3 or AWS KMS customer master keys (CMKs) (SSE-KMS)
-  /// bucket.
+  /// encryption for a bucket using server-side encryption with Amazon
+  /// S3-managed keys SSE-S3 or AWS KMS customer master keys (CMKs) (SSE-KMS).
   /// <important>
   /// This operation requires AWS Signature Version 4. For more information, see
   /// <a href="sig-v4-authenticating-requests.html"> Authenticating Requests
@@ -6495,8 +6501,15 @@ class S3 {
   /// </li>
   /// </ul> <note>
   /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side- encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data.
+  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
+  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
+  /// want to use a customer managed AWS KMS CMK, you must provide the
+  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
+  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
+  /// asymmetric CMKs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   /// </note> <important>
   /// All GET and PUT requests for an object protected by AWS KMS fail if you
   /// don't make them with SSL or by using SigV4.
@@ -6524,7 +6537,7 @@ class S3 {
   /// For more information about server-side encryption with CMKs stored in KMS
   /// (SSE-KMS), see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+  /// Data Using Server-Side Encryption with CMKs stored in AWS</a>.
   /// </li>
   /// </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt>
   /// <dd>
@@ -6656,8 +6669,15 @@ class S3 {
   /// </li>
   /// </ul> <note>
   /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side- encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the default AWS KMS CMK to protect the data.
+  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
+  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
+  /// want to use a customer managed AWS KMS CMK, you must provide the
+  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
+  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
+  /// asymmetric CMKs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   /// </note> <important>
   /// All GET and PUT requests for an object protected by AWS KMS fail if you
   /// don't make them with SSL or by using SigV4.
@@ -6840,13 +6860,13 @@ class S3 {
   /// Parameter [sSEKMSKeyId] :
   /// If <code>x-amz-server-side-encryption</code> is present and has the value
   /// of <code>aws:kms</code>, this header specifies the ID of the AWS Key
-  /// Management Service (AWS KMS) customer master key (CMK) that was used for
-  /// the object.
+  /// Management Service (AWS KMS) symmetrical customer managed customer master
+  /// key (CMK) that was used for the object.
   ///
   /// If the value of <code>x-amz-server-side-encryption</code> is
-  /// <code>aws:kms</code>, this header specifies the ID of the AWS KMS CMK that
-  /// will be used for the object. If you specify
-  /// <code>x-amz-server-side-encryption:aws:kms</code>, but do not
+  /// <code>aws:kms</code>, this header specifies the ID of the symmetric
+  /// customer managed AWS KMS CMK that will be used for the object. If you
+  /// specify <code>x-amz-server-side-encryption:aws:kms</code>, but do not
   /// provide<code> x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon
   /// S3 uses the AWS managed CMK in AWS to protect the data.
   ///
@@ -8613,7 +8633,7 @@ class S3 {
     _s.validateStringPattern(
       'copySource',
       copySource,
-      r'\/.+\/.+',
+      r'''\/.+\/.+''',
     );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -9618,7 +9638,8 @@ class CompleteMultipartUploadOutput {
   final RequestCharged requestCharged;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// If you specified server-side encryption either with an Amazon S3-managed
@@ -9831,7 +9852,8 @@ class CopyObjectOutput {
   final String sSEKMSEncryptionContext;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -10020,7 +10042,8 @@ class CreateMultipartUploadOutput {
   final String sSEKMSEncryptionContext;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -10504,7 +10527,12 @@ class Encryption {
   final String kMSContext;
 
   /// If the encryption type is <code>aws:kms</code>, this optional value
-  /// specifies the AWS KMS key ID to use for encryption of job results.
+  /// specifies the ID of the symmetric customer managed AWS KMS CMK to use for
+  /// encryption of job results. Amazon S3 only supports symmetric CMKs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   final String kMSKeyId;
 
   Encryption({
@@ -10529,8 +10557,14 @@ class Encryption {
 /// Specifies encryption-related information for an Amazon S3 bucket that is a
 /// destination for replicated objects.
 class EncryptionConfiguration {
-  /// Specifies the AWS KMS Key ID (Key ARN or Alias ARN) for the destination
-  /// bucket. Amazon S3 uses this key to encrypt replica objects.
+  /// Specifies the ID (Key ARN or Alias ARN) of the customer managed customer
+  /// master key (CMK) stored in AWS Key Management Service (KMS) for the
+  /// destination bucket. Amazon S3 uses this key to encrypt replica objects.
+  /// Amazon S3 only supports symmetric customer managed CMKs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   final String replicaKmsKeyID;
 
   EncryptionConfiguration({
@@ -12815,7 +12849,8 @@ class GetObjectOutput {
   final String sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -13252,7 +13287,8 @@ class HeadObjectOutput {
   final String sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// If the object is stored using server-side encryption either with an AWS KMS
@@ -16469,7 +16505,8 @@ class PutObjectOutput {
 
   /// If <code>x-amz-server-side-encryption</code> is present and has the value of
   /// <code>aws:kms</code>, this header specifies the ID of the AWS Key Management
-  /// Service (AWS KMS) customer master key (CMK) that was used for the object.
+  /// Service (AWS KMS) symmetric customer managed customer master key (CMK) that
+  /// was used for the object.
   final String sSEKMSKeyId;
 
   /// If you specified server-side encryption either with an AWS KMS customer
@@ -17233,11 +17270,10 @@ extension on String {
   }
 }
 
-/// Confirms that the requester knows that she or he will be charged for the
-/// request. Bucket owners need not specify this parameter in their requests.
-/// For information about downloading objects from Requester Pays buckets, see
-/// <a
-/// href="https://docs.aws.amazon.com/http:/docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading
+/// Confirms that the requester knows that they will be charged for the request.
+/// Bucket owners need not specify this parameter in their requests. For
+/// information about downloading objects from requester pays buckets, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading
 /// Objects in Requestor Pays Buckets</a> in the <i>Amazon S3 Developer
 /// Guide</i>.
 enum RequestPayer {
@@ -17617,8 +17653,9 @@ class S3Location {
 
 /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
 class SSEKMS {
-  /// Specifies the ID of the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) to use for encrypting inventory reports.
+  /// Specifies the ID of the AWS Key Management Service (AWS KMS) symmetric
+  /// customer managed customer master key (CMK) to use for encrypting inventory
+  /// reports.
   final String keyId;
 
   SSEKMS({
@@ -18593,7 +18630,8 @@ class UploadPartCopyOutput {
   final String sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used for the object.
+  /// symmetric customer managed customer master key (CMK) that was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -18651,7 +18689,8 @@ class UploadPartOutput {
   final String sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) was used for the object.
+  /// symmetric customer managed customer master key (CMK) was used for the
+  /// object.
   final String sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon

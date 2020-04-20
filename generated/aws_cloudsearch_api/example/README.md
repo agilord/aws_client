@@ -1,5 +1,5 @@
 ```dart
-import 'package:aws_cloudsearch_api/cloudsearch-2011-02-01.dart';
+import 'package:aws_cloudsearch_api/cloudsearch-2013-01-01.dart';
 
 void main() {
   final credentials = AwsClientCredentials(accessKey: '', secretKey: '');

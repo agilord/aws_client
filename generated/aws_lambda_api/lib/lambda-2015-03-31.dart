@@ -99,7 +99,7 @@ class Lambda {
     _s.validateStringPattern(
       'action',
       action,
-      r'lambda:GetLayerVersion',
+      r'''lambda:GetLayerVersion''',
     );
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -111,13 +111,13 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringPattern(
       'principal',
       principal,
-      r'\d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root',
+      r'''\d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root''',
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -129,13 +129,13 @@ class Lambda {
     _s.validateStringPattern(
       'statementId',
       statementId,
-      r'([a-zA-Z0-9-_]+)',
+      r'''([a-zA-Z0-9-_]+)''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     _s.validateStringPattern(
       'organizationId',
       organizationId,
-      r'o-[a-z0-9]{10,32}',
+      r'''o-[a-z0-9]{10,32}''',
     );
     final $payload = <String, dynamic>{
       'Action': action,
@@ -164,8 +164,7 @@ class Lambda {
   /// <code>Principal</code>. For AWS services, the principal is a domain-style
   /// identifier defined by the service, like <code>s3.amazonaws.com</code> or
   /// <code>sns.amazonaws.com</code>. For AWS services, you can also specify the
-  /// ARN or owning account of the associated resource as the
-  /// <code>SourceArn</code> or <code>SourceAccount</code>. If you grant
+  /// ARN of the associated resource as the <code>SourceArn</code>. If you grant
   /// permission to a service principal without specifying the source, other
   /// accounts could potentially configure resources in their account to invoke
   /// your Lambda function.
@@ -231,12 +230,10 @@ class Lambda {
   /// last read it.
   ///
   /// Parameter [sourceAccount] :
-  /// For AWS services, the ID of the account that owns the resource. Use this
-  /// instead of <code>SourceArn</code> to grant permission to resources that
-  /// are owned by another account (for example, all of an account's Amazon S3
-  /// buckets). Or use it together with <code>SourceArn</code> to ensure that
-  /// the resource is owned by the specified account. For example, an Amazon S3
-  /// bucket could be deleted by its owner and recreated by another account.
+  /// For Amazon S3, the ID of the account that owns the resource. Use this
+  /// together with <code>SourceArn</code> to ensure that the resource is owned
+  /// by the specified account. It is possible for an Amazon S3 bucket to be
+  /// deleted by its owner and recreated by another account.
   ///
   /// Parameter [sourceArn] :
   /// For AWS services, the ARN of the AWS resource that invokes the function.
@@ -256,7 +253,7 @@ class Lambda {
     _s.validateStringPattern(
       'action',
       action,
-      r'(lambda:[*]|lambda:[a-zA-Z]+|[*])',
+      r'''(lambda:[*]|lambda:[a-zA-Z]+|[*])''',
     );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -268,13 +265,13 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringPattern(
       'principal',
       principal,
-      r'.*',
+      r'''.*''',
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -286,7 +283,7 @@ class Lambda {
     _s.validateStringPattern(
       'statementId',
       statementId,
-      r'([a-zA-Z0-9-_]+)',
+      r'''([a-zA-Z0-9-_]+)''',
     );
     _s.validateStringLength(
       'eventSourceToken',
@@ -297,7 +294,7 @@ class Lambda {
     _s.validateStringPattern(
       'eventSourceToken',
       eventSourceToken,
-      r'[a-zA-Z0-9._\-]+',
+      r'''[a-zA-Z0-9._\-]+''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -308,17 +305,17 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     _s.validateStringPattern(
       'sourceAccount',
       sourceAccount,
-      r'\d{12}',
+      r'''\d{12}''',
     );
     _s.validateStringPattern(
       'sourceArn',
       sourceArn,
-      r'arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)',
+      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
     final $payload = <String, dynamic>{
       'Action': action,
@@ -403,7 +400,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     _s.validateStringLength(
@@ -415,7 +412,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
-      r'(\$LATEST|[0-9]+)',
+      r'''(\$LATEST|[0-9]+)''',
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -427,7 +424,7 @@ class Lambda {
     _s.validateStringPattern(
       'name',
       name,
-      r'(?!^[0-9]+$)([a-zA-Z0-9-_]+)',
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
     _s.validateStringLength(
       'description',
@@ -490,6 +487,10 @@ class Lambda {
   /// <li>
   /// <code>MaximumRetryAttempts</code> - Discard records after the specified
   /// number of retries.
+  /// </li>
+  /// <li>
+  /// <code>ParallelizationFactor</code> - Process multiple batches from each
+  /// shard concurrently.
   /// </li>
   /// </ul>
   ///
@@ -564,8 +565,8 @@ class Lambda {
   /// Disables the event source mapping to pause polling and invocation.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// The maximum amount of time to gather records before invoking the function,
-  /// in seconds.
+  /// (Streams) The maximum amount of time to gather records before invoking the
+  /// function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
   /// (Streams) The maximum age of a record that Lambda sends to a function for
@@ -604,7 +605,7 @@ class Lambda {
     _s.validateStringPattern(
       'eventSourceArn',
       eventSourceArn,
-      r'arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)',
+      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -616,7 +617,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'batchSize',
@@ -844,7 +845,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(handler, 'handler');
     _s.validateStringLength(
@@ -856,13 +857,13 @@ class Lambda {
     _s.validateStringPattern(
       'handler',
       handler,
-      r'[^\s]+',
+      r'''[^\s]+''',
     );
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
       role,
-      r'arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+',
+      r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
     _s.validateStringLength(
@@ -874,7 +875,7 @@ class Lambda {
     _s.validateStringPattern(
       'kMSKeyArn',
       kMSKeyArn,
-      r'(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()',
+      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
     );
     _s.validateNumRange(
       'memorySize',
@@ -959,7 +960,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -971,7 +972,7 @@ class Lambda {
     _s.validateStringPattern(
       'name',
       name,
-      r'(?!^[0-9]+$)([a-zA-Z0-9-_]+)',
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1068,7 +1069,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1079,7 +1080,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1131,7 +1132,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1192,7 +1193,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1203,7 +1204,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1244,7 +1245,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final $payload = <String, dynamic>{};
@@ -1301,7 +1302,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
     _s.validateStringLength(
@@ -1313,7 +1314,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1386,7 +1387,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1398,7 +1399,7 @@ class Lambda {
     _s.validateStringPattern(
       'name',
       name,
-      r'(?!^[0-9]+$)([a-zA-Z0-9-_]+)',
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
     await _protocol.send(
       null,
@@ -1482,7 +1483,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1493,7 +1494,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     await _protocol.send(
       null,
@@ -1505,8 +1506,9 @@ class Lambda {
     throw UnimplementedError();
   }
 
-  /// Returns details about the concurrency configuration for a function. To set
-  /// a concurrency limit for a function, use <a>PutFunctionConcurrency</a>.
+  /// Returns details about the reserved concurrency configuration for a
+  /// function. To set a concurrency limit for a function, use
+  /// <a>PutFunctionConcurrency</a>.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
@@ -1544,7 +1546,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     await _protocol.send(
       null,
@@ -1606,7 +1608,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1617,7 +1619,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     await _protocol.send(
       null,
@@ -1677,7 +1679,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1688,7 +1690,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     await _protocol.send(
       null,
@@ -1729,7 +1731,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
@@ -1767,7 +1769,7 @@ class Lambda {
     _s.validateStringPattern(
       'arn',
       arn,
-      r'arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+',
+      r'''arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+''',
     );
     await _protocol.send(
       null,
@@ -1808,7 +1810,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
@@ -1868,7 +1870,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -1879,7 +1881,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     await _protocol.send(
       null,
@@ -1936,7 +1938,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
     _s.validateStringLength(
@@ -1948,7 +1950,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     await _protocol.send(
       null,
@@ -2006,8 +2008,9 @@ class Lambda {
   /// your HTTP client, SDK, firewall, proxy, or operating system to allow for
   /// long connections with timeout or keep-alive settings.
   ///
-  /// This operation requires permission for the
-  /// <code>lambda:InvokeFunction</code> action.
+  /// This operation requires permission for the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html">lambda:InvokeFunction</a>
+  /// action.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -2104,7 +2107,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -2115,7 +2118,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final headers = <String, String>{};
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
@@ -2179,7 +2182,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     await _protocol.send(
@@ -2245,7 +2248,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'functionVersion',
@@ -2256,7 +2259,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
-      r'(\$LATEST|[0-9]+)',
+      r'''(\$LATEST|[0-9]+)''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2334,7 +2337,7 @@ class Lambda {
     _s.validateStringPattern(
       'eventSourceArn',
       eventSourceArn,
-      r'arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)',
+      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
     _s.validateStringLength(
       'functionName',
@@ -2345,7 +2348,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2415,7 +2418,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2435,7 +2438,7 @@ class Lambda {
   }
 
   /// Returns a list of Lambda functions, with the version-specific
-  /// configuration of each.
+  /// configuration of each. Lambda returns up to 50 functions per call.
   ///
   /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all
   /// published versions of each function in addition to the unpublished
@@ -2456,12 +2459,13 @@ class Lambda {
   ///
   /// Parameter [masterRegion] :
   /// For Lambda@Edge functions, the AWS Region of the master function. For
-  /// example, <code>us-east-2</code> or <code>ALL</code>. If specified, you
-  /// must set <code>FunctionVersion</code> to <code>ALL</code>.
+  /// example, <code>us-east-1</code> filters the list of functions to only
+  /// include Lambda@Edge functions replicated from a master function in US East
+  /// (N. Virginia). If specified, you must set <code>FunctionVersion</code> to
+  /// <code>ALL</code>.
   ///
   /// Parameter [maxItems] :
-  /// Specify a value between 1 and 50 to limit the number of functions in the
-  /// response.
+  /// The maximum number of functions to return.
   Future<ListFunctionsResponse> listFunctions({
     FunctionVersion functionVersion,
     String marker,
@@ -2471,7 +2475,7 @@ class Lambda {
     _s.validateStringPattern(
       'masterRegion',
       masterRegion,
-      r'ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}',
+      r'''ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2529,7 +2533,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2636,7 +2640,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2673,7 +2677,7 @@ class Lambda {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     await _protocol.send(
       null,
@@ -2687,7 +2691,8 @@ class Lambda {
 
   /// Returns a list of <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">versions</a>,
-  /// with the version-specific configuration of each.
+  /// with the version-specific configuration of each. Lambda returns up to 50
+  /// versions per call.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -2718,7 +2723,7 @@ class Lambda {
   /// retrieve the next page of results.
   ///
   /// Parameter [maxItems] :
-  /// Limit the number of versions that are returned.
+  /// The maximum number of versions to return.
   Future<ListVersionsByFunctionResponse> listVersionsByFunction({
     @_s.required String functionName,
     String marker,
@@ -2734,7 +2739,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2816,7 +2821,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     _s.validateStringLength(
       'description',
@@ -2917,7 +2922,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'description',
@@ -2997,7 +3002,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(
         reservedConcurrentExecutions, 'reservedConcurrentExecutions');
@@ -3022,7 +3027,11 @@ class Lambda {
 
   /// Configures options for <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html">asynchronous
-  /// invocation</a> on a function, version, or alias.
+  /// invocation</a> on a function, version, or alias. If a configuration
+  /// already exists for a function, version, or alias, this operation
+  /// overwrites it. If you exclude any settings, they are removed. To set one
+  /// option without affecting existing settings for other options, use
+  /// <a>PutFunctionEventInvokeConfig</a>.
   ///
   /// By default, Lambda retries an asynchronous invocation twice if the
   /// function returns an error. It retains events in a queue for up to six
@@ -3030,6 +3039,14 @@ class Lambda {
   /// asynchronous invocation queue for too long, Lambda discards it. To retain
   /// discarded events, configure a dead-letter queue with
   /// <a>UpdateFunctionConfiguration</a>.
+  ///
+  /// To send an invocation record to a queue, topic, function, or event bus,
+  /// specify a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations">destination</a>.
+  /// You can configure separate destinations for successful invocations
+  /// (on-success) and events that fail all processing attempts (on-failure).
+  /// You can configure destinations in addition to or instead of a dead-letter
+  /// queue.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -3103,7 +3120,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',
@@ -3126,7 +3143,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
@@ -3193,7 +3210,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(
         provisionedConcurrentExecutions, 'provisionedConcurrentExecutions');
@@ -3213,7 +3230,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{
       'ProvisionedConcurrentExecutions': provisionedConcurrentExecutions,
@@ -3268,7 +3285,7 @@ class Lambda {
     _s.validateStringPattern(
       'layerName',
       layerName,
-      r'(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+',
+      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -3280,7 +3297,7 @@ class Lambda {
     _s.validateStringPattern(
       'statementId',
       statementId,
-      r'([a-zA-Z0-9-_]+)',
+      r'''([a-zA-Z0-9-_]+)''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final $payload = <String, dynamic>{};
@@ -3352,7 +3369,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -3364,7 +3381,7 @@ class Lambda {
     _s.validateStringPattern(
       'statementId',
       statementId,
-      r'([a-zA-Z0-9-_.]+)',
+      r'''([a-zA-Z0-9-_.]+)''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -3375,7 +3392,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -3396,6 +3413,7 @@ class Lambda {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [resource] :
   /// The function's Amazon Resource Name (ARN).
@@ -3410,7 +3428,7 @@ class Lambda {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
@@ -3434,6 +3452,7 @@ class Lambda {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [resource] :
   /// The function's Amazon Resource Name (ARN).
@@ -3448,7 +3467,7 @@ class Lambda {
     _s.validateStringPattern(
       'resource',
       resource,
-      r'arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{};
@@ -3527,7 +3546,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3539,7 +3558,7 @@ class Lambda {
     _s.validateStringPattern(
       'name',
       name,
-      r'(?!^[0-9]+$)([a-zA-Z0-9-_]+)',
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
     _s.validateStringLength(
       'description',
@@ -3556,7 +3575,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
-      r'(\$LATEST|[0-9]+)',
+      r'''(\$LATEST|[0-9]+)''',
     );
     final $payload = <String, dynamic>{
       'Description': description,
@@ -3597,6 +3616,10 @@ class Lambda {
   /// <li>
   /// <code>MaximumRetryAttempts</code> - Discard records after the specified
   /// number of retries.
+  /// </li>
+  /// <li>
+  /// <code>ParallelizationFactor</code> - Process multiple batches from each
+  /// shard concurrently.
   /// </li>
   /// </ul>
   ///
@@ -3660,8 +3683,8 @@ class Lambda {
   /// the function name, it's limited to 64 characters in length.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// The maximum amount of time to gather records before invoking the function,
-  /// in seconds.
+  /// (Streams) The maximum amount of time to gather records before invoking the
+  /// function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
   /// (Streams) The maximum age of a record that Lambda sends to a function for
@@ -3701,7 +3724,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
@@ -3828,7 +3851,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       's3Bucket',
@@ -3839,7 +3862,7 @@ class Lambda {
     _s.validateStringPattern(
       's3Bucket',
       s3Bucket,
-      r'^[0-9A-Za-z\.\-_]*(?<!\.)$',
+      r'''^[0-9A-Za-z\.\-_]*(?<!\.)$''',
     );
     _s.validateStringLength(
       's3Key',
@@ -4011,7 +4034,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateStringLength(
       'description',
@@ -4028,12 +4051,12 @@ class Lambda {
     _s.validateStringPattern(
       'handler',
       handler,
-      r'[^\s]+',
+      r'''[^\s]+''',
     );
     _s.validateStringPattern(
       'kMSKeyArn',
       kMSKeyArn,
-      r'(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()',
+      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
     );
     _s.validateNumRange(
       'memorySize',
@@ -4044,7 +4067,7 @@ class Lambda {
     _s.validateStringPattern(
       'role',
       role,
-      r'arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+',
+      r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     _s.validateNumRange(
       'timeout',
@@ -4155,7 +4178,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?',
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',
@@ -4178,7 +4201,7 @@ class Lambda {
     _s.validateStringPattern(
       'qualifier',
       qualifier,
-      r'(|[a-zA-Z0-9$_-]+)',
+      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
@@ -4544,8 +4567,8 @@ class EventSourceMappingConfiguration {
   @_s.JsonKey(name: 'LastProcessingResult')
   final String lastProcessingResult;
 
-  /// The maximum amount of time to gather records before invoking the function,
-  /// in seconds.
+  /// (Streams) The maximum amount of time to gather records before invoking the
+  /// function, in seconds.
   @_s.JsonKey(name: 'MaximumBatchingWindowInSeconds')
   final int maximumBatchingWindowInSeconds;
 
@@ -4717,7 +4740,8 @@ class FunctionConfiguration {
   @_s.JsonKey(name: 'LastModified')
   final String lastModified;
 
-  /// The status of the last update that was performed on the function.
+  /// The status of the last update that was performed on the function. This is
+  /// first set to <code>Successful</code> after function creation completes.
   @_s.JsonKey(name: 'LastUpdateStatus')
   final LastUpdateStatus lastUpdateStatus;
 
@@ -5107,17 +5131,6 @@ class InvocationResponse {
 
   /// If present, indicates that an error occurred during function execution.
   /// Details about the error are included in the response payload.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Handled</code> - The runtime caught an error thrown by the function
-  /// and formatted it into a JSON document.
-  /// </li>
-  /// <li>
-  /// <code>Unhandled</code> - The runtime didn't handle the error. For example,
-  /// the function ran out of memory or timed out.
-  /// </li>
-  /// </ul>
   @_s.JsonKey(name: 'FunctionError')
   final String functionError;
 
@@ -5195,6 +5208,12 @@ enum LastUpdateStatusReasonCode {
   invalidConfiguration,
   @_s.JsonValue('InternalError')
   internalError,
+  @_s.JsonValue('SubnetOutOfIPAddresses')
+  subnetOutOfIPAddresses,
+  @_s.JsonValue('InvalidSubnet')
+  invalidSubnet,
+  @_s.JsonValue('InvalidSecurityGroup')
+  invalidSecurityGroup,
 }
 
 /// An <a
@@ -5802,12 +5821,16 @@ enum Runtime {
   dotnetcore2_0,
   @_s.JsonValue('dotnetcore2.1')
   dotnetcore2_1,
+  @_s.JsonValue('dotnetcore3.1')
+  dotnetcore3_1,
   @_s.JsonValue('nodejs4.3-edge')
   nodejs4_3Edge,
   @_s.JsonValue('go1.x')
   go1X,
   @_s.JsonValue('ruby2.5')
   ruby2_5,
+  @_s.JsonValue('ruby2.7')
+  ruby2_7,
   @_s.JsonValue('provided')
   provided,
 }
@@ -5840,9 +5863,14 @@ enum StateReasonCode {
   internalError,
   @_s.JsonValue('SubnetOutOfIPAddresses')
   subnetOutOfIPAddresses,
+  @_s.JsonValue('InvalidSubnet')
+  invalidSubnet,
+  @_s.JsonValue('InvalidSecurityGroup')
+  invalidSecurityGroup,
 }
 
-/// The function's AWS X-Ray tracing configuration.
+/// The function's AWS X-Ray tracing configuration. To sample and record
+/// incoming requests, set <code>Mode</code> to <code>Active</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

@@ -3,10 +3,10 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-You use the configuration service to create, configure, and manage search
-domains. Configuration service requests are submitted using the AWS Query
-protocol. AWS Query requests are HTTP or HTTPS requests submitted via HTTP
-GET or POST with a query parameter named Action.
+You use the Amazon CloudSearch configuration service to create, configure,
+and manage search domains. Configuration service requests are submitted
+using the AWS Query protocol. AWS Query requests are HTTP or HTTPS requests
+submitted via HTTP GET or POST with a query parameter named Action.
 
 ## Links
 

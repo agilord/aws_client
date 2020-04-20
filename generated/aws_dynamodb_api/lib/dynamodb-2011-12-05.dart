@@ -160,7 +160,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -216,7 +216,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -269,7 +269,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -315,7 +315,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -369,7 +369,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -415,7 +415,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'exclusiveStartTableName',
       exclusiveStartTableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -479,7 +479,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -578,7 +578,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -672,7 +672,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -740,7 +740,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -793,7 +793,7 @@ class DynamoDB {
     _s.validateStringPattern(
       'tableName',
       tableName,
-      r'[a-zA-Z0-9_.-]+',
+      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

@@ -1,5 +1,5 @@
 ```dart
-import 'package:aws_lambda_api/lambda-2014-11-11.dart';
+import 'package:aws_lambda_api/lambda-2015-03-31.dart';
 
 void main() {
   final credentials = AwsClientCredentials(accessKey: '', secretKey: '');

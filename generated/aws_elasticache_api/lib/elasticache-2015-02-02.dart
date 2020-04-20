@@ -497,6 +497,9 @@ class ElastiCache {
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
   ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
+  ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
@@ -1007,8 +1010,73 @@ class ElastiCache {
     return CreateCacheSubnetGroupResult.fromXml($result);
   }
 
+  /// Global Datastore for Redis offers fully managed, fast, reliable and secure
+  /// cross-region replication. Using Global Datastore for Redis, you can create
+  /// cross-region read replica clusters for ElastiCache for Redis to enable
+  /// low-latency reads and disaster recovery across regions. For more
+  /// information, see <a
+  /// href="/AmazonElastiCache/latest/red-ug/Redis-Global-Clusters.html">Replication
+  /// Across Regions Using Global Datastore</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <b>GlobalReplicationGroupId</b> is the name of the Global Datastore.
+  /// </li>
+  /// <li>
+  /// The <b>PrimaryReplicationGroupId</b> represents the name of the primary
+  /// cluster that accepts writes and will replicate updates to the secondary
+  /// cluster.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [GlobalReplicationGroupAlreadyExistsFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [globalReplicationGroupIdSuffix] :
+  /// The suffix for name of a Global Datastore. The suffix guarantees
+  /// uniqueness of the Global Datastore name across multiple regions.
+  ///
+  /// Parameter [primaryReplicationGroupId] :
+  /// The name of the primary cluster that accepts writes and will replicate
+  /// updates to the secondary cluster.
+  ///
+  /// Parameter [globalReplicationGroupDescription] :
+  /// Provides details of the Global Datastore
+  Future<CreateGlobalReplicationGroupResult> createGlobalReplicationGroup({
+    @_s.required String globalReplicationGroupIdSuffix,
+    @_s.required String primaryReplicationGroupId,
+    String globalReplicationGroupDescription,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalReplicationGroupIdSuffix, 'globalReplicationGroupIdSuffix');
+    ArgumentError.checkNotNull(
+        primaryReplicationGroupId, 'primaryReplicationGroupId');
+    final $request = <String, dynamic>{
+      'Action': 'CreateGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['GlobalReplicationGroupIdSuffix'] = globalReplicationGroupIdSuffix;
+    $request['PrimaryReplicationGroupId'] = primaryReplicationGroupId;
+    globalReplicationGroupDescription
+        ?.also((arg) => $request['GlobalReplicationGroupDescription'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'CreateGlobalReplicationGroupResult',
+    );
+    return CreateGlobalReplicationGroupResult.fromXml($result);
+  }
+
   /// Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled)
   /// replication group.
+  ///
+  /// This API can be used to create a standalone regional replication group or
+  /// a secondary replication group associated with a Global Datastore.
   ///
   /// A Redis (cluster mode disabled) replication group is a collection of
   /// clusters, where one of the clusters is a read/write primary and the others
@@ -1049,6 +1117,8 @@ class ElastiCache {
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
   ///
@@ -1170,6 +1240,9 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -1301,8 +1374,11 @@ class ElastiCache {
   /// earlier engine version, you must delete the existing cluster or
   /// replication group and create it anew with the earlier engine version.
   ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the KMS key used to encrypt the disk on the cluster.
+  /// The ID of the KMS key used to encrypt the disk in the cluster.
   ///
   /// Parameter [nodeGroupConfiguration] :
   /// A list of node group (shard) configuration options. Each node group
@@ -1508,6 +1584,7 @@ class ElastiCache {
     String cacheSubnetGroupName,
     String engine,
     String engineVersion,
+    String globalReplicationGroupId,
     String kmsKeyId,
     List<NodeGroupConfiguration> nodeGroupConfiguration,
     String notificationTopicArn,
@@ -1550,6 +1627,8 @@ class ElastiCache {
     cacheSubnetGroupName?.also((arg) => $request['CacheSubnetGroupName'] = arg);
     engine?.also((arg) => $request['Engine'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    globalReplicationGroupId
+        ?.also((arg) => $request['GlobalReplicationGroupId'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     nodeGroupConfiguration
         ?.also((arg) => $request['NodeGroupConfiguration'] = arg);
@@ -1636,7 +1715,71 @@ class ElastiCache {
     return CreateSnapshotResult.fromXml($result);
   }
 
-  /// Dynamically decreases the number of replics in a Redis (cluster mode
+  /// Decreases the number of node groups in a Global Datastore
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [applyImmediately] :
+  /// Indicates that the shard reconfiguration process begins immediately. At
+  /// present, the only permitted value for this parameter is true.
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [nodeGroupCount] :
+  /// The number of node groups (shards) that results from the modification of
+  /// the shard configuration
+  ///
+  /// Parameter [globalNodeGroupsToRemove] :
+  /// If the value of NodeGroupCount is less than the current number of node
+  /// groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
+  /// required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the
+  /// cluster. ElastiCache for Redis will attempt to remove all node groups
+  /// listed by NodeGroupsToRemove from the cluster.
+  ///
+  /// Parameter [globalNodeGroupsToRetain] :
+  /// If the value of NodeGroupCount is less than the current number of node
+  /// groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
+  /// required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the
+  /// cluster. ElastiCache for Redis will attempt to remove all node groups
+  /// listed by NodeGroupsToRemove from the cluster.
+  Future<DecreaseNodeGroupsInGlobalReplicationGroupResult>
+      decreaseNodeGroupsInGlobalReplicationGroup({
+    @_s.required bool applyImmediately,
+    @_s.required String globalReplicationGroupId,
+    @_s.required int nodeGroupCount,
+    List<String> globalNodeGroupsToRemove,
+    List<String> globalNodeGroupsToRetain,
+  }) async {
+    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    ArgumentError.checkNotNull(nodeGroupCount, 'nodeGroupCount');
+    final $request = <String, dynamic>{
+      'Action': 'DecreaseNodeGroupsInGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['ApplyImmediately'] = applyImmediately;
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    $request['NodeGroupCount'] = nodeGroupCount;
+    globalNodeGroupsToRemove
+        ?.also((arg) => $request['GlobalNodeGroupsToRemove'] = arg);
+    globalNodeGroupsToRetain
+        ?.also((arg) => $request['GlobalNodeGroupsToRetain'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DecreaseNodeGroupsInGlobalReplicationGroupResult',
+    );
+    return DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
+  }
+
+  /// Dynamically decreases the number of replicas in a Redis (cluster mode
   /// disabled) replication group or the number of replica nodes in one or more
   /// node groups (shards) of a Redis (cluster mode enabled) replication group.
   /// This operation is performed with no cluster down time.
@@ -1887,6 +2030,64 @@ class ElastiCache {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deleting a Global Datastore is a two-step process:
+  ///
+  /// <ul>
+  /// <li>
+  /// First, you must <a>DisassociateGlobalReplicationGroup</a> to remove the
+  /// secondary clusters in the Global Datastore.
+  /// </li>
+  /// <li>
+  /// Once the Global Datastore contains only the primary cluster, you can use
+  /// DeleteGlobalReplicationGroup API to delete the Global Datastore while
+  /// retainining the primary cluster using Retain…= true.
+  /// </li>
+  /// </ul>
+  /// Since the Global Datastore has only a primary cluster, you can delete the
+  /// Global Datastore while retaining the primary by setting
+  /// <code>RetainPrimaryCluster=true</code>.
+  ///
+  /// When you receive a successful response from this operation, Amazon
+  /// ElastiCache immediately begins deleting the selected resources; you cannot
+  /// cancel or revert this operation.
+  /// <note>
+  /// This operation is valid for Redis only.
+  /// </note>
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [retainPrimaryReplicationGroup] :
+  /// If set to <code>true</code>, the primary replication is retained as a
+  /// standalone replication group.
+  Future<DeleteGlobalReplicationGroupResult> deleteGlobalReplicationGroup({
+    @_s.required String globalReplicationGroupId,
+    @_s.required bool retainPrimaryReplicationGroup,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    ArgumentError.checkNotNull(
+        retainPrimaryReplicationGroup, 'retainPrimaryReplicationGroup');
+    final $request = <String, dynamic>{
+      'Action': 'DeleteGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    $request['RetainPrimaryReplicationGroup'] = retainPrimaryReplicationGroup;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DeleteGlobalReplicationGroupResult',
+    );
+    return DeleteGlobalReplicationGroupResult.fromXml($result);
   }
 
   /// Deletes an existing replication group. By default, this operation deletes
@@ -2473,6 +2674,55 @@ class ElastiCache {
     return EventsMessage.fromXml($result);
   }
 
+  /// Returns information about a particular global replication group. If no
+  /// identifier is specified, returns information about all Global Datastores.
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [marker] :
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified MaxRecords value, a marker is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [showMemberInfo] :
+  /// Returns the list of members that comprise the Global Datastore.
+  Future<DescribeGlobalReplicationGroupsResult>
+      describeGlobalReplicationGroups({
+    String globalReplicationGroupId,
+    String marker,
+    int maxRecords,
+    bool showMemberInfo,
+  }) async {
+    final $request = <String, dynamic>{
+      'Action': 'DescribeGlobalReplicationGroups',
+      'Version': '2015-02-02',
+    };
+    globalReplicationGroupId
+        ?.also((arg) => $request['GlobalReplicationGroupId'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    showMemberInfo?.also((arg) => $request['ShowMemberInfo'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeGlobalReplicationGroupsResult',
+    );
+    return DescribeGlobalReplicationGroupsResult.fromXml($result);
+  }
+
   /// Returns information about a particular replication group. If no identifier
   /// is specified, <code>DescribeReplicationGroups</code> returns information
   /// about all replication groups.
@@ -2559,6 +2809,9 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -2739,6 +2992,9 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -3084,6 +3340,145 @@ class ElastiCache {
       resultWrapper: 'DescribeUpdateActionsResult',
     );
     return UpdateActionsMessage.fromXml($result);
+  }
+
+  /// Remove a secondary cluster from the Global Datastore using the Global
+  /// Datastore name. The secondary cluster will no longer receive updates from
+  /// the primary cluster, but will remain as a standalone cluster in that AWS
+  /// region.
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [replicationGroupId] :
+  /// The name of the secondary cluster you wish to remove from the Global
+  /// Datastore
+  ///
+  /// Parameter [replicationGroupRegion] :
+  /// The AWS region of secondary cluster you wish to remove from the Global
+  /// Datastore
+  Future<DisassociateGlobalReplicationGroupResult>
+      disassociateGlobalReplicationGroup({
+    @_s.required String globalReplicationGroupId,
+    @_s.required String replicationGroupId,
+    @_s.required String replicationGroupRegion,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
+    ArgumentError.checkNotNull(
+        replicationGroupRegion, 'replicationGroupRegion');
+    final $request = <String, dynamic>{
+      'Action': 'DisassociateGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    $request['ReplicationGroupId'] = replicationGroupId;
+    $request['ReplicationGroupRegion'] = replicationGroupRegion;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DisassociateGlobalReplicationGroupResult',
+    );
+    return DisassociateGlobalReplicationGroupResult.fromXml($result);
+  }
+
+  /// Used to failover the primary region to a selected secondary region.
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [primaryRegion] :
+  /// The AWS region of the primary cluster of the Global Datastore
+  ///
+  /// Parameter [primaryReplicationGroupId] :
+  /// The name of the primary replication group
+  Future<FailoverGlobalReplicationGroupResult> failoverGlobalReplicationGroup({
+    @_s.required String globalReplicationGroupId,
+    @_s.required String primaryRegion,
+    @_s.required String primaryReplicationGroupId,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    ArgumentError.checkNotNull(primaryRegion, 'primaryRegion');
+    ArgumentError.checkNotNull(
+        primaryReplicationGroupId, 'primaryReplicationGroupId');
+    final $request = <String, dynamic>{
+      'Action': 'FailoverGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    $request['PrimaryRegion'] = primaryRegion;
+    $request['PrimaryReplicationGroupId'] = primaryReplicationGroupId;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'FailoverGlobalReplicationGroupResult',
+    );
+    return FailoverGlobalReplicationGroupResult.fromXml($result);
+  }
+
+  /// Increase the number of node groups in the Global Datastore
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [applyImmediately] :
+  /// Indicates that the process begins immediately. At present, the only
+  /// permitted value for this parameter is true.
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [nodeGroupCount] :
+  /// The number of node groups you wish to add
+  ///
+  /// Parameter [regionalConfigurations] :
+  /// Describes the replication group IDs, the AWS regions where they are stored
+  /// and the shard configuration for each that comprise the Global Datastore
+  Future<IncreaseNodeGroupsInGlobalReplicationGroupResult>
+      increaseNodeGroupsInGlobalReplicationGroup({
+    @_s.required bool applyImmediately,
+    @_s.required String globalReplicationGroupId,
+    @_s.required int nodeGroupCount,
+    List<RegionalConfiguration> regionalConfigurations,
+  }) async {
+    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    ArgumentError.checkNotNull(nodeGroupCount, 'nodeGroupCount');
+    final $request = <String, dynamic>{
+      'Action': 'IncreaseNodeGroupsInGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['ApplyImmediately'] = applyImmediately;
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    $request['NodeGroupCount'] = nodeGroupCount;
+    regionalConfigurations
+        ?.also((arg) => $request['RegionalConfigurations'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'IncreaseNodeGroupsInGlobalReplicationGroupResult',
+    );
+    return IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
   }
 
   /// Dynamically increases the number of replics in a Redis (cluster mode
@@ -3663,6 +4058,7 @@ class ElastiCache {
   /// May throw [InvalidCacheParameterGroupStateFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of the cache parameter group to modify.
@@ -3737,6 +4133,69 @@ class ElastiCache {
       resultWrapper: 'ModifyCacheSubnetGroupResult',
     );
     return ModifyCacheSubnetGroupResult.fromXml($result);
+  }
+
+  /// Modifies the settings for a Global Datastore.
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [applyImmediately] :
+  /// If true, this parameter causes the modifications in this request and any
+  /// pending modifications to be applied, asynchronously and as soon as
+  /// possible, regardless of the PreferredMaintenanceWindow setting for the
+  /// replication group. If false, changes to the nodes in the replication group
+  /// are applied on the next maintenance reboot, or the next failure reboot,
+  /// whichever occurs first.
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  ///
+  /// Parameter [automaticFailoverEnabled] :
+  /// Determines whether a read replica is automatically promoted to read/write
+  /// primary if the existing primary encounters a failure.
+  ///
+  /// Parameter [cacheNodeType] :
+  /// A valid cache node type that you want to scale this Global Datastore to.
+  ///
+  /// Parameter [engineVersion] :
+  /// The upgraded version of the cache engine to be run on the clusters in the
+  /// Global Datastore.
+  ///
+  /// Parameter [globalReplicationGroupDescription] :
+  /// A description of the Global Datastore
+  Future<ModifyGlobalReplicationGroupResult> modifyGlobalReplicationGroup({
+    @_s.required bool applyImmediately,
+    @_s.required String globalReplicationGroupId,
+    bool automaticFailoverEnabled,
+    String cacheNodeType,
+    String engineVersion,
+    String globalReplicationGroupDescription,
+  }) async {
+    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    final $request = <String, dynamic>{
+      'Action': 'ModifyGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['ApplyImmediately'] = applyImmediately;
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    automaticFailoverEnabled
+        ?.also((arg) => $request['AutomaticFailoverEnabled'] = arg);
+    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
+    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    globalReplicationGroupDescription
+        ?.also((arg) => $request['GlobalReplicationGroupDescription'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyGlobalReplicationGroupResult',
+    );
+    return ModifyGlobalReplicationGroupResult.fromXml($result);
   }
 
   /// Modifies the settings for a replication group.
@@ -4181,6 +4640,42 @@ class ElastiCache {
     return PurchaseReservedCacheNodesOfferingResult.fromXml($result);
   }
 
+  /// Redistribute slots to ensure unifirom distribution across existing shards
+  /// in the cluster.
+  ///
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [applyImmediately] :
+  /// If <code>True</code>, redistribution is applied immediately.
+  ///
+  /// Parameter [globalReplicationGroupId] :
+  /// The name of the Global Datastore
+  Future<RebalanceSlotsInGlobalReplicationGroupResult>
+      rebalanceSlotsInGlobalReplicationGroup({
+    @_s.required bool applyImmediately,
+    @_s.required String globalReplicationGroupId,
+  }) async {
+    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
+    ArgumentError.checkNotNull(
+        globalReplicationGroupId, 'globalReplicationGroupId');
+    final $request = <String, dynamic>{
+      'Action': 'RebalanceSlotsInGlobalReplicationGroup',
+      'Version': '2015-02-02',
+    };
+    $request['ApplyImmediately'] = applyImmediately;
+    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'RebalanceSlotsInGlobalReplicationGroupResult',
+    );
+    return RebalanceSlotsInGlobalReplicationGroupResult.fromXml($result);
+  }
+
   /// Reboots some, or all, of the cache nodes within a provisioned cluster.
   /// This operation applies any modified cache parameter groups to the cluster.
   /// The reboot operation takes place as soon as possible, and results in a
@@ -4286,6 +4781,7 @@ class ElastiCache {
   /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of the cache parameter group to reset.
@@ -4512,7 +5008,7 @@ class ElastiCache {
     _s.validateStringPattern(
       'nodeGroupId',
       nodeGroupId,
-      r'\d+',
+      r'''\d+''',
     );
     ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{
@@ -4553,11 +5049,10 @@ extension on String {
 /// replication group.
 class AllowedNodeTypeModificationsMessage {
   /// A string list, each element of which specifies a cache node type which you
-  /// can use to scale your cluster or replication group.
-  ///
-  /// When scaling down on a Redis cluster or replication group using
-  /// <code>ModifyCacheCluster</code> or <code>ModifyReplicationGroup</code>, use
-  /// a value from this list for the <code>CacheNodeType</code> parameter.
+  /// can use to scale your cluster or replication group. When scaling down a
+  /// Redis cluster or replication group using ModifyCacheCluster or
+  /// ModifyReplicationGroup, use a value from this list for the CacheNodeType
+  /// parameter.
   final List<String> scaleDownModifications;
 
   /// A string list, each element of which specifies a cache node type which you
@@ -4738,6 +5233,9 @@ class CacheCluster {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -5140,6 +5638,9 @@ class CacheEngineVersionMessage {
 /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
 /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
 ///
+/// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+/// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
+///
 /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
 /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
 /// </li>
@@ -5223,7 +5724,9 @@ class CacheNode {
   /// cache node used in a customer's AWS account.
   final String cacheNodeId;
 
-  /// The current state of this cache node.
+  /// The current state of this cache node, one of the following values:
+  /// <code>available</code>, <code>creating</code>, <code>rebooting</code>, or
+  /// <code>deleting</code>.
   final String cacheNodeStatus;
 
   /// The Availability Zone where this node was created and now resides.
@@ -5431,10 +5934,14 @@ class CacheParameterGroup {
   /// The description for this cache parameter group.
   final String description;
 
+  /// Indicates whether the parameter group is associated with a Global Datastore
+  final bool isGlobal;
+
   CacheParameterGroup({
     this.cacheParameterGroupFamily,
     this.cacheParameterGroupName,
     this.description,
+    this.isGlobal,
   });
   factory CacheParameterGroup.fromXml(_s.XmlElement elem) {
     return CacheParameterGroup(
@@ -5443,6 +5950,7 @@ class CacheParameterGroup {
       cacheParameterGroupName:
           _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
       description: _s.extractXmlStringValue(elem, 'Description'),
+      isGlobal: _s.extractXmlBoolValue(elem, 'IsGlobal'),
     );
   }
 }
@@ -5886,6 +6394,21 @@ class CreateCacheSubnetGroupResult {
   }
 }
 
+class CreateGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  CreateGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory CreateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+    );
+  }
+}
+
 class CreateReplicationGroupResult {
   final ReplicationGroup replicationGroup;
 
@@ -5929,6 +6452,22 @@ class CustomerNodeEndpoint {
   });
 }
 
+class DecreaseNodeGroupsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  DecreaseNodeGroupsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return DecreaseNodeGroupsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+    );
+  }
+}
+
 class DecreaseReplicaCountResult {
   final ReplicationGroup replicationGroup;
 
@@ -5955,6 +6494,21 @@ class DeleteCacheClusterResult {
       cacheCluster: _s
           .extractXmlChild(elem, 'CacheCluster')
           ?.let((e) => CacheCluster.fromXml(e)),
+    );
+  }
+}
+
+class DeleteGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  DeleteGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DeleteGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return DeleteGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
     );
   }
 }
@@ -6003,6 +6557,33 @@ class DescribeEngineDefaultParametersResult {
   }
 }
 
+class DescribeGlobalReplicationGroupsResult {
+  /// Indicates the slot configuration and global identifier for each slice group.
+  final List<GlobalReplicationGroup> globalReplicationGroups;
+
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. &gt;
+  final String marker;
+
+  DescribeGlobalReplicationGroupsResult({
+    this.globalReplicationGroups,
+    this.marker,
+  });
+  factory DescribeGlobalReplicationGroupsResult.fromXml(_s.XmlElement elem) {
+    return DescribeGlobalReplicationGroupsResult(
+      globalReplicationGroups: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroups')
+          ?.let((elem) => elem
+              .findElements('GlobalReplicationGroup')
+              .map((c) => GlobalReplicationGroup.fromXml(c))
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
 /// Represents the output of a <code>DescribeSnapshots</code> operation.
 class DescribeSnapshotsListMessage {
   /// An optional marker returned from a prior request. Use this marker for
@@ -6026,6 +6607,21 @@ class DescribeSnapshotsListMessage {
           .findElements('Snapshot')
           .map((c) => Snapshot.fromXml(c))
           .toList()),
+    );
+  }
+}
+
+class DisassociateGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  DisassociateGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DisassociateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return DisassociateGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
     );
   }
 }
@@ -6181,6 +6777,227 @@ class EventsMessage {
   }
 }
 
+class FailoverGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  FailoverGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory FailoverGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return FailoverGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+    );
+  }
+}
+
+/// Indicates the slot configuration and global identifier for a slice group.
+class GlobalNodeGroup {
+  /// The name of the global node group
+  final String globalNodeGroupId;
+
+  /// The keyspace for this node group
+  final String slots;
+
+  GlobalNodeGroup({
+    this.globalNodeGroupId,
+    this.slots,
+  });
+  factory GlobalNodeGroup.fromXml(_s.XmlElement elem) {
+    return GlobalNodeGroup(
+      globalNodeGroupId: _s.extractXmlStringValue(elem, 'GlobalNodeGroupId'),
+      slots: _s.extractXmlStringValue(elem, 'Slots'),
+    );
+  }
+}
+
+/// Consists of a primary cluster that accepts writes and an associated
+/// secondary cluster that resides in a different AWS region. The secondary
+/// cluster accepts only reads. The primary cluster automatically replicates
+/// updates to the secondary cluster.
+///
+/// <ul>
+/// <li>
+/// The <b>GlobalReplicationGroupId</b> represents the name of the Global
+/// Datastore, which is what you use to associate a secondary cluster.
+/// </li>
+/// </ul>
+class GlobalReplicationGroup {
+  /// A flag that enables encryption at rest when set to <code>true</code>.
+  ///
+  /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
+  /// the replication group is created. To enable encryption at rest on a
+  /// replication group you must set <code>AtRestEncryptionEnabled</code> to
+  /// <code>true</code> when you create the replication group.
+  ///
+  /// <b>Required:</b> Only available when creating a replication group in an
+  /// Amazon VPC using redis version <code>3.2.6</code>, <code>4.x</code> or
+  /// later.
+  final bool atRestEncryptionEnabled;
+
+  /// A flag that enables using an <code>AuthToken</code> (password) when issuing
+  /// Redis commands.
+  ///
+  /// Default: <code>false</code>
+  final bool authTokenEnabled;
+
+  /// The cache node type of the Global Datastore
+  final String cacheNodeType;
+
+  /// A flag that indicates whether the Global Datastore is cluster enabled.
+  final bool clusterEnabled;
+
+  /// The Elasticache engine. For preview, it is Redis only.
+  final String engine;
+
+  /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5
+  /// only.
+  final String engineVersion;
+
+  /// Indicates the slot configuration and global identifier for each slice group.
+  final List<GlobalNodeGroup> globalNodeGroups;
+
+  /// The optional description of the Global Datastore
+  final String globalReplicationGroupDescription;
+
+  /// The name of the Global Datastore
+  final String globalReplicationGroupId;
+
+  /// The replication groups that comprise the Global Datastore.
+  final List<GlobalReplicationGroupMember> members;
+
+  /// The status of the Global Datastore
+  final String status;
+
+  /// A flag that enables in-transit encryption when set to true. You cannot
+  /// modify the value of <code>TransitEncryptionEnabled</code> after the cluster
+  /// is created. To enable in-transit encryption on a cluster you must set
+  /// <code>TransitEncryptionEnabled</code> to true when you create a cluster.
+  final bool transitEncryptionEnabled;
+
+  GlobalReplicationGroup({
+    this.atRestEncryptionEnabled,
+    this.authTokenEnabled,
+    this.cacheNodeType,
+    this.clusterEnabled,
+    this.engine,
+    this.engineVersion,
+    this.globalNodeGroups,
+    this.globalReplicationGroupDescription,
+    this.globalReplicationGroupId,
+    this.members,
+    this.status,
+    this.transitEncryptionEnabled,
+  });
+  factory GlobalReplicationGroup.fromXml(_s.XmlElement elem) {
+    return GlobalReplicationGroup(
+      atRestEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
+      authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
+      clusterEnabled: _s.extractXmlBoolValue(elem, 'ClusterEnabled'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      globalNodeGroups: _s.extractXmlChild(elem, 'GlobalNodeGroups')?.let(
+          (elem) => elem
+              .findElements('GlobalNodeGroup')
+              .map((c) => GlobalNodeGroup.fromXml(c))
+              .toList()),
+      globalReplicationGroupDescription:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupDescription'),
+      globalReplicationGroupId:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupId'),
+      members: _s.extractXmlChild(elem, 'Members')?.let((elem) => elem
+          .findElements('GlobalReplicationGroupMember')
+          .map((c) => GlobalReplicationGroupMember.fromXml(c))
+          .toList()),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      transitEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
+    );
+  }
+}
+
+/// The name of the Global Datastore and role of this replication group in the
+/// Global Datastore.
+class GlobalReplicationGroupInfo {
+  /// The name of the Global Datastore
+  final String globalReplicationGroupId;
+
+  /// The role of the replication group in a Global Datastore. Can be primary or
+  /// secondary.
+  final String globalReplicationGroupMemberRole;
+
+  GlobalReplicationGroupInfo({
+    this.globalReplicationGroupId,
+    this.globalReplicationGroupMemberRole,
+  });
+  factory GlobalReplicationGroupInfo.fromXml(_s.XmlElement elem) {
+    return GlobalReplicationGroupInfo(
+      globalReplicationGroupId:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupId'),
+      globalReplicationGroupMemberRole:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupMemberRole'),
+    );
+  }
+}
+
+/// A member of a Global Datastore. It contains the Replication Group Id, the
+/// AWS region and the role of the replication group.
+class GlobalReplicationGroupMember {
+  /// Indicates whether automatic failover is enabled for the replication group.
+  final AutomaticFailoverStatus automaticFailover;
+
+  /// The replication group id of the Global Datastore member.
+  final String replicationGroupId;
+
+  /// The AWS region of the Global Datastore member.
+  final String replicationGroupRegion;
+
+  /// Indicates the role of the replication group, primary or secondary.
+  final String role;
+
+  /// The status of the membership of the replication group.
+  final String status;
+
+  GlobalReplicationGroupMember({
+    this.automaticFailover,
+    this.replicationGroupId,
+    this.replicationGroupRegion,
+    this.role,
+    this.status,
+  });
+  factory GlobalReplicationGroupMember.fromXml(_s.XmlElement elem) {
+    return GlobalReplicationGroupMember(
+      automaticFailover: _s
+          .extractXmlStringValue(elem, 'AutomaticFailover')
+          ?.toAutomaticFailoverStatus(),
+      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
+      replicationGroupRegion:
+          _s.extractXmlStringValue(elem, 'ReplicationGroupRegion'),
+      role: _s.extractXmlStringValue(elem, 'Role'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
+class IncreaseNodeGroupsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  IncreaseNodeGroupsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return IncreaseNodeGroupsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+    );
+  }
+}
+
 class IncreaseReplicaCountResult {
   final ReplicationGroup replicationGroup;
 
@@ -6222,6 +7039,21 @@ class ModifyCacheSubnetGroupResult {
       cacheSubnetGroup: _s
           .extractXmlChild(elem, 'CacheSubnetGroup')
           ?.let((e) => CacheSubnetGroup.fromXml(e)),
+    );
+  }
+}
+
+class ModifyGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  ModifyGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory ModifyGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
     );
   }
 }
@@ -6800,6 +7632,22 @@ class PurchaseReservedCacheNodesOfferingResult {
   }
 }
 
+class RebalanceSlotsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup globalReplicationGroup;
+
+  RebalanceSlotsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory RebalanceSlotsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return RebalanceSlotsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+    );
+  }
+}
+
 class RebootCacheClusterResult {
   final CacheCluster cacheCluster;
 
@@ -6836,6 +7684,25 @@ class RecurringCharge {
           _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
     );
   }
+}
+
+/// A list of the replication groups
+class RegionalConfiguration {
+  /// The name of the secondary cluster
+  final String replicationGroupId;
+
+  /// The AWS region where the cluster is stored
+  final String replicationGroupRegion;
+
+  /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
+  /// configuration of a node group in the resharded cluster.
+  final List<ReshardingConfiguration> reshardingConfiguration;
+
+  RegionalConfiguration({
+    @_s.required this.replicationGroupId,
+    @_s.required this.replicationGroupRegion,
+    @_s.required this.reshardingConfiguration,
+  });
 }
 
 /// Contains all of the attributes of a specific Redis replication group.
@@ -6899,6 +7766,10 @@ class ReplicationGroup {
 
   /// The user supplied description of the replication group.
   final String description;
+
+  /// The name of the Global Datastore and role of this replication group in the
+  /// Global Datastore.
+  final GlobalReplicationGroupInfo globalReplicationGroupInfo;
 
   /// The ID of the KMS key used to encrypt the disk in the cluster.
   final String kmsKeyId;
@@ -6974,6 +7845,7 @@ class ReplicationGroup {
     this.clusterEnabled,
     this.configurationEndpoint,
     this.description,
+    this.globalReplicationGroupInfo,
     this.kmsKeyId,
     this.memberClusters,
     this.nodeGroups,
@@ -7001,6 +7873,9 @@ class ReplicationGroup {
           .extractXmlChild(elem, 'ConfigurationEndpoint')
           ?.let((e) => Endpoint.fromXml(e)),
       description: _s.extractXmlStringValue(elem, 'Description'),
+      globalReplicationGroupInfo: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
+          ?.let((e) => GlobalReplicationGroupInfo.fromXml(e)),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       memberClusters: _s
           .extractXmlChild(elem, 'MemberClusters')
@@ -7134,6 +8009,9 @@ class ReservedCacheNode {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -7338,6 +8216,9 @@ class ReservedCacheNodesOffering {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -7823,6 +8704,9 @@ class Snapshot {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
   /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
@@ -8591,6 +9475,22 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+class GlobalReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
+  GlobalReplicationGroupAlreadyExistsFault({String type, String message})
+      : super(
+            type: type,
+            code: 'GlobalReplicationGroupAlreadyExistsFault',
+            message: message);
+}
+
+class GlobalReplicationGroupNotFoundFault extends _s.GenericAwsException {
+  GlobalReplicationGroupNotFoundFault({String type, String message})
+      : super(
+            type: type,
+            code: 'GlobalReplicationGroupNotFoundFault',
+            message: message);
+}
+
 class InsufficientCacheClusterCapacityFault extends _s.GenericAwsException {
   InsufficientCacheClusterCapacityFault({String type, String message})
       : super(
@@ -8625,6 +9525,14 @@ class InvalidCacheSecurityGroupStateFault extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'InvalidCacheSecurityGroupStateFault',
+            message: message);
+}
+
+class InvalidGlobalReplicationGroupStateFault extends _s.GenericAwsException {
+  InvalidGlobalReplicationGroupStateFault({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidGlobalReplicationGroupStateFault',
             message: message);
 }
 
@@ -8868,6 +9776,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CacheSubnetQuotaExceededFault(type: type, message: message),
   'ClusterQuotaForCustomerExceededFault': (type, message) =>
       ClusterQuotaForCustomerExceededFault(type: type, message: message),
+  'GlobalReplicationGroupAlreadyExistsFault': (type, message) =>
+      GlobalReplicationGroupAlreadyExistsFault(type: type, message: message),
+  'GlobalReplicationGroupNotFoundFault': (type, message) =>
+      GlobalReplicationGroupNotFoundFault(type: type, message: message),
   'InsufficientCacheClusterCapacityFault': (type, message) =>
       InsufficientCacheClusterCapacityFault(type: type, message: message),
   'InvalidARNFault': (type, message) =>
@@ -8878,6 +9790,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidCacheParameterGroupStateFault(type: type, message: message),
   'InvalidCacheSecurityGroupStateFault': (type, message) =>
       InvalidCacheSecurityGroupStateFault(type: type, message: message),
+  'InvalidGlobalReplicationGroupStateFault': (type, message) =>
+      InvalidGlobalReplicationGroupStateFault(type: type, message: message),
   'InvalidKMSKeyFault': (type, message) =>
       InvalidKMSKeyFault(type: type, message: message),
   'InvalidParameterCombinationException': (type, message) =>

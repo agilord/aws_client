@@ -234,7 +234,7 @@ class Redshift {
     return BatchDeleteClusterSnapshotsResult.fromXml($result);
   }
 
-  /// Modifies the settings for a list of snapshots.
+  /// Modifies the settings for a set of cluster snapshots.
   ///
   /// May throw [InvalidRetentionPeriodFault].
   /// May throw [BatchModifyClusterSnapshotsLimitExceededFault].
@@ -281,7 +281,7 @@ class Redshift {
     return BatchModifyClusterSnapshotsOutputMessage.fromXml($result);
   }
 
-  /// Cancels a resize operation.
+  /// Cancels a resize operation for a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [ResizeNotFoundFault].
@@ -417,7 +417,7 @@ class Redshift {
     return CopyClusterSnapshotResult.fromXml($result);
   }
 
-  /// Creates a new cluster.
+  /// Creates a new cluster with the specified parameters.
   ///
   /// To create a cluster in Virtual Private Cloud (VPC), you must provide a
   /// cluster subnet group name. The cluster subnet group identifies the subnets
@@ -530,9 +530,9 @@ class Redshift {
   /// Guide</i>.
   ///
   /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
-  /// <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
   /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code>
+  /// | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code> |
+  /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [additionalInfo] :
   /// Reserved.
@@ -568,7 +568,7 @@ class Redshift {
   /// Default: A random, system-chosen Availability Zone in the region that is
   /// specified by the endpoint.
   ///
-  /// Example: <code>us-east-1d</code>
+  /// Example: <code>us-east-2d</code>
   ///
   /// Constraint: The specified Availability Zone must be in the same region as
   /// the current endpoint.
@@ -1264,7 +1264,7 @@ class Redshift {
   /// source type in order to specify source IDs.
   ///
   /// Valid values: cluster, cluster-parameter-group, cluster-security-group,
-  /// and cluster-snapshot.
+  /// cluster-snapshot, and scheduled-action.
   ///
   /// Parameter [tags] :
   /// A list of tag instances.
@@ -1579,7 +1579,8 @@ class Redshift {
     return CreateSnapshotCopyGrantResult.fromXml($result);
   }
 
-  /// Creates a new snapshot schedule.
+  /// Create a snapshot schedule that can be associated to a cluster and which
+  /// overrides the default system backup schedule.
   ///
   /// May throw [SnapshotScheduleAlreadyExistsFault].
   /// May throw [InvalidScheduleFault].
@@ -1634,7 +1635,7 @@ class Redshift {
     return SnapshotSchedule.fromXml($result);
   }
 
-  /// Adds one or more tags to a specified resource.
+  /// Adds tags to a cluster.
   ///
   /// A resource can have up to 50 tags. If you try to create more than 50 tags
   /// for a resource, you will receive an error and the attempt will fail.
@@ -1648,7 +1649,7 @@ class Redshift {
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) to which you want to add the tag or tags.
-  /// For example, <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>.
+  /// For example, <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
   ///
   /// Parameter [tags] :
   /// One or more name/value pairs to add as tags to the specified resource.
@@ -1678,11 +1679,12 @@ class Redshift {
     );
   }
 
-  /// Deletes a previously provisioned cluster. A successful response from the
-  /// web service indicates that the request was received correctly. Use
-  /// <a>DescribeClusters</a> to monitor the status of the deletion. The delete
-  /// operation cannot be canceled or reverted once submitted. For more
-  /// information about managing clusters, go to <a
+  /// Deletes a previously provisioned cluster without its final snapshot being
+  /// created. A successful response from the web service indicates that the
+  /// request was received correctly. Use <a>DescribeClusters</a> to monitor the
+  /// status of the deletion. The delete operation cannot be canceled or
+  /// reverted once submitted. For more information about managing clusters, go
+  /// to <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
   /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
@@ -2084,8 +2086,8 @@ class Redshift {
     );
   }
 
-  /// Deletes a tag or tags from a resource. You must provide the ARN of the
-  /// resource from which you want to delete the tag or tags.
+  /// Deletes tags from a resource. You must provide the ARN of the resource
+  /// from which you want to delete the tag or tags.
   ///
   /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidTagFault].
@@ -2093,7 +2095,7 @@ class Redshift {
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) from which you want to remove the tag or
   /// tags. For example,
-  /// <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>.
+  /// <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
   ///
   /// Parameter [tagKeys] :
   /// The tag key that you want to delete.
@@ -2976,8 +2978,8 @@ class Redshift {
   /// The source type, such as cluster or parameter group, to which the
   /// described event categories apply.
   ///
-  /// Valid values: cluster, cluster-snapshot, cluster-parameter-group, and
-  /// cluster-security-group.
+  /// Valid values: cluster, cluster-snapshot, cluster-parameter-group,
+  /// cluster-security-group, and scheduled-action.
   Future<EventCategoriesMessage> describeEventCategories({
     String sourceType,
   }) async {
@@ -3426,7 +3428,9 @@ class Redshift {
   /// The action type to evaluate for possible node configurations. Specify
   /// "restore-cluster" to get configuration combinations based on an existing
   /// snapshot. Specify "recommend-node-config" to get configuration
-  /// recommendations based on an existing cluster or snapshot.
+  /// recommendations based on an existing cluster or snapshot. Specify
+  /// "resize-cluster" to get configuration combinations for elastic resize
+  /// based on an existing cluster.
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to evaluate for possible node
@@ -3922,8 +3926,7 @@ class Redshift {
     return DescribeSnapshotSchedulesOutputMessage.fromXml($result);
   }
 
-  /// Returns the total amount of snapshot usage and provisioned storage in
-  /// megabytes.
+  /// Returns account level backups storage size and provisional storage.
   Future<CustomerStorageMessage> describeStorage() async {
     final $request = <String, dynamic>{
       'Action': 'DescribeStorage',
@@ -4048,7 +4051,7 @@ class Redshift {
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) for which you want to describe the tag or
   /// tags. For example,
-  /// <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>.
+  /// <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
   ///
   /// Parameter [resourceType] :
   /// The type of resource with which you want to view tags. Valid resource
@@ -4210,6 +4213,7 @@ class Redshift {
   /// May throw [InsufficientS3BucketPolicyFault].
   /// May throw [InvalidS3KeyPrefixFault].
   /// May throw [InvalidS3BucketNameFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [bucketName] :
   /// The name of an existing S3 bucket where the log files are to be stored.
@@ -4584,19 +4588,20 @@ class Redshift {
     return GetReservedNodeExchangeOfferingsOutputMessage.fromXml($result);
   }
 
-  /// Modifies the settings for a cluster. For example, you can add another
-  /// security or parameter group, update the preferred maintenance window, or
-  /// change the master user password. Resetting a cluster password or modifying
-  /// the security groups associated with a cluster do not need a reboot.
-  /// However, modifying a parameter group requires a reboot for parameters to
-  /// take effect. For more information about managing clusters, go to <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
-  /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
-  /// Guide</i>.
+  /// Modifies the settings for a cluster.
   ///
   /// You can also change node type and the number of nodes to scale up or down
   /// the cluster. When resizing a cluster, you must specify both the number of
   /// nodes and the node type even if one of the parameters does not change.
+  ///
+  /// You can add another security or parameter group, or change the master user
+  /// password. Resetting a cluster password or modifying the security groups
+  /// associated with a cluster do not need a reboot. However, modifying a
+  /// parameter group requires a reboot for parameters to take effect. For more
+  /// information about managing clusters, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+  /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
+  /// Guide</i>.
   ///
   /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidClusterSecurityGroupStateFault].
@@ -4712,12 +4717,14 @@ class Redshift {
   /// Management Guide.
   ///
   /// Parameter [encrypted] :
-  /// Indicates whether the cluster is encrypted. If the cluster is encrypted
-  /// and you provide a value for the <code>KmsKeyId</code> parameter, we will
+  /// Indicates whether the cluster is encrypted. If the value is encrypted
+  /// (true) and you provide a value for the <code>KmsKeyId</code> parameter, we
   /// encrypt the cluster with the provided <code>KmsKeyId</code>. If you don't
-  /// provide a <code>KmsKeyId</code>, we will encrypt with the default key. In
-  /// the China region we will use legacy encryption if you specify that the
-  /// cluster is encrypted.
+  /// provide a <code>KmsKeyId</code>, we encrypt with the default key. In the
+  /// China region we use legacy encryption if you specify that the cluster is
+  /// encrypted.
+  ///
+  /// If the value is not encrypted (false), then the cluster is decrypted.
   ///
   /// Parameter [enhancedVpcRouting] :
   /// An option that specifies whether to create the cluster with enhanced VPC
@@ -4822,29 +4829,24 @@ class Redshift {
   /// The new node type of the cluster. If you specify a new node type, you must
   /// also specify the number of nodes parameter.
   ///
-  /// When you submit your request to resize a cluster, Amazon Redshift sets
-  /// access permissions for the cluster to read-only. After Amazon Redshift
-  /// provisions a new cluster according to your resize requirements, there will
-  /// be a temporary outage while the old cluster is deleted and your connection
-  /// is switched to the new cluster. When the new connection is complete, the
-  /// original access permissions for the cluster are restored. You can use
-  /// <a>DescribeResize</a> to track the progress of the resize request.
+  /// For more information about resizing clusters, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html">Resizing
+  /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster
+  /// Management Guide</i>.
   ///
   /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
   /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code>
+  /// | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code> |
+  /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [numberOfNodes] :
   /// The new number of nodes of the cluster. If you specify a new number of
   /// nodes, you must also specify the node type parameter.
   ///
-  /// When you submit your request to resize a cluster, Amazon Redshift sets
-  /// access permissions for the cluster to read-only. After Amazon Redshift
-  /// provisions a new cluster according to your resize requirements, there will
-  /// be a temporary outage while the old cluster is deleted and your connection
-  /// is switched to the new cluster. When the new connection is complete, the
-  /// original access permissions for the cluster are restored. You can use
-  /// <a>DescribeResize</a> to track the progress of the resize request.
+  /// For more information about resizing clusters, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html">Resizing
+  /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster
+  /// Management Guide</i>.
   ///
   /// Valid Values: Integer greater than <code>0</code>.
   ///
@@ -5025,10 +5027,10 @@ class Redshift {
     return ModifyClusterIamRolesResult.fromXml($result);
   }
 
-  /// Modifies the maintenance settings of a cluster. For example, you can defer
-  /// a maintenance window. You can also update or cancel a deferment.
+  /// Modifies the maintenance settings of a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// A unique identifier for the cluster.
@@ -5129,6 +5131,9 @@ class Redshift {
   }
 
   /// Modifies the settings for a snapshot.
+  ///
+  /// This exanmple modifies the manual retention period setting for a cluster
+  /// snapshot.
   ///
   /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [ClusterSnapshotNotFoundFault].
@@ -5310,7 +5315,7 @@ class Redshift {
   /// source type in order to specify source IDs.
   ///
   /// Valid values: cluster, cluster-parameter-group, cluster-security-group,
-  /// and cluster-snapshot.
+  /// cluster-snapshot, and scheduled-action.
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
     @_s.required String subscriptionName,
     bool enabled,
@@ -5342,7 +5347,7 @@ class Redshift {
     return ModifyEventSubscriptionResult.fromXml($result);
   }
 
-  /// Modify a scheduled action.
+  /// Modifies a scheduled action.
   ///
   /// May throw [ScheduledActionNotFoundFault].
   /// May throw [ScheduledActionTypeUnsupportedFault].
@@ -5524,6 +5529,32 @@ class Redshift {
     return SnapshotSchedule.fromXml($result);
   }
 
+  /// Pauses a cluster.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster to be paused.
+  Future<PauseClusterResult> pauseCluster({
+    @_s.required String clusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    final $request = <String, dynamic>{
+      'Action': 'PauseCluster',
+      'Version': '2012-12-01',
+    };
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'PauseClusterResult',
+    );
+    return PauseClusterResult.fromXml($result);
+  }
+
   /// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined
   /// set of reserved node offerings. You can purchase one or more of the
   /// offerings. You can call the <a>DescribeReservedNodeOfferings</a> API to
@@ -5674,6 +5705,12 @@ class Redshift {
   /// <li>
   /// ds2.8xlarge
   /// </li>
+  /// <li>
+  /// ra3.4xlarge
+  /// </li>
+  /// <li>
+  /// ra3.16xlarge
+  /// </li>
   /// </ul> </li>
   /// <li>
   /// The type of nodes that you add must match the node type for the cluster.
@@ -5693,9 +5730,6 @@ class Redshift {
   /// Parameter [clusterIdentifier] :
   /// The unique identifier for the cluster to resize.
   ///
-  /// Parameter [numberOfNodes] :
-  /// The new number of nodes for the cluster.
-  ///
   /// Parameter [classic] :
   /// A boolean value indicating whether the resize operation is using the
   /// classic resize process. If you don't provide this parameter or set the
@@ -5707,24 +5741,26 @@ class Redshift {
   /// Parameter [nodeType] :
   /// The new node type for the nodes you are adding. If not specified, the
   /// cluster's current node type is used.
+  ///
+  /// Parameter [numberOfNodes] :
+  /// The new number of nodes for the cluster.
   Future<ResizeClusterResult> resizeCluster({
     @_s.required String clusterIdentifier,
-    @_s.required int numberOfNodes,
     bool classic,
     String clusterType,
     String nodeType,
+    int numberOfNodes,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    ArgumentError.checkNotNull(numberOfNodes, 'numberOfNodes');
     final $request = <String, dynamic>{
       'Action': 'ResizeCluster',
       'Version': '2012-12-01',
     };
     $request['ClusterIdentifier'] = clusterIdentifier;
-    $request['NumberOfNodes'] = numberOfNodes;
     classic?.also((arg) => $request['Classic'] = arg);
     clusterType?.also((arg) => $request['ClusterType'] = arg);
     nodeType?.also((arg) => $request['NodeType'] = arg);
+    numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -5834,7 +5870,7 @@ class Redshift {
   ///
   /// Default: A random, system-chosen Availability Zone.
   ///
-  /// Example: <code>us-east-1a</code>
+  /// Example: <code>us-east-2a</code>
   ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the parameter group to be associated with this cluster.
@@ -6156,6 +6192,32 @@ class Redshift {
     return RestoreTableFromClusterSnapshotResult.fromXml($result);
   }
 
+  /// Resumes a paused cluster.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster to be resumed.
+  Future<ResumeClusterResult> resumeCluster({
+    @_s.required String clusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    final $request = <String, dynamic>{
+      'Action': 'ResumeCluster',
+      'Version': '2012-12-01',
+    };
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ResumeClusterResult',
+    );
+    return ResumeClusterResult.fromXml($result);
+  }
+
   /// Revokes an ingress rule in an Amazon Redshift security group for a
   /// previously authorized IP range or Amazon EC2 security group. To add an
   /// ingress rule, see <a>AuthorizeClusterSecurityGroupIngress</a>. For
@@ -6384,6 +6446,7 @@ class AccountWithRestoreAccess {
 enum ActionType {
   restoreCluster,
   recommendNodeConfig,
+  resizeCluster,
 }
 
 extension on String {
@@ -6393,6 +6456,8 @@ extension on String {
         return ActionType.restoreCluster;
       case 'recommend-node-config':
         return ActionType.recommendNodeConfig;
+      case 'resize-cluster':
+        return ActionType.resizeCluster;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -6627,6 +6692,9 @@ class Cluster {
   /// </li>
   /// <li>
   /// <code>modifying</code>
+  /// </li>
+  /// <li>
+  /// <code>paused</code>
   /// </li>
   /// <li>
   /// <code>rebooting</code>
@@ -8275,8 +8343,9 @@ class EventSubscription {
   /// notification subscription.
   final List<String> sourceIdsList;
 
-  /// The source type of the events returned the Amazon Redshift event
-  /// notification, such as cluster, or cluster-snapshot.
+  /// The source type of the events returned by the Amazon Redshift event
+  /// notification, such as cluster, cluster-snapshot, cluster-parameter-group,
+  /// cluster-security-group, or scheduled-action.
   final String sourceType;
 
   /// The status of the Amazon Redshift event notification subscription.
@@ -9110,6 +9179,34 @@ extension on String {
   }
 }
 
+class PauseClusterMessage {
+  /// The identifier of the cluster to be paused.
+  final String clusterIdentifier;
+
+  PauseClusterMessage({
+    @_s.required this.clusterIdentifier,
+  });
+  factory PauseClusterMessage.fromXml(_s.XmlElement elem) {
+    return PauseClusterMessage(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+    );
+  }
+}
+
+class PauseClusterResult {
+  final Cluster cluster;
+
+  PauseClusterResult({
+    this.cluster,
+  });
+  factory PauseClusterResult.fromXml(_s.XmlElement elem) {
+    return PauseClusterResult(
+      cluster:
+          _s.extractXmlChild(elem, 'Cluster')?.let((e) => Cluster.fromXml(e)),
+    );
+  }
+}
+
 /// Describes cluster attributes that are in a pending state. A change to one or
 /// more the attributes was requested and is in progress or will be applied.
 class PendingModifiedValues {
@@ -9498,9 +9595,6 @@ class ResizeClusterMessage {
   /// The unique identifier for the cluster to resize.
   final String clusterIdentifier;
 
-  /// The new number of nodes for the cluster.
-  final int numberOfNodes;
-
   /// A boolean value indicating whether the resize operation is using the classic
   /// resize process. If you don't provide this parameter or set the value to
   /// <code>false</code>, the resize type is elastic.
@@ -9513,20 +9607,23 @@ class ResizeClusterMessage {
   /// cluster's current node type is used.
   final String nodeType;
 
+  /// The new number of nodes for the cluster.
+  final int numberOfNodes;
+
   ResizeClusterMessage({
     @_s.required this.clusterIdentifier,
-    @_s.required this.numberOfNodes,
     this.classic,
     this.clusterType,
     this.nodeType,
+    this.numberOfNodes,
   });
   factory ResizeClusterMessage.fromXml(_s.XmlElement elem) {
     return ResizeClusterMessage(
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
       classic: _s.extractXmlBoolValue(elem, 'Classic'),
       clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
     );
   }
 }
@@ -9782,6 +9879,34 @@ class RestoreTableFromClusterSnapshotResult {
   }
 }
 
+class ResumeClusterMessage {
+  /// The identifier of the cluster to be resumed.
+  final String clusterIdentifier;
+
+  ResumeClusterMessage({
+    @_s.required this.clusterIdentifier,
+  });
+  factory ResumeClusterMessage.fromXml(_s.XmlElement elem) {
+    return ResumeClusterMessage(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+    );
+  }
+}
+
+class ResumeClusterResult {
+  final Cluster cluster;
+
+  ResumeClusterResult({
+    this.cluster,
+  });
+  factory ResumeClusterResult.fromXml(_s.XmlElement elem) {
+    return ResumeClusterResult(
+      cluster:
+          _s.extractXmlChild(elem, 'Cluster')?.let((e) => Cluster.fromXml(e)),
+    );
+  }
+}
+
 /// Describes a <code>RevisionTarget</code>.
 class RevisionTarget {
   /// A unique string that identifies the version to update the cluster to. You
@@ -9902,8 +10027,8 @@ class ScheduledAction {
   /// example, "<code>at(2016-03-04T17:27:00)</code>".
   ///
   /// Format of cron expressions is "<code>cron(Minutes Hours Day-of-month Month
-  /// Day-of-week Year)</code>". For example, "<code>cron(0, 10, *, *, MON,
-  /// *)</code>". For more information, see <a
+  /// Day-of-week Year)</code>". For example, "<code>cron(0 10 ? * MON *)</code>".
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
   /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
   final String schedule;
@@ -10011,23 +10136,39 @@ extension on String {
 /// The action type that specifies an Amazon Redshift API operation that is
 /// supported by the Amazon Redshift scheduler.
 class ScheduledActionType {
+  /// An action that runs a <code>PauseCluster</code> API operation.
+  final PauseClusterMessage pauseCluster;
+
   /// An action that runs a <code>ResizeCluster</code> API operation.
   final ResizeClusterMessage resizeCluster;
 
+  /// An action that runs a <code>ResumeCluster</code> API operation.
+  final ResumeClusterMessage resumeCluster;
+
   ScheduledActionType({
+    this.pauseCluster,
     this.resizeCluster,
+    this.resumeCluster,
   });
   factory ScheduledActionType.fromXml(_s.XmlElement elem) {
     return ScheduledActionType(
+      pauseCluster: _s
+          .extractXmlChild(elem, 'PauseCluster')
+          ?.let((e) => PauseClusterMessage.fromXml(e)),
       resizeCluster: _s
           .extractXmlChild(elem, 'ResizeCluster')
           ?.let((e) => ResizeClusterMessage.fromXml(e)),
+      resumeCluster: _s
+          .extractXmlChild(elem, 'ResumeCluster')
+          ?.let((e) => ResumeClusterMessage.fromXml(e)),
     );
   }
 }
 
 enum ScheduledActionTypeValues {
   resizeCluster,
+  pauseCluster,
+  resumeCluster,
 }
 
 extension on String {
@@ -10035,6 +10176,10 @@ extension on String {
     switch (this) {
       case 'ResizeCluster':
         return ScheduledActionTypeValues.resizeCluster;
+      case 'PauseCluster':
+        return ScheduledActionTypeValues.pauseCluster;
+      case 'ResumeCluster':
+        return ScheduledActionTypeValues.resumeCluster;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10782,7 +10927,7 @@ class Tag {
 /// A tag and its associated resource.
 class TaggedResource {
   /// The Amazon Resource Name (ARN) with which the tag is associated, for
-  /// example: <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>.
+  /// example: <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
   final String resourceName;
 
   /// The type of resource with which the tag is associated. Valid resource types

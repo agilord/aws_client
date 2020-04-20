@@ -114,13 +114,13 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
       role,
-      r'arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+',
+      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
@@ -162,7 +162,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -228,7 +228,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     await _protocol.send(
       null,
@@ -266,7 +266,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     await _protocol.send(
       null,
@@ -309,7 +309,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     await _protocol.send(
@@ -366,7 +366,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -506,7 +506,7 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     _s.validateStringLength(
       'description',
@@ -517,7 +517,7 @@ class Lambda {
     _s.validateStringPattern(
       'handler',
       handler,
-      r'[a-zA-Z0-9./\-_]+',
+      r'''[a-zA-Z0-9./\-_]+''',
     );
     _s.validateNumRange(
       'memorySize',
@@ -528,7 +528,7 @@ class Lambda {
     _s.validateStringPattern(
       'role',
       role,
-      r'arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+',
+      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     _s.validateNumRange(
       'timeout',
@@ -627,21 +627,21 @@ class Lambda {
     _s.validateStringPattern(
       'functionName',
       functionName,
-      r'[a-zA-Z0-9-_]+',
+      r'''[a-zA-Z0-9-_]+''',
     );
     ArgumentError.checkNotNull(functionZip, 'functionZip');
     ArgumentError.checkNotNull(handler, 'handler');
     _s.validateStringPattern(
       'handler',
       handler,
-      r'[a-zA-Z0-9./\-_]+',
+      r'''[a-zA-Z0-9./\-_]+''',
     );
     ArgumentError.checkNotNull(mode, 'mode');
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
       role,
-      r'arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+',
+      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
     _s.validateStringLength(

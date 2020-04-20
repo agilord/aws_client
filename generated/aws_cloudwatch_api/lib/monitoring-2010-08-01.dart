@@ -43,8 +43,29 @@ class CloudWatch {
           credentials: credentials,
         );
 
-  /// Deletes the specified alarms. You can delete up to 50 alarms in one
-  /// operation. In the event of an error, no alarms are deleted.
+  /// Deletes the specified alarms. You can delete up to 100 alarms in one
+  /// operation. However, this total can include no more than one composite
+  /// alarm. For example, you could delete 99 metric alarms and one composite
+  /// alarms with one operation, but you can't delete two composite alarms with
+  /// one operation.
+  ///
+  /// In the event of an error, no alarms are deleted.
+  /// <note>
+  /// It is possible to create a loop or cycle of composite alarms, where
+  /// composite alarm A depends on composite alarm B, and composite alarm B also
+  /// depends on composite alarm A. In this scenario, you can't delete any
+  /// composite alarm that is part of the cycle because there is always still a
+  /// composite alarm that depends on that alarm that you want to delete.
+  ///
+  /// To get out of such a situation, you must break the cycle by changing the
+  /// rule of one of the composite alarms in the cycle to remove a dependency
+  /// that creates the cycle. The simplest change to make to break a cycle is to
+  /// change the <code>AlarmRule</code> of one of the alarms to
+  /// <code>False</code>.
+  ///
+  /// Additionally, the evaluation of composite alarms stops if CloudWatch
+  /// detects a cycle in the evaluation path.
+  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -109,9 +130,14 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     ArgumentError.checkNotNull(stat, 'stat');
+    _s.validateStringPattern(
+      'stat',
+      stat,
+      r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DeleteAnomalyDetector',
       'Version': '2010-08-01',
@@ -168,7 +194,8 @@ class CloudWatch {
   ///
   /// Parameter [ruleNames] :
   /// An array of the rule names to delete. If you need to find out the names of
-  /// your rules, use <a>DescribeInsightRules</a>.
+  /// your rules, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<DeleteInsightRulesOutput> deleteInsightRules({
     @_s.required List<String> ruleNames,
   }) async {
@@ -190,7 +217,8 @@ class CloudWatch {
 
   /// Retrieves the history for the specified alarm. You can filter the results
   /// by date range or item type. If an alarm name is not specified, the
-  /// histories for all alarms are returned.
+  /// histories for either all metric alarms or all composite alarms are
+  /// returned.
   ///
   /// CloudWatch retains the history of an alarm even if you delete the alarm.
   ///
@@ -198,6 +226,11 @@ class CloudWatch {
   ///
   /// Parameter [alarmName] :
   /// The name of the alarm.
+  ///
+  /// Parameter [alarmTypes] :
+  /// Use this parameter to specify whether you want the operation to return
+  /// metric alarms or composite alarms. If you omit this parameter, only metric
+  /// alarms are returned.
   ///
   /// Parameter [endDate] :
   /// The ending date to retrieve alarm history.
@@ -212,14 +245,22 @@ class CloudWatch {
   /// The token returned by a previous call to indicate that there is more data
   /// available.
   ///
+  /// Parameter [scanBy] :
+  /// Specified whether to return the newest or oldest alarm history first.
+  /// Specify <code>TimestampDescending</code> to have the newest event history
+  /// returned first, and specify <code>TimestampAscending</code> to have the
+  /// oldest history returned first.
+  ///
   /// Parameter [startDate] :
   /// The starting date to retrieve alarm history.
   Future<DescribeAlarmHistoryOutput> describeAlarmHistory({
     String alarmName,
+    List<String> alarmTypes,
     DateTime endDate,
     HistoryItemType historyItemType,
     int maxRecords,
     String nextToken,
+    ScanBy scanBy,
     DateTime startDate,
   }) async {
     _s.validateStringLength(
@@ -239,10 +280,12 @@ class CloudWatch {
       'Version': '2010-08-01',
     };
     alarmName?.also((arg) => $request['AlarmName'] = arg);
+    alarmTypes?.also((arg) => $request['AlarmTypes'] = arg);
     endDate?.also((arg) => $request['EndDate'] = arg);
     historyItemType?.also((arg) => $request['HistoryItemType'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
+    scanBy?.also((arg) => $request['ScanBy'] = arg);
     startDate?.also((arg) => $request['StartDate'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -254,21 +297,51 @@ class CloudWatch {
     return DescribeAlarmHistoryOutput.fromXml($result);
   }
 
-  /// Retrieves the specified alarms. If no alarms are specified, all alarms are
-  /// returned. Alarms can be retrieved by using only a prefix for the alarm
-  /// name, the alarm state, or a prefix for any action.
+  /// Retrieves the specified alarms. You can filter the results by specifying a
+  /// a prefix for the alarm name, the alarm state, or a prefix for any action.
   ///
   /// May throw [InvalidNextToken].
   ///
   /// Parameter [actionPrefix] :
-  /// The action name prefix.
+  /// Use this parameter to filter the results of the operation to only those
+  /// alarms that use a certain alarm action. For example, you could specify the
+  /// ARN of an SNS topic to find all alarms that send notifications to that
+  /// topic.
   ///
   /// Parameter [alarmNamePrefix] :
-  /// The alarm name prefix. If this parameter is specified, you cannot specify
+  /// An alarm name prefix. If you specify this parameter, you receive
+  /// information about all alarms that have names that start with this prefix.
+  ///
+  /// If this parameter is specified, you cannot specify
   /// <code>AlarmNames</code>.
   ///
   /// Parameter [alarmNames] :
-  /// The names of the alarms.
+  /// The names of the alarms to retrieve information about.
+  ///
+  /// Parameter [alarmTypes] :
+  /// Use this parameter to specify whether you want the operation to return
+  /// metric alarms or composite alarms. If you omit this parameter, only metric
+  /// alarms are returned.
+  ///
+  /// Parameter [childrenOfAlarmName] :
+  /// If you use this parameter and specify the name of a composite alarm, the
+  /// operation returns information about the "children" alarms of the alarm you
+  /// specify. These are the metric alarms and composite alarms referenced in
+  /// the <code>AlarmRule</code> field of the composite alarm that you specify
+  /// in <code>ChildrenOfAlarmName</code>. Information about the composite alarm
+  /// that you name in <code>ChildrenOfAlarmName</code> is not returned.
+  ///
+  /// If you specify <code>ChildrenOfAlarmName</code>, you cannot specify any
+  /// other parameters in the request except for <code>MaxRecords</code> and
+  /// <code>NextToken</code>. If you do so, you will receive a validation error.
+  /// <note>
+  /// Only the <code>Alarm Name</code>, <code>ARN</code>,
+  /// <code>StateValue</code> (OK/ALARM/INSUFFICIENT_DATA), and
+  /// <code>StateUpdatedTimestamp</code> information are returned by this
+  /// operation when you use this parameter. To get complete information about
+  /// these alarms, perform another <code>DescribeAlarms</code> operation and
+  /// specify the parent alarm names in the <code>AlarmNames</code> parameter.
+  /// </note>
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of alarm descriptions to retrieve.
@@ -277,14 +350,36 @@ class CloudWatch {
   /// The token returned by a previous call to indicate that there is more data
   /// available.
   ///
+  /// Parameter [parentsOfAlarmName] :
+  /// If you use this parameter and specify the name of a metric or composite
+  /// alarm, the operation returns information about the "parent" alarms of the
+  /// alarm you specify. These are the composite alarms that have
+  /// <code>AlarmRule</code> parameters that reference the alarm named in
+  /// <code>ParentsOfAlarmName</code>. Information about the alarm that you
+  /// specify in <code>ParentsOfAlarmName</code> is not returned.
+  ///
+  /// If you specify <code>ParentsOfAlarmName</code>, you cannot specify any
+  /// other parameters in the request except for <code>MaxRecords</code> and
+  /// <code>NextToken</code>. If you do so, you will receive a validation error.
+  /// <note>
+  /// Only the Alarm Name and ARN are returned by this operation when you use
+  /// this parameter. To get complete information about these alarms, perform
+  /// another <code>DescribeAlarms</code> operation and specify the parent alarm
+  /// names in the <code>AlarmNames</code> parameter.
+  /// </note>
+  ///
   /// Parameter [stateValue] :
-  /// The state value to be used in matching alarms.
+  /// Specify this parameter to receive information only about alarms that are
+  /// currently in the state that you specify.
   Future<DescribeAlarmsOutput> describeAlarms({
     String actionPrefix,
     String alarmNamePrefix,
     List<String> alarmNames,
+    List<String> alarmTypes,
+    String childrenOfAlarmName,
     int maxRecords,
     String nextToken,
+    String parentsOfAlarmName,
     StateValue stateValue,
   }) async {
     _s.validateStringLength(
@@ -299,11 +394,23 @@ class CloudWatch {
       1,
       255,
     );
+    _s.validateStringLength(
+      'childrenOfAlarmName',
+      childrenOfAlarmName,
+      1,
+      255,
+    );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       100,
+    );
+    _s.validateStringLength(
+      'parentsOfAlarmName',
+      parentsOfAlarmName,
+      1,
+      255,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAlarms',
@@ -312,8 +419,11 @@ class CloudWatch {
     actionPrefix?.also((arg) => $request['ActionPrefix'] = arg);
     alarmNamePrefix?.also((arg) => $request['AlarmNamePrefix'] = arg);
     alarmNames?.also((arg) => $request['AlarmNames'] = arg);
+    alarmTypes?.also((arg) => $request['AlarmTypes'] = arg);
+    childrenOfAlarmName?.also((arg) => $request['ChildrenOfAlarmName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
+    parentsOfAlarmName?.also((arg) => $request['ParentsOfAlarmName'] = arg);
     stateValue?.also((arg) => $request['StateValue'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -378,12 +488,12 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     _s.validateStringPattern(
       'extendedStatistic',
       extendedStatistic,
-      r'p(\d{1,2}(\.\d{0,2})?|100)',
+      r'''p(\d{1,2}(\.\d{0,2})?|100)''',
     );
     _s.validateNumRange(
       'period',
@@ -429,7 +539,7 @@ class CloudWatch {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in one operation. The maximum
-  /// value you can specify is 10.
+  /// value that you can specify is 100.
   ///
   /// To retrieve the remaining results, make another call with the returned
   /// <code>NextToken</code> value.
@@ -475,7 +585,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAnomalyDetectors',
@@ -567,7 +677,8 @@ class CloudWatch {
   ///
   /// Parameter [ruleNames] :
   /// An array of the rule names to disable. If you need to find out the names
-  /// of your rules, use <a>DescribeInsightRules</a>.
+  /// of your rules, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<DisableInsightRulesOutput> disableInsightRules({
     @_s.required List<String> ruleNames,
   }) async {
@@ -617,7 +728,8 @@ class CloudWatch {
   ///
   /// Parameter [ruleNames] :
   /// An array of the rule names to enable. If you need to find out the names of
-  /// your rules, use <a>DescribeInsightRules</a>.
+  /// your rules, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<EnableInsightRulesOutput> enableInsightRules({
     @_s.required List<String> ruleNames,
   }) async {
@@ -809,7 +921,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'ruleName',
       ruleName,
-      r'[\x20-\x7E]+',
+      r'''[\x20-\x7E]+''',
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateStringLength(
@@ -821,7 +933,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'orderBy',
       orderBy,
-      r'[\x20-\x7E]+',
+      r'''[\x20-\x7E]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'GetInsightRuleReport',
@@ -844,7 +956,7 @@ class CloudWatch {
     return GetInsightRuleReportOutput.fromXml($result);
   }
 
-  /// You can use the <code>GetMetricData</code> API to retrieve as many as 100
+  /// You can use the <code>GetMetricData</code> API to retrieve as many as 500
   /// different metrics in a single request, with a total of as many as 100,800
   /// data points. You can also optionally perform math expressions on the
   /// values of the returned statistics, to create new time series that
@@ -916,7 +1028,7 @@ class CloudWatch {
   ///
   /// Parameter [metricDataQueries] :
   /// The metric queries to be returned. A single <code>GetMetricData</code>
-  /// call can include as many as 100 <code>MetricDataQuery</code> structures.
+  /// call can include as many as 500 <code>MetricDataQuery</code> structures.
   /// Each of these structures can specify either a metric to retrieve, or a
   /// math expression to perform on retrieved data.
   ///
@@ -1215,7 +1327,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
@@ -1277,8 +1389,9 @@ class CloudWatch {
   /// <code>MetricWidget</code> parameter in each
   /// <code>GetMetricWidgetImage</code> call.
   ///
-  /// For more information about the syntax of <code>MetricWidget</code> see
-  /// <a>CloudWatch-Metric-Widget-Structure</a>.
+  /// For more information about the syntax of <code>MetricWidget</code> see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Metric-Widget-Structure.html">GetMetricWidgetImage:
+  /// Metric Widget Structure and Syntax</a>.
   ///
   /// If any metric on the graph could not load all the requested data points,
   /// an orange triangle with an exclamation point appears next to the graph
@@ -1381,16 +1494,21 @@ class CloudWatch {
     return ListDashboardsOutput.fromXml($result);
   }
 
-  /// List the specified metrics. You can use the returned metrics with
-  /// <a>GetMetricData</a> or <a>GetMetricStatistics</a> to obtain statistical
-  /// data.
+  /// List the specified metrics. You can use the returned metrics with <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
+  /// to obtain statistical data.
   ///
   /// Up to 500 results are returned for any one call. To retrieve additional
   /// results, use the returned token with subsequent calls.
   ///
   /// After you create a metric, allow up to fifteen minutes before the metric
   /// appears. Statistics about the metric, however, are available sooner using
-  /// <a>GetMetricData</a> or <a>GetMetricStatistics</a>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
   ///
   /// May throw [InternalServiceFault].
   /// May throw [InvalidParameterValueException].
@@ -1428,7 +1546,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     final $request = <String, dynamic>{
       'Action': 'ListMetrics',
@@ -1448,18 +1566,28 @@ class CloudWatch {
     return ListMetricsOutput.fromXml($result);
   }
 
-  /// Displays the tags associated with a CloudWatch resource. Alarms support
-  /// tagging.
+  /// Displays the tags associated with a CloudWatch resource. Currently, alarms
+  /// and Contributor Insights rules support tagging.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the CloudWatch resource that you want to view tags for. For
-  /// more information on ARN format, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-cloudwatch">Example
-  /// ARNs</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The ARN of the CloudWatch resource that you want to view tags for.
+  ///
+  /// The ARN format of an alarm is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:alarm:<i>alarm-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a Contributor Insights rule is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// </code>
+  ///
+  /// For more information on ARN format, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
+  /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   Future<ListTagsForResourceOutput> listTagsForResource({
     @_s.required String resourceARN,
   }) async {
@@ -1542,9 +1670,14 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     ArgumentError.checkNotNull(stat, 'stat');
+    _s.validateStringPattern(
+      'stat',
+      stat,
+      r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
+    );
     final $request = <String, dynamic>{
       'Action': 'PutAnomalyDetector',
       'Version': '2010-08-01',
@@ -1560,6 +1693,215 @@ class CloudWatch {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       resultWrapper: 'PutAnomalyDetectorResult',
+    );
+  }
+
+  /// Creates or updates a <i>composite alarm</i>. When you create a composite
+  /// alarm, you specify a rule expression for the alarm that takes into account
+  /// the alarm states of other alarms that you have created. The composite
+  /// alarm goes into ALARM state only if all conditions of the rule are met.
+  ///
+  /// The alarms specified in a composite alarm's rule expression can include
+  /// metric alarms and other composite alarms.
+  ///
+  /// Using composite alarms can reduce alarm noise. You can create multiple
+  /// metric alarms, and also create a composite alarm and set up alerts only
+  /// for the composite alarm. For example, you could create a composite alarm
+  /// that goes into ALARM state only when more than one of the underlying
+  /// metric alarms are in ALARM state.
+  ///
+  /// Currently, the only alarm actions that can be taken by composite alarms
+  /// are notifying SNS topics.
+  /// <note>
+  /// It is possible to create a loop or cycle of composite alarms, where
+  /// composite alarm A depends on composite alarm B, and composite alarm B also
+  /// depends on composite alarm A. In this scenario, you can't delete any
+  /// composite alarm that is part of the cycle because there is always still a
+  /// composite alarm that depends on that alarm that you want to delete.
+  ///
+  /// To get out of such a situation, you must break the cycle by changing the
+  /// rule of one of the composite alarms in the cycle to remove a dependency
+  /// that creates the cycle. The simplest change to make to break a cycle is to
+  /// change the <code>AlarmRule</code> of one of the alarms to
+  /// <code>False</code>.
+  ///
+  /// Additionally, the evaluation of composite alarms stops if CloudWatch
+  /// detects a cycle in the evaluation path.
+  /// </note>
+  /// When this operation creates an alarm, the alarm state is immediately set
+  /// to <code>INSUFFICIENT_DATA</code>. The alarm is then evaluated and its
+  /// state is set appropriately. Any actions associated with the new state are
+  /// then executed. For a composite alarm, this initial time after creation is
+  /// the only time that the alarm can be in <code>INSUFFICIENT_DATA</code>
+  /// state.
+  ///
+  /// When you update an existing alarm, its state is left unchanged, but the
+  /// update completely overwrites the previous configuration of the alarm.
+  ///
+  /// May throw [LimitExceededFault].
+  ///
+  /// Parameter [alarmName] :
+  /// The name for the composite alarm. This name must be unique within your AWS
+  /// account.
+  ///
+  /// Parameter [alarmRule] :
+  /// An expression that specifies which other alarms are to be evaluated to
+  /// determine this composite alarm's state. For each alarm that you reference,
+  /// you designate a function that specifies whether that alarm needs to be in
+  /// ALARM state, OK state, or INSUFFICIENT_DATA state. You can use operators
+  /// (AND, OR and NOT) to combine multiple functions in a single expression.
+  /// You can use parenthesis to logically group the functions in your
+  /// expression.
+  ///
+  /// You can use either alarm names or ARNs to reference the other alarms that
+  /// are to be evaluated.
+  ///
+  /// Functions can include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALARM("<i>alarm-name</i> or <i>alarm-ARN</i>")</code> is TRUE if the
+  /// named alarm is in ALARM state.
+  /// </li>
+  /// <li>
+  /// <code>OK("<i>alarm-name</i> or <i>alarm-ARN</i>")</code> is TRUE if the
+  /// named alarm is in OK state.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_DATA("<i>alarm-name</i> or <i>alarm-ARN</i>")</code> is
+  /// TRUE if the named alarm is in INSUFFICIENT_DATA state.
+  /// </li>
+  /// <li>
+  /// <code>TRUE</code> always evaluates to TRUE.
+  /// </li>
+  /// <li>
+  /// <code>FALSE</code> always evaluates to FALSE.
+  /// </li>
+  /// </ul>
+  /// TRUE and FALSE are useful for testing a complex <code>AlarmRule</code>
+  /// structure, and for testing your alarm actions.
+  ///
+  /// Alarm names specified in <code>AlarmRule</code> can be surrounded with
+  /// double-quotes ("), but do not have to be.
+  ///
+  /// The following are some examples of <code>AlarmRule</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh)</code>
+  /// specifies that the composite alarm goes into ALARM state only if both
+  /// CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state.
+  /// </li>
+  /// <li>
+  /// <code>ALARM(CPUUtilizationTooHigh) AND NOT
+  /// ALARM(DeploymentInProgress)</code> specifies that the alarm goes to ALARM
+  /// state if CPUUtilizationTooHigh is in ALARM state and DeploymentInProgress
+  /// is not in ALARM state. This example reduces alarm noise during a known
+  /// deployment window.
+  /// </li>
+  /// <li>
+  /// <code>(ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND
+  /// OK(NetworkOutTooHigh)</code> goes into ALARM state if
+  /// CPUUtilizationTooHigh OR DiskReadOpsTooHigh is in ALARM state, and if
+  /// NetworkOutTooHigh is in OK state. This provides another example of using a
+  /// composite alarm to prevent noise. This rule ensures that you are not
+  /// notified with an alarm action on high CPU or disk usage if a known network
+  /// problem is also occurring.
+  /// </li>
+  /// </ul>
+  /// The <code>AlarmRule</code> can specify as many as 100 "children" alarms.
+  /// The <code>AlarmRule</code> expression can have as many as 500 elements.
+  /// Elements are child alarms, TRUE or FALSE statements, and parentheses.
+  ///
+  /// Parameter [actionsEnabled] :
+  /// Indicates whether actions should be executed during any changes to the
+  /// alarm state of the composite alarm. The default is <code>TRUE</code>.
+  ///
+  /// Parameter [alarmActions] :
+  /// The actions to execute when this alarm transitions to the
+  /// <code>ALARM</code> state from any other state. Each action is specified as
+  /// an Amazon Resource Name (ARN).
+  ///
+  /// Valid Values:
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// Parameter [alarmDescription] :
+  /// The description for the composite alarm.
+  ///
+  /// Parameter [insufficientDataActions] :
+  /// The actions to execute when this alarm transitions to the
+  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
+  /// specified as an Amazon Resource Name (ARN).
+  ///
+  /// Valid Values:
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// Parameter [oKActions] :
+  /// The actions to execute when this alarm transitions to an <code>OK</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  ///
+  /// Valid Values:
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the composite alarm. You can
+  /// associate as many as 50 tags with an alarm.
+  ///
+  /// Tags can help you organize and categorize your resources. You can also use
+  /// them to scope user permissions, by granting a user permission to access or
+  /// change only resources with certain tag values.
+  Future<void> putCompositeAlarm({
+    @_s.required String alarmName,
+    @_s.required String alarmRule,
+    bool actionsEnabled,
+    List<String> alarmActions,
+    String alarmDescription,
+    List<String> insufficientDataActions,
+    List<String> oKActions,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(alarmName, 'alarmName');
+    _s.validateStringLength(
+      'alarmName',
+      alarmName,
+      1,
+      255,
+    );
+    ArgumentError.checkNotNull(alarmRule, 'alarmRule');
+    _s.validateStringLength(
+      'alarmRule',
+      alarmRule,
+      1,
+      10240,
+    );
+    _s.validateStringLength(
+      'alarmDescription',
+      alarmDescription,
+      0,
+      1024,
+    );
+    final $request = <String, dynamic>{
+      'Action': 'PutCompositeAlarm',
+      'Version': '2010-08-01',
+    };
+    $request['AlarmName'] = alarmName;
+    $request['AlarmRule'] = alarmRule;
+    actionsEnabled?.also((arg) => $request['ActionsEnabled'] = arg);
+    alarmActions?.also((arg) => $request['AlarmActions'] = arg);
+    alarmDescription?.also((arg) => $request['AlarmDescription'] = arg);
+    insufficientDataActions
+        ?.also((arg) => $request['InsufficientDataActions'] = arg);
+    oKActions?.also((arg) => $request['OKActions'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
     );
   }
 
@@ -1592,8 +1934,9 @@ class CloudWatch {
   /// widgets to include and their location on the dashboard. This parameter is
   /// required.
   ///
-  /// For more information about the syntax, see
-  /// <a>CloudWatch-Dashboard-Body-Structure</a>.
+  /// For more information about the syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+  /// Body Structure and Syntax</a>.
   ///
   /// Parameter [dashboardName] :
   /// The name of the dashboard. If a dashboard with this name already exists,
@@ -1648,10 +1991,28 @@ class CloudWatch {
   ///
   /// Parameter [ruleState] :
   /// The state of the rule. Valid values are ENABLED and DISABLED.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the Contributor Insights rule.
+  /// You can associate as many as 50 tags with a rule.
+  ///
+  /// Tags can help you organize and categorize your resources. You can also use
+  /// them to scope user permissions, by granting a user permission to access or
+  /// change only the resources that have certain tag values.
+  ///
+  /// To be able to associate tags with a rule, you must have the
+  /// <code>cloudwatch:TagResource</code> permission in addition to the
+  /// <code>cloudwatch:PutInsightRule</code> permission.
+  ///
+  /// If you are using this operation to update an existing Contributor Insights
+  /// rule, any tags you specify in this parameter are ignored. To change the
+  /// tags of an existing rule, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>.
   Future<void> putInsightRule({
     @_s.required String ruleDefinition,
     @_s.required String ruleName,
     String ruleState,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(ruleDefinition, 'ruleDefinition');
     _s.validateStringLength(
@@ -1663,7 +2024,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'ruleDefinition',
       ruleDefinition,
-      r'[\x00-\x7F]+',
+      r'''[\x00-\x7F]+''',
     );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -1675,7 +2036,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'ruleName',
       ruleName,
-      r'[\x20-\x7E]+',
+      r'''[\x20-\x7E]+''',
     );
     _s.validateStringLength(
       'ruleState',
@@ -1686,7 +2047,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'ruleState',
       ruleState,
-      r'[\x20-\x7E]+',
+      r'''[\x20-\x7E]+''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutInsightRule',
@@ -1695,6 +2056,7 @@ class CloudWatch {
     $request['RuleDefinition'] = ruleDefinition;
     $request['RuleName'] = ruleName;
     ruleState?.also((arg) => $request['RuleState'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     await _protocol.send(
       $request,
       method: 'POST',
@@ -1800,7 +2162,7 @@ class CloudWatch {
   /// <code>arn:aws:automate:<i>region</i>:ec2:reboot</code> |
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code> |
-  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
   /// </code>
   ///
   /// Valid Values (for use with IAM roles):
@@ -1853,7 +2215,7 @@ class CloudWatch {
   /// <code>arn:aws:automate:<i>region</i>:ec2:reboot</code> |
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code> |
-  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
   /// </code>
   ///
   /// Valid Values (for use with IAM roles):
@@ -1886,7 +2248,8 @@ class CloudWatch {
   /// One item in the <code>Metrics</code> array is the expression that the
   /// alarm watches. You designate this expression by setting
   /// <code>ReturnValue</code> to true for this object in the array. For more
-  /// information, see <a>MetricDataQuery</a>.
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html">MetricDataQuery</a>.
   ///
   /// If you use the <code>Metrics</code> parameter, you cannot include the
   /// <code>MetricName</code>, <code>Dimensions</code>, <code>Period</code>,
@@ -1910,7 +2273,7 @@ class CloudWatch {
   /// <code>arn:aws:automate:<i>region</i>:ec2:reboot</code> |
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code> |
-  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
   /// </code>
   ///
   /// Valid Values (for use with IAM roles):
@@ -2065,7 +2428,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'extendedStatistic',
       extendedStatistic,
-      r'p(\d{1,2}(\.\d{0,2})?|100)',
+      r'''p(\d{1,2}(\.\d{0,2})?|100)''',
     );
     _s.validateStringLength(
       'metricName',
@@ -2082,7 +2445,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     _s.validateNumRange(
       'period',
@@ -2142,7 +2505,8 @@ class CloudWatch {
   /// the data points with the specified metric. If the specified metric does
   /// not exist, CloudWatch creates the metric. When CloudWatch creates a
   /// metric, it can take up to fifteen minutes for the metric to appear in
-  /// calls to <a>ListMetrics</a>.
+  /// calls to <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
   ///
   /// You can publish either individual data points in the <code>Value</code>
   /// field, or arrays of values and the number of times each value occurred
@@ -2168,8 +2532,16 @@ class CloudWatch {
   /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
   ///
   /// Data points with time stamps from 24 hours ago or longer can take at least
-  /// 48 hours to become available for <a>GetMetricData</a> or
-  /// <a>GetMetricStatistics</a> from the time they are submitted.
+  /// 48 hours to become available for <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
+  /// from the time they are submitted. Data points with time stamps between 3
+  /// and 24 hours ago can take as much as 2 hours to become available for for
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
   ///
   /// CloudWatch needs raw data points to calculate percentile statistics. If
   /// you publish data using a statistic set instead, you can only retrieve
@@ -2216,7 +2588,7 @@ class CloudWatch {
     _s.validateStringPattern(
       'namespace',
       namespace,
-      r'[^:].*',
+      r'''[^:].*''',
     );
     final $request = <String, dynamic>{
       'Action': 'PutMetricData',
@@ -2236,11 +2608,22 @@ class CloudWatch {
   /// updated state differs from the previous value, the action configured for
   /// the appropriate state is invoked. For example, if your alarm is configured
   /// to send an Amazon SNS message when an alarm is triggered, temporarily
-  /// changing the alarm state to <code>ALARM</code> sends an SNS message. The
-  /// alarm returns to its actual state (often within seconds). Because the
-  /// alarm state change happens quickly, it is typically only visible in the
-  /// alarm's <b>History</b> tab in the Amazon CloudWatch console or through
-  /// <a>DescribeAlarmHistory</a>.
+  /// changing the alarm state to <code>ALARM</code> sends an SNS message.
+  ///
+  /// Metric alarms returns to their actual state quickly, often within seconds.
+  /// Because the metric alarm state change happens quickly, it is typically
+  /// only visible in the alarm's <b>History</b> tab in the Amazon CloudWatch
+  /// console or through <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarmHistory.html">DescribeAlarmHistory</a>.
+  ///
+  /// If you use <code>SetAlarmState</code> on a composite alarm, the composite
+  /// alarm is not guaranteed to return to its actual state. It will return to
+  /// its actual state only once any of its children alarms change state. It is
+  /// also re-evaluated if you update its configuration.
+  ///
+  /// If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling
+  /// policies, you must include information in the <code>StateReasonData</code>
+  /// parameter to enable the policy to take the correct action.
   ///
   /// May throw [ResourceNotFound].
   /// May throw [InvalidFormatFault].
@@ -2257,6 +2640,10 @@ class CloudWatch {
   ///
   /// Parameter [stateReasonData] :
   /// The reason that this alarm is set to this specific state, in JSON format.
+  ///
+  /// For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto
+  /// Scaling or application Auto Scaling alarm actions, the Auto Scaling policy
+  /// uses the information in this field to take the correct action.
   Future<void> setAlarmState({
     @_s.required String alarmName,
     @_s.required String stateReason,
@@ -2302,7 +2689,7 @@ class CloudWatch {
 
   /// Assigns one or more tags (key-value pairs) to the specified CloudWatch
   /// resource. Currently, the only CloudWatch resources that can be tagged are
-  /// alarms.
+  /// alarms and Contributor Insights rules.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
   /// them to scope user permissions, by granting a user permission to access or
@@ -2317,7 +2704,7 @@ class CloudWatch {
   /// that is already associated with the alarm, the new tag value that you
   /// specify replaces the previous value for that tag.
   ///
-  /// You can associate as many as 50 tags with a resource.
+  /// You can associate as many as 50 tags with a CloudWatch resource.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
@@ -2325,10 +2712,20 @@ class CloudWatch {
   /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format
-  /// is
+  /// The ARN of the CloudWatch resource that you're adding tags to.
+  ///
+  /// The ARN format of an alarm is
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:alarm:<i>alarm-name</i>
   /// </code>
+  ///
+  /// The ARN format of a Contributor Insights rule is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// </code>
+  ///
+  /// For more information on ARN format, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
+  /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   ///
   /// Parameter [tags] :
   /// The list of key-value pairs to associate with the alarm.
@@ -2367,10 +2764,20 @@ class CloudWatch {
   /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the CloudWatch resource that you're removing tags from. For
-  /// more information on ARN format, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-cloudwatch">Example
-  /// ARNs</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The ARN of the CloudWatch resource that you're removing tags from.
+  ///
+  /// The ARN format of an alarm is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:alarm:<i>alarm-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a Contributor Insights rule is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// </code>
+  ///
+  /// For more information on ARN format, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
+  /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   ///
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
@@ -2407,6 +2814,9 @@ class AlarmHistoryItem {
   /// The descriptive name for the alarm.
   final String alarmName;
 
+  /// The type of alarm, either metric alarm or composite alarm.
+  final AlarmType alarmType;
+
   /// Data about the alarm, in JSON format.
   final String historyData;
 
@@ -2421,6 +2831,7 @@ class AlarmHistoryItem {
 
   AlarmHistoryItem({
     this.alarmName,
+    this.alarmType,
     this.historyData,
     this.historyItemType,
     this.historySummary,
@@ -2429,6 +2840,7 @@ class AlarmHistoryItem {
   factory AlarmHistoryItem.fromXml(_s.XmlElement elem) {
     return AlarmHistoryItem(
       alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
+      alarmType: _s.extractXmlStringValue(elem, 'AlarmType')?.toAlarmType(),
       historyData: _s.extractXmlStringValue(elem, 'HistoryData'),
       historyItemType: _s
           .extractXmlStringValue(elem, 'HistoryItemType')
@@ -2436,6 +2848,23 @@ class AlarmHistoryItem {
       historySummary: _s.extractXmlStringValue(elem, 'HistorySummary'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
     );
+  }
+}
+
+enum AlarmType {
+  compositeAlarm,
+  metricAlarm,
+}
+
+extension on String {
+  AlarmType toAlarmType() {
+    switch (this) {
+      case 'CompositeAlarm':
+        return AlarmType.compositeAlarm;
+      case 'MetricAlarm':
+        return AlarmType.metricAlarm;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -2460,12 +2889,17 @@ class AnomalyDetector {
   /// The statistic associated with the anomaly detection model.
   final String stat;
 
+  /// The current status of the anomaly detector's training. The possible values
+  /// are <code>TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA</code>
+  final AnomalyDetectorStateValue stateValue;
+
   AnomalyDetector({
     this.configuration,
     this.dimensions,
     this.metricName,
     this.namespace,
     this.stat,
+    this.stateValue,
   });
   factory AnomalyDetector.fromXml(_s.XmlElement elem) {
     return AnomalyDetector(
@@ -2479,6 +2913,9 @@ class AnomalyDetector {
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       stat: _s.extractXmlStringValue(elem, 'Stat'),
+      stateValue: _s
+          .extractXmlStringValue(elem, 'StateValue')
+          ?.toAnomalyDetectorStateValue(),
     );
   }
 }
@@ -2518,6 +2955,26 @@ class AnomalyDetectorConfiguration {
   }
 }
 
+enum AnomalyDetectorStateValue {
+  pendingTraining,
+  trainedInsufficientData,
+  trained,
+}
+
+extension on String {
+  AnomalyDetectorStateValue toAnomalyDetectorStateValue() {
+    switch (this) {
+      case 'PENDING_TRAINING':
+        return AnomalyDetectorStateValue.pendingTraining;
+      case 'TRAINED_INSUFFICIENT_DATA':
+        return AnomalyDetectorStateValue.trainedInsufficientData;
+      case 'TRAINED':
+        return AnomalyDetectorStateValue.trained;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ComparisonOperator {
   greaterThanOrEqualToThreshold,
   greaterThanThreshold,
@@ -2547,6 +3004,95 @@ extension on String {
         return ComparisonOperator.greaterThanUpperThreshold;
     }
     throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The details about a composite alarm.
+class CompositeAlarm {
+  /// Indicates whether actions should be executed during any changes to the alarm
+  /// state.
+  final bool actionsEnabled;
+
+  /// The actions to execute when this alarm transitions to the ALARM state from
+  /// any other state. Each action is specified as an Amazon Resource Name (ARN).
+  final List<String> alarmActions;
+
+  /// The Amazon Resource Name (ARN) of the alarm.
+  final String alarmArn;
+
+  /// The time stamp of the last update to the alarm configuration.
+  final DateTime alarmConfigurationUpdatedTimestamp;
+
+  /// The description of the alarm.
+  final String alarmDescription;
+
+  /// The name of the alarm.
+  final String alarmName;
+
+  /// The rule that this alarm uses to evaluate its alarm state.
+  final String alarmRule;
+
+  /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  final List<String> insufficientDataActions;
+
+  /// The actions to execute when this alarm transitions to the OK state from any
+  /// other state. Each action is specified as an Amazon Resource Name (ARN).
+  final List<String> oKActions;
+
+  /// An explanation for the alarm state, in text format.
+  final String stateReason;
+
+  /// An explanation for the alarm state, in JSON format.
+  final String stateReasonData;
+
+  /// The time stamp of the last update to the alarm state.
+  final DateTime stateUpdatedTimestamp;
+
+  /// The state value for the alarm.
+  final StateValue stateValue;
+
+  CompositeAlarm({
+    this.actionsEnabled,
+    this.alarmActions,
+    this.alarmArn,
+    this.alarmConfigurationUpdatedTimestamp,
+    this.alarmDescription,
+    this.alarmName,
+    this.alarmRule,
+    this.insufficientDataActions,
+    this.oKActions,
+    this.stateReason,
+    this.stateReasonData,
+    this.stateUpdatedTimestamp,
+    this.stateValue,
+  });
+  factory CompositeAlarm.fromXml(_s.XmlElement elem) {
+    return CompositeAlarm(
+      actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
+      alarmActions: _s
+          .extractXmlChild(elem, 'AlarmActions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'AlarmActions')),
+      alarmArn: _s.extractXmlStringValue(elem, 'AlarmArn'),
+      alarmConfigurationUpdatedTimestamp: _s.extractXmlDateTimeValue(
+          elem, 'AlarmConfigurationUpdatedTimestamp'),
+      alarmDescription: _s.extractXmlStringValue(elem, 'AlarmDescription'),
+      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
+      alarmRule: _s.extractXmlStringValue(elem, 'AlarmRule'),
+      insufficientDataActions: _s
+          .extractXmlChild(elem, 'InsufficientDataActions')
+          ?.let((elem) =>
+              _s.extractXmlStringListValues(elem, 'InsufficientDataActions')),
+      oKActions: _s
+          .extractXmlChild(elem, 'OKActions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'OKActions')),
+      stateReason: _s.extractXmlStringValue(elem, 'StateReason'),
+      stateReasonData: _s.extractXmlStringValue(elem, 'StateReasonData'),
+      stateUpdatedTimestamp:
+          _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
+      stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.toStateValue(),
+    );
   }
 }
 
@@ -2737,18 +3283,27 @@ class DescribeAlarmsForMetricOutput {
 }
 
 class DescribeAlarmsOutput {
-  /// The information for the specified alarms.
+  /// The information about any composite alarms returned by the operation.
+  final List<CompositeAlarm> compositeAlarms;
+
+  /// The information about any metric alarms returned by the operation.
   final List<MetricAlarm> metricAlarms;
 
   /// The token that marks the start of the next batch of returned results.
   final String nextToken;
 
   DescribeAlarmsOutput({
+    this.compositeAlarms,
     this.metricAlarms,
     this.nextToken,
   });
   factory DescribeAlarmsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAlarmsOutput(
+      compositeAlarms: _s.extractXmlChild(elem, 'CompositeAlarms')?.let(
+          (elem) => elem
+              .findElements('CompositeAlarms')
+              .map((c) => CompositeAlarm.fromXml(c))
+              .toList()),
       metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) => elem
           .findElements('MetricAlarms')
           .map((c) => MetricAlarm.fromXml(c))
@@ -2880,8 +3435,9 @@ class GetDashboardOutput {
 
   /// The detailed information about the dashboard, including what widgets are
   /// included and their location on the dashboard. For more information about the
-  /// <code>DashboardBody</code> syntax, see
-  /// <a>CloudWatch-Dashboard-Body-Structure</a>.
+  /// <code>DashboardBody</code> syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+  /// Body Structure and Syntax</a>.
   final String dashboardBody;
 
   /// The name of the dashboard.
@@ -3098,7 +3654,8 @@ class InsightRule {
 /// If the rule contains a single key, then each unique contributor is each
 /// unique value for this key.
 ///
-/// For more information, see <a>GetInsightRuleReport</a>.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
 class InsightRuleContributor {
   /// An approximation of the aggregate value that comes from this contributor.
   final double approximateAggregateValue;
@@ -3133,8 +3690,10 @@ class InsightRuleContributor {
 
 /// One data point related to one contributor.
 ///
-/// For more information, see <a>GetInsightRuleReport</a> and
-/// <a>InsightRuleContributor</a>.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_InsightRuleContributor.html">InsightRuleContributor</a>.
 class InsightRuleContributorDatapoint {
   /// The approximate value that this contributor added during this timestamp.
   final double approximateValue;
@@ -3157,7 +3716,8 @@ class InsightRuleContributorDatapoint {
 /// One data point from the metric time series returned in a Contributor
 /// Insights rule report.
 ///
-/// For more information, see <a>GetInsightRuleReport</a>.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
 class InsightRuleMetricDatapoint {
   /// The timestamp of the data point.
   final DateTime timestamp;
@@ -3342,7 +3902,7 @@ class Metric {
   }
 }
 
-/// Represents an alarm.
+/// The details about a metric alarm.
 class MetricAlarm {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
@@ -3535,7 +4095,7 @@ class MetricAlarm {
 /// When used in <code>GetMetricData</code>, it indicates the metric data to
 /// return, and whether this call is just retrieving a batch set of data for one
 /// metric, or is performing a math expression on metric data. A single
-/// <code>GetMetricData</code> call can include up to 100
+/// <code>GetMetricData</code> call can include up to 500
 /// <code>MetricDataQuery</code> structures.
 ///
 /// When used in <code>PutMetricAlarm</code>, it enables you to create an alarm
@@ -3601,11 +4161,6 @@ class MetricDataQuery {
   /// any multiple of 60. High-resolution metrics are those metrics stored by a
   /// <code>PutMetricData</code> operation that includes a <code>StorageResolution
   /// of 1 second</code>.
-  ///
-  /// If you are performing a <code>GetMetricData</code> operation, use this field
-  /// only if you are specifying an <code>Expression</code>. Do not use this field
-  /// when you are specifying a <code>MetricStat</code> in a
-  /// <code>GetMetricData</code> operation.
   final int period;
 
   /// When used in <code>GetMetricData</code>, this option indicates whether to
