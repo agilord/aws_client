@@ -140,12 +140,7 @@ ${builder.constructor()}
       final pattern = member.shapeClass?.pattern;
 
       if (pattern != null) {
-        if (pattern.contains("'")) {
-          writeln("_s.validateStringPattern('$name', $name, r\"$pattern\",);");
-        } else {
-          writeln("_s.validateStringPattern('$name', $name, r'$pattern',);");
-        }
-
+        writeln("_s.validateStringPattern('$name', $name, r'''$pattern''',);");
       }
     }
 
