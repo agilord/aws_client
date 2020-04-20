@@ -1,3 +1,10 @@
+## 0.0.3
+
+(git hash: c257fd15b32cd44c8bbff0a4381b708c02b4853a)
+
+- Updating generated RegExp pattern + latest API definitions. (#156)
+- Updating generated dev_dependencies blocks. (#155)
+
 ## 0.0.2
 
 (git hash: 29ed568e1905ae0e34f7eab6a8fd833e26d80e03)

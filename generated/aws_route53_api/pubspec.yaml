@@ -1,6 +1,6 @@
 name: aws_route53_api
 description: AWS API client for Amazon Route 53 (generated from SDK API specification).
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_route53_api
 
 
