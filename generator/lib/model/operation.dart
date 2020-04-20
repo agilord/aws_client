@@ -29,6 +29,7 @@ class Operation {
   @JsonKey(defaultValue: false)
   final bool endpointoperation;
   final bool internal;
+  final bool internalonly;
 
   Operation(
     this.name,
@@ -47,6 +48,7 @@ class Operation {
     this.endpointdiscovery,
     this.endpointoperation,
     this.internal,
+    this.internalonly,
   );
 
   factory Operation.fromJson(Map<String, dynamic> json) =>

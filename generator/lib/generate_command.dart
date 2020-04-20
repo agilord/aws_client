@@ -222,7 +222,7 @@ class GenerateCommand extends Command {
     print('Running pub get in $baseDir ...');
     final pr = await Process.run(
       'pub',
-      ['get'],
+      ['get', '--no-precompile'],
       workingDirectory: baseDir,
     );
     if (pr.exitCode != 0) {

@@ -181,6 +181,8 @@ class Member {
   bool isRequired = false;
   final String shape;
   final String documentation;
+  @JsonKey(name: 'enum')
+  final List<String> enumeration;
   final String location;
   final String locationName;
   final String queryName;
@@ -209,6 +211,7 @@ class Member {
   Member(
     this.shape,
     this.documentation,
+    this.enumeration,
     this.location,
     this.locationName,
     this.queryName,

@@ -88,6 +88,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
   $checkKeys(json, allowedKeys: const [
     'shape',
     'documentation',
+    'enum',
     'location',
     'locationName',
     'queryName',
@@ -107,6 +108,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
     json['shape'] as String,
     json['documentation'] as String,
+    (json['enum'] as List)?.map((e) => e as String)?.toList(),
     json['location'] as String,
     json['locationName'] as String,
     json['queryName'] as String,
