@@ -1,3 +1,8 @@
+## 0.1.4
+
+- Fixed `json` protocol signing, enabling the protocol to work.
+- Removed `package:sigv4` dependency.
+
 ## 0.1.3
 
 - Upgraded `package:sigv4` dependency.
