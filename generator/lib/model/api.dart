@@ -57,8 +57,7 @@ class Api {
 
   bool get generateFromJson => usesJsonProtocol || usesRestJsonProtocol;
 
-  bool get generateToJson =>
-      usesJsonProtocol || usesRestJsonProtocol || usesQueryProtocol;
+  bool get generateToJson => usesJsonProtocol || usesRestJsonProtocol;
 
   bool get generateJson => generateFromJson || generateToJson;
 
