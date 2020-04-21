@@ -2873,12 +2873,14 @@ class EC2 {
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
     );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
+    if (versionDescription != null) {
+      _s.validateStringLength(
+        'versionDescription',
+        versionDescription,
+        0,
+        255,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2936,23 +2938,29 @@ class EC2 {
     String versionDescription,
   }) async {
     ArgumentError.checkNotNull(launchTemplateData, 'launchTemplateData');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
+    if (launchTemplateName != null) {
+      _s.validateStringLength(
+        'launchTemplateName',
+        launchTemplateName,
+        3,
+        128,
+      );
+    }
+    if (launchTemplateName != null) {
+      _s.validateStringPattern(
+        'launchTemplateName',
+        launchTemplateName,
+        r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      );
+    }
+    if (versionDescription != null) {
+      _s.validateStringLength(
+        'versionDescription',
+        versionDescription,
+        0,
+        255,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5219,17 +5227,21 @@ class EC2 {
     String launchTemplateId,
     String launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
+    if (launchTemplateName != null) {
+      _s.validateStringLength(
+        'launchTemplateName',
+        launchTemplateName,
+        3,
+        128,
+      );
+    }
+    if (launchTemplateName != null) {
+      _s.validateStringPattern(
+        'launchTemplateName',
+        launchTemplateName,
+        r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5264,17 +5276,21 @@ class EC2 {
     String launchTemplateName,
   }) async {
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
+    if (launchTemplateName != null) {
+      _s.validateStringLength(
+        'launchTemplateName',
+        launchTemplateName,
+        3,
+        128,
+      );
+    }
+    if (launchTemplateName != null) {
+      _s.validateStringPattern(
+        'launchTemplateName',
+        launchTemplateName,
+        r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6768,12 +6784,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6841,12 +6859,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6896,12 +6916,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6948,12 +6970,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6997,12 +7021,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7051,12 +7077,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7111,12 +7139,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7162,12 +7192,14 @@ class EC2 {
     String nextToken,
     List<String> poolIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7329,12 +7361,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7385,12 +7419,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        255,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7450,12 +7486,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7489,12 +7527,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7557,12 +7597,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      200,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        200,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7896,12 +7938,14 @@ class EC2 {
     String nextToken,
     List<String> owners,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7966,12 +8010,14 @@ class EC2 {
     String nextToken,
     String offeringId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      500,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        500,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8135,12 +8181,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8634,12 +8682,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8845,12 +8895,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8993,12 +9045,15 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      100,
-    );
+    if (instanceTypes != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        100,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9491,12 +9546,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9546,12 +9603,14 @@ class EC2 {
     String nextToken,
     List<String> poolIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9692,17 +9751,21 @@ class EC2 {
     String nextToken,
     List<String> versions,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
+    if (launchTemplateName != null) {
+      _s.validateStringLength(
+        'launchTemplateName',
+        launchTemplateName,
+        3,
+        128,
+      );
+    }
+    if (launchTemplateName != null) {
+      _s.validateStringPattern(
+        'launchTemplateName',
+        launchTemplateName,
+        r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9762,12 +9825,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      200,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        200,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9803,12 +9868,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9844,12 +9911,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9886,12 +9955,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9926,12 +9997,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9966,12 +10039,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10006,12 +10081,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10059,12 +10136,14 @@ class EC2 {
     String nextToken,
     List<String> publicIps,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10129,12 +10208,14 @@ class EC2 {
     List<String> natGatewayIds,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10251,12 +10332,14 @@ class EC2 {
     List<String> networkAclIds,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10332,12 +10415,14 @@ class EC2 {
     List<String> networkInterfacePermissionIds,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        255,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10525,12 +10610,14 @@ class EC2 {
     List<String> networkInterfaceIds,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10704,12 +10791,14 @@ class EC2 {
     String nextToken,
     List<String> resources,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10751,12 +10840,14 @@ class EC2 {
     String nextToken,
     List<String> poolIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11373,12 +11464,14 @@ class EC2 {
     String nextToken,
     List<String> routeTableIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        100,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11460,12 +11553,14 @@ class EC2 {
     ArgumentError.checkNotNull(
         firstSlotStartTimeRange, 'firstSlotStartTimeRange');
     ArgumentError.checkNotNull(recurrence, 'recurrence');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      300,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        300,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11710,12 +11805,14 @@ class EC2 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11964,12 +12061,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(spotFleetRequestId, 'spotFleetRequestId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12016,12 +12115,14 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(spotFleetRequestId, 'spotFleetRequestId');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12396,18 +12497,22 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        255,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12515,12 +12620,14 @@ class EC2 {
     String nextToken,
     List<String> subnetIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12630,12 +12737,14 @@ class EC2 {
     String nextToken,
     List<String> trafficMirrorFilterIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12706,12 +12815,14 @@ class EC2 {
     String nextToken,
     List<String> trafficMirrorSessionIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12767,12 +12878,14 @@ class EC2 {
     String nextToken,
     List<String> trafficMirrorTargetIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12850,12 +12963,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayAttachmentIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12905,12 +13020,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayMulticastDomainIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12970,12 +13087,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayAttachmentIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13039,12 +13158,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayRouteTableIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13099,12 +13220,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayAttachmentIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13192,12 +13315,14 @@ class EC2 {
     String nextToken,
     List<String> transitGatewayIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13656,18 +13781,22 @@ class EC2 {
     String nextToken,
     List<String> vpcIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        255,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -14106,12 +14235,14 @@ class EC2 {
     String nextToken,
     List<String> vpcPeeringConnectionIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -14213,12 +14344,14 @@ class EC2 {
     String nextToken,
     List<String> vpcIds,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15320,12 +15453,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(poolId, 'poolId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15362,12 +15497,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15423,12 +15560,14 @@ class EC2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(poolId, 'poolId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15730,12 +15869,14 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(
         transitGatewayAttachmentId, 'transitGatewayAttachmentId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15793,12 +15934,14 @@ class EC2 {
     String nextToken,
     String transitGatewayMulticastDomainId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15849,12 +15992,14 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(
         transitGatewayRouteTableId, 'transitGatewayRouteTableId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15905,12 +16050,14 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(
         transitGatewayRouteTableId, 'transitGatewayRouteTableId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17372,17 +17519,21 @@ class EC2 {
     String launchTemplateId,
     String launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
+    if (launchTemplateName != null) {
+      _s.validateStringLength(
+        'launchTemplateName',
+        launchTemplateName,
+        3,
+        128,
+      );
+    }
+    if (launchTemplateName != null) {
+      _s.validateStringPattern(
+        'launchTemplateName',
+        launchTemplateName,
+        r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20571,12 +20722,14 @@ class EC2 {
     String nextToken,
     String transitGatewayMulticastDomainId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20648,12 +20801,14 @@ class EC2 {
     ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(
         transitGatewayRouteTableId, 'transitGatewayRouteTableId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        1000,
+      );
+    }
 // TODO: implement ec2
     throw UnimplementedError();
   }

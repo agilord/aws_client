@@ -132,11 +132,13 @@ class Lambda {
       r'''([a-zA-Z0-9-_]+)''',
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''o-[a-z0-9]{10,32}''',
-    );
+    if (organizationId != null) {
+      _s.validateStringPattern(
+        'organizationId',
+        organizationId,
+        r'''o-[a-z0-9]{10,32}''',
+      );
+    }
     final $payload = <String, dynamic>{
       'Action': action,
       'Principal': principal,
@@ -285,38 +287,50 @@ class Lambda {
       statementId,
       r'''([a-zA-Z0-9-_]+)''',
     );
-    _s.validateStringLength(
-      'eventSourceToken',
-      eventSourceToken,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'eventSourceToken',
-      eventSourceToken,
-      r'''[a-zA-Z0-9._\-]+''',
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
-    _s.validateStringPattern(
-      'sourceAccount',
-      sourceAccount,
-      r'''\d{12}''',
-    );
-    _s.validateStringPattern(
-      'sourceArn',
-      sourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-    );
+    if (eventSourceToken != null) {
+      _s.validateStringLength(
+        'eventSourceToken',
+        eventSourceToken,
+        0,
+        256,
+      );
+    }
+    if (eventSourceToken != null) {
+      _s.validateStringPattern(
+        'eventSourceToken',
+        eventSourceToken,
+        r'''[a-zA-Z0-9._\-]+''',
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
+    if (sourceAccount != null) {
+      _s.validateStringPattern(
+        'sourceAccount',
+        sourceAccount,
+        r'''\d{12}''',
+      );
+    }
+    if (sourceArn != null) {
+      _s.validateStringPattern(
+        'sourceArn',
+        sourceArn,
+        r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
+      );
+    }
     final $payload = <String, dynamic>{
       'Action': action,
       'Principal': principal,
@@ -426,12 +440,14 @@ class Lambda {
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
       'Name': name,
@@ -619,36 +635,46 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'batchSize',
-      batchSize,
-      1,
-      10000,
-    );
-    _s.validateNumRange(
-      'maximumBatchingWindowInSeconds',
-      maximumBatchingWindowInSeconds,
-      0,
-      300,
-    );
-    _s.validateNumRange(
-      'maximumRecordAgeInSeconds',
-      maximumRecordAgeInSeconds,
-      60,
-      604800,
-    );
-    _s.validateNumRange(
-      'maximumRetryAttempts',
-      maximumRetryAttempts,
-      0,
-      10000,
-    );
-    _s.validateNumRange(
-      'parallelizationFactor',
-      parallelizationFactor,
-      1,
-      10,
-    );
+    if (batchSize != null) {
+      _s.validateNumRange(
+        'batchSize',
+        batchSize,
+        1,
+        10000,
+      );
+    }
+    if (maximumBatchingWindowInSeconds != null) {
+      _s.validateNumRange(
+        'maximumBatchingWindowInSeconds',
+        maximumBatchingWindowInSeconds,
+        0,
+        300,
+      );
+    }
+    if (maximumRecordAgeInSeconds != null) {
+      _s.validateNumRange(
+        'maximumRecordAgeInSeconds',
+        maximumRecordAgeInSeconds,
+        60,
+        604800,
+      );
+    }
+    if (maximumRetryAttempts != null) {
+      _s.validateNumRange(
+        'maximumRetryAttempts',
+        maximumRetryAttempts,
+        0,
+        10000,
+      );
+    }
+    if (parallelizationFactor != null) {
+      _s.validateNumRange(
+        'parallelizationFactor',
+        parallelizationFactor,
+        1,
+        10,
+      );
+    }
     final $payload = <String, dynamic>{
       'EventSourceArn': eventSourceArn,
       'FunctionName': functionName,
@@ -866,29 +892,37 @@ class Lambda {
       r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'kMSKeyArn',
-      kMSKeyArn,
-      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
-    );
-    _s.validateNumRange(
-      'memorySize',
-      memorySize,
-      128,
-      3008,
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (kMSKeyArn != null) {
+      _s.validateStringPattern(
+        'kMSKeyArn',
+        kMSKeyArn,
+        r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
+      );
+    }
+    if (memorySize != null) {
+      _s.validateNumRange(
+        'memorySize',
+        memorySize,
+        128,
+        3008,
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final $payload = <String, dynamic>{
       'Code': code,
       'FunctionName': functionName,
@@ -1071,17 +1105,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final $payload = <String, dynamic>{};
     await _protocol.send(
       $payload,
@@ -1195,17 +1233,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final $payload = <String, dynamic>{};
     await _protocol.send(
       $payload,
@@ -1485,17 +1527,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -1610,17 +1656,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -1681,17 +1731,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -1872,17 +1926,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2109,17 +2167,21 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final headers = <String, String>{};
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
     invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toString());
@@ -2250,23 +2312,29 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'functionVersion',
-      functionVersion,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'functionVersion',
-      functionVersion,
-      r'''(\$LATEST|[0-9]+)''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (functionVersion != null) {
+      _s.validateStringLength(
+        'functionVersion',
+        functionVersion,
+        1,
+        1024,
+      );
+    }
+    if (functionVersion != null) {
+      _s.validateStringPattern(
+        'functionVersion',
+        functionVersion,
+        r'''(\$LATEST|[0-9]+)''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2334,28 +2402,36 @@ class Lambda {
     String marker,
     int maxItems,
   }) async {
-    _s.validateStringPattern(
-      'eventSourceArn',
-      eventSourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-    );
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (eventSourceArn != null) {
+      _s.validateStringPattern(
+        'eventSourceArn',
+        eventSourceArn,
+        r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
+      );
+    }
+    if (functionName != null) {
+      _s.validateStringLength(
+        'functionName',
+        functionName,
+        1,
+        140,
+      );
+    }
+    if (functionName != null) {
+      _s.validateStringPattern(
+        'functionName',
+        functionName,
+        r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2420,12 +2496,14 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      50,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        50,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2472,17 +2550,21 @@ class Lambda {
     String masterRegion,
     int maxItems,
   }) async {
-    _s.validateStringPattern(
-      'masterRegion',
-      masterRegion,
-      r'''ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (masterRegion != null) {
+      _s.validateStringPattern(
+        'masterRegion',
+        masterRegion,
+        r'''ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2535,12 +2617,14 @@ class Lambda {
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      50,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        50,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2576,12 +2660,14 @@ class Lambda {
     String marker,
     int maxItems,
   }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      50,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        50,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2642,12 +2728,14 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      50,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        50,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2741,12 +2829,14 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -2823,18 +2913,23 @@ class Lambda {
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'licenseInfo',
-      licenseInfo,
-      0,
-      512,
-    );
+    if (compatibleRuntimes != null) {}
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (licenseInfo != null) {
+      _s.validateStringLength(
+        'licenseInfo',
+        licenseInfo,
+        0,
+        512,
+      );
+    }
     final $payload = <String, dynamic>{
       'Content': content,
       'CompatibleRuntimes': compatibleRuntimes,
@@ -2924,12 +3019,14 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
     final $payload = <String, dynamic>{
       'CodeSha256': codeSha256,
       'Description': description,
@@ -3122,29 +3219,37 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'maximumEventAgeInSeconds',
-      maximumEventAgeInSeconds,
-      60,
-      21600,
-    );
-    _s.validateNumRange(
-      'maximumRetryAttempts',
-      maximumRetryAttempts,
-      0,
-      2,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (maximumEventAgeInSeconds != null) {
+      _s.validateNumRange(
+        'maximumEventAgeInSeconds',
+        maximumEventAgeInSeconds,
+        60,
+        21600,
+      );
+    }
+    if (maximumRetryAttempts != null) {
+      _s.validateNumRange(
+        'maximumRetryAttempts',
+        maximumRetryAttempts,
+        0,
+        2,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
       'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
@@ -3383,17 +3488,21 @@ class Lambda {
       statementId,
       r'''([a-zA-Z0-9-_.]+)''',
     );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final $payload = <String, dynamic>{};
     await _protocol.send(
       $payload,
@@ -3560,23 +3669,29 @@ class Lambda {
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'functionVersion',
-      functionVersion,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'functionVersion',
-      functionVersion,
-      r'''(\$LATEST|[0-9]+)''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (functionVersion != null) {
+      _s.validateStringLength(
+        'functionVersion',
+        functionVersion,
+        1,
+        1024,
+      );
+    }
+    if (functionVersion != null) {
+      _s.validateStringPattern(
+        'functionVersion',
+        functionVersion,
+        r'''(\$LATEST|[0-9]+)''',
+      );
+    }
     final $payload = <String, dynamic>{
       'Description': description,
       'FunctionVersion': functionVersion,
@@ -3709,47 +3824,61 @@ class Lambda {
     int parallelizationFactor,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    _s.validateNumRange(
-      'batchSize',
-      batchSize,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-    );
-    _s.validateNumRange(
-      'maximumBatchingWindowInSeconds',
-      maximumBatchingWindowInSeconds,
-      0,
-      300,
-    );
-    _s.validateNumRange(
-      'maximumRecordAgeInSeconds',
-      maximumRecordAgeInSeconds,
-      60,
-      604800,
-    );
-    _s.validateNumRange(
-      'maximumRetryAttempts',
-      maximumRetryAttempts,
-      0,
-      10000,
-    );
-    _s.validateNumRange(
-      'parallelizationFactor',
-      parallelizationFactor,
-      1,
-      10,
-    );
+    if (batchSize != null) {
+      _s.validateNumRange(
+        'batchSize',
+        batchSize,
+        1,
+        10000,
+      );
+    }
+    if (functionName != null) {
+      _s.validateStringLength(
+        'functionName',
+        functionName,
+        1,
+        140,
+      );
+    }
+    if (functionName != null) {
+      _s.validateStringPattern(
+        'functionName',
+        functionName,
+        r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      );
+    }
+    if (maximumBatchingWindowInSeconds != null) {
+      _s.validateNumRange(
+        'maximumBatchingWindowInSeconds',
+        maximumBatchingWindowInSeconds,
+        0,
+        300,
+      );
+    }
+    if (maximumRecordAgeInSeconds != null) {
+      _s.validateNumRange(
+        'maximumRecordAgeInSeconds',
+        maximumRecordAgeInSeconds,
+        60,
+        604800,
+      );
+    }
+    if (maximumRetryAttempts != null) {
+      _s.validateNumRange(
+        'maximumRetryAttempts',
+        maximumRetryAttempts,
+        0,
+        10000,
+      );
+    }
+    if (parallelizationFactor != null) {
+      _s.validateNumRange(
+        'parallelizationFactor',
+        parallelizationFactor,
+        1,
+        10,
+      );
+    }
     final $payload = <String, dynamic>{
       'BatchSize': batchSize,
       'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
@@ -3853,29 +3982,37 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      's3Bucket',
-      s3Bucket,
-      3,
-      63,
-    );
-    _s.validateStringPattern(
-      's3Bucket',
-      s3Bucket,
-      r'''^[0-9A-Za-z\.\-_]*(?<!\.)$''',
-    );
-    _s.validateStringLength(
-      's3Key',
-      s3Key,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      's3ObjectVersion',
-      s3ObjectVersion,
-      1,
-      1024,
-    );
+    if (s3Bucket != null) {
+      _s.validateStringLength(
+        's3Bucket',
+        s3Bucket,
+        3,
+        63,
+      );
+    }
+    if (s3Bucket != null) {
+      _s.validateStringPattern(
+        's3Bucket',
+        s3Bucket,
+        r'''^[0-9A-Za-z\.\-_]*(?<!\.)$''',
+      );
+    }
+    if (s3Key != null) {
+      _s.validateStringLength(
+        's3Key',
+        s3Key,
+        1,
+        1024,
+      );
+    }
+    if (s3ObjectVersion != null) {
+      _s.validateStringLength(
+        's3ObjectVersion',
+        s3ObjectVersion,
+        1,
+        1024,
+      );
+    }
     final $payload = <String, dynamic>{
       'DryRun': dryRun,
       'Publish': publish,
@@ -4036,45 +4173,59 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'handler',
-      handler,
-      0,
-      128,
-    );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[^\s]+''',
-    );
-    _s.validateStringPattern(
-      'kMSKeyArn',
-      kMSKeyArn,
-      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
-    );
-    _s.validateNumRange(
-      'memorySize',
-      memorySize,
-      128,
-      3008,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (handler != null) {
+      _s.validateStringLength(
+        'handler',
+        handler,
+        0,
+        128,
+      );
+    }
+    if (handler != null) {
+      _s.validateStringPattern(
+        'handler',
+        handler,
+        r'''[^\s]+''',
+      );
+    }
+    if (kMSKeyArn != null) {
+      _s.validateStringPattern(
+        'kMSKeyArn',
+        kMSKeyArn,
+        r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
+      );
+    }
+    if (memorySize != null) {
+      _s.validateNumRange(
+        'memorySize',
+        memorySize,
+        128,
+        3008,
+      );
+    }
+    if (role != null) {
+      _s.validateStringPattern(
+        'role',
+        role,
+        r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final $payload = <String, dynamic>{
       'DeadLetterConfig': deadLetterConfig,
       'Description': description,
@@ -4180,29 +4331,37 @@ class Lambda {
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
-    _s.validateNumRange(
-      'maximumEventAgeInSeconds',
-      maximumEventAgeInSeconds,
-      60,
-      21600,
-    );
-    _s.validateNumRange(
-      'maximumRetryAttempts',
-      maximumRetryAttempts,
-      0,
-      2,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
+    if (maximumEventAgeInSeconds != null) {
+      _s.validateNumRange(
+        'maximumEventAgeInSeconds',
+        maximumEventAgeInSeconds,
+        60,
+        21600,
+      );
+    }
+    if (maximumRetryAttempts != null) {
+      _s.validateNumRange(
+        'maximumRetryAttempts',
+        maximumRetryAttempts,
+        0,
+        2,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringLength(
+        'qualifier',
+        qualifier,
+        1,
+        128,
+      );
+    }
+    if (qualifier != null) {
+      _s.validateStringPattern(
+        'qualifier',
+        qualifier,
+        r'''(|[a-zA-Z0-9$_-]+)''',
+      );
+    }
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
       'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,

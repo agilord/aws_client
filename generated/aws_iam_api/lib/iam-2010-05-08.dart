@@ -571,17 +571,21 @@ class IAM {
   Future<CreateAccessKeyResponse> createAccessKey({
     String userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateAccessKey',
       'Version': '2010-05-08',
@@ -690,17 +694,21 @@ class IAM {
       groupName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateGroup',
       'Version': '2010-05-08',
@@ -770,17 +778,21 @@ class IAM {
       instanceProfileName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateInstanceProfile',
       'Version': '2010-05-08',
@@ -1105,23 +1117,29 @@ class IAM {
       policyName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1000,
+      );
+    }
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreatePolicy',
       'Version': '2010-05-08',
@@ -1386,40 +1404,53 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
-    _s.validateNumRange(
-      'maxSessionDuration',
-      maxSessionDuration,
-      3600,
-      43200,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      );
+    }
+    if (maxSessionDuration != null) {
+      _s.validateNumRange(
+        'maxSessionDuration',
+        maxSessionDuration,
+        3600,
+        43200,
+      );
+    }
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
+    if (permissionsBoundary != null) {
+      _s.validateStringLength(
+        'permissionsBoundary',
+        permissionsBoundary,
+        20,
+        2048,
+      );
+    }
+    if (tags != null) {}
     final $request = <String, dynamic>{
       'Action': 'CreateRole',
       'Version': '2010-05-08',
@@ -1593,28 +1624,36 @@ class IAM {
       awsServiceName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'customSuffix',
-      customSuffix,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'customSuffix',
-      customSuffix,
-      r'''[\w+=,.@-]+''',
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
+    if (customSuffix != null) {
+      _s.validateStringLength(
+        'customSuffix',
+        customSuffix,
+        1,
+        64,
+      );
+    }
+    if (customSuffix != null) {
+      _s.validateStringPattern(
+        'customSuffix',
+        customSuffix,
+        r'''[\w+=,.@-]+''',
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateServiceLinkedRole',
       'Version': '2010-05-08',
@@ -1772,23 +1811,30 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-    );
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
+    if (permissionsBoundary != null) {
+      _s.validateStringLength(
+        'permissionsBoundary',
+        permissionsBoundary,
+        20,
+        2048,
+      );
+    }
+    if (tags != null) {}
     final $request = <String, dynamic>{
       'Action': 'CreateUser',
       'Version': '2010-05-08',
@@ -1871,17 +1917,21 @@ class IAM {
       virtualMFADeviceName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateVirtualMFADevice',
       'Version': '2010-05-08',
@@ -2013,17 +2063,21 @@ class IAM {
       accessKeyId,
       r'''[\w]+''',
     );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DeleteAccessKey',
       'Version': '2010-05-08',
@@ -2925,17 +2979,21 @@ class IAM {
       serviceSpecificCredentialId,
       r'''[\w]+''',
     );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        64,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DeleteServiceSpecificCredential',
       'Version': '2010-05-08',
@@ -2992,17 +3050,21 @@ class IAM {
       certificateId,
       r'''[\w]+''',
     );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DeleteSigningCertificate',
       'Version': '2010-05-08',
@@ -3774,11 +3836,13 @@ class IAM {
       entityPath,
       r'''^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*''',
     );
-    _s.validateStringPattern(
-      'organizationsPolicyId',
-      organizationsPolicyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-    );
+    if (organizationsPolicyId != null) {
+      _s.validateStringPattern(
+        'organizationsPolicyId',
+        organizationsPolicyId,
+        r'''^p-[0-9a-zA-Z_]{8,128}$''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GenerateOrganizationsAccessReport',
       'Version': '2010-05-08',
@@ -3984,23 +4048,29 @@ class IAM {
     String marker,
     int maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetAccountAuthorizationDetails',
       'Version': '2010-05-08',
@@ -4282,23 +4352,29 @@ class IAM {
       groupName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetGroup',
       'Version': '2010-05-08',
@@ -4596,23 +4672,29 @@ class IAM {
       36,
       36,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetOrganizationsAccessReport',
       'Version': '2010-05-08',
@@ -5166,23 +5248,29 @@ class IAM {
       36,
       36,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetServiceLastAccessedDetails',
       'Version': '2010-05-08',
@@ -5294,23 +5382,29 @@ class IAM {
       serviceNamespace,
       r'''[\w-]*''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetServiceLastAccessedDetailsWithEntities',
       'Version': '2010-05-08',
@@ -5391,17 +5485,21 @@ class IAM {
   Future<GetUserResponse> getUser({
     String userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetUser',
       'Version': '2010-05-08',
@@ -5549,34 +5647,44 @@ class IAM {
     int maxItems,
     String userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListAccessKeys',
       'Version': '2010-05-08',
@@ -5623,23 +5731,29 @@ class IAM {
     String marker,
     int maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListAccountAliases',
       'Version': '2010-05-08',
@@ -5732,34 +5846,44 @@ class IAM {
       groupName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListAttachedGroupPolicies',
       'Version': '2010-05-08',
@@ -5854,34 +5978,44 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListAttachedRolePolicies',
       'Version': '2010-05-08',
@@ -5976,34 +6110,44 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListAttachedUserPolicies',
       'Version': '2010-05-08',
@@ -6111,34 +6255,44 @@ class IAM {
       20,
       2048,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListEntitiesForPolicy',
       'Version': '2010-05-08',
@@ -6219,23 +6373,29 @@ class IAM {
       groupName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListGroupPolicies',
       'Version': '2010-05-08',
@@ -6297,34 +6457,44 @@ class IAM {
     int maxItems,
     String pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''\u002F[\u0021-\u007F]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListGroups',
       'Version': '2010-05-08',
@@ -6393,23 +6563,29 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListGroupsForUser',
       'Version': '2010-05-08',
@@ -6475,34 +6651,44 @@ class IAM {
     int maxItems,
     String pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''\u002F[\u0021-\u007F]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListInstanceProfiles',
       'Version': '2010-05-08',
@@ -6575,23 +6761,29 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListInstanceProfilesForRole',
       'Version': '2010-05-08',
@@ -6652,34 +6844,44 @@ class IAM {
     int maxItems,
     String userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListMFADevices',
       'Version': '2010-05-08',
@@ -6802,34 +7004,44 @@ class IAM {
     PolicyUsageType policyUsageFilter,
     PolicyScopeType scope,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListPolicies',
       'Version': '2010-05-08',
@@ -6934,17 +7146,21 @@ class IAM {
       2048,
     );
     ArgumentError.checkNotNull(serviceNamespaces, 'serviceNamespaces');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListPoliciesGrantingServiceAccess',
       'Version': '2010-05-08',
@@ -7013,23 +7229,29 @@ class IAM {
       20,
       2048,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListPolicyVersions',
       'Version': '2010-05-08',
@@ -7107,23 +7329,29 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListRolePolicies',
       'Version': '2010-05-08',
@@ -7192,23 +7420,29 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListRoleTags',
       'Version': '2010-05-08',
@@ -7274,34 +7508,44 @@ class IAM {
     int maxItems,
     String pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''\u002F[\u0021-\u007F]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListRoles',
       'Version': '2010-05-08',
@@ -7392,34 +7636,44 @@ class IAM {
     int maxItems,
     String userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        64,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListSSHPublicKeys',
       'Version': '2010-05-08',
@@ -7488,34 +7742,44 @@ class IAM {
     int maxItems,
     String pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''\u002F[\u0021-\u007F]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListServerCertificates',
       'Version': '2010-05-08',
@@ -7564,17 +7828,21 @@ class IAM {
     String serviceName,
     String userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        64,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListServiceSpecificCredentials',
       'Version': '2010-05-08',
@@ -7638,34 +7906,44 @@ class IAM {
     int maxItems,
     String userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListSigningCertificates',
       'Version': '2010-05-08',
@@ -7742,23 +8020,29 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListUserPolicies',
       'Version': '2010-05-08',
@@ -7827,23 +8111,29 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListUserTags',
       'Version': '2010-05-08',
@@ -7907,34 +8197,44 @@ class IAM {
     int maxItems,
     String pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringLength(
+        'pathPrefix',
+        pathPrefix,
+        1,
+        512,
+      );
+    }
+    if (pathPrefix != null) {
+      _s.validateStringPattern(
+        'pathPrefix',
+        pathPrefix,
+        r'''\u002F[\u0021-\u007F]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListUsers',
       'Version': '2010-05-08',
@@ -7989,23 +8289,29 @@ class IAM {
     String marker,
     int maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListVirtualMFADevices',
       'Version': '2010-05-08',
@@ -8769,17 +9075,21 @@ class IAM {
       serviceSpecificCredentialId,
       r'''[\w]+''',
     );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        64,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ResetServiceSpecificCredential',
       'Version': '2010-05-08',
@@ -9276,52 +9586,68 @@ class IAM {
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (callerArn != null) {
+      _s.validateStringLength(
+        'callerArn',
+        callerArn,
+        1,
+        2048,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (resourceHandlingOption != null) {
+      _s.validateStringLength(
+        'resourceHandlingOption',
+        resourceHandlingOption,
+        1,
+        64,
+      );
+    }
+    if (resourceOwner != null) {
+      _s.validateStringLength(
+        'resourceOwner',
+        resourceOwner,
+        1,
+        2048,
+      );
+    }
+    if (resourcePolicy != null) {
+      _s.validateStringLength(
+        'resourcePolicy',
+        resourcePolicy,
+        1,
+        131072,
+      );
+    }
+    if (resourcePolicy != null) {
+      _s.validateStringPattern(
+        'resourcePolicy',
+        resourcePolicy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'SimulateCustomPolicy',
       'Version': '2010-05-08',
@@ -9636,52 +9962,68 @@ class IAM {
       20,
       2048,
     );
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (callerArn != null) {
+      _s.validateStringLength(
+        'callerArn',
+        callerArn,
+        1,
+        2048,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        320,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (resourceHandlingOption != null) {
+      _s.validateStringLength(
+        'resourceHandlingOption',
+        resourceHandlingOption,
+        1,
+        64,
+      );
+    }
+    if (resourceOwner != null) {
+      _s.validateStringLength(
+        'resourceOwner',
+        resourceOwner,
+        1,
+        2048,
+      );
+    }
+    if (resourcePolicy != null) {
+      _s.validateStringLength(
+        'resourcePolicy',
+        resourcePolicy,
+        1,
+        131072,
+      );
+    }
+    if (resourcePolicy != null) {
+      _s.validateStringPattern(
+        'resourcePolicy',
+        resourcePolicy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'SimulatePrincipalPolicy',
       'Version': '2010-05-08',
@@ -10058,17 +10400,21 @@ class IAM {
       r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateAccessKey',
       'Version': '2010-05-08',
@@ -10192,24 +10538,30 @@ class IAM {
     bool requireSymbols,
     bool requireUppercaseCharacters,
   }) async {
-    _s.validateNumRange(
-      'maxPasswordAge',
-      maxPasswordAge,
-      1,
-      1095,
-    );
-    _s.validateNumRange(
-      'minimumPasswordLength',
-      minimumPasswordLength,
-      6,
-      128,
-    );
-    _s.validateNumRange(
-      'passwordReusePrevention',
-      passwordReusePrevention,
-      1,
-      24,
-    );
+    if (maxPasswordAge != null) {
+      _s.validateNumRange(
+        'maxPasswordAge',
+        maxPasswordAge,
+        1,
+        1095,
+      );
+    }
+    if (minimumPasswordLength != null) {
+      _s.validateNumRange(
+        'minimumPasswordLength',
+        minimumPasswordLength,
+        6,
+        128,
+      );
+    }
+    if (passwordReusePrevention != null) {
+      _s.validateNumRange(
+        'passwordReusePrevention',
+        passwordReusePrevention,
+        1,
+        24,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateAccountPasswordPolicy',
       'Version': '2010-05-08',
@@ -10392,28 +10744,36 @@ class IAM {
       groupName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'newGroupName',
-      newGroupName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'newGroupName',
-      newGroupName,
-      r'''[\w+=,.@-]+''',
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (newGroupName != null) {
+      _s.validateStringLength(
+        'newGroupName',
+        newGroupName,
+        1,
+        128,
+      );
+    }
+    if (newGroupName != null) {
+      _s.validateStringPattern(
+        'newGroupName',
+        newGroupName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
+    if (newPath != null) {
+      _s.validateStringLength(
+        'newPath',
+        newPath,
+        1,
+        512,
+      );
+    }
+    if (newPath != null) {
+      _s.validateStringPattern(
+        'newPath',
+        newPath,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateGroup',
       'Version': '2010-05-08',
@@ -10495,17 +10855,21 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (password != null) {
+      _s.validateStringLength(
+        'password',
+        password,
+        1,
+        128,
+      );
+    }
+    if (password != null) {
+      _s.validateStringPattern(
+        'password',
+        password,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateLoginProfile',
       'Version': '2010-05-08',
@@ -10634,23 +10998,29 @@ class IAM {
       roleName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
-    _s.validateNumRange(
-      'maxSessionDuration',
-      maxSessionDuration,
-      3600,
-      43200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      );
+    }
+    if (maxSessionDuration != null) {
+      _s.validateNumRange(
+        'maxSessionDuration',
+        maxSessionDuration,
+        3600,
+        43200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateRole',
       'Version': '2010-05-08',
@@ -10944,28 +11314,36 @@ class IAM {
       serverCertificateName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
-    _s.validateStringLength(
-      'newServerCertificateName',
-      newServerCertificateName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'newServerCertificateName',
-      newServerCertificateName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (newPath != null) {
+      _s.validateStringLength(
+        'newPath',
+        newPath,
+        1,
+        512,
+      );
+    }
+    if (newPath != null) {
+      _s.validateStringPattern(
+        'newPath',
+        newPath,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
+    if (newServerCertificateName != null) {
+      _s.validateStringLength(
+        'newServerCertificateName',
+        newServerCertificateName,
+        1,
+        128,
+      );
+    }
+    if (newServerCertificateName != null) {
+      _s.validateStringPattern(
+        'newServerCertificateName',
+        newServerCertificateName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateServerCertificate',
       'Version': '2010-05-08',
@@ -11028,17 +11406,21 @@ class IAM {
       r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        64,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateServiceSpecificCredential',
       'Version': '2010-05-08',
@@ -11105,17 +11487,21 @@ class IAM {
       r'''[\w]+''',
     );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateSigningCertificate',
       'Version': '2010-05-08',
@@ -11201,28 +11587,36 @@ class IAM {
       userName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
-    _s.validateStringLength(
-      'newUserName',
-      newUserName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'newUserName',
-      newUserName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (newPath != null) {
+      _s.validateStringLength(
+        'newPath',
+        newPath,
+        1,
+        512,
+      );
+    }
+    if (newPath != null) {
+      _s.validateStringPattern(
+        'newPath',
+        newPath,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
+    if (newUserName != null) {
+      _s.validateStringLength(
+        'newUserName',
+        newUserName,
+        1,
+        64,
+      );
+    }
+    if (newUserName != null) {
+      _s.validateStringPattern(
+        'newUserName',
+        newUserName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateUser',
       'Version': '2010-05-08',
@@ -11510,28 +11904,36 @@ class IAM {
       serverCertificateName,
       r'''[\w+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'certificateChain',
-      certificateChain,
-      1,
-      2097152,
-    );
-    _s.validateStringPattern(
-      'certificateChain',
-      certificateChain,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
+    if (certificateChain != null) {
+      _s.validateStringLength(
+        'certificateChain',
+        certificateChain,
+        1,
+        2097152,
+      );
+    }
+    if (certificateChain != null) {
+      _s.validateStringPattern(
+        'certificateChain',
+        certificateChain,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
+    if (path != null) {
+      _s.validateStringLength(
+        'path',
+        path,
+        1,
+        512,
+      );
+    }
+    if (path != null) {
+      _s.validateStringPattern(
+        'path',
+        path,
+        r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UploadServerCertificate',
       'Version': '2010-05-08',
@@ -11626,17 +12028,21 @@ class IAM {
       certificateBody,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
+    if (userName != null) {
+      _s.validateStringLength(
+        'userName',
+        userName,
+        1,
+        128,
+      );
+    }
+    if (userName != null) {
+      _s.validateStringPattern(
+        'userName',
+        userName,
+        r'''[\w+=,.@-]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UploadSigningCertificate',
       'Version': '2010-05-08',

@@ -1330,12 +1330,14 @@ class SES {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListCustomVerificationEmailTemplates',
       'Version': '2010-12-01',
@@ -1943,12 +1945,14 @@ class SES {
     ArgumentError.checkNotNull(destinations, 'destinations');
     ArgumentError.checkNotNull(source, 'source');
     ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'defaultTemplateData',
-      defaultTemplateData,
-      0,
-      262144,
-    );
+    if (defaultTemplateData != null) {
+      _s.validateStringLength(
+        'defaultTemplateData',
+        defaultTemplateData,
+        0,
+        262144,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'SendBulkTemplatedEmail',
       'Version': '2010-12-01',

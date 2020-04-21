@@ -397,6 +397,7 @@ class ElasticLoadBalancingv2 {
     LoadBalancerTypeEnum type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
+    if (tags != null) {}
     final $request = <String, dynamic>{
       'Action': 'CreateLoadBalancer',
       'Version': '2015-12-01',
@@ -667,42 +668,54 @@ class ElasticLoadBalancingv2 {
     String vpcId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateNumRange(
-      'healthCheckIntervalSeconds',
-      healthCheckIntervalSeconds,
-      5,
-      300,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
-    );
-    _s.validateNumRange(
-      'healthCheckTimeoutSeconds',
-      healthCheckTimeoutSeconds,
-      2,
-      120,
-    );
-    _s.validateNumRange(
-      'healthyThresholdCount',
-      healthyThresholdCount,
-      2,
-      10,
-    );
-    _s.validateNumRange(
-      'port',
-      port,
-      1,
-      65535,
-    );
-    _s.validateNumRange(
-      'unhealthyThresholdCount',
-      unhealthyThresholdCount,
-      2,
-      10,
-    );
+    if (healthCheckIntervalSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckIntervalSeconds',
+        healthCheckIntervalSeconds,
+        5,
+        300,
+      );
+    }
+    if (healthCheckPath != null) {
+      _s.validateStringLength(
+        'healthCheckPath',
+        healthCheckPath,
+        1,
+        1024,
+      );
+    }
+    if (healthCheckTimeoutSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckTimeoutSeconds',
+        healthCheckTimeoutSeconds,
+        2,
+        120,
+      );
+    }
+    if (healthyThresholdCount != null) {
+      _s.validateNumRange(
+        'healthyThresholdCount',
+        healthyThresholdCount,
+        2,
+        10,
+      );
+    }
+    if (port != null) {
+      _s.validateNumRange(
+        'port',
+        port,
+        1,
+        65535,
+      );
+    }
+    if (unhealthyThresholdCount != null) {
+      _s.validateNumRange(
+        'unhealthyThresholdCount',
+        unhealthyThresholdCount,
+        2,
+        10,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateTargetGroup',
       'Version': '2015-12-01',
@@ -906,12 +919,14 @@ class ElasticLoadBalancingv2 {
     String marker,
     int pageSize,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeAccountLimits',
       'Version': '2015-12-01',
@@ -956,12 +971,14 @@ class ElasticLoadBalancingv2 {
     int pageSize,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeListenerCertificates',
       'Version': '2015-12-01',
@@ -1009,12 +1026,14 @@ class ElasticLoadBalancingv2 {
     String marker,
     int pageSize,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeListeners',
       'Version': '2015-12-01',
@@ -1093,12 +1112,14 @@ class ElasticLoadBalancingv2 {
     List<String> names,
     int pageSize,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',
       'Version': '2015-12-01',
@@ -1142,12 +1163,14 @@ class ElasticLoadBalancingv2 {
     int pageSize,
     List<String> ruleArns,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeRules',
       'Version': '2015-12-01',
@@ -1188,12 +1211,14 @@ class ElasticLoadBalancingv2 {
     List<String> names,
     int pageSize,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeSSLPolicies',
       'Version': '2015-12-01',
@@ -1308,12 +1333,14 @@ class ElasticLoadBalancingv2 {
     int pageSize,
     List<String> targetGroupArns,
   }) async {
-    _s.validateNumRange(
-      'pageSize',
-      pageSize,
-      1,
-      400,
-    );
+    if (pageSize != null) {
+      _s.validateNumRange(
+        'pageSize',
+        pageSize,
+        1,
+        400,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeTargetGroups',
       'Version': '2015-12-01',
@@ -1482,12 +1509,14 @@ class ElasticLoadBalancingv2 {
     String sslPolicy,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateNumRange(
-      'port',
-      port,
-      1,
-      65535,
-    );
+    if (port != null) {
+      _s.validateNumRange(
+        'port',
+        port,
+        1,
+        65535,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ModifyListener',
       'Version': '2015-12-01',
@@ -1692,36 +1721,46 @@ class ElasticLoadBalancingv2 {
     int unhealthyThresholdCount,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
-    _s.validateNumRange(
-      'healthCheckIntervalSeconds',
-      healthCheckIntervalSeconds,
-      5,
-      300,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
-    );
-    _s.validateNumRange(
-      'healthCheckTimeoutSeconds',
-      healthCheckTimeoutSeconds,
-      2,
-      120,
-    );
-    _s.validateNumRange(
-      'healthyThresholdCount',
-      healthyThresholdCount,
-      2,
-      10,
-    );
-    _s.validateNumRange(
-      'unhealthyThresholdCount',
-      unhealthyThresholdCount,
-      2,
-      10,
-    );
+    if (healthCheckIntervalSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckIntervalSeconds',
+        healthCheckIntervalSeconds,
+        5,
+        300,
+      );
+    }
+    if (healthCheckPath != null) {
+      _s.validateStringLength(
+        'healthCheckPath',
+        healthCheckPath,
+        1,
+        1024,
+      );
+    }
+    if (healthCheckTimeoutSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckTimeoutSeconds',
+        healthCheckTimeoutSeconds,
+        2,
+        120,
+      );
+    }
+    if (healthyThresholdCount != null) {
+      _s.validateNumRange(
+        'healthyThresholdCount',
+        healthyThresholdCount,
+        2,
+        10,
+      );
+    }
+    if (unhealthyThresholdCount != null) {
+      _s.validateNumRange(
+        'unhealthyThresholdCount',
+        unhealthyThresholdCount,
+        2,
+        10,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ModifyTargetGroup',
       'Version': '2015-12-01',

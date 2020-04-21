@@ -371,6 +371,7 @@ class DynamoDB {
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
     );
+    if (attributesToGet != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.GetItem'
@@ -406,23 +407,29 @@ class DynamoDB {
     String exclusiveStartTableName,
     int limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartTableName',
-      exclusiveStartTableName,
-      3,
-      255,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartTableName',
-      exclusiveStartTableName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
+    if (exclusiveStartTableName != null) {
+      _s.validateStringLength(
+        'exclusiveStartTableName',
+        exclusiveStartTableName,
+        3,
+        255,
+      );
+    }
+    if (exclusiveStartTableName != null) {
+      _s.validateStringPattern(
+        'exclusiveStartTableName',
+        exclusiveStartTableName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.ListTables'
@@ -580,12 +587,15 @@ class DynamoDB {
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
+    if (attributesToGet != null) {}
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Query'
@@ -674,12 +684,15 @@ class DynamoDB {
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
+    if (attributesToGet != null) {}
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Scan'

@@ -413,56 +413,76 @@ class STS {
       roleSessionName,
       r'''[\w+=,.@-]*''',
     );
-    _s.validateNumRange(
-      'durationSeconds',
-      durationSeconds,
-      900,
-      43200,
-    );
-    _s.validateStringLength(
-      'externalId',
-      externalId,
-      2,
-      1224,
-    );
-    _s.validateStringPattern(
-      'externalId',
-      externalId,
-      r'''[\w+=,.@:\/-]*''',
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-    );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]*''',
-    );
-    _s.validateStringLength(
-      'tokenCode',
-      tokenCode,
-      6,
-      6,
-    );
-    _s.validateStringPattern(
-      'tokenCode',
-      tokenCode,
-      r'''[\d]*''',
-    );
+    if (durationSeconds != null) {
+      _s.validateNumRange(
+        'durationSeconds',
+        durationSeconds,
+        900,
+        43200,
+      );
+    }
+    if (externalId != null) {
+      _s.validateStringLength(
+        'externalId',
+        externalId,
+        2,
+        1224,
+      );
+    }
+    if (externalId != null) {
+      _s.validateStringPattern(
+        'externalId',
+        externalId,
+        r'''[\w+=,.@:\/-]*''',
+      );
+    }
+    if (policy != null) {
+      _s.validateStringLength(
+        'policy',
+        policy,
+        1,
+        2048,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringPattern(
+        'policy',
+        policy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
+    if (serialNumber != null) {
+      _s.validateStringLength(
+        'serialNumber',
+        serialNumber,
+        9,
+        256,
+      );
+    }
+    if (serialNumber != null) {
+      _s.validateStringPattern(
+        'serialNumber',
+        serialNumber,
+        r'''[\w+=/:,.@-]*''',
+      );
+    }
+    if (tags != null) {}
+    if (tokenCode != null) {
+      _s.validateStringLength(
+        'tokenCode',
+        tokenCode,
+        6,
+        6,
+      );
+    }
+    if (tokenCode != null) {
+      _s.validateStringPattern(
+        'tokenCode',
+        tokenCode,
+        r'''[\d]*''',
+      );
+    }
+    if (transitiveTagKeys != null) {}
     final $request = <String, dynamic>{
       'Action': 'AssumeRole',
       'Version': '2011-06-15',
@@ -779,23 +799,29 @@ class STS {
       4,
       100000,
     );
-    _s.validateNumRange(
-      'durationSeconds',
-      durationSeconds,
-      900,
-      43200,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (durationSeconds != null) {
+      _s.validateNumRange(
+        'durationSeconds',
+        durationSeconds,
+        900,
+        43200,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringLength(
+        'policy',
+        policy,
+        1,
+        2048,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringPattern(
+        'policy',
+        policy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'AssumeRoleWithSAML',
       'Version': '2011-06-15',
@@ -1151,29 +1177,37 @@ class STS {
       4,
       2048,
     );
-    _s.validateNumRange(
-      'durationSeconds',
-      durationSeconds,
-      900,
-      43200,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
-    _s.validateStringLength(
-      'providerId',
-      providerId,
-      4,
-      2048,
-    );
+    if (durationSeconds != null) {
+      _s.validateNumRange(
+        'durationSeconds',
+        durationSeconds,
+        900,
+        43200,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringLength(
+        'policy',
+        policy,
+        1,
+        2048,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringPattern(
+        'policy',
+        policy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
+    if (providerId != null) {
+      _s.validateStringLength(
+        'providerId',
+        providerId,
+        4,
+        2048,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'AssumeRoleWithWebIdentity',
       'Version': '2011-06-15',
@@ -1625,23 +1659,30 @@ class STS {
       name,
       r'''[\w+=,.@-]*''',
     );
-    _s.validateNumRange(
-      'durationSeconds',
-      durationSeconds,
-      900,
-      129600,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (durationSeconds != null) {
+      _s.validateNumRange(
+        'durationSeconds',
+        durationSeconds,
+        900,
+        129600,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringLength(
+        'policy',
+        policy,
+        1,
+        2048,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringPattern(
+        'policy',
+        policy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
+    if (tags != null) {}
     final $request = <String, dynamic>{
       'Action': 'GetFederationToken',
       'Version': '2011-06-15',
@@ -1765,34 +1806,44 @@ class STS {
     String serialNumber,
     String tokenCode,
   }) async {
-    _s.validateNumRange(
-      'durationSeconds',
-      durationSeconds,
-      900,
-      129600,
-    );
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-    );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]*''',
-    );
-    _s.validateStringLength(
-      'tokenCode',
-      tokenCode,
-      6,
-      6,
-    );
-    _s.validateStringPattern(
-      'tokenCode',
-      tokenCode,
-      r'''[\d]*''',
-    );
+    if (durationSeconds != null) {
+      _s.validateNumRange(
+        'durationSeconds',
+        durationSeconds,
+        900,
+        129600,
+      );
+    }
+    if (serialNumber != null) {
+      _s.validateStringLength(
+        'serialNumber',
+        serialNumber,
+        9,
+        256,
+      );
+    }
+    if (serialNumber != null) {
+      _s.validateStringPattern(
+        'serialNumber',
+        serialNumber,
+        r'''[\w+=/:,.@-]*''',
+      );
+    }
+    if (tokenCode != null) {
+      _s.validateStringLength(
+        'tokenCode',
+        tokenCode,
+        6,
+        6,
+      );
+    }
+    if (tokenCode != null) {
+      _s.validateStringPattern(
+        'tokenCode',
+        tokenCode,
+        r'''[\d]*''',
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'GetSessionToken',
       'Version': '2011-06-15',

@@ -357,23 +357,29 @@ class Lambda {
     String marker,
     int maxItems,
   }) async {
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
-    );
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (functionName != null) {
+      _s.validateStringLength(
+        'functionName',
+        functionName,
+        1,
+        64,
+      );
+    }
+    if (functionName != null) {
+      _s.validateStringPattern(
+        'functionName',
+        functionName,
+        r'''[a-zA-Z0-9-_]+''',
+      );
+    }
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -405,12 +411,14 @@ class Lambda {
     String marker,
     int maxItems,
   }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      10000,
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        10000,
+      );
+    }
     await _protocol.send(
       null,
       method: 'GET',
@@ -508,34 +516,44 @@ class Lambda {
       functionName,
       r'''[a-zA-Z0-9-_]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[a-zA-Z0-9./\-_]+''',
-    );
-    _s.validateNumRange(
-      'memorySize',
-      memorySize,
-      128,
-      1024,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      60,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (handler != null) {
+      _s.validateStringPattern(
+        'handler',
+        handler,
+        r'''[a-zA-Z0-9./\-_]+''',
+      );
+    }
+    if (memorySize != null) {
+      _s.validateNumRange(
+        'memorySize',
+        memorySize,
+        128,
+        1024,
+      );
+    }
+    if (role != null) {
+      _s.validateStringPattern(
+        'role',
+        role,
+        r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        60,
+      );
+    }
     final $payload = <String, dynamic>{};
     await _protocol.send(
       $payload,
@@ -644,24 +662,30 @@ class Lambda {
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateNumRange(
-      'memorySize',
-      memorySize,
-      128,
-      1024,
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      60,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (memorySize != null) {
+      _s.validateNumRange(
+        'memorySize',
+        memorySize,
+        128,
+        1024,
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        60,
+      );
+    }
     await _protocol.send(
       functionZip,
       method: 'PUT',

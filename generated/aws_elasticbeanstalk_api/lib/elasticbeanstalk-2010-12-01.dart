@@ -46,12 +46,14 @@ class ElasticBeanstalk {
     String environmentId,
     String environmentName,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'AbortEnvironmentUpdate',
       'Version': '2010-12-01',
@@ -167,18 +169,22 @@ class ElasticBeanstalk {
     String groupName,
     List<String> versionLabels,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      19,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (groupName != null) {
+      _s.validateStringLength(
+        'groupName',
+        groupName,
+        1,
+        19,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ComposeEnvironments',
       'Version': '2010-12-01',
@@ -229,12 +235,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateApplication',
       'Version': '2010-12-01',
@@ -364,12 +372,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateApplicationVersion',
       'Version': '2010-12-01',
@@ -520,12 +530,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateConfigurationTemplate',
       'Version': '2010-12-01',
@@ -664,42 +676,54 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'cNAMEPrefix',
-      cNAMEPrefix,
-      4,
-      63,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'versionLabel',
-      versionLabel,
-      1,
-      100,
-    );
+    if (cNAMEPrefix != null) {
+      _s.validateStringLength(
+        'cNAMEPrefix',
+        cNAMEPrefix,
+        4,
+        63,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (groupName != null) {
+      _s.validateStringLength(
+        'groupName',
+        groupName,
+        1,
+        19,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
+    if (versionLabel != null) {
+      _s.validateStringLength(
+        'versionLabel',
+        versionLabel,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreateEnvironment',
       'Version': '2010-12-01',
@@ -766,12 +790,14 @@ class ElasticBeanstalk {
         platformDefinitionBundle, 'platformDefinitionBundle');
     ArgumentError.checkNotNull(platformName, 'platformName');
     ArgumentError.checkNotNull(platformVersion, 'platformVersion');
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'CreatePlatformVersion',
       'Version': '2010-12-01',
@@ -1082,18 +1108,22 @@ class ElasticBeanstalk {
     String nextToken,
     List<String> versionLabels,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateNumRange(
-      'maxRecords',
-      maxRecords,
-      1,
-      1000,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (maxRecords != null) {
+      _s.validateNumRange(
+        'maxRecords',
+        maxRecords,
+        1,
+        1000,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeApplicationVersions',
       'Version': '2010-12-01',
@@ -1173,24 +1203,30 @@ class ElasticBeanstalk {
     String solutionStackName,
     String templateName,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeConfigurationOptions',
       'Version': '2010-12-01',
@@ -1263,18 +1299,22 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeConfigurationSettings',
       'Version': '2010-12-01',
@@ -1318,12 +1358,14 @@ class ElasticBeanstalk {
     String environmentId,
     String environmentName,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentHealth',
       'Version': '2010-12-01',
@@ -1363,12 +1405,14 @@ class ElasticBeanstalk {
     int maxItems,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentManagedActionHistory',
       'Version': '2010-12-01',
@@ -1443,12 +1487,14 @@ class ElasticBeanstalk {
     String environmentId,
     String environmentName,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentResources',
       'Version': '2010-12-01',
@@ -1518,24 +1564,30 @@ class ElasticBeanstalk {
     String nextToken,
     String versionLabel,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateNumRange(
-      'maxRecords',
-      maxRecords,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'versionLabel',
-      versionLabel,
-      1,
-      100,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (maxRecords != null) {
+      _s.validateNumRange(
+        'maxRecords',
+        maxRecords,
+        1,
+        1000,
+      );
+    }
+    if (versionLabel != null) {
+      _s.validateStringLength(
+        'versionLabel',
+        versionLabel,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironments',
       'Version': '2010-12-01',
@@ -1628,36 +1680,46 @@ class ElasticBeanstalk {
     String templateName,
     String versionLabel,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateNumRange(
-      'maxRecords',
-      maxRecords,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'versionLabel',
-      versionLabel,
-      1,
-      100,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (maxRecords != null) {
+      _s.validateNumRange(
+        'maxRecords',
+        maxRecords,
+        1,
+        1000,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
+    if (versionLabel != null) {
+      _s.validateStringLength(
+        'versionLabel',
+        versionLabel,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeEvents',
       'Version': '2010-12-01',
@@ -1711,18 +1773,22 @@ class ElasticBeanstalk {
     String environmentName,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      100,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'DescribeInstancesHealth',
       'Version': '2010-12-01',
@@ -1875,12 +1941,14 @@ class ElasticBeanstalk {
     int maxRecords,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxRecords',
-      maxRecords,
-      1,
-      1152921504606846976,
-    );
+    if (maxRecords != null) {
+      _s.validateNumRange(
+        'maxRecords',
+        maxRecords,
+        1,
+        1152921504606846976,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListPlatformBranches',
       'Version': '2010-12-01',
@@ -1930,12 +1998,14 @@ class ElasticBeanstalk {
     int maxRecords,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxRecords',
-      maxRecords,
-      1,
-      1152921504606846976,
-    );
+    if (maxRecords != null) {
+      _s.validateNumRange(
+        'maxRecords',
+        maxRecords,
+        1,
+        1152921504606846976,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ListPlatformVersions',
       'Version': '2010-12-01',
@@ -2012,12 +2082,14 @@ class ElasticBeanstalk {
     String environmentId,
     String environmentName,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'RebuildEnvironment',
       'Version': '2010-12-01',
@@ -2082,12 +2154,14 @@ class ElasticBeanstalk {
     String environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'RequestEnvironmentInfo',
       'Version': '2010-12-01',
@@ -2123,12 +2197,14 @@ class ElasticBeanstalk {
     String environmentId,
     String environmentName,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'RestartAppServer',
       'Version': '2010-12-01',
@@ -2182,12 +2258,14 @@ class ElasticBeanstalk {
     String environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'RetrieveEnvironmentInfo',
       'Version': '2010-12-01',
@@ -2246,18 +2324,22 @@ class ElasticBeanstalk {
     String sourceEnvironmentId,
     String sourceEnvironmentName,
   }) async {
-    _s.validateStringLength(
-      'destinationEnvironmentName',
-      destinationEnvironmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'sourceEnvironmentName',
-      sourceEnvironmentName,
-      4,
-      40,
-    );
+    if (destinationEnvironmentName != null) {
+      _s.validateStringLength(
+        'destinationEnvironmentName',
+        destinationEnvironmentName,
+        4,
+        40,
+      );
+    }
+    if (sourceEnvironmentName != null) {
+      _s.validateStringLength(
+        'sourceEnvironmentName',
+        sourceEnvironmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'SwapEnvironmentCNAMEs',
       'Version': '2010-12-01',
@@ -2326,12 +2408,14 @@ class ElasticBeanstalk {
     bool forceTerminate,
     bool terminateResources,
   }) async {
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'TerminateEnvironment',
       'Version': '2010-12-01',
@@ -2378,12 +2462,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateApplication',
       'Version': '2010-12-01',
@@ -2480,12 +2566,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateApplicationVersion',
       'Version': '2010-12-01',
@@ -2569,12 +2657,14 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateConfigurationTemplate',
       'Version': '2010-12-01',
@@ -2691,42 +2781,54 @@ class ElasticBeanstalk {
     EnvironmentTier tier,
     String versionLabel,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'versionLabel',
-      versionLabel,
-      1,
-      100,
-    );
+    if (applicationName != null) {
+      _s.validateStringLength(
+        'applicationName',
+        applicationName,
+        1,
+        100,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (groupName != null) {
+      _s.validateStringLength(
+        'groupName',
+        groupName,
+        1,
+        19,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
+    if (versionLabel != null) {
+      _s.validateStringLength(
+        'versionLabel',
+        versionLabel,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'UpdateEnvironment',
       'Version': '2010-12-01',
@@ -2857,18 +2959,22 @@ class ElasticBeanstalk {
       100,
     );
     ArgumentError.checkNotNull(optionSettings, 'optionSettings');
-    _s.validateStringLength(
-      'environmentName',
-      environmentName,
-      4,
-      40,
-    );
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      100,
-    );
+    if (environmentName != null) {
+      _s.validateStringLength(
+        'environmentName',
+        environmentName,
+        4,
+        40,
+      );
+    }
+    if (templateName != null) {
+      _s.validateStringLength(
+        'templateName',
+        templateName,
+        1,
+        100,
+      );
+    }
     final $request = <String, dynamic>{
       'Action': 'ValidateConfigurationSettings',
       'Version': '2010-12-01',
