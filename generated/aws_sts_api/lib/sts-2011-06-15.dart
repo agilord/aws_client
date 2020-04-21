@@ -395,11 +395,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -407,82 +409,73 @@ class STS {
       roleSessionName,
       2,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
-    if (durationSeconds != null) {
-      _s.validateNumRange(
-        'durationSeconds',
-        durationSeconds,
-        900,
-        43200,
-      );
-    }
-    if (externalId != null) {
-      _s.validateStringLength(
-        'externalId',
-        externalId,
-        2,
-        1224,
-      );
-    }
-    if (externalId != null) {
-      _s.validateStringPattern(
-        'externalId',
-        externalId,
-        r'''[\w+=,.@:\/-]*''',
-      );
-    }
-    if (policy != null) {
-      _s.validateStringLength(
-        'policy',
-        policy,
-        1,
-        2048,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringPattern(
-        'policy',
-        policy,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      );
-    }
-    if (serialNumber != null) {
-      _s.validateStringLength(
-        'serialNumber',
-        serialNumber,
-        9,
-        256,
-      );
-    }
-    if (serialNumber != null) {
-      _s.validateStringPattern(
-        'serialNumber',
-        serialNumber,
-        r'''[\w+=/:,.@-]*''',
-      );
-    }
-    if (tags != null) {}
-    if (tokenCode != null) {
-      _s.validateStringLength(
-        'tokenCode',
-        tokenCode,
-        6,
-        6,
-      );
-    }
-    if (tokenCode != null) {
-      _s.validateStringPattern(
-        'tokenCode',
-        tokenCode,
-        r'''[\d]*''',
-      );
-    }
-    if (transitiveTagKeys != null) {}
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      43200,
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'externalId',
+      externalId,
+      2,
+      1224,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'externalId',
+      externalId,
+      r'''[\w+=,.@:\/-]*''',
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      2048,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'serialNumber',
+      serialNumber,
+      9,
+      256,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'serialNumber',
+      serialNumber,
+      r'''[\w+=/:,.@-]*''',
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'tokenCode',
+      tokenCode,
+      6,
+      6,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'tokenCode',
+      tokenCode,
+      r'''[\d]*''',
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'AssumeRole',
       'Version': '2011-06-15',
@@ -774,11 +767,13 @@ class STS {
       principalArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'principalArn',
       principalArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -786,11 +781,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sAMLAssertion, 'sAMLAssertion');
     _s.validateStringLength(
@@ -798,30 +795,28 @@ class STS {
       sAMLAssertion,
       4,
       100000,
+      isRequired: true,
     );
-    if (durationSeconds != null) {
-      _s.validateNumRange(
-        'durationSeconds',
-        durationSeconds,
-        900,
-        43200,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringLength(
-        'policy',
-        policy,
-        1,
-        2048,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringPattern(
-        'policy',
-        policy,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      );
-    }
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      43200,
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      2048,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'AssumeRoleWithSAML',
       'Version': '2011-06-15',
@@ -1152,11 +1147,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -1164,11 +1161,13 @@ class STS {
       roleSessionName,
       2,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webIdentityToken, 'webIdentityToken');
     _s.validateStringLength(
@@ -1176,38 +1175,35 @@ class STS {
       webIdentityToken,
       4,
       2048,
+      isRequired: true,
     );
-    if (durationSeconds != null) {
-      _s.validateNumRange(
-        'durationSeconds',
-        durationSeconds,
-        900,
-        43200,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringLength(
-        'policy',
-        policy,
-        1,
-        2048,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringPattern(
-        'policy',
-        policy,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      );
-    }
-    if (providerId != null) {
-      _s.validateStringLength(
-        'providerId',
-        providerId,
-        4,
-        2048,
-      );
-    }
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      43200,
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      2048,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'providerId',
+      providerId,
+      4,
+      2048,
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'AssumeRoleWithWebIdentity',
       'Version': '2011-06-15',
@@ -1285,6 +1281,7 @@ class STS {
       encodedMessage,
       1,
       10240,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DecodeAuthorizationMessage',
@@ -1343,11 +1340,13 @@ class STS {
       accessKeyId,
       16,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
       r'''[\w]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetAccessKeyInfo',
@@ -1653,36 +1652,34 @@ class STS {
       name,
       2,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
-    if (durationSeconds != null) {
-      _s.validateNumRange(
-        'durationSeconds',
-        durationSeconds,
-        900,
-        129600,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringLength(
-        'policy',
-        policy,
-        1,
-        2048,
-      );
-    }
-    if (policy != null) {
-      _s.validateStringPattern(
-        'policy',
-        policy,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      129600,
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      2048,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'GetFederationToken',
       'Version': '2011-06-15',
@@ -1806,44 +1803,39 @@ class STS {
     String serialNumber,
     String tokenCode,
   }) async {
-    if (durationSeconds != null) {
-      _s.validateNumRange(
-        'durationSeconds',
-        durationSeconds,
-        900,
-        129600,
-      );
-    }
-    if (serialNumber != null) {
-      _s.validateStringLength(
-        'serialNumber',
-        serialNumber,
-        9,
-        256,
-      );
-    }
-    if (serialNumber != null) {
-      _s.validateStringPattern(
-        'serialNumber',
-        serialNumber,
-        r'''[\w+=/:,.@-]*''',
-      );
-    }
-    if (tokenCode != null) {
-      _s.validateStringLength(
-        'tokenCode',
-        tokenCode,
-        6,
-        6,
-      );
-    }
-    if (tokenCode != null) {
-      _s.validateStringPattern(
-        'tokenCode',
-        tokenCode,
-        r'''[\d]*''',
-      );
-    }
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      129600,
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'serialNumber',
+      serialNumber,
+      9,
+      256,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'serialNumber',
+      serialNumber,
+      r'''[\w+=/:,.@-]*''',
+      isRequired: false,
+    );
+    _s.validateStringLength(
+      'tokenCode',
+      tokenCode,
+      6,
+      6,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'tokenCode',
+      tokenCode,
+      r'''[\d]*''',
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'GetSessionToken',
       'Version': '2011-06-15',

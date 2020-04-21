@@ -409,7 +409,6 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(listeners, 'listeners');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    if (tags != null) {}
     final $request = <String, dynamic>{
       'Action': 'CreateLoadBalancer',
       'Version': '2012-06-01',
@@ -678,14 +677,13 @@ class ElasticLoadBalancing {
     String marker,
     int pageSize,
   }) async {
-    if (pageSize != null) {
-      _s.validateNumRange(
-        'pageSize',
-        pageSize,
-        1,
-        400,
-      );
-    }
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      400,
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeAccountLimits',
       'Version': '2012-06-01',
@@ -860,14 +858,13 @@ class ElasticLoadBalancing {
     String marker,
     int pageSize,
   }) async {
-    if (pageSize != null) {
-      _s.validateNumRange(
-        'pageSize',
-        pageSize,
-        1,
-        400,
-      );
-    }
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      400,
+      isRequired: false,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',
       'Version': '2012-06-01',

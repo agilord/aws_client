@@ -156,11 +156,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -212,11 +214,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -265,11 +269,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -311,11 +317,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -365,13 +373,14 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (attributesToGet != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.GetItem'
@@ -407,29 +416,26 @@ class DynamoDB {
     String exclusiveStartTableName,
     int limit,
   }) async {
-    if (exclusiveStartTableName != null) {
-      _s.validateStringLength(
-        'exclusiveStartTableName',
-        exclusiveStartTableName,
-        3,
-        255,
-      );
-    }
-    if (exclusiveStartTableName != null) {
-      _s.validateStringPattern(
-        'exclusiveStartTableName',
-        exclusiveStartTableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartTableName',
+      exclusiveStartTableName,
+      3,
+      255,
+      isRequired: false,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartTableName',
+      exclusiveStartTableName,
+      r'''[a-zA-Z0-9_.-]+''',
+      isRequired: false,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+      isRequired: false,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.ListTables'
@@ -482,11 +488,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -581,21 +589,21 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (attributesToGet != null) {}
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+      isRequired: false,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Query'
@@ -678,21 +686,21 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (attributesToGet != null) {}
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+      isRequired: false,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20111205.Scan'
@@ -749,11 +757,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -802,11 +812,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

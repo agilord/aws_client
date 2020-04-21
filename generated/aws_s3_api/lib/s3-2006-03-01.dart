@@ -99,6 +99,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
@@ -253,6 +254,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
@@ -777,6 +779,7 @@ class S3 {
       'copySource',
       copySource,
       r'''\/.+\/.+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -784,6 +787,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     copySource?.let((v) => headers['x-amz-copy-source'] = v.toString());
@@ -1389,6 +1393,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toString());
@@ -1986,6 +1991,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     bypassGovernanceRetention?.let(
@@ -2058,6 +2064,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
@@ -3359,6 +3366,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
@@ -3459,6 +3467,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
@@ -3510,6 +3519,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
@@ -3582,6 +3592,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
@@ -3654,6 +3665,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
@@ -3705,6 +3717,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
@@ -3981,6 +3994,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
@@ -4731,6 +4745,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
@@ -6944,6 +6959,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toString());
@@ -7182,6 +7198,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toString());
@@ -7258,6 +7275,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
@@ -7385,6 +7403,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     bypassGovernanceRetention?.let(
@@ -7521,6 +7540,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{};
@@ -7941,6 +7961,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
@@ -8156,6 +8177,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(outputSerialization, 'outputSerialization');
     final headers = <String, String>{};
@@ -8354,6 +8376,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
@@ -8634,6 +8657,7 @@ class S3 {
       'copySource',
       copySource,
       r'''\/.+\/.+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -8641,6 +8665,7 @@ class S3 {
       key,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
