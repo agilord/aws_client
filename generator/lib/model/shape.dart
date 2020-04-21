@@ -286,6 +286,12 @@ extension NameStuff on String {
         'true',
       }.contains(this);
 
+  bool get isEnumReserved =>
+      isReserved ||
+      <String>{
+        'index',
+      }.contains(this);
+
   String get lowercaseName {
     if (this == null) return this;
     var value = this;

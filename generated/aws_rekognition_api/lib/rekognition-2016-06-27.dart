@@ -5624,7 +5624,7 @@ class FaceSearchSettings {
 
 enum FaceSearchSortBy {
   @_s.JsonValue('INDEX')
-  index,
+  $index,
   @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
@@ -6859,7 +6859,7 @@ class PersonMatch {
 
 enum PersonTrackingSortBy {
   @_s.JsonValue('INDEX')
-  index,
+  $index,
   @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
