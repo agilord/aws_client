@@ -131,9 +131,11 @@ ${builder.constructor()}
         final min = member.shapeClass?.min ?? pow(2, -60).toInt();
 
         if (member.dartType == 'String') {
-          writeln("_s.validateStringLength('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
+          writeln(
+              "_s.validateStringLength('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
         } else if (member.dartType == 'int' || member.dartType == 'double') {
-          writeln("_s.validateNumRange('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
+          writeln(
+              "_s.validateNumRange('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
         }
       }
 
