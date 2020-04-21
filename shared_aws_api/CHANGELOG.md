@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Validation functions get an additional `isRequired` parameter.
+
 ## 0.1.4
 
 - Fixed `json` protocol signing, enabling the protocol to work.
