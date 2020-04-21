@@ -186,12 +186,14 @@ class PI {
     ArgumentError.checkNotNull(metric, 'metric');
     ArgumentError.checkNotNull(serviceType, 'serviceType');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      20,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        20,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PerformanceInsightsv20180227.DescribeDimensionKeys'
@@ -312,12 +314,14 @@ class PI {
     ArgumentError.checkNotNull(metricQueries, 'metricQueries');
     ArgumentError.checkNotNull(serviceType, 'serviceType');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      20,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        20,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PerformanceInsightsv20180227.GetResourceMetrics'

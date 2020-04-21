@@ -510,11 +510,13 @@ class Lightsail {
       targetSnapshotName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'sourceSnapshotName',
-      sourceSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (sourceSnapshotName != null) {
+      _s.validateStringPattern(
+        'sourceSnapshotName',
+        sourceSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CopySnapshot'
@@ -905,11 +907,13 @@ class Lightsail {
       r'''\w[\w\-]*\w''',
     );
     ArgumentError.checkNotNull(sizeInGb, 'sizeInGb');
-    _s.validateStringPattern(
-      'diskSnapshotName',
-      diskSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (diskSnapshotName != null) {
+      _s.validateStringPattern(
+        'diskSnapshotName',
+        diskSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskFromSnapshot'
@@ -1013,16 +1017,20 @@ class Lightsail {
       diskSnapshotName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'diskName',
-      diskName,
-      r'''\w[\w\-]*\w''',
-    );
-    _s.validateStringPattern(
-      'instanceName',
-      instanceName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (diskName != null) {
+      _s.validateStringPattern(
+        'diskName',
+        diskName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
+    if (instanceName != null) {
+      _s.validateStringPattern(
+        'instanceName',
+        instanceName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskSnapshot'
@@ -1315,16 +1323,20 @@ class Lightsail {
       r'''.*\S.*''',
     );
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    _s.validateStringPattern(
-      'customImageName',
-      customImageName,
-      r'''\w[\w\-]*\w''',
-    );
-    _s.validateStringPattern(
-      'keyPairName',
-      keyPairName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (customImageName != null) {
+      _s.validateStringPattern(
+        'customImageName',
+        customImageName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
+    if (keyPairName != null) {
+      _s.validateStringPattern(
+        'keyPairName',
+        keyPairName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstances'
@@ -1515,16 +1527,20 @@ class Lightsail {
       r'''.*\S.*''',
     );
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    _s.validateStringPattern(
-      'instanceSnapshotName',
-      instanceSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
-    _s.validateStringPattern(
-      'keyPairName',
-      keyPairName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (instanceSnapshotName != null) {
+      _s.validateStringPattern(
+        'instanceSnapshotName',
+        instanceSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
+    if (keyPairName != null) {
+      _s.validateStringPattern(
+        'keyPairName',
+        keyPairName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstancesFromSnapshot'
@@ -1689,11 +1705,13 @@ class Lightsail {
       loadBalancerName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'certificateName',
-      certificateName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (certificateName != null) {
+      _s.validateStringPattern(
+        'certificateName',
+        certificateName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateLoadBalancer'
@@ -2152,16 +2170,20 @@ class Lightsail {
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'relationalDatabaseSnapshotName',
-      relationalDatabaseSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
-    _s.validateStringPattern(
-      'sourceRelationalDatabaseName',
-      sourceRelationalDatabaseName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (relationalDatabaseSnapshotName != null) {
+      _s.validateStringPattern(
+        'relationalDatabaseSnapshotName',
+        relationalDatabaseSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
+    if (sourceRelationalDatabaseName != null) {
+      _s.validateStringPattern(
+        'sourceRelationalDatabaseName',
+        sourceRelationalDatabaseName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateRelationalDatabaseFromSnapshot'
@@ -2982,11 +3004,13 @@ class Lightsail {
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'finalRelationalDatabaseSnapshotName',
-      finalRelationalDatabaseSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (finalRelationalDatabaseSnapshotName != null) {
+      _s.validateStringPattern(
+        'finalRelationalDatabaseSnapshotName',
+        finalRelationalDatabaseSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteRelationalDatabase'
@@ -3456,16 +3480,20 @@ class Lightsail {
     String monitoredResourceName,
     String pageToken,
   }) async {
-    _s.validateStringPattern(
-      'alarmName',
-      alarmName,
-      r'''\w[\w\-]*\w''',
-    );
-    _s.validateStringPattern(
-      'monitoredResourceName',
-      monitoredResourceName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (alarmName != null) {
+      _s.validateStringPattern(
+        'alarmName',
+        alarmName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
+    if (monitoredResourceName != null) {
+      _s.validateStringPattern(
+        'monitoredResourceName',
+        monitoredResourceName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetAlarms'
@@ -6762,11 +6790,13 @@ class Lightsail {
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
     );
-    _s.validateStringPattern(
-      'relationalDatabaseSnapshotName',
-      relationalDatabaseSnapshotName,
-      r'''\w[\w\-]*\w''',
-    );
+    if (relationalDatabaseSnapshotName != null) {
+      _s.validateStringPattern(
+        'relationalDatabaseSnapshotName',
+        relationalDatabaseSnapshotName,
+        r'''\w[\w\-]*\w''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StopRelationalDatabase'
@@ -6828,11 +6858,13 @@ class Lightsail {
       r'''\w[\w\-]*\w''',
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
-    );
+    if (resourceArn != null) {
+      _s.validateStringPattern(
+        'resourceArn',
+        resourceArn,
+        r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.TagResource'
@@ -6986,11 +7018,13 @@ class Lightsail {
       r'''\w[\w\-]*\w''',
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
-    );
+    if (resourceArn != null) {
+      _s.validateStringPattern(
+        'resourceArn',
+        resourceArn,
+        r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UntagResource'

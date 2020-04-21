@@ -163,6 +163,7 @@ class SSM {
       36,
       36,
     );
+    if (instanceIds != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CancelCommand'
@@ -319,29 +320,38 @@ class SSM {
       0,
       64,
     );
-    _s.validateStringLength(
-      'defaultInstanceName',
-      defaultInstanceName,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'defaultInstanceName',
-      defaultInstanceName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateNumRange(
-      'registrationLimit',
-      registrationLimit,
-      1,
-      1000,
-    );
+    if (defaultInstanceName != null) {
+      _s.validateStringLength(
+        'defaultInstanceName',
+        defaultInstanceName,
+        0,
+        256,
+      );
+    }
+    if (defaultInstanceName != null) {
+      _s.validateStringPattern(
+        'defaultInstanceName',
+        defaultInstanceName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (registrationLimit != null) {
+      _s.validateNumRange(
+        'registrationLimit',
+        registrationLimit,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateActivation'
@@ -500,55 +510,74 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateStringPattern(
-      'associationName',
-      associationName,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringLength(
-      'automationTargetParameterName',
-      automationTargetParameterName,
-      1,
-      50,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'scheduleExpression',
-      scheduleExpression,
-      1,
-      256,
-    );
+    if (associationName != null) {
+      _s.validateStringPattern(
+        'associationName',
+        associationName,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (automationTargetParameterName != null) {
+      _s.validateStringLength(
+        'automationTargetParameterName',
+        automationTargetParameterName,
+        1,
+        50,
+      );
+    }
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringLength(
+        'maxConcurrency',
+        maxConcurrency,
+        1,
+        7,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringPattern(
+        'maxConcurrency',
+        maxConcurrency,
+        r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringLength(
+        'maxErrors',
+        maxErrors,
+        1,
+        7,
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringPattern(
+        'maxErrors',
+        maxErrors,
+        r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+      );
+    }
+    if (scheduleExpression != null) {
+      _s.validateStringLength(
+        'scheduleExpression',
+        scheduleExpression,
+        1,
+        256,
+      );
+    }
+    if (targets != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateAssociation'
@@ -731,22 +760,31 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
-    _s.validateStringLength(
-      'targetType',
-      targetType,
-      0,
-      200,
-    );
-    _s.validateStringPattern(
-      'targetType',
-      targetType,
-      r'''^\/[\w\.\-\:\/]*$''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
+    if (attachments != null) {}
+    if (requires != null) {}
+    if (tags != null) {}
+    if (targetType != null) {
+      _s.validateStringLength(
+        'targetType',
+        targetType,
+        0,
+        200,
+      );
+    }
+    if (targetType != null) {
+      _s.validateStringPattern(
+        'targetType',
+        targetType,
+        r'''^\/[\w\.\-\:\/]*$''',
+      );
+    }
+    if (versionName != null) {
+      _s.validateStringPattern(
+        'versionName',
+        versionName,
+        r'''^[a-zA-Z0-9_\-.]{1,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateDocument'
@@ -906,18 +944,23 @@ class SSM {
       1,
       256,
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateMaintenanceWindow'
@@ -1064,24 +1107,31 @@ class SSM {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'category',
-      category,
-      1,
-      64,
-    );
-    _s.validateNumRange(
-      'priority',
-      priority,
-      1,
-      5,
-    );
-    _s.validateStringLength(
-      'severity',
-      severity,
-      1,
-      64,
-    );
+    if (category != null) {
+      _s.validateStringLength(
+        'category',
+        category,
+        1,
+        64,
+      );
+    }
+    if (priority != null) {
+      _s.validateNumRange(
+        'priority',
+        priority,
+        1,
+        5,
+      );
+    }
+    if (severity != null) {
+      _s.validateStringLength(
+        'severity',
+        severity,
+        1,
+        64,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateOpsItem'
@@ -1239,18 +1289,26 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
+    if (approvedPatches != null) {}
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (rejectedPatches != null) {}
+    if (sources != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreatePatchBaseline'
@@ -1346,12 +1404,14 @@ class SSM {
       1,
       64,
     );
-    _s.validateStringLength(
-      'syncType',
-      syncType,
-      1,
-      64,
-    );
+    if (syncType != null) {
+      _s.validateStringLength(
+        'syncType',
+        syncType,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateResourceDataSync'
@@ -1439,21 +1499,27 @@ class SSM {
     String instanceId,
     String name,
   }) async {
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
+    if (associationId != null) {
+      _s.validateStringPattern(
+        'associationId',
+        associationId,
+        r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
+      );
+    }
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteAssociation'
@@ -1516,16 +1582,20 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (versionName != null) {
+      _s.validateStringPattern(
+        'versionName',
+        versionName,
+        r'''^[a-zA-Z0-9_\-.]{1,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteDocument'
@@ -1602,12 +1672,14 @@ class SSM {
       typeName,
       r'''^(AWS|Custom):.*$''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteInventory'
@@ -1795,12 +1867,14 @@ class SSM {
       1,
       64,
     );
-    _s.validateStringLength(
-      'syncType',
-      syncType,
-      1,
-      64,
-    );
+    if (syncType != null) {
+      _s.validateStringLength(
+        'syncType',
+        syncType,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteResourceDataSync'
@@ -2067,12 +2141,14 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeActivations'
@@ -2127,26 +2203,34 @@ class SSM {
     String instanceId,
     String name,
   }) async {
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-    );
-    _s.validateStringPattern(
-      'associationVersion',
-      associationVersion,
-      r'''([$]LATEST)|([1-9][0-9]*)''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
+    if (associationId != null) {
+      _s.validateStringPattern(
+        'associationId',
+        associationId,
+        r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
+      );
+    }
+    if (associationVersion != null) {
+      _s.validateStringPattern(
+        'associationVersion',
+        associationVersion,
+        r'''([$]LATEST)|([1-9][0-9]*)''',
+      );
+    }
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAssociation'
@@ -2219,12 +2303,15 @@ class SSM {
       executionId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAssociationExecutionTargets'
@@ -2285,12 +2372,15 @@ class SSM {
       associationId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAssociationExecutions'
@@ -2335,12 +2425,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAutomationExecutions'
@@ -2405,12 +2498,15 @@ class SSM {
       36,
       36,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAutomationStepExecutions'
@@ -2451,12 +2547,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAvailablePatches'
@@ -2505,16 +2604,20 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (versionName != null) {
+      _s.validateStringPattern(
+        'versionName',
+        versionName,
+        r'''^[a-zA-Z0-9_\-.]{1,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeDocument'
@@ -2609,12 +2712,14 @@ class SSM {
       instanceId,
       r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      5,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        5,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeEffectiveInstanceAssociations'
@@ -2672,12 +2777,14 @@ class SSM {
       baselineId,
       r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeEffectivePatchesForPatchBaseline'
@@ -2728,12 +2835,14 @@ class SSM {
       instanceId,
       r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInstanceAssociationsStatus'
@@ -2803,12 +2912,16 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      50,
-    );
+    if (filters != null) {}
+    if (instanceInformationFilterList != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        5,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInstanceInformation'
@@ -2850,12 +2963,14 @@ class SSM {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInstancePatchStates'
@@ -2921,12 +3036,15 @@ class SSM {
       patchGroup,
       r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInstancePatchStatesForPatchGroup'
@@ -2984,12 +3102,15 @@ class SSM {
       instanceId,
       r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInstancePatches'
@@ -3033,12 +3154,14 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeInventoryDeletions'
@@ -3117,12 +3240,15 @@ class SSM {
       windowExecutionId,
       r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3188,12 +3314,15 @@ class SSM {
       windowExecutionId,
       r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowExecutionTasks'
@@ -3262,12 +3391,15 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowExecutions'
@@ -3327,23 +3459,31 @@ class SSM {
     List<Target> targets,
     String windowId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'windowId',
-      windowId,
-      20,
-      20,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (targets != null) {}
+    if (windowId != null) {
+      _s.validateStringLength(
+        'windowId',
+        windowId,
+        20,
+        20,
+      );
+    }
+    if (windowId != null) {
+      _s.validateStringPattern(
+        'windowId',
+        windowId,
+        r'''^mw-[0-9a-f]{17}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowSchedule'
@@ -3407,12 +3547,15 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowTargets'
@@ -3472,12 +3615,15 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowTasks'
@@ -3520,12 +3666,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindows'
@@ -3575,12 +3724,14 @@ class SSM {
   }) async {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeMaintenanceWindowsForTarget'
@@ -3704,12 +3855,14 @@ class SSM {
     String nextToken,
     List<OpsItemFilter> opsItemFilters,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeOpsItems'
@@ -3768,12 +3921,14 @@ class SSM {
     String nextToken,
     List<ParameterStringFilter> parameterFilters,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeParameters'
@@ -3817,12 +3972,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribePatchBaselines'
@@ -3902,12 +4060,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribePatchGroups'
@@ -3982,12 +4143,14 @@ class SSM {
   }) async {
     ArgumentError.checkNotNull(operatingSystem, 'operatingSystem');
     ArgumentError.checkNotNull(property, 'property');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribePatchProperties'
@@ -4039,12 +4202,15 @@ class SSM {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(state, 'state');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      200,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        200,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeSessions'
@@ -4192,12 +4358,14 @@ class SSM {
       instanceId,
       r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
-    _s.validateStringLength(
-      'pluginName',
-      pluginName,
-      4,
-      1152921504606846976,
-    );
+    if (pluginName != null) {
+      _s.validateStringLength(
+        'pluginName',
+        pluginName,
+        4,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetCommandInvocation'
@@ -4375,16 +4543,20 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (versionName != null) {
+      _s.validateStringPattern(
+        'versionName',
+        versionName,
+        r'''^[a-zA-Z0-9_\-.]{1,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetDocument'
@@ -4445,12 +4617,17 @@ class SSM {
     String nextToken,
     List<ResultAttribute> resultAttributes,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (aggregators != null) {}
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
+    if (resultAttributes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetInventory'
@@ -4507,18 +4684,22 @@ class SSM {
     bool subType,
     String typeName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      50,
-      200,
-    );
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      0,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        50,
+        200,
+      );
+    }
+    if (typeName != null) {
+      _s.validateStringLength(
+        'typeName',
+        typeName,
+        0,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetInventorySchema'
@@ -4898,18 +5079,25 @@ class SSM {
     List<OpsResultAttribute> resultAttributes,
     String syncName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'syncName',
-      syncName,
-      1,
-      64,
-    );
+    if (aggregators != null) {}
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
+    if (resultAttributes != null) {}
+    if (syncName != null) {
+      _s.validateStringLength(
+        'syncName',
+        syncName,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetOpsSummary'
@@ -5012,12 +5200,14 @@ class SSM {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetParameterHistory'
@@ -5140,12 +5330,14 @@ class SSM {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetParametersByPath'
@@ -5427,12 +5619,14 @@ class SSM {
       associationId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListAssociationVersions'
@@ -5477,12 +5671,15 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (associationFilterList != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListAssociations'
@@ -5546,23 +5743,30 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'commandId',
-      commandId,
-      36,
-      36,
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (commandId != null) {
+      _s.validateStringLength(
+        'commandId',
+        commandId,
+        36,
+        36,
+      );
+    }
+    if (filters != null) {}
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListCommandInvocations'
@@ -5619,23 +5823,30 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'commandId',
-      commandId,
-      36,
-      36,
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (commandId != null) {
+      _s.validateStringLength(
+        'commandId',
+        commandId,
+        36,
+        36,
+      );
+    }
+    if (filters != null) {}
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListCommands'
@@ -5695,12 +5906,16 @@ class SSM {
     List<String> resourceIds,
     List<String> resourceTypes,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
+    if (resourceIds != null) {}
+    if (resourceTypes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListComplianceItems'
@@ -5748,12 +5963,14 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListComplianceSummaries'
@@ -5802,12 +6019,14 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListDocumentVersions'
@@ -5857,12 +6076,16 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (documentFilterList != null) {}
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListDocuments'
@@ -5935,12 +6158,15 @@ class SSM {
       typeName,
       r'''^(AWS|Custom):.*$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (filters != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListInventoryEntries'
@@ -5988,12 +6214,14 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListResourceComplianceSummaries'
@@ -6050,18 +6278,22 @@ class SSM {
     String nextToken,
     String syncType,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'syncType',
-      syncType,
-      1,
-      64,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
+    if (syncType != null) {
+      _s.validateStringLength(
+        'syncType',
+        syncType,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ListResourceDataSync'
@@ -6164,17 +6396,23 @@ class SSM {
       r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     ArgumentError.checkNotNull(permissionType, 'permissionType');
-    _s.validateStringLength(
-      'sharedDocumentVersion',
-      sharedDocumentVersion,
-      0,
-      8,
-    );
-    _s.validateStringPattern(
-      'sharedDocumentVersion',
-      sharedDocumentVersion,
-      r'''([$]LATEST|[$]DEFAULT|[$]ALL)''',
-    );
+    if (accountIdsToAdd != null) {}
+    if (accountIdsToRemove != null) {}
+    if (sharedDocumentVersion != null) {
+      _s.validateStringLength(
+        'sharedDocumentVersion',
+        sharedDocumentVersion,
+        0,
+        8,
+      );
+    }
+    if (sharedDocumentVersion != null) {
+      _s.validateStringPattern(
+        'sharedDocumentVersion',
+        sharedDocumentVersion,
+        r'''([$]LATEST|[$]DEFAULT|[$]ALL)''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ModifyDocumentPermission'
@@ -6332,12 +6570,14 @@ class SSM {
       1,
       50,
     );
-    _s.validateStringLength(
-      'itemContentHash',
-      itemContentHash,
-      0,
-      256,
-    );
+    if (itemContentHash != null) {
+      _s.validateStringLength(
+        'itemContentHash',
+        itemContentHash,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.PutComplianceItems'
@@ -6676,35 +6916,46 @@ class SSM {
     );
     ArgumentError.checkNotNull(type, 'type');
     ArgumentError.checkNotNull(value, 'value');
-    _s.validateStringLength(
-      'allowedPattern',
-      allowedPattern,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'keyId',
-      keyId,
-      r'''^([a-zA-Z0-9:/_-]+)$''',
-    );
-    _s.validateStringLength(
-      'policies',
-      policies,
-      1,
-      4096,
-    );
+    if (allowedPattern != null) {
+      _s.validateStringLength(
+        'allowedPattern',
+        allowedPattern,
+        0,
+        1024,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
+    if (keyId != null) {
+      _s.validateStringLength(
+        'keyId',
+        keyId,
+        1,
+        256,
+      );
+    }
+    if (keyId != null) {
+      _s.validateStringPattern(
+        'keyId',
+        keyId,
+        r'''^([a-zA-Z0-9:/_-]+)$''',
+      );
+    }
+    if (policies != null) {
+      _s.validateStringLength(
+        'policies',
+        policies,
+        1,
+        4096,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.PutParameter'
@@ -6932,35 +7183,45 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringLength(
-      'ownerInformation',
-      ownerInformation,
-      1,
-      128,
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (ownerInformation != null) {
+      _s.validateStringLength(
+        'ownerInformation',
+        ownerInformation,
+        1,
+        128,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.RegisterTargetWithMaintenanceWindow'
@@ -7148,35 +7409,45 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateNumRange(
-      'priority',
-      priority,
-      0,
-      1152921504606846976,
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (priority != null) {
+      _s.validateNumRange(
+        'priority',
+        priority,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.RegisterTaskWithMaintenanceWindow'
@@ -7412,6 +7683,7 @@ class SSM {
       36,
     );
     ArgumentError.checkNotNull(signalType, 'signalType');
+    if (payload != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.SendAutomationSignal'
@@ -7569,69 +7841,93 @@ class SSM {
       documentName,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'documentHash',
-      documentHash,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'outputS3BucketName',
-      outputS3BucketName,
-      3,
-      63,
-    );
-    _s.validateStringLength(
-      'outputS3KeyPrefix',
-      outputS3KeyPrefix,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'outputS3Region',
-      outputS3Region,
-      3,
-      20,
-    );
-    _s.validateNumRange(
-      'timeoutSeconds',
-      timeoutSeconds,
-      30,
-      2592000,
-    );
+    if (comment != null) {
+      _s.validateStringLength(
+        'comment',
+        comment,
+        0,
+        100,
+      );
+    }
+    if (documentHash != null) {
+      _s.validateStringLength(
+        'documentHash',
+        documentHash,
+        0,
+        256,
+      );
+    }
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (instanceIds != null) {}
+    if (maxConcurrency != null) {
+      _s.validateStringLength(
+        'maxConcurrency',
+        maxConcurrency,
+        1,
+        7,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringPattern(
+        'maxConcurrency',
+        maxConcurrency,
+        r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringLength(
+        'maxErrors',
+        maxErrors,
+        1,
+        7,
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringPattern(
+        'maxErrors',
+        maxErrors,
+        r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+      );
+    }
+    if (outputS3BucketName != null) {
+      _s.validateStringLength(
+        'outputS3BucketName',
+        outputS3BucketName,
+        3,
+        63,
+      );
+    }
+    if (outputS3KeyPrefix != null) {
+      _s.validateStringLength(
+        'outputS3KeyPrefix',
+        outputS3KeyPrefix,
+        0,
+        500,
+      );
+    }
+    if (outputS3Region != null) {
+      _s.validateStringLength(
+        'outputS3Region',
+        outputS3Region,
+        3,
+        20,
+      );
+    }
+    if (targets != null) {}
+    if (timeoutSeconds != null) {
+      _s.validateNumRange(
+        'timeoutSeconds',
+        timeoutSeconds,
+        30,
+        2592000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.SendCommand'
@@ -7805,50 +8101,71 @@ class SSM {
       documentName,
       r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      36,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}''',
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'targetParameterName',
-      targetParameterName,
-      1,
-      50,
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        36,
+        36,
+      );
+    }
+    if (clientToken != null) {
+      _s.validateStringPattern(
+        'clientToken',
+        clientToken,
+        r'''[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}''',
+      );
+    }
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringLength(
+        'maxConcurrency',
+        maxConcurrency,
+        1,
+        7,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringPattern(
+        'maxConcurrency',
+        maxConcurrency,
+        r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringLength(
+        'maxErrors',
+        maxErrors,
+        1,
+        7,
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringPattern(
+        'maxErrors',
+        maxErrors,
+        r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+      );
+    }
+    if (parameters != null) {}
+    if (tags != null) {}
+    if (targetLocations != null) {}
+    if (targetMaps != null) {}
+    if (targetParameterName != null) {
+      _s.validateStringLength(
+        'targetParameterName',
+        targetParameterName,
+        1,
+        50,
+      );
+    }
+    if (targets != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.StartAutomationExecution'
@@ -7920,11 +8237,13 @@ class SSM {
       1,
       400,
     );
-    _s.validateStringPattern(
-      'documentName',
-      documentName,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
+    if (documentName != null) {
+      _s.validateStringPattern(
+        'documentName',
+        documentName,
+        r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.StartSession'
@@ -8159,60 +8478,81 @@ class SSM {
       associationId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
     );
-    _s.validateStringPattern(
-      'associationName',
-      associationName,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringPattern(
-      'associationVersion',
-      associationVersion,
-      r'''([$]LATEST)|([1-9][0-9]*)''',
-    );
-    _s.validateStringLength(
-      'automationTargetParameterName',
-      automationTargetParameterName,
-      1,
-      50,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
-    _s.validateStringLength(
-      'scheduleExpression',
-      scheduleExpression,
-      1,
-      256,
-    );
+    if (associationName != null) {
+      _s.validateStringPattern(
+        'associationName',
+        associationName,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (associationVersion != null) {
+      _s.validateStringPattern(
+        'associationVersion',
+        associationVersion,
+        r'''([$]LATEST)|([1-9][0-9]*)''',
+      );
+    }
+    if (automationTargetParameterName != null) {
+      _s.validateStringLength(
+        'automationTargetParameterName',
+        automationTargetParameterName,
+        1,
+        50,
+      );
+    }
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringLength(
+        'maxConcurrency',
+        maxConcurrency,
+        1,
+        7,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringPattern(
+        'maxConcurrency',
+        maxConcurrency,
+        r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringLength(
+        'maxErrors',
+        maxErrors,
+        1,
+        7,
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringPattern(
+        'maxErrors',
+        maxErrors,
+        r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
+      );
+    }
+    if (scheduleExpression != null) {
+      _s.validateStringLength(
+        'scheduleExpression',
+        scheduleExpression,
+        1,
+        256,
+      );
+    }
+    if (targets != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateAssociation'
@@ -8358,27 +8698,36 @@ class SSM {
       name,
       r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringLength(
-      'targetType',
-      targetType,
-      0,
-      200,
-    );
-    _s.validateStringPattern(
-      'targetType',
-      targetType,
-      r'''^\/[\w\.\-\:\/]*$''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
+    if (attachments != null) {}
+    if (documentVersion != null) {
+      _s.validateStringPattern(
+        'documentVersion',
+        documentVersion,
+        r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+      );
+    }
+    if (targetType != null) {
+      _s.validateStringLength(
+        'targetType',
+        targetType,
+        0,
+        200,
+      );
+    }
+    if (targetType != null) {
+      _s.validateStringPattern(
+        'targetType',
+        targetType,
+        r'''^\/[\w\.\-\:\/]*$''',
+      );
+    }
+    if (versionName != null) {
+      _s.validateStringPattern(
+        'versionName',
+        versionName,
+        r'''^[a-zA-Z0-9_\-.]{1,128}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateDocument'
@@ -8542,41 +8891,53 @@ class SSM {
       windowId,
       r'''^mw-[0-9a-f]{17}$''',
     );
-    _s.validateNumRange(
-      'cutoff',
-      cutoff,
-      0,
-      23,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
-    _s.validateNumRange(
-      'duration',
-      duration,
-      1,
-      24,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringLength(
-      'schedule',
-      schedule,
-      1,
-      256,
-    );
+    if (cutoff != null) {
+      _s.validateNumRange(
+        'cutoff',
+        cutoff,
+        0,
+        23,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (duration != null) {
+      _s.validateNumRange(
+        'duration',
+        duration,
+        1,
+        24,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (schedule != null) {
+      _s.validateStringLength(
+        'schedule',
+        schedule,
+        1,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateMaintenanceWindow'
@@ -8693,29 +9054,38 @@ class SSM {
       windowTargetId,
       r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringLength(
-      'ownerInformation',
-      ownerInformation,
-      1,
-      128,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (ownerInformation != null) {
+      _s.validateStringLength(
+        'ownerInformation',
+        ownerInformation,
+        1,
+        128,
+      );
+    }
+    if (targets != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateMaintenanceWindowTarget'
@@ -8905,57 +9275,76 @@ class SSM {
       windowTaskId,
       r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateNumRange(
-      'priority',
-      priority,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      1,
-      1600,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        128,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringLength(
+        'maxConcurrency',
+        maxConcurrency,
+        1,
+        7,
+      );
+    }
+    if (maxConcurrency != null) {
+      _s.validateStringPattern(
+        'maxConcurrency',
+        maxConcurrency,
+        r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringLength(
+        'maxErrors',
+        maxErrors,
+        1,
+        7,
+      );
+    }
+    if (maxErrors != null) {
+      _s.validateStringPattern(
+        'maxErrors',
+        maxErrors,
+        r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (priority != null) {
+      _s.validateNumRange(
+        'priority',
+        priority,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (targets != null) {}
+    if (taskArn != null) {
+      _s.validateStringLength(
+        'taskArn',
+        taskArn,
+        1,
+        1600,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateMaintenanceWindowTask'
@@ -9137,36 +9526,46 @@ class SSM {
       opsItemId,
       r'''^(oi)-[0-9a-f]{12}$''',
     );
-    _s.validateStringLength(
-      'category',
-      category,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateNumRange(
-      'priority',
-      priority,
-      1,
-      5,
-    );
-    _s.validateStringLength(
-      'severity',
-      severity,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'title',
-      title,
-      1,
-      1024,
-    );
+    if (category != null) {
+      _s.validateStringLength(
+        'category',
+        category,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (priority != null) {
+      _s.validateNumRange(
+        'priority',
+        priority,
+        1,
+        5,
+      );
+    }
+    if (severity != null) {
+      _s.validateStringLength(
+        'severity',
+        severity,
+        1,
+        64,
+      );
+    }
+    if (title != null) {
+      _s.validateStringLength(
+        'title',
+        title,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateOpsItem'
@@ -9303,23 +9702,32 @@ class SSM {
       baselineId,
       r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
+    if (approvedPatches != null) {}
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        3,
+        128,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      );
+    }
+    if (rejectedPatches != null) {}
+    if (sources != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdatePatchBaseline'

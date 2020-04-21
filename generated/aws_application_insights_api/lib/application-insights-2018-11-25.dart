@@ -92,12 +92,15 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateStringLength(
-      'opsItemSNSTopicArn',
-      opsItemSNSTopicArn,
-      20,
-      300,
-    );
+    if (opsItemSNSTopicArn != null) {
+      _s.validateStringLength(
+        'opsItemSNSTopicArn',
+        opsItemSNSTopicArn,
+        20,
+        300,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.CreateApplication'
@@ -847,12 +850,14 @@ class ApplicationInsights {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListApplications'
@@ -906,12 +911,14 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListComponents'
@@ -991,23 +998,29 @@ class ApplicationInsights {
     String resourceGroupName,
     DateTime startTime,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
-    _s.validateStringLength(
-      'resourceGroupName',
-      resourceGroupName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
+    if (resourceGroupName != null) {
+      _s.validateStringLength(
+        'resourceGroupName',
+        resourceGroupName,
+        1,
+        256,
+      );
+    }
+    if (resourceGroupName != null) {
+      _s.validateStringPattern(
+        'resourceGroupName',
+        resourceGroupName,
+        r'''[a-zA-Z0-9\.\-_]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListConfigurationHistory'
@@ -1064,12 +1077,14 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListLogPatternSets'
@@ -1127,23 +1142,29 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
-    _s.validateStringLength(
-      'patternSetName',
-      patternSetName,
-      1,
-      30,
-    );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
+    if (patternSetName != null) {
+      _s.validateStringLength(
+        'patternSetName',
+        patternSetName,
+        1,
+        30,
+      );
+    }
+    if (patternSetName != null) {
+      _s.validateStringPattern(
+        'patternSetName',
+        patternSetName,
+        r'''[a-zA-Z0-9\.\-_]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListLogPatterns'
@@ -1197,23 +1218,29 @@ class ApplicationInsights {
     String resourceGroupName,
     DateTime startTime,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      40,
-    );
-    _s.validateStringLength(
-      'resourceGroupName',
-      resourceGroupName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        40,
+      );
+    }
+    if (resourceGroupName != null) {
+      _s.validateStringLength(
+        'resourceGroupName',
+        resourceGroupName,
+        1,
+        256,
+      );
+    }
+    if (resourceGroupName != null) {
+      _s.validateStringPattern(
+        'resourceGroupName',
+        resourceGroupName,
+        r'''[a-zA-Z0-9\.\-_]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListProblems'
@@ -1424,12 +1451,14 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateStringLength(
-      'opsItemSNSTopicArn',
-      opsItemSNSTopicArn,
-      20,
-      300,
-    );
+    if (opsItemSNSTopicArn != null) {
+      _s.validateStringLength(
+        'opsItemSNSTopicArn',
+        opsItemSNSTopicArn,
+        20,
+        300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateApplication'
@@ -1565,12 +1594,15 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateStringLength(
-      'componentConfiguration',
-      componentConfiguration,
-      1,
-      10000,
-    );
+    if (componentConfiguration != null) {
+      _s.validateStringLength(
+        'componentConfiguration',
+        componentConfiguration,
+        1,
+        10000,
+      );
+    }
+    if (tier != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateComponentConfiguration'
@@ -1657,12 +1689,14 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
     );
-    _s.validateStringLength(
-      'pattern',
-      pattern,
-      1,
-      50,
-    );
+    if (pattern != null) {
+      _s.validateStringLength(
+        'pattern',
+        pattern,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateLogPattern'

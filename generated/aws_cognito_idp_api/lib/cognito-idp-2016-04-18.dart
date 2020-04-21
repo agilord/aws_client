@@ -496,17 +496,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'temporaryPassword',
-      temporaryPassword,
-      6,
-      256,
-    );
-    _s.validateStringPattern(
-      'temporaryPassword',
-      temporaryPassword,
-      r'''[\S]+''',
-    );
+    if (temporaryPassword != null) {
+      _s.validateStringLength(
+        'temporaryPassword',
+        temporaryPassword,
+        6,
+        256,
+      );
+    }
+    if (temporaryPassword != null) {
+      _s.validateStringPattern(
+        'temporaryPassword',
+        temporaryPassword,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminCreateUser'
@@ -1506,23 +1510,29 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminListDevices'
@@ -1597,23 +1607,29 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminListGroupsForUser'
@@ -1687,23 +1703,29 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2088,12 +2110,14 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'session',
-      session,
-      20,
-      2048,
-    );
+    if (session != null) {
+      _s.validateStringLength(
+        'session',
+        session,
+        20,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2756,17 +2780,21 @@ class CognitoIdentityProvider {
     String accessToken,
     String session,
   }) async {
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
-    _s.validateStringLength(
-      'session',
-      session,
-      20,
-      2048,
-    );
+    if (accessToken != null) {
+      _s.validateStringPattern(
+        'accessToken',
+        accessToken,
+        r'''[A-Za-z0-9-_=.]+''',
+      );
+    }
+    if (session != null) {
+      _s.validateStringLength(
+        'session',
+        session,
+        20,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AssociateSoftwareToken'
@@ -2913,12 +2941,14 @@ class CognitoIdentityProvider {
       deviceKey,
       r'''[\w-]+_[0-9a-f-]+''',
     );
-    _s.validateStringLength(
-      'deviceName',
-      deviceName,
-      1,
-      1024,
-    );
+    if (deviceName != null) {
+      _s.validateStringLength(
+        'deviceName',
+        deviceName,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmDevice'
@@ -3082,17 +3112,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'secretHash',
-      secretHash,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
-    );
+    if (secretHash != null) {
+      _s.validateStringLength(
+        'secretHash',
+        secretHash,
+        1,
+        128,
+      );
+    }
+    if (secretHash != null) {
+      _s.validateStringPattern(
+        'secretHash',
+        secretHash,
+        r'''[\w+=/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmForgotPassword'
@@ -3252,17 +3286,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'secretHash',
-      secretHash,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
-    );
+    if (secretHash != null) {
+      _s.validateStringLength(
+        'secretHash',
+        secretHash,
+        1,
+        128,
+      );
+    }
+    if (secretHash != null) {
+      _s.validateStringPattern(
+        'secretHash',
+        secretHash,
+        r'''[\w+=/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmSignUp'
@@ -3361,29 +3399,37 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateNumRange(
-      'precedence',
-      precedence,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (precedence != null) {
+      _s.validateNumRange(
+        'precedence',
+        precedence,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        20,
+        2048,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.CreateGroup'
@@ -3556,6 +3602,7 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
+    if (idpIdentifiers != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.CreateIdentityProvider'
@@ -3644,6 +3691,7 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
+    if (scopes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.CreateResourceServer'
@@ -3893,50 +3941,67 @@ class CognitoIdentityProvider {
       poolName,
       r'''[\w\s+=,.@-]+''',
     );
-    _s.validateStringLength(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      6,
-      20000,
-    );
-    _s.validateStringPattern(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
-    );
-    _s.validateStringLength(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      1,
-      140,
-    );
-    _s.validateStringPattern(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
-    );
-    _s.validateStringLength(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      6,
-      140,
-    );
-    _s.validateStringPattern(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      r'''.*\{####\}.*''',
-    );
-    _s.validateStringLength(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      6,
-      140,
-    );
-    _s.validateStringPattern(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      r'''.*\{####\}.*''',
-    );
+    if (emailVerificationMessage != null) {
+      _s.validateStringLength(
+        'emailVerificationMessage',
+        emailVerificationMessage,
+        6,
+        20000,
+      );
+    }
+    if (emailVerificationMessage != null) {
+      _s.validateStringPattern(
+        'emailVerificationMessage',
+        emailVerificationMessage,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
+      );
+    }
+    if (emailVerificationSubject != null) {
+      _s.validateStringLength(
+        'emailVerificationSubject',
+        emailVerificationSubject,
+        1,
+        140,
+      );
+    }
+    if (emailVerificationSubject != null) {
+      _s.validateStringPattern(
+        'emailVerificationSubject',
+        emailVerificationSubject,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
+      );
+    }
+    if (schema != null) {}
+    if (smsAuthenticationMessage != null) {
+      _s.validateStringLength(
+        'smsAuthenticationMessage',
+        smsAuthenticationMessage,
+        6,
+        140,
+      );
+    }
+    if (smsAuthenticationMessage != null) {
+      _s.validateStringPattern(
+        'smsAuthenticationMessage',
+        smsAuthenticationMessage,
+        r'''.*\{####\}.*''',
+      );
+    }
+    if (smsVerificationMessage != null) {
+      _s.validateStringLength(
+        'smsVerificationMessage',
+        smsVerificationMessage,
+        6,
+        140,
+      );
+    }
+    if (smsVerificationMessage != null) {
+      _s.validateStringPattern(
+        'smsVerificationMessage',
+        smsVerificationMessage,
+        r'''.*\{####\}.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.CreateUserPool'
@@ -4240,23 +4305,33 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-    );
-    _s.validateNumRange(
-      'refreshTokenValidity',
-      refreshTokenValidity,
-      0,
-      3650,
-    );
+    if (allowedOAuthFlows != null) {}
+    if (allowedOAuthScopes != null) {}
+    if (callbackURLs != null) {}
+    if (defaultRedirectURI != null) {
+      _s.validateStringLength(
+        'defaultRedirectURI',
+        defaultRedirectURI,
+        1,
+        1024,
+      );
+    }
+    if (defaultRedirectURI != null) {
+      _s.validateStringPattern(
+        'defaultRedirectURI',
+        defaultRedirectURI,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      );
+    }
+    if (logoutURLs != null) {}
+    if (refreshTokenValidity != null) {
+      _s.validateNumRange(
+        'refreshTokenValidity',
+        refreshTokenValidity,
+        0,
+        3650,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.CreateUserPoolClient'
@@ -4939,17 +5014,21 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-    );
+    if (clientId != null) {
+      _s.validateStringLength(
+        'clientId',
+        clientId,
+        1,
+        128,
+      );
+    }
+    if (clientId != null) {
+      _s.validateStringPattern(
+        'clientId',
+        clientId,
+        r'''[\w+]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -5211,11 +5290,13 @@ class CognitoIdentityProvider {
       deviceKey,
       r'''[\w-]+_[0-9a-f-]+''',
     );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
+    if (accessToken != null) {
+      _s.validateStringPattern(
+        'accessToken',
+        accessToken,
+        r'''[A-Za-z0-9-_=.]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ForgetDevice'
@@ -5351,17 +5432,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'secretHash',
-      secretHash,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
-    );
+    if (secretHash != null) {
+      _s.validateStringLength(
+        'secretHash',
+        secretHash,
+        1,
+        128,
+      );
+    }
+    if (secretHash != null) {
+      _s.validateStringPattern(
+        'secretHash',
+        secretHash,
+        r'''[\w+=/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ForgotPassword'
@@ -5462,11 +5547,13 @@ class CognitoIdentityProvider {
       deviceKey,
       r'''[\w-]+_[0-9a-f-]+''',
     );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
+    if (accessToken != null) {
+      _s.validateStringPattern(
+        'accessToken',
+        accessToken,
+        r'''[A-Za-z0-9-_=.]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetDevice'
@@ -5684,17 +5771,21 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-    );
+    if (clientId != null) {
+      _s.validateStringLength(
+        'clientId',
+        clientId,
+        1,
+        128,
+      );
+    }
+    if (clientId != null) {
+      _s.validateStringPattern(
+        'clientId',
+        clientId,
+        r'''[\w+]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetUICustomization'
@@ -6204,23 +6295,29 @@ class CognitoIdentityProvider {
       accessToken,
       r'''[A-Za-z0-9-_=.]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListDevices'
@@ -6277,23 +6374,29 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListGroups'
@@ -6347,23 +6450,29 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListIdentityProviders'
@@ -6417,23 +6526,29 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListResourceServers'
@@ -6546,17 +6661,21 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
-    );
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListUserImportJobs'
@@ -6613,23 +6732,29 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListUserPoolClients'
@@ -6675,17 +6800,21 @@ class CognitoIdentityProvider {
       1,
       60,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListUserPools'
@@ -6816,29 +6945,37 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'filter',
-      filter,
-      0,
-      256,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
-    );
+    if (filter != null) {
+      _s.validateStringLength(
+        'filter',
+        filter,
+        0,
+        256,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListUsers'
@@ -6913,23 +7050,29 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      60,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        60,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\S]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ListUsersInGroup'
@@ -7059,17 +7202,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'secretHash',
-      secretHash,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
-    );
+    if (secretHash != null) {
+      _s.validateStringLength(
+        'secretHash',
+        secretHash,
+        1,
+        128,
+      );
+    }
+    if (secretHash != null) {
+      _s.validateStringPattern(
+        'secretHash',
+        secretHash,
+        r'''[\w+=/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ResendConfirmationCode'
@@ -7238,12 +7385,14 @@ class CognitoIdentityProvider {
       clientId,
       r'''[\w+]+''',
     );
-    _s.validateStringLength(
-      'session',
-      session,
-      20,
-      2048,
-    );
+    if (session != null) {
+      _s.validateStringLength(
+        'session',
+        session,
+        20,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.RespondToAuthChallenge'
@@ -7328,17 +7477,21 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-    );
+    if (clientId != null) {
+      _s.validateStringLength(
+        'clientId',
+        clientId,
+        1,
+        128,
+      );
+    }
+    if (clientId != null) {
+      _s.validateStringPattern(
+        'clientId',
+        clientId,
+        r'''[\w+]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetRiskConfiguration'
@@ -7412,17 +7565,21 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-    );
+    if (clientId != null) {
+      _s.validateStringLength(
+        'clientId',
+        clientId,
+        1,
+        128,
+      );
+    }
+    if (clientId != null) {
+      _s.validateStringPattern(
+        'clientId',
+        clientId,
+        r'''[\w+]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetUICustomization'
@@ -7756,17 +7913,21 @@ class CognitoIdentityProvider {
       username,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
-    _s.validateStringLength(
-      'secretHash',
-      secretHash,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
-    );
+    if (secretHash != null) {
+      _s.validateStringLength(
+        'secretHash',
+        secretHash,
+        1,
+        128,
+      );
+    }
+    if (secretHash != null) {
+      _s.validateStringPattern(
+        'secretHash',
+        secretHash,
+        r'''[\w+=/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SignUp'
@@ -8257,29 +8418,37 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateNumRange(
-      'precedence',
-      precedence,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (precedence != null) {
+      _s.validateNumRange(
+        'precedence',
+        precedence,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        20,
+        2048,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateGroup'
@@ -8357,6 +8526,7 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
+    if (idpIdentifiers != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateIdentityProvider'
@@ -8445,6 +8615,7 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
+    if (scopes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateResourceServer'
@@ -8692,50 +8863,66 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      6,
-      20000,
-    );
-    _s.validateStringPattern(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
-    );
-    _s.validateStringLength(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      1,
-      140,
-    );
-    _s.validateStringPattern(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
-    );
-    _s.validateStringLength(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      6,
-      140,
-    );
-    _s.validateStringPattern(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      r'''.*\{####\}.*''',
-    );
-    _s.validateStringLength(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      6,
-      140,
-    );
-    _s.validateStringPattern(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      r'''.*\{####\}.*''',
-    );
+    if (emailVerificationMessage != null) {
+      _s.validateStringLength(
+        'emailVerificationMessage',
+        emailVerificationMessage,
+        6,
+        20000,
+      );
+    }
+    if (emailVerificationMessage != null) {
+      _s.validateStringPattern(
+        'emailVerificationMessage',
+        emailVerificationMessage,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
+      );
+    }
+    if (emailVerificationSubject != null) {
+      _s.validateStringLength(
+        'emailVerificationSubject',
+        emailVerificationSubject,
+        1,
+        140,
+      );
+    }
+    if (emailVerificationSubject != null) {
+      _s.validateStringPattern(
+        'emailVerificationSubject',
+        emailVerificationSubject,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
+      );
+    }
+    if (smsAuthenticationMessage != null) {
+      _s.validateStringLength(
+        'smsAuthenticationMessage',
+        smsAuthenticationMessage,
+        6,
+        140,
+      );
+    }
+    if (smsAuthenticationMessage != null) {
+      _s.validateStringPattern(
+        'smsAuthenticationMessage',
+        smsAuthenticationMessage,
+        r'''.*\{####\}.*''',
+      );
+    }
+    if (smsVerificationMessage != null) {
+      _s.validateStringLength(
+        'smsVerificationMessage',
+        smsVerificationMessage,
+        6,
+        140,
+      );
+    }
+    if (smsVerificationMessage != null) {
+      _s.validateStringPattern(
+        'smsVerificationMessage',
+        smsVerificationMessage,
+        r'''.*\{####\}.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateUserPool'
@@ -9027,34 +9214,48 @@ class CognitoIdentityProvider {
       userPoolId,
       r'''[\w-]+_[0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'clientName',
-      clientName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientName',
-      clientName,
-      r'''[\w\s+=,.@-]+''',
-    );
-    _s.validateStringLength(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-    );
-    _s.validateNumRange(
-      'refreshTokenValidity',
-      refreshTokenValidity,
-      0,
-      3650,
-    );
+    if (allowedOAuthFlows != null) {}
+    if (allowedOAuthScopes != null) {}
+    if (callbackURLs != null) {}
+    if (clientName != null) {
+      _s.validateStringLength(
+        'clientName',
+        clientName,
+        1,
+        128,
+      );
+    }
+    if (clientName != null) {
+      _s.validateStringPattern(
+        'clientName',
+        clientName,
+        r'''[\w\s+=,.@-]+''',
+      );
+    }
+    if (defaultRedirectURI != null) {
+      _s.validateStringLength(
+        'defaultRedirectURI',
+        defaultRedirectURI,
+        1,
+        1024,
+      );
+    }
+    if (defaultRedirectURI != null) {
+      _s.validateStringPattern(
+        'defaultRedirectURI',
+        defaultRedirectURI,
+        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      );
+    }
+    if (logoutURLs != null) {}
+    if (refreshTokenValidity != null) {
+      _s.validateNumRange(
+        'refreshTokenValidity',
+        refreshTokenValidity,
+        0,
+        3650,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateUserPoolClient'
@@ -9241,17 +9442,21 @@ class CognitoIdentityProvider {
       userCode,
       r'''[0-9]+''',
     );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
-    _s.validateStringLength(
-      'session',
-      session,
-      20,
-      2048,
-    );
+    if (accessToken != null) {
+      _s.validateStringPattern(
+        'accessToken',
+        accessToken,
+        r'''[A-Za-z0-9-_=.]+''',
+      );
+    }
+    if (session != null) {
+      _s.validateStringLength(
+        'session',
+        session,
+        20,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.VerifySoftwareToken'

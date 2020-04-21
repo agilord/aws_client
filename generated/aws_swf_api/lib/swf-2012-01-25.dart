@@ -1070,18 +1070,22 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(execution, 'execution');
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.GetWorkflowExecutionHistory'
@@ -1186,24 +1190,30 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        256,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListActivityTypes'
@@ -1378,18 +1388,22 @@ class SWF {
       1,
       256,
     );
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListClosedWorkflowExecutions'
@@ -1485,18 +1499,22 @@ class SWF {
     bool reverseOrder,
   }) async {
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListDomains'
@@ -1642,18 +1660,22 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(startTimeFilter, 'startTimeFilter');
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListOpenWorkflowExecutions'
@@ -1794,24 +1816,30 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        256,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListWorkflowTypes'
@@ -1912,12 +1940,14 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(taskList, 'taskList');
-    _s.validateStringLength(
-      'identity',
-      identity,
-      0,
-      256,
-    );
+    if (identity != null) {
+      _s.validateStringLength(
+        'identity',
+        identity,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.PollForActivityTask'
@@ -2061,24 +2091,30 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(taskList, 'taskList');
-    _s.validateStringLength(
-      'identity',
-      identity,
-      0,
-      256,
-    );
-    _s.validateNumRange(
-      'maximumPageSize',
-      maximumPageSize,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
-    );
+    if (identity != null) {
+      _s.validateStringLength(
+        'identity',
+        identity,
+        0,
+        256,
+      );
+    }
+    if (maximumPageSize != null) {
+      _s.validateNumRange(
+        'maximumPageSize',
+        maximumPageSize,
+        0,
+        1000,
+      );
+    }
+    if (nextPageToken != null) {
+      _s.validateStringLength(
+        'nextPageToken',
+        nextPageToken,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.PollForDecisionTask'
@@ -2188,12 +2224,14 @@ class SWF {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      2048,
-    );
+    if (details != null) {
+      _s.validateStringLength(
+        'details',
+        details,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RecordActivityTaskHeartbeat'
@@ -2387,36 +2425,46 @@ class SWF {
       1,
       64,
     );
-    _s.validateStringLength(
-      'defaultTaskHeartbeatTimeout',
-      defaultTaskHeartbeatTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskScheduleToCloseTimeout',
-      defaultTaskScheduleToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskScheduleToStartTimeout',
-      defaultTaskScheduleToStartTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskStartToCloseTimeout',
-      defaultTaskStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
+    if (defaultTaskHeartbeatTimeout != null) {
+      _s.validateStringLength(
+        'defaultTaskHeartbeatTimeout',
+        defaultTaskHeartbeatTimeout,
+        0,
+        8,
+      );
+    }
+    if (defaultTaskScheduleToCloseTimeout != null) {
+      _s.validateStringLength(
+        'defaultTaskScheduleToCloseTimeout',
+        defaultTaskScheduleToCloseTimeout,
+        0,
+        8,
+      );
+    }
+    if (defaultTaskScheduleToStartTimeout != null) {
+      _s.validateStringLength(
+        'defaultTaskScheduleToStartTimeout',
+        defaultTaskScheduleToStartTimeout,
+        0,
+        8,
+      );
+    }
+    if (defaultTaskStartToCloseTimeout != null) {
+      _s.validateStringLength(
+        'defaultTaskStartToCloseTimeout',
+        defaultTaskStartToCloseTimeout,
+        0,
+        8,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterActivityType'
@@ -2530,12 +2578,14 @@ class SWF {
       1,
       8,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterDomain'
@@ -2751,30 +2801,38 @@ class SWF {
       1,
       64,
     );
-    _s.validateStringLength(
-      'defaultExecutionStartToCloseTimeout',
-      defaultExecutionStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultLambdaRole',
-      defaultLambdaRole,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'defaultTaskStartToCloseTimeout',
-      defaultTaskStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
+    if (defaultExecutionStartToCloseTimeout != null) {
+      _s.validateStringLength(
+        'defaultExecutionStartToCloseTimeout',
+        defaultExecutionStartToCloseTimeout,
+        0,
+        8,
+      );
+    }
+    if (defaultLambdaRole != null) {
+      _s.validateStringLength(
+        'defaultLambdaRole',
+        defaultLambdaRole,
+        1,
+        1600,
+      );
+    }
+    if (defaultTaskStartToCloseTimeout != null) {
+      _s.validateStringLength(
+        'defaultTaskStartToCloseTimeout',
+        defaultTaskStartToCloseTimeout,
+        0,
+        8,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterWorkflowType'
@@ -2873,12 +2931,14 @@ class SWF {
       1,
       256,
     );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
+    if (runId != null) {
+      _s.validateStringLength(
+        'runId',
+        runId,
+        0,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RequestCancelWorkflowExecution'
@@ -2969,12 +3029,14 @@ class SWF {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
+    if (details != null) {
+      _s.validateStringLength(
+        'details',
+        details,
+        0,
+        32768,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCanceled'
@@ -3064,12 +3126,14 @@ class SWF {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'result',
-      result,
-      0,
-      32768,
-    );
+    if (result != null) {
+      _s.validateStringLength(
+        'result',
+        result,
+        0,
+        32768,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCompleted'
@@ -3157,18 +3221,22 @@ class SWF {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      256,
-    );
+    if (details != null) {
+      _s.validateStringLength(
+        'details',
+        details,
+        0,
+        32768,
+      );
+    }
+    if (reason != null) {
+      _s.validateStringLength(
+        'reason',
+        reason,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskFailed'
@@ -3240,12 +3308,14 @@ class SWF {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'executionContext',
-      executionContext,
-      0,
-      32768,
-    );
+    if (executionContext != null) {
+      _s.validateStringLength(
+        'executionContext',
+        executionContext,
+        0,
+        32768,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondDecisionTaskCompleted'
@@ -3351,18 +3421,22 @@ class SWF {
       1,
       256,
     );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
+    if (input != null) {
+      _s.validateStringLength(
+        'input',
+        input,
+        0,
+        32768,
+      );
+    }
+    if (runId != null) {
+      _s.validateStringLength(
+        'runId',
+        runId,
+        0,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.SignalWorkflowExecution'
@@ -3622,30 +3696,39 @@ class SWF {
       256,
     );
     ArgumentError.checkNotNull(workflowType, 'workflowType');
-    _s.validateStringLength(
-      'executionStartToCloseTimeout',
-      executionStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'lambdaRole',
-      lambdaRole,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'taskStartToCloseTimeout',
-      taskStartToCloseTimeout,
-      0,
-      8,
-    );
+    if (executionStartToCloseTimeout != null) {
+      _s.validateStringLength(
+        'executionStartToCloseTimeout',
+        executionStartToCloseTimeout,
+        0,
+        8,
+      );
+    }
+    if (input != null) {
+      _s.validateStringLength(
+        'input',
+        input,
+        0,
+        32768,
+      );
+    }
+    if (lambdaRole != null) {
+      _s.validateStringLength(
+        'lambdaRole',
+        lambdaRole,
+        1,
+        1600,
+      );
+    }
+    if (tagList != null) {}
+    if (taskStartToCloseTimeout != null) {
+      _s.validateStringLength(
+        'taskStartToCloseTimeout',
+        taskStartToCloseTimeout,
+        0,
+        8,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.StartWorkflowExecution'
@@ -3834,24 +3917,30 @@ class SWF {
       1,
       256,
     );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
+    if (details != null) {
+      _s.validateStringLength(
+        'details',
+        details,
+        0,
+        32768,
+      );
+    }
+    if (reason != null) {
+      _s.validateStringLength(
+        'reason',
+        reason,
+        0,
+        256,
+      );
+    }
+    if (runId != null) {
+      _s.validateStringLength(
+        'runId',
+        runId,
+        0,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.TerminateWorkflowExecution'

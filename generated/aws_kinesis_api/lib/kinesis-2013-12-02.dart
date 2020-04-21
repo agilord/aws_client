@@ -367,39 +367,51 @@ class Kinesis {
     String consumerName,
     String streamARN,
   }) async {
-    _s.validateStringLength(
-      'consumerARN',
-      consumerARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'consumerARN',
-      consumerARN,
-      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-    );
-    _s.validateStringLength(
-      'consumerName',
-      consumerName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'consumerName',
-      consumerName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
-    );
+    if (consumerARN != null) {
+      _s.validateStringLength(
+        'consumerARN',
+        consumerARN,
+        1,
+        2048,
+      );
+    }
+    if (consumerARN != null) {
+      _s.validateStringPattern(
+        'consumerARN',
+        consumerARN,
+        r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
+      );
+    }
+    if (consumerName != null) {
+      _s.validateStringLength(
+        'consumerName',
+        consumerName,
+        1,
+        128,
+      );
+    }
+    if (consumerName != null) {
+      _s.validateStringPattern(
+        'consumerName',
+        consumerName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (streamARN != null) {
+      _s.validateStringLength(
+        'streamARN',
+        streamARN,
+        1,
+        2048,
+      );
+    }
+    if (streamARN != null) {
+      _s.validateStringPattern(
+        'streamARN',
+        streamARN,
+        r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeregisterStreamConsumer'
@@ -494,23 +506,29 @@ class Kinesis {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringLength(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
+    if (exclusiveStartShardId != null) {
+      _s.validateStringLength(
+        'exclusiveStartShardId',
+        exclusiveStartShardId,
+        1,
+        128,
+      );
+    }
+    if (exclusiveStartShardId != null) {
+      _s.validateStringPattern(
+        'exclusiveStartShardId',
+        exclusiveStartShardId,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStream'
@@ -562,39 +580,51 @@ class Kinesis {
     String consumerName,
     String streamARN,
   }) async {
-    _s.validateStringLength(
-      'consumerARN',
-      consumerARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'consumerARN',
-      consumerARN,
-      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-    );
-    _s.validateStringLength(
-      'consumerName',
-      consumerName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'consumerName',
-      consumerName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
-    );
+    if (consumerARN != null) {
+      _s.validateStringLength(
+        'consumerARN',
+        consumerARN,
+        1,
+        2048,
+      );
+    }
+    if (consumerARN != null) {
+      _s.validateStringPattern(
+        'consumerARN',
+        consumerARN,
+        r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
+      );
+    }
+    if (consumerName != null) {
+      _s.validateStringLength(
+        'consumerName',
+        consumerName,
+        1,
+        128,
+      );
+    }
+    if (consumerName != null) {
+      _s.validateStringPattern(
+        'consumerName',
+        consumerName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (streamARN != null) {
+      _s.validateStringLength(
+        'streamARN',
+        streamARN,
+        1,
+        2048,
+      );
+    }
+    if (streamARN != null) {
+      _s.validateStringPattern(
+        'streamARN',
+        streamARN,
+        r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStreamConsumer'
@@ -921,12 +951,14 @@ class Kinesis {
       1,
       512,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.GetRecords'
@@ -1079,11 +1111,13 @@ class Kinesis {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringPattern(
-      'startingSequenceNumber',
-      startingSequenceNumber,
-      r'''0|([1-9]\d{0,128})''',
-    );
+    if (startingSequenceNumber != null) {
+      _s.validateStringPattern(
+        'startingSequenceNumber',
+        startingSequenceNumber,
+        r'''0|([1-9]\d{0,128})''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.GetShardIterator'
@@ -1257,40 +1291,52 @@ class Kinesis {
     DateTime streamCreationTimestamp,
     String streamName,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1048576,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
+    if (exclusiveStartShardId != null) {
+      _s.validateStringLength(
+        'exclusiveStartShardId',
+        exclusiveStartShardId,
+        1,
+        128,
+      );
+    }
+    if (exclusiveStartShardId != null) {
+      _s.validateStringPattern(
+        'exclusiveStartShardId',
+        exclusiveStartShardId,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1048576,
+      );
+    }
+    if (streamName != null) {
+      _s.validateStringLength(
+        'streamName',
+        streamName,
+        1,
+        128,
+      );
+    }
+    if (streamName != null) {
+      _s.validateStringPattern(
+        'streamName',
+        streamName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListShards'
@@ -1391,18 +1437,22 @@ class Kinesis {
       streamARN,
       r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1048576,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1048576,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListStreamConsumers'
@@ -1455,23 +1505,29 @@ class Kinesis {
     String exclusiveStartStreamName,
     int limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartStreamName',
-      exclusiveStartStreamName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartStreamName',
-      exclusiveStartStreamName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
+    if (exclusiveStartStreamName != null) {
+      _s.validateStringLength(
+        'exclusiveStartStreamName',
+        exclusiveStartStreamName,
+        1,
+        128,
+      );
+    }
+    if (exclusiveStartStreamName != null) {
+      _s.validateStringPattern(
+        'exclusiveStartStreamName',
+        exclusiveStartStreamName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListStreams'
@@ -1528,18 +1584,22 @@ class Kinesis {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringLength(
-      'exclusiveStartTagKey',
-      exclusiveStartTagKey,
-      1,
-      128,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
+    if (exclusiveStartTagKey != null) {
+      _s.validateStringLength(
+        'exclusiveStartTagKey',
+        exclusiveStartTagKey,
+        1,
+        128,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListTagsForStream'
@@ -1796,16 +1856,20 @@ class Kinesis {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringPattern(
-      'explicitHashKey',
-      explicitHashKey,
-      r'''0|([1-9]\d{0,38})''',
-    );
-    _s.validateStringPattern(
-      'sequenceNumberForOrdering',
-      sequenceNumberForOrdering,
-      r'''0|([1-9]\d{0,128})''',
-    );
+    if (explicitHashKey != null) {
+      _s.validateStringPattern(
+        'explicitHashKey',
+        explicitHashKey,
+        r'''0|([1-9]\d{0,38})''',
+      );
+    }
+    if (sequenceNumberForOrdering != null) {
+      _s.validateStringPattern(
+        'sequenceNumberForOrdering',
+        sequenceNumberForOrdering,
+        r'''0|([1-9]\d{0,128})''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.PutRecord'

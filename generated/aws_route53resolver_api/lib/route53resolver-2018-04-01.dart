@@ -184,17 +184,21 @@ class Route53Resolver {
       1,
       64,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverRule'
@@ -294,17 +298,21 @@ class Route53Resolver {
     ArgumentError.checkNotNull(direction, 'direction');
     ArgumentError.checkNotNull(ipAddresses, 'ipAddresses');
     ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverEndpoint'
@@ -397,23 +405,30 @@ class Route53Resolver {
       256,
     );
     ArgumentError.checkNotNull(ruleType, 'ruleType');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-    );
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+      );
+    }
+    if (resolverEndpointId != null) {
+      _s.validateStringLength(
+        'resolverEndpointId',
+        resolverEndpointId,
+        1,
+        64,
+      );
+    }
+    if (targetIps != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverRule'
@@ -833,12 +848,14 @@ class Route53Resolver {
       1,
       64,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverEndpointIpAddresses'
@@ -895,12 +912,14 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverEndpoints'
@@ -959,12 +978,14 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverRuleAssociations'
@@ -1020,12 +1041,14 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverRules'
@@ -1083,12 +1106,14 @@ class Route53Resolver {
       1,
       255,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListTagsForResource'
@@ -1319,17 +1344,21 @@ class Route53Resolver {
       1,
       64,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateResolverEndpoint'

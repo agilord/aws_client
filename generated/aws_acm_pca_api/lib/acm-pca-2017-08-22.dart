@@ -116,17 +116,22 @@ class ACMPCA {
         certificateAuthorityConfiguration, 'certificateAuthorityConfiguration');
     ArgumentError.checkNotNull(
         certificateAuthorityType, 'certificateAuthorityType');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      36,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-    );
+    if (idempotencyToken != null) {
+      _s.validateStringLength(
+        'idempotencyToken',
+        idempotencyToken,
+        1,
+        36,
+      );
+    }
+    if (idempotencyToken != null) {
+      _s.validateStringPattern(
+        'idempotencyToken',
+        idempotencyToken,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreateCertificateAuthority'
@@ -288,17 +293,21 @@ class ACMPCA {
       principal,
       r'''^[^*]+$''',
     );
-    _s.validateStringLength(
-      'sourceAccount',
-      sourceAccount,
-      12,
-      12,
-    );
-    _s.validateStringPattern(
-      'sourceAccount',
-      sourceAccount,
-      r'''[0-9]+''',
-    );
+    if (sourceAccount != null) {
+      _s.validateStringLength(
+        'sourceAccount',
+        sourceAccount,
+        12,
+        12,
+      );
+    }
+    if (sourceAccount != null) {
+      _s.validateStringPattern(
+        'sourceAccount',
+        sourceAccount,
+        r'''[0-9]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreatePermission'
@@ -378,12 +387,14 @@ class ACMPCA {
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
     );
-    _s.validateNumRange(
-      'permanentDeletionTimeInDays',
-      permanentDeletionTimeInDays,
-      7,
-      30,
-    );
+    if (permanentDeletionTimeInDays != null) {
+      _s.validateNumRange(
+        'permanentDeletionTimeInDays',
+        permanentDeletionTimeInDays,
+        7,
+        30,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeleteCertificateAuthority'
@@ -456,17 +467,21 @@ class ACMPCA {
       principal,
       r'''^[^*]+$''',
     );
-    _s.validateStringLength(
-      'sourceAccount',
-      sourceAccount,
-      12,
-      12,
-    );
-    _s.validateStringPattern(
-      'sourceAccount',
-      sourceAccount,
-      r'''[0-9]+''',
-    );
+    if (sourceAccount != null) {
+      _s.validateStringLength(
+        'sourceAccount',
+        sourceAccount,
+        12,
+        12,
+      );
+    }
+    if (sourceAccount != null) {
+      _s.validateStringPattern(
+        'sourceAccount',
+        sourceAccount,
+        r'''[0-9]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePermission'
@@ -910,6 +925,7 @@ class ACMPCA {
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
     );
+    if (certificateChain != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ImportCertificateAuthorityCertificate'
@@ -1039,28 +1055,36 @@ class ACMPCA {
     ArgumentError.checkNotNull(csr, 'csr');
     ArgumentError.checkNotNull(signingAlgorithm, 'signingAlgorithm');
     ArgumentError.checkNotNull(validity, 'validity');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      36,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-    );
-    _s.validateStringLength(
-      'templateArn',
-      templateArn,
-      5,
-      200,
-    );
-    _s.validateStringPattern(
-      'templateArn',
-      templateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
-    );
+    if (idempotencyToken != null) {
+      _s.validateStringLength(
+        'idempotencyToken',
+        idempotencyToken,
+        1,
+        36,
+      );
+    }
+    if (idempotencyToken != null) {
+      _s.validateStringPattern(
+        'idempotencyToken',
+        idempotencyToken,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
+      );
+    }
+    if (templateArn != null) {
+      _s.validateStringLength(
+        'templateArn',
+        templateArn,
+        5,
+        200,
+      );
+    }
+    if (templateArn != null) {
+      _s.validateStringPattern(
+        'templateArn',
+        templateArn,
+        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.IssueCertificate'
@@ -1104,18 +1128,22 @@ class ACMPCA {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        500,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListCertificateAuthorities'
@@ -1182,18 +1210,22 @@ class ACMPCA {
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        500,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListPermissions'
@@ -1260,18 +1292,22 @@ class ACMPCA {
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        500,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListTags'

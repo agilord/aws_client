@@ -234,17 +234,22 @@ class DataPipeline {
       uniqueId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.CreatePipeline'
@@ -413,17 +418,21 @@ class DataPipeline {
       pipelineId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.DescribeObjects'
@@ -599,17 +608,21 @@ class DataPipeline {
       pipelineId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'version',
-      version,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (version != null) {
+      _s.validateStringLength(
+        'version',
+        version,
+        0,
+        1024,
+      );
+    }
+    if (version != null) {
+      _s.validateStringPattern(
+        'version',
+        version,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.GetPipelineDefinition'
@@ -643,17 +656,21 @@ class DataPipeline {
   Future<ListPipelinesOutput> listPipelines({
     String marker,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.ListPipelines'
@@ -731,17 +748,21 @@ class DataPipeline {
       workerGroup,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'hostname',
-      hostname,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (hostname != null) {
+      _s.validateStringLength(
+        'hostname',
+        hostname,
+        1,
+        1024,
+      );
+    }
+    if (hostname != null) {
+      _s.validateStringPattern(
+        'hostname',
+        hostname,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.PollForTask'
@@ -897,17 +918,21 @@ class DataPipeline {
       sphere,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.QueryObjects'
@@ -1081,28 +1106,36 @@ class DataPipeline {
       taskrunnerId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    _s.validateStringLength(
-      'hostname',
-      hostname,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'workerGroup',
-      workerGroup,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'workerGroup',
-      workerGroup,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (hostname != null) {
+      _s.validateStringLength(
+        'hostname',
+        hostname,
+        1,
+        1024,
+      );
+    }
+    if (hostname != null) {
+      _s.validateStringPattern(
+        'hostname',
+        hostname,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (workerGroup != null) {
+      _s.validateStringLength(
+        'workerGroup',
+        workerGroup,
+        0,
+        1024,
+      );
+    }
+    if (workerGroup != null) {
+      _s.validateStringPattern(
+        'workerGroup',
+        workerGroup,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.ReportTaskRunnerHeartbeat'
@@ -1254,28 +1287,36 @@ class DataPipeline {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     ArgumentError.checkNotNull(taskStatus, 'taskStatus');
-    _s.validateStringLength(
-      'errorId',
-      errorId,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'errorId',
-      errorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'errorStackTrace',
-      errorStackTrace,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'errorStackTrace',
-      errorStackTrace,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
+    if (errorId != null) {
+      _s.validateStringLength(
+        'errorId',
+        errorId,
+        0,
+        1024,
+      );
+    }
+    if (errorId != null) {
+      _s.validateStringPattern(
+        'errorId',
+        errorId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (errorStackTrace != null) {
+      _s.validateStringLength(
+        'errorStackTrace',
+        errorStackTrace,
+        0,
+        1024,
+      );
+    }
+    if (errorStackTrace != null) {
+      _s.validateStringPattern(
+        'errorStackTrace',
+        errorStackTrace,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.SetTaskStatus'

@@ -387,17 +387,22 @@ class WAFV2 {
       r'''^[\w\-]+$''',
     );
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateIPSet'
@@ -492,17 +497,22 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRegexPatternSet'
@@ -636,17 +646,22 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRuleGroup'
@@ -769,17 +784,22 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateWebACL'
@@ -2402,23 +2422,29 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListAvailableManagedRuleGroups'
@@ -2489,23 +2515,29 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListIPSets'
@@ -2574,23 +2606,29 @@ class WAFV2 {
     String nextMarker,
     Scope scope,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListLoggingConfigurations'
@@ -2661,23 +2699,29 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRegexPatternSets'
@@ -2807,23 +2851,29 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRuleGroups'
@@ -2892,23 +2942,29 @@ class WAFV2 {
       resourceARN,
       r'''.*\S.*''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListTagsForResource'
@@ -2979,23 +3035,29 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        256,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringPattern(
+        'nextMarker',
+        nextMarker,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListWebACLs'
@@ -3442,17 +3504,21 @@ class WAFV2 {
       r'''^[\w\-]+$''',
     );
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateIPSet'
@@ -3581,17 +3647,21 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRegexPatternSet'
@@ -3737,17 +3807,21 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRuleGroup'
@@ -3905,17 +3979,21 @@ class WAFV2 {
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateWebACL'

@@ -577,28 +577,36 @@ class Shield {
     String protectionId,
     String resourceArn,
   }) async {
-    _s.validateStringLength(
-      'protectionId',
-      protectionId,
-      1,
-      36,
-    );
-    _s.validateStringPattern(
-      'protectionId',
-      protectionId,
-      r'''[a-zA-Z0-9\\-]*''',
-    );
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
-    );
+    if (protectionId != null) {
+      _s.validateStringLength(
+        'protectionId',
+        protectionId,
+        1,
+        36,
+      );
+    }
+    if (protectionId != null) {
+      _s.validateStringPattern(
+        'protectionId',
+        protectionId,
+        r'''[a-zA-Z0-9\\-]*''',
+      );
+    }
+    if (resourceArn != null) {
+      _s.validateStringLength(
+        'resourceArn',
+        resourceArn,
+        1,
+        2048,
+      );
+    }
+    if (resourceArn != null) {
+      _s.validateStringPattern(
+        'resourceArn',
+        resourceArn,
+        r'''^arn:aws.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DescribeProtection'
@@ -865,23 +873,29 @@ class Shield {
     List<String> resourceArns,
     TimeRange startTime,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^.*$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^.*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListAttacks'
@@ -928,23 +942,29 @@ class Shield {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^.*$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^.*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListProtections'
@@ -978,6 +998,7 @@ class Shield {
   Future<void> updateEmergencyContactSettings({
     List<EmergencyContact> emergencyContactList,
   }) async {
+    if (emergencyContactList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateEmergencyContactSettings'

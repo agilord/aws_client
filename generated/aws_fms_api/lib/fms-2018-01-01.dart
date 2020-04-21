@@ -435,34 +435,44 @@ class FMS {
       policyId,
       r'''^[a-z0-9A-Z-]{36}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'memberAccountId',
-      memberAccountId,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'memberAccountId',
-      memberAccountId,
-      r'''^[0-9]+$''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (memberAccountId != null) {
+      _s.validateStringLength(
+        'memberAccountId',
+        memberAccountId,
+        1,
+        1024,
+      );
+    }
+    if (memberAccountId != null) {
+      _s.validateStringPattern(
+        'memberAccountId',
+        memberAccountId,
+        r'''^[0-9]+$''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetProtectionStatus'
@@ -531,23 +541,29 @@ class FMS {
       policyId,
       r'''^[a-z0-9A-Z-]{36}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListComplianceStatus'
@@ -596,23 +612,29 @@ class FMS {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListMemberAccounts'
@@ -660,23 +682,29 @@ class FMS {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        4096,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListPolicies'
@@ -842,6 +870,7 @@ class FMS {
     List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
+    if (tagList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutPolicy'

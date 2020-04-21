@@ -776,23 +776,30 @@ class MigrationHub {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
+    if (applicationIds != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        2048,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListApplicationStates'
@@ -881,23 +888,29 @@ class MigrationHub {
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        2048,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListCreatedArtifacts'
@@ -974,23 +987,29 @@ class MigrationHub {
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        2048,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListDiscoveredResources'
@@ -1052,34 +1071,44 @@ class MigrationHub {
     String nextToken,
     String resourceName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
-    _s.validateStringLength(
-      'resourceName',
-      resourceName,
-      1,
-      1600,
-    );
-    _s.validateStringPattern(
-      'resourceName',
-      resourceName,
-      r'''^.{1,1600}$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        2048,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+      );
+    }
+    if (resourceName != null) {
+      _s.validateStringLength(
+        'resourceName',
+        resourceName,
+        1,
+        1600,
+      );
+    }
+    if (resourceName != null) {
+      _s.validateStringPattern(
+        'resourceName',
+        resourceName,
+        r'''^.{1,1600}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListMigrationTasks'
@@ -1121,23 +1150,29 @@ class MigrationHub {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        2048,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListProgressUpdateStreams'

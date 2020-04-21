@@ -213,6 +213,7 @@ class Firehose {
       deliveryStreamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.CreateDeliveryStream'
@@ -353,18 +354,22 @@ class Firehose {
       deliveryStreamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringLength(
-      'exclusiveStartDestinationId',
-      exclusiveStartDestinationId,
-      1,
-      100,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
+    if (exclusiveStartDestinationId != null) {
+      _s.validateStringLength(
+        'exclusiveStartDestinationId',
+        exclusiveStartDestinationId,
+        1,
+        100,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.DescribeDeliveryStream'
@@ -426,23 +431,29 @@ class Firehose {
     String exclusiveStartDeliveryStreamName,
     int limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartDeliveryStreamName',
-      exclusiveStartDeliveryStreamName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartDeliveryStreamName',
-      exclusiveStartDeliveryStreamName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
+    if (exclusiveStartDeliveryStreamName != null) {
+      _s.validateStringLength(
+        'exclusiveStartDeliveryStreamName',
+        exclusiveStartDeliveryStreamName,
+        1,
+        64,
+      );
+    }
+    if (exclusiveStartDeliveryStreamName != null) {
+      _s.validateStringPattern(
+        'exclusiveStartDeliveryStreamName',
+        exclusiveStartDeliveryStreamName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.ListDeliveryStreams'
@@ -500,18 +511,22 @@ class Firehose {
       deliveryStreamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringLength(
-      'exclusiveStartTagKey',
-      exclusiveStartTagKey,
-      1,
-      128,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
+    if (exclusiveStartTagKey != null) {
+      _s.validateStringLength(
+        'exclusiveStartTagKey',
+        exclusiveStartTagKey,
+        1,
+        128,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.ListTagsForDeliveryStream'

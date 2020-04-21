@@ -457,6 +457,7 @@ class WAF {
       100,
       2000000000,
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRateBasedRule'
@@ -741,6 +742,7 @@ class WAF {
       1,
       128,
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRule'
@@ -828,6 +830,7 @@ class WAF {
       1,
       128,
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRuleGroup'
@@ -1115,6 +1118,7 @@ class WAF {
       1,
       128,
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateWebACL'
@@ -2517,12 +2521,14 @@ class WAF {
       1,
       128,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRateBasedRuleManagedKeys'
@@ -2985,24 +2991,30 @@ class WAF {
     String nextMarker,
     String ruleGroupId,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'ruleGroupId',
-      ruleGroupId,
-      1,
-      128,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (ruleGroupId != null) {
+      _s.validateStringLength(
+        'ruleGroupId',
+        ruleGroupId,
+        1,
+        128,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListActivatedRulesInRuleGroup'
@@ -3048,18 +3060,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListByteMatchSets'
@@ -3103,18 +3119,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListGeoMatchSets'
@@ -3156,18 +3176,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListIPSets'
@@ -3214,18 +3238,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListLoggingConfigurations'
@@ -3269,18 +3297,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRateBasedRules'
@@ -3325,18 +3357,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRegexMatchSets'
@@ -3382,18 +3418,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRegexPatternSets'
@@ -3436,18 +3476,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRuleGroups'
@@ -3491,18 +3535,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRules'
@@ -3547,18 +3595,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSizeConstraintSets'
@@ -3603,18 +3655,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSqlInjectionMatchSets'
@@ -3658,18 +3714,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSubscribedRuleGroups'
@@ -3708,18 +3768,22 @@ class WAF {
       1,
       1224,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListTagsForResource'
@@ -3764,18 +3828,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListWebACLs'
@@ -3819,18 +3887,22 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        0,
+        100,
+      );
+    }
+    if (nextMarker != null) {
+      _s.validateStringLength(
+        'nextMarker',
+        nextMarker,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListXssMatchSets'

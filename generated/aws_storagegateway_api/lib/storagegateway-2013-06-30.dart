@@ -165,24 +165,30 @@ class StorageGateway {
       3,
       10,
     );
-    _s.validateStringLength(
-      'gatewayType',
-      gatewayType,
-      2,
-      20,
-    );
-    _s.validateStringLength(
-      'mediumChangerType',
-      mediumChangerType,
-      2,
-      50,
-    );
-    _s.validateStringLength(
-      'tapeDriveType',
-      tapeDriveType,
-      2,
-      50,
-    );
+    if (gatewayType != null) {
+      _s.validateStringLength(
+        'gatewayType',
+        gatewayType,
+        2,
+        20,
+      );
+    }
+    if (mediumChangerType != null) {
+      _s.validateStringLength(
+        'mediumChangerType',
+        mediumChangerType,
+        2,
+        50,
+      );
+    }
+    if (tapeDriveType != null) {
+      _s.validateStringLength(
+        'tapeDriveType',
+        tapeDriveType,
+        2,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ActivateGateway'
@@ -552,23 +558,29 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateStringLength(
-      'diskId',
-      diskId,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-    );
-    _s.validateStringPattern(
-      'targetName',
-      targetName,
-      r'''^[-\.;a-z0-9]+$''',
-    );
+    if (diskId != null) {
+      _s.validateStringLength(
+        'diskId',
+        diskId,
+        1,
+        300,
+      );
+    }
+    if (targetName != null) {
+      _s.validateStringLength(
+        'targetName',
+        targetName,
+        1,
+        200,
+      );
+    }
+    if (targetName != null) {
+      _s.validateStringPattern(
+        'targetName',
+        targetName,
+        r'''^[-\.;a-z0-9]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AttachVolume'
@@ -821,23 +833,29 @@ class StorageGateway {
       r'''^[-\.;a-z0-9]+$''',
     );
     ArgumentError.checkNotNull(volumeSizeInBytes, 'volumeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
-    );
-    _s.validateStringLength(
-      'sourceVolumeARN',
-      sourceVolumeARN,
-      50,
-      500,
-    );
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (snapshotId != null) {
+      _s.validateStringPattern(
+        'snapshotId',
+        snapshotId,
+        r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
+      );
+    }
+    if (sourceVolumeARN != null) {
+      _s.validateStringLength(
+        'sourceVolumeARN',
+        sourceVolumeARN,
+        50,
+        500,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateCachediSCSIVolume'
@@ -1017,24 +1035,31 @@ class StorageGateway {
       20,
       2048,
     );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      20,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
+    if (clientList != null) {}
+    if (defaultStorageClass != null) {
+      _s.validateStringLength(
+        'defaultStorageClass',
+        defaultStorageClass,
+        5,
+        20,
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (squash != null) {
+      _s.validateStringLength(
+        'squash',
+        squash,
+        5,
+        15,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateNFSFileShare'
@@ -1239,30 +1264,41 @@ class StorageGateway {
       20,
       2048,
     );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'authentication',
-      authentication,
-      5,
-      15,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      20,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
+    if (adminUserList != null) {}
+    if (auditDestinationARN != null) {
+      _s.validateStringLength(
+        'auditDestinationARN',
+        auditDestinationARN,
+        0,
+        1024,
+      );
+    }
+    if (authentication != null) {
+      _s.validateStringLength(
+        'authentication',
+        authentication,
+        5,
+        15,
+      );
+    }
+    if (defaultStorageClass != null) {
+      _s.validateStringLength(
+        'defaultStorageClass',
+        defaultStorageClass,
+        5,
+        20,
+      );
+    }
+    if (invalidUserList != null) {}
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (validUserList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateSMBFileShare'
@@ -1593,17 +1629,21 @@ class StorageGateway {
       targetName,
       r'''^[-\.;a-z0-9]+$''',
     );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
-    );
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (snapshotId != null) {
+      _s.validateStringPattern(
+        'snapshotId',
+        snapshotId,
+        r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateStorediSCSIVolume'
@@ -1718,18 +1758,22 @@ class StorageGateway {
       r'''^[A-Z0-9]*$''',
     );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-    );
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (poolId != null) {
+      _s.validateStringLength(
+        'poolId',
+        poolId,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateTapeWithBarcode'
@@ -1869,18 +1913,22 @@ class StorageGateway {
       r'''^[A-Z]*$''',
     );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-    );
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (poolId != null) {
+      _s.validateStringLength(
+        'poolId',
+        poolId,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateTapes'
@@ -2758,18 +2806,22 @@ class StorageGateway {
     String marker,
     List<String> tapeARNs,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeTapeArchives'
@@ -2820,18 +2872,22 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeTapeRecoveryPoints'
@@ -2891,18 +2947,22 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeTapes'
@@ -2998,18 +3058,22 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeVTLDevices'
@@ -3251,18 +3315,22 @@ class StorageGateway {
       userName,
       r'''^\w[\w\.\- ]*$''',
     );
-    _s.validateStringLength(
-      'organizationalUnit',
-      organizationalUnit,
-      1,
-      1024,
-    );
-    _s.validateNumRange(
-      'timeoutInSeconds',
-      timeoutInSeconds,
-      0,
-      3600,
-    );
+    if (organizationalUnit != null) {
+      _s.validateStringLength(
+        'organizationalUnit',
+        organizationalUnit,
+        1,
+        1024,
+      );
+    }
+    if (timeoutInSeconds != null) {
+      _s.validateNumRange(
+        'timeoutInSeconds',
+        timeoutInSeconds,
+        0,
+        3600,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.JoinDomain'
@@ -3312,24 +3380,30 @@ class StorageGateway {
     int limit,
     String marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (gatewayARN != null) {
+      _s.validateStringLength(
+        'gatewayARN',
+        gatewayARN,
+        50,
+        500,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListFileShares'
@@ -3377,18 +3451,22 @@ class StorageGateway {
     int limit,
     String marker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListGateways'
@@ -3479,18 +3557,22 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTagsForResource'
@@ -3538,18 +3620,22 @@ class StorageGateway {
     String marker,
     List<String> tapeARNs,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTapes'
@@ -3678,24 +3764,30 @@ class StorageGateway {
     int limit,
     String marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
+    if (gatewayARN != null) {
+      _s.validateStringLength(
+        'gatewayARN',
+        gatewayARN,
+        50,
+        500,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListVolumes'
@@ -3828,6 +3920,7 @@ class StorageGateway {
       50,
       500,
     );
+    if (folderList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RefreshCache'
@@ -4343,18 +4436,22 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateNumRange(
-      'averageDownloadRateLimitInBitsPerSec',
-      averageDownloadRateLimitInBitsPerSec,
-      102400,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'averageUploadRateLimitInBitsPerSec',
-      averageUploadRateLimitInBitsPerSec,
-      51200,
-      1152921504606846976,
-    );
+    if (averageDownloadRateLimitInBitsPerSec != null) {
+      _s.validateNumRange(
+        'averageDownloadRateLimitInBitsPerSec',
+        averageDownloadRateLimitInBitsPerSec,
+        102400,
+        1152921504606846976,
+      );
+    }
+    if (averageUploadRateLimitInBitsPerSec != null) {
+      _s.validateNumRange(
+        'averageUploadRateLimitInBitsPerSec',
+        averageUploadRateLimitInBitsPerSec,
+        51200,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateBandwidthRateLimit'
@@ -4445,12 +4542,14 @@ class StorageGateway {
       50,
       800,
     );
-    _s.validateStringLength(
-      'secretToAuthenticateTarget',
-      secretToAuthenticateTarget,
-      1,
-      100,
-    );
+    if (secretToAuthenticateTarget != null) {
+      _s.validateStringLength(
+        'secretToAuthenticateTarget',
+        secretToAuthenticateTarget,
+        1,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateChapCredentials'
@@ -4507,29 +4606,37 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateStringLength(
-      'cloudWatchLogGroupARN',
-      cloudWatchLogGroupARN,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      2,
-      255,
-    );
-    _s.validateStringPattern(
-      'gatewayName',
-      gatewayName,
-      r'''^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$''',
-    );
-    _s.validateStringLength(
-      'gatewayTimezone',
-      gatewayTimezone,
-      3,
-      10,
-    );
+    if (cloudWatchLogGroupARN != null) {
+      _s.validateStringLength(
+        'cloudWatchLogGroupARN',
+        cloudWatchLogGroupARN,
+        0,
+        562,
+      );
+    }
+    if (gatewayName != null) {
+      _s.validateStringLength(
+        'gatewayName',
+        gatewayName,
+        2,
+        255,
+      );
+    }
+    if (gatewayName != null) {
+      _s.validateStringPattern(
+        'gatewayName',
+        gatewayName,
+        r'''^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$''',
+      );
+    }
+    if (gatewayTimezone != null) {
+      _s.validateStringLength(
+        'gatewayTimezone',
+        gatewayTimezone,
+        3,
+        10,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateGatewayInformation'
@@ -4656,18 +4763,22 @@ class StorageGateway {
       0,
       59,
     );
-    _s.validateNumRange(
-      'dayOfMonth',
-      dayOfMonth,
-      1,
-      28,
-    );
-    _s.validateNumRange(
-      'dayOfWeek',
-      dayOfWeek,
-      0,
-      6,
-    );
+    if (dayOfMonth != null) {
+      _s.validateNumRange(
+        'dayOfMonth',
+        dayOfMonth,
+        1,
+        28,
+      );
+    }
+    if (dayOfWeek != null) {
+      _s.validateNumRange(
+        'dayOfWeek',
+        dayOfWeek,
+        0,
+        6,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateMaintenanceStartTime'
@@ -4807,24 +4918,31 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      20,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
+    if (clientList != null) {}
+    if (defaultStorageClass != null) {
+      _s.validateStringLength(
+        'defaultStorageClass',
+        defaultStorageClass,
+        5,
+        20,
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (squash != null) {
+      _s.validateStringLength(
+        'squash',
+        squash,
+        5,
+        15,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateNFSFileShare'
@@ -4970,24 +5088,33 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      20,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
+    if (adminUserList != null) {}
+    if (auditDestinationARN != null) {
+      _s.validateStringLength(
+        'auditDestinationARN',
+        auditDestinationARN,
+        0,
+        1024,
+      );
+    }
+    if (defaultStorageClass != null) {
+      _s.validateStringLength(
+        'defaultStorageClass',
+        defaultStorageClass,
+        5,
+        20,
+      );
+    }
+    if (invalidUserList != null) {}
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        7,
+        2048,
+      );
+    }
+    if (validUserList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBFileShare'
@@ -5146,12 +5273,14 @@ class StorageGateway {
       50,
       500,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      255,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSnapshotSchedule'

@@ -509,11 +509,13 @@ class WorkMail {
       name,
       r'''[a-zA-Z0-9_-]+''',
     );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''^m-[0-9a-f]{32}$''',
-    );
+    if (organizationId != null) {
+      _s.validateStringPattern(
+        'organizationId',
+        organizationId,
+        r'''^m-[0-9a-f]{32}$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteAccessControlRule'
@@ -1386,18 +1388,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListAliases'
@@ -1460,18 +1466,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListGroupMembers'
@@ -1520,18 +1530,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListGroups'
@@ -1593,18 +1607,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListMailboxPermissions'
@@ -1640,18 +1658,22 @@ class WorkMail {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListOrganizations'
@@ -1712,18 +1734,22 @@ class WorkMail {
       12,
       256,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListResourceDelegates'
@@ -1771,18 +1797,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListResources'
@@ -1863,18 +1893,22 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListUsers'
@@ -1984,6 +2018,12 @@ class WorkMail {
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
     );
+    if (actions != null) {}
+    if (ipRanges != null) {}
+    if (notActions != null) {}
+    if (notIpRanges != null) {}
+    if (notUserIds != null) {}
+    if (userIds != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutAccessControlRule'
@@ -2511,17 +2551,21 @@ class WorkMail {
       resourceId,
       r'''^r-[0-9a-f]{32}$''',
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      20,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9]{2,})?''',
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        20,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9]{2,})?''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateResource'

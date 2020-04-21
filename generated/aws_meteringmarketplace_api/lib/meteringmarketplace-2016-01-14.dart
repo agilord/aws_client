@@ -159,12 +159,14 @@ class MarketplaceMetering {
       1,
       255,
     );
-    _s.validateNumRange(
-      'usageQuantity',
-      usageQuantity,
-      0,
-      2147483647,
-    );
+    if (usageQuantity != null) {
+      _s.validateNumRange(
+        'usageQuantity',
+        usageQuantity,
+        0,
+        2147483647,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPMeteringService.MeterUsage'
@@ -266,12 +268,14 @@ class MarketplaceMetering {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'nonce',
-      nonce,
-      0,
-      255,
-    );
+    if (nonce != null) {
+      _s.validateStringLength(
+        'nonce',
+        nonce,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPMeteringService.RegisterUsage'

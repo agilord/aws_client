@@ -203,6 +203,7 @@ class MarketplaceCommerceAnalytics {
       1,
       1152921504606846976,
     );
+    if (customerDefinedValues != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MarketplaceCommerceAnalytics20150701.GenerateDataSet'
@@ -322,6 +323,7 @@ class MarketplaceCommerceAnalytics {
       1,
       1152921504606846976,
     );
+    if (customerDefinedValues != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

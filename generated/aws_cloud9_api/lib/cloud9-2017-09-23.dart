@@ -117,34 +117,45 @@ class Cloud9 {
       1,
       60,
     );
-    _s.validateNumRange(
-      'automaticStopTimeMinutes',
-      automaticStopTimeMinutes,
-      0,
-      20160,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[\x20-\x7E]{10,128}''',
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringPattern(
-      'ownerArn',
-      ownerArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-    );
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      5,
-      30,
-    );
+    if (automaticStopTimeMinutes != null) {
+      _s.validateNumRange(
+        'automaticStopTimeMinutes',
+        automaticStopTimeMinutes,
+        0,
+        20160,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''[\x20-\x7E]{10,128}''',
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
+    if (ownerArn != null) {
+      _s.validateStringPattern(
+        'ownerArn',
+        ownerArn,
+        r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+      );
+    }
+    if (subnetId != null) {
+      _s.validateStringLength(
+        'subnetId',
+        subnetId,
+        5,
+        30,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.CreateEnvironmentEC2'
@@ -384,22 +395,28 @@ class Cloud9 {
     List<String> permissions,
     String userArn,
   }) async {
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-    );
+    if (environmentId != null) {
+      _s.validateStringPattern(
+        'environmentId',
+        environmentId,
+        r'''^[a-zA-Z0-9]{8,32}$''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        25,
+      );
+    }
+    if (userArn != null) {
+      _s.validateStringPattern(
+        'userArn',
+        userArn,
+        r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -521,12 +538,14 @@ class Cloud9 {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        0,
+        25,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.ListEnvironments'
@@ -701,18 +720,22 @@ class Cloud9 {
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      60,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        200,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        60,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UpdateEnvironment'

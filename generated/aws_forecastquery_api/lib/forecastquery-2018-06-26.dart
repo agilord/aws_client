@@ -109,12 +109,14 @@ class ForecastQueryService {
       forecastArn,
       r'''arn:([a-z\d-]+):forecast:.*:.*:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      3000,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        3000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecastRuntime.QueryForecast'

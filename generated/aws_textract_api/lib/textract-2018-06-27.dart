@@ -294,23 +294,29 @@ class Textract {
       jobId,
       r'''^[a-zA-Z0-9-_]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.GetDocumentAnalysis'
@@ -408,23 +414,29 @@ class Textract {
       jobId,
       r'''^[a-zA-Z0-9-_]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.GetDocumentTextDetection'
@@ -519,28 +531,36 @@ class Textract {
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-_]+$''',
+      );
+    }
+    if (jobTag != null) {
+      _s.validateStringLength(
+        'jobTag',
+        jobTag,
+        1,
+        64,
+      );
+    }
+    if (jobTag != null) {
+      _s.validateStringPattern(
+        'jobTag',
+        jobTag,
+        r'''[a-zA-Z0-9_.\-:]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentAnalysis'
@@ -626,28 +646,36 @@ class Textract {
     NotificationChannel notificationChannel,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-_]+$''',
+      );
+    }
+    if (jobTag != null) {
+      _s.validateStringLength(
+        'jobTag',
+        jobTag,
+        1,
+        64,
+      );
+    }
+    if (jobTag != null) {
+      _s.validateStringPattern(
+        'jobTag',
+        jobTag,
+        r'''[a-zA-Z0-9_.\-:]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentTextDetection'

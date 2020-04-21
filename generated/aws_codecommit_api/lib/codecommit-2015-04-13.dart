@@ -546,12 +546,14 @@ class CodeCommit {
       1,
       100,
     );
-    _s.validateStringLength(
-      'approvalRuleTemplateDescription',
-      approvalRuleTemplateDescription,
-      0,
-      1000,
-    );
+    if (approvalRuleTemplateDescription != null) {
+      _s.validateStringLength(
+        'approvalRuleTemplateDescription',
+        approvalRuleTemplateDescription,
+        0,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreateApprovalRuleTemplate'
@@ -843,12 +845,14 @@ class CodeCommit {
       0,
       150,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      10240,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        10240,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreatePullRequest'
@@ -1034,12 +1038,14 @@ class CodeCommit {
       repositoryName,
       r'''[\w\.-]+''',
     );
-    _s.validateStringLength(
-      'repositoryDescription',
-      repositoryDescription,
-      0,
-      1000,
-    );
+    if (repositoryDescription != null) {
+      _s.validateStringLength(
+        'repositoryDescription',
+        repositoryDescription,
+        0,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreateRepository'
@@ -1991,23 +1997,29 @@ class CodeCommit {
     String branchName,
     String repositoryName,
   }) async {
-    _s.validateStringLength(
-      'branchName',
-      branchName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-    );
+    if (branchName != null) {
+      _s.validateStringLength(
+        'branchName',
+        branchName,
+        1,
+        256,
+      );
+    }
+    if (repositoryName != null) {
+      _s.validateStringLength(
+        'repositoryName',
+        repositoryName,
+        1,
+        100,
+      );
+    }
+    if (repositoryName != null) {
+      _s.validateStringPattern(
+        'repositoryName',
+        repositoryName,
+        r'''[\w\.-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.GetBranch'
@@ -2189,17 +2201,21 @@ class CodeCommit {
     String repositoryName,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-    );
+    if (repositoryName != null) {
+      _s.validateStringLength(
+        'repositoryName',
+        repositoryName,
+        1,
+        100,
+      );
+    }
+    if (repositoryName != null) {
+      _s.validateStringPattern(
+        'repositoryName',
+        repositoryName,
+        r'''[\w\.-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.GetCommentsForPullRequest'
@@ -3459,12 +3475,14 @@ class CodeCommit {
       r'''[\w\.-]+''',
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    _s.validateStringLength(
-      'targetBranch',
-      targetBranch,
-      1,
-      256,
-    );
+    if (targetBranch != null) {
+      _s.validateStringLength(
+        'targetBranch',
+        targetBranch,
+        1,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesByFastForward'
@@ -3602,12 +3620,14 @@ class CodeCommit {
       r'''[\w\.-]+''',
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    _s.validateStringLength(
-      'targetBranch',
-      targetBranch,
-      1,
-      256,
-    );
+    if (targetBranch != null) {
+      _s.validateStringLength(
+        'targetBranch',
+        targetBranch,
+        1,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesBySquash'
@@ -3752,12 +3772,14 @@ class CodeCommit {
       r'''[\w\.-]+''',
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    _s.validateStringLength(
-      'targetBranch',
-      targetBranch,
-      1,
-      256,
-    );
+    if (targetBranch != null) {
+      _s.validateStringLength(
+        'targetBranch',
+        targetBranch,
+        1,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesByThreeWay'
@@ -5441,12 +5463,14 @@ class CodeCommit {
       repositoryName,
       r'''[\w\.-]+''',
     );
-    _s.validateStringLength(
-      'repositoryDescription',
-      repositoryDescription,
-      0,
-      1000,
-    );
+    if (repositoryDescription != null) {
+      _s.validateStringLength(
+        'repositoryDescription',
+        repositoryDescription,
+        0,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdateRepositoryDescription'

@@ -245,6 +245,7 @@ class CodePipeline {
       version,
       r'''[0-9A-Za-z_-]+''',
     );
+    if (configurationProperties != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.CreateCustomActionType'
@@ -485,17 +486,21 @@ class CodePipeline {
   Future<void> deregisterWebhookWithThirdParty({
     String webhookName,
   }) async {
-    _s.validateStringLength(
-      'webhookName',
-      webhookName,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'webhookName',
-      webhookName,
-      r'''[A-Za-z0-9.@\-_]+''',
-    );
+    if (webhookName != null) {
+      _s.validateStringLength(
+        'webhookName',
+        webhookName,
+        1,
+        100,
+      );
+    }
+    if (webhookName != null) {
+      _s.validateStringPattern(
+        'webhookName',
+        webhookName,
+        r'''[A-Za-z0-9.@\-_]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeregisterWebhookWithThirdParty'
@@ -741,12 +746,14 @@ class CodePipeline {
       name,
       r'''[A-Za-z0-9.@\-_]+''',
     );
-    _s.validateNumRange(
-      'version',
-      version,
-      1,
-      1152921504606846976,
-    );
+    if (version != null) {
+      _s.validateNumRange(
+        'version',
+        version,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetPipeline'
@@ -971,18 +978,22 @@ class CodePipeline {
       pipelineName,
       r'''[A-Za-z0-9.@\-_]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListActionExecutions'
@@ -1020,12 +1031,14 @@ class CodePipeline {
     ActionOwner actionOwnerFilter,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListActionTypes'
@@ -1082,18 +1095,22 @@ class CodePipeline {
       pipelineName,
       r'''[A-Za-z0-9.@\-_]+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListPipelineExecutions'
@@ -1125,12 +1142,14 @@ class CodePipeline {
   Future<ListPipelinesOutput> listPipelines({
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListPipelines'
@@ -1178,18 +1197,22 @@ class CodePipeline {
       resourceArn,
       r'''arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListTagsForResource'
@@ -1228,18 +1251,22 @@ class CodePipeline {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListWebhooks'
@@ -1291,12 +1318,15 @@ class CodePipeline {
     Map<String, String> queryParam,
   }) async {
     ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
-    _s.validateNumRange(
-      'maxBatchSize',
-      maxBatchSize,
-      1,
-      1152921504606846976,
-    );
+    if (maxBatchSize != null) {
+      _s.validateNumRange(
+        'maxBatchSize',
+        maxBatchSize,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (queryParam != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PollForJobs'
@@ -1338,12 +1368,14 @@ class CodePipeline {
     int maxBatchSize,
   }) async {
     ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
-    _s.validateNumRange(
-      'maxBatchSize',
-      maxBatchSize,
-      1,
-      1152921504606846976,
-    );
+    if (maxBatchSize != null) {
+      _s.validateNumRange(
+        'maxBatchSize',
+        maxBatchSize,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PollForThirdPartyJobs'
@@ -1632,12 +1664,14 @@ class CodePipeline {
       jobId,
       r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
-    _s.validateStringLength(
-      'continuationToken',
-      continuationToken,
-      1,
-      2048,
-    );
+    if (continuationToken != null) {
+      _s.validateStringLength(
+        'continuationToken',
+        continuationToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutJobSuccessResult'
@@ -1767,12 +1801,14 @@ class CodePipeline {
       1,
       512,
     );
-    _s.validateStringLength(
-      'continuationToken',
-      continuationToken,
-      1,
-      2048,
-    );
+    if (continuationToken != null) {
+      _s.validateStringLength(
+        'continuationToken',
+        continuationToken,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutThirdPartyJobSuccessResult'
@@ -1857,17 +1893,21 @@ class CodePipeline {
   Future<void> registerWebhookWithThirdParty({
     String webhookName,
   }) async {
-    _s.validateStringLength(
-      'webhookName',
-      webhookName,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'webhookName',
-      webhookName,
-      r'''[A-Za-z0-9.@\-_]+''',
-    );
+    if (webhookName != null) {
+      _s.validateStringLength(
+        'webhookName',
+        webhookName,
+        1,
+        100,
+      );
+    }
+    if (webhookName != null) {
+      _s.validateStringPattern(
+        'webhookName',
+        webhookName,
+        r'''[A-Za-z0-9.@\-_]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.RegisterWebhookWithThirdParty'
@@ -1997,17 +2037,21 @@ class CodePipeline {
       name,
       r'''[A-Za-z0-9.@\-_]+''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        128,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.StartPipelineExecution'
@@ -2081,12 +2125,14 @@ class CodePipeline {
       pipelineName,
       r'''[A-Za-z0-9.@\-_]+''',
     );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      200,
-    );
+    if (reason != null) {
+      _s.validateStringLength(
+        'reason',
+        reason,
+        0,
+        200,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.StopPipelineExecution'

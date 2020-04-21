@@ -224,6 +224,7 @@ class DirectConnect {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
     ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
     ArgumentError.checkNotNull(vlan, 'vlan');
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocateHostedConnection'
@@ -812,6 +813,7 @@ class DirectConnect {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(connectionName, 'connectionName');
     ArgumentError.checkNotNull(location, 'location');
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateConnection'
@@ -1061,6 +1063,7 @@ class DirectConnect {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(interconnectName, 'interconnectName');
     ArgumentError.checkNotNull(location, 'location');
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateInterconnect'
@@ -1156,6 +1159,8 @@ class DirectConnect {
     ArgumentError.checkNotNull(lagName, 'lagName');
     ArgumentError.checkNotNull(location, 'location');
     ArgumentError.checkNotNull(numberOfConnections, 'numberOfConnections');
+    if (childConnectionTags != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateLag'

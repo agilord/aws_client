@@ -165,28 +165,36 @@ class IoTSecureTunneling {
     String nextToken,
     String thingName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_=-]{1,4096}''',
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[a-zA-Z0-9_=-]{1,4096}''',
+      );
+    }
+    if (thingName != null) {
+      _s.validateStringLength(
+        'thingName',
+        thingName,
+        1,
+        128,
+      );
+    }
+    if (thingName != null) {
+      _s.validateStringPattern(
+        'thingName',
+        thingName,
+        r'''[a-zA-Z0-9:_-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.ListTunnels'
@@ -229,11 +237,14 @@ class IoTSecureTunneling {
     List<Tag> tags,
     TimeoutConfig timeoutConfig,
   }) async {
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]{1,2048}''',
-    );
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[^\p{C}]{1,2048}''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.OpenTunnel'

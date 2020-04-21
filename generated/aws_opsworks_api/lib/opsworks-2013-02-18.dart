@@ -3147,12 +3147,14 @@ class OpsWorks {
     int validForInMinutes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateNumRange(
-      'validForInMinutes',
-      validForInMinutes,
-      60,
-      1440,
-    );
+    if (validForInMinutes != null) {
+      _s.validateNumRange(
+        'validForInMinutes',
+        validForInMinutes,
+        60,
+        1440,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.GrantAccess'

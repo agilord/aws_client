@@ -138,6 +138,7 @@ class Support {
       1,
       8000,
     );
+    if (ccEmailAddresses != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.AddCommunicationToCase'
@@ -302,6 +303,7 @@ class Support {
       8000,
     );
     ArgumentError.checkNotNull(subject, 'subject');
+    if (ccEmailAddresses != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.CreateCase'
@@ -432,12 +434,15 @@ class Support {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (caseIdList != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeCases'
@@ -507,12 +512,14 @@ class Support {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(caseId, 'caseId');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        10,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeCommunications'
@@ -563,6 +570,7 @@ class Support {
     String language,
     List<String> serviceCodeList,
   }) async {
+    if (serviceCodeList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeServices'

@@ -255,28 +255,36 @@ class GameLift {
       gameServerGroupName,
       r'''[a-zA-Z0-9-\.]+|^arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+''',
     );
-    _s.validateStringLength(
-      'gameServerData',
-      gameServerData,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'gameServerData',
-      gameServerData,
-      r'''.*\S.*''',
-    );
-    _s.validateStringLength(
-      'gameServerId',
-      gameServerId,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'gameServerId',
-      gameServerId,
-      r'''[a-zA-Z0-9-\.]+''',
-    );
+    if (gameServerData != null) {
+      _s.validateStringLength(
+        'gameServerData',
+        gameServerData,
+        1,
+        1024,
+      );
+    }
+    if (gameServerData != null) {
+      _s.validateStringPattern(
+        'gameServerData',
+        gameServerData,
+        r'''.*\S.*''',
+      );
+    }
+    if (gameServerId != null) {
+      _s.validateStringLength(
+        'gameServerId',
+        gameServerId,
+        3,
+        128,
+      );
+    }
+    if (gameServerId != null) {
+      _s.validateStringPattern(
+        'gameServerId',
+        gameServerId,
+        r'''[a-zA-Z0-9-\.]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ClaimGameServer'
@@ -384,12 +392,15 @@ class GameLift {
       r'''.*\S.*''',
     );
     ArgumentError.checkNotNull(routingStrategy, 'routingStrategy');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateAlias'
@@ -529,18 +540,23 @@ class GameLift {
     List<Tag> tags,
     String version,
   }) async {
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      1024,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
+    if (tags != null) {}
+    if (version != null) {
+      _s.validateStringLength(
+        'version',
+        version,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateBuild'
@@ -853,52 +869,71 @@ class GameLift {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'buildId',
-      buildId,
-      r'''^build-\S+|^arn:.*:build\/build-\S+''',
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'instanceRoleArn',
-      instanceRoleArn,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'peerVpcAwsAccountId',
-      peerVpcAwsAccountId,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'peerVpcId',
-      peerVpcId,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'scriptId',
-      scriptId,
-      r'''^script-\S+|^arn:.*:script\/script-\S+''',
-    );
-    _s.validateStringLength(
-      'serverLaunchParameters',
-      serverLaunchParameters,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'serverLaunchPath',
-      serverLaunchPath,
-      1,
-      1024,
-    );
+    if (buildId != null) {
+      _s.validateStringPattern(
+        'buildId',
+        buildId,
+        r'''^build-\S+|^arn:.*:build\/build-\S+''',
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (eC2InboundPermissions != null) {}
+    if (instanceRoleArn != null) {
+      _s.validateStringLength(
+        'instanceRoleArn',
+        instanceRoleArn,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (metricGroups != null) {}
+    if (peerVpcAwsAccountId != null) {
+      _s.validateStringLength(
+        'peerVpcAwsAccountId',
+        peerVpcAwsAccountId,
+        1,
+        1024,
+      );
+    }
+    if (peerVpcId != null) {
+      _s.validateStringLength(
+        'peerVpcId',
+        peerVpcId,
+        1,
+        1024,
+      );
+    }
+    if (scriptId != null) {
+      _s.validateStringPattern(
+        'scriptId',
+        scriptId,
+        r'''^script-\S+|^arn:.*:script\/script-\S+''',
+      );
+    }
+    if (serverLaunchParameters != null) {
+      _s.validateStringLength(
+        'serverLaunchParameters',
+        serverLaunchParameters,
+        1,
+        1024,
+      );
+    }
+    if (serverLaunchPath != null) {
+      _s.validateStringLength(
+        'serverLaunchPath',
+        serverLaunchPath,
+        1,
+        1024,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateFleet'
@@ -1174,6 +1209,8 @@ class GameLift {
       roleArn,
       r'''^arn:.*:role\/[\w+=,.@-]+''',
     );
+    if (tags != null) {}
+    if (vpcSubnets != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateGameServerGroup'
@@ -1357,56 +1394,75 @@ class GameLift {
       0,
       1152921504606846976,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
-    );
-    _s.validateStringLength(
-      'creatorId',
-      creatorId,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'fleetId',
-      fleetId,
-      r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
-    );
-    _s.validateStringLength(
-      'gameSessionData',
-      gameSessionData,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'gameSessionId',
-      gameSessionId,
-      1,
-      48,
-    );
-    _s.validateStringPattern(
-      'gameSessionId',
-      gameSessionId,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      48,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
+    if (aliasId != null) {
+      _s.validateStringPattern(
+        'aliasId',
+        aliasId,
+        r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
+      );
+    }
+    if (creatorId != null) {
+      _s.validateStringLength(
+        'creatorId',
+        creatorId,
+        1,
+        1024,
+      );
+    }
+    if (fleetId != null) {
+      _s.validateStringPattern(
+        'fleetId',
+        fleetId,
+        r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
+      );
+    }
+    if (gameProperties != null) {}
+    if (gameSessionData != null) {
+      _s.validateStringLength(
+        'gameSessionData',
+        gameSessionData,
+        1,
+        4096,
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringLength(
+        'gameSessionId',
+        gameSessionId,
+        1,
+        48,
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringPattern(
+        'gameSessionId',
+        gameSessionId,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (idempotencyToken != null) {
+      _s.validateStringLength(
+        'idempotencyToken',
+        idempotencyToken,
+        1,
+        48,
+      );
+    }
+    if (idempotencyToken != null) {
+      _s.validateStringPattern(
+        'idempotencyToken',
+        idempotencyToken,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateGameSession'
@@ -1556,12 +1612,15 @@ class GameLift {
       name,
       r'''[a-zA-Z0-9-]+''',
     );
-    _s.validateNumRange(
-      'timeoutInSeconds',
-      timeoutInSeconds,
-      0,
-      1152921504606846976,
-    );
+    if (tags != null) {}
+    if (timeoutInSeconds != null) {
+      _s.validateNumRange(
+        'timeoutInSeconds',
+        timeoutInSeconds,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateGameSessionQueue'
@@ -1791,47 +1850,63 @@ class GameLift {
       ruleSetName,
       r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*''',
     );
-    _s.validateNumRange(
-      'acceptanceTimeoutSeconds',
-      acceptanceTimeoutSeconds,
-      1,
-      600,
-    );
-    _s.validateNumRange(
-      'additionalPlayerCount',
-      additionalPlayerCount,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'customEventData',
-      customEventData,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'gameSessionData',
-      gameSessionData,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'notificationTarget',
-      notificationTarget,
-      0,
-      300,
-    );
-    _s.validateStringPattern(
-      'notificationTarget',
-      notificationTarget,
-      r'''[a-zA-Z0-9:_/-]*''',
-    );
+    if (acceptanceTimeoutSeconds != null) {
+      _s.validateNumRange(
+        'acceptanceTimeoutSeconds',
+        acceptanceTimeoutSeconds,
+        1,
+        600,
+      );
+    }
+    if (additionalPlayerCount != null) {
+      _s.validateNumRange(
+        'additionalPlayerCount',
+        additionalPlayerCount,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (customEventData != null) {
+      _s.validateStringLength(
+        'customEventData',
+        customEventData,
+        0,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (gameProperties != null) {}
+    if (gameSessionData != null) {
+      _s.validateStringLength(
+        'gameSessionData',
+        gameSessionData,
+        1,
+        4096,
+      );
+    }
+    if (notificationTarget != null) {
+      _s.validateStringLength(
+        'notificationTarget',
+        notificationTarget,
+        0,
+        300,
+      );
+    }
+    if (notificationTarget != null) {
+      _s.validateStringPattern(
+        'notificationTarget',
+        notificationTarget,
+        r'''[a-zA-Z0-9:_/-]*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateMatchmakingConfiguration'
@@ -1975,6 +2050,7 @@ class GameLift {
       1,
       65535,
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateMatchmakingRuleSet'
@@ -2077,12 +2153,14 @@ class GameLift {
       1,
       1024,
     );
-    _s.validateStringLength(
-      'playerData',
-      playerData,
-      1,
-      2048,
-    );
+    if (playerData != null) {
+      _s.validateStringLength(
+        'playerData',
+        playerData,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreatePlayerSession'
@@ -2316,18 +2394,24 @@ class GameLift {
     String version,
     Uint8List zipFile,
   }) async {
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      1024,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
+    if (tags != null) {}
+    if (version != null) {
+      _s.validateStringLength(
+        'version',
+        version,
+        1,
+        1024,
+      );
+    }
+    if (zipFile != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.CreateScript'
@@ -3841,18 +3925,23 @@ class GameLift {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (fleetIds != null) {}
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeFleetAttributes'
@@ -3970,18 +4059,23 @@ class GameLift {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (fleetIds != null) {}
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeFleetCapacity'
@@ -4101,18 +4195,22 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeFleetEvents'
@@ -4331,18 +4429,23 @@ class GameLift {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (fleetIds != null) {}
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeFleetUtilization'
@@ -4628,45 +4731,59 @@ class GameLift {
     String nextToken,
     String statusFilter,
   }) async {
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
-    );
-    _s.validateStringPattern(
-      'fleetId',
-      fleetId,
-      r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
-    );
-    _s.validateStringLength(
-      'gameSessionId',
-      gameSessionId,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'gameSessionId',
-      gameSessionId,
-      r'''[a-zA-Z0-9:/-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'statusFilter',
-      statusFilter,
-      1,
-      1024,
-    );
+    if (aliasId != null) {
+      _s.validateStringPattern(
+        'aliasId',
+        aliasId,
+        r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
+      );
+    }
+    if (fleetId != null) {
+      _s.validateStringPattern(
+        'fleetId',
+        fleetId,
+        r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringLength(
+        'gameSessionId',
+        gameSessionId,
+        1,
+        256,
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringPattern(
+        'gameSessionId',
+        gameSessionId,
+        r'''[a-zA-Z0-9:/-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (statusFilter != null) {
+      _s.validateStringLength(
+        'statusFilter',
+        statusFilter,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeGameSessionDetails'
@@ -4822,18 +4939,22 @@ class GameLift {
     List<String> names,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeGameSessionQueues'
@@ -4942,45 +5063,59 @@ class GameLift {
     String nextToken,
     String statusFilter,
   }) async {
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
-    );
-    _s.validateStringPattern(
-      'fleetId',
-      fleetId,
-      r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
-    );
-    _s.validateStringLength(
-      'gameSessionId',
-      gameSessionId,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'gameSessionId',
-      gameSessionId,
-      r'''[a-zA-Z0-9:/-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'statusFilter',
-      statusFilter,
-      1,
-      1024,
-    );
+    if (aliasId != null) {
+      _s.validateStringPattern(
+        'aliasId',
+        aliasId,
+        r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
+      );
+    }
+    if (fleetId != null) {
+      _s.validateStringPattern(
+        'fleetId',
+        fleetId,
+        r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringLength(
+        'gameSessionId',
+        gameSessionId,
+        1,
+        256,
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringPattern(
+        'gameSessionId',
+        gameSessionId,
+        r'''[a-zA-Z0-9:/-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (statusFilter != null) {
+      _s.validateStringLength(
+        'statusFilter',
+        statusFilter,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeGameSessions'
@@ -5067,23 +5202,29 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''[a-zA-Z0-9\.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (instanceId != null) {
+      _s.validateStringPattern(
+        'instanceId',
+        instanceId,
+        r'''[a-zA-Z0-9\.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeInstances'
@@ -5251,29 +5392,37 @@ class GameLift {
     String nextToken,
     String ruleSetName,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'ruleSetName',
-      ruleSetName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'ruleSetName',
-      ruleSetName,
-      r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (ruleSetName != null) {
+      _s.validateStringLength(
+        'ruleSetName',
+        ruleSetName,
+        1,
+        256,
+      );
+    }
+    if (ruleSetName != null) {
+      _s.validateStringPattern(
+        'ruleSetName',
+        ruleSetName,
+        r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeMatchmakingConfigurations'
@@ -5362,18 +5511,23 @@ class GameLift {
     List<String> names,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10,
+      );
+    }
+    if (names != null) {}
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeMatchmakingRuleSets'
@@ -5492,46 +5646,60 @@ class GameLift {
     String playerSessionId,
     String playerSessionStatusFilter,
   }) async {
-    _s.validateStringLength(
-      'gameSessionId',
-      gameSessionId,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'gameSessionId',
-      gameSessionId,
-      r'''[a-zA-Z0-9:/-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'playerId',
-      playerId,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'playerSessionId',
-      playerSessionId,
-      r'''^psess-\S+''',
-    );
-    _s.validateStringLength(
-      'playerSessionStatusFilter',
-      playerSessionStatusFilter,
-      1,
-      1024,
-    );
+    if (gameSessionId != null) {
+      _s.validateStringLength(
+        'gameSessionId',
+        gameSessionId,
+        1,
+        256,
+      );
+    }
+    if (gameSessionId != null) {
+      _s.validateStringPattern(
+        'gameSessionId',
+        gameSessionId,
+        r'''[a-zA-Z0-9:/-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (playerId != null) {
+      _s.validateStringLength(
+        'playerId',
+        playerId,
+        1,
+        1024,
+      );
+    }
+    if (playerSessionId != null) {
+      _s.validateStringPattern(
+        'playerSessionId',
+        playerSessionId,
+        r'''^psess-\S+''',
+      );
+    }
+    if (playerSessionStatusFilter != null) {
+      _s.validateStringLength(
+        'playerSessionStatusFilter',
+        playerSessionStatusFilter,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribePlayerSessions'
@@ -5766,18 +5934,22 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeScalingPolicies'
@@ -5953,11 +6125,13 @@ class GameLift {
   Future<DescribeVpcPeeringConnectionsOutput> describeVpcPeeringConnections({
     String fleetId,
   }) async {
-    _s.validateStringPattern(
-      'fleetId',
-      fleetId,
-      r'''^fleet-\S+''',
-    );
+    if (fleetId != null) {
+      _s.validateStringPattern(
+        'fleetId',
+        fleetId,
+        r'''^fleet-\S+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.DescribeVpcPeeringConnections'
@@ -6221,24 +6395,30 @@ class GameLift {
     String nextToken,
     RoutingStrategyType routingStrategyType,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListAliases'
@@ -6333,18 +6513,22 @@ class GameLift {
     String nextToken,
     BuildStatus status,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListBuilds'
@@ -6432,28 +6616,36 @@ class GameLift {
     String nextToken,
     String scriptId,
   }) async {
-    _s.validateStringPattern(
-      'buildId',
-      buildId,
-      r'''^build-\S+|^arn:.*:build\/build-\S+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'scriptId',
-      scriptId,
-      r'''^script-\S+|^arn:.*:script\/script-\S+''',
-    );
+    if (buildId != null) {
+      _s.validateStringPattern(
+        'buildId',
+        buildId,
+        r'''^build-\S+|^arn:.*:build\/build-\S+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (scriptId != null) {
+      _s.validateStringPattern(
+        'scriptId',
+        scriptId,
+        r'''^script-\S+|^arn:.*:script\/script-\S+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListFleets'
@@ -6530,18 +6722,22 @@ class GameLift {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListGameServerGroups'
@@ -6638,18 +6834,22 @@ class GameLift {
       gameServerGroupName,
       r'''[a-zA-Z0-9-\.]+|^arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListGameServers'
@@ -6716,18 +6916,22 @@ class GameLift {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.ListScripts'
@@ -7105,12 +7309,14 @@ class GameLift {
       1,
       1024,
     );
-    _s.validateNumRange(
-      'evaluationPeriods',
-      evaluationPeriods,
-      1,
-      1152921504606846976,
-    );
+    if (evaluationPeriods != null) {
+      _s.validateNumRange(
+        'evaluationPeriods',
+        evaluationPeriods,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.PutScalingPolicy'
@@ -7278,39 +7484,52 @@ class GameLift {
       instanceId,
       r'''^i-[0-9a-zA-Z]{17}$''',
     );
-    _s.validateStringLength(
-      'connectionInfo',
-      connectionInfo,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'connectionInfo',
-      connectionInfo,
-      r'''.*\S.*''',
-    );
-    _s.validateStringLength(
-      'customSortKey',
-      customSortKey,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'customSortKey',
-      customSortKey,
-      r'''[a-zA-Z0-9-\.]+''',
-    );
-    _s.validateStringLength(
-      'gameServerData',
-      gameServerData,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'gameServerData',
-      gameServerData,
-      r'''.*\S.*''',
-    );
+    if (connectionInfo != null) {
+      _s.validateStringLength(
+        'connectionInfo',
+        connectionInfo,
+        1,
+        512,
+      );
+    }
+    if (connectionInfo != null) {
+      _s.validateStringPattern(
+        'connectionInfo',
+        connectionInfo,
+        r'''.*\S.*''',
+      );
+    }
+    if (customSortKey != null) {
+      _s.validateStringLength(
+        'customSortKey',
+        customSortKey,
+        1,
+        64,
+      );
+    }
+    if (customSortKey != null) {
+      _s.validateStringPattern(
+        'customSortKey',
+        customSortKey,
+        r'''[a-zA-Z0-9-\.]+''',
+      );
+    }
+    if (gameServerData != null) {
+      _s.validateStringLength(
+        'gameServerData',
+        gameServerData,
+        1,
+        1024,
+      );
+    }
+    if (gameServerData != null) {
+      _s.validateStringPattern(
+        'gameServerData',
+        gameServerData,
+        r'''.*\S.*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.RegisterGameServer'
@@ -7774,40 +7993,52 @@ class GameLift {
     String nextToken,
     String sortExpression,
   }) async {
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
-    );
-    _s.validateStringLength(
-      'filterExpression',
-      filterExpression,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'fleetId',
-      fleetId,
-      r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'sortExpression',
-      sortExpression,
-      1,
-      1024,
-    );
+    if (aliasId != null) {
+      _s.validateStringPattern(
+        'aliasId',
+        aliasId,
+        r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
+      );
+    }
+    if (filterExpression != null) {
+      _s.validateStringLength(
+        'filterExpression',
+        filterExpression,
+        1,
+        1024,
+      );
+    }
+    if (fleetId != null) {
+      _s.validateStringPattern(
+        'fleetId',
+        fleetId,
+        r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (sortExpression != null) {
+      _s.validateStringLength(
+        'sortExpression',
+        sortExpression,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.SearchGameSessions'
@@ -8087,18 +8318,23 @@ class GameLift {
       placementId,
       r'''[a-zA-Z0-9-]+''',
     );
-    _s.validateStringLength(
-      'gameSessionData',
-      gameSessionData,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'gameSessionName',
-      gameSessionName,
-      1,
-      1024,
-    );
+    if (gameProperties != null) {}
+    if (gameSessionData != null) {
+      _s.validateStringLength(
+        'gameSessionData',
+        gameSessionData,
+        1,
+        4096,
+      );
+    }
+    if (gameSessionName != null) {
+      _s.validateStringLength(
+        'gameSessionName',
+        gameSessionName,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.StartGameSessionPlacement'
@@ -8255,17 +8491,21 @@ class GameLift {
       r'''[a-zA-Z0-9:/-]+''',
     );
     ArgumentError.checkNotNull(players, 'players');
-    _s.validateStringLength(
-      'ticketId',
-      ticketId,
-      0,
-      128,
-    );
-    _s.validateStringPattern(
-      'ticketId',
-      ticketId,
-      r'''[a-zA-Z0-9-\.]*''',
-    );
+    if (ticketId != null) {
+      _s.validateStringLength(
+        'ticketId',
+        ticketId,
+        0,
+        128,
+      );
+    }
+    if (ticketId != null) {
+      _s.validateStringPattern(
+        'ticketId',
+        ticketId,
+        r'''[a-zA-Z0-9-\.]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.StartMatchBackfill'
@@ -8436,17 +8676,21 @@ class GameLift {
       r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*''',
     );
     ArgumentError.checkNotNull(players, 'players');
-    _s.validateStringLength(
-      'ticketId',
-      ticketId,
-      0,
-      128,
-    );
-    _s.validateStringPattern(
-      'ticketId',
-      ticketId,
-      r'''[a-zA-Z0-9-\.]*''',
-    );
+    if (ticketId != null) {
+      _s.validateStringLength(
+        'ticketId',
+        ticketId,
+        0,
+        128,
+      );
+    }
+    if (ticketId != null) {
+      _s.validateStringPattern(
+        'ticketId',
+        ticketId,
+        r'''[a-zA-Z0-9-\.]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.StartMatchmaking'
@@ -9078,23 +9322,29 @@ class GameLift {
       aliasId,
       r'''^alias-\S+|^arn:.*:alias\/alias-\S+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateAlias'
@@ -9174,18 +9424,22 @@ class GameLift {
       buildId,
       r'''^build-\S+|^arn:.*:build\/build-\S+''',
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      1024,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
+    if (version != null) {
+      _s.validateStringLength(
+        'version',
+        version,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateBuild'
@@ -9313,18 +9567,23 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (metricGroups != null) {}
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateFleetAttributes'
@@ -9445,24 +9704,30 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
-    _s.validateNumRange(
-      'desiredInstances',
-      desiredInstances,
-      0,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'maxSize',
-      maxSize,
-      0,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'minSize',
-      minSize,
-      0,
-      1152921504606846976,
-    );
+    if (desiredInstances != null) {
+      _s.validateNumRange(
+        'desiredInstances',
+        desiredInstances,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (maxSize != null) {
+      _s.validateNumRange(
+        'maxSize',
+        maxSize,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (minSize != null) {
+      _s.validateNumRange(
+        'minSize',
+        minSize,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateFleetCapacity'
@@ -9563,6 +9828,8 @@ class GameLift {
       fleetId,
       r'''^fleet-\S+|^arn:.*:fleet\/fleet-\S+''',
     );
+    if (inboundPermissionAuthorizations != null) {}
+    if (inboundPermissionRevocations != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateFleetPortSettings'
@@ -9711,28 +9978,36 @@ class GameLift {
       gameServerId,
       r'''[a-zA-Z0-9-\.]+''',
     );
-    _s.validateStringLength(
-      'customSortKey',
-      customSortKey,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'customSortKey',
-      customSortKey,
-      r'''[a-zA-Z0-9-\.]+''',
-    );
-    _s.validateStringLength(
-      'gameServerData',
-      gameServerData,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'gameServerData',
-      gameServerData,
-      r'''.*\S.*''',
-    );
+    if (customSortKey != null) {
+      _s.validateStringLength(
+        'customSortKey',
+        customSortKey,
+        1,
+        64,
+      );
+    }
+    if (customSortKey != null) {
+      _s.validateStringPattern(
+        'customSortKey',
+        customSortKey,
+        r'''[a-zA-Z0-9-\.]+''',
+      );
+    }
+    if (gameServerData != null) {
+      _s.validateStringLength(
+        'gameServerData',
+        gameServerData,
+        1,
+        1024,
+      );
+    }
+    if (gameServerData != null) {
+      _s.validateStringPattern(
+        'gameServerData',
+        gameServerData,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateGameServer'
@@ -9883,17 +10158,22 @@ class GameLift {
       gameServerGroupName,
       r'''[a-zA-Z0-9-\.]+|^arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+''',
     );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:.*:role\/[\w+=,.@-]+''',
-    );
+    if (instanceDefinitions != null) {}
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        1,
+        256,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''^arn:.*:role\/[\w+=,.@-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateGameServerGroup'
@@ -10012,18 +10292,22 @@ class GameLift {
       gameSessionId,
       r'''[a-zA-Z0-9:/-]+''',
     );
-    _s.validateNumRange(
-      'maximumPlayerSessionCount',
-      maximumPlayerSessionCount,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
+    if (maximumPlayerSessionCount != null) {
+      _s.validateNumRange(
+        'maximumPlayerSessionCount',
+        maximumPlayerSessionCount,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateGameSession'
@@ -10123,12 +10407,14 @@ class GameLift {
       name,
       r'''[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+''',
     );
-    _s.validateNumRange(
-      'timeoutInSeconds',
-      timeoutInSeconds,
-      0,
-      1152921504606846976,
-    );
+    if (timeoutInSeconds != null) {
+      _s.validateNumRange(
+        'timeoutInSeconds',
+        timeoutInSeconds,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateGameSessionQueue'
@@ -10300,64 +10586,85 @@ class GameLift {
       name,
       r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*''',
     );
-    _s.validateNumRange(
-      'acceptanceTimeoutSeconds',
-      acceptanceTimeoutSeconds,
-      1,
-      600,
-    );
-    _s.validateNumRange(
-      'additionalPlayerCount',
-      additionalPlayerCount,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'customEventData',
-      customEventData,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'gameSessionData',
-      gameSessionData,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'notificationTarget',
-      notificationTarget,
-      0,
-      300,
-    );
-    _s.validateStringPattern(
-      'notificationTarget',
-      notificationTarget,
-      r'''[a-zA-Z0-9:_/-]*''',
-    );
-    _s.validateNumRange(
-      'requestTimeoutSeconds',
-      requestTimeoutSeconds,
-      1,
-      43200,
-    );
-    _s.validateStringLength(
-      'ruleSetName',
-      ruleSetName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'ruleSetName',
-      ruleSetName,
-      r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*''',
-    );
+    if (acceptanceTimeoutSeconds != null) {
+      _s.validateNumRange(
+        'acceptanceTimeoutSeconds',
+        acceptanceTimeoutSeconds,
+        1,
+        600,
+      );
+    }
+    if (additionalPlayerCount != null) {
+      _s.validateNumRange(
+        'additionalPlayerCount',
+        additionalPlayerCount,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (customEventData != null) {
+      _s.validateStringLength(
+        'customEventData',
+        customEventData,
+        0,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1024,
+      );
+    }
+    if (gameProperties != null) {}
+    if (gameSessionData != null) {
+      _s.validateStringLength(
+        'gameSessionData',
+        gameSessionData,
+        1,
+        4096,
+      );
+    }
+    if (notificationTarget != null) {
+      _s.validateStringLength(
+        'notificationTarget',
+        notificationTarget,
+        0,
+        300,
+      );
+    }
+    if (notificationTarget != null) {
+      _s.validateStringPattern(
+        'notificationTarget',
+        notificationTarget,
+        r'''[a-zA-Z0-9:_/-]*''',
+      );
+    }
+    if (requestTimeoutSeconds != null) {
+      _s.validateNumRange(
+        'requestTimeoutSeconds',
+        requestTimeoutSeconds,
+        1,
+        43200,
+      );
+    }
+    if (ruleSetName != null) {
+      _s.validateStringLength(
+        'ruleSetName',
+        ruleSetName,
+        1,
+        256,
+      );
+    }
+    if (ruleSetName != null) {
+      _s.validateStringPattern(
+        'ruleSetName',
+        ruleSetName,
+        r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateMatchmakingConfiguration'
@@ -10587,18 +10894,23 @@ class GameLift {
       scriptId,
       r'''^script-\S+|^arn:.*:script\/script-\S+''',
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      1024,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1024,
+      );
+    }
+    if (version != null) {
+      _s.validateStringLength(
+        'version',
+        version,
+        1,
+        1024,
+      );
+    }
+    if (zipFile != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GameLift.UpdateScript'

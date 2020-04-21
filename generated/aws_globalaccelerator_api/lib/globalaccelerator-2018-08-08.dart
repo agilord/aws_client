@@ -178,6 +178,7 @@ class GlobalAccelerator {
       0,
       255,
     );
+    if (ipAddresses != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateAccelerator'
@@ -292,36 +293,47 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateNumRange(
-      'healthCheckIntervalSeconds',
-      healthCheckIntervalSeconds,
-      10,
-      30,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      0,
-      255,
-    );
-    _s.validateNumRange(
-      'healthCheckPort',
-      healthCheckPort,
-      1,
-      65535,
-    );
-    _s.validateNumRange(
-      'thresholdCount',
-      thresholdCount,
-      1,
-      10,
-    );
-    _s.validateNumRange(
-      'trafficDialPercentage',
-      trafficDialPercentage,
-      0,
-      100,
-    );
+    if (endpointConfigurations != null) {}
+    if (healthCheckIntervalSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckIntervalSeconds',
+        healthCheckIntervalSeconds,
+        10,
+        30,
+      );
+    }
+    if (healthCheckPath != null) {
+      _s.validateStringLength(
+        'healthCheckPath',
+        healthCheckPath,
+        0,
+        255,
+      );
+    }
+    if (healthCheckPort != null) {
+      _s.validateNumRange(
+        'healthCheckPort',
+        healthCheckPort,
+        1,
+        65535,
+      );
+    }
+    if (thresholdCount != null) {
+      _s.validateNumRange(
+        'thresholdCount',
+        thresholdCount,
+        1,
+        10,
+      );
+    }
+    if (trafficDialPercentage != null) {
+      _s.validateNumRange(
+        'trafficDialPercentage',
+        trafficDialPercentage,
+        0,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateEndpointGroup'
@@ -790,18 +802,22 @@ class GlobalAccelerator {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListAccelerators'
@@ -844,18 +860,22 @@ class GlobalAccelerator {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListByoipCidrs'
@@ -906,18 +926,22 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListEndpointGroups'
@@ -969,18 +993,22 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListListeners'
@@ -1248,12 +1276,14 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAccelerator'
@@ -1326,18 +1356,22 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateStringLength(
-      'flowLogsS3Bucket',
-      flowLogsS3Bucket,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'flowLogsS3Prefix',
-      flowLogsS3Prefix,
-      0,
-      255,
-    );
+    if (flowLogsS3Bucket != null) {
+      _s.validateStringLength(
+        'flowLogsS3Bucket',
+        flowLogsS3Bucket,
+        0,
+        255,
+      );
+    }
+    if (flowLogsS3Prefix != null) {
+      _s.validateStringLength(
+        'flowLogsS3Prefix',
+        flowLogsS3Prefix,
+        0,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAcceleratorAttributes'
@@ -1423,36 +1457,47 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateNumRange(
-      'healthCheckIntervalSeconds',
-      healthCheckIntervalSeconds,
-      10,
-      30,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      0,
-      255,
-    );
-    _s.validateNumRange(
-      'healthCheckPort',
-      healthCheckPort,
-      1,
-      65535,
-    );
-    _s.validateNumRange(
-      'thresholdCount',
-      thresholdCount,
-      1,
-      10,
-    );
-    _s.validateNumRange(
-      'trafficDialPercentage',
-      trafficDialPercentage,
-      0,
-      100,
-    );
+    if (endpointConfigurations != null) {}
+    if (healthCheckIntervalSeconds != null) {
+      _s.validateNumRange(
+        'healthCheckIntervalSeconds',
+        healthCheckIntervalSeconds,
+        10,
+        30,
+      );
+    }
+    if (healthCheckPath != null) {
+      _s.validateStringLength(
+        'healthCheckPath',
+        healthCheckPath,
+        0,
+        255,
+      );
+    }
+    if (healthCheckPort != null) {
+      _s.validateNumRange(
+        'healthCheckPort',
+        healthCheckPort,
+        1,
+        65535,
+      );
+    }
+    if (thresholdCount != null) {
+      _s.validateNumRange(
+        'thresholdCount',
+        thresholdCount,
+        1,
+        10,
+      );
+    }
+    if (trafficDialPercentage != null) {
+      _s.validateNumRange(
+        'trafficDialPercentage',
+        trafficDialPercentage,
+        0,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateEndpointGroup'
@@ -1532,6 +1577,7 @@ class GlobalAccelerator {
       0,
       255,
     );
+    if (portRanges != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateListener'

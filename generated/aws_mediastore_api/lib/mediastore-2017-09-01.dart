@@ -79,6 +79,7 @@ class MediaStore {
       containerName,
       r'''[\w-]+''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.CreateContainer'
@@ -335,17 +336,21 @@ class MediaStore {
   Future<DescribeContainerOutput> describeContainer({
     String containerName,
   }) async {
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-    );
+    if (containerName != null) {
+      _s.validateStringLength(
+        'containerName',
+        containerName,
+        1,
+        255,
+      );
+    }
+    if (containerName != null) {
+      _s.validateStringPattern(
+        'containerName',
+        containerName,
+        r'''[\w-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DescribeContainer'
@@ -568,23 +573,29 @@ class MediaStore {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z=/+]+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1024,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[0-9A-Za-z=/+]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.ListContainers'

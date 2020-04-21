@@ -672,18 +672,23 @@ class KinesisAnalytics {
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateStringLength(
-      'applicationCode',
-      applicationCode,
-      0,
-      102400,
-    );
-    _s.validateStringLength(
-      'applicationDescription',
-      applicationDescription,
-      0,
-      1024,
-    );
+    if (applicationCode != null) {
+      _s.validateStringLength(
+        'applicationCode',
+        applicationCode,
+        0,
+        102400,
+      );
+    }
+    if (applicationDescription != null) {
+      _s.validateStringLength(
+        'applicationDescription',
+        applicationDescription,
+        0,
+        1024,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20150814.CreateApplication'
@@ -1257,28 +1262,36 @@ class KinesisAnalytics {
     String roleARN,
     S3Configuration s3Configuration,
   }) async {
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
-    );
-    _s.validateStringLength(
-      'roleARN',
-      roleARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-    );
+    if (resourceARN != null) {
+      _s.validateStringLength(
+        'resourceARN',
+        resourceARN,
+        1,
+        2048,
+      );
+    }
+    if (resourceARN != null) {
+      _s.validateStringPattern(
+        'resourceARN',
+        resourceARN,
+        r'''arn:.*''',
+      );
+    }
+    if (roleARN != null) {
+      _s.validateStringLength(
+        'roleARN',
+        roleARN,
+        1,
+        2048,
+      );
+    }
+    if (roleARN != null) {
+      _s.validateStringPattern(
+        'roleARN',
+        roleARN,
+        r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20150814.DiscoverInputSchema'
@@ -1335,23 +1348,29 @@ class KinesisAnalytics {
     String exclusiveStartApplicationName,
     int limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartApplicationName',
-      exclusiveStartApplicationName,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartApplicationName',
-      exclusiveStartApplicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
+    if (exclusiveStartApplicationName != null) {
+      _s.validateStringLength(
+        'exclusiveStartApplicationName',
+        exclusiveStartApplicationName,
+        1,
+        128,
+      );
+    }
+    if (exclusiveStartApplicationName != null) {
+      _s.validateStringPattern(
+        'exclusiveStartApplicationName',
+        exclusiveStartApplicationName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20150814.ListApplications'

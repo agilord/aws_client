@@ -93,17 +93,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchCreatePartition'
@@ -141,17 +145,21 @@ class Glue {
     String catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionNameList, 'connectionNameList');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteConnection'
@@ -222,17 +230,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeletePartition'
@@ -301,17 +313,21 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(tablesToDelete, 'tablesToDelete');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteTable'
@@ -385,17 +401,21 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(versionIds, 'versionIds');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteTableVersion'
@@ -573,17 +593,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchGetPartition'
@@ -859,17 +883,21 @@ class Glue {
     String catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionInput, 'connectionInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateConnection'
@@ -978,29 +1006,38 @@ class Glue {
     );
     ArgumentError.checkNotNull(role, 'role');
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'crawlerSecurityConfiguration',
-      crawlerSecurityConfiguration,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'tablePrefix',
-      tablePrefix,
-      0,
-      128,
-    );
+    if (crawlerSecurityConfiguration != null) {
+      _s.validateStringLength(
+        'crawlerSecurityConfiguration',
+        crawlerSecurityConfiguration,
+        0,
+        128,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (tablePrefix != null) {
+      _s.validateStringLength(
+        'tablePrefix',
+        tablePrefix,
+        0,
+        128,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateCrawler'
@@ -1050,17 +1087,21 @@ class Glue {
     String catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateDatabase'
@@ -1227,28 +1268,39 @@ class Glue {
       roleArn,
       r'''arn:aws:iam::\d{12}:role/.*''',
     );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'glueVersion',
-      glueVersion,
-      r'''^\w+\.\w+$''',
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'securityConfiguration',
-      securityConfiguration,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (arguments != null) {}
+    if (glueVersion != null) {
+      _s.validateStringLength(
+        'glueVersion',
+        glueVersion,
+        1,
+        255,
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringPattern(
+        'glueVersion',
+        glueVersion,
+        r'''^\w+\.\w+$''',
+      );
+    }
+    if (publicKeys != null) {}
+    if (securityConfiguration != null) {
+      _s.validateStringLength(
+        'securityConfiguration',
+        securityConfiguration,
+        1,
+        255,
+      );
+    }
+    if (securityConfiguration != null) {
+      _s.validateStringPattern(
+        'securityConfiguration',
+        securityConfiguration,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateDevEndpoint'
@@ -1466,45 +1518,60 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'glueVersion',
-      glueVersion,
-      r'''^\w+\.\w+$''',
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'securityConfiguration',
-      securityConfiguration,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringLength(
+        'glueVersion',
+        glueVersion,
+        1,
+        255,
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringPattern(
+        'glueVersion',
+        glueVersion,
+        r'''^\w+\.\w+$''',
+      );
+    }
+    if (securityConfiguration != null) {
+      _s.validateStringLength(
+        'securityConfiguration',
+        securityConfiguration,
+        1,
+        255,
+      );
+    }
+    if (securityConfiguration != null) {
+      _s.validateStringPattern(
+        'securityConfiguration',
+        securityConfiguration,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (tags != null) {}
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateJob'
@@ -1736,34 +1803,45 @@ class Glue {
     );
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'glueVersion',
-      glueVersion,
-      r'''^\w+\.\w+$''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringLength(
+        'glueVersion',
+        glueVersion,
+        1,
+        255,
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringPattern(
+        'glueVersion',
+        glueVersion,
+        r'''^\w+\.\w+$''',
+      );
+    }
+    if (tags != null) {}
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateMLTransform'
@@ -1846,17 +1924,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreatePartition'
@@ -2011,17 +2093,21 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(tableInput, 'tableInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateTable'
@@ -2116,28 +2202,37 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'workflowName',
-      workflowName,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'workflowName',
-      workflowName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (tags != null) {}
+    if (workflowName != null) {
+      _s.validateStringLength(
+        'workflowName',
+        workflowName,
+        1,
+        255,
+      );
+    }
+    if (workflowName != null) {
+      _s.validateStringPattern(
+        'workflowName',
+        workflowName,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateTrigger'
@@ -2202,17 +2297,21 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(functionInput, 'functionInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateUserDefinedFunction'
@@ -2273,6 +2372,7 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateWorkflow'
@@ -2361,17 +2461,21 @@ class Glue {
       connectionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteConnection'
@@ -2478,17 +2582,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteDatabase'
@@ -2679,17 +2787,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeletePartition'
@@ -2724,17 +2836,21 @@ class Glue {
   Future<void> deleteResourcePolicy({
     String policyHashCondition,
   }) async {
-    _s.validateStringLength(
-      'policyHashCondition',
-      policyHashCondition,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'policyHashCondition',
-      policyHashCondition,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (policyHashCondition != null) {
+      _s.validateStringLength(
+        'policyHashCondition',
+        policyHashCondition,
+        1,
+        255,
+      );
+    }
+    if (policyHashCondition != null) {
+      _s.validateStringPattern(
+        'policyHashCondition',
+        policyHashCondition,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteResourcePolicy'
@@ -2854,17 +2970,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTable'
@@ -2949,17 +3069,21 @@ class Glue {
       versionId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTableVersion'
@@ -3069,17 +3193,21 @@ class Glue {
       functionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteUserDefinedFunction'
@@ -3153,17 +3281,21 @@ class Glue {
   Future<GetCatalogImportStatusResponse> getCatalogImportStatus({
     String catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetCatalogImportStatus'
@@ -3235,12 +3367,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetClassifiers'
@@ -3298,17 +3432,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetConnection'
@@ -3363,23 +3501,29 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetConnections'
@@ -3459,12 +3603,15 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (crawlerNameList != null) {}
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetCrawlerMetrics'
@@ -3498,12 +3645,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetCrawlers'
@@ -3536,17 +3685,21 @@ class Glue {
       getDataCatalogEncryptionSettings({
     String catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDataCatalogEncryptionSettings'
@@ -3596,17 +3749,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDatabase'
@@ -3647,23 +3804,29 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDatabases'
@@ -3772,12 +3935,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDevEndpoints'
@@ -3972,12 +4137,14 @@ class Glue {
       jobName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetJobRuns'
@@ -4014,12 +4181,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetJobs'
@@ -4152,12 +4321,14 @@ class Glue {
       transformId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetMLTaskRuns'
@@ -4257,12 +4428,14 @@ class Glue {
     String nextToken,
     TransformSortCriteria sort,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetMLTransforms'
@@ -4376,17 +4549,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetPartition'
@@ -4553,34 +4730,44 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'expression',
-      expression,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (expression != null) {
+      _s.validateStringLength(
+        'expression',
+        expression,
+        0,
+        2048,
+      );
+    }
+    if (expression != null) {
+      _s.validateStringPattern(
+        'expression',
+        expression,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetPartitions'
@@ -4736,12 +4923,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetSecurityConfigurations'
@@ -4810,17 +4999,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTable'
@@ -4895,28 +5088,36 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (versionId != null) {
+      _s.validateStringLength(
+        'versionId',
+        versionId,
+        1,
+        255,
+      );
+    }
+    if (versionId != null) {
+      _s.validateStringPattern(
+        'versionId',
+        versionId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTableVersion'
@@ -4995,23 +5196,29 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTableVersions'
@@ -5079,34 +5286,44 @@ class Glue {
       databaseName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'expression',
-      expression,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (expression != null) {
+      _s.validateStringLength(
+        'expression',
+        expression,
+        0,
+        2048,
+      );
+    }
+    if (expression != null) {
+      _s.validateStringPattern(
+        'expression',
+        expression,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTables'
@@ -5235,23 +5452,29 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'dependentJobName',
-      dependentJobName,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'dependentJobName',
-      dependentJobName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (dependentJobName != null) {
+      _s.validateStringLength(
+        'dependentJobName',
+        dependentJobName,
+        1,
+        255,
+      );
+    }
+    if (dependentJobName != null) {
+      _s.validateStringPattern(
+        'dependentJobName',
+        dependentJobName,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTriggers'
@@ -5318,17 +5541,21 @@ class Glue {
       functionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetUserDefinedFunction'
@@ -5392,34 +5619,44 @@ class Glue {
       pattern,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (databaseName != null) {
+      _s.validateStringLength(
+        'databaseName',
+        databaseName,
+        1,
+        255,
+      );
+    }
+    if (databaseName != null) {
+      _s.validateStringPattern(
+        'databaseName',
+        databaseName,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetUserDefinedFunctions'
@@ -5649,12 +5886,14 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetWorkflowRuns'
@@ -5687,17 +5926,21 @@ class Glue {
   Future<void> importCatalogToGlue({
     String catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ImportCatalogToGlue'
@@ -5740,12 +5983,15 @@ class Glue {
     String nextToken,
     Map<String, String> tags,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListCrawlers'
@@ -5793,12 +6039,15 @@ class Glue {
     String nextToken,
     Map<String, String> tags,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListDevEndpoints'
@@ -5846,12 +6095,15 @@ class Glue {
     String nextToken,
     Map<String, String> tags,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListJobs'
@@ -5907,12 +6159,15 @@ class Glue {
     TransformSortCriteria sort,
     Map<String, String> tags,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListMLTransforms'
@@ -5968,23 +6223,30 @@ class Glue {
     String nextToken,
     Map<String, String> tags,
   }) async {
-    _s.validateStringLength(
-      'dependentJobName',
-      dependentJobName,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'dependentJobName',
-      dependentJobName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (dependentJobName != null) {
+      _s.validateStringLength(
+        'dependentJobName',
+        dependentJobName,
+        1,
+        255,
+      );
+    }
+    if (dependentJobName != null) {
+      _s.validateStringPattern(
+        'dependentJobName',
+        dependentJobName,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListTriggers'
@@ -6021,12 +6283,14 @@ class Glue {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ListWorkflows'
@@ -6066,17 +6330,21 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(
         dataCatalogEncryptionSettings, 'dataCatalogEncryptionSettings');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutDataCatalogEncryptionSettings'
@@ -6130,17 +6398,21 @@ class Glue {
       2,
       10240,
     );
-    _s.validateStringLength(
-      'policyHashCondition',
-      policyHashCondition,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'policyHashCondition',
-      policyHashCondition,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (policyHashCondition != null) {
+      _s.validateStringLength(
+        'policyHashCondition',
+        policyHashCondition,
+        1,
+        255,
+      );
+    }
+    if (policyHashCondition != null) {
+      _s.validateStringPattern(
+        'policyHashCondition',
+        policyHashCondition,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutResourcePolicy'
@@ -6313,29 +6585,38 @@ class Glue {
     String searchText,
     List<SortCriterion> sortCriteria,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'searchText',
-      searchText,
-      0,
-      1024,
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (searchText != null) {
+      _s.validateStringLength(
+        'searchText',
+        searchText,
+        0,
+        1024,
+      );
+    }
+    if (sortCriteria != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.SearchTables'
@@ -6720,34 +7001,44 @@ class Glue {
       jobName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'jobRunId',
-      jobRunId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'jobRunId',
-      jobRunId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'securityConfiguration',
-      securityConfiguration,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (jobRunId != null) {
+      _s.validateStringLength(
+        'jobRunId',
+        jobRunId,
+        1,
+        255,
+      );
+    }
+    if (jobRunId != null) {
+      _s.validateStringPattern(
+        'jobRunId',
+        jobRunId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (securityConfiguration != null) {
+      _s.validateStringLength(
+        'securityConfiguration',
+        securityConfiguration,
+        1,
+        255,
+      );
+    }
+    if (securityConfiguration != null) {
+      _s.validateStringPattern(
+        'securityConfiguration',
+        securityConfiguration,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartJobRun'
@@ -7301,17 +7592,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateConnection'
@@ -7411,29 +7706,37 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'crawlerSecurityConfiguration',
-      crawlerSecurityConfiguration,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'tablePrefix',
-      tablePrefix,
-      0,
-      128,
-    );
+    if (crawlerSecurityConfiguration != null) {
+      _s.validateStringLength(
+        'crawlerSecurityConfiguration',
+        crawlerSecurityConfiguration,
+        0,
+        128,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (tablePrefix != null) {
+      _s.validateStringLength(
+        'tablePrefix',
+        tablePrefix,
+        0,
+        128,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateCrawler'
@@ -7551,17 +7854,21 @@ class Glue {
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateDatabase'
@@ -7647,6 +7954,9 @@ class Glue {
     bool updateEtlLibraries,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
+    if (addArguments != null) {}
+    if (addPublicKeys != null) {}
+    if (deletePublicKeys != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateDevEndpoint'
@@ -7829,45 +8139,59 @@ class Glue {
       transformId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'glueVersion',
-      glueVersion,
-      r'''^\w+\.\w+$''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      1152921504606846976,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringLength(
+        'glueVersion',
+        glueVersion,
+        1,
+        255,
+      );
+    }
+    if (glueVersion != null) {
+      _s.validateStringPattern(
+        'glueVersion',
+        glueVersion,
+        r'''^\w+\.\w+$''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        255,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
+    if (timeout != null) {
+      _s.validateNumRange(
+        'timeout',
+        timeout,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateMLTransform'
@@ -7952,17 +8276,21 @@ class Glue {
       tableName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdatePartition'
@@ -8030,17 +8358,21 @@ class Glue {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     ArgumentError.checkNotNull(tableInput, 'tableInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateTable'
@@ -8164,17 +8496,21 @@ class Glue {
       functionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
+    if (catalogId != null) {
+      _s.validateStringLength(
+        'catalogId',
+        catalogId,
+        1,
+        255,
+      );
+    }
+    if (catalogId != null) {
+      _s.validateStringPattern(
+        'catalogId',
+        catalogId,
+        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateUserDefinedFunction'

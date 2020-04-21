@@ -440,17 +440,23 @@ class ACM {
   }) async {
     ArgumentError.checkNotNull(certificate, 'certificate');
     ArgumentError.checkNotNull(privateKey, 'privateKey');
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      20,
-      2048,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-    );
+    if (certificateArn != null) {
+      _s.validateStringLength(
+        'certificateArn',
+        certificateArn,
+        20,
+        2048,
+      );
+    }
+    if (certificateArn != null) {
+      _s.validateStringPattern(
+        'certificateArn',
+        certificateArn,
+        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
+      );
+    }
+    if (certificateChain != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.ImportCertificate'
@@ -505,23 +511,29 @@ class ACM {
     int maxItems,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-    );
+    if (maxItems != null) {
+      _s.validateNumRange(
+        'maxItems',
+        maxItems,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.ListCertificates'
@@ -839,28 +851,39 @@ class ACM {
       domainName,
       r'''^(\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
     );
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      20,
-      2048,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      32,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''\w+''',
-    );
+    if (certificateAuthorityArn != null) {
+      _s.validateStringLength(
+        'certificateAuthorityArn',
+        certificateAuthorityArn,
+        20,
+        2048,
+      );
+    }
+    if (certificateAuthorityArn != null) {
+      _s.validateStringPattern(
+        'certificateAuthorityArn',
+        certificateAuthorityArn,
+        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
+      );
+    }
+    if (domainValidationOptions != null) {}
+    if (idempotencyToken != null) {
+      _s.validateStringLength(
+        'idempotencyToken',
+        idempotencyToken,
+        1,
+        32,
+      );
+    }
+    if (idempotencyToken != null) {
+      _s.validateStringPattern(
+        'idempotencyToken',
+        idempotencyToken,
+        r'''\w+''',
+      );
+    }
+    if (subjectAlternativeNames != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.RequestCertificate'

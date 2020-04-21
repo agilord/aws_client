@@ -147,23 +147,32 @@ class ResourceGroupsTaggingAPI {
     List<String> tagKeyFilters,
     List<String> targetIdFilters,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        0,
+        2048,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\s\S]*''',
+      );
+    }
+    if (regionFilters != null) {}
+    if (tagKeyFilters != null) {}
+    if (targetIdFilters != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetComplianceSummary'
@@ -361,17 +370,22 @@ class ResourceGroupsTaggingAPI {
     List<TagFilter> tagFilters,
     int tagsPerPage,
   }) async {
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        0,
+        2048,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\s\S]*''',
+      );
+    }
+    if (tagFilters != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetResources'
@@ -411,17 +425,21 @@ class ResourceGroupsTaggingAPI {
   Future<GetTagKeysOutput> getTagKeys({
     String paginationToken,
   }) async {
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        0,
+        2048,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\s\S]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagKeys'
@@ -473,17 +491,21 @@ class ResourceGroupsTaggingAPI {
       key,
       r'''[\s\S]*''',
     );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
+    if (paginationToken != null) {
+      _s.validateStringLength(
+        'paginationToken',
+        paginationToken,
+        0,
+        2048,
+      );
+    }
+    if (paginationToken != null) {
+      _s.validateStringPattern(
+        'paginationToken',
+        paginationToken,
+        r'''[\s\S]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagValues'

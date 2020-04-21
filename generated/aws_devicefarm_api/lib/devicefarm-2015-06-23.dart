@@ -114,12 +114,14 @@ class DeviceFarm {
       r'''^arn:.+''',
     );
     ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateDevicePool'
@@ -184,12 +186,14 @@ class DeviceFarm {
       0,
       256,
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateInstanceProfile'
@@ -295,24 +299,30 @@ class DeviceFarm {
       projectArn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateNumRange(
-      'downlinkLossPercent',
-      downlinkLossPercent,
-      0,
-      100,
-    );
-    _s.validateNumRange(
-      'uplinkLossPercent',
-      uplinkLossPercent,
-      0,
-      100,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
+    if (downlinkLossPercent != null) {
+      _s.validateNumRange(
+        'downlinkLossPercent',
+        downlinkLossPercent,
+        0,
+        100,
+      );
+    }
+    if (uplinkLossPercent != null) {
+      _s.validateNumRange(
+        'uplinkLossPercent',
+        uplinkLossPercent,
+        0,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateNetworkProfile'
@@ -515,46 +525,61 @@ class DeviceFarm {
       projectArn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'remoteRecordAppArn',
-      remoteRecordAppArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'remoteRecordAppArn',
-      remoteRecordAppArn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      8192,
-    );
+    if (clientId != null) {
+      _s.validateStringLength(
+        'clientId',
+        clientId,
+        0,
+        64,
+      );
+    }
+    if (instanceArn != null) {
+      _s.validateStringLength(
+        'instanceArn',
+        instanceArn,
+        32,
+        1011,
+      );
+    }
+    if (instanceArn != null) {
+      _s.validateStringPattern(
+        'instanceArn',
+        instanceArn,
+        r'''^arn:.+''',
+      );
+    }
+    if (interactionMode != null) {}
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
+    if (remoteRecordAppArn != null) {
+      _s.validateStringLength(
+        'remoteRecordAppArn',
+        remoteRecordAppArn,
+        32,
+        1011,
+      );
+    }
+    if (remoteRecordAppArn != null) {
+      _s.validateStringPattern(
+        'remoteRecordAppArn',
+        remoteRecordAppArn,
+        r'''^arn:.+''',
+      );
+    }
+    if (sshPublicKey != null) {
+      _s.validateStringLength(
+        'sshPublicKey',
+        sshPublicKey,
+        0,
+        8192,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateRemoteAccessSession'
@@ -610,17 +635,21 @@ class DeviceFarm {
       name,
       r'''.*\S.*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateTestGridProject'
@@ -847,12 +876,14 @@ class DeviceFarm {
       r'''^arn:.+''',
     );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      64,
-    );
+    if (contentType != null) {
+      _s.validateStringLength(
+        'contentType',
+        contentType,
+        0,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateUpload'
@@ -923,12 +954,14 @@ class DeviceFarm {
       0,
       2048,
     );
-    _s.validateStringLength(
-      'vpceConfigurationDescription',
-      vpceConfigurationDescription,
-      0,
-      2048,
-    );
+    if (vpceConfigurationDescription != null) {
+      _s.validateStringLength(
+        'vpceConfigurationDescription',
+        vpceConfigurationDescription,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateVPCEConfiguration'
@@ -1598,17 +1631,21 @@ class DeviceFarm {
       devicePoolArn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'appArn',
-      appArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'appArn',
-      appArn,
-      r'''^arn:.+''',
-    );
+    if (appArn != null) {
+      _s.validateStringLength(
+        'appArn',
+        appArn,
+        32,
+        1011,
+      );
+    }
+    if (appArn != null) {
+      _s.validateStringPattern(
+        'appArn',
+        appArn,
+        r'''^arn:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDevicePoolCompatibility'
@@ -1777,12 +1814,14 @@ class DeviceFarm {
   Future<GetOfferingStatusResult> getOfferingStatus({
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetOfferingStatus'
@@ -2088,39 +2127,51 @@ class DeviceFarm {
     String sessionArn,
     String sessionId,
   }) async {
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
-    );
-    _s.validateStringLength(
-      'sessionArn',
-      sessionArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'sessionArn',
-      sessionArn,
-      r'''^arn:aws:devicefarm:.+''',
-    );
-    _s.validateStringLength(
-      'sessionId',
-      sessionId,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'sessionId',
-      sessionId,
-      r'''.*\S.*''',
-    );
+    if (projectArn != null) {
+      _s.validateStringLength(
+        'projectArn',
+        projectArn,
+        32,
+        1011,
+      );
+    }
+    if (projectArn != null) {
+      _s.validateStringPattern(
+        'projectArn',
+        projectArn,
+        r'''^arn:aws:devicefarm:.+''',
+      );
+    }
+    if (sessionArn != null) {
+      _s.validateStringLength(
+        'sessionArn',
+        sessionArn,
+        32,
+        1011,
+      );
+    }
+    if (sessionArn != null) {
+      _s.validateStringPattern(
+        'sessionArn',
+        sessionArn,
+        r'''^arn:aws:devicefarm:.+''',
+      );
+    }
+    if (sessionId != null) {
+      _s.validateStringLength(
+        'sessionId',
+        sessionId,
+        1,
+        128,
+      );
+    }
+    if (sessionId != null) {
+      _s.validateStringPattern(
+        'sessionId',
+        sessionId,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetTestGridSession'
@@ -2337,12 +2388,14 @@ class DeviceFarm {
       r'''^arn:.+''',
     );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListArtifacts'
@@ -2382,12 +2435,14 @@ class DeviceFarm {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDeviceInstances'
@@ -2452,12 +2507,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDevicePools'
@@ -2591,23 +2648,29 @@ class DeviceFarm {
     List<DeviceFilter> filters,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (arn != null) {
+      _s.validateStringLength(
+        'arn',
+        arn,
+        32,
+        1011,
+      );
+    }
+    if (arn != null) {
+      _s.validateStringPattern(
+        'arn',
+        arn,
+        r'''^arn:.+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDevices'
@@ -2646,12 +2709,14 @@ class DeviceFarm {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListInstanceProfiles'
@@ -2700,12 +2765,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListJobs'
@@ -2760,12 +2827,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListNetworkProfiles'
@@ -2805,12 +2874,14 @@ class DeviceFarm {
   Future<ListOfferingPromotionsResult> listOfferingPromotions({
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingPromotions'
@@ -2848,12 +2919,14 @@ class DeviceFarm {
   Future<ListOfferingTransactionsResult> listOfferingTransactions({
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingTransactions'
@@ -2891,12 +2964,14 @@ class DeviceFarm {
   Future<ListOfferingsResult> listOfferings({
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferings'
@@ -2934,23 +3009,29 @@ class DeviceFarm {
     String arn,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (arn != null) {
+      _s.validateStringLength(
+        'arn',
+        arn,
+        32,
+        1011,
+      );
+    }
+    if (arn != null) {
+      _s.validateStringPattern(
+        'arn',
+        arn,
+        r'''^arn:.+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListProjects'
@@ -3000,12 +3081,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListRemoteAccessSessions'
@@ -3055,12 +3138,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListRuns'
@@ -3109,12 +3194,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListSamples'
@@ -3163,12 +3250,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListSuites'
@@ -3249,18 +3338,22 @@ class DeviceFarm {
     int maxResult,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResult',
-      maxResult,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (maxResult != null) {
+      _s.validateNumRange(
+        'maxResult',
+        maxResult,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTestGridProjects'
@@ -3311,18 +3404,22 @@ class DeviceFarm {
       sessionArn,
       r'''^arn:aws:devicefarm:.+''',
     );
-    _s.validateNumRange(
-      'maxResult',
-      maxResult,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (maxResult != null) {
+      _s.validateNumRange(
+        'maxResult',
+        maxResult,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTestGridSessionActions'
@@ -3378,18 +3475,22 @@ class DeviceFarm {
       sessionArn,
       r'''^arn:aws:devicefarm:.+''',
     );
-    _s.validateNumRange(
-      'maxResult',
-      maxResult,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (maxResult != null) {
+      _s.validateNumRange(
+        'maxResult',
+        maxResult,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTestGridSessionArtifacts'
@@ -3462,18 +3563,22 @@ class DeviceFarm {
       projectArn,
       r'''^arn:aws:devicefarm:.+''',
     );
-    _s.validateNumRange(
-      'maxResult',
-      maxResult,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (maxResult != null) {
+      _s.validateNumRange(
+        'maxResult',
+        maxResult,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTestGridSessions'
@@ -3528,12 +3633,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTests'
@@ -3588,12 +3695,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListUniqueProblems'
@@ -3748,12 +3857,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListUploads'
@@ -3791,12 +3902,14 @@ class DeviceFarm {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        4,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListVPCEConfigurations'
@@ -3842,18 +3955,22 @@ class DeviceFarm {
     String offeringPromotionId,
     int quantity,
   }) async {
-    _s.validateStringLength(
-      'offeringId',
-      offeringId,
-      32,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'offeringPromotionId',
-      offeringPromotionId,
-      4,
-      1152921504606846976,
-    );
+    if (offeringId != null) {
+      _s.validateStringLength(
+        'offeringId',
+        offeringId,
+        32,
+        1152921504606846976,
+      );
+    }
+    if (offeringPromotionId != null) {
+      _s.validateStringLength(
+        'offeringPromotionId',
+        offeringPromotionId,
+        4,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.PurchaseOffering'
@@ -3895,12 +4012,14 @@ class DeviceFarm {
     String offeringId,
     int quantity,
   }) async {
-    _s.validateStringLength(
-      'offeringId',
-      offeringId,
-      32,
-      1152921504606846976,
-    );
+    if (offeringId != null) {
+      _s.validateStringLength(
+        'offeringId',
+        offeringId,
+        32,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.RenewOffering'
@@ -3980,34 +4099,44 @@ class DeviceFarm {
       r'''^arn:.+''',
     );
     ArgumentError.checkNotNull(test, 'test');
-    _s.validateStringLength(
-      'appArn',
-      appArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'appArn',
-      appArn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'devicePoolArn',
-      devicePoolArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'devicePoolArn',
-      devicePoolArn,
-      r'''^arn:.+''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
+    if (appArn != null) {
+      _s.validateStringLength(
+        'appArn',
+        appArn,
+        32,
+        1011,
+      );
+    }
+    if (appArn != null) {
+      _s.validateStringPattern(
+        'appArn',
+        appArn,
+        r'''^arn:.+''',
+      );
+    }
+    if (devicePoolArn != null) {
+      _s.validateStringLength(
+        'devicePoolArn',
+        devicePoolArn,
+        32,
+        1011,
+      );
+    }
+    if (devicePoolArn != null) {
+      _s.validateStringPattern(
+        'devicePoolArn',
+        devicePoolArn,
+        r'''^arn:.+''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ScheduleRun'
@@ -4314,17 +4443,21 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'profileArn',
-      profileArn,
-      32,
-      1011,
-    );
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''^arn:.+''',
-    );
+    if (profileArn != null) {
+      _s.validateStringLength(
+        'profileArn',
+        profileArn,
+        32,
+        1011,
+      );
+    }
+    if (profileArn != null) {
+      _s.validateStringPattern(
+        'profileArn',
+        profileArn,
+        r'''^arn:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateDeviceInstance'
@@ -4411,18 +4544,22 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateDevicePool'
@@ -4496,18 +4633,22 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateInstanceProfile'
@@ -4609,30 +4750,38 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateNumRange(
-      'downlinkLossPercent',
-      downlinkLossPercent,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
-    _s.validateNumRange(
-      'uplinkLossPercent',
-      uplinkLossPercent,
-      0,
-      100,
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        16384,
+      );
+    }
+    if (downlinkLossPercent != null) {
+      _s.validateNumRange(
+        'downlinkLossPercent',
+        downlinkLossPercent,
+        0,
+        100,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
+    if (uplinkLossPercent != null) {
+      _s.validateNumRange(
+        'uplinkLossPercent',
+        uplinkLossPercent,
+        0,
+        100,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateNetworkProfile'
@@ -4696,12 +4845,14 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateProject'
@@ -4753,28 +4904,36 @@ class DeviceFarm {
       projectArn,
       r'''^arn:aws:devicefarm:.+''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        2048,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''.*\S.*''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''.*\S.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateTestGridProject'
@@ -4834,18 +4993,22 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
+    if (contentType != null) {
+      _s.validateStringLength(
+        'contentType',
+        contentType,
+        0,
+        64,
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        0,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateUpload'
@@ -4913,30 +5076,38 @@ class DeviceFarm {
       arn,
       r'''^arn:.+''',
     );
-    _s.validateStringLength(
-      'serviceDnsName',
-      serviceDnsName,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'vpceConfigurationDescription',
-      vpceConfigurationDescription,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'vpceConfigurationName',
-      vpceConfigurationName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'vpceServiceName',
-      vpceServiceName,
-      0,
-      2048,
-    );
+    if (serviceDnsName != null) {
+      _s.validateStringLength(
+        'serviceDnsName',
+        serviceDnsName,
+        0,
+        2048,
+      );
+    }
+    if (vpceConfigurationDescription != null) {
+      _s.validateStringLength(
+        'vpceConfigurationDescription',
+        vpceConfigurationDescription,
+        0,
+        2048,
+      );
+    }
+    if (vpceConfigurationName != null) {
+      _s.validateStringLength(
+        'vpceConfigurationName',
+        vpceConfigurationName,
+        0,
+        1024,
+      );
+    }
+    if (vpceServiceName != null) {
+      _s.validateStringLength(
+        'vpceServiceName',
+        vpceServiceName,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateVPCEConfiguration'

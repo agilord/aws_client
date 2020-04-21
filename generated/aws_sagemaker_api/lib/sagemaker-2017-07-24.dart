@@ -267,17 +267,21 @@ class SageMaker {
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
     );
     ArgumentError.checkNotNull(trainingSpecification, 'trainingSpecification');
-    _s.validateStringLength(
-      'algorithmDescription',
-      algorithmDescription,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'algorithmDescription',
-      algorithmDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
+    if (algorithmDescription != null) {
+      _s.validateStringLength(
+        'algorithmDescription',
+        algorithmDescription,
+        0,
+        1024,
+      );
+    }
+    if (algorithmDescription != null) {
+      _s.validateStringPattern(
+        'algorithmDescription',
+        algorithmDescription,
+        r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAlgorithm'
@@ -371,6 +375,7 @@ class SageMaker {
       userProfileName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateApp'
@@ -481,6 +486,7 @@ class SageMaker {
       roleArn,
       r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAutoMLJob'
@@ -772,17 +778,22 @@ class SageMaker {
       vpcId,
       r'''[-0-9a-zA-Z]+''',
     );
-    _s.validateStringLength(
-      'homeEfsFileSystemKmsKeyId',
-      homeEfsFileSystemKmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'homeEfsFileSystemKmsKeyId',
-      homeEfsFileSystemKmsKeyId,
-      r'''.*''',
-    );
+    if (homeEfsFileSystemKmsKeyId != null) {
+      _s.validateStringLength(
+        'homeEfsFileSystemKmsKeyId',
+        homeEfsFileSystemKmsKeyId,
+        0,
+        2048,
+      );
+    }
+    if (homeEfsFileSystemKmsKeyId != null) {
+      _s.validateStringPattern(
+        'homeEfsFileSystemKmsKeyId',
+        homeEfsFileSystemKmsKeyId,
+        r'''.*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateDomain'
@@ -892,6 +903,7 @@ class SageMaker {
       endpointName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateEndpoint'
@@ -1023,17 +1035,22 @@ class SageMaker {
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     ArgumentError.checkNotNull(productionVariants, 'productionVariants');
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.*''',
-    );
+    if (kmsKeyId != null) {
+      _s.validateStringLength(
+        'kmsKeyId',
+        kmsKeyId,
+        0,
+        2048,
+      );
+    }
+    if (kmsKeyId != null) {
+      _s.validateStringPattern(
+        'kmsKeyId',
+        kmsKeyId,
+        r'''.*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateEndpointConfig'
@@ -1119,28 +1136,37 @@ class SageMaker {
       experimentName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        3072,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''.*''',
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateExperiment'
@@ -1231,6 +1257,7 @@ class SageMaker {
       roleArn,
       r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateFlowDefinition'
@@ -1287,6 +1314,7 @@ class SageMaker {
       r'''^[a-z0-9](-*[a-z0-9])*''',
     );
     ArgumentError.checkNotNull(uiTemplate, 'uiTemplate');
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateHumanTaskUi'
@@ -1393,6 +1421,8 @@ class SageMaker {
       hyperParameterTuningJobName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (tags != null) {}
+    if (trainingJobDefinitions != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateHyperParameterTuningJob'
@@ -1590,17 +1620,22 @@ class SageMaker {
       roleArn,
       r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
-    _s.validateStringLength(
-      'labelCategoryConfigS3Uri',
-      labelCategoryConfigS3Uri,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'labelCategoryConfigS3Uri',
-      labelCategoryConfigS3Uri,
-      r'''^(https|s3)://([^/]+)/?(.*)$''',
-    );
+    if (labelCategoryConfigS3Uri != null) {
+      _s.validateStringLength(
+        'labelCategoryConfigS3Uri',
+        labelCategoryConfigS3Uri,
+        0,
+        1024,
+      );
+    }
+    if (labelCategoryConfigS3Uri != null) {
+      _s.validateStringPattern(
+        'labelCategoryConfigS3Uri',
+        labelCategoryConfigS3Uri,
+        r'''^(https|s3)://([^/]+)/?(.*)$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateLabelingJob'
@@ -1740,6 +1775,8 @@ class SageMaker {
       modelName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (containers != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModel'
@@ -1830,17 +1867,21 @@ class SageMaker {
       modelPackageName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
     );
-    _s.validateStringLength(
-      'modelPackageDescription',
-      modelPackageDescription,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'modelPackageDescription',
-      modelPackageDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
+    if (modelPackageDescription != null) {
+      _s.validateStringLength(
+        'modelPackageDescription',
+        modelPackageDescription,
+        0,
+        1024,
+      );
+    }
+    if (modelPackageDescription != null) {
+      _s.validateStringPattern(
+        'modelPackageDescription',
+        modelPackageDescription,
+        r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelPackage'
@@ -1904,6 +1945,7 @@ class SageMaker {
       monitoringScheduleName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateMonitoringSchedule'
@@ -2115,56 +2157,77 @@ class SageMaker {
       roleArn,
       r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
-    _s.validateStringLength(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      0,
-      32,
-    );
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''[-0-9a-zA-Z]+''',
-    );
-    _s.validateNumRange(
-      'volumeSizeInGB',
-      volumeSizeInGB,
-      5,
-      16384,
-    );
+    if (additionalCodeRepositories != null) {}
+    if (defaultCodeRepository != null) {
+      _s.validateStringLength(
+        'defaultCodeRepository',
+        defaultCodeRepository,
+        1,
+        1024,
+      );
+    }
+    if (defaultCodeRepository != null) {
+      _s.validateStringPattern(
+        'defaultCodeRepository',
+        defaultCodeRepository,
+        r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (kmsKeyId != null) {
+      _s.validateStringLength(
+        'kmsKeyId',
+        kmsKeyId,
+        0,
+        2048,
+      );
+    }
+    if (kmsKeyId != null) {
+      _s.validateStringPattern(
+        'kmsKeyId',
+        kmsKeyId,
+        r'''.*''',
+      );
+    }
+    if (lifecycleConfigName != null) {
+      _s.validateStringLength(
+        'lifecycleConfigName',
+        lifecycleConfigName,
+        0,
+        63,
+      );
+    }
+    if (lifecycleConfigName != null) {
+      _s.validateStringPattern(
+        'lifecycleConfigName',
+        lifecycleConfigName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (securityGroupIds != null) {}
+    if (subnetId != null) {
+      _s.validateStringLength(
+        'subnetId',
+        subnetId,
+        0,
+        32,
+      );
+    }
+    if (subnetId != null) {
+      _s.validateStringPattern(
+        'subnetId',
+        subnetId,
+        r'''[-0-9a-zA-Z]+''',
+      );
+    }
+    if (tags != null) {}
+    if (volumeSizeInGB != null) {
+      _s.validateNumRange(
+        'volumeSizeInGB',
+        volumeSizeInGB,
+        5,
+        16384,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateNotebookInstance'
@@ -2249,6 +2312,8 @@ class SageMaker {
       notebookInstanceLifecycleConfigName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (onCreate != null) {}
+    if (onStart != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateNotebookInstanceLifecycleConfig'
@@ -2311,12 +2376,14 @@ class SageMaker {
       userProfileName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateNumRange(
-      'sessionExpirationDurationInSeconds',
-      sessionExpirationDurationInSeconds,
-      1800,
-      43200,
-    );
+    if (sessionExpirationDurationInSeconds != null) {
+      _s.validateNumRange(
+        'sessionExpirationDurationInSeconds',
+        sessionExpirationDurationInSeconds,
+        1800,
+        43200,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreatePresignedDomainUrl'
@@ -2383,12 +2450,14 @@ class SageMaker {
       notebookInstanceName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateNumRange(
-      'sessionExpirationDurationInSeconds',
-      sessionExpirationDurationInSeconds,
-      1800,
-      43200,
-    );
+    if (sessionExpirationDurationInSeconds != null) {
+      _s.validateNumRange(
+        'sessionExpirationDurationInSeconds',
+        sessionExpirationDurationInSeconds,
+        1800,
+        43200,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreatePresignedNotebookInstanceUrl'
@@ -2492,6 +2561,9 @@ class SageMaker {
       roleArn,
       r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
+    if (environment != null) {}
+    if (processingInputs != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateProcessingJob'
@@ -2770,6 +2842,10 @@ class SageMaker {
       trainingJobName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (debugRuleConfigurations != null) {}
+    if (hyperParameters != null) {}
+    if (inputDataConfig != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrainingJob'
@@ -2970,18 +3046,24 @@ class SageMaker {
     );
     ArgumentError.checkNotNull(transformOutput, 'transformOutput');
     ArgumentError.checkNotNull(transformResources, 'transformResources');
-    _s.validateNumRange(
-      'maxConcurrentTransforms',
-      maxConcurrentTransforms,
-      0,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'maxPayloadInMB',
-      maxPayloadInMB,
-      0,
-      1152921504606846976,
-    );
+    if (environment != null) {}
+    if (maxConcurrentTransforms != null) {
+      _s.validateNumRange(
+        'maxConcurrentTransforms',
+        maxConcurrentTransforms,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (maxPayloadInMB != null) {
+      _s.validateNumRange(
+        'maxPayloadInMB',
+        maxPayloadInMB,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTransformJob'
@@ -3075,17 +3157,22 @@ class SageMaker {
       trialName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrial'
@@ -3198,17 +3285,25 @@ class SageMaker {
       trialComponentName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (inputArtifacts != null) {}
+    if (outputArtifacts != null) {}
+    if (parameters != null) {}
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrialComponent'
@@ -3298,17 +3393,22 @@ class SageMaker {
       userProfileName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringPattern(
-      'singleSignOnUserIdentifier',
-      singleSignOnUserIdentifier,
-      r'''UserName''',
-    );
-    _s.validateStringLength(
-      'singleSignOnUserValue',
-      singleSignOnUserValue,
-      0,
-      256,
-    );
+    if (singleSignOnUserIdentifier != null) {
+      _s.validateStringPattern(
+        'singleSignOnUserIdentifier',
+        singleSignOnUserIdentifier,
+        r'''UserName''',
+      );
+    }
+    if (singleSignOnUserValue != null) {
+      _s.validateStringLength(
+        'singleSignOnUserValue',
+        singleSignOnUserValue,
+        0,
+        256,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateUserProfile'
@@ -3403,6 +3503,7 @@ class SageMaker {
       workteamName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateWorkteam'
@@ -5431,34 +5532,44 @@ class SageMaker {
     AlgorithmSortBy sortBy,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListAlgorithms'
@@ -5511,40 +5622,52 @@ class SageMaker {
     SortOrder sortOrder,
     String userProfileNameEquals,
   }) async {
-    _s.validateStringLength(
-      'domainIdEquals',
-      domainIdEquals,
-      0,
-      63,
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'userProfileNameEquals',
-      userProfileNameEquals,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'userProfileNameEquals',
-      userProfileNameEquals,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (domainIdEquals != null) {
+      _s.validateStringLength(
+        'domainIdEquals',
+        domainIdEquals,
+        0,
+        63,
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (userProfileNameEquals != null) {
+      _s.validateStringLength(
+        'userProfileNameEquals',
+        userProfileNameEquals,
+        0,
+        63,
+      );
+    }
+    if (userProfileNameEquals != null) {
+      _s.validateStringPattern(
+        'userProfileNameEquals',
+        userProfileNameEquals,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListApps'
@@ -5612,34 +5735,44 @@ class SageMaker {
     AutoMLSortOrder sortOrder,
     AutoMLJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListAutoMLJobs'
@@ -5713,29 +5846,37 @@ class SageMaker {
       autoMLJobName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'candidateNameEquals',
-      candidateNameEquals,
-      1,
-      64,
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (candidateNameEquals != null) {
+      _s.validateStringLength(
+        'candidateNameEquals',
+        candidateNameEquals,
+        1,
+        64,
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListCandidatesForAutoMLJob'
@@ -5806,34 +5947,44 @@ class SageMaker {
     CodeRepositorySortBy sortBy,
     CodeRepositorySortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListCodeRepositories'
@@ -5916,34 +6067,44 @@ class SageMaker {
     SortOrder sortOrder,
     CompilationJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListCompilationJobs'
@@ -5983,23 +6144,29 @@ class SageMaker {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListDomains'
@@ -6055,34 +6222,44 @@ class SageMaker {
     EndpointConfigSortKey sortBy,
     OrderKey sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListEndpointConfigs'
@@ -6157,34 +6334,44 @@ class SageMaker {
     OrderKey sortOrder,
     EndpointStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListEndpoints'
@@ -6245,23 +6432,29 @@ class SageMaker {
     SortExperimentsBy sortBy,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListExperiments'
@@ -6314,23 +6507,29 @@ class SageMaker {
     String nextToken,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListFlowDefinitions'
@@ -6382,23 +6581,29 @@ class SageMaker {
     String nextToken,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListHumanTaskUis'
@@ -6472,34 +6677,44 @@ class SageMaker {
     SortOrder sortOrder,
     HyperParameterTuningJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListHyperParameterTuningJobs'
@@ -6578,34 +6793,44 @@ class SageMaker {
     SortOrder sortOrder,
     LabelingJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListLabelingJobs'
@@ -6689,34 +6914,44 @@ class SageMaker {
       workteamArn,
       r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:workteam/.*''',
     );
-    _s.validateStringLength(
-      'jobReferenceCodeContains',
-      jobReferenceCodeContains,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'jobReferenceCodeContains',
-      jobReferenceCodeContains,
-      r'''.+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (jobReferenceCodeContains != null) {
+      _s.validateStringLength(
+        'jobReferenceCodeContains',
+        jobReferenceCodeContains,
+        1,
+        255,
+      );
+    }
+    if (jobReferenceCodeContains != null) {
+      _s.validateStringPattern(
+        'jobReferenceCodeContains',
+        jobReferenceCodeContains,
+        r'''.+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListLabelingJobsForWorkteam'
@@ -6779,34 +7014,44 @@ class SageMaker {
     ModelPackageSortBy sortBy,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListModelPackages'
@@ -6867,34 +7112,44 @@ class SageMaker {
     ModelSortKey sortBy,
     OrderKey sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListModels'
@@ -6979,45 +7234,59 @@ class SageMaker {
     SortOrder sortOrder,
     ExecutionStatus statusEquals,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-    );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (endpointName != null) {
+      _s.validateStringLength(
+        'endpointName',
+        endpointName,
+        0,
+        63,
+      );
+    }
+    if (endpointName != null) {
+      _s.validateStringPattern(
+        'endpointName',
+        endpointName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (monitoringScheduleName != null) {
+      _s.validateStringLength(
+        'monitoringScheduleName',
+        monitoringScheduleName,
+        1,
+        63,
+      );
+    }
+    if (monitoringScheduleName != null) {
+      _s.validateStringPattern(
+        'monitoringScheduleName',
+        monitoringScheduleName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListMonitoringExecutions'
@@ -7105,45 +7374,59 @@ class SageMaker {
     SortOrder sortOrder,
     ScheduleStatus statusEquals,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (endpointName != null) {
+      _s.validateStringLength(
+        'endpointName',
+        endpointName,
+        0,
+        63,
+      );
+    }
+    if (endpointName != null) {
+      _s.validateStringPattern(
+        'endpointName',
+        endpointName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListMonitoringSchedules'
@@ -7221,34 +7504,44 @@ class SageMaker {
     NotebookInstanceLifecycleConfigSortKey sortBy,
     NotebookInstanceLifecycleConfigSortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListNotebookInstanceLifecycleConfigs'
@@ -7351,67 +7644,89 @@ class SageMaker {
     NotebookInstanceSortOrder sortOrder,
     NotebookInstanceStatus statusEquals,
   }) async {
-    _s.validateStringLength(
-      'additionalCodeRepositoryEquals',
-      additionalCodeRepositoryEquals,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'additionalCodeRepositoryEquals',
-      additionalCodeRepositoryEquals,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'defaultCodeRepositoryContains',
-      defaultCodeRepositoryContains,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepositoryContains',
-      defaultCodeRepositoryContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigNameContains',
-      notebookInstanceLifecycleConfigNameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigNameContains',
-      notebookInstanceLifecycleConfigNameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (additionalCodeRepositoryEquals != null) {
+      _s.validateStringLength(
+        'additionalCodeRepositoryEquals',
+        additionalCodeRepositoryEquals,
+        1,
+        1024,
+      );
+    }
+    if (additionalCodeRepositoryEquals != null) {
+      _s.validateStringPattern(
+        'additionalCodeRepositoryEquals',
+        additionalCodeRepositoryEquals,
+        r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (defaultCodeRepositoryContains != null) {
+      _s.validateStringLength(
+        'defaultCodeRepositoryContains',
+        defaultCodeRepositoryContains,
+        0,
+        1024,
+      );
+    }
+    if (defaultCodeRepositoryContains != null) {
+      _s.validateStringPattern(
+        'defaultCodeRepositoryContains',
+        defaultCodeRepositoryContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (notebookInstanceLifecycleConfigNameContains != null) {
+      _s.validateStringLength(
+        'notebookInstanceLifecycleConfigNameContains',
+        notebookInstanceLifecycleConfigNameContains,
+        0,
+        63,
+      );
+    }
+    if (notebookInstanceLifecycleConfigNameContains != null) {
+      _s.validateStringPattern(
+        'notebookInstanceLifecycleConfigNameContains',
+        notebookInstanceLifecycleConfigNameContains,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListNotebookInstances'
@@ -7493,23 +7808,29 @@ class SageMaker {
     SortOrder sortOrder,
     ProcessingJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListProcessingJobs'
@@ -7557,34 +7878,44 @@ class SageMaker {
     String nameContains,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        1,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListSubscribedWorkteams'
@@ -7635,23 +7966,29 @@ class SageMaker {
       resourceArn,
       r'''arn:.*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      50,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        50,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTags'
@@ -7722,34 +8059,44 @@ class SageMaker {
     SortOrder sortOrder,
     TrainingJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTrainingJobs'
@@ -7827,23 +8174,29 @@ class SageMaker {
       hyperParameterTuningJobName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTrainingJobsForHyperParameterTuningJob'
@@ -7919,34 +8272,44 @@ class SageMaker {
     SortOrder sortOrder,
     TransformJobStatus statusEquals,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        0,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''[a-zA-Z0-9\-]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTransformJobs'
@@ -8040,51 +8403,67 @@ class SageMaker {
     String sourceArn,
     String trialName,
   }) async {
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (experimentName != null) {
+      _s.validateStringLength(
+        'experimentName',
+        experimentName,
+        1,
+        82,
+      );
+    }
+    if (experimentName != null) {
+      _s.validateStringPattern(
+        'experimentName',
+        experimentName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (sourceArn != null) {
+      _s.validateStringLength(
+        'sourceArn',
+        sourceArn,
+        0,
+        256,
+      );
+    }
+    if (trialName != null) {
+      _s.validateStringLength(
+        'trialName',
+        trialName,
+        1,
+        82,
+      );
+    }
+    if (trialName != null) {
+      _s.validateStringPattern(
+        'trialName',
+        trialName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTrialComponents'
@@ -8158,45 +8537,59 @@ class SageMaker {
     SortOrder sortOrder,
     String trialComponentName,
   }) async {
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (experimentName != null) {
+      _s.validateStringLength(
+        'experimentName',
+        experimentName,
+        1,
+        82,
+      );
+    }
+    if (experimentName != null) {
+      _s.validateStringPattern(
+        'experimentName',
+        experimentName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (trialComponentName != null) {
+      _s.validateStringLength(
+        'trialComponentName',
+        trialComponentName,
+        1,
+        82,
+      );
+    }
+    if (trialComponentName != null) {
+      _s.validateStringPattern(
+        'trialComponentName',
+        trialComponentName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTrials'
@@ -8250,40 +8643,52 @@ class SageMaker {
     SortOrder sortOrder,
     String userProfileNameContains,
   }) async {
-    _s.validateStringLength(
-      'domainIdEquals',
-      domainIdEquals,
-      0,
-      63,
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'userProfileNameContains',
-      userProfileNameContains,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'userProfileNameContains',
-      userProfileNameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (domainIdEquals != null) {
+      _s.validateStringLength(
+        'domainIdEquals',
+        domainIdEquals,
+        0,
+        63,
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (userProfileNameContains != null) {
+      _s.validateStringLength(
+        'userProfileNameContains',
+        userProfileNameContains,
+        0,
+        63,
+      );
+    }
+    if (userProfileNameContains != null) {
+      _s.validateStringPattern(
+        'userProfileNameContains',
+        userProfileNameContains,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListUserProfiles'
@@ -8335,34 +8740,44 @@ class SageMaker {
     ListWorkteamsSortByOptions sortBy,
     SortOrder sortOrder,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      63,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringLength(
+        'nameContains',
+        nameContains,
+        1,
+        63,
+      );
+    }
+    if (nameContains != null) {
+      _s.validateStringPattern(
+        'nameContains',
+        nameContains,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListWorkteams'
@@ -8482,34 +8897,44 @@ class SageMaker {
     SearchSortOrder sortOrder,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'sortBy',
-      sortBy,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'sortBy',
-      sortBy,
-      r'''.+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''.*''',
+      );
+    }
+    if (sortBy != null) {
+      _s.validateStringLength(
+        'sortBy',
+        sortBy,
+        1,
+        255,
+      );
+    }
+    if (sortBy != null) {
+      _s.validateStringPattern(
+        'sortBy',
+        sortBy,
+        r'''.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.Search'
@@ -9150,6 +9575,7 @@ class SageMaker {
       endpointName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (excludeRetainedVariantProperties != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateEndpoint'
@@ -9256,28 +9682,36 @@ class SageMaker {
       experimentName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        3072,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''.*''',
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateExperiment'
@@ -9474,45 +9908,60 @@ class SageMaker {
       notebookInstanceName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      0,
-      63,
-    );
-    _s.validateStringPattern(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-    );
-    _s.validateNumRange(
-      'volumeSizeInGB',
-      volumeSizeInGB,
-      5,
-      16384,
-    );
+    if (additionalCodeRepositories != null) {}
+    if (defaultCodeRepository != null) {
+      _s.validateStringLength(
+        'defaultCodeRepository',
+        defaultCodeRepository,
+        1,
+        1024,
+      );
+    }
+    if (defaultCodeRepository != null) {
+      _s.validateStringPattern(
+        'defaultCodeRepository',
+        defaultCodeRepository,
+        r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (lifecycleConfigName != null) {
+      _s.validateStringLength(
+        'lifecycleConfigName',
+        lifecycleConfigName,
+        0,
+        63,
+      );
+    }
+    if (lifecycleConfigName != null) {
+      _s.validateStringPattern(
+        'lifecycleConfigName',
+        lifecycleConfigName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        20,
+        2048,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
+      );
+    }
+    if (volumeSizeInGB != null) {
+      _s.validateNumRange(
+        'volumeSizeInGB',
+        volumeSizeInGB,
+        5,
+        16384,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateNotebookInstance'
@@ -9578,6 +10027,8 @@ class SageMaker {
       notebookInstanceLifecycleConfigName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
+    if (onCreate != null) {}
+    if (onStart != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateNotebookInstanceLifecycleConfig'
@@ -9628,17 +10079,21 @@ class SageMaker {
       trialName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrial'
@@ -9725,17 +10180,24 @@ class SageMaker {
       trialComponentName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      82,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        82,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (inputArtifacts != null) {}
+    if (outputArtifacts != null) {}
+    if (parameters != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrialComponent'
@@ -9917,17 +10379,22 @@ class SageMaker {
       workteamName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.+''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        200,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''.+''',
+      );
+    }
+    if (memberDefinitions != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateWorkteam'

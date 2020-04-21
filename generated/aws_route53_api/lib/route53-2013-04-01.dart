@@ -284,6 +284,8 @@ class Route53 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
+    if (addTags != null) {}
+    if (removeTagKeys != null) {}
     await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/tags/$resourceType/$resourceId',
@@ -523,12 +525,14 @@ class Route53 {
       1024,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
+    if (delegationSetId != null) {
+      _s.validateStringLength(
+        'delegationSetId',
+        delegationSetId,
+        0,
+        32,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone',
@@ -798,12 +802,14 @@ class Route53 {
       128,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
+    if (hostedZoneId != null) {
+      _s.validateStringLength(
+        'hostedZoneId',
+        hostedZoneId,
+        0,
+        32,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/delegationset',
@@ -854,12 +860,14 @@ class Route53 {
       512,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
+    if (comment != null) {
+      _s.validateStringLength(
+        'comment',
+        comment,
+        0,
+        1024,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy',
@@ -1008,12 +1016,14 @@ class Route53 {
       36,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
+    if (comment != null) {
+      _s.validateStringLength(
+        'comment',
+        comment,
+        0,
+        1024,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy/$id',
@@ -1632,24 +1642,30 @@ class Route53 {
     String countryCode,
     String subdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'continentCode',
-      continentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'countryCode',
-      countryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'subdivisionCode',
-      subdivisionCode,
-      1,
-      3,
-    );
+    if (continentCode != null) {
+      _s.validateStringLength(
+        'continentCode',
+        continentCode,
+        2,
+        2,
+      );
+    }
+    if (countryCode != null) {
+      _s.validateStringLength(
+        'countryCode',
+        countryCode,
+        1,
+        2,
+      );
+    }
+    if (subdivisionCode != null) {
+      _s.validateStringLength(
+        'subdivisionCode',
+        subdivisionCode,
+        1,
+        3,
+      );
+    }
     final queryParams = <String, String>{};
     continentCode?.let((v) => queryParams['continentcode'] = v.toString());
     countryCode?.let((v) => queryParams['countrycode'] = v.toString());
@@ -2112,24 +2128,30 @@ class Route53 {
     String startCountryCode,
     String startSubdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'startContinentCode',
-      startContinentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'startCountryCode',
-      startCountryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'startSubdivisionCode',
-      startSubdivisionCode,
-      1,
-      3,
-    );
+    if (startContinentCode != null) {
+      _s.validateStringLength(
+        'startContinentCode',
+        startContinentCode,
+        2,
+        2,
+      );
+    }
+    if (startCountryCode != null) {
+      _s.validateStringLength(
+        'startCountryCode',
+        startCountryCode,
+        1,
+        2,
+      );
+    }
+    if (startSubdivisionCode != null) {
+      _s.validateStringLength(
+        'startSubdivisionCode',
+        startSubdivisionCode,
+        1,
+        3,
+      );
+    }
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
     startContinentCode
@@ -2176,12 +2198,14 @@ class Route53 {
     String marker,
     String maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        64,
+      );
+    }
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['marker'] = v.toString());
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2236,18 +2260,22 @@ class Route53 {
     String marker,
     String maxItems,
   }) async {
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
+    if (delegationSetId != null) {
+      _s.validateStringLength(
+        'delegationSetId',
+        delegationSetId,
+        0,
+        32,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        64,
+      );
+    }
     final queryParams = <String, String>{};
     delegationSetId?.let((v) => queryParams['delegationsetid'] = v.toString());
     marker?.let((v) => queryParams['marker'] = v.toString());
@@ -2364,18 +2392,22 @@ class Route53 {
     String hostedZoneId,
     String maxItems,
   }) async {
-    _s.validateStringLength(
-      'dNSName',
-      dNSName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
+    if (dNSName != null) {
+      _s.validateStringLength(
+        'dNSName',
+        dNSName,
+        0,
+        1024,
+      );
+    }
+    if (hostedZoneId != null) {
+      _s.validateStringLength(
+        'hostedZoneId',
+        hostedZoneId,
+        0,
+        32,
+      );
+    }
     final queryParams = <String, String>{};
     dNSName?.let((v) => queryParams['dnsname'] = v.toString());
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
@@ -2440,18 +2472,22 @@ class Route53 {
     String maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
-    );
+    if (hostedZoneId != null) {
+      _s.validateStringLength(
+        'hostedZoneId',
+        hostedZoneId,
+        0,
+        32,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        256,
+      );
+    }
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
     maxResults?.let((v) => queryParams['maxresults'] = v.toString());
@@ -2615,18 +2651,22 @@ class Route53 {
       32,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'startRecordIdentifier',
-      startRecordIdentifier,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'startRecordName',
-      startRecordName,
-      0,
-      1024,
-    );
+    if (startRecordIdentifier != null) {
+      _s.validateStringLength(
+        'startRecordIdentifier',
+        startRecordIdentifier,
+        1,
+        128,
+      );
+    }
+    if (startRecordName != null) {
+      _s.validateStringLength(
+        'startRecordName',
+        startRecordName,
+        0,
+        1024,
+      );
+    }
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
     startRecordIdentifier?.let((v) => queryParams['identifier'] = v.toString());
@@ -2667,12 +2707,14 @@ class Route53 {
     String marker,
     String maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        0,
+        64,
+      );
+    }
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['marker'] = v.toString());
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2804,12 +2846,14 @@ class Route53 {
     String maxItems,
     String trafficPolicyIdMarker,
   }) async {
-    _s.validateStringLength(
-      'trafficPolicyIdMarker',
-      trafficPolicyIdMarker,
-      1,
-      36,
-    );
+    if (trafficPolicyIdMarker != null) {
+      _s.validateStringLength(
+        'trafficPolicyIdMarker',
+        trafficPolicyIdMarker,
+        1,
+        36,
+      );
+    }
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
     trafficPolicyIdMarker
@@ -2894,18 +2938,22 @@ class Route53 {
     String trafficPolicyInstanceNameMarker,
     RRType trafficPolicyInstanceTypeMarker,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
+    if (hostedZoneIdMarker != null) {
+      _s.validateStringLength(
+        'hostedZoneIdMarker',
+        hostedZoneIdMarker,
+        0,
+        32,
+      );
+    }
+    if (trafficPolicyInstanceNameMarker != null) {
+      _s.validateStringLength(
+        'trafficPolicyInstanceNameMarker',
+        trafficPolicyInstanceNameMarker,
+        0,
+        1024,
+      );
+    }
     final queryParams = <String, String>{};
     hostedZoneIdMarker?.let((v) => queryParams['hostedzoneid'] = v.toString());
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2992,12 +3040,14 @@ class Route53 {
       32,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
+    if (trafficPolicyInstanceNameMarker != null) {
+      _s.validateStringLength(
+        'trafficPolicyInstanceNameMarker',
+        trafficPolicyInstanceNameMarker,
+        0,
+        1024,
+      );
+    }
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['id'] = v.toString());
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -3117,18 +3167,22 @@ class Route53 {
       1000,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
+    if (hostedZoneIdMarker != null) {
+      _s.validateStringLength(
+        'hostedZoneIdMarker',
+        hostedZoneIdMarker,
+        0,
+        32,
+      );
+    }
+    if (trafficPolicyInstanceNameMarker != null) {
+      _s.validateStringLength(
+        'trafficPolicyInstanceNameMarker',
+        trafficPolicyInstanceNameMarker,
+        0,
+        1024,
+      );
+    }
     final queryParams = <String, String>{};
     trafficPolicyId?.let((v) => queryParams['id'] = v.toString());
     trafficPolicyVersion?.let((v) => queryParams['version'] = v.toString());
@@ -3191,12 +3245,14 @@ class Route53 {
       36,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'trafficPolicyVersionMarker',
-      trafficPolicyVersionMarker,
-      0,
-      4,
-    );
+    if (trafficPolicyVersionMarker != null) {
+      _s.validateStringLength(
+        'trafficPolicyVersionMarker',
+        trafficPolicyVersionMarker,
+        0,
+        4,
+      );
+    }
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
     trafficPolicyVersionMarker
@@ -3251,12 +3307,14 @@ class Route53 {
       32,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
-    );
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        256,
+      );
+    }
     final queryParams = <String, String>{};
     maxResults?.let((v) => queryParams['maxresults'] = v.toString());
     nextToken?.let((v) => queryParams['nexttoken'] = v.toString());
@@ -3346,34 +3404,44 @@ class Route53 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recordType, 'recordType');
-    _s.validateStringLength(
-      'eDNS0ClientSubnetIP',
-      eDNS0ClientSubnetIP,
-      0,
-      45,
-    );
-    _s.validateStringPattern(
-      'eDNS0ClientSubnetIP',
-      eDNS0ClientSubnetIP,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-    );
-    _s.validateStringLength(
-      'eDNS0ClientSubnetMask',
-      eDNS0ClientSubnetMask,
-      0,
-      3,
-    );
-    _s.validateStringLength(
-      'resolverIP',
-      resolverIP,
-      0,
-      45,
-    );
-    _s.validateStringPattern(
-      'resolverIP',
-      resolverIP,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-    );
+    if (eDNS0ClientSubnetIP != null) {
+      _s.validateStringLength(
+        'eDNS0ClientSubnetIP',
+        eDNS0ClientSubnetIP,
+        0,
+        45,
+      );
+    }
+    if (eDNS0ClientSubnetIP != null) {
+      _s.validateStringPattern(
+        'eDNS0ClientSubnetIP',
+        eDNS0ClientSubnetIP,
+        r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
+      );
+    }
+    if (eDNS0ClientSubnetMask != null) {
+      _s.validateStringLength(
+        'eDNS0ClientSubnetMask',
+        eDNS0ClientSubnetMask,
+        0,
+        3,
+      );
+    }
+    if (resolverIP != null) {
+      _s.validateStringLength(
+        'resolverIP',
+        resolverIP,
+        0,
+        45,
+      );
+    }
+    if (resolverIP != null) {
+      _s.validateStringPattern(
+        'resolverIP',
+        resolverIP,
+        r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
+      );
+    }
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
     recordName?.let((v) => queryParams['recordname'] = v.toString());
@@ -3792,59 +3860,80 @@ class Route53 {
       64,
       isRequired: true,
     );
-    _s.validateNumRange(
-      'failureThreshold',
-      failureThreshold,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'fullyQualifiedDomainName',
-      fullyQualifiedDomainName,
-      0,
-      255,
-    );
-    _s.validateNumRange(
-      'healthCheckVersion',
-      healthCheckVersion,
-      1,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'healthThreshold',
-      healthThreshold,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'iPAddress',
-      iPAddress,
-      0,
-      45,
-    );
-    _s.validateStringPattern(
-      'iPAddress',
-      iPAddress,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-    );
-    _s.validateNumRange(
-      'port',
-      port,
-      1,
-      65535,
-    );
-    _s.validateStringLength(
-      'resourcePath',
-      resourcePath,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'searchString',
-      searchString,
-      0,
-      255,
-    );
+    if (childHealthChecks != null) {}
+    if (failureThreshold != null) {
+      _s.validateNumRange(
+        'failureThreshold',
+        failureThreshold,
+        1,
+        10,
+      );
+    }
+    if (fullyQualifiedDomainName != null) {
+      _s.validateStringLength(
+        'fullyQualifiedDomainName',
+        fullyQualifiedDomainName,
+        0,
+        255,
+      );
+    }
+    if (healthCheckVersion != null) {
+      _s.validateNumRange(
+        'healthCheckVersion',
+        healthCheckVersion,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (healthThreshold != null) {
+      _s.validateNumRange(
+        'healthThreshold',
+        healthThreshold,
+        0,
+        256,
+      );
+    }
+    if (iPAddress != null) {
+      _s.validateStringLength(
+        'iPAddress',
+        iPAddress,
+        0,
+        45,
+      );
+    }
+    if (iPAddress != null) {
+      _s.validateStringPattern(
+        'iPAddress',
+        iPAddress,
+        r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
+      );
+    }
+    if (port != null) {
+      _s.validateNumRange(
+        'port',
+        port,
+        1,
+        65535,
+      );
+    }
+    if (regions != null) {}
+    if (resetElements != null) {}
+    if (resourcePath != null) {
+      _s.validateStringLength(
+        'resourcePath',
+        resourcePath,
+        0,
+        255,
+      );
+    }
+    if (searchString != null) {
+      _s.validateStringLength(
+        'searchString',
+        searchString,
+        0,
+        255,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/healthcheck/$healthCheckId',
@@ -3877,12 +3966,14 @@ class Route53 {
       32,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      256,
-    );
+    if (comment != null) {
+      _s.validateStringLength(
+        'comment',
+        comment,
+        0,
+        256,
+      );
+    }
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone/$id',

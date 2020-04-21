@@ -383,18 +383,22 @@ class ComprehendMedical {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.ListEntitiesDetectionV2Jobs'
@@ -438,18 +442,22 @@ class ComprehendMedical {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.ListPHIDetectionJobs'
@@ -530,39 +538,51 @@ class ComprehendMedical {
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        1,
+        2048,
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringPattern(
+        'kMSKey',
+        kMSKey,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartEntitiesDetectionV2Job'
@@ -647,39 +667,51 @@ class ComprehendMedical {
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringLength(
+        'kMSKey',
+        kMSKey,
+        1,
+        2048,
+      );
+    }
+    if (kMSKey != null) {
+      _s.validateStringPattern(
+        'kMSKey',
+        kMSKey,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartPHIDetectionJob'

@@ -608,12 +608,15 @@ class KinesisAnalyticsV2 {
       serviceExecutionRole,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
-    _s.validateStringLength(
-      'applicationDescription',
-      applicationDescription,
-      0,
-      1024,
-    );
+    if (applicationDescription != null) {
+      _s.validateStringLength(
+        'applicationDescription',
+        applicationDescription,
+        0,
+        1024,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.CreateApplication'
@@ -1393,17 +1396,21 @@ class KinesisAnalyticsV2 {
       serviceExecutionRole,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
-    );
+    if (resourceARN != null) {
+      _s.validateStringLength(
+        'resourceARN',
+        resourceARN,
+        1,
+        2048,
+      );
+    }
+    if (resourceARN != null) {
+      _s.validateStringPattern(
+        'resourceARN',
+        resourceARN,
+        r'''arn:.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.DiscoverInputSchema'
@@ -1460,18 +1467,22 @@ class KinesisAnalyticsV2 {
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplicationSnapshots'
@@ -1514,23 +1525,29 @@ class KinesisAnalyticsV2 {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      128,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        128,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplications'
@@ -1862,17 +1879,21 @@ class KinesisAnalyticsV2 {
       1,
       999999999,
     );
-    _s.validateStringLength(
-      'serviceExecutionRoleUpdate',
-      serviceExecutionRoleUpdate,
-      1,
-      2048,
-    );
-    _s.validateStringPattern(
-      'serviceExecutionRoleUpdate',
-      serviceExecutionRoleUpdate,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-    );
+    if (serviceExecutionRoleUpdate != null) {
+      _s.validateStringLength(
+        'serviceExecutionRoleUpdate',
+        serviceExecutionRoleUpdate,
+        1,
+        2048,
+      );
+    }
+    if (serviceExecutionRoleUpdate != null) {
+      _s.validateStringPattern(
+        'serviceExecutionRoleUpdate',
+        serviceExecutionRoleUpdate,
+        r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.UpdateApplication'

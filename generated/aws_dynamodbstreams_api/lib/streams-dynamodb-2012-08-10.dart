@@ -84,18 +84,22 @@ class DynamoDBStreams {
       37,
       1024,
     );
-    _s.validateStringLength(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      28,
-      65,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
+    if (exclusiveStartShardId != null) {
+      _s.validateStringLength(
+        'exclusiveStartShardId',
+        exclusiveStartShardId,
+        28,
+        65,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDBStreams_20120810.DescribeStream'
@@ -155,12 +159,14 @@ class DynamoDBStreams {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDBStreams_20120810.GetRecords'
@@ -249,12 +255,14 @@ class DynamoDBStreams {
       37,
       1024,
     );
-    _s.validateStringLength(
-      'sequenceNumber',
-      sequenceNumber,
-      21,
-      40,
-    );
+    if (sequenceNumber != null) {
+      _s.validateStringLength(
+        'sequenceNumber',
+        sequenceNumber,
+        21,
+        40,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDBStreams_20120810.GetShardIterator'
@@ -303,29 +311,37 @@ class DynamoDBStreams {
     int limit,
     String tableName,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartStreamArn',
-      exclusiveStartStreamArn,
-      37,
-      1024,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      255,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
+    if (exclusiveStartStreamArn != null) {
+      _s.validateStringLength(
+        'exclusiveStartStreamArn',
+        exclusiveStartStreamArn,
+        37,
+        1024,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (tableName != null) {
+      _s.validateStringLength(
+        'tableName',
+        tableName,
+        3,
+        255,
+      );
+    }
+    if (tableName != null) {
+      _s.validateStringPattern(
+        'tableName',
+        tableName,
+        r'''[a-zA-Z0-9_.-]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDBStreams_20120810.ListStreams'

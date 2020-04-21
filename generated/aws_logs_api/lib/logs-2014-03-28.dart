@@ -283,23 +283,29 @@ class CloudWatchLogs {
       0,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateStringLength(
-      'taskName',
-      taskName,
-      1,
-      512,
-    );
+    if (logStreamNamePrefix != null) {
+      _s.validateStringLength(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (logStreamNamePrefix != null) {
+      _s.validateStringPattern(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (taskName != null) {
+      _s.validateStringLength(
+        'taskName',
+        taskName,
+        1,
+        512,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateExportTask'
@@ -394,12 +400,15 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      256,
-    );
+    if (kmsKeyId != null) {
+      _s.validateStringLength(
+        'kmsKeyId',
+        kmsKeyId,
+        0,
+        256,
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateLogGroup'
@@ -841,29 +850,37 @@ class CloudWatchLogs {
     int limit,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'destinationNamePrefix',
-      destinationNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'destinationNamePrefix',
-      destinationNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (destinationNamePrefix != null) {
+      _s.validateStringLength(
+        'destinationNamePrefix',
+        destinationNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (destinationNamePrefix != null) {
+      _s.validateStringPattern(
+        'destinationNamePrefix',
+        destinationNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeDestinations'
@@ -911,24 +928,30 @@ class CloudWatchLogs {
     ExportTaskStatusCode statusCode,
     String taskId,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      512,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (taskId != null) {
+      _s.validateStringLength(
+        'taskId',
+        taskId,
+        1,
+        512,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeExportTasks'
@@ -971,29 +994,37 @@ class CloudWatchLogs {
     String logGroupNamePrefix,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'logGroupNamePrefix',
-      logGroupNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logGroupNamePrefix',
-      logGroupNamePrefix,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (logGroupNamePrefix != null) {
+      _s.validateStringLength(
+        'logGroupNamePrefix',
+        logGroupNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (logGroupNamePrefix != null) {
+      _s.validateStringPattern(
+        'logGroupNamePrefix',
+        logGroupNamePrefix,
+        r'''[\.\-_/#A-Za-z0-9]+''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeLogGroups'
@@ -1081,29 +1112,37 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (logStreamNamePrefix != null) {
+      _s.validateStringLength(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (logStreamNamePrefix != null) {
+      _s.validateStringPattern(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeLogStreams'
@@ -1166,62 +1205,82 @@ class CloudWatchLogs {
     String metricNamespace,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'filterNamePrefix',
-      filterNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'filterNamePrefix',
-      filterNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      0,
-      255,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[^:*$]*''',
-    );
-    _s.validateStringLength(
-      'metricNamespace',
-      metricNamespace,
-      0,
-      255,
-    );
-    _s.validateStringPattern(
-      'metricNamespace',
-      metricNamespace,
-      r'''[^:*$]*''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (filterNamePrefix != null) {
+      _s.validateStringLength(
+        'filterNamePrefix',
+        filterNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (filterNamePrefix != null) {
+      _s.validateStringPattern(
+        'filterNamePrefix',
+        filterNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (logGroupName != null) {
+      _s.validateStringLength(
+        'logGroupName',
+        logGroupName,
+        1,
+        512,
+      );
+    }
+    if (logGroupName != null) {
+      _s.validateStringPattern(
+        'logGroupName',
+        logGroupName,
+        r'''[\.\-_/#A-Za-z0-9]+''',
+      );
+    }
+    if (metricName != null) {
+      _s.validateStringLength(
+        'metricName',
+        metricName,
+        0,
+        255,
+      );
+    }
+    if (metricName != null) {
+      _s.validateStringPattern(
+        'metricName',
+        metricName,
+        r'''[^:*$]*''',
+      );
+    }
+    if (metricNamespace != null) {
+      _s.validateStringLength(
+        'metricNamespace',
+        metricNamespace,
+        0,
+        255,
+      );
+    }
+    if (metricNamespace != null) {
+      _s.validateStringPattern(
+        'metricNamespace',
+        metricNamespace,
+        r'''[^:*$]*''',
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeMetricFilters'
@@ -1270,29 +1329,37 @@ class CloudWatchLogs {
     String nextToken,
     QueryStatus status,
   }) async {
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (logGroupName != null) {
+      _s.validateStringLength(
+        'logGroupName',
+        logGroupName,
+        1,
+        512,
+      );
+    }
+    if (logGroupName != null) {
+      _s.validateStringPattern(
+        'logGroupName',
+        logGroupName,
+        r'''[\.\-_/#A-Za-z0-9]+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeQueries'
@@ -1326,18 +1393,22 @@ class CloudWatchLogs {
     int limit,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeResourcePolicies'
@@ -1397,29 +1468,37 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateStringLength(
-      'filterNamePrefix',
-      filterNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'filterNamePrefix',
-      filterNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (filterNamePrefix != null) {
+      _s.validateStringLength(
+        'filterNamePrefix',
+        filterNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (filterNamePrefix != null) {
+      _s.validateStringPattern(
+        'filterNamePrefix',
+        filterNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        50,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeSubscriptionFilters'
@@ -1581,47 +1660,62 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateNumRange(
-      'endTime',
-      endTime,
-      0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'filterPattern',
-      filterPattern,
-      0,
-      1024,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'startTime',
-      startTime,
-      0,
-      1152921504606846976,
-    );
+    if (endTime != null) {
+      _s.validateNumRange(
+        'endTime',
+        endTime,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (filterPattern != null) {
+      _s.validateStringLength(
+        'filterPattern',
+        filterPattern,
+        0,
+        1024,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
+    if (logStreamNamePrefix != null) {
+      _s.validateStringLength(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        1,
+        512,
+      );
+    }
+    if (logStreamNamePrefix != null) {
+      _s.validateStringPattern(
+        'logStreamNamePrefix',
+        logStreamNamePrefix,
+        r'''[^:*]*''',
+      );
+    }
+    if (logStreamNames != null) {}
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (startTime != null) {
+      _s.validateNumRange(
+        'startTime',
+        startTime,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.FilterLogEvents'
@@ -1728,30 +1822,38 @@ class CloudWatchLogs {
       logStreamName,
       r'''[^:*]*''',
     );
-    _s.validateNumRange(
-      'endTime',
-      endTime,
-      0,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateNumRange(
-      'startTime',
-      startTime,
-      0,
-      1152921504606846976,
-    );
+    if (endTime != null) {
+      _s.validateNumRange(
+        'endTime',
+        endTime,
+        0,
+        1152921504606846976,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (startTime != null) {
+      _s.validateNumRange(
+        'startTime',
+        startTime,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.GetLogEvents'
@@ -1818,12 +1920,14 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateNumRange(
-      'time',
-      time,
-      0,
-      1152921504606846976,
-    );
+    if (time != null) {
+      _s.validateNumRange(
+        'time',
+        time,
+        0,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.GetLogGroupFields'
@@ -2211,12 +2315,14 @@ class CloudWatchLogs {
       logStreamName,
       r'''[^:*]*''',
     );
-    _s.validateStringLength(
-      'sequenceToken',
-      sequenceToken,
-      1,
-      1152921504606846976,
-    );
+    if (sequenceToken != null) {
+      _s.validateStringLength(
+        'sequenceToken',
+        sequenceToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutLogEvents'
@@ -2348,12 +2454,14 @@ class CloudWatchLogs {
     String policyDocument,
     String policyName,
   }) async {
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      5120,
-    );
+    if (policyDocument != null) {
+      _s.validateStringLength(
+        'policyDocument',
+        policyDocument,
+        1,
+        5120,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutResourcePolicy'
@@ -2546,12 +2654,14 @@ class CloudWatchLogs {
       logGroupName,
       r'''[\.\-_/#A-Za-z0-9]+''',
     );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1152921504606846976,
-    );
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutSubscriptionFilter'
@@ -2653,23 +2763,29 @@ class CloudWatchLogs {
       0,
       1152921504606846976,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      10000,
-    );
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        10000,
+      );
+    }
+    if (logGroupName != null) {
+      _s.validateStringLength(
+        'logGroupName',
+        logGroupName,
+        1,
+        512,
+      );
+    }
+    if (logGroupName != null) {
+      _s.validateStringPattern(
+        'logGroupName',
+        logGroupName,
+        r'''[\.\-_/#A-Za-z0-9]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.StartQuery'

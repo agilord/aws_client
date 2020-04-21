@@ -307,12 +307,14 @@ class MTurk {
     );
     ArgumentError.checkNotNull(
         numberOfAdditionalAssignments, 'numberOfAdditionalAssignments');
-    _s.validateStringLength(
-      'uniqueRequestToken',
-      uniqueRequestToken,
-      1,
-      64,
-    );
+    if (uniqueRequestToken != null) {
+      _s.validateStringLength(
+        'uniqueRequestToken',
+        uniqueRequestToken,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -505,23 +507,29 @@ class MTurk {
       r'''^[0-9]+(\.)?[0-9]{0,2}$''',
     );
     ArgumentError.checkNotNull(title, 'title');
-    _s.validateStringLength(
-      'hITLayoutId',
-      hITLayoutId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'hITLayoutId',
-      hITLayoutId,
-      r'''^[A-Z0-9]+$''',
-    );
-    _s.validateStringLength(
-      'uniqueRequestToken',
-      uniqueRequestToken,
-      1,
-      64,
-    );
+    if (hITLayoutId != null) {
+      _s.validateStringLength(
+        'hITLayoutId',
+        hITLayoutId,
+        1,
+        64,
+      );
+    }
+    if (hITLayoutId != null) {
+      _s.validateStringPattern(
+        'hITLayoutId',
+        hITLayoutId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
+    if (uniqueRequestToken != null) {
+      _s.validateStringLength(
+        'uniqueRequestToken',
+        uniqueRequestToken,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.CreateHIT'
@@ -765,23 +773,29 @@ class MTurk {
       r'''^[A-Z0-9]+$''',
     );
     ArgumentError.checkNotNull(lifetimeInSeconds, 'lifetimeInSeconds');
-    _s.validateStringLength(
-      'hITLayoutId',
-      hITLayoutId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'hITLayoutId',
-      hITLayoutId,
-      r'''^[A-Z0-9]+$''',
-    );
-    _s.validateStringLength(
-      'uniqueRequestToken',
-      uniqueRequestToken,
-      1,
-      64,
-    );
+    if (hITLayoutId != null) {
+      _s.validateStringLength(
+        'hITLayoutId',
+        hITLayoutId,
+        1,
+        64,
+      );
+    }
+    if (hITLayoutId != null) {
+      _s.validateStringPattern(
+        'hITLayoutId',
+        hITLayoutId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
+    if (uniqueRequestToken != null) {
+      _s.validateStringLength(
+        'uniqueRequestToken',
+        uniqueRequestToken,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.CreateHITWithHITType'
@@ -1535,18 +1549,22 @@ class MTurk {
       hITId,
       r'''^[A-Z0-9]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListAssignmentsForHIT'
@@ -1593,40 +1611,52 @@ class MTurk {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'assignmentId',
-      assignmentId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'assignmentId',
-      assignmentId,
-      r'''^[A-Z0-9]+$''',
-    );
-    _s.validateStringLength(
-      'hITId',
-      hITId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'hITId',
-      hITId,
-      r'''^[A-Z0-9]+$''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (assignmentId != null) {
+      _s.validateStringLength(
+        'assignmentId',
+        assignmentId,
+        1,
+        64,
+      );
+    }
+    if (assignmentId != null) {
+      _s.validateStringPattern(
+        'assignmentId',
+        assignmentId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
+    if (hITId != null) {
+      _s.validateStringLength(
+        'hITId',
+        hITId,
+        1,
+        64,
+      );
+    }
+    if (hITId != null) {
+      _s.validateStringPattern(
+        'hITId',
+        hITId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListBonusPayments'
@@ -1661,18 +1691,22 @@ class MTurk {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListHITs'
@@ -1726,18 +1760,22 @@ class MTurk {
       qualificationTypeId,
       r'''^[A-Z0-9]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1777,29 +1815,37 @@ class MTurk {
     String nextToken,
     String qualificationTypeId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'qualificationTypeId',
-      qualificationTypeId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'qualificationTypeId',
-      qualificationTypeId,
-      r'''^[A-Z0-9]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
+    if (qualificationTypeId != null) {
+      _s.validateStringLength(
+        'qualificationTypeId',
+        qualificationTypeId,
+        1,
+        64,
+      );
+    }
+    if (qualificationTypeId != null) {
+      _s.validateStringPattern(
+        'qualificationTypeId',
+        qualificationTypeId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListQualificationRequests'
@@ -1852,18 +1898,22 @@ class MTurk {
     String query,
   }) async {
     ArgumentError.checkNotNull(mustBeRequestable, 'mustBeRequestable');
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListQualificationTypes'
@@ -1937,18 +1987,22 @@ class MTurk {
       hITId,
       r'''^[A-Z0-9]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1999,29 +2053,37 @@ class MTurk {
     String nextToken,
     ReviewableHITStatus status,
   }) async {
-    _s.validateStringLength(
-      'hITTypeId',
-      hITTypeId,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'hITTypeId',
-      hITTypeId,
-      r'''^[A-Z0-9]+$''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (hITTypeId != null) {
+      _s.validateStringLength(
+        'hITTypeId',
+        hITTypeId,
+        1,
+        64,
+      );
+    }
+    if (hITTypeId != null) {
+      _s.validateStringPattern(
+        'hITTypeId',
+        hITTypeId,
+        r'''^[A-Z0-9]+$''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListReviewableHITs'
@@ -2055,18 +2117,22 @@ class MTurk {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListWorkerBlocks'
@@ -2123,18 +2189,22 @@ class MTurk {
       qualificationTypeId,
       r'''^[A-Z0-9]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        255,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2378,12 +2448,14 @@ class MTurk {
       workerId,
       r'''^A[A-Z0-9]+$''',
     );
-    _s.validateStringLength(
-      'uniqueRequestToken',
-      uniqueRequestToken,
-      1,
-      64,
-    );
+    if (uniqueRequestToken != null) {
+      _s.validateStringLength(
+        'uniqueRequestToken',
+        uniqueRequestToken,
+        1,
+        64,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.SendBonus'

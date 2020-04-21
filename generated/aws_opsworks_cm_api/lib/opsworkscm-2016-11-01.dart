@@ -224,17 +224,22 @@ class OpsWorksCM {
       serverName,
       r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''(?s).*''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        10000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''(?s).*''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.CreateBackup'
@@ -607,122 +612,165 @@ class OpsWorksCM {
       serviceRoleArn,
       r'''arn:aws:iam::[0-9]{12}:role/.*''',
     );
-    _s.validateStringLength(
-      'backupId',
-      backupId,
-      0,
-      79,
-    );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
-    );
-    _s.validateNumRange(
-      'backupRetentionCount',
-      backupRetentionCount,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'customCertificate',
-      customCertificate,
-      0,
-      2097152,
-    );
-    _s.validateStringPattern(
-      'customCertificate',
-      customCertificate,
-      r'''(?s)\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\s*''',
-    );
-    _s.validateStringLength(
-      'customDomain',
-      customDomain,
-      0,
-      253,
-    );
-    _s.validateStringPattern(
-      'customDomain',
-      customDomain,
-      r'''^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
-    );
-    _s.validateStringLength(
-      'customPrivateKey',
-      customPrivateKey,
-      0,
-      4096,
-    );
-    _s.validateStringPattern(
-      'customPrivateKey',
-      customPrivateKey,
-      r'''(?ms)\s*^-----BEGIN (?-s:.*)PRIVATE KEY-----$.*?^-----END (?-s:.*)PRIVATE KEY-----$\s*''',
-    );
-    _s.validateStringLength(
-      'engine',
-      engine,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'engineModel',
-      engineModel,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'engineModel',
-      engineModel,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'engineVersion',
-      engineVersion,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'engineVersion',
-      engineVersion,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'keyPair',
-      keyPair,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'keyPair',
-      keyPair,
-      r'''.*''',
-    );
-    _s.validateStringLength(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
-    _s.validateStringLength(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
+    if (backupId != null) {
+      _s.validateStringLength(
+        'backupId',
+        backupId,
+        0,
+        79,
+      );
+    }
+    if (backupId != null) {
+      _s.validateStringPattern(
+        'backupId',
+        backupId,
+        r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
+      );
+    }
+    if (backupRetentionCount != null) {
+      _s.validateNumRange(
+        'backupRetentionCount',
+        backupRetentionCount,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (customCertificate != null) {
+      _s.validateStringLength(
+        'customCertificate',
+        customCertificate,
+        0,
+        2097152,
+      );
+    }
+    if (customCertificate != null) {
+      _s.validateStringPattern(
+        'customCertificate',
+        customCertificate,
+        r'''(?s)\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\s*''',
+      );
+    }
+    if (customDomain != null) {
+      _s.validateStringLength(
+        'customDomain',
+        customDomain,
+        0,
+        253,
+      );
+    }
+    if (customDomain != null) {
+      _s.validateStringPattern(
+        'customDomain',
+        customDomain,
+        r'''^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
+      );
+    }
+    if (customPrivateKey != null) {
+      _s.validateStringLength(
+        'customPrivateKey',
+        customPrivateKey,
+        0,
+        4096,
+      );
+    }
+    if (customPrivateKey != null) {
+      _s.validateStringPattern(
+        'customPrivateKey',
+        customPrivateKey,
+        r'''(?ms)\s*^-----BEGIN (?-s:.*)PRIVATE KEY-----$.*?^-----END (?-s:.*)PRIVATE KEY-----$\s*''',
+      );
+    }
+    if (engine != null) {
+      _s.validateStringLength(
+        'engine',
+        engine,
+        0,
+        10000,
+      );
+    }
+    if (engine != null) {
+      _s.validateStringPattern(
+        'engine',
+        engine,
+        r'''(?s).*''',
+      );
+    }
+    if (engineModel != null) {
+      _s.validateStringLength(
+        'engineModel',
+        engineModel,
+        0,
+        10000,
+      );
+    }
+    if (engineModel != null) {
+      _s.validateStringPattern(
+        'engineModel',
+        engineModel,
+        r'''(?s).*''',
+      );
+    }
+    if (engineVersion != null) {
+      _s.validateStringLength(
+        'engineVersion',
+        engineVersion,
+        0,
+        10000,
+      );
+    }
+    if (engineVersion != null) {
+      _s.validateStringPattern(
+        'engineVersion',
+        engineVersion,
+        r'''(?s).*''',
+      );
+    }
+    if (keyPair != null) {
+      _s.validateStringLength(
+        'keyPair',
+        keyPair,
+        0,
+        10000,
+      );
+    }
+    if (keyPair != null) {
+      _s.validateStringPattern(
+        'keyPair',
+        keyPair,
+        r'''.*''',
+      );
+    }
+    if (preferredBackupWindow != null) {
+      _s.validateStringLength(
+        'preferredBackupWindow',
+        preferredBackupWindow,
+        0,
+        10000,
+      );
+    }
+    if (preferredBackupWindow != null) {
+      _s.validateStringPattern(
+        'preferredBackupWindow',
+        preferredBackupWindow,
+        r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
+      );
+    }
+    if (preferredMaintenanceWindow != null) {
+      _s.validateStringLength(
+        'preferredMaintenanceWindow',
+        preferredMaintenanceWindow,
+        0,
+        10000,
+      );
+    }
+    if (preferredMaintenanceWindow != null) {
+      _s.validateStringPattern(
+        'preferredMaintenanceWindow',
+        preferredMaintenanceWindow,
+        r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
+      );
+    }
+    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.CreateServer'
@@ -916,45 +964,59 @@ class OpsWorksCM {
     String nextToken,
     String serverName,
   }) async {
-    _s.validateStringLength(
-      'backupId',
-      backupId,
-      0,
-      79,
-    );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'serverName',
-      serverName,
-      1,
-      40,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-    );
+    if (backupId != null) {
+      _s.validateStringLength(
+        'backupId',
+        backupId,
+        0,
+        79,
+      );
+    }
+    if (backupId != null) {
+      _s.validateStringPattern(
+        'backupId',
+        backupId,
+        r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''(?s).*''',
+      );
+    }
+    if (serverName != null) {
+      _s.validateStringLength(
+        'serverName',
+        serverName,
+        1,
+        40,
+      );
+    }
+    if (serverName != null) {
+      _s.validateStringPattern(
+        'serverName',
+        serverName,
+        r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DescribeBackups'
@@ -1026,23 +1088,29 @@ class OpsWorksCM {
       serverName,
       r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''(?s).*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DescribeEvents'
@@ -1157,34 +1225,44 @@ class OpsWorksCM {
     String nextToken,
     String serverName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'serverName',
-      serverName,
-      1,
-      40,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''(?s).*''',
+      );
+    }
+    if (serverName != null) {
+      _s.validateStringLength(
+        'serverName',
+        serverName,
+        1,
+        40,
+      );
+    }
+    if (serverName != null) {
+      _s.validateStringPattern(
+        'serverName',
+        serverName,
+        r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DescribeServers'
@@ -1432,23 +1510,29 @@ class OpsWorksCM {
       resourceArn,
       r'''arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        10000,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''(?s).*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.ListTagsForResource'
@@ -1541,28 +1625,36 @@ class OpsWorksCM {
       serverName,
       r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'instanceType',
-      instanceType,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
-      'keyPair',
-      keyPair,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'keyPair',
-      keyPair,
-      r'''.*''',
-    );
+    if (instanceType != null) {
+      _s.validateStringLength(
+        'instanceType',
+        instanceType,
+        0,
+        10000,
+      );
+    }
+    if (instanceType != null) {
+      _s.validateStringPattern(
+        'instanceType',
+        instanceType,
+        r'''(?s).*''',
+      );
+    }
+    if (keyPair != null) {
+      _s.validateStringLength(
+        'keyPair',
+        keyPair,
+        0,
+        10000,
+      );
+    }
+    if (keyPair != null) {
+      _s.validateStringPattern(
+        'keyPair',
+        keyPair,
+        r'''.*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.RestoreServer'
@@ -1802,28 +1894,36 @@ class OpsWorksCM {
       serverName,
       r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
-    _s.validateStringLength(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
-    _s.validateStringLength(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
+    if (preferredBackupWindow != null) {
+      _s.validateStringLength(
+        'preferredBackupWindow',
+        preferredBackupWindow,
+        0,
+        10000,
+      );
+    }
+    if (preferredBackupWindow != null) {
+      _s.validateStringPattern(
+        'preferredBackupWindow',
+        preferredBackupWindow,
+        r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
+      );
+    }
+    if (preferredMaintenanceWindow != null) {
+      _s.validateStringLength(
+        'preferredMaintenanceWindow',
+        preferredMaintenanceWindow,
+        0,
+        10000,
+      );
+    }
+    if (preferredMaintenanceWindow != null) {
+      _s.validateStringPattern(
+        'preferredMaintenanceWindow',
+        preferredMaintenanceWindow,
+        r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.UpdateServer'
@@ -1902,17 +2002,21 @@ class OpsWorksCM {
       serverName,
       r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
-    _s.validateStringLength(
-      'attributeValue',
-      attributeValue,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'attributeValue',
-      attributeValue,
-      r'''(?s).*''',
-    );
+    if (attributeValue != null) {
+      _s.validateStringLength(
+        'attributeValue',
+        attributeValue,
+        0,
+        10000,
+      );
+    }
+    if (attributeValue != null) {
+      _s.validateStringPattern(
+        'attributeValue',
+        attributeValue,
+        r'''(?s).*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.UpdateServerEngineAttributes'

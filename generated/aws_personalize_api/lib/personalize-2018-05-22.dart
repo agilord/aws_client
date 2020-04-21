@@ -516,17 +516,21 @@ class Personalize {
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
     );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-    );
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        0,
+        256,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateDatasetGroup'
@@ -980,23 +984,29 @@ class Personalize {
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
     );
-    _s.validateStringLength(
-      'eventType',
-      eventType,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'recipeArn',
-      recipeArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'recipeArn',
-      recipeArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
+    if (eventType != null) {
+      _s.validateStringLength(
+        'eventType',
+        eventType,
+        0,
+        256,
+      );
+    }
+    if (recipeArn != null) {
+      _s.validateStringLength(
+        'recipeArn',
+        recipeArn,
+        0,
+        256,
+      );
+    }
+    if (recipeArn != null) {
+      _s.validateStringPattern(
+        'recipeArn',
+        recipeArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateSolution'
@@ -1978,29 +1988,37 @@ class Personalize {
     String nextToken,
     String solutionVersionArn,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
+    if (solutionVersionArn != null) {
+      _s.validateStringLength(
+        'solutionVersionArn',
+        solutionVersionArn,
+        0,
+        256,
+      );
+    }
+    if (solutionVersionArn != null) {
+      _s.validateStringPattern(
+        'solutionVersionArn',
+        solutionVersionArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListBatchInferenceJobs'
@@ -2046,29 +2064,37 @@ class Personalize {
     String nextToken,
     String solutionArn,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
+    if (solutionArn != null) {
+      _s.validateStringLength(
+        'solutionArn',
+        solutionArn,
+        0,
+        256,
+      );
+    }
+    if (solutionArn != null) {
+      _s.validateStringPattern(
+        'solutionArn',
+        solutionArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListCampaigns'
@@ -2105,18 +2131,22 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListDatasetGroups'
@@ -2162,29 +2192,37 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (datasetArn != null) {
+      _s.validateStringLength(
+        'datasetArn',
+        datasetArn,
+        0,
+        256,
+      );
+    }
+    if (datasetArn != null) {
+      _s.validateStringPattern(
+        'datasetArn',
+        datasetArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListDatasetImportJobs'
@@ -2229,29 +2267,37 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (datasetGroupArn != null) {
+      _s.validateStringLength(
+        'datasetGroupArn',
+        datasetGroupArn,
+        0,
+        256,
+      );
+    }
+    if (datasetGroupArn != null) {
+      _s.validateStringPattern(
+        'datasetGroupArn',
+        datasetGroupArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListDatasets'
@@ -2294,29 +2340,37 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (datasetGroupArn != null) {
+      _s.validateStringLength(
+        'datasetGroupArn',
+        datasetGroupArn,
+        0,
+        256,
+      );
+    }
+    if (datasetGroupArn != null) {
+      _s.validateStringPattern(
+        'datasetGroupArn',
+        datasetGroupArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListEventTrackers'
@@ -2356,18 +2410,22 @@ class Personalize {
     String nextToken,
     RecipeProvider recipeProvider,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListRecipes'
@@ -2404,18 +2462,22 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListSchemas'
@@ -2460,29 +2522,37 @@ class Personalize {
     String nextToken,
     String solutionArn,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
+    if (solutionArn != null) {
+      _s.validateStringLength(
+        'solutionArn',
+        solutionArn,
+        0,
+        256,
+      );
+    }
+    if (solutionArn != null) {
+      _s.validateStringPattern(
+        'solutionArn',
+        solutionArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListSolutionVersions'
@@ -2526,29 +2596,37 @@ class Personalize {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
+    if (datasetGroupArn != null) {
+      _s.validateStringLength(
+        'datasetGroupArn',
+        datasetGroupArn,
+        0,
+        256,
+      );
+    }
+    if (datasetGroupArn != null) {
+      _s.validateStringPattern(
+        'datasetGroupArn',
+        datasetGroupArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        1300,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListSolutions'
@@ -2610,23 +2688,29 @@ class Personalize {
       campaignArn,
       r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
-    _s.validateNumRange(
-      'minProvisionedTPS',
-      minProvisionedTPS,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
+    if (minProvisionedTPS != null) {
+      _s.validateNumRange(
+        'minProvisionedTPS',
+        minProvisionedTPS,
+        1,
+        1152921504606846976,
+      );
+    }
+    if (solutionVersionArn != null) {
+      _s.validateStringLength(
+        'solutionVersionArn',
+        solutionVersionArn,
+        0,
+        256,
+      );
+    }
+    if (solutionVersionArn != null) {
+      _s.validateStringPattern(
+        'solutionVersionArn',
+        solutionVersionArn,
+        r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.UpdateCampaign'

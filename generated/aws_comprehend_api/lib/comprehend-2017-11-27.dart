@@ -426,23 +426,29 @@ class Comprehend {
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.CreateDocumentClassifier'
@@ -544,17 +550,21 @@ class Comprehend {
       modelArn,
       r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.CreateEndpoint'
@@ -677,23 +687,29 @@ class Comprehend {
       recognizerName,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.CreateEntityRecognizer'
@@ -1519,18 +1535,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListDocumentClassificationJobs'
@@ -1573,18 +1593,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListDocumentClassifiers'
@@ -1629,18 +1653,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListDominantLanguageDetectionJobs'
@@ -1683,18 +1711,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListEndpoints'
@@ -1737,18 +1769,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListEntitiesDetectionJobs'
@@ -1798,18 +1834,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListEntityRecognizers'
@@ -1852,18 +1892,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListKeyPhrasesDetectionJobs'
@@ -1906,18 +1950,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListSentimentDetectionJobs'
@@ -2002,18 +2050,22 @@ class Comprehend {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        1152921504606846976,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListTopicsDetectionJobs'
@@ -2124,34 +2176,44 @@ class Comprehend {
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartDocumentClassificationJob'
@@ -2250,34 +2312,44 @@ class Comprehend {
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartDominantLanguageDetectionJob'
@@ -2396,45 +2468,59 @@ class Comprehend {
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (entityRecognizerArn != null) {
+      _s.validateStringLength(
+        'entityRecognizerArn',
+        entityRecognizerArn,
+        0,
+        256,
+      );
+    }
+    if (entityRecognizerArn != null) {
+      _s.validateStringPattern(
+        'entityRecognizerArn',
+        entityRecognizerArn,
+        r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartEntitiesDetectionJob'
@@ -2540,34 +2626,44 @@ class Comprehend {
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartKeyPhrasesDetectionJob'
@@ -2672,34 +2768,44 @@ class Comprehend {
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartSentimentDetectionJob'
@@ -2805,40 +2911,52 @@ class Comprehend {
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
-    _s.validateNumRange(
-      'numberOfTopics',
-      numberOfTopics,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        64,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[a-zA-Z0-9-]+$''',
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
+    if (numberOfTopics != null) {
+      _s.validateNumRange(
+        'numberOfTopics',
+        numberOfTopics,
+        1,
+        100,
+      );
+    }
+    if (volumeKmsKeyId != null) {
+      _s.validateStringLength(
+        'volumeKmsKeyId',
+        volumeKmsKeyId,
+        0,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartTopicsDetectionJob'

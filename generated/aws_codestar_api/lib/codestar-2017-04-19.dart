@@ -107,17 +107,21 @@ class CodeStar {
       userArn,
       r'''^arn:aws:iam::\d{12}:user(?:(\u002F)|(\u002F[\u0021-\u007E]+\u002F))[\w+=,.@-]+$''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        256,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[\w:/-]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.AssociateTeamMember'
@@ -211,28 +215,36 @@ class CodeStar {
       name,
       r'''^\S(.*\S)?$''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^$|^\S(.*\S)?$''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        256,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[\w:/-]+$''',
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^$|^\S(.*\S)?$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.CreateProject'
@@ -323,17 +335,21 @@ class CodeStar {
       userArn,
       r'''^arn:aws:iam::\d{12}:user(?:(\u002F)|(\u002F[\u0021-\u007E]+\u002F))[\w+=,.@-]+$''',
     );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      16384,
-    );
-    _s.validateStringPattern(
-      'sshPublicKey',
-      sshPublicKey,
-      r'''^[\t\r\n\u0020-\u00FF]*$''',
-    );
+    if (sshPublicKey != null) {
+      _s.validateStringLength(
+        'sshPublicKey',
+        sshPublicKey,
+        0,
+        16384,
+      );
+    }
+    if (sshPublicKey != null) {
+      _s.validateStringPattern(
+        'sshPublicKey',
+        sshPublicKey,
+        r'''^[\t\r\n\u0020-\u00FF]*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.CreateUserProfile'
@@ -393,17 +409,21 @@ class CodeStar {
       id,
       r'''^[a-z][a-z0-9-]+$''',
     );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
-    );
+    if (clientRequestToken != null) {
+      _s.validateStringLength(
+        'clientRequestToken',
+        clientRequestToken,
+        1,
+        256,
+      );
+    }
+    if (clientRequestToken != null) {
+      _s.validateStringPattern(
+        'clientRequestToken',
+        clientRequestToken,
+        r'''^[\w:/-]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DeleteProject'
@@ -630,23 +650,29 @@ class CodeStar {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[\w/+=]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListProjects'
@@ -699,23 +725,29 @@ class CodeStar {
       projectId,
       r'''^[a-z][a-z0-9-]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[\w/+=]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListResources'
@@ -767,23 +799,29 @@ class CodeStar {
       id,
       r'''^[a-z][a-z0-9-]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[\w/+=]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListTagsForProject'
@@ -836,23 +874,29 @@ class CodeStar {
       projectId,
       r'''^[a-z][a-z0-9-]+$''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[\w/+=]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListTeamMembers'
@@ -889,23 +933,29 @@ class CodeStar {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        512,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''^[\w/+=]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListUserProfiles'
@@ -1051,28 +1101,36 @@ class CodeStar {
       id,
       r'''^[a-z][a-z0-9-]+$''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^$|^\S(.*\S)?$''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^\S(.*\S)?$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        1024,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^$|^\S(.*\S)?$''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        100,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^\S(.*\S)?$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateProject'
@@ -1153,11 +1211,13 @@ class CodeStar {
       userArn,
       r'''^arn:aws:iam::\d{12}:user(?:(\u002F)|(\u002F[\u0021-\u007E]+\u002F))[\w+=,.@-]+$''',
     );
-    _s.validateStringPattern(
-      'projectRole',
-      projectRole,
-      r'''^(Owner|Viewer|Contributor)$''',
-    );
+    if (projectRole != null) {
+      _s.validateStringPattern(
+        'projectRole',
+        projectRole,
+        r'''^(Owner|Viewer|Contributor)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateTeamMember'
@@ -1220,39 +1280,51 @@ class CodeStar {
       userArn,
       r'''^arn:aws:iam::\d{12}:user(?:(\u002F)|(\u002F[\u0021-\u007E]+\u002F))[\w+=,.@-]+$''',
     );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^\S(.*\S)?$''',
-    );
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      3,
-      128,
-    );
-    _s.validateStringPattern(
-      'emailAddress',
-      emailAddress,
-      r'''^[\w-.+]+@[\w-.+]+$''',
-    );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      16384,
-    );
-    _s.validateStringPattern(
-      'sshPublicKey',
-      sshPublicKey,
-      r'''^[\t\r\n\u0020-\u00FF]*$''',
-    );
+    if (displayName != null) {
+      _s.validateStringLength(
+        'displayName',
+        displayName,
+        1,
+        64,
+      );
+    }
+    if (displayName != null) {
+      _s.validateStringPattern(
+        'displayName',
+        displayName,
+        r'''^\S(.*\S)?$''',
+      );
+    }
+    if (emailAddress != null) {
+      _s.validateStringLength(
+        'emailAddress',
+        emailAddress,
+        3,
+        128,
+      );
+    }
+    if (emailAddress != null) {
+      _s.validateStringPattern(
+        'emailAddress',
+        emailAddress,
+        r'''^[\w-.+]+@[\w-.+]+$''',
+      );
+    }
+    if (sshPublicKey != null) {
+      _s.validateStringLength(
+        'sshPublicKey',
+        sshPublicKey,
+        0,
+        16384,
+      );
+    }
+    if (sshPublicKey != null) {
+      _s.validateStringPattern(
+        'sshPublicKey',
+        sshPublicKey,
+        r'''^[\t\r\n\u0020-\u00FF]*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateUserProfile'

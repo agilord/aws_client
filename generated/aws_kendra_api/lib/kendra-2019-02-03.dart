@@ -147,17 +147,21 @@ class Kendra {
       indexId,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        1,
+        1284,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.BatchPutDocument'
@@ -276,17 +280,21 @@ class Kendra {
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^\P{C}*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateDataSource'
@@ -383,17 +391,21 @@ class Kendra {
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     ArgumentError.checkNotNull(s3Path, 's3Path');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^\P{C}*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateFaq'
@@ -485,23 +497,29 @@ class Kendra {
       roleArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
+    if (clientToken != null) {
+      _s.validateStringLength(
+        'clientToken',
+        clientToken,
+        1,
+        100,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^\P{C}*$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateIndex'
@@ -855,18 +873,22 @@ class Kendra {
       indexId,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        10,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        800,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListDataSourceSyncJobs'
@@ -926,18 +948,22 @@ class Kendra {
       indexId,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        800,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListDataSources'
@@ -994,18 +1020,22 @@ class Kendra {
       indexId,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        800,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListFaqs'
@@ -1045,18 +1075,22 @@ class Kendra {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        100,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        1,
+        800,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListIndices'
@@ -1180,6 +1214,7 @@ class Kendra {
       queryText,
       r'''^\P{C}*$''',
     );
+    if (requestedDocumentAttributes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.Query'
@@ -1459,39 +1494,51 @@ class Kendra {
       indexId,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^\P{C}*$''',
+      );
+    }
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1000,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        1,
+        1284,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateDataSource'
@@ -1557,39 +1604,52 @@ class Kendra {
       id,
       r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
     );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        1,
+        1000,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''^\P{C}*$''',
+      );
+    }
+    if (documentMetadataConfigurationUpdates != null) {}
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        1000,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringLength(
+        'roleArn',
+        roleArn,
+        1,
+        1284,
+      );
+    }
+    if (roleArn != null) {
+      _s.validateStringPattern(
+        'roleArn',
+        roleArn,
+        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateIndex'

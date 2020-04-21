@@ -669,28 +669,37 @@ class KMS {
       2048,
     );
     ArgumentError.checkNotNull(operations, 'operations');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9:/_-]+$''',
-    );
-    _s.validateStringLength(
-      'retiringPrincipal',
-      retiringPrincipal,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'retiringPrincipal',
-      retiringPrincipal,
-      r'''^[\w+=,.@:/-]+$''',
-    );
+    if (grantTokens != null) {}
+    if (name != null) {
+      _s.validateStringLength(
+        'name',
+        name,
+        1,
+        256,
+      );
+    }
+    if (name != null) {
+      _s.validateStringPattern(
+        'name',
+        name,
+        r'''^[a-zA-Z0-9:/_-]+$''',
+      );
+    }
+    if (retiringPrincipal != null) {
+      _s.validateStringLength(
+        'retiringPrincipal',
+        retiringPrincipal,
+        1,
+        256,
+      );
+    }
+    if (retiringPrincipal != null) {
+      _s.validateStringPattern(
+        'retiringPrincipal',
+        retiringPrincipal,
+        r'''^[\w+=,.@:/-]+$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.CreateGrant'
@@ -1037,29 +1046,37 @@ class KMS {
     String policy,
     List<Tag> tags,
   }) async {
-    _s.validateStringLength(
-      'customKeyStoreId',
-      customKeyStoreId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      131072,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
+    if (customKeyStoreId != null) {
+      _s.validateStringLength(
+        'customKeyStoreId',
+        customKeyStoreId,
+        1,
+        64,
+      );
+    }
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        8192,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringLength(
+        'policy',
+        policy,
+        1,
+        131072,
+      );
+    }
+    if (policy != null) {
+      _s.validateStringPattern(
+        'policy',
+        policy,
+        r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.CreateKey'
@@ -1241,12 +1258,15 @@ class KMS {
     String keyId,
   }) async {
     ArgumentError.checkNotNull(ciphertextBlob, 'ciphertextBlob');
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      2048,
-    );
+    if (grantTokens != null) {}
+    if (keyId != null) {
+      _s.validateStringLength(
+        'keyId',
+        keyId,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.Decrypt'
@@ -1538,35 +1558,45 @@ class KMS {
     int limit,
     String marker,
   }) async {
-    _s.validateStringLength(
-      'customKeyStoreId',
-      customKeyStoreId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'customKeyStoreName',
-      customKeyStoreName,
-      1,
-      256,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (customKeyStoreId != null) {
+      _s.validateStringLength(
+        'customKeyStoreId',
+        customKeyStoreId,
+        1,
+        64,
+      );
+    }
+    if (customKeyStoreName != null) {
+      _s.validateStringLength(
+        'customKeyStoreName',
+        customKeyStoreName,
+        1,
+        256,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DescribeCustomKeyStores'
@@ -1696,6 +1726,7 @@ class KMS {
       1,
       2048,
     );
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DescribeKey'
@@ -2244,6 +2275,7 @@ class KMS {
       2048,
     );
     ArgumentError.checkNotNull(plaintext, 'plaintext');
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.Encrypt'
@@ -2430,12 +2462,15 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'numberOfBytes',
-      numberOfBytes,
-      1,
-      1024,
-    );
+    if (grantTokens != null) {}
+    if (numberOfBytes != null) {
+      _s.validateNumRange(
+        'numberOfBytes',
+        numberOfBytes,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GenerateDataKey'
@@ -2587,6 +2622,7 @@ class KMS {
       2048,
     );
     ArgumentError.checkNotNull(keyPairSpec, 'keyPairSpec');
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GenerateDataKeyPair'
@@ -2729,6 +2765,7 @@ class KMS {
       2048,
     );
     ArgumentError.checkNotNull(keyPairSpec, 'keyPairSpec');
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GenerateDataKeyPairWithoutPlaintext'
@@ -2886,12 +2923,15 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'numberOfBytes',
-      numberOfBytes,
-      1,
-      1024,
-    );
+    if (grantTokens != null) {}
+    if (numberOfBytes != null) {
+      _s.validateNumRange(
+        'numberOfBytes',
+        numberOfBytes,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GenerateDataKeyWithoutPlaintext'
@@ -2944,18 +2984,22 @@ class KMS {
     String customKeyStoreId,
     int numberOfBytes,
   }) async {
-    _s.validateStringLength(
-      'customKeyStoreId',
-      customKeyStoreId,
-      1,
-      64,
-    );
-    _s.validateNumRange(
-      'numberOfBytes',
-      numberOfBytes,
-      1,
-      1024,
-    );
+    if (customKeyStoreId != null) {
+      _s.validateStringLength(
+        'customKeyStoreId',
+        customKeyStoreId,
+        1,
+        64,
+      );
+    }
+    if (numberOfBytes != null) {
+      _s.validateNumRange(
+        'numberOfBytes',
+        numberOfBytes,
+        1,
+        1024,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GenerateRandom'
@@ -3354,6 +3398,7 @@ class KMS {
       1,
       2048,
     );
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GetPublicKey'
@@ -3585,29 +3630,37 @@ class KMS {
     int limit,
     String marker,
   }) async {
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      2048,
-    );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (keyId != null) {
+      _s.validateStringLength(
+        'keyId',
+        keyId,
+        1,
+        2048,
+      );
+    }
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListAliases'
@@ -3684,23 +3737,29 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListGrants'
@@ -3778,23 +3837,29 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListKeyPolicies'
@@ -3838,23 +3903,29 @@ class KMS {
     int limit,
     String marker,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListKeys'
@@ -3929,23 +4000,29 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListResourceTags'
@@ -4019,23 +4096,29 @@ class KMS {
       retiringPrincipal,
       r'''^[\w+=,.@:/-]+$''',
     );
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
+    if (limit != null) {
+      _s.validateNumRange(
+        'limit',
+        limit,
+        1,
+        1000,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringLength(
+        'marker',
+        marker,
+        1,
+        1024,
+      );
+    }
+    if (marker != null) {
+      _s.validateStringPattern(
+        'marker',
+        marker,
+        r'''[\u0020-\u00FF]*''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListRetirableGrants'
@@ -4449,12 +4532,15 @@ class KMS {
       1,
       2048,
     );
-    _s.validateStringLength(
-      'sourceKeyId',
-      sourceKeyId,
-      1,
-      2048,
-    );
+    if (grantTokens != null) {}
+    if (sourceKeyId != null) {
+      _s.validateStringLength(
+        'sourceKeyId',
+        sourceKeyId,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ReEncrypt'
@@ -4535,24 +4621,30 @@ class KMS {
     String grantToken,
     String keyId,
   }) async {
-    _s.validateStringLength(
-      'grantId',
-      grantId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'grantToken',
-      grantToken,
-      1,
-      8192,
-    );
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      2048,
-    );
+    if (grantId != null) {
+      _s.validateStringLength(
+        'grantId',
+        grantId,
+        1,
+        128,
+      );
+    }
+    if (grantToken != null) {
+      _s.validateStringLength(
+        'grantToken',
+        grantToken,
+        1,
+        8192,
+      );
+    }
+    if (keyId != null) {
+      _s.validateStringLength(
+        'keyId',
+        keyId,
+        1,
+        2048,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.RetireGrant'
@@ -4719,12 +4811,14 @@ class KMS {
       1,
       2048,
     );
-    _s.validateNumRange(
-      'pendingWindowInDays',
-      pendingWindowInDays,
-      1,
-      365,
-    );
+    if (pendingWindowInDays != null) {
+      _s.validateNumRange(
+        'pendingWindowInDays',
+        pendingWindowInDays,
+        1,
+        365,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ScheduleKeyDeletion'
@@ -4879,6 +4973,7 @@ class KMS {
     );
     ArgumentError.checkNotNull(message, 'message');
     ArgumentError.checkNotNull(signingAlgorithm, 'signingAlgorithm');
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.Sign'
@@ -5255,24 +5350,30 @@ class KMS {
       1,
       64,
     );
-    _s.validateStringLength(
-      'cloudHsmClusterId',
-      cloudHsmClusterId,
-      19,
-      24,
-    );
-    _s.validateStringLength(
-      'keyStorePassword',
-      keyStorePassword,
-      7,
-      32,
-    );
-    _s.validateStringLength(
-      'newCustomKeyStoreName',
-      newCustomKeyStoreName,
-      1,
-      256,
-    );
+    if (cloudHsmClusterId != null) {
+      _s.validateStringLength(
+        'cloudHsmClusterId',
+        cloudHsmClusterId,
+        19,
+        24,
+      );
+    }
+    if (keyStorePassword != null) {
+      _s.validateStringLength(
+        'keyStorePassword',
+        keyStorePassword,
+        7,
+        32,
+      );
+    }
+    if (newCustomKeyStoreName != null) {
+      _s.validateStringLength(
+        'newCustomKeyStoreName',
+        newCustomKeyStoreName,
+        1,
+        256,
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.UpdateCustomKeyStore'
@@ -5499,6 +5600,7 @@ class KMS {
     ArgumentError.checkNotNull(message, 'message');
     ArgumentError.checkNotNull(signature, 'signature');
     ArgumentError.checkNotNull(signingAlgorithm, 'signingAlgorithm');
+    if (grantTokens != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.Verify'

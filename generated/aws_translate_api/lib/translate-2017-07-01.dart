@@ -228,17 +228,21 @@ class Translate {
       r'''^([A-Za-z0-9-]_?)+$''',
     );
     ArgumentError.checkNotNull(terminologyData, 'terminologyData');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
-    );
+    if (description != null) {
+      _s.validateStringLength(
+        'description',
+        description,
+        0,
+        256,
+      );
+    }
+    if (description != null) {
+      _s.validateStringPattern(
+        'description',
+        description,
+        r'''[\P{M}\p{M}]{0,256}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ImportTerminology'
@@ -277,23 +281,29 @@ class Translate {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''\p{ASCII}{0,8192}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ListTerminologies'
@@ -336,23 +346,29 @@ class Translate {
     int maxResults,
     String nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
-    );
+    if (maxResults != null) {
+      _s.validateNumRange(
+        'maxResults',
+        maxResults,
+        1,
+        500,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringLength(
+        'nextToken',
+        nextToken,
+        0,
+        8192,
+      );
+    }
+    if (nextToken != null) {
+      _s.validateStringPattern(
+        'nextToken',
+        nextToken,
+        r'''\p{ASCII}{0,8192}''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ListTextTranslationJobs'
@@ -474,17 +490,21 @@ class Translate {
       5,
     );
     ArgumentError.checkNotNull(targetLanguageCodes, 'targetLanguageCodes');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
+    if (jobName != null) {
+      _s.validateStringLength(
+        'jobName',
+        jobName,
+        1,
+        256,
+      );
+    }
+    if (jobName != null) {
+      _s.validateStringPattern(
+        'jobName',
+        jobName,
+        r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      );
+    }
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.StartTextTranslationJob'
