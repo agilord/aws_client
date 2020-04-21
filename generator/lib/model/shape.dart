@@ -276,6 +276,7 @@ extension NameStuff on String {
         'do',
         'enum',
         'false',
+        'for',
         'if',
         'in',
         'is',
@@ -283,6 +284,12 @@ extension NameStuff on String {
         'null',
         'return',
         'true',
+      }.contains(this);
+
+  bool get isEnumReserved =>
+      isReserved ||
+      <String>{
+        'index',
       }.contains(this);
 
   String get lowercaseName {

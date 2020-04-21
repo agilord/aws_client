@@ -3,6 +3,7 @@ protocols:
     shared: ^0.1.5
   json:
     shared: ^0.1.5
+    publish: true
   query:
     shared: ^0.1.5
     publish: true
@@ -15,8 +16,113 @@ protocols:
 # Packages to generate
 packages:
   - aws_lambda_api # rest-json
-  - aws_dynamodb_api # json
   - aws_ec2_api # ec2
+## json protocol APIs
+  - aws_acm_api
+  - aws_acm_pca_api
+  - aws_alexaforbusiness_api
+  - aws_application_autoscaling_api
+  - aws_application_insights_api
+  - aws_appstream_api
+  - aws_athena_api
+  - aws_autoscaling_plans_api
+  - aws_budgets_api
+  - aws_ce_api
+  - aws_cloud9_api
+  - aws_cloudhsm_api
+  - aws_cloudhsmv2_api
+  - aws_cloudtrail_api
+  - aws_codebuild_api
+  - aws_codecommit_api
+  - aws_codepipeline_api
+  - aws_codestar_api
+  - aws_codestar_connections_api
+  - aws_cognito_identity_api
+  - aws_cognito_idp_api
+  - aws_comprehend_api
+  - aws_comprehendmedical_api
+  - aws_compute_optimizer_api
+  - aws_configservice_api
+  - aws_cur_api
+  - aws_datapipeline_api
+  - aws_datasync_api
+  - aws_dax_api
+  - aws_deploy_api
+  - aws_devicefarm_api
+  - aws_directconnect_api
+  - aws_discovery_api
+  - aws_dms_api
+  - aws_ds_api
+  - aws_dynamodb_api
+  - aws_dynamodbstreams_api
+  - aws_ec2_instance_connect_api
+  - aws_ecr_api
+  - aws_ecs_api
+  - aws_emr_api
+  - aws_events_api
+  - aws_firehose_api
+  - aws_fms_api
+  - aws_forecast_api
+  - aws_forecastquery_api
+  - aws_frauddetector_api
+  - aws_fsx_api
+  - aws_gamelift_api
+  - aws_globalaccelerator_api
+  - aws_glue_api
+  - aws_health_api
+  - aws_inspector_api
+  - aws_iotsecuretunneling_api
+  - aws_iotthingsgraph_api
+  - aws_kendra_api
+  - aws_kinesis_api
+  - aws_kinesisanalytics_api
+  - aws_kinesisanalyticsv2_api
+  - aws_kms_api
+  - aws_lakeformation_api
+  - aws_license_manager_api
+  - aws_lightsail_api
+  - aws_logs_api
+  - aws_machinelearning_api
+  - aws_macie_api
+  - aws_marketplace_entitlement_api
+  - aws_marketplacecommerceanalytics_api
+  - aws_mediastore_api
+  - aws_meteringmarketplace_api
+  - aws_mgh_api
+  - aws_migrationhub_config_api
+  - aws_mturk_api
+  - aws_opsworks_api
+  - aws_opsworks_cm_api
+  - aws_organizations_api
+  - aws_personalize_api
+  - aws_pi_api
+  - aws_pricing_api
+  - aws_qldb_session_api
+  - aws_rekognition_api
+  - aws_resourcegroupstaggingapi_api
+  - aws_route53domains_api
+  - aws_route53resolver_api
+  - aws_sagemaker_api
+  - aws_secretsmanager_api
+  - aws_service_quotas_api
+  - aws_servicecatalog_api
+  - aws_servicediscovery_api
+  - aws_shield_api
+  - aws_sms_api
+  - aws_snowball_api
+  - aws_ssm_api
+  - aws_storagegateway_api
+  - aws_support_api
+  - aws_swf_api
+  - aws_textract_api
+  - aws_transcribe_api
+  - aws_transfer_api
+  - aws_translate_api
+  - aws_waf_api
+  - aws_waf_regional_api
+  - aws_wafv2_api
+  - aws_workmail_api
+  - aws_workspaces_api
 ## query protocol APIs
   - aws_autoscaling_api
   - aws_cloudformation_api

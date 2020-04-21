@@ -178,7 +178,8 @@ ${builder.constructor()}
             .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
             .replaceAll(RegExp(r'_+'), '_')
             .lowercaseName;
-        if (fieldName.isReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
+        if (fieldName.isEnumReserved ||
+            fieldName.startsWith(RegExp(r'[0-9]'))) {
           fieldName = '\$$fieldName';
         }
         if (shape.api.generateJson) {
