@@ -51,7 +51,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'AbortEnvironmentUpdate',
@@ -174,14 +173,12 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       19,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ComposeEnvironments',
@@ -239,7 +236,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateApplication',
@@ -377,7 +373,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateApplicationVersion',
@@ -536,7 +531,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateConfigurationTemplate',
@@ -682,42 +676,36 @@ class ElasticBeanstalk {
       cNAMEPrefix,
       4,
       63,
-      isRequired: false,
     );
     _s.validateStringLength(
       'description',
       description,
       0,
       200,
-      isRequired: false,
     );
     _s.validateStringLength(
       'environmentName',
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       19,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'versionLabel',
       versionLabel,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateEnvironment',
@@ -790,7 +778,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreatePlatformVersion',
@@ -1114,14 +1101,12 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       1000,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeApplicationVersions',
@@ -1207,21 +1192,18 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'environmentName',
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeConfigurationOptions',
@@ -1301,14 +1283,12 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeConfigurationSettings',
@@ -1358,7 +1338,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentHealth',
@@ -1404,7 +1383,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentManagedActionHistory',
@@ -1485,7 +1463,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironmentResources',
@@ -1561,21 +1538,18 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       1000,
-      isRequired: false,
     );
     _s.validateStringLength(
       'versionLabel',
       versionLabel,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeEnvironments',
@@ -1674,35 +1648,30 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'environmentName',
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       1000,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'versionLabel',
       versionLabel,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeEvents',
@@ -1762,14 +1731,12 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeInstancesHealth',
@@ -1928,7 +1895,6 @@ class ElasticBeanstalk {
       maxRecords,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ListPlatformBranches',
@@ -1984,7 +1950,6 @@ class ElasticBeanstalk {
       maxRecords,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ListPlatformVersions',
@@ -2067,7 +2032,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'RebuildEnvironment',
@@ -2138,7 +2102,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'RequestEnvironmentInfo',
@@ -2180,7 +2143,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'RestartAppServer',
@@ -2240,7 +2202,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'RetrieveEnvironmentInfo',
@@ -2305,14 +2266,12 @@ class ElasticBeanstalk {
       destinationEnvironmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'sourceEnvironmentName',
       sourceEnvironmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'SwapEnvironmentCNAMEs',
@@ -2387,7 +2346,6 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'TerminateEnvironment',
@@ -2441,7 +2399,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateApplication',
@@ -2547,7 +2504,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateApplicationVersion',
@@ -2639,7 +2595,6 @@ class ElasticBeanstalk {
       description,
       0,
       200,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateConfigurationTemplate',
@@ -2762,42 +2717,36 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'description',
       description,
       0,
       200,
-      isRequired: false,
     );
     _s.validateStringLength(
       'environmentName',
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       19,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'versionLabel',
       versionLabel,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateEnvironment',
@@ -2935,14 +2884,12 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
-      isRequired: false,
     );
     _s.validateStringLength(
       'templateName',
       templateName,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ValidateConfigurationSettings',

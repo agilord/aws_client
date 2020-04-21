@@ -1384,13 +1384,11 @@ class DynamoDB {
       indexName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'indexName',
       indexName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1974,27 +1972,23 @@ class DynamoDB {
       exclusiveStartBackupArn,
       37,
       1024,
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'tableName',
       tableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2043,20 +2037,17 @@ class DynamoDB {
       maxResults,
       0,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'tableName',
       tableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2112,20 +2103,17 @@ class DynamoDB {
       exclusiveStartGlobalTableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'exclusiveStartGlobalTableName',
       exclusiveStartGlobalTableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2170,20 +2158,17 @@ class DynamoDB {
       exclusiveStartTableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'exclusiveStartTableName',
       exclusiveStartTableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3002,20 +2987,17 @@ class DynamoDB {
       indexName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'indexName',
       indexName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3298,13 +3280,11 @@ class DynamoDB {
       sourceTableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'sourceTableName',
       sourceTableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3685,34 +3665,29 @@ class DynamoDB {
       indexName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'indexName',
       indexName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     _s.validateNumRange(
       'segment',
       segment,
       0,
       999999,
-      isRequired: false,
     );
     _s.validateNumRange(
       'totalSegments',
       totalSegments,
       1,
       1000000,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3993,7 +3968,6 @@ class DynamoDB {
       clientRequestToken,
       1,
       36,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4170,13 +4144,11 @@ class DynamoDB {
       indexName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'indexName',
       indexName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4352,7 +4324,6 @@ class DynamoDB {
       globalTableProvisionedWriteCapacityUnits,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

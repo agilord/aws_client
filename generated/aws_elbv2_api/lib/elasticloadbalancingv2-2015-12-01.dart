@@ -674,42 +674,36 @@ class ElasticLoadBalancingv2 {
       healthCheckIntervalSeconds,
       5,
       300,
-      isRequired: false,
     );
     _s.validateStringLength(
       'healthCheckPath',
       healthCheckPath,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
       healthCheckTimeoutSeconds,
       2,
       120,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthyThresholdCount',
       healthyThresholdCount,
       2,
       10,
-      isRequired: false,
     );
     _s.validateNumRange(
       'port',
       port,
       1,
       65535,
-      isRequired: false,
     );
     _s.validateNumRange(
       'unhealthyThresholdCount',
       unhealthyThresholdCount,
       2,
       10,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateTargetGroup',
@@ -919,7 +913,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAccountLimits',
@@ -970,7 +963,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeListenerCertificates',
@@ -1024,7 +1016,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeListeners',
@@ -1109,7 +1100,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',
@@ -1159,7 +1149,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeRules',
@@ -1206,7 +1195,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeSSLPolicies',
@@ -1327,7 +1315,6 @@ class ElasticLoadBalancingv2 {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeTargetGroups',
@@ -1502,7 +1489,6 @@ class ElasticLoadBalancingv2 {
       port,
       1,
       65535,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ModifyListener',
@@ -1713,35 +1699,30 @@ class ElasticLoadBalancingv2 {
       healthCheckIntervalSeconds,
       5,
       300,
-      isRequired: false,
     );
     _s.validateStringLength(
       'healthCheckPath',
       healthCheckPath,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
       healthCheckTimeoutSeconds,
       2,
       120,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthyThresholdCount',
       healthyThresholdCount,
       2,
       10,
-      isRequired: false,
     );
     _s.validateNumRange(
       'unhealthyThresholdCount',
       unhealthyThresholdCount,
       2,
       10,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ModifyTargetGroup',

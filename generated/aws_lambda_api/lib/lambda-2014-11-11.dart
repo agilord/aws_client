@@ -373,20 +373,17 @@ class Lambda {
       functionName,
       1,
       64,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -424,7 +421,6 @@ class Lambda {
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -530,33 +526,28 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'handler',
       handler,
       r'''[a-zA-Z0-9./\-_]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       1024,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'role',
       role,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'timeout',
       timeout,
       1,
       60,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -675,21 +666,18 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       1024,
-      isRequired: false,
     );
     _s.validateNumRange(
       'timeout',
       timeout,
       1,
       60,
-      isRequired: false,
     );
     await _protocol.send(
       functionZip,

@@ -528,7 +528,6 @@ class Route53 {
       delegationSetId,
       0,
       32,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -804,7 +803,6 @@ class Route53 {
       hostedZoneId,
       0,
       32,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -861,7 +859,6 @@ class Route53 {
       comment,
       0,
       1024,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -1016,7 +1013,6 @@ class Route53 {
       comment,
       0,
       1024,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -1641,21 +1637,18 @@ class Route53 {
       continentCode,
       2,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'countryCode',
       countryCode,
       1,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'subdivisionCode',
       subdivisionCode,
       1,
       3,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     continentCode?.let((v) => queryParams['continentcode'] = v.toString());
@@ -2124,21 +2117,18 @@ class Route53 {
       startContinentCode,
       2,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'startCountryCode',
       startCountryCode,
       1,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'startSubdivisionCode',
       startSubdivisionCode,
       1,
       3,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2191,7 +2181,6 @@ class Route53 {
       marker,
       0,
       64,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['marker'] = v.toString());
@@ -2252,14 +2241,12 @@ class Route53 {
       delegationSetId,
       0,
       32,
-      isRequired: false,
     );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       64,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     delegationSetId?.let((v) => queryParams['delegationsetid'] = v.toString());
@@ -2382,14 +2369,12 @@ class Route53 {
       dNSName,
       0,
       1024,
-      isRequired: false,
     );
     _s.validateStringLength(
       'hostedZoneId',
       hostedZoneId,
       0,
       32,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     dNSName?.let((v) => queryParams['dnsname'] = v.toString());
@@ -2460,14 +2445,12 @@ class Route53 {
       hostedZoneId,
       0,
       32,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       256,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
@@ -2637,14 +2620,12 @@ class Route53 {
       startRecordIdentifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringLength(
       'startRecordName',
       startRecordName,
       0,
       1024,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2691,7 +2672,6 @@ class Route53 {
       marker,
       0,
       64,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['marker'] = v.toString());
@@ -2829,7 +2809,6 @@ class Route53 {
       trafficPolicyIdMarker,
       1,
       36,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -2920,14 +2899,12 @@ class Route53 {
       hostedZoneIdMarker,
       0,
       32,
-      isRequired: false,
     );
     _s.validateStringLength(
       'trafficPolicyInstanceNameMarker',
       trafficPolicyInstanceNameMarker,
       0,
       1024,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     hostedZoneIdMarker?.let((v) => queryParams['hostedzoneid'] = v.toString());
@@ -3020,7 +2997,6 @@ class Route53 {
       trafficPolicyInstanceNameMarker,
       0,
       1024,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['id'] = v.toString());
@@ -3146,14 +3122,12 @@ class Route53 {
       hostedZoneIdMarker,
       0,
       32,
-      isRequired: false,
     );
     _s.validateStringLength(
       'trafficPolicyInstanceNameMarker',
       trafficPolicyInstanceNameMarker,
       0,
       1024,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     trafficPolicyId?.let((v) => queryParams['id'] = v.toString());
@@ -3222,7 +3196,6 @@ class Route53 {
       trafficPolicyVersionMarker,
       0,
       4,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
@@ -3283,7 +3256,6 @@ class Route53 {
       nextToken,
       0,
       256,
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     maxResults?.let((v) => queryParams['maxresults'] = v.toString());
@@ -3379,33 +3351,28 @@ class Route53 {
       eDNS0ClientSubnetIP,
       0,
       45,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'eDNS0ClientSubnetIP',
       eDNS0ClientSubnetIP,
       r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-      isRequired: false,
     );
     _s.validateStringLength(
       'eDNS0ClientSubnetMask',
       eDNS0ClientSubnetMask,
       0,
       3,
-      isRequired: false,
     );
     _s.validateStringLength(
       'resolverIP',
       resolverIP,
       0,
       45,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'resolverIP',
       resolverIP,
       r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-      isRequired: false,
     );
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
@@ -3830,62 +3797,53 @@ class Route53 {
       failureThreshold,
       1,
       10,
-      isRequired: false,
     );
     _s.validateStringLength(
       'fullyQualifiedDomainName',
       fullyQualifiedDomainName,
       0,
       255,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthCheckVersion',
       healthCheckVersion,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     _s.validateNumRange(
       'healthThreshold',
       healthThreshold,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringLength(
       'iPAddress',
       iPAddress,
       0,
       45,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'iPAddress',
       iPAddress,
       r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'port',
       port,
       1,
       65535,
-      isRequired: false,
     );
     _s.validateStringLength(
       'resourcePath',
       resourcePath,
       0,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'searchString',
       searchString,
       0,
       255,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -3924,7 +3882,6 @@ class Route53 {
       comment,
       0,
       256,
-      isRequired: false,
     );
     final $result = await _protocol.send(
       method: 'POST',

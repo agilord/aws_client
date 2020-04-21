@@ -2880,7 +2880,6 @@ class EC2 {
       versionDescription,
       0,
       255,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -2944,20 +2943,17 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: false,
     );
     _s.validateStringLength(
       'versionDescription',
       versionDescription,
       0,
       255,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -5230,13 +5226,11 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -5277,13 +5271,11 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -6784,7 +6776,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -6858,7 +6849,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -6914,7 +6904,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -6967,7 +6956,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7017,7 +7005,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7072,7 +7059,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7133,7 +7119,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7185,7 +7170,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7353,7 +7337,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7410,7 +7393,6 @@ class EC2 {
       maxResults,
       5,
       255,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7476,7 +7458,6 @@ class EC2 {
       maxResults,
       10,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7516,7 +7497,6 @@ class EC2 {
       maxResults,
       1,
       500,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7585,7 +7565,6 @@ class EC2 {
       maxResults,
       0,
       200,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7925,7 +7904,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -7996,7 +7974,6 @@ class EC2 {
       maxResults,
       5,
       500,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -8166,7 +8143,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -8666,7 +8642,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -8878,7 +8853,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9027,7 +9001,6 @@ class EC2 {
       maxResults,
       5,
       100,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9526,7 +9499,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9582,7 +9554,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9729,13 +9700,11 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9801,7 +9770,6 @@ class EC2 {
       maxResults,
       1,
       200,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9843,7 +9811,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9885,7 +9852,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9928,7 +9894,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -9969,7 +9934,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10010,7 +9974,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10051,7 +10014,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10105,7 +10067,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10176,7 +10137,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10299,7 +10259,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10381,7 +10340,6 @@ class EC2 {
       maxResults,
       5,
       255,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10575,7 +10533,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10755,7 +10712,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10803,7 +10759,6 @@ class EC2 {
       maxResults,
       1,
       10,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -11426,7 +11381,6 @@ class EC2 {
       maxResults,
       5,
       100,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -11514,7 +11468,6 @@ class EC2 {
       maxResults,
       5,
       300,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -11765,7 +11718,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12020,7 +11972,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12073,7 +12024,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12454,14 +12404,12 @@ class EC2 {
       maxResults,
       5,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12575,7 +12523,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12691,7 +12638,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12768,7 +12714,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12830,7 +12775,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12914,7 +12858,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12970,7 +12913,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -13036,7 +12978,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -13106,7 +13047,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -13167,7 +13107,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -13261,7 +13200,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -13726,14 +13664,12 @@ class EC2 {
       maxResults,
       5,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -14178,7 +14114,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -14286,7 +14221,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15394,7 +15328,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15437,7 +15370,6 @@ class EC2 {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15499,7 +15431,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15807,7 +15738,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15871,7 +15801,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15928,7 +15857,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15985,7 +15913,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -17453,13 +17380,11 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -20654,7 +20579,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -20732,7 +20656,6 @@ class EC2 {
       maxResults,
       5,
       1000,
-      isRequired: false,
     );
 // TODO: implement ec2
     throw UnimplementedError();

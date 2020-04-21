@@ -682,7 +682,6 @@ class ElasticLoadBalancing {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAccountLimits',
@@ -863,7 +862,6 @@ class ElasticLoadBalancing {
       pageSize,
       1,
       400,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',

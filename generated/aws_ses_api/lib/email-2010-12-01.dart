@@ -1336,7 +1336,6 @@ class SES {
       maxResults,
       1,
       50,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ListCustomVerificationEmailTemplates',
@@ -1952,7 +1951,6 @@ class SES {
       defaultTemplateData,
       0,
       262144,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'SendBulkTemplatedEmail',

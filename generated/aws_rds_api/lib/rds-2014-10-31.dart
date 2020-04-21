@@ -6328,7 +6328,6 @@ class RDS {
       maxRecords,
       20,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxies',
@@ -6396,7 +6395,6 @@ class RDS {
       maxRecords,
       20,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxyTargetGroups',
@@ -6465,7 +6463,6 @@ class RDS {
       maxRecords,
       20,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxyTargets',
@@ -7177,7 +7174,6 @@ class RDS {
       maxRecords,
       20,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeExportTasks',

@@ -421,20 +421,17 @@ class DynamoDB {
       exclusiveStartTableName,
       3,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'exclusiveStartTableName',
       exclusiveStartTableName,
       r'''[a-zA-Z0-9_.-]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -602,7 +599,6 @@ class DynamoDB {
       limit,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -699,7 +695,6 @@ class DynamoDB {
       limit,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

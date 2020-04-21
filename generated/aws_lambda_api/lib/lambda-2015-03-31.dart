@@ -142,7 +142,6 @@ class Lambda {
       'organizationId',
       organizationId,
       r'''o-[a-z0-9]{10,32}''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'Action': action,
@@ -303,38 +302,32 @@ class Lambda {
       eventSourceToken,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'eventSourceToken',
       eventSourceToken,
       r'''[a-zA-Z0-9._\-]+''',
-      isRequired: false,
     );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     _s.validateStringPattern(
       'sourceAccount',
       sourceAccount,
       r'''\d{12}''',
-      isRequired: false,
     );
     _s.validateStringPattern(
       'sourceArn',
       sourceArn,
       r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'Action': action,
@@ -456,7 +449,6 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
@@ -653,35 +645,30 @@ class Lambda {
       batchSize,
       1,
       10000,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
       maximumBatchingWindowInSeconds,
       0,
       300,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRecordAgeInSeconds',
       maximumRecordAgeInSeconds,
       60,
       604800,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
       0,
       10000,
-      isRequired: false,
     );
     _s.validateNumRange(
       'parallelizationFactor',
       parallelizationFactor,
       1,
       10,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'EventSourceArn': eventSourceArn,
@@ -910,27 +897,23 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'kMSKeyArn',
       kMSKeyArn,
       r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       3008,
-      isRequired: false,
     );
     _s.validateNumRange(
       'timeout',
       timeout,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'Code': code,
@@ -1125,13 +1108,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1255,13 +1236,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1559,13 +1538,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -1690,13 +1667,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -1765,13 +1740,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -1966,13 +1939,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2211,13 +2182,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final headers = <String, String>{};
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
@@ -2358,20 +2327,17 @@ class Lambda {
       functionVersion,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2444,27 +2410,23 @@ class Lambda {
       'eventSourceArn',
       eventSourceArn,
       r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-      isRequired: false,
     );
     _s.validateStringLength(
       'functionName',
       functionName,
       1,
       140,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2537,7 +2499,6 @@ class Lambda {
       maxItems,
       1,
       50,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2589,14 +2550,12 @@ class Lambda {
       'masterRegion',
       masterRegion,
       r'''ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2657,7 +2616,6 @@ class Lambda {
       maxItems,
       1,
       50,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2699,7 +2657,6 @@ class Lambda {
       maxItems,
       1,
       50,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2768,7 +2725,6 @@ class Lambda {
       maxItems,
       1,
       50,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2871,7 +2827,6 @@ class Lambda {
       maxItems,
       1,
       10000,
-      isRequired: false,
     );
     await _protocol.send(
       null,
@@ -2956,14 +2911,12 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringLength(
       'licenseInfo',
       licenseInfo,
       0,
       512,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'Content': content,
@@ -3061,7 +3014,6 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'CodeSha256': codeSha256,
@@ -3265,27 +3217,23 @@ class Lambda {
       maximumEventAgeInSeconds,
       60,
       21600,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
       0,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
@@ -3543,13 +3491,11 @@ class Lambda {
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -3728,20 +3674,17 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringLength(
       'functionVersion',
       functionVersion,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'Description': description,
@@ -3880,48 +3823,41 @@ class Lambda {
       batchSize,
       1,
       10000,
-      isRequired: false,
     );
     _s.validateStringLength(
       'functionName',
       functionName,
       1,
       140,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
       maximumBatchingWindowInSeconds,
       0,
       300,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRecordAgeInSeconds',
       maximumRecordAgeInSeconds,
       60,
       604800,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
       0,
       10000,
-      isRequired: false,
     );
     _s.validateNumRange(
       'parallelizationFactor',
       parallelizationFactor,
       1,
       10,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'BatchSize': batchSize,
@@ -4033,27 +3969,23 @@ class Lambda {
       s3Bucket,
       3,
       63,
-      isRequired: false,
     );
     _s.validateStringPattern(
       's3Bucket',
       s3Bucket,
       r'''^[0-9A-Za-z\.\-_]*(?<!\.)$''',
-      isRequired: false,
     );
     _s.validateStringLength(
       's3Key',
       s3Key,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateStringLength(
       's3ObjectVersion',
       s3ObjectVersion,
       1,
       1024,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'DryRun': dryRun,
@@ -4222,46 +4154,39 @@ class Lambda {
       description,
       0,
       256,
-      isRequired: false,
     );
     _s.validateStringLength(
       'handler',
       handler,
       0,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'handler',
       handler,
       r'''[^\s]+''',
-      isRequired: false,
     );
     _s.validateStringPattern(
       'kMSKeyArn',
       kMSKeyArn,
       r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       3008,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'role',
       role,
       r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'timeout',
       timeout,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'DeadLetterConfig': deadLetterConfig,
@@ -4375,27 +4300,23 @@ class Lambda {
       maximumEventAgeInSeconds,
       60,
       21600,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
       0,
       2,
-      isRequired: false,
     );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: false,
     );
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,

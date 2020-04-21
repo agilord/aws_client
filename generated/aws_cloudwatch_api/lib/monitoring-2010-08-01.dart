@@ -272,14 +272,12 @@ class CloudWatch {
       alarmName,
       1,
       255,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       100,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAlarmHistory',
@@ -393,35 +391,30 @@ class CloudWatch {
       actionPrefix,
       1,
       1024,
-      isRequired: false,
     );
     _s.validateStringLength(
       'alarmNamePrefix',
       alarmNamePrefix,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'childrenOfAlarmName',
       childrenOfAlarmName,
       1,
       255,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       100,
-      isRequired: false,
     );
     _s.validateStringLength(
       'parentsOfAlarmName',
       parentsOfAlarmName,
       1,
       255,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAlarms',
@@ -508,14 +501,12 @@ class CloudWatch {
       'extendedStatistic',
       extendedStatistic,
       r'''p(\d{1,2}(\.\d{0,2})?|100)''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'period',
       period,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAlarmsForMetric',
@@ -585,27 +576,23 @@ class CloudWatch {
       maxResults,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     _s.validateStringLength(
       'metricName',
       metricName,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeAnomalyDetectors',
@@ -650,7 +637,6 @@ class CloudWatch {
       maxResults,
       1,
       500,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeInsightRules',
@@ -953,13 +939,11 @@ class CloudWatch {
       orderBy,
       1,
       32,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'orderBy',
       orderBy,
       r'''[\x20-\x7E]+''',
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'GetInsightRuleReport',
@@ -1566,20 +1550,17 @@ class CloudWatch {
       metricName,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'ListMetrics',
@@ -1923,7 +1904,6 @@ class CloudWatch {
       alarmDescription,
       0,
       1024,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'PutCompositeAlarm',
@@ -2088,13 +2068,11 @@ class CloudWatch {
       ruleState,
       1,
       32,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'ruleState',
       ruleState,
       r'''[\x20-\x7E]+''',
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'PutInsightRule',
@@ -2461,68 +2439,58 @@ class CloudWatch {
       alarmDescription,
       0,
       1024,
-      isRequired: false,
     );
     _s.validateNumRange(
       'datapointsToAlarm',
       datapointsToAlarm,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     _s.validateStringLength(
       'evaluateLowSampleCountPercentile',
       evaluateLowSampleCountPercentile,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'extendedStatistic',
       extendedStatistic,
       r'''p(\d{1,2}(\.\d{0,2})?|100)''',
-      isRequired: false,
     );
     _s.validateStringLength(
       'metricName',
       metricName,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
-      isRequired: false,
     );
     _s.validateNumRange(
       'period',
       period,
       1,
       1152921504606846976,
-      isRequired: false,
     );
     _s.validateStringLength(
       'thresholdMetricId',
       thresholdMetricId,
       1,
       255,
-      isRequired: false,
     );
     _s.validateStringLength(
       'treatMissingData',
       treatMissingData,
       1,
       255,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'PutMetricAlarm',
@@ -2733,7 +2701,6 @@ class CloudWatch {
       stateReasonData,
       0,
       4000,
-      isRequired: false,
     );
     final $request = <String, dynamic>{
       'Action': 'SetAlarmState',

@@ -185,7 +185,6 @@ class S3Control {
       description,
       1,
       256,
-      isRequired: false,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -624,21 +623,18 @@ class S3Control {
       bucket,
       3,
       255,
-      isRequired: false,
     );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-      isRequired: false,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -700,14 +696,12 @@ class S3Control {
       maxResults,
       1,
       1000,
-      isRequired: false,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-      isRequired: false,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -966,7 +960,6 @@ class S3Control {
       statusUpdateReason,
       1,
       256,
-      isRequired: false,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
