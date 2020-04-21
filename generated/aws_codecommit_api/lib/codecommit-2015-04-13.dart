@@ -79,6 +79,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -86,11 +87,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -146,6 +149,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryNames, 'repositoryNames');
     final headers = <String, String>{
@@ -257,11 +261,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -328,6 +334,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryNames, 'repositoryNames');
     final headers = <String, String>{
@@ -385,11 +392,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -537,6 +546,7 @@ class CodeCommit {
       approvalRuleTemplateContent,
       1,
       3000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -545,15 +555,14 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
-    if (approvalRuleTemplateDescription != null) {
-      _s.validateStringLength(
-        'approvalRuleTemplateDescription',
-        approvalRuleTemplateDescription,
-        0,
-        1000,
-      );
-    }
+    _s.validateStringLength(
+      'approvalRuleTemplateDescription',
+      approvalRuleTemplateDescription,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreateApprovalRuleTemplate'
@@ -614,6 +623,7 @@ class CodeCommit {
       branchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(commitId, 'commitId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -622,11 +632,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -740,6 +752,7 @@ class CodeCommit {
       branchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -747,11 +760,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -844,15 +859,14 @@ class CodeCommit {
       title,
       0,
       150,
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        10240,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      10240,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreatePullRequest'
@@ -951,6 +965,7 @@ class CodeCommit {
       approvalRuleContent,
       1,
       3000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(approvalRuleName, 'approvalRuleName');
     _s.validateStringLength(
@@ -958,6 +973,7 @@ class CodeCommit {
       approvalRuleName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -1032,20 +1048,20 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
-    if (repositoryDescription != null) {
-      _s.validateStringLength(
-        'repositoryDescription',
-        repositoryDescription,
-        0,
-        1000,
-      );
-    }
+    _s.validateStringLength(
+      'repositoryDescription',
+      repositoryDescription,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreateRepository'
@@ -1182,11 +1198,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -1236,6 +1254,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1285,6 +1304,7 @@ class CodeCommit {
       branchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1292,11 +1312,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1430,6 +1452,7 @@ class CodeCommit {
       branchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(filePath, 'filePath');
     ArgumentError.checkNotNull(parentCommitId, 'parentCommitId');
@@ -1439,11 +1462,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1506,6 +1531,7 @@ class CodeCommit {
       approvalRuleName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -1554,11 +1580,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1665,11 +1693,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -1800,6 +1830,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1807,11 +1838,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1897,6 +1930,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1947,11 +1981,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1997,29 +2033,23 @@ class CodeCommit {
     String branchName,
     String repositoryName,
   }) async {
-    if (branchName != null) {
-      _s.validateStringLength(
-        'branchName',
-        branchName,
-        1,
-        256,
-      );
-    }
-    if (repositoryName != null) {
-      _s.validateStringLength(
-        'repositoryName',
-        repositoryName,
-        1,
-        100,
-      );
-    }
-    if (repositoryName != null) {
-      _s.validateStringPattern(
-        'repositoryName',
-        repositoryName,
-        r'''[\w\.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'branchName',
+      branchName,
+      1,
+      256,
+    );
+    _s.validateStringLength(
+      'repositoryName',
+      repositoryName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'repositoryName',
+      repositoryName,
+      r'''[\w\.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.GetBranch'
@@ -2121,11 +2151,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2201,21 +2233,17 @@ class CodeCommit {
     String repositoryName,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
-    if (repositoryName != null) {
-      _s.validateStringLength(
-        'repositoryName',
-        repositoryName,
-        1,
-        100,
-      );
-    }
-    if (repositoryName != null) {
-      _s.validateStringPattern(
-        'repositoryName',
-        repositoryName,
-        r'''[\w\.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'repositoryName',
+      repositoryName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'repositoryName',
+      repositoryName,
+      r'''[\w\.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.GetCommentsForPullRequest'
@@ -2270,11 +2298,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2365,11 +2395,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2437,11 +2469,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2506,11 +2540,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2587,11 +2623,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -2694,11 +2732,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -2786,11 +2826,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
     final headers = <String, String>{
@@ -2974,11 +3016,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3020,11 +3064,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3118,11 +3164,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3173,11 +3221,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3247,11 +3297,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3355,6 +3407,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3468,21 +3521,21 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    if (targetBranch != null) {
-      _s.validateStringLength(
-        'targetBranch',
-        targetBranch,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'targetBranch',
+      targetBranch,
+      1,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesByFastForward'
@@ -3613,21 +3666,21 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    if (targetBranch != null) {
-      _s.validateStringLength(
-        'targetBranch',
-        targetBranch,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'targetBranch',
+      targetBranch,
+      1,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesBySquash'
@@ -3765,21 +3818,21 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
-    if (targetBranch != null) {
-      _s.validateStringLength(
-        'targetBranch',
-        targetBranch,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'targetBranch',
+      targetBranch,
+      1,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.MergeBranchesByThreeWay'
@@ -3857,11 +3910,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3991,11 +4046,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4132,11 +4189,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4291,11 +4350,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4401,11 +4462,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4577,6 +4640,7 @@ class CodeCommit {
       branchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(fileContent, 'fileContent');
     ArgumentError.checkNotNull(filePath, 'filePath');
@@ -4586,11 +4650,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4657,11 +4723,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(triggers, 'triggers');
     final headers = <String, String>{
@@ -4769,11 +4837,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(triggers, 'triggers');
     final headers = <String, String>{
@@ -4874,6 +4944,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newRuleContent, 'newRuleContent');
     _s.validateStringLength(
@@ -4881,6 +4952,7 @@ class CodeCommit {
       newRuleContent,
       1,
       3000,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4926,6 +4998,7 @@ class CodeCommit {
       approvalRuleTemplateDescription,
       0,
       1000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -4934,6 +5007,7 @@ class CodeCommit {
       approvalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4979,6 +5053,7 @@ class CodeCommit {
       newApprovalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         oldApprovalRuleTemplateName, 'oldApprovalRuleTemplateName');
@@ -4987,6 +5062,7 @@ class CodeCommit {
       oldApprovalRuleTemplateName,
       1,
       100,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5083,6 +5159,7 @@ class CodeCommit {
       defaultBranchName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -5090,11 +5167,13 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5196,6 +5275,7 @@ class CodeCommit {
       approvalRuleName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newRuleContent, 'newRuleContent');
     _s.validateStringLength(
@@ -5203,6 +5283,7 @@ class CodeCommit {
       newRuleContent,
       1,
       3000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -5306,6 +5387,7 @@ class CodeCommit {
       description,
       0,
       10240,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -5400,6 +5482,7 @@ class CodeCommit {
       title,
       0,
       150,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5457,20 +5540,20 @@ class CodeCommit {
       repositoryName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
-    if (repositoryDescription != null) {
-      _s.validateStringLength(
-        'repositoryDescription',
-        repositoryDescription,
-        0,
-        1000,
-      );
-    }
+    _s.validateStringLength(
+      'repositoryDescription',
+      repositoryDescription,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdateRepositoryDescription'
@@ -5516,11 +5599,13 @@ class CodeCommit {
       newName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'newName',
       newName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(oldName, 'oldName');
     _s.validateStringLength(
@@ -5528,11 +5613,13 @@ class CodeCommit {
       oldName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'oldName',
       oldName,
       r'''[\w\.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

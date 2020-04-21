@@ -63,21 +63,17 @@ class CostandUsageReportService {
   Future<DeleteReportDefinitionResponse> deleteReportDefinition({
     String reportName,
   }) async {
-    if (reportName != null) {
-      _s.validateStringLength(
-        'reportName',
-        reportName,
-        0,
-        256,
-      );
-    }
-    if (reportName != null) {
-      _s.validateStringPattern(
-        'reportName',
-        reportName,
-        r'''[0-9A-Za-z!\-_.*\'()]+''',
-      );
-    }
+    _s.validateStringLength(
+      'reportName',
+      reportName,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'reportName',
+      reportName,
+      r'''[0-9A-Za-z!\-_.*\'()]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrigamiServiceGatewayService.DeleteReportDefinition'
@@ -103,14 +99,12 @@ class CostandUsageReportService {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        5,
-        5,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      5,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -146,11 +140,13 @@ class CostandUsageReportService {
       reportName,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'reportName',
       reportName,
       r'''[0-9A-Za-z!\-_.*\'()]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

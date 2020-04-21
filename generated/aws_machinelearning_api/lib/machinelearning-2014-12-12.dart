@@ -71,11 +71,13 @@ class MachineLearning {
       resourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -161,11 +163,13 @@ class MachineLearning {
       batchPredictionDataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionDataSourceId',
       batchPredictionDataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
     _s.validateStringLength(
@@ -173,11 +177,13 @@ class MachineLearning {
       batchPredictionId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionId',
       batchPredictionId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -185,11 +191,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(outputUri, 'outputUri');
     _s.validateStringLength(
@@ -197,27 +205,25 @@ class MachineLearning {
       outputUri,
       0,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'outputUri',
       outputUri,
       r'''s3://([^/]+)(/.*)?''',
+      isRequired: true,
     );
-    if (batchPredictionName != null) {
-      _s.validateStringLength(
-        'batchPredictionName',
-        batchPredictionName,
-        0,
-        1024,
-      );
-    }
-    if (batchPredictionName != null) {
-      _s.validateStringPattern(
-        'batchPredictionName',
-        batchPredictionName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'batchPredictionName',
+      batchPredictionName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'batchPredictionName',
+      batchPredictionName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateBatchPrediction'
@@ -362,11 +368,13 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(rDSData, 'rDSData');
     ArgumentError.checkNotNull(roleARN, 'roleARN');
@@ -375,22 +383,19 @@ class MachineLearning {
       roleARN,
       1,
       110,
+      isRequired: true,
     );
-    if (dataSourceName != null) {
-      _s.validateStringLength(
-        'dataSourceName',
-        dataSourceName,
-        0,
-        1024,
-      );
-    }
-    if (dataSourceName != null) {
-      _s.validateStringPattern(
-        'dataSourceName',
-        dataSourceName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'dataSourceName',
+      dataSourceName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'dataSourceName',
+      dataSourceName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromRDS'
@@ -547,11 +552,13 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(dataSpec, 'dataSpec');
     ArgumentError.checkNotNull(roleARN, 'roleARN');
@@ -560,22 +567,19 @@ class MachineLearning {
       roleARN,
       1,
       110,
+      isRequired: true,
     );
-    if (dataSourceName != null) {
-      _s.validateStringLength(
-        'dataSourceName',
-        dataSourceName,
-        0,
-        1024,
-      );
-    }
-    if (dataSourceName != null) {
-      _s.validateStringPattern(
-        'dataSourceName',
-        dataSourceName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'dataSourceName',
+      dataSourceName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'dataSourceName',
+      dataSourceName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromRedshift'
@@ -690,28 +694,26 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(dataSpec, 'dataSpec');
-    if (dataSourceName != null) {
-      _s.validateStringLength(
-        'dataSourceName',
-        dataSourceName,
-        0,
-        1024,
-      );
-    }
-    if (dataSourceName != null) {
-      _s.validateStringPattern(
-        'dataSourceName',
-        dataSourceName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'dataSourceName',
+      dataSourceName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'dataSourceName',
+      dataSourceName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromS3'
@@ -788,11 +790,13 @@ class MachineLearning {
       evaluationDataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationDataSourceId',
       evaluationDataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(evaluationId, 'evaluationId');
     _s.validateStringLength(
@@ -800,11 +804,13 @@ class MachineLearning {
       evaluationId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationId',
       evaluationId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -812,27 +818,25 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (evaluationName != null) {
-      _s.validateStringLength(
-        'evaluationName',
-        evaluationName,
-        0,
-        1024,
-      );
-    }
-    if (evaluationName != null) {
-      _s.validateStringPattern(
-        'evaluationName',
-        evaluationName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'evaluationName',
+      evaluationName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'evaluationName',
+      evaluationName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateEvaluation'
@@ -986,11 +990,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(mLModelType, 'mLModelType');
     ArgumentError.checkNotNull(trainingDataSourceId, 'trainingDataSourceId');
@@ -999,50 +1005,42 @@ class MachineLearning {
       trainingDataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'trainingDataSourceId',
       trainingDataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (mLModelName != null) {
-      _s.validateStringLength(
-        'mLModelName',
-        mLModelName,
-        0,
-        1024,
-      );
-    }
-    if (mLModelName != null) {
-      _s.validateStringPattern(
-        'mLModelName',
-        mLModelName,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (recipe != null) {
-      _s.validateStringLength(
-        'recipe',
-        recipe,
-        0,
-        131071,
-      );
-    }
-    if (recipeUri != null) {
-      _s.validateStringLength(
-        'recipeUri',
-        recipeUri,
-        0,
-        2048,
-      );
-    }
-    if (recipeUri != null) {
-      _s.validateStringPattern(
-        'recipeUri',
-        recipeUri,
-        r'''s3://([^/]+)(/.*)?''',
-      );
-    }
+    _s.validateStringLength(
+      'mLModelName',
+      mLModelName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'mLModelName',
+      mLModelName,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'recipe',
+      recipe,
+      0,
+      131071,
+    );
+    _s.validateStringLength(
+      'recipeUri',
+      recipeUri,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'recipeUri',
+      recipeUri,
+      r'''s3://([^/]+)(/.*)?''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateMLModel'
@@ -1086,11 +1084,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1136,11 +1136,13 @@ class MachineLearning {
       batchPredictionId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionId',
       batchPredictionId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1185,11 +1187,13 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1236,11 +1240,13 @@ class MachineLearning {
       evaluationId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationId',
       evaluationId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1285,11 +1291,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1326,11 +1334,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1379,11 +1389,13 @@ class MachineLearning {
       resourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1520,119 +1532,89 @@ class MachineLearning {
     String prefix,
     SortOrder sortOrder,
   }) async {
-    if (eq != null) {
-      _s.validateStringLength(
-        'eq',
-        eq,
-        0,
-        1024,
-      );
-    }
-    if (eq != null) {
-      _s.validateStringPattern(
-        'eq',
-        eq,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (ge != null) {
-      _s.validateStringLength(
-        'ge',
-        ge,
-        0,
-        1024,
-      );
-    }
-    if (ge != null) {
-      _s.validateStringPattern(
-        'ge',
-        ge,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (gt != null) {
-      _s.validateStringLength(
-        'gt',
-        gt,
-        0,
-        1024,
-      );
-    }
-    if (gt != null) {
-      _s.validateStringPattern(
-        'gt',
-        gt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (le != null) {
-      _s.validateStringLength(
-        'le',
-        le,
-        0,
-        1024,
-      );
-    }
-    if (le != null) {
-      _s.validateStringPattern(
-        'le',
-        le,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (lt != null) {
-      _s.validateStringLength(
-        'lt',
-        lt,
-        0,
-        1024,
-      );
-    }
-    if (lt != null) {
-      _s.validateStringPattern(
-        'lt',
-        lt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringLength(
-        'ne',
-        ne,
-        0,
-        1024,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringPattern(
-        'ne',
-        ne,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringLength(
-        'prefix',
-        prefix,
-        0,
-        1024,
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringPattern(
-        'prefix',
-        prefix,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'eq',
+      eq,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'eq',
+      eq,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'ge',
+      ge,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ge',
+      ge,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'gt',
+      gt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'gt',
+      gt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'le',
+      le,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'le',
+      le,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'lt',
+      lt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'lt',
+      lt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'ne',
+      ne,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ne',
+      ne,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'prefix',
+      prefix,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'prefix',
+      prefix,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DescribeBatchPredictions'
@@ -1768,119 +1750,89 @@ class MachineLearning {
     String prefix,
     SortOrder sortOrder,
   }) async {
-    if (eq != null) {
-      _s.validateStringLength(
-        'eq',
-        eq,
-        0,
-        1024,
-      );
-    }
-    if (eq != null) {
-      _s.validateStringPattern(
-        'eq',
-        eq,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (ge != null) {
-      _s.validateStringLength(
-        'ge',
-        ge,
-        0,
-        1024,
-      );
-    }
-    if (ge != null) {
-      _s.validateStringPattern(
-        'ge',
-        ge,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (gt != null) {
-      _s.validateStringLength(
-        'gt',
-        gt,
-        0,
-        1024,
-      );
-    }
-    if (gt != null) {
-      _s.validateStringPattern(
-        'gt',
-        gt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (le != null) {
-      _s.validateStringLength(
-        'le',
-        le,
-        0,
-        1024,
-      );
-    }
-    if (le != null) {
-      _s.validateStringPattern(
-        'le',
-        le,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (lt != null) {
-      _s.validateStringLength(
-        'lt',
-        lt,
-        0,
-        1024,
-      );
-    }
-    if (lt != null) {
-      _s.validateStringPattern(
-        'lt',
-        lt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringLength(
-        'ne',
-        ne,
-        0,
-        1024,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringPattern(
-        'ne',
-        ne,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringLength(
-        'prefix',
-        prefix,
-        0,
-        1024,
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringPattern(
-        'prefix',
-        prefix,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'eq',
+      eq,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'eq',
+      eq,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'ge',
+      ge,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ge',
+      ge,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'gt',
+      gt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'gt',
+      gt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'le',
+      le,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'le',
+      le,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'lt',
+      lt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'lt',
+      lt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'ne',
+      ne,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ne',
+      ne,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'prefix',
+      prefix,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'prefix',
+      prefix,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DescribeDataSources'
@@ -2019,119 +1971,89 @@ class MachineLearning {
     String prefix,
     SortOrder sortOrder,
   }) async {
-    if (eq != null) {
-      _s.validateStringLength(
-        'eq',
-        eq,
-        0,
-        1024,
-      );
-    }
-    if (eq != null) {
-      _s.validateStringPattern(
-        'eq',
-        eq,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (ge != null) {
-      _s.validateStringLength(
-        'ge',
-        ge,
-        0,
-        1024,
-      );
-    }
-    if (ge != null) {
-      _s.validateStringPattern(
-        'ge',
-        ge,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (gt != null) {
-      _s.validateStringLength(
-        'gt',
-        gt,
-        0,
-        1024,
-      );
-    }
-    if (gt != null) {
-      _s.validateStringPattern(
-        'gt',
-        gt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (le != null) {
-      _s.validateStringLength(
-        'le',
-        le,
-        0,
-        1024,
-      );
-    }
-    if (le != null) {
-      _s.validateStringPattern(
-        'le',
-        le,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (lt != null) {
-      _s.validateStringLength(
-        'lt',
-        lt,
-        0,
-        1024,
-      );
-    }
-    if (lt != null) {
-      _s.validateStringPattern(
-        'lt',
-        lt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringLength(
-        'ne',
-        ne,
-        0,
-        1024,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringPattern(
-        'ne',
-        ne,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringLength(
-        'prefix',
-        prefix,
-        0,
-        1024,
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringPattern(
-        'prefix',
-        prefix,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'eq',
+      eq,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'eq',
+      eq,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'ge',
+      ge,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ge',
+      ge,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'gt',
+      gt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'gt',
+      gt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'le',
+      le,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'le',
+      le,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'lt',
+      lt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'lt',
+      lt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'ne',
+      ne,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ne',
+      ne,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'prefix',
+      prefix,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'prefix',
+      prefix,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DescribeEvaluations'
@@ -2278,119 +2200,89 @@ class MachineLearning {
     String prefix,
     SortOrder sortOrder,
   }) async {
-    if (eq != null) {
-      _s.validateStringLength(
-        'eq',
-        eq,
-        0,
-        1024,
-      );
-    }
-    if (eq != null) {
-      _s.validateStringPattern(
-        'eq',
-        eq,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (ge != null) {
-      _s.validateStringLength(
-        'ge',
-        ge,
-        0,
-        1024,
-      );
-    }
-    if (ge != null) {
-      _s.validateStringPattern(
-        'ge',
-        ge,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (gt != null) {
-      _s.validateStringLength(
-        'gt',
-        gt,
-        0,
-        1024,
-      );
-    }
-    if (gt != null) {
-      _s.validateStringPattern(
-        'gt',
-        gt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (le != null) {
-      _s.validateStringLength(
-        'le',
-        le,
-        0,
-        1024,
-      );
-    }
-    if (le != null) {
-      _s.validateStringPattern(
-        'le',
-        le,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (lt != null) {
-      _s.validateStringLength(
-        'lt',
-        lt,
-        0,
-        1024,
-      );
-    }
-    if (lt != null) {
-      _s.validateStringPattern(
-        'lt',
-        lt,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringLength(
-        'ne',
-        ne,
-        0,
-        1024,
-      );
-    }
-    if (ne != null) {
-      _s.validateStringPattern(
-        'ne',
-        ne,
-        r'''.*\S.*|^$''',
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringLength(
-        'prefix',
-        prefix,
-        0,
-        1024,
-      );
-    }
-    if (prefix != null) {
-      _s.validateStringPattern(
-        'prefix',
-        prefix,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'eq',
+      eq,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'eq',
+      eq,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'ge',
+      ge,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ge',
+      ge,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'gt',
+      gt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'gt',
+      gt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'le',
+      le,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'le',
+      le,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'lt',
+      lt,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'lt',
+      lt,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'ne',
+      ne,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'ne',
+      ne,
+      r'''.*\S.*|^$''',
+    );
+    _s.validateStringLength(
+      'prefix',
+      prefix,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'prefix',
+      prefix,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DescribeMLModels'
@@ -2440,11 +2332,13 @@ class MachineLearning {
       resourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final headers = <String, String>{
@@ -2485,11 +2379,13 @@ class MachineLearning {
       batchPredictionId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionId',
       batchPredictionId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2540,11 +2436,13 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2585,11 +2483,13 @@ class MachineLearning {
       evaluationId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationId',
       evaluationId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2638,11 +2538,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2689,11 +2591,13 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(predictEndpoint, 'predictEndpoint');
     _s.validateStringLength(
@@ -2701,11 +2605,13 @@ class MachineLearning {
       predictEndpoint,
       0,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'predictEndpoint',
       predictEndpoint,
       r'''https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(record, 'record');
     final headers = <String, String>{
@@ -2754,11 +2660,13 @@ class MachineLearning {
       batchPredictionId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionId',
       batchPredictionId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(batchPredictionName, 'batchPredictionName');
     _s.validateStringLength(
@@ -2766,11 +2674,13 @@ class MachineLearning {
       batchPredictionName,
       0,
       1024,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'batchPredictionName',
       batchPredictionName,
       r'''.*\S.*|^$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2816,11 +2726,13 @@ class MachineLearning {
       dataSourceId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceId',
       dataSourceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
     _s.validateStringLength(
@@ -2828,11 +2740,13 @@ class MachineLearning {
       dataSourceName,
       0,
       1024,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'dataSourceName',
       dataSourceName,
       r'''.*\S.*|^$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2878,11 +2792,13 @@ class MachineLearning {
       evaluationId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationId',
       evaluationId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(evaluationName, 'evaluationName');
     _s.validateStringLength(
@@ -2890,11 +2806,13 @@ class MachineLearning {
       evaluationName,
       0,
       1024,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'evaluationName',
       evaluationName,
       r'''.*\S.*|^$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2952,27 +2870,25 @@ class MachineLearning {
       mLModelId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'mLModelId',
       mLModelId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (mLModelName != null) {
-      _s.validateStringLength(
-        'mLModelName',
-        mLModelName,
-        0,
-        1024,
-      );
-    }
-    if (mLModelName != null) {
-      _s.validateStringPattern(
-        'mLModelName',
-        mLModelName,
-        r'''.*\S.*|^$''',
-      );
-    }
+    _s.validateStringLength(
+      'mLModelName',
+      mLModelName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'mLModelName',
+      mLModelName,
+      r'''.*\S.*|^$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.UpdateMLModel'

@@ -6323,14 +6323,12 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    if (maxRecords != null) {
-      _s.validateNumRange(
-        'maxRecords',
-        maxRecords,
-        20,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      20,
+      100,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxies',
       'Version': '2014-10-31',
@@ -6392,14 +6390,12 @@ class RDS {
     String targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
-    if (maxRecords != null) {
-      _s.validateNumRange(
-        'maxRecords',
-        maxRecords,
-        20,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      20,
+      100,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxyTargetGroups',
       'Version': '2014-10-31',
@@ -6462,14 +6458,12 @@ class RDS {
     String targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
-    if (maxRecords != null) {
-      _s.validateNumRange(
-        'maxRecords',
-        maxRecords,
-        20,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      20,
+      100,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeDBProxyTargets',
       'Version': '2014-10-31',
@@ -7175,14 +7169,12 @@ class RDS {
     int maxRecords,
     String sourceArn,
   }) async {
-    if (maxRecords != null) {
-      _s.validateNumRange(
-        'maxRecords',
-        maxRecords,
-        20,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      20,
+      100,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeExportTasks',
       'Version': '2014-10-31',

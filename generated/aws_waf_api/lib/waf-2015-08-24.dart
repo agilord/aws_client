@@ -105,6 +105,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -112,6 +113,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -187,6 +189,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -194,6 +197,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -269,6 +273,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -276,6 +281,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -440,6 +446,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
     ArgumentError.checkNotNull(name, 'name');
@@ -448,6 +455,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(rateKey, 'rateKey');
     ArgumentError.checkNotNull(rateLimit, 'rateLimit');
@@ -456,8 +464,8 @@ class WAF {
       rateLimit,
       100,
       2000000000,
+      isRequired: true,
     );
-    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRateBasedRule'
@@ -538,6 +546,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -545,6 +554,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -617,6 +627,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -624,6 +635,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -733,6 +745,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
     ArgumentError.checkNotNull(name, 'name');
@@ -741,8 +754,8 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
-    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRule'
@@ -821,6 +834,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
     ArgumentError.checkNotNull(name, 'name');
@@ -829,8 +843,8 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
-    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateRuleGroup'
@@ -910,6 +924,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -917,6 +932,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -992,6 +1008,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -999,6 +1016,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1108,6 +1126,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(defaultAction, 'defaultAction');
     ArgumentError.checkNotNull(metricName, 'metricName');
@@ -1117,8 +1136,8 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
-    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.CreateWebACL'
@@ -1196,6 +1215,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1203,6 +1223,7 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1270,6 +1291,7 @@ class WAF {
       byteMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1277,6 +1299,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1344,6 +1367,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
     _s.validateStringLength(
@@ -1351,6 +1375,7 @@ class WAF {
       geoMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1417,6 +1442,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
     _s.validateStringLength(
@@ -1424,6 +1450,7 @@ class WAF {
       iPSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1463,6 +1490,7 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1504,6 +1532,7 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1572,6 +1601,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -1579,6 +1609,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1647,6 +1678,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
     _s.validateStringLength(
@@ -1654,6 +1686,7 @@ class WAF {
       regexMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1703,6 +1736,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
     _s.validateStringLength(
@@ -1710,6 +1744,7 @@ class WAF {
       regexPatternSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1778,6 +1813,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -1785,6 +1821,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1854,6 +1891,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
     _s.validateStringLength(
@@ -1861,6 +1899,7 @@ class WAF {
       ruleGroupId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1929,6 +1968,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
     _s.validateStringLength(
@@ -1936,6 +1976,7 @@ class WAF {
       sizeConstraintSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2005,6 +2046,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         sqlInjectionMatchSetId, 'sqlInjectionMatchSetId');
@@ -2013,6 +2055,7 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2076,6 +2119,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
@@ -2083,6 +2127,7 @@ class WAF {
       webACLId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2150,6 +2195,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
     _s.validateStringLength(
@@ -2157,6 +2203,7 @@ class WAF {
       xssMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2196,6 +2243,7 @@ class WAF {
       byteMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2284,6 +2332,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2323,6 +2372,7 @@ class WAF {
       geoMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2361,6 +2411,7 @@ class WAF {
       iPSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2397,6 +2448,7 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2433,6 +2485,7 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2473,6 +2526,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2520,15 +2574,14 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRateBasedRuleManagedKeys'
@@ -2568,6 +2621,7 @@ class WAF {
       regexMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2607,6 +2661,7 @@ class WAF {
       regexPatternSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2646,6 +2701,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2688,6 +2744,7 @@ class WAF {
       ruleGroupId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2768,6 +2825,7 @@ class WAF {
       maxItems,
       1,
       500,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -2775,6 +2833,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(timeWindow, 'timeWindow');
     ArgumentError.checkNotNull(webAclId, 'webAclId');
@@ -2783,6 +2842,7 @@ class WAF {
       webAclId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2825,6 +2885,7 @@ class WAF {
       sizeConstraintSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2865,6 +2926,7 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2903,6 +2965,7 @@ class WAF {
       webACLId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2942,6 +3005,7 @@ class WAF {
       xssMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2991,30 +3055,24 @@ class WAF {
     String nextMarker,
     String ruleGroupId,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (ruleGroupId != null) {
-      _s.validateStringLength(
-        'ruleGroupId',
-        ruleGroupId,
-        1,
-        128,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'ruleGroupId',
+      ruleGroupId,
+      1,
+      128,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListActivatedRulesInRuleGroup'
@@ -3060,22 +3118,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListByteMatchSets'
@@ -3119,22 +3173,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListGeoMatchSets'
@@ -3176,22 +3226,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListIPSets'
@@ -3238,22 +3284,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListLoggingConfigurations'
@@ -3297,22 +3339,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRateBasedRules'
@@ -3357,22 +3395,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRegexMatchSets'
@@ -3418,22 +3452,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRegexPatternSets'
@@ -3476,22 +3506,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRuleGroups'
@@ -3535,22 +3561,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRules'
@@ -3595,22 +3617,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSizeConstraintSets'
@@ -3655,22 +3673,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSqlInjectionMatchSets'
@@ -3714,22 +3728,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSubscribedRuleGroups'
@@ -3767,23 +3777,20 @@ class WAF {
       resourceARN,
       1,
       1224,
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListTagsForResource'
@@ -3828,22 +3835,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListWebACLs'
@@ -3887,22 +3890,18 @@ class WAF {
     int limit,
     String nextMarker,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListXssMatchSets'
@@ -4050,6 +4049,7 @@ class WAF {
       policy,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4057,6 +4057,7 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4095,6 +4096,7 @@ class WAF {
       resourceARN,
       1,
       1224,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -4133,6 +4135,7 @@ class WAF {
       resourceARN,
       1,
       1224,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -4256,6 +4259,7 @@ class WAF {
       byteMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -4263,6 +4267,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -4376,6 +4381,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
     _s.validateStringLength(
@@ -4383,6 +4389,7 @@ class WAF {
       geoMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -4524,6 +4531,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
     _s.validateStringLength(
@@ -4531,6 +4539,7 @@ class WAF {
       iPSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -4649,6 +4658,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(rateLimit, 'rateLimit');
     _s.validateNumRange(
@@ -4656,6 +4666,7 @@ class WAF {
       rateLimit,
       100,
       2000000000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -4663,6 +4674,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -4769,6 +4781,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
     _s.validateStringLength(
@@ -4776,6 +4789,7 @@ class WAF {
       regexMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -4881,6 +4895,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
     _s.validateStringLength(
@@ -4888,6 +4903,7 @@ class WAF {
       regexPatternSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -5008,6 +5024,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -5015,6 +5032,7 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -5110,6 +5128,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
     _s.validateStringLength(
@@ -5117,6 +5136,7 @@ class WAF {
       ruleGroupId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -5247,6 +5267,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
     _s.validateStringLength(
@@ -5254,6 +5275,7 @@ class WAF {
       sizeConstraintSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -5373,6 +5395,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         sqlInjectionMatchSetId, 'sqlInjectionMatchSetId');
@@ -5381,6 +5404,7 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     final headers = <String, String>{
@@ -5549,6 +5573,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
@@ -5556,6 +5581,7 @@ class WAF {
       webACLId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5674,6 +5700,7 @@ class WAF {
       changeToken,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
@@ -5682,6 +5709,7 @@ class WAF {
       xssMatchSetId,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

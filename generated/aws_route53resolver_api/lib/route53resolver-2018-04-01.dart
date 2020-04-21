@@ -120,6 +120,7 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -176,6 +177,7 @@ class Route53Resolver {
       resolverRuleId,
       1,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vPCId, 'vPCId');
     _s.validateStringLength(
@@ -183,22 +185,19 @@ class Route53Resolver {
       vPCId,
       1,
       64,
+      isRequired: true,
     );
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        64,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverRule'
@@ -294,25 +293,22 @@ class Route53Resolver {
       creatorRequestId,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(direction, 'direction');
     ArgumentError.checkNotNull(ipAddresses, 'ipAddresses');
     ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        64,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverEndpoint'
@@ -396,6 +392,7 @@ class Route53Resolver {
       creatorRequestId,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -403,32 +400,26 @@ class Route53Resolver {
       domainName,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleType, 'ruleType');
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        64,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-      );
-    }
-    if (resolverEndpointId != null) {
-      _s.validateStringLength(
-        'resolverEndpointId',
-        resolverEndpointId,
-        1,
-        64,
-      );
-    }
-    if (targetIps != null) {}
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+    );
+    _s.validateStringLength(
+      'resolverEndpointId',
+      resolverEndpointId,
+      1,
+      64,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverRule'
@@ -484,6 +475,7 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -524,6 +516,7 @@ class Route53Resolver {
       resolverRuleId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -576,6 +569,7 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -625,6 +619,7 @@ class Route53Resolver {
       resolverRuleId,
       1,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vPCId, 'vPCId');
     _s.validateStringLength(
@@ -632,6 +627,7 @@ class Route53Resolver {
       vPCId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -672,6 +668,7 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -711,6 +708,7 @@ class Route53Resolver {
       resolverRuleId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -752,6 +750,7 @@ class Route53Resolver {
       resolverRuleAssociationId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -790,6 +789,7 @@ class Route53Resolver {
       arn,
       1,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -847,15 +847,14 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverEndpointIpAddresses'
@@ -912,14 +911,12 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverEndpoints'
@@ -978,14 +975,12 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverRuleAssociations'
@@ -1041,14 +1036,12 @@ class Route53Resolver {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverRules'
@@ -1105,15 +1098,14 @@ class Route53Resolver {
       resourceArn,
       1,
       255,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListTagsForResource'
@@ -1159,6 +1151,7 @@ class Route53Resolver {
       arn,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resolverRulePolicy, 'resolverRulePolicy');
     _s.validateStringLength(
@@ -1166,6 +1159,7 @@ class Route53Resolver {
       resolverRulePolicy,
       0,
       5000,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1233,6 +1227,7 @@ class Route53Resolver {
       resourceArn,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1299,6 +1294,7 @@ class Route53Resolver {
       resourceArn,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -1343,22 +1339,19 @@ class Route53Resolver {
       resolverEndpointId,
       1,
       64,
+      isRequired: true,
     );
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        64,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateResolverEndpoint'
@@ -1406,6 +1399,7 @@ class Route53Resolver {
       resolverRuleId,
       1,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

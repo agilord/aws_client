@@ -147,32 +147,23 @@ class ResourceGroupsTaggingAPI {
     List<String> tagKeyFilters,
     List<String> targetIdFilters,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (paginationToken != null) {
-      _s.validateStringLength(
-        'paginationToken',
-        paginationToken,
-        0,
-        2048,
-      );
-    }
-    if (paginationToken != null) {
-      _s.validateStringPattern(
-        'paginationToken',
-        paginationToken,
-        r'''[\s\S]*''',
-      );
-    }
-    if (regionFilters != null) {}
-    if (tagKeyFilters != null) {}
-    if (targetIdFilters != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'paginationToken',
+      paginationToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'paginationToken',
+      paginationToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetComplianceSummary'
@@ -370,22 +361,17 @@ class ResourceGroupsTaggingAPI {
     List<TagFilter> tagFilters,
     int tagsPerPage,
   }) async {
-    if (paginationToken != null) {
-      _s.validateStringLength(
-        'paginationToken',
-        paginationToken,
-        0,
-        2048,
-      );
-    }
-    if (paginationToken != null) {
-      _s.validateStringPattern(
-        'paginationToken',
-        paginationToken,
-        r'''[\s\S]*''',
-      );
-    }
-    if (tagFilters != null) {}
+    _s.validateStringLength(
+      'paginationToken',
+      paginationToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'paginationToken',
+      paginationToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetResources'
@@ -425,21 +411,17 @@ class ResourceGroupsTaggingAPI {
   Future<GetTagKeysOutput> getTagKeys({
     String paginationToken,
   }) async {
-    if (paginationToken != null) {
-      _s.validateStringLength(
-        'paginationToken',
-        paginationToken,
-        0,
-        2048,
-      );
-    }
-    if (paginationToken != null) {
-      _s.validateStringPattern(
-        'paginationToken',
-        paginationToken,
-        r'''[\s\S]*''',
-      );
-    }
+    _s.validateStringLength(
+      'paginationToken',
+      paginationToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'paginationToken',
+      paginationToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagKeys'
@@ -485,27 +467,25 @@ class ResourceGroupsTaggingAPI {
       key,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'key',
       key,
       r'''[\s\S]*''',
+      isRequired: true,
     );
-    if (paginationToken != null) {
-      _s.validateStringLength(
-        'paginationToken',
-        paginationToken,
-        0,
-        2048,
-      );
-    }
-    if (paginationToken != null) {
-      _s.validateStringPattern(
-        'paginationToken',
-        paginationToken,
-        r'''[\s\S]*''',
-      );
-    }
+    _s.validateStringLength(
+      'paginationToken',
+      paginationToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'paginationToken',
+      paginationToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagValues'
@@ -559,11 +539,13 @@ class ResourceGroupsTaggingAPI {
       s3Bucket,
       3,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       's3Bucket',
       s3Bucket,
       r'''[\s\S]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

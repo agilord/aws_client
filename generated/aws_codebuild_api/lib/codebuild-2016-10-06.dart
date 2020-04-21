@@ -339,11 +339,13 @@ class CodeBuild {
       name,
       2,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     _s.validateStringLength(
@@ -351,44 +353,33 @@ class CodeBuild {
       serviceRole,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(source, 'source');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        255,
-      );
-    }
-    if (encryptionKey != null) {
-      _s.validateStringLength(
-        'encryptionKey',
-        encryptionKey,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (queuedTimeoutInMinutes != null) {
-      _s.validateNumRange(
-        'queuedTimeoutInMinutes',
-        queuedTimeoutInMinutes,
-        5,
-        480,
-      );
-    }
-    if (secondaryArtifacts != null) {}
-    if (secondarySourceVersions != null) {}
-    if (secondarySources != null) {}
-    if (tags != null) {}
-    if (timeoutInMinutes != null) {
-      _s.validateNumRange(
-        'timeoutInMinutes',
-        timeoutInMinutes,
-        5,
-        480,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      255,
+    );
+    _s.validateStringLength(
+      'encryptionKey',
+      encryptionKey,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'queuedTimeoutInMinutes',
+      queuedTimeoutInMinutes,
+      5,
+      480,
+    );
+    _s.validateNumRange(
+      'timeoutInMinutes',
+      timeoutInMinutes,
+      5,
+      480,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.CreateProject'
@@ -452,6 +443,7 @@ class CodeBuild {
       name,
       2,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
@@ -527,11 +519,13 @@ class CodeBuild {
       projectName,
       2,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'projectName',
       projectName,
       r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -569,6 +563,7 @@ class CodeBuild {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -603,6 +598,7 @@ class CodeBuild {
       arn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -643,6 +639,7 @@ class CodeBuild {
       arn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -677,6 +674,7 @@ class CodeBuild {
       resourceArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -713,6 +711,7 @@ class CodeBuild {
       arn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -752,11 +751,13 @@ class CodeBuild {
       projectName,
       2,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'projectName',
       projectName,
       r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -807,14 +808,12 @@ class CodeBuild {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(reportArn, 'reportArn');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DescribeTestCases'
@@ -852,6 +851,7 @@ class CodeBuild {
       resourceArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -914,15 +914,14 @@ class CodeBuild {
       token,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (username != null) {
-      _s.validateStringLength(
-        'username',
-        username,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'username',
+      username,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ImportSourceCredentials'
@@ -961,6 +960,7 @@ class CodeBuild {
       projectName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1067,6 +1067,7 @@ class CodeBuild {
       projectName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1157,14 +1158,12 @@ class CodeBuild {
     ProjectSortByType sortBy,
     SortOrderType sortOrder,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListProjects'
@@ -1230,14 +1229,12 @@ class CodeBuild {
     ReportGroupSortByType sortBy,
     SortOrderType sortOrder,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListReportGroups'
@@ -1300,14 +1297,12 @@ class CodeBuild {
     String nextToken,
     SortOrderType sortOrder,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListReports'
@@ -1366,14 +1361,12 @@ class CodeBuild {
     SortOrderType sortOrder,
   }) async {
     ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListReportsForReportGroup'
@@ -1445,22 +1438,18 @@ class CodeBuild {
     SharedResourceSortByType sortBy,
     SortOrderType sortOrder,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListSharedProjects'
@@ -1532,14 +1521,12 @@ class CodeBuild {
     SharedResourceSortByType sortBy,
     SortOrderType sortOrder,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListSharedReportGroups'
@@ -1604,6 +1591,7 @@ class CodeBuild {
       policy,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1611,6 +1599,7 @@ class CodeBuild {
       resourceArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1863,58 +1852,44 @@ class CodeBuild {
       projectName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (encryptionKeyOverride != null) {
-      _s.validateStringLength(
-        'encryptionKeyOverride',
-        encryptionKeyOverride,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (gitCloneDepthOverride != null) {
-      _s.validateNumRange(
-        'gitCloneDepthOverride',
-        gitCloneDepthOverride,
-        0,
-        1152921504606846976,
-      );
-    }
-    if (imageOverride != null) {
-      _s.validateStringLength(
-        'imageOverride',
-        imageOverride,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (queuedTimeoutInMinutesOverride != null) {
-      _s.validateNumRange(
-        'queuedTimeoutInMinutesOverride',
-        queuedTimeoutInMinutesOverride,
-        5,
-        480,
-      );
-    }
-    if (secondaryArtifactsOverride != null) {}
-    if (secondarySourcesOverride != null) {}
-    if (secondarySourcesVersionOverride != null) {}
-    if (serviceRoleOverride != null) {
-      _s.validateStringLength(
-        'serviceRoleOverride',
-        serviceRoleOverride,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (timeoutInMinutesOverride != null) {
-      _s.validateNumRange(
-        'timeoutInMinutesOverride',
-        timeoutInMinutesOverride,
-        5,
-        480,
-      );
-    }
+    _s.validateStringLength(
+      'encryptionKeyOverride',
+      encryptionKeyOverride,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'gitCloneDepthOverride',
+      gitCloneDepthOverride,
+      0,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'imageOverride',
+      imageOverride,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'queuedTimeoutInMinutesOverride',
+      queuedTimeoutInMinutesOverride,
+      5,
+      480,
+    );
+    _s.validateStringLength(
+      'serviceRoleOverride',
+      serviceRoleOverride,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'timeoutInMinutesOverride',
+      timeoutInMinutesOverride,
+      5,
+      480,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.StartBuild'
@@ -1977,6 +1952,7 @@ class CodeBuild {
       id,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2147,51 +2123,38 @@ class CodeBuild {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        255,
-      );
-    }
-    if (encryptionKey != null) {
-      _s.validateStringLength(
-        'encryptionKey',
-        encryptionKey,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (queuedTimeoutInMinutes != null) {
-      _s.validateNumRange(
-        'queuedTimeoutInMinutes',
-        queuedTimeoutInMinutes,
-        5,
-        480,
-      );
-    }
-    if (secondaryArtifacts != null) {}
-    if (secondarySourceVersions != null) {}
-    if (secondarySources != null) {}
-    if (serviceRole != null) {
-      _s.validateStringLength(
-        'serviceRole',
-        serviceRole,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (tags != null) {}
-    if (timeoutInMinutes != null) {
-      _s.validateNumRange(
-        'timeoutInMinutes',
-        timeoutInMinutes,
-        5,
-        480,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      255,
+    );
+    _s.validateStringLength(
+      'encryptionKey',
+      encryptionKey,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'queuedTimeoutInMinutes',
+      queuedTimeoutInMinutes,
+      5,
+      480,
+    );
+    _s.validateStringLength(
+      'serviceRole',
+      serviceRole,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'timeoutInMinutes',
+      timeoutInMinutes,
+      5,
+      480,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.UpdateProject'
@@ -2257,6 +2220,7 @@ class CodeBuild {
       arn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2321,11 +2285,13 @@ class CodeBuild {
       projectName,
       2,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'projectName',
       projectName,
       r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

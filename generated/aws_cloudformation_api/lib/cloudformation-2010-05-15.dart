@@ -57,21 +57,17 @@ class CloudFormation {
     String clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'CancelUpdateStack',
       'Version': '2010-05-15',
@@ -198,29 +194,23 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        20,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      20,
+      2048,
+    );
     final $request = <String, dynamic>{
       'Action': 'ContinueUpdateRollback',
       'Version': '2010-05-15',
@@ -534,49 +524,36 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    if (clientToken != null) {
-      _s.validateStringLength(
-        'clientToken',
-        clientToken,
-        1,
-        128,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        1024,
-      );
-    }
-    if (notificationARNs != null) {}
-    if (resourcesToImport != null) {}
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        20,
-        2048,
-      );
-    }
-    if (tags != null) {}
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      20,
+      2048,
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateChangeSet',
       'Version': '2010-05-15',
@@ -898,71 +875,53 @@ class CloudFormation {
     int timeoutInMinutes,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (notificationARNs != null) {}
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        20,
-        2048,
-      );
-    }
-    if (stackPolicyBody != null) {
-      _s.validateStringLength(
-        'stackPolicyBody',
-        stackPolicyBody,
-        1,
-        16384,
-      );
-    }
-    if (stackPolicyURL != null) {
-      _s.validateStringLength(
-        'stackPolicyURL',
-        stackPolicyURL,
-        1,
-        1350,
-      );
-    }
-    if (tags != null) {}
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
-    if (timeoutInMinutes != null) {
-      _s.validateNumRange(
-        'timeoutInMinutes',
-        timeoutInMinutes,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      20,
+      2048,
+    );
+    _s.validateStringLength(
+      'stackPolicyBody',
+      stackPolicyBody,
+      1,
+      16384,
+    );
+    _s.validateStringLength(
+      'stackPolicyURL',
+      stackPolicyURL,
+      1,
+      1350,
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
+    _s.validateNumRange(
+      'timeoutInMinutes',
+      timeoutInMinutes,
+      1,
+      1152921504606846976,
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateStack',
       'Version': '2010-05-15',
@@ -1103,21 +1062,17 @@ class CloudFormation {
   }) async {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (operationId != null) {
-      _s.validateStringLength(
-        'operationId',
-        operationId,
-        1,
-        128,
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringPattern(
-        'operationId',
-        operationId,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
+    _s.validateStringLength(
+      'operationId',
+      operationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'operationId',
+      operationId,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateStackInstances',
       'Version': '2010-05-15',
@@ -1360,69 +1315,52 @@ class CloudFormation {
     String templateURL,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (administrationRoleARN != null) {
-      _s.validateStringLength(
-        'administrationRoleARN',
-        administrationRoleARN,
-        20,
-        2048,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        1024,
-      );
-    }
-    if (executionRoleName != null) {
-      _s.validateStringLength(
-        'executionRoleName',
-        executionRoleName,
-        1,
-        64,
-      );
-    }
-    if (executionRoleName != null) {
-      _s.validateStringPattern(
-        'executionRoleName',
-        executionRoleName,
-        r'''[a-zA-Z_0-9+=,.@-]+''',
-      );
-    }
-    if (tags != null) {}
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'administrationRoleARN',
+      administrationRoleARN,
+      20,
+      2048,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'executionRoleName',
+      executionRoleName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'executionRoleName',
+      executionRoleName,
+      r'''[a-zA-Z_0-9+=,.@-]+''',
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateStackSet',
       'Version': '2010-05-15',
@@ -1483,21 +1421,17 @@ class CloudFormation {
       r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
       isRequired: true,
     );
-    if (stackName != null) {
-      _s.validateStringLength(
-        'stackName',
-        stackName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringPattern(
-        'stackName',
-        stackName,
-        r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      );
-    }
+    _s.validateStringLength(
+      'stackName',
+      stackName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'stackName',
+      stackName,
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DeleteChangeSet',
       'Version': '2010-05-15',
@@ -1569,29 +1503,23 @@ class CloudFormation {
     String roleARN,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        20,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      20,
+      2048,
+    );
     final $request = <String, dynamic>{
       'Action': 'DeleteStack',
       'Version': '2010-05-15',
@@ -1674,21 +1602,17 @@ class CloudFormation {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(retainStacks, 'retainStacks');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (operationId != null) {
-      _s.validateStringLength(
-        'operationId',
-        operationId,
-        1,
-        128,
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringPattern(
-        'operationId',
-        operationId,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
+    _s.validateStringLength(
+      'operationId',
+      operationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'operationId',
+      operationId,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DeleteStackInstances',
       'Version': '2010-05-15',
@@ -1783,51 +1707,39 @@ class CloudFormation {
     String typeName,
     String versionId,
   }) async {
-    if (arn != null) {
-      _s.validateStringLength(
-        'arn',
-        arn,
-        0,
-        1024,
-      );
-    }
-    if (arn != null) {
-      _s.validateStringPattern(
-        'arn',
-        arn,
-        r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringLength(
-        'typeName',
-        typeName,
-        10,
-        196,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringPattern(
-        'typeName',
-        typeName,
-        r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringLength(
-        'versionId',
-        versionId,
-        1,
-        128,
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringPattern(
-        'versionId',
-        versionId,
-        r'''[A-Za-z0-9-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'arn',
+      arn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'arn',
+      arn,
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
+    );
+    _s.validateStringLength(
+      'typeName',
+      typeName,
+      10,
+      196,
+    );
+    _s.validateStringPattern(
+      'typeName',
+      typeName,
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+    );
+    _s.validateStringLength(
+      'versionId',
+      versionId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'versionId',
+      versionId,
+      r'''[A-Za-z0-9-]+''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DeregisterType',
       'Version': '2010-05-15',
@@ -1857,14 +1769,12 @@ class CloudFormation {
   Future<DescribeAccountLimitsOutput> describeAccountLimits({
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeAccountLimits',
       'Version': '2010-05-15',
@@ -1918,29 +1828,23 @@ class CloudFormation {
       r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
       isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringLength(
-        'stackName',
-        stackName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringPattern(
-        'stackName',
-        stackName,
-        r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'stackName',
+      stackName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'stackName',
+      stackName,
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeChangeSet',
       'Version': '2010-05-15',
@@ -2040,14 +1944,12 @@ class CloudFormation {
     String nextToken,
     String stackName,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeStackEvents',
       'Version': '2010-05-15',
@@ -2236,23 +2138,18 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (stackResourceDriftStatusFilters != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeStackResourceDrifts',
       'Version': '2010-05-15',
@@ -2456,14 +2353,12 @@ class CloudFormation {
     String nextToken,
     String stackName,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeStacks',
       'Version': '2010-05-15',
@@ -2523,51 +2418,39 @@ class CloudFormation {
     String typeName,
     String versionId,
   }) async {
-    if (arn != null) {
-      _s.validateStringLength(
-        'arn',
-        arn,
-        0,
-        1024,
-      );
-    }
-    if (arn != null) {
-      _s.validateStringPattern(
-        'arn',
-        arn,
-        r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringLength(
-        'typeName',
-        typeName,
-        10,
-        196,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringPattern(
-        'typeName',
-        typeName,
-        r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringLength(
-        'versionId',
-        versionId,
-        1,
-        128,
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringPattern(
-        'versionId',
-        versionId,
-        r'''[A-Za-z0-9-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'arn',
+      arn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'arn',
+      arn,
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
+    );
+    _s.validateStringLength(
+      'typeName',
+      typeName,
+      10,
+      196,
+    );
+    _s.validateStringPattern(
+      'typeName',
+      typeName,
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+    );
+    _s.validateStringLength(
+      'versionId',
+      versionId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'versionId',
+      versionId,
+      r'''[A-Za-z0-9-]+''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeType',
       'Version': '2010-05-15',
@@ -2690,7 +2573,6 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    if (logicalResourceIds != null) {}
     final $request = <String, dynamic>{
       'Action': 'DetectStackDrift',
       'Version': '2010-05-15',
@@ -2833,21 +2715,17 @@ class CloudFormation {
       r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
       isRequired: true,
     );
-    if (operationId != null) {
-      _s.validateStringLength(
-        'operationId',
-        operationId,
-        1,
-        128,
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringPattern(
-        'operationId',
-        operationId,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
+    _s.validateStringLength(
+      'operationId',
+      operationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'operationId',
+      operationId,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DetectStackSetDrift',
       'Version': '2010-05-15',
@@ -2897,22 +2775,18 @@ class CloudFormation {
     String templateBody,
     String templateURL,
   }) async {
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'EstimateTemplateCost',
       'Version': '2010-05-15',
@@ -2982,36 +2856,28 @@ class CloudFormation {
       r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
       isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringLength(
-        'stackName',
-        stackName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringPattern(
-        'stackName',
-        stackName,
-        r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'stackName',
+      stackName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'stackName',
+      stackName,
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
+    );
     final $request = <String, dynamic>{
       'Action': 'ExecuteChangeSet',
       'Version': '2010-05-15',
@@ -3099,21 +2965,17 @@ class CloudFormation {
     String stackName,
     TemplateStage templateStage,
   }) async {
-    if (changeSetName != null) {
-      _s.validateStringLength(
-        'changeSetName',
-        changeSetName,
-        1,
-        1600,
-      );
-    }
-    if (changeSetName != null) {
-      _s.validateStringPattern(
-        'changeSetName',
-        changeSetName,
-        r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
-      );
-    }
+    _s.validateStringLength(
+      'changeSetName',
+      changeSetName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'changeSetName',
+      changeSetName,
+      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'GetTemplate',
       'Version': '2010-05-15',
@@ -3190,44 +3052,34 @@ class CloudFormation {
     String templateBody,
     String templateURL,
   }) async {
-    if (stackName != null) {
-      _s.validateStringLength(
-        'stackName',
-        stackName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringPattern(
-        'stackName',
-        stackName,
-        r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      );
-    }
-    if (stackSetName != null) {
-      _s.validateStringPattern(
-        'stackSetName',
-        stackSetName,
-        r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
-      );
-    }
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'stackName',
+      stackName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'stackName',
+      stackName,
+      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
+    );
+    _s.validateStringPattern(
+      'stackSetName',
+      stackSetName,
+      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'GetTemplateSummary',
       'Version': '2010-05-15',
@@ -3275,14 +3127,12 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListChangeSets',
       'Version': '2010-05-15',
@@ -3316,14 +3166,12 @@ class CloudFormation {
   Future<ListExportsOutput> listExports({
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListExports',
       'Version': '2010-05-15',
@@ -3361,14 +3209,12 @@ class CloudFormation {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(exportName, 'exportName');
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListImports',
       'Version': '2010-05-15',
@@ -3422,36 +3268,28 @@ class CloudFormation {
     String stackInstanceRegion,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (stackInstanceAccount != null) {
-      _s.validateStringPattern(
-        'stackInstanceAccount',
-        stackInstanceAccount,
-        r'''^[0-9]{12}$''',
-      );
-    }
-    if (stackInstanceRegion != null) {
-      _s.validateStringPattern(
-        'stackInstanceRegion',
-        stackInstanceRegion,
-        r'''^[a-zA-Z0-9-]{1,128}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'stackInstanceAccount',
+      stackInstanceAccount,
+      r'''^[0-9]{12}$''',
+    );
+    _s.validateStringPattern(
+      'stackInstanceRegion',
+      stackInstanceRegion,
+      r'''^[a-zA-Z0-9-]{1,128}$''',
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStackInstances',
       'Version': '2010-05-15',
@@ -3499,14 +3337,12 @@ class CloudFormation {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStackResources',
       'Version': '2010-05-15',
@@ -3570,22 +3406,18 @@ class CloudFormation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStackSetOperationResults',
       'Version': '2010-05-15',
@@ -3632,22 +3464,18 @@ class CloudFormation {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStackSetOperations',
       'Version': '2010-05-15',
@@ -3691,22 +3519,18 @@ class CloudFormation {
     String nextToken,
     StackSetStatus status,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStackSets',
       'Version': '2010-05-15',
@@ -3743,14 +3567,12 @@ class CloudFormation {
     String nextToken,
     List<String> stackStatusFilter,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListStacks',
       'Version': '2010-05-15',
@@ -3817,52 +3639,40 @@ class CloudFormation {
     String typeArn,
     String typeName,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (typeArn != null) {
-      _s.validateStringLength(
-        'typeArn',
-        typeArn,
-        0,
-        1024,
-      );
-    }
-    if (typeArn != null) {
-      _s.validateStringPattern(
-        'typeArn',
-        typeArn,
-        r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringLength(
-        'typeName',
-        typeName,
-        10,
-        196,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringPattern(
-        'typeName',
-        typeName,
-        r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'typeArn',
+      typeArn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'typeArn',
+      typeArn,
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
+    );
+    _s.validateStringLength(
+      'typeName',
+      typeName,
+      10,
+      196,
+    );
+    _s.validateStringPattern(
+      'typeName',
+      typeName,
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+    );
     final $request = <String, dynamic>{
       'Action': 'ListTypeRegistrations',
       'Version': '2010-05-15',
@@ -3949,52 +3759,40 @@ class CloudFormation {
     RegistryType type,
     String typeName,
   }) async {
-    if (arn != null) {
-      _s.validateStringLength(
-        'arn',
-        arn,
-        0,
-        1024,
-      );
-    }
-    if (arn != null) {
-      _s.validateStringPattern(
-        'arn',
-        arn,
-        r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringLength(
-        'typeName',
-        typeName,
-        10,
-        196,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringPattern(
-        'typeName',
-        typeName,
-        r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
-      );
-    }
+    _s.validateStringLength(
+      'arn',
+      arn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'arn',
+      arn,
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'typeName',
+      typeName,
+      10,
+      196,
+    );
+    _s.validateStringPattern(
+      'typeName',
+      typeName,
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+    );
     final $request = <String, dynamic>{
       'Action': 'ListTypeVersions',
       'Version': '2010-05-15',
@@ -4099,22 +3897,18 @@ class CloudFormation {
     ProvisioningType provisioningType,
     Visibility visibility,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ListTypes',
       'Version': '2010-05-15',
@@ -4195,37 +3989,29 @@ class CloudFormation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(operationStatus, 'operationStatus');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (resourceModel != null) {
-      _s.validateStringLength(
-        'resourceModel',
-        resourceModel,
-        1,
-        16384,
-      );
-    }
-    if (statusMessage != null) {
-      _s.validateStringLength(
-        'statusMessage',
-        statusMessage,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'resourceModel',
+      resourceModel,
+      1,
+      16384,
+    );
+    _s.validateStringLength(
+      'statusMessage',
+      statusMessage,
+      0,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'RecordHandlerProgress',
       'Version': '2010-05-15',
@@ -4380,36 +4166,28 @@ class CloudFormation {
       r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
       isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (executionRoleArn != null) {
-      _s.validateStringLength(
-        'executionRoleArn',
-        executionRoleArn,
-        1,
-        256,
-      );
-    }
-    if (executionRoleArn != null) {
-      _s.validateStringPattern(
-        'executionRoleArn',
-        executionRoleArn,
-        r'''arn:.+:iam::[0-9]{12}:role/.+''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'executionRoleArn',
+      executionRoleArn,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'executionRoleArn',
+      executionRoleArn,
+      r'''arn:.+:iam::[0-9]{12}:role/.+''',
+    );
     final $request = <String, dynamic>{
       'Action': 'RegisterType',
       'Version': '2010-05-15',
@@ -4453,22 +4231,18 @@ class CloudFormation {
     String stackPolicyURL,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (stackPolicyBody != null) {
-      _s.validateStringLength(
-        'stackPolicyBody',
-        stackPolicyBody,
-        1,
-        16384,
-      );
-    }
-    if (stackPolicyURL != null) {
-      _s.validateStringLength(
-        'stackPolicyURL',
-        stackPolicyURL,
-        1,
-        1350,
-      );
-    }
+    _s.validateStringLength(
+      'stackPolicyBody',
+      stackPolicyBody,
+      1,
+      16384,
+    );
+    _s.validateStringLength(
+      'stackPolicyURL',
+      stackPolicyURL,
+      1,
+      1350,
+    );
     final $request = <String, dynamic>{
       'Action': 'SetStackPolicy',
       'Version': '2010-05-15',
@@ -4519,51 +4293,39 @@ class CloudFormation {
     String typeName,
     String versionId,
   }) async {
-    if (arn != null) {
-      _s.validateStringLength(
-        'arn',
-        arn,
-        0,
-        1024,
-      );
-    }
-    if (arn != null) {
-      _s.validateStringPattern(
-        'arn',
-        arn,
-        r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringLength(
-        'typeName',
-        typeName,
-        10,
-        196,
-      );
-    }
-    if (typeName != null) {
-      _s.validateStringPattern(
-        'typeName',
-        typeName,
-        r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringLength(
-        'versionId',
-        versionId,
-        1,
-        128,
-      );
-    }
-    if (versionId != null) {
-      _s.validateStringPattern(
-        'versionId',
-        versionId,
-        r'''[A-Za-z0-9-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'arn',
+      arn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'arn',
+      arn,
+      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
+    );
+    _s.validateStringLength(
+      'typeName',
+      typeName,
+      10,
+      196,
+    );
+    _s.validateStringPattern(
+      'typeName',
+      typeName,
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+    );
+    _s.validateStringLength(
+      'versionId',
+      versionId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'versionId',
+      versionId,
+      r'''[A-Za-z0-9-]+''',
+    );
     final $request = <String, dynamic>{
       'Action': 'SetTypeDefaultVersion',
       'Version': '2010-05-15',
@@ -4991,79 +4753,59 @@ class CloudFormation {
     bool usePreviousTemplate,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        128,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (notificationARNs != null) {}
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        20,
-        2048,
-      );
-    }
-    if (stackPolicyBody != null) {
-      _s.validateStringLength(
-        'stackPolicyBody',
-        stackPolicyBody,
-        1,
-        16384,
-      );
-    }
-    if (stackPolicyDuringUpdateBody != null) {
-      _s.validateStringLength(
-        'stackPolicyDuringUpdateBody',
-        stackPolicyDuringUpdateBody,
-        1,
-        16384,
-      );
-    }
-    if (stackPolicyDuringUpdateURL != null) {
-      _s.validateStringLength(
-        'stackPolicyDuringUpdateURL',
-        stackPolicyDuringUpdateURL,
-        1,
-        1350,
-      );
-    }
-    if (stackPolicyURL != null) {
-      _s.validateStringLength(
-        'stackPolicyURL',
-        stackPolicyURL,
-        1,
-        1350,
-      );
-    }
-    if (tags != null) {}
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      20,
+      2048,
+    );
+    _s.validateStringLength(
+      'stackPolicyBody',
+      stackPolicyBody,
+      1,
+      16384,
+    );
+    _s.validateStringLength(
+      'stackPolicyDuringUpdateBody',
+      stackPolicyDuringUpdateBody,
+      1,
+      16384,
+    );
+    _s.validateStringLength(
+      'stackPolicyDuringUpdateURL',
+      stackPolicyDuringUpdateURL,
+      1,
+      1350,
+    );
+    _s.validateStringLength(
+      'stackPolicyURL',
+      stackPolicyURL,
+      1,
+      1350,
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'UpdateStack',
       'Version': '2010-05-15',
@@ -5236,21 +4978,17 @@ class CloudFormation {
       r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
       isRequired: true,
     );
-    if (operationId != null) {
-      _s.validateStringLength(
-        'operationId',
-        operationId,
-        1,
-        128,
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringPattern(
-        'operationId',
-        operationId,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
+    _s.validateStringLength(
+      'operationId',
+      operationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'operationId',
+      operationId,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'UpdateStackInstances',
       'Version': '2010-05-15',
@@ -5612,69 +5350,52 @@ class CloudFormation {
     bool usePreviousTemplate,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    if (administrationRoleARN != null) {
-      _s.validateStringLength(
-        'administrationRoleARN',
-        administrationRoleARN,
-        20,
-        2048,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        1024,
-      );
-    }
-    if (executionRoleName != null) {
-      _s.validateStringLength(
-        'executionRoleName',
-        executionRoleName,
-        1,
-        64,
-      );
-    }
-    if (executionRoleName != null) {
-      _s.validateStringPattern(
-        'executionRoleName',
-        executionRoleName,
-        r'''[a-zA-Z_0-9+=,.@-]+''',
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringLength(
-        'operationId',
-        operationId,
-        1,
-        128,
-      );
-    }
-    if (operationId != null) {
-      _s.validateStringPattern(
-        'operationId',
-        operationId,
-        r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      );
-    }
-    if (tags != null) {}
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'administrationRoleARN',
+      administrationRoleARN,
+      20,
+      2048,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'executionRoleName',
+      executionRoleName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'executionRoleName',
+      executionRoleName,
+      r'''[a-zA-Z_0-9+=,.@-]+''',
+    );
+    _s.validateStringLength(
+      'operationId',
+      operationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'operationId',
+      operationId,
+      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'UpdateStackSet',
       'Version': '2010-05-15',
@@ -5790,22 +5511,18 @@ class CloudFormation {
     String templateBody,
     String templateURL,
   }) async {
-    if (templateBody != null) {
-      _s.validateStringLength(
-        'templateBody',
-        templateBody,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (templateURL != null) {
-      _s.validateStringLength(
-        'templateURL',
-        templateURL,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'templateURL',
+      templateURL,
+      1,
+      1024,
+    );
     final $request = <String, dynamic>{
       'Action': 'ValidateTemplate',
       'Version': '2010-05-15',

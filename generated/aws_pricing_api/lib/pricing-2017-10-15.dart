@@ -108,14 +108,12 @@ class Pricing {
     String nextToken,
     String serviceCode,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPriceListService.DescribeServices'
@@ -173,14 +171,12 @@ class Pricing {
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPriceListService.GetAttributeValues'
@@ -235,14 +231,12 @@ class Pricing {
     String nextToken,
     String serviceCode,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPriceListService.GetProducts'

@@ -72,11 +72,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -174,6 +176,7 @@ class Kinesis {
       shardCount,
       1,
       100000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -181,11 +184,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -233,6 +238,7 @@ class Kinesis {
       retentionPeriodHours,
       1,
       168,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -240,11 +246,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -309,11 +317,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -367,51 +377,39 @@ class Kinesis {
     String consumerName,
     String streamARN,
   }) async {
-    if (consumerARN != null) {
-      _s.validateStringLength(
-        'consumerARN',
-        consumerARN,
-        1,
-        2048,
-      );
-    }
-    if (consumerARN != null) {
-      _s.validateStringPattern(
-        'consumerARN',
-        consumerARN,
-        r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-      );
-    }
-    if (consumerName != null) {
-      _s.validateStringLength(
-        'consumerName',
-        consumerName,
-        1,
-        128,
-      );
-    }
-    if (consumerName != null) {
-      _s.validateStringPattern(
-        'consumerName',
-        consumerName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (streamARN != null) {
-      _s.validateStringLength(
-        'streamARN',
-        streamARN,
-        1,
-        2048,
-      );
-    }
-    if (streamARN != null) {
-      _s.validateStringPattern(
-        'streamARN',
-        streamARN,
-        r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
-      );
-    }
+    _s.validateStringLength(
+      'consumerARN',
+      consumerARN,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'consumerARN',
+      consumerARN,
+      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
+    );
+    _s.validateStringLength(
+      'consumerName',
+      consumerName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'consumerName',
+      consumerName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateStringLength(
+      'streamARN',
+      streamARN,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'streamARN',
+      streamARN,
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeregisterStreamConsumer'
@@ -500,35 +498,31 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (exclusiveStartShardId != null) {
-      _s.validateStringLength(
-        'exclusiveStartShardId',
-        exclusiveStartShardId,
-        1,
-        128,
-      );
-    }
-    if (exclusiveStartShardId != null) {
-      _s.validateStringPattern(
-        'exclusiveStartShardId',
-        exclusiveStartShardId,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        10000,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartShardId',
+      exclusiveStartShardId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartShardId',
+      exclusiveStartShardId,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      10000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStream'
@@ -580,51 +574,39 @@ class Kinesis {
     String consumerName,
     String streamARN,
   }) async {
-    if (consumerARN != null) {
-      _s.validateStringLength(
-        'consumerARN',
-        consumerARN,
-        1,
-        2048,
-      );
-    }
-    if (consumerARN != null) {
-      _s.validateStringPattern(
-        'consumerARN',
-        consumerARN,
-        r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-      );
-    }
-    if (consumerName != null) {
-      _s.validateStringLength(
-        'consumerName',
-        consumerName,
-        1,
-        128,
-      );
-    }
-    if (consumerName != null) {
-      _s.validateStringPattern(
-        'consumerName',
-        consumerName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (streamARN != null) {
-      _s.validateStringLength(
-        'streamARN',
-        streamARN,
-        1,
-        2048,
-      );
-    }
-    if (streamARN != null) {
-      _s.validateStringPattern(
-        'streamARN',
-        streamARN,
-        r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
-      );
-    }
+    _s.validateStringLength(
+      'consumerARN',
+      consumerARN,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'consumerARN',
+      consumerARN,
+      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
+    );
+    _s.validateStringLength(
+      'consumerName',
+      consumerName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'consumerName',
+      consumerName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateStringLength(
+      'streamARN',
+      streamARN,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'streamARN',
+      streamARN,
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStreamConsumer'
@@ -666,11 +648,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -748,11 +732,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -830,11 +816,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -950,15 +938,14 @@ class Kinesis {
       shardIterator,
       1,
       512,
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        10000,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      10000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.GetRecords'
@@ -1092,11 +1079,13 @@ class Kinesis {
       shardId,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'shardId',
       shardId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(shardIteratorType, 'shardIteratorType');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -1105,19 +1094,19 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (startingSequenceNumber != null) {
-      _s.validateStringPattern(
-        'startingSequenceNumber',
-        startingSequenceNumber,
-        r'''0|([1-9]\d{0,128})''',
-      );
-    }
+    _s.validateStringPattern(
+      'startingSequenceNumber',
+      startingSequenceNumber,
+      r'''0|([1-9]\d{0,128})''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.GetShardIterator'
@@ -1173,6 +1162,7 @@ class Kinesis {
       retentionPeriodHours,
       1,
       168,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -1180,11 +1170,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1291,52 +1283,40 @@ class Kinesis {
     DateTime streamCreationTimestamp,
     String streamName,
   }) async {
-    if (exclusiveStartShardId != null) {
-      _s.validateStringLength(
-        'exclusiveStartShardId',
-        exclusiveStartShardId,
-        1,
-        128,
-      );
-    }
-    if (exclusiveStartShardId != null) {
-      _s.validateStringPattern(
-        'exclusiveStartShardId',
-        exclusiveStartShardId,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1048576,
-      );
-    }
-    if (streamName != null) {
-      _s.validateStringLength(
-        'streamName',
-        streamName,
-        1,
-        128,
-      );
-    }
-    if (streamName != null) {
-      _s.validateStringPattern(
-        'streamName',
-        streamName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartShardId',
+      exclusiveStartShardId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartShardId',
+      exclusiveStartShardId,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1048576,
+    );
+    _s.validateStringLength(
+      'streamName',
+      streamName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'streamName',
+      streamName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListShards'
@@ -1431,28 +1411,26 @@ class Kinesis {
       streamARN,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamARN',
       streamARN,
       r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1048576,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1048576,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListStreamConsumers'
@@ -1505,29 +1483,23 @@ class Kinesis {
     String exclusiveStartStreamName,
     int limit,
   }) async {
-    if (exclusiveStartStreamName != null) {
-      _s.validateStringLength(
-        'exclusiveStartStreamName',
-        exclusiveStartStreamName,
-        1,
-        128,
-      );
-    }
-    if (exclusiveStartStreamName != null) {
-      _s.validateStringPattern(
-        'exclusiveStartStreamName',
-        exclusiveStartStreamName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        10000,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartStreamName',
+      exclusiveStartStreamName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartStreamName',
+      exclusiveStartStreamName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      10000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListStreams'
@@ -1578,28 +1550,26 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (exclusiveStartTagKey != null) {
-      _s.validateStringLength(
-        'exclusiveStartTagKey',
-        exclusiveStartTagKey,
-        1,
-        128,
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        50,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartTagKey',
+      exclusiveStartTagKey,
+      1,
+      128,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.ListTagsForStream'
@@ -1690,11 +1660,13 @@ class Kinesis {
       adjacentShardToMerge,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'adjacentShardToMerge',
       adjacentShardToMerge,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(shardToMerge, 'shardToMerge');
     _s.validateStringLength(
@@ -1702,11 +1674,13 @@ class Kinesis {
       shardToMerge,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'shardToMerge',
       shardToMerge,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -1714,11 +1688,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1843,6 +1819,7 @@ class Kinesis {
       partitionKey,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -1850,26 +1827,24 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (explicitHashKey != null) {
-      _s.validateStringPattern(
-        'explicitHashKey',
-        explicitHashKey,
-        r'''0|([1-9]\d{0,38})''',
-      );
-    }
-    if (sequenceNumberForOrdering != null) {
-      _s.validateStringPattern(
-        'sequenceNumberForOrdering',
-        sequenceNumberForOrdering,
-        r'''0|([1-9]\d{0,128})''',
-      );
-    }
+    _s.validateStringPattern(
+      'explicitHashKey',
+      explicitHashKey,
+      r'''0|([1-9]\d{0,38})''',
+    );
+    _s.validateStringPattern(
+      'sequenceNumberForOrdering',
+      sequenceNumberForOrdering,
+      r'''0|([1-9]\d{0,128})''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.PutRecord'
@@ -1993,11 +1968,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2052,11 +2029,13 @@ class Kinesis {
       consumerName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'consumerName',
       consumerName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamARN, 'streamARN');
     _s.validateStringLength(
@@ -2064,11 +2043,13 @@ class Kinesis {
       streamARN,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamARN',
       streamARN,
       r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2118,11 +2099,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -2231,6 +2214,7 @@ class Kinesis {
       'newStartingHashKey',
       newStartingHashKey,
       r'''0|([1-9]\d{0,38})''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(shardToSplit, 'shardToSplit');
     _s.validateStringLength(
@@ -2238,11 +2222,13 @@ class Kinesis {
       shardToSplit,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'shardToSplit',
       shardToSplit,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -2250,11 +2236,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2352,6 +2340,7 @@ class Kinesis {
       keyId,
       1,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -2359,11 +2348,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2454,6 +2445,7 @@ class Kinesis {
       keyId,
       1,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -2461,11 +2453,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2558,11 +2552,13 @@ class Kinesis {
       streamName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'streamName',
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(targetShardCount, 'targetShardCount');
     _s.validateNumRange(
@@ -2570,6 +2566,7 @@ class Kinesis {
       targetShardCount,
       1,
       100000,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

@@ -81,35 +81,31 @@ class Health {
       eventArn,
       0,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'eventArn',
       eventArn,
       r'''arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -169,44 +165,34 @@ class Health {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeAffectedEntities'
@@ -273,44 +259,34 @@ class Health {
   }) async {
     ArgumentError.checkNotNull(
         organizationEntityFilters, 'organizationEntityFilters');
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -345,7 +321,6 @@ class Health {
   Future<DescribeEntityAggregatesResponse> describeEntityAggregates({
     List<String> eventArns,
   }) async {
-    if (eventArns != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEntityAggregates'
@@ -393,29 +368,23 @@ class Health {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(aggregateField, 'aggregateField');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventAggregates'
@@ -462,21 +431,17 @@ class Health {
     String locale,
   }) async {
     ArgumentError.checkNotNull(eventArns, 'eventArns');
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventDetails'
@@ -525,21 +490,17 @@ class Health {
   }) async {
     ArgumentError.checkNotNull(
         organizationEventDetailFilters, 'organizationEventDetailFilters');
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventDetailsForOrganization'
@@ -590,44 +551,34 @@ class Health {
     int maxResults,
     String nextToken,
   }) async {
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventTypes'
@@ -685,44 +636,34 @@ class Health {
     int maxResults,
     String nextToken,
   }) async {
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEvents'
@@ -788,44 +729,34 @@ class Health {
     int maxResults,
     String nextToken,
   }) async {
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        2,
-        256,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringPattern(
-        'locale',
-        locale,
-        r'''.{2,256}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        10,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        4,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-      );
-    }
+    _s.validateStringLength(
+      'locale',
+      locale,
+      2,
+      256,
+    );
+    _s.validateStringPattern(
+      'locale',
+      locale,
+      r'''.{2,256}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      10000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventsForOrganization'

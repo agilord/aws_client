@@ -132,6 +132,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -454,40 +455,32 @@ class SecretsManager {
       name,
       1,
       512,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        2048,
-      );
-    }
-    if (kmsKeyId != null) {
-      _s.validateStringLength(
-        'kmsKeyId',
-        kmsKeyId,
-        0,
-        2048,
-      );
-    }
-    if (secretBinary != null) {}
-    if (secretString != null) {
-      _s.validateStringLength(
-        'secretString',
-        secretString,
-        0,
-        65536,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2048,
+    );
+    _s.validateStringLength(
+      'secretString',
+      secretString,
+      0,
+      65536,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.CreateSecret'
@@ -569,6 +562,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -698,6 +692,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -779,6 +774,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -873,22 +869,18 @@ class SecretsManager {
     int passwordLength,
     bool requireEachIncludedType,
   }) async {
-    if (excludeCharacters != null) {
-      _s.validateStringLength(
-        'excludeCharacters',
-        excludeCharacters,
-        0,
-        4096,
-      );
-    }
-    if (passwordLength != null) {
-      _s.validateNumRange(
-        'passwordLength',
-        passwordLength,
-        1,
-        4096,
-      );
-    }
+    _s.validateStringLength(
+      'excludeCharacters',
+      excludeCharacters,
+      0,
+      4096,
+    );
+    _s.validateNumRange(
+      'passwordLength',
+      passwordLength,
+      1,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.GetRandomPassword'
@@ -973,6 +965,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1080,23 +1073,20 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
-    if (versionId != null) {
-      _s.validateStringLength(
-        'versionId',
-        versionId,
-        32,
-        64,
-      );
-    }
-    if (versionStage != null) {
-      _s.validateStringLength(
-        'versionStage',
-        versionStage,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'versionId',
+      versionId,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'versionStage',
+      versionStage,
+      1,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.GetSecretValue'
@@ -1204,23 +1194,20 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.ListSecretVersionIds'
@@ -1300,22 +1287,18 @@ class SecretsManager {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.ListSecrets'
@@ -1414,6 +1397,7 @@ class SecretsManager {
       resourcePolicy,
       1,
       20480,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1421,6 +1405,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1669,25 +1654,20 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        64,
-      );
-    }
-    if (secretBinary != null) {}
-    if (secretString != null) {
-      _s.validateStringLength(
-        'secretString',
-        secretString,
-        0,
-        65536,
-      );
-    }
-    if (versionStages != null) {}
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'secretString',
+      secretString,
+      0,
+      65536,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.PutSecretValue'
@@ -1762,6 +1742,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1918,23 +1899,20 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        64,
-      );
-    }
-    if (rotationLambdaARN != null) {
-      _s.validateStringLength(
-        'rotationLambdaARN',
-        rotationLambdaARN,
-        0,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'rotationLambdaARN',
+      rotationLambdaARN,
+      0,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.RotateSecret'
@@ -2061,6 +2039,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -2153,6 +2132,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -2403,40 +2383,32 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        2048,
-      );
-    }
-    if (kmsKeyId != null) {
-      _s.validateStringLength(
-        'kmsKeyId',
-        kmsKeyId,
-        0,
-        2048,
-      );
-    }
-    if (secretBinary != null) {}
-    if (secretString != null) {
-      _s.validateStringLength(
-        'secretString',
-        secretString,
-        0,
-        65536,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2048,
+    );
+    _s.validateStringLength(
+      'secretString',
+      secretString,
+      0,
+      65536,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.UpdateSecret'
@@ -2559,6 +2531,7 @@ class SecretsManager {
       secretId,
       1,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionStage, 'versionStage');
     _s.validateStringLength(
@@ -2566,23 +2539,20 @@ class SecretsManager {
       versionStage,
       1,
       256,
+      isRequired: true,
     );
-    if (moveToVersionId != null) {
-      _s.validateStringLength(
-        'moveToVersionId',
-        moveToVersionId,
-        32,
-        64,
-      );
-    }
-    if (removeFromVersionId != null) {
-      _s.validateStringLength(
-        'removeFromVersionId',
-        removeFromVersionId,
-        32,
-        64,
-      );
-    }
+    _s.validateStringLength(
+      'moveToVersionId',
+      moveToVersionId,
+      32,
+      64,
+    );
+    _s.validateStringLength(
+      'removeFromVersionId',
+      removeFromVersionId,
+      32,
+      64,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.UpdateSecretVersionStage'

@@ -76,11 +76,13 @@ class EC2InstanceConnect {
       availabilityZone,
       6,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'availabilityZone',
       availabilityZone,
       r'''^(\w+-){2,3}\d+\w+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -88,11 +90,13 @@ class EC2InstanceConnect {
       instanceId,
       10,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceId',
       instanceId,
       r'''^i-[a-f0-9]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceOSUser, 'instanceOSUser');
     _s.validateStringLength(
@@ -100,11 +104,13 @@ class EC2InstanceConnect {
       instanceOSUser,
       1,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceOSUser',
       instanceOSUser,
       r'''^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');
     _s.validateStringLength(
@@ -112,6 +118,7 @@ class EC2InstanceConnect {
       sSHPublicKey,
       256,
       4096,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

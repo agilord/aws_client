@@ -90,27 +90,25 @@ class TranscribeService {
       vocabularyName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyName',
       vocabularyName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
-    if (vocabularyFileUri != null) {
-      _s.validateStringLength(
-        'vocabularyFileUri',
-        vocabularyFileUri,
-        1,
-        2000,
-      );
-    }
-    if (vocabularyFileUri != null) {
-      _s.validateStringPattern(
-        'vocabularyFileUri',
-        vocabularyFileUri,
-        r'''(s3://|http(s*)://).+''',
-      );
-    }
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabulary'
@@ -184,28 +182,25 @@ class TranscribeService {
       vocabularyFilterName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyFilterName',
       vocabularyFilterName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
-    if (vocabularyFilterFileUri != null) {
-      _s.validateStringLength(
-        'vocabularyFilterFileUri',
-        vocabularyFilterFileUri,
-        1,
-        2000,
-      );
-    }
-    if (vocabularyFilterFileUri != null) {
-      _s.validateStringPattern(
-        'vocabularyFilterFileUri',
-        vocabularyFilterFileUri,
-        r'''(s3://|http(s*)://).+''',
-      );
-    }
-    if (words != null) {}
+    _s.validateStringLength(
+      'vocabularyFilterFileUri',
+      vocabularyFilterFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFilterFileUri',
+      vocabularyFilterFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabularyFilter'
@@ -247,11 +242,13 @@ class TranscribeService {
       medicalTranscriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'medicalTranscriptionJobName',
       medicalTranscriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -287,11 +284,13 @@ class TranscribeService {
       transcriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'transcriptionJobName',
       transcriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -327,11 +326,13 @@ class TranscribeService {
       vocabularyName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyName',
       vocabularyName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -367,11 +368,13 @@ class TranscribeService {
       vocabularyFilterName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyFilterName',
       vocabularyFilterName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -412,11 +415,13 @@ class TranscribeService {
       medicalTranscriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'medicalTranscriptionJobName',
       medicalTranscriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -459,11 +464,13 @@ class TranscribeService {
       transcriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'transcriptionJobName',
       transcriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -502,11 +509,13 @@ class TranscribeService {
       vocabularyName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyName',
       vocabularyName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -544,11 +553,13 @@ class TranscribeService {
       vocabularyFilterName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyFilterName',
       vocabularyFilterName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -600,44 +611,34 @@ class TranscribeService {
     String nextToken,
     TranscriptionJobStatus status,
   }) async {
-    if (jobNameContains != null) {
-      _s.validateStringLength(
-        'jobNameContains',
-        jobNameContains,
-        1,
-        200,
-      );
-    }
-    if (jobNameContains != null) {
-      _s.validateStringPattern(
-        'jobNameContains',
-        jobNameContains,
-        r'''^[0-9a-zA-Z._-]+''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        8192,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.+''',
-      );
-    }
+    _s.validateStringLength(
+      'jobNameContains',
+      jobNameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'jobNameContains',
+      jobNameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListMedicalTranscriptionJobs'
@@ -689,44 +690,34 @@ class TranscribeService {
     String nextToken,
     TranscriptionJobStatus status,
   }) async {
-    if (jobNameContains != null) {
-      _s.validateStringLength(
-        'jobNameContains',
-        jobNameContains,
-        1,
-        200,
-      );
-    }
-    if (jobNameContains != null) {
-      _s.validateStringPattern(
-        'jobNameContains',
-        jobNameContains,
-        r'''^[0-9a-zA-Z._-]+''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        8192,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.+''',
-      );
-    }
+    _s.validateStringLength(
+      'jobNameContains',
+      jobNameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'jobNameContains',
+      jobNameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListTranscriptionJobs'
@@ -779,44 +770,34 @@ class TranscribeService {
     String nextToken,
     VocabularyState stateEquals,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nameContains != null) {
-      _s.validateStringLength(
-        'nameContains',
-        nameContains,
-        1,
-        200,
-      );
-    }
-    if (nameContains != null) {
-      _s.validateStringPattern(
-        'nameContains',
-        nameContains,
-        r'''^[0-9a-zA-Z._-]+''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        8192,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nameContains',
+      nameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'nameContains',
+      nameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListVocabularies'
@@ -861,44 +842,34 @@ class TranscribeService {
     String nameContains,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nameContains != null) {
-      _s.validateStringLength(
-        'nameContains',
-        nameContains,
-        1,
-        200,
-      );
-    }
-    if (nameContains != null) {
-      _s.validateStringPattern(
-        'nameContains',
-        nameContains,
-        r'''^[0-9a-zA-Z._-]+''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        8192,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nameContains',
+      nameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'nameContains',
+      nameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListVocabularyFilters'
@@ -1035,11 +1006,13 @@ class TranscribeService {
       medicalTranscriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'medicalTranscriptionJobName',
       medicalTranscriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(outputBucketName, 'outputBucketName');
     _s.validateStringLength(
@@ -1047,37 +1020,33 @@ class TranscribeService {
       outputBucketName,
       0,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'outputBucketName',
       outputBucketName,
       r'''[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(specialty, 'specialty');
     ArgumentError.checkNotNull(type, 'type');
-    if (mediaSampleRateHertz != null) {
-      _s.validateNumRange(
-        'mediaSampleRateHertz',
-        mediaSampleRateHertz,
-        8000,
-        48000,
-      );
-    }
-    if (outputEncryptionKMSKeyId != null) {
-      _s.validateStringLength(
-        'outputEncryptionKMSKeyId',
-        outputEncryptionKMSKeyId,
-        1,
-        2048,
-      );
-    }
-    if (outputEncryptionKMSKeyId != null) {
-      _s.validateStringPattern(
-        'outputEncryptionKMSKeyId',
-        outputEncryptionKMSKeyId,
-        r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'mediaSampleRateHertz',
+      mediaSampleRateHertz,
+      8000,
+      48000,
+    );
+    _s.validateStringLength(
+      'outputEncryptionKMSKeyId',
+      outputEncryptionKMSKeyId,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'outputEncryptionKMSKeyId',
+      outputEncryptionKMSKeyId,
+      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.StartMedicalTranscriptionJob'
@@ -1229,50 +1198,42 @@ class TranscribeService {
       transcriptionJobName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'transcriptionJobName',
       transcriptionJobName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
-    if (mediaSampleRateHertz != null) {
-      _s.validateNumRange(
-        'mediaSampleRateHertz',
-        mediaSampleRateHertz,
-        8000,
-        48000,
-      );
-    }
-    if (outputBucketName != null) {
-      _s.validateStringLength(
-        'outputBucketName',
-        outputBucketName,
-        0,
-        64,
-      );
-    }
-    if (outputBucketName != null) {
-      _s.validateStringPattern(
-        'outputBucketName',
-        outputBucketName,
-        r'''[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]''',
-      );
-    }
-    if (outputEncryptionKMSKeyId != null) {
-      _s.validateStringLength(
-        'outputEncryptionKMSKeyId',
-        outputEncryptionKMSKeyId,
-        1,
-        2048,
-      );
-    }
-    if (outputEncryptionKMSKeyId != null) {
-      _s.validateStringPattern(
-        'outputEncryptionKMSKeyId',
-        outputEncryptionKMSKeyId,
-        r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'mediaSampleRateHertz',
+      mediaSampleRateHertz,
+      8000,
+      48000,
+    );
+    _s.validateStringLength(
+      'outputBucketName',
+      outputBucketName,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'outputBucketName',
+      outputBucketName,
+      r'''[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]''',
+    );
+    _s.validateStringLength(
+      'outputEncryptionKMSKeyId',
+      outputEncryptionKMSKeyId,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'outputEncryptionKMSKeyId',
+      outputEncryptionKMSKeyId,
+      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.StartTranscriptionJob'
@@ -1352,27 +1313,25 @@ class TranscribeService {
       vocabularyName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyName',
       vocabularyName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
-    if (vocabularyFileUri != null) {
-      _s.validateStringLength(
-        'vocabularyFileUri',
-        vocabularyFileUri,
-        1,
-        2000,
-      );
-    }
-    if (vocabularyFileUri != null) {
-      _s.validateStringPattern(
-        'vocabularyFileUri',
-        vocabularyFileUri,
-        r'''(s3://|http(s*)://).+''',
-      );
-    }
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabulary'
@@ -1437,28 +1396,25 @@ class TranscribeService {
       vocabularyFilterName,
       1,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vocabularyFilterName',
       vocabularyFilterName,
       r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
     );
-    if (vocabularyFilterFileUri != null) {
-      _s.validateStringLength(
-        'vocabularyFilterFileUri',
-        vocabularyFilterFileUri,
-        1,
-        2000,
-      );
-    }
-    if (vocabularyFilterFileUri != null) {
-      _s.validateStringPattern(
-        'vocabularyFilterFileUri',
-        vocabularyFilterFileUri,
-        r'''(s3://|http(s*)://).+''',
-      );
-    }
-    if (words != null) {}
+    _s.validateStringLength(
+      'vocabularyFilterFileUri',
+      vocabularyFilterFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFilterFileUri',
+      vocabularyFilterFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabularyFilter'

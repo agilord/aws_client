@@ -76,11 +76,13 @@ class Shield {
       logBucket,
       3,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'logBucket',
       logBucket,
       r'''^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -166,11 +168,13 @@ class Shield {
       roleArn,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''^arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -225,11 +229,13 @@ class Shield {
       healthCheckArn,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'healthCheckArn',
       healthCheckArn,
       r'''^arn:aws:route53:::healthcheck/\S{36}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(protectionId, 'protectionId');
     _s.validateStringLength(
@@ -237,11 +243,13 @@ class Shield {
       protectionId,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'protectionId',
       protectionId,
       r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -334,11 +342,13 @@ class Shield {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[ a-zA-Z0-9_\\.\\-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -346,11 +356,13 @@ class Shield {
       resourceArn,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''^arn:aws.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -424,11 +436,13 @@ class Shield {
       protectionId,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'protectionId',
       protectionId,
       r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -488,11 +502,13 @@ class Shield {
       attackId,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'attackId',
       attackId,
       r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -577,36 +593,28 @@ class Shield {
     String protectionId,
     String resourceArn,
   }) async {
-    if (protectionId != null) {
-      _s.validateStringLength(
-        'protectionId',
-        protectionId,
-        1,
-        36,
-      );
-    }
-    if (protectionId != null) {
-      _s.validateStringPattern(
-        'protectionId',
-        protectionId,
-        r'''[a-zA-Z0-9\\-]*''',
-      );
-    }
-    if (resourceArn != null) {
-      _s.validateStringLength(
-        'resourceArn',
-        resourceArn,
-        1,
-        2048,
-      );
-    }
-    if (resourceArn != null) {
-      _s.validateStringPattern(
-        'resourceArn',
-        resourceArn,
-        r'''^arn:aws.*''',
-      );
-    }
+    _s.validateStringLength(
+      'protectionId',
+      protectionId,
+      1,
+      36,
+    );
+    _s.validateStringPattern(
+      'protectionId',
+      protectionId,
+      r'''[a-zA-Z0-9\\-]*''',
+    );
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^arn:aws.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DescribeProtection'
@@ -678,11 +686,13 @@ class Shield {
       logBucket,
       3,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'logBucket',
       logBucket,
       r'''^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -768,11 +778,13 @@ class Shield {
       healthCheckArn,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'healthCheckArn',
       healthCheckArn,
       r'''^arn:aws:route53:::healthcheck/\S{36}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(protectionId, 'protectionId');
     _s.validateStringLength(
@@ -780,11 +792,13 @@ class Shield {
       protectionId,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'protectionId',
       protectionId,
       r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -873,29 +887,23 @@ class Shield {
     List<String> resourceArns,
     TimeRange startTime,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        4096,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^.*$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^.*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListAttacks'
@@ -942,29 +950,23 @@ class Shield {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        10000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        4096,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^.*$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^.*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListProtections'
@@ -998,7 +1000,6 @@ class Shield {
   Future<void> updateEmergencyContactSettings({
     List<EmergencyContact> emergencyContactList,
   }) async {
-    if (emergencyContactList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateEmergencyContactSettings'

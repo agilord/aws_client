@@ -77,6 +77,7 @@ class AppStream {
       fleetName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -84,6 +85,7 @@ class AppStream {
       stackName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -194,6 +196,7 @@ class AppStream {
       'destinationImageName',
       destinationImageName,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
     _s.validateStringLength(
@@ -201,21 +204,21 @@ class AppStream {
       destinationRegion,
       1,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceImageName, 'sourceImageName');
     _s.validateStringPattern(
       'sourceImageName',
       sourceImageName,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
-    if (destinationImageDescription != null) {
-      _s.validateStringLength(
-        'destinationImageDescription',
-        destinationImageDescription,
-        0,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'destinationImageDescription',
+      destinationImageDescription,
+      0,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CopyImage'
@@ -507,52 +510,43 @@ class AppStream {
       instanceType,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        256,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        0,
-        100,
-      );
-    }
-    if (iamRoleArn != null) {
-      _s.validateStringPattern(
-        'iamRoleArn',
-        iamRoleArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageArn != null) {
-      _s.validateStringPattern(
-        'imageArn',
-        imageArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageName != null) {
-      _s.validateStringLength(
-        'imageName',
-        imageName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'iamRoleArn',
+      iamRoleArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringPattern(
+      'imageArn',
+      imageArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringLength(
+      'imageName',
+      imageName,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateFleet'
@@ -756,61 +750,49 @@ class AppStream {
       instanceType,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
-    if (accessEndpoints != null) {}
-    if (appstreamAgentVersion != null) {
-      _s.validateStringLength(
-        'appstreamAgentVersion',
-        appstreamAgentVersion,
-        1,
-        100,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        256,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        0,
-        100,
-      );
-    }
-    if (iamRoleArn != null) {
-      _s.validateStringPattern(
-        'iamRoleArn',
-        iamRoleArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageArn != null) {
-      _s.validateStringPattern(
-        'imageArn',
-        imageArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageName != null) {
-      _s.validateStringLength(
-        'imageName',
-        imageName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'appstreamAgentVersion',
+      appstreamAgentVersion,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'iamRoleArn',
+      iamRoleArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringPattern(
+      'imageArn',
+      imageArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringLength(
+      'imageName',
+      imageName,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateImageBuilder'
@@ -862,6 +844,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -966,43 +949,32 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
-    if (accessEndpoints != null) {}
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        256,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        0,
-        100,
-      );
-    }
-    if (embedHostDomains != null) {}
-    if (feedbackURL != null) {
-      _s.validateStringLength(
-        'feedbackURL',
-        feedbackURL,
-        0,
-        1000,
-      );
-    }
-    if (redirectURL != null) {
-      _s.validateStringLength(
-        'redirectURL',
-        redirectURL,
-        0,
-        1000,
-      );
-    }
-    if (tags != null) {}
-    if (userSettings != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'feedbackURL',
+      feedbackURL,
+      0,
+      1000,
+    );
+    _s.validateStringLength(
+      'redirectURL',
+      redirectURL,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateStack'
@@ -1075,6 +1047,7 @@ class AppStream {
       fleetName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -1082,6 +1055,7 @@ class AppStream {
       stackName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -1089,28 +1063,26 @@ class AppStream {
       userId,
       2,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userId',
       userId,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
-    if (applicationId != null) {
-      _s.validateStringLength(
-        'applicationId',
-        applicationId,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (sessionContext != null) {
-      _s.validateStringLength(
-        'sessionContext',
-        sessionContext,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'applicationId',
+      applicationId,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'sessionContext',
+      sessionContext,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateStreamingURL'
@@ -1206,42 +1178,36 @@ class AppStream {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      isRequired: true,
     );
-    if (firstName != null) {
-      _s.validateStringLength(
-        'firstName',
-        firstName,
-        0,
-        2048,
-      );
-    }
-    if (firstName != null) {
-      _s.validateStringPattern(
-        'firstName',
-        firstName,
-        r'''^[A-Za-z0-9_\-\s]+$''',
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringLength(
-        'lastName',
-        lastName,
-        0,
-        2048,
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringPattern(
-        'lastName',
-        lastName,
-        r'''^[A-Za-z0-9_\-\s]+$''',
-      );
-    }
+    _s.validateStringLength(
+      'firstName',
+      firstName,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'firstName',
+      firstName,
+      r'''^[A-Za-z0-9_\-\s]+$''',
+    );
+    _s.validateStringLength(
+      'lastName',
+      lastName,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'lastName',
+      lastName,
+      r'''^[A-Za-z0-9_\-\s]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateUser'
@@ -1312,6 +1278,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1350,6 +1317,7 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1385,6 +1353,7 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1426,12 +1395,14 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
     _s.validateStringPattern(
       'sharedAccountId',
       sharedAccountId,
       r'''^\d+$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1472,6 +1443,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1534,11 +1506,13 @@ class AppStream {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1584,14 +1558,12 @@ class AppStream {
     int maxResults,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeDirectoryConfigs'
@@ -1627,14 +1599,12 @@ class AppStream {
     List<String> names,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeFleets'
@@ -1674,14 +1644,12 @@ class AppStream {
     List<String> names,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeImageBuilders'
@@ -1732,24 +1700,20 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        500,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (sharedAwsAccountIds != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeImagePermissions'
@@ -1800,22 +1764,18 @@ class AppStream {
     String nextToken,
     VisibilityType type,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        25,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      25,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeImages'
@@ -1882,6 +1842,7 @@ class AppStream {
       fleetName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -1889,23 +1850,20 @@ class AppStream {
       stackName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (userId != null) {
-      _s.validateStringLength(
-        'userId',
-        userId,
-        2,
-        32,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'userId',
+      userId,
+      2,
+      32,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeSessions'
@@ -1944,14 +1902,12 @@ class AppStream {
     List<String> names,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeStacks'
@@ -1987,14 +1943,12 @@ class AppStream {
     int maxResults,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsageReportSubscriptions'
@@ -2055,45 +2009,35 @@ class AppStream {
     String stackName,
     String userName,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        500,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (stackName != null) {
-      _s.validateStringLength(
-        'stackName',
-        stackName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringLength(
-        'userName',
-        userName,
-        1,
-        128,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringPattern(
-        'userName',
-        userName,
-        r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'stackName',
+      stackName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'userName',
+      userName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'userName',
+      userName,
+      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUserStackAssociations'
@@ -2138,14 +2082,12 @@ class AppStream {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsers'
@@ -2191,11 +2133,13 @@ class AppStream {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2237,6 +2181,7 @@ class AppStream {
       fleetName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -2244,6 +2189,7 @@ class AppStream {
       stackName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2293,11 +2239,13 @@ class AppStream {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2331,6 +2279,7 @@ class AppStream {
       sessionId,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2369,15 +2318,14 @@ class AppStream {
       stackName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListAssociatedFleets'
@@ -2416,15 +2364,14 @@ class AppStream {
       fleetName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListAssociatedStacks'
@@ -2464,6 +2411,7 @@ class AppStream {
       'resourceArn',
       resourceArn,
       r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2504,6 +2452,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2547,15 +2496,14 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (appstreamAgentVersion != null) {
-      _s.validateStringLength(
-        'appstreamAgentVersion',
-        appstreamAgentVersion,
-        1,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'appstreamAgentVersion',
+      appstreamAgentVersion,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StartImageBuilder'
@@ -2591,6 +2539,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2627,6 +2576,7 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2689,6 +2639,7 @@ class AppStream {
       'resourceArn',
       resourceArn,
       r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -2737,6 +2688,7 @@ class AppStream {
       'resourceArn',
       resourceArn,
       r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -3001,60 +2953,46 @@ class AppStream {
     String name,
     VpcConfig vpcConfig,
   }) async {
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        256,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        0,
-        100,
-      );
-    }
-    if (iamRoleArn != null) {
-      _s.validateStringPattern(
-        'iamRoleArn',
-        iamRoleArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageArn != null) {
-      _s.validateStringPattern(
-        'imageArn',
-        imageArn,
-        r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      );
-    }
-    if (imageName != null) {
-      _s.validateStringLength(
-        'imageName',
-        imageName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (instanceType != null) {
-      _s.validateStringLength(
-        'instanceType',
-        instanceType,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'iamRoleArn',
+      iamRoleArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringPattern(
+      'imageArn',
+      imageArn,
+      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+    );
+    _s.validateStringLength(
+      'imageName',
+      imageName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'instanceType',
+      instanceType,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateFleet'
@@ -3114,12 +3052,14 @@ class AppStream {
       'name',
       name,
       r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
     _s.validateStringPattern(
       'sharedAccountId',
       sharedAccountId,
       r'''^\d+$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3217,42 +3157,32 @@ class AppStream {
       name,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (accessEndpoints != null) {}
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        256,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        0,
-        100,
-      );
-    }
-    if (embedHostDomains != null) {}
-    if (feedbackURL != null) {
-      _s.validateStringLength(
-        'feedbackURL',
-        feedbackURL,
-        0,
-        1000,
-      );
-    }
-    if (redirectURL != null) {
-      _s.validateStringLength(
-        'redirectURL',
-        redirectURL,
-        0,
-        1000,
-      );
-    }
-    if (userSettings != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'feedbackURL',
+      feedbackURL,
+      0,
+      1000,
+    );
+    _s.validateStringLength(
+      'redirectURL',
+      redirectURL,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateStack'

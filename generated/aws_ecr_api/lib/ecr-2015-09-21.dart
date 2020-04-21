@@ -86,19 +86,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -158,19 +158,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.BatchDeleteImage'
@@ -234,20 +234,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (acceptedMediaTypes != null) {}
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.BatchGetImage'
@@ -317,25 +316,26 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     _s.validateStringPattern(
       'uploadId',
       uploadId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload'
@@ -404,11 +404,13 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -455,19 +457,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -518,19 +520,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.DeleteRepository'
@@ -576,19 +578,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -659,27 +661,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -766,28 +766,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (imageIds != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.DescribeImages'
@@ -858,22 +855,17 @@ class ECR {
     String registryId,
     List<String> repositoryNames,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
-    if (repositoryNames != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -920,7 +912,6 @@ class ECR {
   Future<GetAuthorizationTokenResponse> getAuthorizationToken({
     List<String> registryIds,
   }) async {
-    if (registryIds != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -979,6 +970,7 @@ class ECR {
       'layerDigest',
       layerDigest,
       r'''[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -986,19 +978,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1044,19 +1036,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicy'
@@ -1136,28 +1128,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (imageIds != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1206,19 +1195,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetRepositoryPolicy'
@@ -1271,19 +1260,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload'
@@ -1364,27 +1353,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.ListImages'
@@ -1484,6 +1471,7 @@ class ECR {
       imageManifest,
       1,
       4194304,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1491,27 +1479,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (imageTag != null) {
-      _s.validateStringLength(
-        'imageTag',
-        imageTag,
-        1,
-        300,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringLength(
+      'imageTag',
+      imageTag,
+      1,
+      300,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutImage'
@@ -1565,19 +1551,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1635,19 +1621,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1699,6 +1685,7 @@ class ECR {
       lifecyclePolicyText,
       100,
       30720,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1706,19 +1693,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy'
@@ -1781,6 +1768,7 @@ class ECR {
       policyText,
       0,
       10240,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1788,19 +1776,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.SetRepositoryPolicy'
@@ -1852,19 +1840,19 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.StartImageScan'
@@ -1917,27 +1905,25 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
-    if (lifecyclePolicyText != null) {
-      _s.validateStringLength(
-        'lifecyclePolicyText',
-        lifecyclePolicyText,
-        100,
-        30720,
-      );
-    }
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringLength(
+      'lifecyclePolicyText',
+      lifecyclePolicyText,
+      100,
+      30720,
+    );
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2095,6 +2081,7 @@ class ECR {
       partFirstByte,
       0,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(partLastByte, 'partLastByte');
     _s.validateNumRange(
@@ -2102,6 +2089,7 @@ class ECR {
       partLastByte,
       0,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -2109,25 +2097,26 @@ class ECR {
       repositoryName,
       2,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'repositoryName',
       repositoryName,
       r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     _s.validateStringPattern(
       'uploadId',
       uploadId,
       r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
+      isRequired: true,
     );
-    if (registryId != null) {
-      _s.validateStringPattern(
-        'registryId',
-        registryId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'registryId',
+      registryId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.UploadLayerPart'

@@ -73,6 +73,7 @@ class Lightsail {
       'staticIpName',
       staticIpName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -128,18 +129,21 @@ class Lightsail {
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(diskPath, 'diskPath');
     _s.validateStringPattern(
       'diskPath',
       diskPath,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceName, 'instanceName');
     _s.validateStringPattern(
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -204,6 +208,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -265,12 +270,14 @@ class Lightsail {
       'certificateName',
       certificateName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     _s.validateStringPattern(
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -315,12 +322,14 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     _s.validateStringPattern(
       'staticIpName',
       staticIpName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -372,6 +381,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(portInfo, 'portInfo');
     final headers = <String, String>{
@@ -509,14 +519,13 @@ class Lightsail {
       'targetSnapshotName',
       targetSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (sourceSnapshotName != null) {
-      _s.validateStringPattern(
-        'sourceSnapshotName',
-        sourceSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'sourceSnapshotName',
+      sourceSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CopySnapshot'
@@ -661,6 +670,7 @@ class Lightsail {
       contactEndpoint,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(protocol, 'protocol');
     final headers = <String, String>{
@@ -732,12 +742,14 @@ class Lightsail {
       'availabilityZone',
       availabilityZone,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(diskName, 'diskName');
     _s.validateStringPattern(
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sizeInGb, 'sizeInGb');
     final headers = <String, String>{
@@ -899,21 +911,21 @@ class Lightsail {
       'availabilityZone',
       availabilityZone,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(diskName, 'diskName');
     _s.validateStringPattern(
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sizeInGb, 'sizeInGb');
-    if (diskSnapshotName != null) {
-      _s.validateStringPattern(
-        'diskSnapshotName',
-        diskSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'diskSnapshotName',
+      diskSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskFromSnapshot'
@@ -1016,21 +1028,18 @@ class Lightsail {
       'diskSnapshotName',
       diskSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (diskName != null) {
-      _s.validateStringPattern(
-        'diskName',
-        diskName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
-    if (instanceName != null) {
-      _s.validateStringPattern(
-        'instanceName',
-        instanceName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'diskName',
+      diskName,
+      r'''\w[\w\-]*\w''',
+    );
+    _s.validateStringPattern(
+      'instanceName',
+      instanceName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskSnapshot'
@@ -1193,12 +1202,14 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceSnapshotName, 'instanceSnapshotName');
     _s.validateStringPattern(
       'instanceSnapshotName',
       instanceSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1315,28 +1326,26 @@ class Lightsail {
       'blueprintId',
       blueprintId,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(bundleId, 'bundleId');
     _s.validateStringPattern(
       'bundleId',
       bundleId,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    if (customImageName != null) {
-      _s.validateStringPattern(
-        'customImageName',
-        customImageName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
-    if (keyPairName != null) {
-      _s.validateStringPattern(
-        'keyPairName',
-        keyPairName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'customImageName',
+      customImageName,
+      r'''\w[\w\-]*\w''',
+    );
+    _s.validateStringPattern(
+      'keyPairName',
+      keyPairName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstances'
@@ -1525,22 +1534,19 @@ class Lightsail {
       'bundleId',
       bundleId,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    if (instanceSnapshotName != null) {
-      _s.validateStringPattern(
-        'instanceSnapshotName',
-        instanceSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
-    if (keyPairName != null) {
-      _s.validateStringPattern(
-        'keyPairName',
-        keyPairName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'instanceSnapshotName',
+      instanceSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
+    _s.validateStringPattern(
+      'keyPairName',
+      keyPairName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstancesFromSnapshot'
@@ -1602,6 +1608,7 @@ class Lightsail {
       'keyPairName',
       keyPairName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1698,20 +1705,20 @@ class Lightsail {
       instancePort,
       0,
       65535,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     _s.validateStringPattern(
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (certificateName != null) {
-      _s.validateStringPattern(
-        'certificateName',
-        certificateName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'certificateName',
+      certificateName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateLoadBalancer'
@@ -1796,12 +1803,14 @@ class Lightsail {
       'certificateName',
       certificateName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     _s.validateStringPattern(
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2017,6 +2026,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2169,21 +2179,18 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (relationalDatabaseSnapshotName != null) {
-      _s.validateStringPattern(
-        'relationalDatabaseSnapshotName',
-        relationalDatabaseSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
-    if (sourceRelationalDatabaseName != null) {
-      _s.validateStringPattern(
-        'sourceRelationalDatabaseName',
-        sourceRelationalDatabaseName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'relationalDatabaseSnapshotName',
+      relationalDatabaseSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
+    _s.validateStringPattern(
+      'sourceRelationalDatabaseName',
+      sourceRelationalDatabaseName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateRelationalDatabaseFromSnapshot'
@@ -2263,6 +2270,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         relationalDatabaseSnapshotName, 'relationalDatabaseSnapshotName');
@@ -2270,6 +2278,7 @@ class Lightsail {
       'relationalDatabaseSnapshotName',
       relationalDatabaseSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2317,6 +2326,7 @@ class Lightsail {
       'alarmName',
       alarmName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2365,12 +2375,14 @@ class Lightsail {
       'date',
       date,
       r'''^[0-9]{4}-[0-9]{2}-[0-9]{2}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     _s.validateStringPattern(
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2474,6 +2486,7 @@ class Lightsail {
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2528,6 +2541,7 @@ class Lightsail {
       'diskSnapshotName',
       diskSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2665,6 +2679,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2712,6 +2727,7 @@ class Lightsail {
       'instanceSnapshotName',
       instanceSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2757,6 +2773,7 @@ class Lightsail {
       'keyPairName',
       keyPairName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2808,6 +2825,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2856,6 +2874,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2916,12 +2935,14 @@ class Lightsail {
       'certificateName',
       certificateName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     _s.validateStringPattern(
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3003,14 +3024,13 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (finalRelationalDatabaseSnapshotName != null) {
-      _s.validateStringPattern(
-        'finalRelationalDatabaseSnapshotName',
-        finalRelationalDatabaseSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'finalRelationalDatabaseSnapshotName',
+      finalRelationalDatabaseSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteRelationalDatabase'
@@ -3060,6 +3080,7 @@ class Lightsail {
       'relationalDatabaseSnapshotName',
       relationalDatabaseSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3108,6 +3129,7 @@ class Lightsail {
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3164,6 +3186,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3205,6 +3228,7 @@ class Lightsail {
       'staticIpName',
       staticIpName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3251,6 +3275,7 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3323,6 +3348,7 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3383,6 +3409,7 @@ class Lightsail {
       'sourceSnapshotName',
       sourceSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3480,20 +3507,16 @@ class Lightsail {
     String monitoredResourceName,
     String pageToken,
   }) async {
-    if (alarmName != null) {
-      _s.validateStringPattern(
-        'alarmName',
-        alarmName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
-    if (monitoredResourceName != null) {
-      _s.validateStringPattern(
-        'monitoredResourceName',
-        monitoredResourceName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'alarmName',
+      alarmName,
+      r'''\w[\w\-]*\w''',
+    );
+    _s.validateStringPattern(
+      'monitoredResourceName',
+      monitoredResourceName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetAlarms'
@@ -3537,6 +3560,7 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3762,6 +3786,7 @@ class Lightsail {
       'diskName',
       diskName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3801,6 +3826,7 @@ class Lightsail {
       'diskSnapshotName',
       diskSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4031,6 +4057,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4082,6 +4109,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4260,6 +4288,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
     ArgumentError.checkNotNull(period, 'period');
@@ -4268,6 +4297,7 @@ class Lightsail {
       period,
       60,
       86400,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statistics, 'statistics');
@@ -4317,6 +4347,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4356,6 +4387,7 @@ class Lightsail {
       'instanceSnapshotName',
       instanceSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4432,6 +4464,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4509,6 +4542,7 @@ class Lightsail {
       'keyPairName',
       keyPairName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4585,6 +4619,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4818,6 +4853,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
     ArgumentError.checkNotNull(period, 'period');
@@ -4826,6 +4862,7 @@ class Lightsail {
       period,
       60,
       86400,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statistics, 'statistics');
@@ -4881,6 +4918,7 @@ class Lightsail {
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4959,6 +4997,7 @@ class Lightsail {
       'operationId',
       operationId,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5050,6 +5089,7 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5136,6 +5176,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5279,6 +5320,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5387,6 +5429,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5434,6 +5477,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5493,6 +5537,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5690,6 +5735,7 @@ class Lightsail {
       period,
       60,
       86400,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         relationalDatabaseName, 'relationalDatabaseName');
@@ -5697,6 +5743,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statistics, 'statistics');
@@ -5762,6 +5809,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5804,6 +5852,7 @@ class Lightsail {
       'relationalDatabaseSnapshotName',
       relationalDatabaseSnapshotName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5920,6 +5969,7 @@ class Lightsail {
       'staticIpName',
       staticIpName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6000,6 +6050,7 @@ class Lightsail {
       'keyPairName',
       keyPairName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(publicKeyBase64, 'publicKeyBase64');
     final headers = <String, String>{
@@ -6077,6 +6128,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(portInfo, 'portInfo');
     final headers = <String, String>{
@@ -6321,6 +6373,7 @@ class Lightsail {
       'alarmName',
       alarmName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(comparisonOperator, 'comparisonOperator');
     ArgumentError.checkNotNull(evaluationPeriods, 'evaluationPeriods');
@@ -6330,6 +6383,7 @@ class Lightsail {
       'monitoredResourceName',
       monitoredResourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(threshold, 'threshold');
     final headers = <String, String>{
@@ -6391,6 +6445,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(portInfos, 'portInfos');
     final headers = <String, String>{
@@ -6438,6 +6493,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6484,6 +6540,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6523,6 +6580,7 @@ class Lightsail {
       'staticIpName',
       staticIpName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6627,6 +6685,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6675,6 +6734,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6737,6 +6797,7 @@ class Lightsail {
       'instanceName',
       instanceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6789,14 +6850,13 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
-    if (relationalDatabaseSnapshotName != null) {
-      _s.validateStringPattern(
-        'relationalDatabaseSnapshotName',
-        relationalDatabaseSnapshotName,
-        r'''\w[\w\-]*\w''',
-      );
-    }
+    _s.validateStringPattern(
+      'relationalDatabaseSnapshotName',
+      relationalDatabaseSnapshotName,
+      r'''\w[\w\-]*\w''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StopRelationalDatabase'
@@ -6856,15 +6916,14 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    if (resourceArn != null) {
-      _s.validateStringPattern(
-        'resourceArn',
-        resourceArn,
-        r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
-      );
-    }
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.TagResource'
@@ -6934,6 +6993,7 @@ class Lightsail {
       'alarmName',
       alarmName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(state, 'state');
     final headers = <String, String>{
@@ -7016,15 +7076,14 @@ class Lightsail {
       'resourceName',
       resourceName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    if (resourceArn != null) {
-      _s.validateStringPattern(
-        'resourceArn',
-        resourceArn,
-        r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
-      );
-    }
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UntagResource'
@@ -7130,12 +7189,14 @@ class Lightsail {
       attributeValue,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     _s.validateStringPattern(
       'loadBalancerName',
       loadBalancerName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7296,6 +7357,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7366,6 +7428,7 @@ class Lightsail {
       'relationalDatabaseName',
       relationalDatabaseName,
       r'''\w[\w\-]*\w''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

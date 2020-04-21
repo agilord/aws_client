@@ -160,8 +160,6 @@ class ElastiCache {
     List<String> replicationGroupIds,
   }) async {
     ArgumentError.checkNotNull(serviceUpdateName, 'serviceUpdateName');
-    if (cacheClusterIds != null) {}
-    if (replicationGroupIds != null) {}
     final $request = <String, dynamic>{
       'Action': 'BatchApplyUpdateAction',
       'Version': '2015-02-02',
@@ -201,8 +199,6 @@ class ElastiCache {
     List<String> replicationGroupIds,
   }) async {
     ArgumentError.checkNotNull(serviceUpdateName, 'serviceUpdateName');
-    if (cacheClusterIds != null) {}
-    if (replicationGroupIds != null) {}
     final $request = <String, dynamic>{
       'Action': 'BatchStopUpdateAction',
       'Version': '2015-02-02',
@@ -3171,7 +3167,6 @@ class ElastiCache {
     String serviceUpdateName,
     List<String> serviceUpdateStatus,
   }) async {
-    if (serviceUpdateStatus != null) {}
     final $request = <String, dynamic>{
       'Action': 'DescribeServiceUpdates',
       'Version': '2015-02-02',
@@ -3321,10 +3316,6 @@ class ElastiCache {
     bool showNodeLevelUpdateStatus,
     List<String> updateActionStatus,
   }) async {
-    if (cacheClusterIds != null) {}
-    if (replicationGroupIds != null) {}
-    if (serviceUpdateStatus != null) {}
-    if (updateActionStatus != null) {}
     final $request = <String, dynamic>{
       'Action': 'DescribeUpdateActions',
       'Version': '2015-02-02',

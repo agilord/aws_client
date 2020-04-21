@@ -116,22 +116,17 @@ class ACMPCA {
         certificateAuthorityConfiguration, 'certificateAuthorityConfiguration');
     ArgumentError.checkNotNull(
         certificateAuthorityType, 'certificateAuthorityType');
-    if (idempotencyToken != null) {
-      _s.validateStringLength(
-        'idempotencyToken',
-        idempotencyToken,
-        1,
-        36,
-      );
-    }
-    if (idempotencyToken != null) {
-      _s.validateStringPattern(
-        'idempotencyToken',
-        idempotencyToken,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      36,
+    );
+    _s.validateStringPattern(
+      'idempotencyToken',
+      idempotencyToken,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreateCertificateAuthority'
@@ -194,11 +189,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
     final headers = <String, String>{
@@ -275,11 +272,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
@@ -287,27 +286,25 @@ class ACMPCA {
       principal,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'principal',
       principal,
       r'''^[^*]+$''',
+      isRequired: true,
     );
-    if (sourceAccount != null) {
-      _s.validateStringLength(
-        'sourceAccount',
-        sourceAccount,
-        12,
-        12,
-      );
-    }
-    if (sourceAccount != null) {
-      _s.validateStringPattern(
-        'sourceAccount',
-        sourceAccount,
-        r'''[0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'sourceAccount',
+      sourceAccount,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'sourceAccount',
+      sourceAccount,
+      r'''[0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreatePermission'
@@ -381,20 +378,20 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
-    if (permanentDeletionTimeInDays != null) {
-      _s.validateNumRange(
-        'permanentDeletionTimeInDays',
-        permanentDeletionTimeInDays,
-        7,
-        30,
-      );
-    }
+    _s.validateNumRange(
+      'permanentDeletionTimeInDays',
+      permanentDeletionTimeInDays,
+      7,
+      30,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeleteCertificateAuthority'
@@ -449,11 +446,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
@@ -461,27 +460,25 @@ class ACMPCA {
       principal,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'principal',
       principal,
       r'''^[^*]+$''',
+      isRequired: true,
     );
-    if (sourceAccount != null) {
-      _s.validateStringLength(
-        'sourceAccount',
-        sourceAccount,
-        12,
-        12,
-      );
-    }
-    if (sourceAccount != null) {
-      _s.validateStringPattern(
-        'sourceAccount',
-        sourceAccount,
-        r'''[0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'sourceAccount',
+      sourceAccount,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'sourceAccount',
+      sourceAccount,
+      r'''[0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePermission'
@@ -555,11 +552,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -610,11 +609,13 @@ class ACMPCA {
       auditReportId,
       36,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'auditReportId',
       auditReportId,
       r'''[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -623,11 +624,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -687,11 +690,13 @@ class ACMPCA {
       certificateArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateArn',
       certificateArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -700,11 +705,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -750,11 +757,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -805,11 +814,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -919,13 +930,14 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
-    if (certificateChain != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ImportCertificateAuthorityCertificate'
@@ -1046,45 +1058,39 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(csr, 'csr');
     ArgumentError.checkNotNull(signingAlgorithm, 'signingAlgorithm');
     ArgumentError.checkNotNull(validity, 'validity');
-    if (idempotencyToken != null) {
-      _s.validateStringLength(
-        'idempotencyToken',
-        idempotencyToken,
-        1,
-        36,
-      );
-    }
-    if (idempotencyToken != null) {
-      _s.validateStringPattern(
-        'idempotencyToken',
-        idempotencyToken,
-        r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-      );
-    }
-    if (templateArn != null) {
-      _s.validateStringLength(
-        'templateArn',
-        templateArn,
-        5,
-        200,
-      );
-    }
-    if (templateArn != null) {
-      _s.validateStringPattern(
-        'templateArn',
-        templateArn,
-        r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
-      );
-    }
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      36,
+    );
+    _s.validateStringPattern(
+      'idempotencyToken',
+      idempotencyToken,
+      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
+    );
+    _s.validateStringLength(
+      'templateArn',
+      templateArn,
+      5,
+      200,
+    );
+    _s.validateStringPattern(
+      'templateArn',
+      templateArn,
+      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.IssueCertificate'
@@ -1128,22 +1134,18 @@ class ACMPCA {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        500,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      500,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListCertificateAuthorities'
@@ -1204,28 +1206,26 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        500,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      500,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListPermissions'
@@ -1286,28 +1286,26 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        500,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      500,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ListTags'
@@ -1366,11 +1364,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1446,11 +1446,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(certificateSerial, 'certificateSerial');
     _s.validateStringLength(
@@ -1458,6 +1460,7 @@ class ACMPCA {
       certificateSerial,
       0,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(revocationReason, 'revocationReason');
     final headers = <String, String>{
@@ -1515,11 +1518,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1572,11 +1577,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1633,11 +1640,13 @@ class ACMPCA {
       certificateAuthorityArn,
       5,
       200,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

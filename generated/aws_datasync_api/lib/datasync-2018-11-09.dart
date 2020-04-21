@@ -66,11 +66,13 @@ class DataSync {
       taskExecutionArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskExecutionArn',
       taskExecutionArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -178,37 +180,30 @@ class DataSync {
       activationKey,
       0,
       29,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'activationKey',
       activationKey,
       r'''[A-Z0-9]{5}(-[A-Z0-9]{5}){4}''',
+      isRequired: true,
     );
-    if (agentName != null) {
-      _s.validateStringLength(
-        'agentName',
-        agentName,
-        1,
-        256,
-      );
-    }
-    if (agentName != null) {
-      _s.validateStringPattern(
-        'agentName',
-        agentName,
-        r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
-      );
-    }
-    if (securityGroupArns != null) {}
-    if (subnetArns != null) {}
-    if (tags != null) {}
-    if (vpcEndpointId != null) {
-      _s.validateStringPattern(
-        'vpcEndpointId',
-        vpcEndpointId,
-        r'''^vpce-[0-9a-f]{17}$''',
-      );
-    }
+    _s.validateStringLength(
+      'agentName',
+      agentName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'agentName',
+      agentName,
+      r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
+    );
+    _s.validateStringPattern(
+      'vpcEndpointId',
+      vpcEndpointId,
+      r'''^vpce-[0-9a-f]{17}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateAgent'
@@ -295,28 +290,25 @@ class DataSync {
       efsFilesystemArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'efsFilesystemArn',
       efsFilesystemArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\-0-9]*:[0-9]{12}:file-system/fs-.*$''',
+      isRequired: true,
     );
-    if (subdirectory != null) {
-      _s.validateStringLength(
-        'subdirectory',
-        subdirectory,
-        0,
-        4096,
-      );
-    }
-    if (subdirectory != null) {
-      _s.validateStringPattern(
-        'subdirectory',
-        subdirectory,
-        r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'subdirectory',
+      subdirectory,
+      0,
+      4096,
+    );
+    _s.validateStringPattern(
+      'subdirectory',
+      subdirectory,
+      r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationEfs'
@@ -386,11 +378,13 @@ class DataSync {
       fsxFilesystemArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'fsxFilesystemArn',
       fsxFilesystemArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\-0-9]*:[0-9]{12}:file-system/fs-.*$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -398,11 +392,13 @@ class DataSync {
       password,
       0,
       104,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'password',
       password,
       r'''^.{0,104}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(securityGroupArns, 'securityGroupArns');
     ArgumentError.checkNotNull(user, 'user');
@@ -411,43 +407,36 @@ class DataSync {
       user,
       0,
       104,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'user',
       user,
       r'''^[^\x5B\x5D\\/:;|=,+*?]{1,104}$''',
+      isRequired: true,
     );
-    if (domain != null) {
-      _s.validateStringLength(
-        'domain',
-        domain,
-        0,
-        253,
-      );
-    }
-    if (domain != null) {
-      _s.validateStringPattern(
-        'domain',
-        domain,
-        r'''^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$''',
-      );
-    }
-    if (subdirectory != null) {
-      _s.validateStringLength(
-        'subdirectory',
-        subdirectory,
-        0,
-        4096,
-      );
-    }
-    if (subdirectory != null) {
-      _s.validateStringPattern(
-        'subdirectory',
-        subdirectory,
-        r'''^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'domain',
+      domain,
+      0,
+      253,
+    );
+    _s.validateStringPattern(
+      'domain',
+      domain,
+      r'''^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$''',
+    );
+    _s.validateStringLength(
+      'subdirectory',
+      subdirectory,
+      0,
+      4096,
+    );
+    _s.validateStringPattern(
+      'subdirectory',
+      subdirectory,
+      r'''^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationFsxWindows'
@@ -536,11 +525,13 @@ class DataSync {
       serverHostname,
       0,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverHostname',
       serverHostname,
       r'''^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(subdirectory, 'subdirectory');
     _s.validateStringLength(
@@ -548,13 +539,14 @@ class DataSync {
       subdirectory,
       0,
       4096,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'subdirectory',
       subdirectory,
       r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]+$''',
+      isRequired: true,
     );
-    if (tags != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationNfs'
@@ -626,29 +618,26 @@ class DataSync {
       s3BucketArn,
       0,
       76,
+      isRequired: true,
     );
     _s.validateStringPattern(
       's3BucketArn',
       s3BucketArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::([^/]*)$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(s3Config, 's3Config');
-    if (subdirectory != null) {
-      _s.validateStringLength(
-        'subdirectory',
-        subdirectory,
-        0,
-        4096,
-      );
-    }
-    if (subdirectory != null) {
-      _s.validateStringPattern(
-        'subdirectory',
-        subdirectory,
-        r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'subdirectory',
+      subdirectory,
+      0,
+      4096,
+    );
+    _s.validateStringPattern(
+      'subdirectory',
+      subdirectory,
+      r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationS3'
@@ -745,11 +734,13 @@ class DataSync {
       password,
       0,
       104,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'password',
       password,
       r'''^.{0,104}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serverHostname, 'serverHostname');
     _s.validateStringLength(
@@ -757,11 +748,13 @@ class DataSync {
       serverHostname,
       0,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverHostname',
       serverHostname,
       r'''^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(subdirectory, 'subdirectory');
     _s.validateStringLength(
@@ -769,11 +762,13 @@ class DataSync {
       subdirectory,
       0,
       4096,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'subdirectory',
       subdirectory,
       r'''^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(user, 'user');
     _s.validateStringLength(
@@ -781,28 +776,25 @@ class DataSync {
       user,
       0,
       104,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'user',
       user,
       r'''^[^\x5B\x5D\\/:;|=,+*?]{1,104}$''',
+      isRequired: true,
     );
-    if (domain != null) {
-      _s.validateStringLength(
-        'domain',
-        domain,
-        0,
-        253,
-      );
-    }
-    if (domain != null) {
-      _s.validateStringPattern(
-        'domain',
-        domain,
-        r'''^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'domain',
+      domain,
+      0,
+      253,
+    );
+    _s.validateStringPattern(
+      'domain',
+      domain,
+      r'''^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationSmb'
@@ -913,11 +905,13 @@ class DataSync {
       destinationLocationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'destinationLocationArn',
       destinationLocationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceLocationArn, 'sourceLocationArn');
     _s.validateStringLength(
@@ -925,44 +919,36 @@ class DataSync {
       sourceLocationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'sourceLocationArn',
       sourceLocationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
-    if (cloudWatchLogGroupArn != null) {
-      _s.validateStringLength(
-        'cloudWatchLogGroupArn',
-        cloudWatchLogGroupArn,
-        0,
-        562,
-      );
-    }
-    if (cloudWatchLogGroupArn != null) {
-      _s.validateStringPattern(
-        'cloudWatchLogGroupArn',
-        cloudWatchLogGroupArn,
-        r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
-      );
-    }
-    if (excludes != null) {}
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        256,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'cloudWatchLogGroupArn',
+      cloudWatchLogGroupArn,
+      0,
+      562,
+    );
+    _s.validateStringPattern(
+      'cloudWatchLogGroupArn',
+      cloudWatchLogGroupArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateTask'
@@ -1009,11 +995,13 @@ class DataSync {
       agentArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'agentArn',
       agentArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1049,11 +1037,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1089,11 +1079,13 @@ class DataSync {
       taskArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskArn',
       taskArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1132,11 +1124,13 @@ class DataSync {
       agentArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'agentArn',
       agentArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1173,11 +1167,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1215,11 +1211,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1255,11 +1253,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1296,11 +1296,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1337,11 +1339,13 @@ class DataSync {
       locationArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'locationArn',
       locationArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1377,11 +1381,13 @@ class DataSync {
       taskArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskArn',
       taskArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1417,11 +1423,13 @@ class DataSync {
       taskExecutionArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskExecutionArn',
       taskExecutionArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1467,29 +1475,23 @@ class DataSync {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        65535,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=_-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=_-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListAgents'
@@ -1529,29 +1531,23 @@ class DataSync {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        65535,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=_-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=_-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListLocations'
@@ -1596,35 +1592,31 @@ class DataSync {
       resourceArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        65535,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=_-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=_-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListTagsForResource'
@@ -1664,44 +1656,34 @@ class DataSync {
     String nextToken,
     String taskArn,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        65535,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=_-]+''',
-      );
-    }
-    if (taskArn != null) {
-      _s.validateStringLength(
-        'taskArn',
-        taskArn,
-        0,
-        128,
-      );
-    }
-    if (taskArn != null) {
-      _s.validateStringPattern(
-        'taskArn',
-        taskArn,
-        r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=_-]+''',
+    );
+    _s.validateStringLength(
+      'taskArn',
+      taskArn,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'taskArn',
+      taskArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListTaskExecutions'
@@ -1737,29 +1719,23 @@ class DataSync {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        65535,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=_-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=_-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListTasks'
@@ -1813,13 +1789,14 @@ class DataSync {
       taskArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskArn',
       taskArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
+      isRequired: true,
     );
-    if (includes != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.StartTaskExecution'
@@ -1860,11 +1837,13 @@ class DataSync {
       resourceArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1907,11 +1886,13 @@ class DataSync {
       resourceArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1952,27 +1933,25 @@ class DataSync {
       agentArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'agentArn',
       agentArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$''',
+      isRequired: true,
     );
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        256,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateAgent'
@@ -2035,43 +2014,36 @@ class DataSync {
       taskArn,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'taskArn',
       taskArn,
       r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$''',
+      isRequired: true,
     );
-    if (cloudWatchLogGroupArn != null) {
-      _s.validateStringLength(
-        'cloudWatchLogGroupArn',
-        cloudWatchLogGroupArn,
-        0,
-        562,
-      );
-    }
-    if (cloudWatchLogGroupArn != null) {
-      _s.validateStringPattern(
-        'cloudWatchLogGroupArn',
-        cloudWatchLogGroupArn,
-        r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
-      );
-    }
-    if (excludes != null) {}
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        256,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
-      );
-    }
+    _s.validateStringLength(
+      'cloudWatchLogGroupArn',
+      cloudWatchLogGroupArn,
+      0,
+      562,
+    );
+    _s.validateStringPattern(
+      'cloudWatchLogGroupArn',
+      cloudWatchLogGroupArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9\s+=._:@/-]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateTask'

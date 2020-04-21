@@ -75,6 +75,7 @@ class DirectoryService {
       'sharedDirectoryId',
       sharedDirectoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -204,6 +205,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ipRoutes, 'ipRoutes');
     final headers = <String, String>{
@@ -251,6 +253,7 @@ class DirectoryService {
       'resourceId',
       resourceId,
       r'''^[d]-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -296,12 +299,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(schemaExtensionId, 'schemaExtensionId');
     _s.validateStringPattern(
       'schemaExtensionId',
       schemaExtensionId,
       r'''^e-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -374,6 +379,7 @@ class DirectoryService {
       'name',
       name,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -381,30 +387,25 @@ class DirectoryService {
       password,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(size, 'size');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        128,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
-      );
-    }
-    if (shortName != null) {
-      _s.validateStringPattern(
-        'shortName',
-        shortName,
-        r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
+    );
+    _s.validateStringPattern(
+      'shortName',
+      shortName,
+      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ConnectDirectory'
@@ -462,17 +463,20 @@ class DirectoryService {
       alias,
       1,
       62,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'alias',
       alias,
       r'''^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -535,12 +539,14 @@ class DirectoryService {
       computerName,
       1,
       15,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -548,20 +554,20 @@ class DirectoryService {
       password,
       8,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'password',
       password,
       r'''[\u0020-\u00FF]+''',
+      isRequired: true,
     );
-    if (organizationalUnitDistinguishedName != null) {
-      _s.validateStringLength(
-        'organizationalUnitDistinguishedName',
-        organizationalUnitDistinguishedName,
-        1,
-        2000,
-      );
-    }
+    _s.validateStringLength(
+      'organizationalUnitDistinguishedName',
+      organizationalUnitDistinguishedName,
+      1,
+      2000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateComputer'
@@ -619,6 +625,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(dnsIpAddrs, 'dnsIpAddrs');
     ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
@@ -626,6 +633,7 @@ class DirectoryService {
       'remoteDomainName',
       remoteDomainName,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -705,36 +713,32 @@ class DirectoryService {
       'name',
       name,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringPattern(
       'password',
       password,
       r'''(?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(size, 'size');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        128,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
-      );
-    }
-    if (shortName != null) {
-      _s.validateStringPattern(
-        'shortName',
-        shortName,
-        r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
+    );
+    _s.validateStringPattern(
+      'shortName',
+      shortName,
+      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateDirectory'
@@ -786,6 +790,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -793,11 +798,13 @@ class DirectoryService {
       logGroupName,
       1,
       512,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'logGroupName',
       logGroupName,
       r'''[-._/#A-Za-z0-9]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -883,36 +890,32 @@ class DirectoryService {
       'name',
       name,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringPattern(
       'password',
       password,
       r'''(?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpcSettings, 'vpcSettings');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        128,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
-      );
-    }
-    if (shortName != null) {
-      _s.validateStringPattern(
-        'shortName',
-        shortName,
-        r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
+    );
+    _s.validateStringPattern(
+      'shortName',
+      shortName,
+      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateMicrosoftAD'
@@ -963,22 +966,19 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        128,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateSnapshot'
@@ -1054,12 +1054,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
     _s.validateStringPattern(
       'remoteDomainName',
       remoteDomainName,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trustDirection, 'trustDirection');
     ArgumentError.checkNotNull(trustPassword, 'trustPassword');
@@ -1068,11 +1070,13 @@ class DirectoryService {
       trustPassword,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'trustPassword',
       trustPassword,
       r'''(.|\s)*\S(.|\s)*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1123,12 +1127,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
     _s.validateStringPattern(
       'remoteDomainName',
       remoteDomainName,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1173,6 +1179,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1209,6 +1216,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1245,6 +1253,7 @@ class DirectoryService {
       'snapshotId',
       snapshotId,
       r'''^s-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1287,6 +1296,7 @@ class DirectoryService {
       'trustId',
       trustId,
       r'''^t-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1334,12 +1344,14 @@ class DirectoryService {
       'certificateId',
       certificateId,
       r'''^c-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1383,6 +1395,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(topicName, 'topicName');
     _s.validateStringLength(
@@ -1390,11 +1403,13 @@ class DirectoryService {
       topicName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'topicName',
       topicName,
       r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1439,12 +1454,14 @@ class DirectoryService {
       'certificateId',
       certificateId,
       r'''^c-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1494,6 +1511,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1556,14 +1574,12 @@ class DirectoryService {
     int limit,
     String nextToken,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeDirectories'
@@ -1618,15 +1634,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeDomainControllers'
@@ -1674,13 +1689,11 @@ class DirectoryService {
     String directoryId,
     List<String> topicNames,
   }) async {
-    if (directoryId != null) {
-      _s.validateStringPattern(
-        'directoryId',
-        directoryId,
-        r'''^d-[0-9a-f]{10}$''',
-      );
-    }
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeEventTopics'
@@ -1732,15 +1745,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        50,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeLDAPSSettings'
@@ -1795,15 +1807,14 @@ class DirectoryService {
       'ownerDirectoryId',
       ownerDirectoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeSharedDirectories'
@@ -1864,21 +1875,17 @@ class DirectoryService {
     String nextToken,
     List<String> snapshotIds,
   }) async {
-    if (directoryId != null) {
-      _s.validateStringPattern(
-        'directoryId',
-        directoryId,
-        r'''^d-[0-9a-f]{10}$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeSnapshots'
@@ -1936,21 +1943,17 @@ class DirectoryService {
     String nextToken,
     List<String> trustIds,
   }) async {
-    if (directoryId != null) {
-      _s.validateStringPattern(
-        'directoryId',
-        directoryId,
-        r'''^d-[0-9a-f]{10}$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeTrusts'
@@ -1997,6 +2000,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
@@ -2036,6 +2040,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2091,30 +2096,25 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (password != null) {
-      _s.validateStringLength(
-        'password',
-        password,
-        1,
-        128,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringLength(
-        'userName',
-        userName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringPattern(
-        'userName',
-        userName,
-        r'''[a-zA-Z0-9._-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'password',
+      password,
+      1,
+      128,
+    );
+    _s.validateStringLength(
+      'userName',
+      userName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'userName',
+      userName,
+      r'''[a-zA-Z0-9._-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableSso'
@@ -2162,6 +2162,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
@@ -2208,6 +2209,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(radiusSettings, 'radiusSettings');
     final headers = <String, String>{
@@ -2267,30 +2269,25 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (password != null) {
-      _s.validateStringLength(
-        'password',
-        password,
-        1,
-        128,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringLength(
-        'userName',
-        userName,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (userName != null) {
-      _s.validateStringPattern(
-        'userName',
-        userName,
-        r'''[a-zA-Z0-9._-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'password',
+      password,
+      1,
+      128,
+    );
+    _s.validateStringLength(
+      'userName',
+      userName,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'userName',
+      userName,
+      r'''[a-zA-Z0-9._-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableSso'
@@ -2348,6 +2345,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2399,15 +2397,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        50,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ListCertificates'
@@ -2457,15 +2454,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ListIpRoutes'
@@ -2510,21 +2506,17 @@ class DirectoryService {
     int limit,
     String nextToken,
   }) async {
-    if (directoryId != null) {
-      _s.validateStringPattern(
-        'directoryId',
-        directoryId,
-        r'''^d-[0-9a-f]{10}$''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ListLogSubscriptions'
@@ -2572,15 +2564,14 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ListSchemaExtensions'
@@ -2627,15 +2618,14 @@ class DirectoryService {
       'resourceId',
       resourceId,
       r'''^[d]-[0-9a-f]{10}$''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        0,
-        1152921504606846976,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ListTagsForResource'
@@ -2683,12 +2673,14 @@ class DirectoryService {
       certificateData,
       1,
       8192,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2736,6 +2728,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(topicName, 'topicName');
     _s.validateStringLength(
@@ -2743,11 +2736,13 @@ class DirectoryService {
       topicName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'topicName',
       topicName,
       r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2788,6 +2783,7 @@ class DirectoryService {
       'sharedDirectoryId',
       sharedDirectoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2831,6 +2827,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2872,6 +2869,7 @@ class DirectoryService {
       'resourceId',
       resourceId,
       r'''^[d]-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -2943,6 +2941,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newPassword, 'newPassword');
     _s.validateStringLength(
@@ -2950,6 +2949,7 @@ class DirectoryService {
       newPassword,
       1,
       127,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -2957,11 +2957,13 @@ class DirectoryService {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*<|.*>|.*@).*$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3009,6 +3011,7 @@ class DirectoryService {
       'snapshotId',
       snapshotId,
       r'''^s-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3090,17 +3093,16 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(shareMethod, 'shareMethod');
     ArgumentError.checkNotNull(shareTarget, 'shareTarget');
-    if (shareNotes != null) {
-      _s.validateStringLength(
-        'shareNotes',
-        shareNotes,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'shareNotes',
+      shareNotes,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ShareDirectory'
@@ -3161,17 +3163,20 @@ class DirectoryService {
       description,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'description',
       description,
       r'''^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ldifContent, 'ldifContent');
     _s.validateStringLength(
@@ -3179,6 +3184,7 @@ class DirectoryService {
       ldifContent,
       1,
       500000,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3227,6 +3233,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(unshareTarget, 'unshareTarget');
     final headers = <String, String>{
@@ -3279,6 +3286,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(dnsIpAddrs, 'dnsIpAddrs');
     ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
@@ -3286,6 +3294,7 @@ class DirectoryService {
       'remoteDomainName',
       remoteDomainName,
       r'''^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3338,12 +3347,14 @@ class DirectoryService {
       desiredNumber,
       2,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3389,6 +3400,7 @@ class DirectoryService {
       'directoryId',
       directoryId,
       r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(radiusSettings, 'radiusSettings');
     final headers = <String, String>{
@@ -3432,6 +3444,7 @@ class DirectoryService {
       'trustId',
       trustId,
       r'''^t-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3474,6 +3487,7 @@ class DirectoryService {
       'trustId',
       trustId,
       r'''^t-[0-9a-f]{10}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

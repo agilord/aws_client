@@ -78,6 +78,7 @@ class MarketplaceMetering {
       productCode,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(usageRecords, 'usageRecords');
     final headers = <String, String>{
@@ -150,6 +151,7 @@ class MarketplaceMetering {
       productCode,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(timestamp, 'timestamp');
     ArgumentError.checkNotNull(usageDimension, 'usageDimension');
@@ -158,15 +160,14 @@ class MarketplaceMetering {
       usageDimension,
       1,
       255,
+      isRequired: true,
     );
-    if (usageQuantity != null) {
-      _s.validateNumRange(
-        'usageQuantity',
-        usageQuantity,
-        0,
-        2147483647,
-      );
-    }
+    _s.validateNumRange(
+      'usageQuantity',
+      usageQuantity,
+      0,
+      2147483647,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPMeteringService.MeterUsage'
@@ -260,6 +261,7 @@ class MarketplaceMetering {
       productCode,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(publicKeyVersion, 'publicKeyVersion');
     _s.validateNumRange(
@@ -267,15 +269,14 @@ class MarketplaceMetering {
       publicKeyVersion,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (nonce != null) {
-      _s.validateStringLength(
-        'nonce',
-        nonce,
-        0,
-        255,
-      );
-    }
+    _s.validateStringLength(
+      'nonce',
+      nonce,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPMeteringService.RegisterUsage'
@@ -320,6 +321,7 @@ class MarketplaceMetering {
       'registrationToken',
       registrationToken,
       r'''\S+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

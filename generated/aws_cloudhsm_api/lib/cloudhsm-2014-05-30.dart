@@ -85,6 +85,7 @@ class CloudHSM {
       'resourceArn',
       resourceArn,
       r'''[\w :+=./\\-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
@@ -139,6 +140,7 @@ class CloudHSM {
       'label',
       label,
       r'''[a-zA-Z0-9_.-]{1,64}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -234,48 +236,43 @@ class CloudHSM {
       'iamRoleArn',
       iamRoleArn,
       r'''arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\+=,\.\-@]{1,64}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sshKey, 'sshKey');
     _s.validateStringPattern(
       'sshKey',
       sshKey,
       r'''[a-zA-Z0-9+/= ._:\\@-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
     _s.validateStringPattern(
       'subnetId',
       subnetId,
       r'''subnet-[0-9a-f]{8}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
-    if (clientToken != null) {
-      _s.validateStringPattern(
-        'clientToken',
-        clientToken,
-        r'''[a-zA-Z0-9]{1,64}''',
-      );
-    }
-    if (eniIp != null) {
-      _s.validateStringPattern(
-        'eniIp',
-        eniIp,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
-    if (externalId != null) {
-      _s.validateStringPattern(
-        'externalId',
-        externalId,
-        r'''[\w :+=./-]*''',
-      );
-    }
-    if (syslogIp != null) {
-      _s.validateStringPattern(
-        'syslogIp',
-        syslogIp,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[a-zA-Z0-9]{1,64}''',
+    );
+    _s.validateStringPattern(
+      'eniIp',
+      eniIp,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
+    _s.validateStringPattern(
+      'externalId',
+      externalId,
+      r'''[\w :+=./-]*''',
+    );
+    _s.validateStringPattern(
+      'syslogIp',
+      syslogIp,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateHsm'
@@ -339,19 +336,19 @@ class CloudHSM {
       certificate,
       600,
       2400,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificate',
       certificate,
       r'''[\w :+=./\n-]*''',
+      isRequired: true,
     );
-    if (label != null) {
-      _s.validateStringPattern(
-        'label',
-        label,
-        r'''[a-zA-Z0-9_.-]{2,64}''',
-      );
-    }
+    _s.validateStringPattern(
+      'label',
+      label,
+      r'''[a-zA-Z0-9_.-]{2,64}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateLunaClient'
@@ -403,6 +400,7 @@ class CloudHSM {
       'hapgArn',
       hapgArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -455,6 +453,7 @@ class CloudHSM {
       'hsmArn',
       hsmArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -506,6 +505,7 @@ class CloudHSM {
       'clientArn',
       clientArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -557,6 +557,7 @@ class CloudHSM {
       'hapgArn',
       hapgArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -610,20 +611,16 @@ class CloudHSM {
     String hsmArn,
     String hsmSerialNumber,
   }) async {
-    if (hsmArn != null) {
-      _s.validateStringPattern(
-        'hsmArn',
-        hsmArn,
-        r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
-      );
-    }
-    if (hsmSerialNumber != null) {
-      _s.validateStringPattern(
-        'hsmSerialNumber',
-        hsmSerialNumber,
-        r'''\d{1,16}''',
-      );
-    }
+    _s.validateStringPattern(
+      'hsmArn',
+      hsmArn,
+      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
+    );
+    _s.validateStringPattern(
+      'hsmSerialNumber',
+      hsmSerialNumber,
+      r'''\d{1,16}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeHsm'
@@ -674,20 +671,16 @@ class CloudHSM {
     String certificateFingerprint,
     String clientArn,
   }) async {
-    if (certificateFingerprint != null) {
-      _s.validateStringPattern(
-        'certificateFingerprint',
-        certificateFingerprint,
-        r'''([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]''',
-      );
-    }
-    if (clientArn != null) {
-      _s.validateStringPattern(
-        'clientArn',
-        clientArn,
-        r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
-      );
-    }
+    _s.validateStringPattern(
+      'certificateFingerprint',
+      certificateFingerprint,
+      r'''([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]''',
+    );
+    _s.validateStringPattern(
+      'clientArn',
+      clientArn,
+      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeLunaClient'
@@ -749,6 +742,7 @@ class CloudHSM {
       'clientArn',
       clientArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(clientVersion, 'clientVersion');
     ArgumentError.checkNotNull(hapgList, 'hapgList');
@@ -843,13 +837,11 @@ class CloudHSM {
   Future<ListHapgsResponse> listHapgs({
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9+/]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9+/]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListHapgs'
@@ -903,13 +895,11 @@ class CloudHSM {
   Future<ListHsmsResponse> listHsms({
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9+/]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9+/]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListHsms'
@@ -962,13 +952,11 @@ class CloudHSM {
   Future<ListLunaClientsResponse> listLunaClients({
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9+/]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9+/]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListLunaClients'
@@ -1019,6 +1007,7 @@ class CloudHSM {
       'resourceArn',
       resourceArn,
       r'''[\w :+=./\\-]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1079,14 +1068,13 @@ class CloudHSM {
       'hapgArn',
       hapgArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
+      isRequired: true,
     );
-    if (label != null) {
-      _s.validateStringPattern(
-        'label',
-        label,
-        r'''[a-zA-Z0-9_.-]{1,64}''',
-      );
-    }
+    _s.validateStringPattern(
+      'label',
+      label,
+      r'''[a-zA-Z0-9_.-]{1,64}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHapg'
@@ -1173,42 +1161,33 @@ class CloudHSM {
       'hsmArn',
       hsmArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
+      isRequired: true,
     );
-    if (eniIp != null) {
-      _s.validateStringPattern(
-        'eniIp',
-        eniIp,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
-    if (externalId != null) {
-      _s.validateStringPattern(
-        'externalId',
-        externalId,
-        r'''[\w :+=./-]*''',
-      );
-    }
-    if (iamRoleArn != null) {
-      _s.validateStringPattern(
-        'iamRoleArn',
-        iamRoleArn,
-        r'''arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\+=,\.\-@]{1,64}''',
-      );
-    }
-    if (subnetId != null) {
-      _s.validateStringPattern(
-        'subnetId',
-        subnetId,
-        r'''subnet-[0-9a-f]{8}''',
-      );
-    }
-    if (syslogIp != null) {
-      _s.validateStringPattern(
-        'syslogIp',
-        syslogIp,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
+    _s.validateStringPattern(
+      'eniIp',
+      eniIp,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
+    _s.validateStringPattern(
+      'externalId',
+      externalId,
+      r'''[\w :+=./-]*''',
+    );
+    _s.validateStringPattern(
+      'iamRoleArn',
+      iamRoleArn,
+      r'''arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\+=,\.\-@]{1,64}''',
+    );
+    _s.validateStringPattern(
+      'subnetId',
+      subnetId,
+      r'''subnet-[0-9a-f]{8}''',
+    );
+    _s.validateStringPattern(
+      'syslogIp',
+      syslogIp,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHsm'
@@ -1270,17 +1249,20 @@ class CloudHSM {
       certificate,
       600,
       2400,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificate',
       certificate,
       r'''[\w :+=./\n-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(clientArn, 'clientArn');
     _s.validateStringPattern(
       'clientArn',
       clientArn,
       r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1343,6 +1325,7 @@ class CloudHSM {
       'resourceArn',
       resourceArn,
       r'''[\w :+=./\\-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{

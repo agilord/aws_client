@@ -180,14 +180,12 @@ class S3Control {
       2048,
       isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
@@ -620,30 +618,24 @@ class S3Control {
       64,
       isRequired: true,
     );
-    if (bucket != null) {
-      _s.validateStringLength(
-        'bucket',
-        bucket,
-        3,
-        255,
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'bucket',
+      bucket,
+      3,
+      255,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final queryParams = <String, String>{};
@@ -699,22 +691,18 @@ class S3Control {
       64,
       isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final queryParams = <String, String>{};
@@ -967,14 +955,12 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(requestedJobStatus, 'requestedJobStatus');
-    if (statusUpdateReason != null) {
-      _s.validateStringLength(
-        'statusUpdateReason',
-        statusUpdateReason,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'statusUpdateReason',
+      statusUpdateReason,
+      1,
+      256,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final queryParams = <String, String>{};

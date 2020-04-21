@@ -82,11 +82,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -143,27 +145,25 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[/\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventSourceName != null) {
-      _s.validateStringLength(
-        'eventSourceName',
-        eventSourceName,
-        1,
-        256,
-      );
-    }
-    if (eventSourceName != null) {
-      _s.validateStringPattern(
-        'eventSourceName',
-        eventSourceName,
-        r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
-      );
-    }
+    _s.validateStringLength(
+      'eventSourceName',
+      eventSourceName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventSourceName',
+      eventSourceName,
+      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.CreateEventBus'
@@ -239,11 +239,13 @@ class EventBridge {
       account,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'account',
       account,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -251,11 +253,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -302,11 +306,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -342,11 +348,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[/\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -390,11 +398,13 @@ class EventBridge {
       account,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'account',
       account,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -402,11 +412,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -469,27 +481,25 @@ class EventBridge {
       name,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeleteRule'
@@ -527,21 +537,17 @@ class EventBridge {
   Future<DescribeEventBusResponse> describeEventBus({
     String name,
   }) async {
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        256,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DescribeEventBus'
@@ -577,11 +583,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -620,11 +628,13 @@ class EventBridge {
       name,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -668,27 +678,25 @@ class EventBridge {
       name,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DescribeRule'
@@ -735,27 +743,25 @@ class EventBridge {
       name,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DisableRule'
@@ -801,27 +807,25 @@ class EventBridge {
       name,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.EnableRule'
@@ -860,37 +864,29 @@ class EventBridge {
     String namePrefix,
     String nextToken,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringLength(
-        'namePrefix',
-        namePrefix,
-        1,
-        256,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringPattern(
-        'namePrefix',
-        namePrefix,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'namePrefix',
+      namePrefix,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'namePrefix',
+      namePrefix,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListEventBuses'
@@ -933,37 +929,29 @@ class EventBridge {
     String namePrefix,
     String nextToken,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringLength(
-        'namePrefix',
-        namePrefix,
-        1,
-        256,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringPattern(
-        'namePrefix',
-        namePrefix,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'namePrefix',
+      namePrefix,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'namePrefix',
+      namePrefix,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListEventSources'
@@ -1014,28 +1002,26 @@ class EventBridge {
       eventSourceName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'eventSourceName',
       eventSourceName,
       r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListPartnerEventSourceAccounts'
@@ -1085,28 +1071,26 @@ class EventBridge {
       namePrefix,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namePrefix',
       namePrefix,
       r'''aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListPartnerEventSources'
@@ -1157,38 +1141,31 @@ class EventBridge {
       targetArn,
       1,
       1600,
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListRuleNamesByTarget'
@@ -1237,52 +1214,40 @@ class EventBridge {
     String namePrefix,
     String nextToken,
   }) async {
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringLength(
-        'namePrefix',
-        namePrefix,
-        1,
-        64,
-      );
-    }
-    if (namePrefix != null) {
-      _s.validateStringPattern(
-        'namePrefix',
-        namePrefix,
-        r'''[\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'namePrefix',
+      namePrefix,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namePrefix',
+      namePrefix,
+      r'''[\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListRules'
@@ -1321,6 +1286,7 @@ class EventBridge {
       resourceARN,
       1,
       1600,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1369,43 +1335,37 @@ class EventBridge {
       rule,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'rule',
       rule,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        2048,
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ListTargetsByRule'
@@ -1570,11 +1530,13 @@ class EventBridge {
       action,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'action',
       action,
       r'''events:[a-zA-Z]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
@@ -1582,11 +1544,13 @@ class EventBridge {
       principal,
       1,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'principal',
       principal,
       r'''(\d{12}|\*)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -1594,27 +1558,25 @@ class EventBridge {
       statementId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.PutPermission'
@@ -1745,51 +1707,43 @@ class EventBridge {
       name,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        512,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
-    if (roleArn != null) {
-      _s.validateStringLength(
-        'roleArn',
-        roleArn,
-        1,
-        1600,
-      );
-    }
-    if (scheduleExpression != null) {
-      _s.validateStringLength(
-        'scheduleExpression',
-        scheduleExpression,
-        0,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      512,
+    );
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'roleArn',
+      roleArn,
+      1,
+      1600,
+    );
+    _s.validateStringLength(
+      'scheduleExpression',
+      scheduleExpression,
+      0,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.PutRule'
@@ -1986,28 +1940,26 @@ class EventBridge {
       rule,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'rule',
       rule,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(targets, 'targets');
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.PutTargets'
@@ -2055,27 +2007,25 @@ class EventBridge {
       statementId,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.RemovePermission'
@@ -2139,27 +2089,25 @@ class EventBridge {
       rule,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'rule',
       rule,
       r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
     );
-    if (eventBusName != null) {
-      _s.validateStringLength(
-        'eventBusName',
-        eventBusName,
-        1,
-        256,
-      );
-    }
-    if (eventBusName != null) {
-      _s.validateStringPattern(
-        'eventBusName',
-        eventBusName,
-        r'''[/\.\-_A-Za-z0-9]+''',
-      );
-    }
+    _s.validateStringLength(
+      'eventBusName',
+      eventBusName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'eventBusName',
+      eventBusName,
+      r'''[/\.\-_A-Za-z0-9]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.RemoveTargets'
@@ -2218,6 +2166,7 @@ class EventBridge {
       resourceARN,
       1,
       1600,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -2304,6 +2253,7 @@ class EventBridge {
       resourceARN,
       1,
       1600,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{

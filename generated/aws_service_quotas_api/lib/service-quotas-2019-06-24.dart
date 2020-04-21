@@ -117,11 +117,13 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'awsRegion',
       awsRegion,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -129,11 +131,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -141,11 +145,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -234,11 +240,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -246,11 +254,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -322,11 +332,13 @@ class ServiceQuotas {
       requestId,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'requestId',
       requestId,
       r'''[0-9a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -373,11 +385,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -385,11 +399,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -443,11 +459,13 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'awsRegion',
       awsRegion,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -455,11 +473,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -467,11 +487,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -553,35 +575,31 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.ListAWSDefaultServiceQuotas'
@@ -640,44 +658,34 @@ class ServiceQuotas {
     String serviceCode,
     RequestStatus status,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
-    if (serviceCode != null) {
-      _s.validateStringLength(
-        'serviceCode',
-        serviceCode,
-        1,
-        63,
-      );
-    }
-    if (serviceCode != null) {
-      _s.validateStringPattern(
-        'serviceCode',
-        serviceCode,
-        r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
+    _s.validateStringLength(
+      'serviceCode',
+      serviceCode,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'serviceCode',
+      serviceCode,
+      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -753,11 +761,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -765,35 +775,31 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -859,59 +865,45 @@ class ServiceQuotas {
     String nextToken,
     String serviceCode,
   }) async {
-    if (awsRegion != null) {
-      _s.validateStringLength(
-        'awsRegion',
-        awsRegion,
-        1,
-        64,
-      );
-    }
-    if (awsRegion != null) {
-      _s.validateStringPattern(
-        'awsRegion',
-        awsRegion,
-        r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
-    if (serviceCode != null) {
-      _s.validateStringLength(
-        'serviceCode',
-        serviceCode,
-        1,
-        63,
-      );
-    }
-    if (serviceCode != null) {
-      _s.validateStringPattern(
-        'serviceCode',
-        serviceCode,
-        r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
-      );
-    }
+    _s.validateStringLength(
+      'awsRegion',
+      awsRegion,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'awsRegion',
+      awsRegion,
+      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
+    _s.validateStringLength(
+      'serviceCode',
+      serviceCode,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'serviceCode',
+      serviceCode,
+      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -985,35 +977,31 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.ListServiceQuotas'
@@ -1064,29 +1052,23 @@ class ServiceQuotas {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9/+]*={0,2}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9/+]*={0,2}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.ListServices'
@@ -1148,11 +1130,13 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'awsRegion',
       awsRegion,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(desiredValue, 'desiredValue');
     _s.validateNumRange(
@@ -1160,6 +1144,7 @@ class ServiceQuotas {
       desiredValue,
       0,
       10000000000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -1167,11 +1152,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -1179,11 +1166,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1241,6 +1230,7 @@ class ServiceQuotas {
       desiredValue,
       0,
       10000000000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -1248,11 +1238,13 @@ class ServiceQuotas {
       quotaCode,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'quotaCode',
       quotaCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -1260,11 +1252,13 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceCode',
       serviceCode,
       r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

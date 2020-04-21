@@ -66,14 +66,15 @@ class CloudHSMV2 {
       'backupId',
       backupId,
       r'''backup-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
     _s.validateStringPattern(
       'destinationRegion',
       destinationRegion,
       r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d''',
+      isRequired: true,
     );
-    if (tagList != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CopyBackupToRegion'
@@ -136,16 +137,14 @@ class CloudHSMV2 {
       'hsmType',
       hsmType,
       r'''(hsm1\.medium)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    if (sourceBackupId != null) {
-      _s.validateStringPattern(
-        'sourceBackupId',
-        sourceBackupId,
-        r'''backup-[2-7a-zA-Z]{11,16}''',
-      );
-    }
-    if (tagList != null) {}
+    _s.validateStringPattern(
+      'sourceBackupId',
+      sourceBackupId,
+      r'''backup-[2-7a-zA-Z]{11,16}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateCluster'
@@ -199,20 +198,20 @@ class CloudHSMV2 {
       'availabilityZone',
       availabilityZone,
       r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d[a-z]''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringPattern(
       'clusterId',
       clusterId,
       r'''cluster-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
-    if (ipAddress != null) {
-      _s.validateStringPattern(
-        'ipAddress',
-        ipAddress,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
+    _s.validateStringPattern(
+      'ipAddress',
+      ipAddress,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateHsm'
@@ -254,6 +253,7 @@ class CloudHSMV2 {
       'backupId',
       backupId,
       r'''backup-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -296,6 +296,7 @@ class CloudHSMV2 {
       'clusterId',
       clusterId,
       r'''cluster-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -351,28 +352,23 @@ class CloudHSMV2 {
       'clusterId',
       clusterId,
       r'''cluster-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
-    if (eniId != null) {
-      _s.validateStringPattern(
-        'eniId',
-        eniId,
-        r'''eni-[0-9a-fA-F]{8,17}''',
-      );
-    }
-    if (eniIp != null) {
-      _s.validateStringPattern(
-        'eniIp',
-        eniIp,
-        r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-      );
-    }
-    if (hsmId != null) {
-      _s.validateStringPattern(
-        'hsmId',
-        hsmId,
-        r'''hsm-[2-7a-zA-Z]{11,16}''',
-      );
-    }
+    _s.validateStringPattern(
+      'eniId',
+      eniId,
+      r'''eni-[0-9a-fA-F]{8,17}''',
+    );
+    _s.validateStringPattern(
+      'eniIp',
+      eniIp,
+      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
+    );
+    _s.validateStringPattern(
+      'hsmId',
+      hsmId,
+      r'''hsm-[2-7a-zA-Z]{11,16}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteHsm'
@@ -444,29 +440,23 @@ class CloudHSMV2 {
     String nextToken,
     bool sortAscending,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        256,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeBackups'
@@ -529,29 +519,23 @@ class CloudHSMV2 {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        256,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeClusters'
@@ -609,6 +593,7 @@ class CloudHSMV2 {
       'clusterId',
       clusterId,
       r'''cluster-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(signedCert, 'signedCert');
     _s.validateStringLength(
@@ -616,11 +601,13 @@ class CloudHSMV2 {
       signedCert,
       0,
       5000,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'signedCert',
       signedCert,
       r'''[a-zA-Z0-9+-/=\s]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trustAnchor, 'trustAnchor');
     _s.validateStringLength(
@@ -628,11 +615,13 @@ class CloudHSMV2 {
       trustAnchor,
       0,
       5000,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'trustAnchor',
       trustAnchor,
       r'''[a-zA-Z0-9+-/=\s]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -692,30 +681,25 @@ class CloudHSMV2 {
       'resourceId',
       resourceId,
       r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        256,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.ListTags'
@@ -757,6 +741,7 @@ class CloudHSMV2 {
       'backupId',
       backupId,
       r'''backup-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -801,6 +786,7 @@ class CloudHSMV2 {
       'resourceId',
       resourceId,
       r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
@@ -847,6 +833,7 @@ class CloudHSMV2 {
       'resourceId',
       resourceId,
       r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{

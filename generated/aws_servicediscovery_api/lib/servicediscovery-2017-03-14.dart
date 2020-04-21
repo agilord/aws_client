@@ -81,23 +81,20 @@ class ServiceDiscovery {
       name,
       0,
       1024,
+      isRequired: true,
     );
-    if (creatorRequestId != null) {
-      _s.validateStringLength(
-        'creatorRequestId',
-        creatorRequestId,
-        0,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      0,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.CreateHttpNamespace'
@@ -161,6 +158,7 @@ class ServiceDiscovery {
       name,
       0,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpc, 'vpc');
     _s.validateStringLength(
@@ -168,23 +166,20 @@ class ServiceDiscovery {
       vpc,
       0,
       64,
+      isRequired: true,
     );
-    if (creatorRequestId != null) {
-      _s.validateStringLength(
-        'creatorRequestId',
-        creatorRequestId,
-        0,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      0,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.CreatePrivateDnsNamespace'
@@ -242,23 +237,20 @@ class ServiceDiscovery {
       name,
       0,
       1024,
+      isRequired: true,
     );
-    if (creatorRequestId != null) {
-      _s.validateStringLength(
-        'creatorRequestId',
-        creatorRequestId,
-        0,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      0,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.CreatePublicDnsNamespace'
@@ -376,31 +368,26 @@ class ServiceDiscovery {
       'name',
       name,
       r'''((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)''',
+      isRequired: true,
     );
-    if (creatorRequestId != null) {
-      _s.validateStringLength(
-        'creatorRequestId',
-        creatorRequestId,
-        0,
-        64,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
-    if (namespaceId != null) {
-      _s.validateStringLength(
-        'namespaceId',
-        namespaceId,
-        0,
-        64,
-      );
-    }
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      0,
+      64,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      0,
+      64,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.CreateService'
@@ -444,6 +431,7 @@ class ServiceDiscovery {
       id,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -481,6 +469,7 @@ class ServiceDiscovery {
       id,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -525,6 +514,7 @@ class ServiceDiscovery {
       instanceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceId, 'serviceId');
     _s.validateStringLength(
@@ -532,6 +522,7 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -593,21 +584,21 @@ class ServiceDiscovery {
       namespaceName,
       0,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceName, 'serviceName');
     _s.validateStringPattern(
       'serviceName',
       serviceName,
       r'''((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.DiscoverInstances'
@@ -651,6 +642,7 @@ class ServiceDiscovery {
       instanceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceId, 'serviceId');
     _s.validateStringLength(
@@ -658,6 +650,7 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -731,24 +724,20 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
-    if (instances != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.GetInstancesHealthStatus'
@@ -786,6 +775,7 @@ class ServiceDiscovery {
       id,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -826,6 +816,7 @@ class ServiceDiscovery {
       operationId,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -861,6 +852,7 @@ class ServiceDiscovery {
       id,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -913,23 +905,20 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.ListInstances'
@@ -987,22 +976,18 @@ class ServiceDiscovery {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.ListNamespaces'
@@ -1060,22 +1045,18 @@ class ServiceDiscovery {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.ListOperations'
@@ -1133,22 +1114,18 @@ class ServiceDiscovery {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        4096,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      4096,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.ListServices'
@@ -1383,6 +1360,7 @@ class ServiceDiscovery {
       instanceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceId, 'serviceId');
     _s.validateStringLength(
@@ -1390,15 +1368,14 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
-    if (creatorRequestId != null) {
-      _s.validateStringLength(
-        'creatorRequestId',
-        creatorRequestId,
-        0,
-        64,
-      );
-    }
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      0,
+      64,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53AutoNaming_v20170314.RegisterInstance'
@@ -1457,6 +1434,7 @@ class ServiceDiscovery {
       instanceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceId, 'serviceId');
     _s.validateStringLength(
@@ -1464,6 +1442,7 @@ class ServiceDiscovery {
       serviceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
@@ -1528,6 +1507,7 @@ class ServiceDiscovery {
       id,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{

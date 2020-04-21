@@ -66,11 +66,13 @@ class EMR {
       clusterId,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'clusterId',
       clusterId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
     final headers = <String, String>{
@@ -112,11 +114,13 @@ class EMR {
       jobFlowId,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'jobFlowId',
       jobFlowId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -183,11 +187,13 @@ class EMR {
       jobFlowId,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'jobFlowId',
       jobFlowId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(steps, 'steps');
     final headers = <String, String>{
@@ -284,11 +290,13 @@ class EMR {
       clusterId,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'clusterId',
       clusterId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stepIds, 'stepIds');
     final headers = <String, String>{
@@ -336,11 +344,13 @@ class EMR {
       name,
       0,
       10280,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(securityConfiguration, 'securityConfiguration');
     final headers = <String, String>{
@@ -378,11 +388,13 @@ class EMR {
       name,
       0,
       10280,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -516,11 +528,13 @@ class EMR {
       name,
       0,
       10280,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1432,147 +1446,113 @@ class EMR {
       name,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
-    if (additionalInfo != null) {
-      _s.validateStringLength(
-        'additionalInfo',
-        additionalInfo,
-        0,
-        10280,
-      );
-    }
-    if (additionalInfo != null) {
-      _s.validateStringPattern(
-        'additionalInfo',
-        additionalInfo,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (amiVersion != null) {
-      _s.validateStringLength(
-        'amiVersion',
-        amiVersion,
-        0,
-        256,
-      );
-    }
-    if (amiVersion != null) {
-      _s.validateStringPattern(
-        'amiVersion',
-        amiVersion,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (autoScalingRole != null) {
-      _s.validateStringLength(
-        'autoScalingRole',
-        autoScalingRole,
-        0,
-        10280,
-      );
-    }
-    if (autoScalingRole != null) {
-      _s.validateStringPattern(
-        'autoScalingRole',
-        autoScalingRole,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (customAmiId != null) {
-      _s.validateStringLength(
-        'customAmiId',
-        customAmiId,
-        0,
-        256,
-      );
-    }
-    if (customAmiId != null) {
-      _s.validateStringPattern(
-        'customAmiId',
-        customAmiId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (jobFlowRole != null) {
-      _s.validateStringLength(
-        'jobFlowRole',
-        jobFlowRole,
-        0,
-        10280,
-      );
-    }
-    if (jobFlowRole != null) {
-      _s.validateStringPattern(
-        'jobFlowRole',
-        jobFlowRole,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (logUri != null) {
-      _s.validateStringLength(
-        'logUri',
-        logUri,
-        0,
-        10280,
-      );
-    }
-    if (logUri != null) {
-      _s.validateStringPattern(
-        'logUri',
-        logUri,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (releaseLabel != null) {
-      _s.validateStringLength(
-        'releaseLabel',
-        releaseLabel,
-        0,
-        256,
-      );
-    }
-    if (releaseLabel != null) {
-      _s.validateStringPattern(
-        'releaseLabel',
-        releaseLabel,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (securityConfiguration != null) {
-      _s.validateStringLength(
-        'securityConfiguration',
-        securityConfiguration,
-        0,
-        10280,
-      );
-    }
-    if (securityConfiguration != null) {
-      _s.validateStringPattern(
-        'securityConfiguration',
-        securityConfiguration,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (serviceRole != null) {
-      _s.validateStringLength(
-        'serviceRole',
-        serviceRole,
-        0,
-        10280,
-      );
-    }
-    if (serviceRole != null) {
-      _s.validateStringPattern(
-        'serviceRole',
-        serviceRole,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'additionalInfo',
+      additionalInfo,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'additionalInfo',
+      additionalInfo,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'amiVersion',
+      amiVersion,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'amiVersion',
+      amiVersion,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'autoScalingRole',
+      autoScalingRole,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'autoScalingRole',
+      autoScalingRole,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'customAmiId',
+      customAmiId,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'customAmiId',
+      customAmiId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'jobFlowRole',
+      jobFlowRole,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'jobFlowRole',
+      jobFlowRole,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'logUri',
+      logUri,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'logUri',
+      logUri,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'releaseLabel',
+      releaseLabel,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'releaseLabel',
+      releaseLabel,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'securityConfiguration',
+      securityConfiguration,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'securityConfiguration',
+      securityConfiguration,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'serviceRole',
+      serviceRole,
+      0,
+      10280,
+    );
+    _s.validateStringPattern(
+      'serviceRole',
+      serviceRole,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RunJobFlow'

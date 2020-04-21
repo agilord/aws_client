@@ -388,29 +388,23 @@ class AutoScaling {
       r'''[A-Za-z0-9\-_\/]+''',
       isRequired: true,
     );
-    if (instanceId != null) {
-      _s.validateStringLength(
-        'instanceId',
-        instanceId,
-        1,
-        19,
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringPattern(
-        'instanceId',
-        instanceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (lifecycleActionToken != null) {
-      _s.validateStringLength(
-        'lifecycleActionToken',
-        lifecycleActionToken,
-        36,
-        36,
-      );
-    }
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      19,
+    );
+    _s.validateStringPattern(
+      'instanceId',
+      instanceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'lifecycleActionToken',
+      lifecycleActionToken,
+      36,
+      36,
+    );
     final $request = <String, dynamic>{
       'Action': 'CompleteLifecycleAction',
       'Version': '2011-01-01',
@@ -687,97 +681,72 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(maxSize, 'maxSize');
     ArgumentError.checkNotNull(minSize, 'minSize');
-    if (availabilityZones != null) {}
-    if (healthCheckType != null) {
-      _s.validateStringLength(
-        'healthCheckType',
-        healthCheckType,
-        1,
-        32,
-      );
-    }
-    if (healthCheckType != null) {
-      _s.validateStringPattern(
-        'healthCheckType',
-        healthCheckType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringLength(
-        'instanceId',
-        instanceId,
-        1,
-        19,
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringPattern(
-        'instanceId',
-        instanceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (launchConfigurationName != null) {
-      _s.validateStringLength(
-        'launchConfigurationName',
-        launchConfigurationName,
-        1,
-        1600,
-      );
-    }
-    if (launchConfigurationName != null) {
-      _s.validateStringPattern(
-        'launchConfigurationName',
-        launchConfigurationName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (placementGroup != null) {
-      _s.validateStringLength(
-        'placementGroup',
-        placementGroup,
-        1,
-        255,
-      );
-    }
-    if (placementGroup != null) {
-      _s.validateStringPattern(
-        'placementGroup',
-        placementGroup,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (serviceLinkedRoleARN != null) {
-      _s.validateStringLength(
-        'serviceLinkedRoleARN',
-        serviceLinkedRoleARN,
-        1,
-        1600,
-      );
-    }
-    if (serviceLinkedRoleARN != null) {
-      _s.validateStringPattern(
-        'serviceLinkedRoleARN',
-        serviceLinkedRoleARN,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (vPCZoneIdentifier != null) {
-      _s.validateStringLength(
-        'vPCZoneIdentifier',
-        vPCZoneIdentifier,
-        1,
-        2047,
-      );
-    }
-    if (vPCZoneIdentifier != null) {
-      _s.validateStringPattern(
-        'vPCZoneIdentifier',
-        vPCZoneIdentifier,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'healthCheckType',
+      healthCheckType,
+      1,
+      32,
+    );
+    _s.validateStringPattern(
+      'healthCheckType',
+      healthCheckType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      19,
+    );
+    _s.validateStringPattern(
+      'instanceId',
+      instanceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'launchConfigurationName',
+      launchConfigurationName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'launchConfigurationName',
+      launchConfigurationName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'placementGroup',
+      placementGroup,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'placementGroup',
+      placementGroup,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'serviceLinkedRoleARN',
+      serviceLinkedRoleARN,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'serviceLinkedRoleARN',
+      serviceLinkedRoleARN,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'vPCZoneIdentifier',
+      vPCZoneIdentifier,
+      1,
+      2047,
+    );
+    _s.validateStringPattern(
+      'vPCZoneIdentifier',
+      vPCZoneIdentifier,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateAutoScalingGroup',
       'Version': '2011-01-01',
@@ -1062,164 +1031,122 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (classicLinkVPCId != null) {
-      _s.validateStringLength(
-        'classicLinkVPCId',
-        classicLinkVPCId,
-        1,
-        255,
-      );
-    }
-    if (classicLinkVPCId != null) {
-      _s.validateStringPattern(
-        'classicLinkVPCId',
-        classicLinkVPCId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (iamInstanceProfile != null) {
-      _s.validateStringLength(
-        'iamInstanceProfile',
-        iamInstanceProfile,
-        1,
-        1600,
-      );
-    }
-    if (iamInstanceProfile != null) {
-      _s.validateStringPattern(
-        'iamInstanceProfile',
-        iamInstanceProfile,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (imageId != null) {
-      _s.validateStringLength(
-        'imageId',
-        imageId,
-        1,
-        255,
-      );
-    }
-    if (imageId != null) {
-      _s.validateStringPattern(
-        'imageId',
-        imageId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringLength(
-        'instanceId',
-        instanceId,
-        1,
-        19,
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringPattern(
-        'instanceId',
-        instanceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (instanceType != null) {
-      _s.validateStringLength(
-        'instanceType',
-        instanceType,
-        1,
-        255,
-      );
-    }
-    if (instanceType != null) {
-      _s.validateStringPattern(
-        'instanceType',
-        instanceType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (kernelId != null) {
-      _s.validateStringLength(
-        'kernelId',
-        kernelId,
-        1,
-        255,
-      );
-    }
-    if (kernelId != null) {
-      _s.validateStringPattern(
-        'kernelId',
-        kernelId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (keyName != null) {
-      _s.validateStringLength(
-        'keyName',
-        keyName,
-        1,
-        255,
-      );
-    }
-    if (keyName != null) {
-      _s.validateStringPattern(
-        'keyName',
-        keyName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (placementTenancy != null) {
-      _s.validateStringLength(
-        'placementTenancy',
-        placementTenancy,
-        1,
-        64,
-      );
-    }
-    if (placementTenancy != null) {
-      _s.validateStringPattern(
-        'placementTenancy',
-        placementTenancy,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (ramdiskId != null) {
-      _s.validateStringLength(
-        'ramdiskId',
-        ramdiskId,
-        1,
-        255,
-      );
-    }
-    if (ramdiskId != null) {
-      _s.validateStringPattern(
-        'ramdiskId',
-        ramdiskId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (spotPrice != null) {
-      _s.validateStringLength(
-        'spotPrice',
-        spotPrice,
-        1,
-        255,
-      );
-    }
-    if (userData != null) {
-      _s.validateStringLength(
-        'userData',
-        userData,
-        0,
-        21847,
-      );
-    }
-    if (userData != null) {
-      _s.validateStringPattern(
-        'userData',
-        userData,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'classicLinkVPCId',
+      classicLinkVPCId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'classicLinkVPCId',
+      classicLinkVPCId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'iamInstanceProfile',
+      iamInstanceProfile,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'iamInstanceProfile',
+      iamInstanceProfile,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'imageId',
+      imageId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'imageId',
+      imageId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      19,
+    );
+    _s.validateStringPattern(
+      'instanceId',
+      instanceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'instanceType',
+      instanceType,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'instanceType',
+      instanceType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'kernelId',
+      kernelId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'kernelId',
+      kernelId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'keyName',
+      keyName,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'keyName',
+      keyName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'placementTenancy',
+      placementTenancy,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'placementTenancy',
+      placementTenancy,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'ramdiskId',
+      ramdiskId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'ramdiskId',
+      ramdiskId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'spotPrice',
+      spotPrice,
+      1,
+      255,
+    );
+    _s.validateStringLength(
+      'userData',
+      userData,
+      0,
+      21847,
+    );
+    _s.validateStringPattern(
+      'userData',
+      userData,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'CreateLaunchConfiguration',
       'Version': '2011-01-01',
@@ -1543,21 +1470,17 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (autoScalingGroupName != null) {
-      _s.validateStringLength(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        1,
-        1600,
-      );
-    }
-    if (autoScalingGroupName != null) {
-      _s.validateStringPattern(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DeletePolicy',
       'Version': '2011-01-01',
@@ -1719,13 +1642,11 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeAutoScalingGroups',
       'Version': '2011-01-01',
@@ -1766,13 +1687,11 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeAutoScalingInstances',
       'Version': '2011-01-01',
@@ -1831,13 +1750,11 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeLaunchConfigurations',
       'Version': '2011-01-01',
@@ -1913,7 +1830,6 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (lifecycleHookNames != null) {}
     final $request = <String, dynamic>{
       'Action': 'DescribeLifecycleHooks',
       'Version': '2011-01-01',
@@ -1964,13 +1880,11 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancerTargetGroups',
       'Version': '2011-01-01',
@@ -2025,13 +1939,11 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeLoadBalancers',
       'Version': '2011-01-01',
@@ -2094,13 +2006,11 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeNotificationConfigurations',
       'Version': '2011-01-01',
@@ -2152,28 +2062,22 @@ class AutoScaling {
     List<String> policyNames,
     List<String> policyTypes,
   }) async {
-    if (autoScalingGroupName != null) {
-      _s.validateStringLength(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        1,
-        1600,
-      );
-    }
-    if (autoScalingGroupName != null) {
-      _s.validateStringPattern(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribePolicies',
       'Version': '2011-01-01',
@@ -2222,28 +2126,22 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (autoScalingGroupName != null) {
-      _s.validateStringLength(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        1,
-        1600,
-      );
-    }
-    if (autoScalingGroupName != null) {
-      _s.validateStringPattern(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeScalingActivities',
       'Version': '2011-01-01',
@@ -2319,28 +2217,22 @@ class AutoScaling {
     List<String> scheduledActionNames,
     DateTime startTime,
   }) async {
-    if (autoScalingGroupName != null) {
-      _s.validateStringLength(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        1,
-        1600,
-      );
-    }
-    if (autoScalingGroupName != null) {
-      _s.validateStringPattern(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeScheduledActions',
       'Version': '2011-01-01',
@@ -2392,13 +2284,11 @@ class AutoScaling {
     int maxRecords,
     String nextToken,
   }) async {
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'DescribeTags',
       'Version': '2011-01-01',
@@ -2892,21 +2782,17 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (autoScalingGroupName != null) {
-      _s.validateStringLength(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        1,
-        1600,
-      );
-    }
-    if (autoScalingGroupName != null) {
-      _s.validateStringPattern(
-        'autoScalingGroupName',
-        autoScalingGroupName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'autoScalingGroupName',
+      autoScalingGroupName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'ExecutePolicy',
       'Version': '2011-01-01',
@@ -3122,51 +3008,39 @@ class AutoScaling {
       r'''[A-Za-z0-9\-_\/]+''',
       isRequired: true,
     );
-    if (notificationMetadata != null) {
-      _s.validateStringLength(
-        'notificationMetadata',
-        notificationMetadata,
-        1,
-        1023,
-      );
-    }
-    if (notificationMetadata != null) {
-      _s.validateStringPattern(
-        'notificationMetadata',
-        notificationMetadata,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (notificationTargetARN != null) {
-      _s.validateStringLength(
-        'notificationTargetARN',
-        notificationTargetARN,
-        0,
-        1600,
-      );
-    }
-    if (notificationTargetARN != null) {
-      _s.validateStringPattern(
-        'notificationTargetARN',
-        notificationTargetARN,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        1,
-        1600,
-      );
-    }
-    if (roleARN != null) {
-      _s.validateStringPattern(
-        'roleARN',
-        roleARN,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'notificationMetadata',
+      notificationMetadata,
+      1,
+      1023,
+    );
+    _s.validateStringPattern(
+      'notificationMetadata',
+      notificationMetadata,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'notificationTargetARN',
+      notificationTargetARN,
+      0,
+      1600,
+    );
+    _s.validateStringPattern(
+      'notificationTargetARN',
+      notificationTargetARN,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'roleARN',
+      roleARN,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'PutLifecycleHook',
       'Version': '2011-01-01',
@@ -3425,51 +3299,39 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (adjustmentType != null) {
-      _s.validateStringLength(
-        'adjustmentType',
-        adjustmentType,
-        1,
-        255,
-      );
-    }
-    if (adjustmentType != null) {
-      _s.validateStringPattern(
-        'adjustmentType',
-        adjustmentType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (metricAggregationType != null) {
-      _s.validateStringLength(
-        'metricAggregationType',
-        metricAggregationType,
-        1,
-        32,
-      );
-    }
-    if (metricAggregationType != null) {
-      _s.validateStringPattern(
-        'metricAggregationType',
-        metricAggregationType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (policyType != null) {
-      _s.validateStringLength(
-        'policyType',
-        policyType,
-        1,
-        64,
-      );
-    }
-    if (policyType != null) {
-      _s.validateStringPattern(
-        'policyType',
-        policyType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'adjustmentType',
+      adjustmentType,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'adjustmentType',
+      adjustmentType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'metricAggregationType',
+      metricAggregationType,
+      1,
+      32,
+    );
+    _s.validateStringPattern(
+      'metricAggregationType',
+      metricAggregationType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'policyType',
+      policyType,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'policyType',
+      policyType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'PutScalingPolicy',
       'Version': '2011-01-01',
@@ -3597,21 +3459,17 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (recurrence != null) {
-      _s.validateStringLength(
-        'recurrence',
-        recurrence,
-        1,
-        255,
-      );
-    }
-    if (recurrence != null) {
-      _s.validateStringPattern(
-        'recurrence',
-        recurrence,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'recurrence',
+      recurrence,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'recurrence',
+      recurrence,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'PutScheduledUpdateGroupAction',
       'Version': '2011-01-01',
@@ -3716,29 +3574,23 @@ class AutoScaling {
       r'''[A-Za-z0-9\-_\/]+''',
       isRequired: true,
     );
-    if (instanceId != null) {
-      _s.validateStringLength(
-        'instanceId',
-        instanceId,
-        1,
-        19,
-      );
-    }
-    if (instanceId != null) {
-      _s.validateStringPattern(
-        'instanceId',
-        instanceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (lifecycleActionToken != null) {
-      _s.validateStringLength(
-        'lifecycleActionToken',
-        lifecycleActionToken,
-        36,
-        36,
-      );
-    }
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      19,
+    );
+    _s.validateStringPattern(
+      'instanceId',
+      instanceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'lifecycleActionToken',
+      lifecycleActionToken,
+      36,
+      36,
+    );
     final $request = <String, dynamic>{
       'Action': 'RecordLifecycleActionHeartbeat',
       'Version': '2011-01-01',
@@ -4376,82 +4228,61 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    if (availabilityZones != null) {}
-    if (healthCheckType != null) {
-      _s.validateStringLength(
-        'healthCheckType',
-        healthCheckType,
-        1,
-        32,
-      );
-    }
-    if (healthCheckType != null) {
-      _s.validateStringPattern(
-        'healthCheckType',
-        healthCheckType,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (launchConfigurationName != null) {
-      _s.validateStringLength(
-        'launchConfigurationName',
-        launchConfigurationName,
-        1,
-        1600,
-      );
-    }
-    if (launchConfigurationName != null) {
-      _s.validateStringPattern(
-        'launchConfigurationName',
-        launchConfigurationName,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (placementGroup != null) {
-      _s.validateStringLength(
-        'placementGroup',
-        placementGroup,
-        1,
-        255,
-      );
-    }
-    if (placementGroup != null) {
-      _s.validateStringPattern(
-        'placementGroup',
-        placementGroup,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (serviceLinkedRoleARN != null) {
-      _s.validateStringLength(
-        'serviceLinkedRoleARN',
-        serviceLinkedRoleARN,
-        1,
-        1600,
-      );
-    }
-    if (serviceLinkedRoleARN != null) {
-      _s.validateStringPattern(
-        'serviceLinkedRoleARN',
-        serviceLinkedRoleARN,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (vPCZoneIdentifier != null) {
-      _s.validateStringLength(
-        'vPCZoneIdentifier',
-        vPCZoneIdentifier,
-        1,
-        2047,
-      );
-    }
-    if (vPCZoneIdentifier != null) {
-      _s.validateStringPattern(
-        'vPCZoneIdentifier',
-        vPCZoneIdentifier,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'healthCheckType',
+      healthCheckType,
+      1,
+      32,
+    );
+    _s.validateStringPattern(
+      'healthCheckType',
+      healthCheckType,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'launchConfigurationName',
+      launchConfigurationName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'launchConfigurationName',
+      launchConfigurationName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'placementGroup',
+      placementGroup,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'placementGroup',
+      placementGroup,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'serviceLinkedRoleARN',
+      serviceLinkedRoleARN,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'serviceLinkedRoleARN',
+      serviceLinkedRoleARN,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'vPCZoneIdentifier',
+      vPCZoneIdentifier,
+      1,
+      2047,
+    );
+    _s.validateStringPattern(
+      'vPCZoneIdentifier',
+      vPCZoneIdentifier,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final $request = <String, dynamic>{
       'Action': 'UpdateAutoScalingGroup',
       'Version': '2011-01-01',

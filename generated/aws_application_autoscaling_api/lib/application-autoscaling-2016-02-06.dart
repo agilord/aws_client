@@ -276,11 +276,13 @@ class ApplicationAutoScaling {
       policyName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -288,11 +290,13 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
@@ -479,11 +483,13 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
@@ -492,11 +498,13 @@ class ApplicationAutoScaling {
       scheduledActionName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
@@ -679,11 +687,13 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
@@ -880,13 +890,11 @@ class ApplicationAutoScaling {
     ScalableDimension scalableDimension,
   }) async {
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalableTargets'
@@ -1084,28 +1092,22 @@ class ApplicationAutoScaling {
     ScalableDimension scalableDimension,
   }) async {
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringLength(
-        'resourceId',
-        resourceId,
-        1,
-        1600,
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringPattern(
-        'resourceId',
-        resourceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'resourceId',
+      resourceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalingActivities'
@@ -1307,28 +1309,22 @@ class ApplicationAutoScaling {
     ScalableDimension scalableDimension,
   }) async {
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringLength(
-        'resourceId',
-        resourceId,
-        1,
-        1600,
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringPattern(
-        'resourceId',
-        resourceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'resourceId',
+      resourceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalingPolicies'
@@ -1531,28 +1527,22 @@ class ApplicationAutoScaling {
     List<String> scheduledActionNames,
   }) async {
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringLength(
-        'resourceId',
-        resourceId,
-        1,
-        1600,
-      );
-    }
-    if (resourceId != null) {
-      _s.validateStringPattern(
-        'resourceId',
-        resourceId,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'resourceId',
+      resourceId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScheduledActions'
@@ -1799,11 +1789,13 @@ class ApplicationAutoScaling {
       policyName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''\p{Print}+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1811,11 +1803,13 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
@@ -2065,11 +2059,13 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
@@ -2078,28 +2074,26 @@ class ApplicationAutoScaling {
       scheduledActionName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
       r'''(?!((^[ ]+.*)|(.*([\u0000-\u001f]|[\u007f-\u009f]|[:/|])+.*)|(.*[ ]+$))).+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (schedule != null) {
-      _s.validateStringLength(
-        'schedule',
-        schedule,
-        1,
-        1600,
-      );
-    }
-    if (schedule != null) {
-      _s.validateStringPattern(
-        'schedule',
-        schedule,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'schedule',
+      schedule,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'schedule',
+      schedule,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.PutScheduledAction'
@@ -2353,29 +2347,27 @@ class ApplicationAutoScaling {
       resourceId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    if (roleARN != null) {
-      _s.validateStringLength(
-        'roleARN',
-        roleARN,
-        1,
-        1600,
-      );
-    }
-    if (roleARN != null) {
-      _s.validateStringPattern(
-        'roleARN',
-        roleARN,
-        r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      );
-    }
+    _s.validateStringLength(
+      'roleARN',
+      roleARN,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'roleARN',
+      roleARN,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.RegisterScalableTarget'

@@ -103,6 +103,7 @@ class CodeStarconnections {
       connectionName,
       1,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(providerType, 'providerType');
     final headers = <String, String>{
@@ -143,11 +144,13 @@ class CodeStarconnections {
       connectionArn,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'connectionArn',
       connectionArn,
       r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -184,11 +187,13 @@ class CodeStarconnections {
       connectionArn,
       0,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'connectionArn',
       connectionArn,
       r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -228,29 +233,23 @@ class CodeStarconnections {
     String nextToken,
     ProviderType providerTypeFilter,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9=\-\\/]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9=\-\\/]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':

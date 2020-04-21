@@ -168,11 +168,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webACLArn, 'webACLArn');
     _s.validateStringLength(
@@ -180,11 +182,13 @@ class WAFV2 {
       webACLArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLArn',
       webACLArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -380,29 +384,26 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateIPSet'
@@ -489,30 +490,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRegexPatternSet'
@@ -631,6 +629,7 @@ class WAFV2 {
       capacity,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -638,30 +637,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRuleGroup'
@@ -776,30 +772,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateWebACL'
@@ -859,11 +852,13 @@ class WAFV2 {
       webACLArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLArn',
       webACLArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webACLLockToken, 'webACLLockToken');
     _s.validateStringLength(
@@ -871,11 +866,13 @@ class WAFV2 {
       webACLLockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLLockToken',
       webACLLockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -962,11 +959,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -974,11 +973,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -986,11 +987,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -1041,11 +1044,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1087,11 +1092,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1176,11 +1183,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -1188,11 +1197,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1200,11 +1211,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -1294,11 +1307,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -1306,11 +1321,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1318,11 +1335,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -1415,11 +1434,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -1427,11 +1448,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1439,11 +1462,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -1519,11 +1544,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(vendorName, 'vendorName');
@@ -1532,11 +1559,13 @@ class WAFV2 {
       vendorName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vendorName',
       vendorName,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1607,11 +1636,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1682,11 +1713,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1694,11 +1727,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -1747,11 +1782,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1791,11 +1828,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1874,11 +1913,13 @@ class WAFV2 {
       ruleName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ruleName',
       ruleName,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(webACLId, 'webACLId');
@@ -1887,11 +1928,13 @@ class WAFV2 {
       webACLId,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLId',
       webACLId,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webACLName, 'webACLName');
     _s.validateStringLength(
@@ -1899,11 +1942,13 @@ class WAFV2 {
       webACLName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLName',
       webACLName,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1976,11 +2021,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1988,11 +2035,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -2066,11 +2115,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2078,11 +2129,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -2181,6 +2234,7 @@ class WAFV2 {
       maxItems,
       1,
       500,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleMetricName, 'ruleMetricName');
     _s.validateStringLength(
@@ -2188,11 +2242,13 @@ class WAFV2 {
       ruleMetricName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ruleMetricName',
       ruleMetricName,
       r'''^[\w#:\.\-/]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(timeWindow, 'timeWindow');
@@ -2202,11 +2258,13 @@ class WAFV2 {
       webAclArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webAclArn',
       webAclArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2281,11 +2339,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2293,11 +2353,13 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
@@ -2346,11 +2408,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2422,29 +2486,23 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListAvailableManagedRuleGroups'
@@ -2515,29 +2573,23 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListIPSets'
@@ -2606,29 +2658,23 @@ class WAFV2 {
     String nextMarker,
     Scope scope,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListLoggingConfigurations'
@@ -2699,29 +2745,23 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRegexPatternSets'
@@ -2776,11 +2816,13 @@ class WAFV2 {
       webACLArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'webACLArn',
       webACLArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2851,29 +2893,23 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRuleGroups'
@@ -2936,35 +2972,31 @@ class WAFV2 {
       resourceARN,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''.*\S.*''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListTagsForResource'
@@ -3035,29 +3067,23 @@ class WAFV2 {
     String nextMarker,
   }) async {
     ArgumentError.checkNotNull(scope, 'scope');
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringLength(
-        'nextMarker',
-        nextMarker,
-        1,
-        256,
-      );
-    }
-    if (nextMarker != null) {
-      _s.validateStringPattern(
-        'nextMarker',
-        nextMarker,
-        r'''.*\S.*''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextMarker',
+      nextMarker,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListWebACLs'
@@ -3213,6 +3239,7 @@ class WAFV2 {
       policy,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3220,11 +3247,13 @@ class WAFV2 {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
       r'''.*\S.*''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3281,11 +3310,13 @@ class WAFV2 {
       resourceARN,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -3342,11 +3373,13 @@ class WAFV2 {
       resourceARN,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''.*\S.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -3473,11 +3506,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -3485,11 +3520,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3497,28 +3534,26 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateIPSet'
@@ -3615,11 +3650,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -3627,11 +3664,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3639,29 +3678,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRegexPatternSet'
@@ -3775,11 +3812,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -3787,11 +3826,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3799,29 +3840,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRuleGroup'
@@ -3947,11 +3986,13 @@ class WAFV2 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'id',
       id,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
     _s.validateStringLength(
@@ -3959,11 +4000,13 @@ class WAFV2 {
       lockToken,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lockToken',
       lockToken,
       r'''^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3971,29 +4014,27 @@ class WAFV2 {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''^[\w\-]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        256,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateWebACL'

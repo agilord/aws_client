@@ -63,6 +63,7 @@ class Macie {
       'memberAccountId',
       memberAccountId,
       r'''[0-9]{12}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -103,13 +104,11 @@ class Macie {
     String memberAccountId,
   }) async {
     ArgumentError.checkNotNull(s3Resources, 's3Resources');
-    if (memberAccountId != null) {
-      _s.validateStringPattern(
-        'memberAccountId',
-        memberAccountId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'memberAccountId',
+      memberAccountId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.AssociateS3Resources'
@@ -144,6 +143,7 @@ class Macie {
       'memberAccountId',
       memberAccountId,
       r'''[0-9]{12}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -183,13 +183,11 @@ class Macie {
     String memberAccountId,
   }) async {
     ArgumentError.checkNotNull(associatedS3Resources, 'associatedS3Resources');
-    if (memberAccountId != null) {
-      _s.validateStringPattern(
-        'memberAccountId',
-        memberAccountId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'memberAccountId',
+      memberAccountId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.DisassociateS3Resources'
@@ -228,22 +226,18 @@ class Macie {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        250,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        500,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      500,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.ListMemberAccounts'
@@ -291,29 +285,23 @@ class Macie {
     String memberAccountId,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        250,
-      );
-    }
-    if (memberAccountId != null) {
-      _s.validateStringPattern(
-        'memberAccountId',
-        memberAccountId,
-        r'''[0-9]{12}''',
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        500,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    _s.validateStringPattern(
+      'memberAccountId',
+      memberAccountId,
+      r'''[0-9]{12}''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      500,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.ListS3Resources'
@@ -356,13 +344,11 @@ class Macie {
     String memberAccountId,
   }) async {
     ArgumentError.checkNotNull(s3ResourcesUpdate, 's3ResourcesUpdate');
-    if (memberAccountId != null) {
-      _s.validateStringPattern(
-        'memberAccountId',
-        memberAccountId,
-        r'''[0-9]{12}''',
-      );
-    }
+    _s.validateStringPattern(
+      'memberAccountId',
+      memberAccountId,
+      r'''[0-9]{12}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.UpdateS3Resources'

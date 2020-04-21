@@ -135,14 +135,15 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budget, 'budget');
-    if (notificationsWithSubscribers != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.CreateBudget'
@@ -200,11 +201,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -212,11 +215,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscribers, 'subscribers');
@@ -276,11 +281,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -288,11 +295,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscriber, 'subscriber');
@@ -344,11 +353,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -356,11 +367,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -412,11 +425,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -424,11 +439,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notification, 'notification');
     final headers = <String, String>{
@@ -486,11 +503,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -498,11 +517,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscriber, 'subscriber');
@@ -556,11 +577,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -568,11 +591,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -621,11 +646,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -633,35 +660,31 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2147483647,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetPerformanceHistory'
@@ -721,35 +744,31 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2147483647,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgets'
@@ -806,11 +825,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -818,35 +839,31 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2147483647,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeNotificationsForBudget'
@@ -908,11 +925,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -920,36 +939,32 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notification, 'notification');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2147483647,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''.*''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1008,11 +1023,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newBudget, 'newBudget');
     final headers = <String, String>{
@@ -1066,11 +1083,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -1078,11 +1097,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newNotification, 'newNotification');
     ArgumentError.checkNotNull(oldNotification, 'oldNotification');
@@ -1143,11 +1164,13 @@ class Budgets {
       accountId,
       12,
       12,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountId',
       accountId,
       r'''\d{12}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -1155,11 +1178,13 @@ class Budgets {
       budgetName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'budgetName',
       budgetName,
       r'''[^:\\]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(newSubscriber, 'newSubscriber');
     ArgumentError.checkNotNull(notification, 'notification');

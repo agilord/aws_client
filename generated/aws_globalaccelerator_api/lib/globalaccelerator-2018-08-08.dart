@@ -77,6 +77,7 @@ class GlobalAccelerator {
       cidr,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -170,6 +171,7 @@ class GlobalAccelerator {
       idempotencyToken,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -177,8 +179,8 @@ class GlobalAccelerator {
       name,
       0,
       255,
+      isRequired: true,
     );
-    if (ipAddresses != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateAccelerator'
@@ -278,6 +280,7 @@ class GlobalAccelerator {
       endpointGroupRegion,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
     _s.validateStringLength(
@@ -285,6 +288,7 @@ class GlobalAccelerator {
       idempotencyToken,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -292,48 +296,38 @@ class GlobalAccelerator {
       listenerArn,
       0,
       255,
+      isRequired: true,
     );
-    if (endpointConfigurations != null) {}
-    if (healthCheckIntervalSeconds != null) {
-      _s.validateNumRange(
-        'healthCheckIntervalSeconds',
-        healthCheckIntervalSeconds,
-        10,
-        30,
-      );
-    }
-    if (healthCheckPath != null) {
-      _s.validateStringLength(
-        'healthCheckPath',
-        healthCheckPath,
-        0,
-        255,
-      );
-    }
-    if (healthCheckPort != null) {
-      _s.validateNumRange(
-        'healthCheckPort',
-        healthCheckPort,
-        1,
-        65535,
-      );
-    }
-    if (thresholdCount != null) {
-      _s.validateNumRange(
-        'thresholdCount',
-        thresholdCount,
-        1,
-        10,
-      );
-    }
-    if (trafficDialPercentage != null) {
-      _s.validateNumRange(
-        'trafficDialPercentage',
-        trafficDialPercentage,
-        0,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'healthCheckIntervalSeconds',
+      healthCheckIntervalSeconds,
+      10,
+      30,
+    );
+    _s.validateStringLength(
+      'healthCheckPath',
+      healthCheckPath,
+      0,
+      255,
+    );
+    _s.validateNumRange(
+      'healthCheckPort',
+      healthCheckPort,
+      1,
+      65535,
+    );
+    _s.validateNumRange(
+      'thresholdCount',
+      thresholdCount,
+      1,
+      10,
+    );
+    _s.validateNumRange(
+      'trafficDialPercentage',
+      trafficDialPercentage,
+      0,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateEndpointGroup'
@@ -421,6 +415,7 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
     _s.validateStringLength(
@@ -428,6 +423,7 @@ class GlobalAccelerator {
       idempotencyToken,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(portRanges, 'portRanges');
     ArgumentError.checkNotNull(protocol, 'protocol');
@@ -493,6 +489,7 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -527,6 +524,7 @@ class GlobalAccelerator {
       endpointGroupArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -562,6 +560,7 @@ class GlobalAccelerator {
       listenerArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -613,6 +612,7 @@ class GlobalAccelerator {
       cidr,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -650,6 +650,7 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -689,6 +690,7 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -727,6 +729,7 @@ class GlobalAccelerator {
       endpointGroupArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -764,6 +767,7 @@ class GlobalAccelerator {
       listenerArn,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -802,22 +806,18 @@ class GlobalAccelerator {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        255,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListAccelerators'
@@ -860,22 +860,18 @@ class GlobalAccelerator {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        255,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListByoipCidrs'
@@ -925,23 +921,20 @@ class GlobalAccelerator {
       listenerArn,
       0,
       255,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        255,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListEndpointGroups'
@@ -992,23 +985,20 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        255,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListListeners'
@@ -1053,6 +1043,7 @@ class GlobalAccelerator {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1111,6 +1102,7 @@ class GlobalAccelerator {
       cidr,
       0,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         cidrAuthorizationContext, 'cidrAuthorizationContext');
@@ -1162,6 +1154,7 @@ class GlobalAccelerator {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1214,6 +1207,7 @@ class GlobalAccelerator {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -1275,15 +1269,14 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        0,
-        255,
-      );
-    }
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAccelerator'
@@ -1355,23 +1348,20 @@ class GlobalAccelerator {
       acceleratorArn,
       0,
       255,
+      isRequired: true,
     );
-    if (flowLogsS3Bucket != null) {
-      _s.validateStringLength(
-        'flowLogsS3Bucket',
-        flowLogsS3Bucket,
-        0,
-        255,
-      );
-    }
-    if (flowLogsS3Prefix != null) {
-      _s.validateStringLength(
-        'flowLogsS3Prefix',
-        flowLogsS3Prefix,
-        0,
-        255,
-      );
-    }
+    _s.validateStringLength(
+      'flowLogsS3Bucket',
+      flowLogsS3Bucket,
+      0,
+      255,
+    );
+    _s.validateStringLength(
+      'flowLogsS3Prefix',
+      flowLogsS3Prefix,
+      0,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAcceleratorAttributes'
@@ -1456,48 +1446,38 @@ class GlobalAccelerator {
       endpointGroupArn,
       0,
       255,
+      isRequired: true,
     );
-    if (endpointConfigurations != null) {}
-    if (healthCheckIntervalSeconds != null) {
-      _s.validateNumRange(
-        'healthCheckIntervalSeconds',
-        healthCheckIntervalSeconds,
-        10,
-        30,
-      );
-    }
-    if (healthCheckPath != null) {
-      _s.validateStringLength(
-        'healthCheckPath',
-        healthCheckPath,
-        0,
-        255,
-      );
-    }
-    if (healthCheckPort != null) {
-      _s.validateNumRange(
-        'healthCheckPort',
-        healthCheckPort,
-        1,
-        65535,
-      );
-    }
-    if (thresholdCount != null) {
-      _s.validateNumRange(
-        'thresholdCount',
-        thresholdCount,
-        1,
-        10,
-      );
-    }
-    if (trafficDialPercentage != null) {
-      _s.validateNumRange(
-        'trafficDialPercentage',
-        trafficDialPercentage,
-        0,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'healthCheckIntervalSeconds',
+      healthCheckIntervalSeconds,
+      10,
+      30,
+    );
+    _s.validateStringLength(
+      'healthCheckPath',
+      healthCheckPath,
+      0,
+      255,
+    );
+    _s.validateNumRange(
+      'healthCheckPort',
+      healthCheckPort,
+      1,
+      65535,
+    );
+    _s.validateNumRange(
+      'thresholdCount',
+      thresholdCount,
+      1,
+      10,
+    );
+    _s.validateNumRange(
+      'trafficDialPercentage',
+      trafficDialPercentage,
+      0,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateEndpointGroup'
@@ -1576,8 +1556,8 @@ class GlobalAccelerator {
       listenerArn,
       0,
       255,
+      isRequired: true,
     );
-    if (portRanges != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateListener'
@@ -1630,6 +1610,7 @@ class GlobalAccelerator {
       cidr,
       0,
       255,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

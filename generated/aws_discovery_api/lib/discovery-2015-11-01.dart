@@ -431,14 +431,12 @@ class ApplicationDiscoveryService {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DescribeContinuousExports'
@@ -596,14 +594,12 @@ class ApplicationDiscoveryService {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DescribeImportTasks'
@@ -1133,6 +1129,7 @@ class ApplicationDiscoveryService {
       importUrl,
       1,
       4000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1140,15 +1137,14 @@ class ApplicationDiscoveryService {
       name,
       1,
       100,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.StartImportTask'

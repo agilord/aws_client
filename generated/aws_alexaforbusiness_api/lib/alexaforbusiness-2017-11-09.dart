@@ -66,6 +66,7 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -103,12 +104,14 @@ class AlexaForBusiness {
       'addressBookArn',
       addressBookArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(contactArn, 'contactArn');
     _s.validateStringPattern(
       'contactArn',
       contactArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -149,12 +152,14 @@ class AlexaForBusiness {
       'deviceArn',
       deviceArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(networkProfileArn, 'networkProfileArn');
     _s.validateStringPattern(
       'networkProfileArn',
       networkProfileArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -194,20 +199,16 @@ class AlexaForBusiness {
     String deviceArn,
     String roomArn,
   }) async {
-    if (deviceArn != null) {
-      _s.validateStringPattern(
-        'deviceArn',
-        deviceArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'deviceArn',
+      deviceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateDeviceWithRoom'
@@ -241,20 +242,16 @@ class AlexaForBusiness {
     String roomArn,
     String skillGroupArn,
   }) async {
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateSkillGroupWithRoom'
@@ -294,14 +291,13 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateSkillWithSkillGroup'
@@ -337,6 +333,7 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -381,42 +378,36 @@ class AlexaForBusiness {
       name,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateAddressBook'
@@ -477,58 +468,44 @@ class AlexaForBusiness {
   }) async {
     ArgumentError.checkNotNull(contentRange, 'contentRange');
     ArgumentError.checkNotNull(format, 'format');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (s3BucketName != null) {
-      _s.validateStringPattern(
-        's3BucketName',
-        s3BucketName,
-        r'''[a-z0-9-\.]{3,63}''',
-      );
-    }
-    if (s3KeyPrefix != null) {
-      _s.validateStringLength(
-        's3KeyPrefix',
-        s3KeyPrefix,
-        0,
-        100,
-      );
-    }
-    if (s3KeyPrefix != null) {
-      _s.validateStringPattern(
-        's3KeyPrefix',
-        s3KeyPrefix,
-        r'''[A-Za-z0-9!_\-\.\*'()/]*''',
-      );
-    }
-    if (scheduleName != null) {
-      _s.validateStringLength(
-        'scheduleName',
-        scheduleName,
-        0,
-        64,
-      );
-    }
-    if (scheduleName != null) {
-      _s.validateStringPattern(
-        'scheduleName',
-        scheduleName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringPattern(
+      's3BucketName',
+      s3BucketName,
+      r'''[a-z0-9-\.]{3,63}''',
+    );
+    _s.validateStringLength(
+      's3KeyPrefix',
+      s3KeyPrefix,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      's3KeyPrefix',
+      s3KeyPrefix,
+      r'''[A-Za-z0-9!_\-\.\*'()/]*''',
+    );
+    _s.validateStringLength(
+      'scheduleName',
+      scheduleName,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'scheduleName',
+      scheduleName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateBusinessReportSchedule'
@@ -589,30 +566,28 @@ class AlexaForBusiness {
       conferenceProviderName,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'conferenceProviderName',
       conferenceProviderName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         conferenceProviderType, 'conferenceProviderType');
     ArgumentError.checkNotNull(meetingSetting, 'meetingSetting');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateConferenceProvider'
@@ -682,74 +657,58 @@ class AlexaForBusiness {
       firstName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'firstName',
       firstName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        1,
-        100,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringPattern(
-        'displayName',
-        displayName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringLength(
-        'lastName',
-        lastName,
-        1,
-        100,
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringPattern(
-        'lastName',
-        lastName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (phoneNumber != null) {
-      _s.validateStringLength(
-        'phoneNumber',
-        phoneNumber,
-        0,
-        50,
-      );
-    }
-    if (phoneNumber != null) {
-      _s.validateStringPattern(
-        'phoneNumber',
-        phoneNumber,
-        r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
-      );
-    }
-    if (phoneNumbers != null) {}
-    if (sipAddresses != null) {}
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'displayName',
+      displayName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'lastName',
+      lastName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'lastName',
+      lastName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'phoneNumber',
+      phoneNumber,
+      0,
+      50,
+    );
+    _s.validateStringPattern(
+      'phoneNumber',
+      phoneNumber,
+      r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateContact'
@@ -799,11 +758,13 @@ class AlexaForBusiness {
       clientRequestToken,
       10,
       150,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
       r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -811,20 +772,20 @@ class AlexaForBusiness {
       name,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateGatewayGroup'
@@ -905,11 +866,13 @@ class AlexaForBusiness {
       clientRequestToken,
       10,
       150,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
       r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(networkProfileName, 'networkProfileName');
     _s.validateStringLength(
@@ -917,11 +880,13 @@ class AlexaForBusiness {
       networkProfileName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'networkProfileName',
       networkProfileName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(securityType, 'securityType');
     ArgumentError.checkNotNull(ssid, 'ssid');
@@ -930,65 +895,52 @@ class AlexaForBusiness {
       ssid,
       1,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ssid',
       ssid,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (certificateAuthorityArn != null) {
-      _s.validateStringPattern(
-        'certificateAuthorityArn',
-        certificateAuthorityArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (currentPassword != null) {
-      _s.validateStringLength(
-        'currentPassword',
-        currentPassword,
-        5,
-        128,
-      );
-    }
-    if (currentPassword != null) {
-      _s.validateStringPattern(
-        'currentPassword',
-        currentPassword,
-        r'''[\x00-\x7F]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (nextPassword != null) {
-      _s.validateStringLength(
-        'nextPassword',
-        nextPassword,
-        0,
-        128,
-      );
-    }
-    if (nextPassword != null) {
-      _s.validateStringPattern(
-        'nextPassword',
-        nextPassword,
-        r'''(^$)|([\x00-\x7F]{5,})''',
-      );
-    }
-    if (trustAnchors != null) {}
+    _s.validateStringPattern(
+      'certificateAuthorityArn',
+      certificateAuthorityArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'currentPassword',
+      currentPassword,
+      5,
+      128,
+    );
+    _s.validateStringPattern(
+      'currentPassword',
+      currentPassword,
+      r'''[\x00-\x7F]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'nextPassword',
+      nextPassword,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'nextPassword',
+      nextPassword,
+      r'''(^$)|([\x00-\x7F]{5,})''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateNetworkProfile'
@@ -1078,6 +1030,7 @@ class AlexaForBusiness {
       address,
       1,
       500,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(distanceUnit, 'distanceUnit');
     ArgumentError.checkNotNull(profileName, 'profileName');
@@ -1086,11 +1039,13 @@ class AlexaForBusiness {
       profileName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'profileName',
       profileName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(temperatureUnit, 'temperatureUnit');
     ArgumentError.checkNotNull(timezone, 'timezone');
@@ -1099,31 +1054,26 @@ class AlexaForBusiness {
       timezone,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(wakeWord, 'wakeWord');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        1,
-        256,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'locale',
+      locale,
+      1,
+      256,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateProfile'
@@ -1190,57 +1140,47 @@ class AlexaForBusiness {
       roomName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roomName',
       roomName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (profileArn != null) {
-      _s.validateStringPattern(
-        'profileArn',
-        profileArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (providerCalendarId != null) {
-      _s.validateStringLength(
-        'providerCalendarId',
-        providerCalendarId,
-        0,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringPattern(
+      'profileArn',
+      profileArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'providerCalendarId',
+      providerCalendarId,
+      0,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateRoom'
@@ -1290,42 +1230,36 @@ class AlexaForBusiness {
       skillGroupName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'skillGroupName',
       skillGroupName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateSkillGroup'
@@ -1384,72 +1318,58 @@ class AlexaForBusiness {
       userId,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userId',
       userId,
       r'''[a-zA-Z0-9@_+.-]*''',
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        10,
-        150,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      );
-    }
-    if (email != null) {
-      _s.validateStringLength(
-        'email',
-        email,
-        1,
-        128,
-      );
-    }
-    if (email != null) {
-      _s.validateStringPattern(
-        'email',
-        email,
-        r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
-      );
-    }
-    if (firstName != null) {
-      _s.validateStringLength(
-        'firstName',
-        firstName,
-        0,
-        30,
-      );
-    }
-    if (firstName != null) {
-      _s.validateStringPattern(
-        'firstName',
-        firstName,
-        r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringLength(
-        'lastName',
-        lastName,
-        0,
-        30,
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringPattern(
-        'lastName',
-        lastName,
-        r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+    );
+    _s.validateStringLength(
+      'email',
+      email,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'email',
+      email,
+      r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
+    );
+    _s.validateStringLength(
+      'firstName',
+      firstName,
+      0,
+      30,
+    );
+    _s.validateStringPattern(
+      'firstName',
+      firstName,
+      r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
+    );
+    _s.validateStringLength(
+      'lastName',
+      lastName,
+      0,
+      30,
+    );
+    _s.validateStringPattern(
+      'lastName',
+      lastName,
+      r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.CreateUser'
@@ -1488,6 +1408,7 @@ class AlexaForBusiness {
       'addressBookArn',
       addressBookArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1523,6 +1444,7 @@ class AlexaForBusiness {
       'scheduleArn',
       scheduleArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1556,6 +1478,7 @@ class AlexaForBusiness {
       'conferenceProviderArn',
       conferenceProviderArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1590,6 +1513,7 @@ class AlexaForBusiness {
       'contactArn',
       contactArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1625,6 +1549,7 @@ class AlexaForBusiness {
       'deviceArn',
       deviceArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1667,6 +1592,7 @@ class AlexaForBusiness {
       'deviceArn',
       deviceArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(deviceUsageType, 'deviceUsageType');
     final headers = <String, String>{
@@ -1702,6 +1628,7 @@ class AlexaForBusiness {
       'gatewayGroupArn',
       gatewayGroupArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1737,6 +1664,7 @@ class AlexaForBusiness {
       'networkProfileArn',
       networkProfileArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1766,13 +1694,11 @@ class AlexaForBusiness {
   Future<void> deleteProfile({
     String profileArn,
   }) async {
-    if (profileArn != null) {
-      _s.validateStringPattern(
-        'profileArn',
-        profileArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'profileArn',
+      profileArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteProfile'
@@ -1801,13 +1727,11 @@ class AlexaForBusiness {
   Future<void> deleteRoom({
     String roomArn,
   }) async {
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteRoom'
@@ -1849,20 +1773,20 @@ class AlexaForBusiness {
       parameterKey,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(skillId, 'skillId');
     _s.validateStringPattern(
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteRoomSkillParameter'
@@ -1902,14 +1826,13 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteSkillAuthorization'
@@ -1939,13 +1862,11 @@ class AlexaForBusiness {
   Future<void> deleteSkillGroup({
     String skillGroupArn,
   }) async {
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteSkillGroup'
@@ -1984,14 +1905,13 @@ class AlexaForBusiness {
       enrollmentId,
       0,
       128,
+      isRequired: true,
     );
-    if (userArn != null) {
-      _s.validateStringPattern(
-        'userArn',
-        userArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'userArn',
+      userArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteUser'
@@ -2027,12 +1947,14 @@ class AlexaForBusiness {
       'addressBookArn',
       addressBookArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(contactArn, 'contactArn');
     _s.validateStringPattern(
       'contactArn',
       contactArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2066,13 +1988,11 @@ class AlexaForBusiness {
   Future<void> disassociateDeviceFromRoom({
     String deviceArn,
   }) async {
-    if (deviceArn != null) {
-      _s.validateStringPattern(
-        'deviceArn',
-        deviceArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'deviceArn',
+      deviceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateDeviceFromRoom'
@@ -2110,14 +2030,13 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateSkillFromSkillGroup'
@@ -2153,6 +2072,7 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2187,20 +2107,16 @@ class AlexaForBusiness {
     String roomArn,
     String skillGroupArn,
   }) async {
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateSkillGroupFromRoom'
@@ -2234,6 +2150,7 @@ class AlexaForBusiness {
       'roomArn',
       roomArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2267,6 +2184,7 @@ class AlexaForBusiness {
       'addressBookArn',
       addressBookArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2319,6 +2237,7 @@ class AlexaForBusiness {
       'conferenceProviderArn',
       conferenceProviderArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2352,6 +2271,7 @@ class AlexaForBusiness {
       'contactArn',
       contactArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2380,13 +2300,11 @@ class AlexaForBusiness {
   Future<GetDeviceResponse> getDevice({
     String deviceArn,
   }) async {
-    if (deviceArn != null) {
-      _s.validateStringPattern(
-        'deviceArn',
-        deviceArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'deviceArn',
+      deviceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetDevice'
@@ -2419,6 +2337,7 @@ class AlexaForBusiness {
       'gatewayArn',
       gatewayArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2452,6 +2371,7 @@ class AlexaForBusiness {
       'gatewayGroupArn',
       gatewayGroupArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2507,6 +2427,7 @@ class AlexaForBusiness {
       'networkProfileArn',
       networkProfileArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2535,13 +2456,11 @@ class AlexaForBusiness {
   Future<GetProfileResponse> getProfile({
     String profileArn,
   }) async {
-    if (profileArn != null) {
-      _s.validateStringPattern(
-        'profileArn',
-        profileArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'profileArn',
+      profileArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetProfile'
@@ -2569,13 +2488,11 @@ class AlexaForBusiness {
   Future<GetRoomResponse> getRoom({
     String roomArn,
   }) async {
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetRoom'
@@ -2618,20 +2535,20 @@ class AlexaForBusiness {
       parameterKey,
       1,
       256,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(skillId, 'skillId');
     _s.validateStringPattern(
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetRoomSkillParameter'
@@ -2661,13 +2578,11 @@ class AlexaForBusiness {
   Future<GetSkillGroupResponse> getSkillGroup({
     String skillGroupArn,
   }) async {
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetSkillGroup'
@@ -2700,22 +2615,18 @@ class AlexaForBusiness {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListBusinessReportSchedules'
@@ -2747,22 +2658,18 @@ class AlexaForBusiness {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListConferenceProviders'
@@ -2819,23 +2726,20 @@ class AlexaForBusiness {
       'deviceArn',
       deviceArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListDeviceEvents'
@@ -2871,22 +2775,18 @@ class AlexaForBusiness {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListGatewayGroups'
@@ -2924,29 +2824,23 @@ class AlexaForBusiness {
     int maxResults,
     String nextToken,
   }) async {
-    if (gatewayGroupArn != null) {
-      _s.validateStringPattern(
-        'gatewayGroupArn',
-        gatewayGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateStringPattern(
+      'gatewayGroupArn',
+      gatewayGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListGateways'
@@ -2995,29 +2889,23 @@ class AlexaForBusiness {
     String skillGroupArn,
     SkillTypeFilter skillType,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListSkills'
@@ -3051,22 +2939,18 @@ class AlexaForBusiness {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListSkillsStoreCategories'
@@ -3109,23 +2993,20 @@ class AlexaForBusiness {
       categoryId,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListSkillsStoreSkillsByCategory'
@@ -3168,23 +3049,20 @@ class AlexaForBusiness {
       'roomArn',
       roomArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListSmartHomeAppliances'
@@ -3232,23 +3110,20 @@ class AlexaForBusiness {
       'arn',
       arn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ListTags'
@@ -3325,28 +3200,25 @@ class AlexaForBusiness {
       organizationName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'organizationName',
       organizationName,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
     );
-    if (contactEmail != null) {
-      _s.validateStringLength(
-        'contactEmail',
-        contactEmail,
-        1,
-        128,
-      );
-    }
-    if (contactEmail != null) {
-      _s.validateStringPattern(
-        'contactEmail',
-        contactEmail,
-        r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
-      );
-    }
-    if (privateSkillIds != null) {}
+    _s.validateStringLength(
+      'contactEmail',
+      contactEmail,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'contactEmail',
+      contactEmail,
+      r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutInvitationConfiguration'
@@ -3391,14 +3263,13 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutRoomSkillParameter'
@@ -3448,14 +3319,13 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutSkillAuthorization'
@@ -3514,24 +3384,28 @@ class AlexaForBusiness {
       'amazonId',
       amazonId,
       r'''[a-zA-Z0-9]{1,18}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringPattern(
       'clientId',
       clientId,
       r'''^\S+{1,256}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(deviceSerialNumber, 'deviceSerialNumber');
     _s.validateStringPattern(
       'deviceSerialNumber',
       deviceSerialNumber,
       r'''^[a-zA-Z0-9]{1,50}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringPattern(
       'productId',
       productId,
       r'''^[a-zA-Z0-9_]{1,256}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userCode, 'userCode');
     _s.validateStringLength(
@@ -3539,6 +3413,7 @@ class AlexaForBusiness {
       userCode,
       1,
       128,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3580,6 +3455,7 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3618,12 +3494,14 @@ class AlexaForBusiness {
       'skillId',
       skillId,
       r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringPattern(
       'userId',
       userId,
       r'''amzn1\.[A-Za-z0-9+-\/=.]{1,300}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3658,21 +3536,17 @@ class AlexaForBusiness {
     String enrollmentId,
     String userArn,
   }) async {
-    if (enrollmentId != null) {
-      _s.validateStringLength(
-        'enrollmentId',
-        enrollmentId,
-        0,
-        128,
-      );
-    }
-    if (userArn != null) {
-      _s.validateStringPattern(
-        'userArn',
-        userArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringLength(
+      'enrollmentId',
+      enrollmentId,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'userArn',
+      userArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.RevokeInvitation'
@@ -3719,24 +3593,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchAddressBooks'
@@ -3785,24 +3653,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchContacts'
@@ -3855,24 +3717,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchDevices'
@@ -3921,24 +3777,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchNetworkProfiles'
@@ -3987,24 +3837,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchProfiles'
@@ -4053,24 +3897,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchRooms'
@@ -4119,24 +3957,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchSkillGroups'
@@ -4188,24 +4020,18 @@ class AlexaForBusiness {
     String nextToken,
     List<Sort> sortCriteria,
   }) async {
-    if (filters != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1100,
-      );
-    }
-    if (sortCriteria != null) {}
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SearchUsers'
@@ -4261,22 +4087,22 @@ class AlexaForBusiness {
       clientRequestToken,
       10,
       150,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'clientRequestToken',
       clientRequestToken,
       r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(roomFilters, 'roomFilters');
-    if (timeToLiveInSeconds != null) {
-      _s.validateNumRange(
-        'timeToLiveInSeconds',
-        timeToLiveInSeconds,
-        1,
-        3600,
-      );
-    }
+    _s.validateNumRange(
+      'timeToLiveInSeconds',
+      timeToLiveInSeconds,
+      1,
+      3600,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SendAnnouncement'
@@ -4311,13 +4137,11 @@ class AlexaForBusiness {
   Future<void> sendInvitation({
     String userArn,
   }) async {
-    if (userArn != null) {
-      _s.validateStringPattern(
-        'userArn',
-        userArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'userArn',
+      userArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SendInvitation'
@@ -4376,20 +4200,16 @@ class AlexaForBusiness {
     String roomArn,
   }) async {
     ArgumentError.checkNotNull(features, 'features');
-    if (deviceArn != null) {
-      _s.validateStringPattern(
-        'deviceArn',
-        deviceArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
+    _s.validateStringPattern(
+      'deviceArn',
+      deviceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.StartDeviceSync'
@@ -4425,6 +4245,7 @@ class AlexaForBusiness {
       'roomArn',
       roomArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4463,6 +4284,7 @@ class AlexaForBusiness {
       'arn',
       arn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -4503,6 +4325,7 @@ class AlexaForBusiness {
       'arn',
       arn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -4548,37 +4371,30 @@ class AlexaForBusiness {
       'addressBookArn',
       addressBookArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        100,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateAddressBook'
@@ -4636,44 +4452,35 @@ class AlexaForBusiness {
       'scheduleArn',
       scheduleArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (s3BucketName != null) {
-      _s.validateStringPattern(
-        's3BucketName',
-        s3BucketName,
-        r'''[a-z0-9-\.]{3,63}''',
-      );
-    }
-    if (s3KeyPrefix != null) {
-      _s.validateStringLength(
-        's3KeyPrefix',
-        s3KeyPrefix,
-        0,
-        100,
-      );
-    }
-    if (s3KeyPrefix != null) {
-      _s.validateStringPattern(
-        's3KeyPrefix',
-        s3KeyPrefix,
-        r'''[A-Za-z0-9!_\-\.\*'()/]*''',
-      );
-    }
-    if (scheduleName != null) {
-      _s.validateStringLength(
-        'scheduleName',
-        scheduleName,
-        0,
-        64,
-      );
-    }
-    if (scheduleName != null) {
-      _s.validateStringPattern(
-        'scheduleName',
-        scheduleName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringPattern(
+      's3BucketName',
+      s3BucketName,
+      r'''[a-z0-9-\.]{3,63}''',
+    );
+    _s.validateStringLength(
+      's3KeyPrefix',
+      s3KeyPrefix,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      's3KeyPrefix',
+      s3KeyPrefix,
+      r'''[A-Za-z0-9!_\-\.\*'()/]*''',
+    );
+    _s.validateStringLength(
+      'scheduleName',
+      scheduleName,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'scheduleName',
+      scheduleName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateBusinessReportSchedule'
@@ -4727,6 +4534,7 @@ class AlexaForBusiness {
       'conferenceProviderArn',
       conferenceProviderArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         conferenceProviderType, 'conferenceProviderType');
@@ -4795,69 +4603,52 @@ class AlexaForBusiness {
       'contactArn',
       contactArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (displayName != null) {
-      _s.validateStringLength(
-        'displayName',
-        displayName,
-        1,
-        100,
-      );
-    }
-    if (displayName != null) {
-      _s.validateStringPattern(
-        'displayName',
-        displayName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (firstName != null) {
-      _s.validateStringLength(
-        'firstName',
-        firstName,
-        1,
-        100,
-      );
-    }
-    if (firstName != null) {
-      _s.validateStringPattern(
-        'firstName',
-        firstName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringLength(
-        'lastName',
-        lastName,
-        1,
-        100,
-      );
-    }
-    if (lastName != null) {
-      _s.validateStringPattern(
-        'lastName',
-        lastName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (phoneNumber != null) {
-      _s.validateStringLength(
-        'phoneNumber',
-        phoneNumber,
-        0,
-        50,
-      );
-    }
-    if (phoneNumber != null) {
-      _s.validateStringPattern(
-        'phoneNumber',
-        phoneNumber,
-        r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
-      );
-    }
-    if (phoneNumbers != null) {}
-    if (sipAddresses != null) {}
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'displayName',
+      displayName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'firstName',
+      firstName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'firstName',
+      firstName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'lastName',
+      lastName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'lastName',
+      lastName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'phoneNumber',
+      phoneNumber,
+      0,
+      50,
+    );
+    _s.validateStringPattern(
+      'phoneNumber',
+      phoneNumber,
+      r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateContact'
@@ -4897,28 +4688,22 @@ class AlexaForBusiness {
     String deviceArn,
     String deviceName,
   }) async {
-    if (deviceArn != null) {
-      _s.validateStringPattern(
-        'deviceArn',
-        deviceArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (deviceName != null) {
-      _s.validateStringLength(
-        'deviceName',
-        deviceName,
-        2,
-        100,
-      );
-    }
-    if (deviceName != null) {
-      _s.validateStringPattern(
-        'deviceName',
-        deviceName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringPattern(
+      'deviceArn',
+      deviceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'deviceName',
+      deviceName,
+      2,
+      100,
+    );
+    _s.validateStringPattern(
+      'deviceName',
+      deviceName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateDevice'
@@ -4967,45 +4752,36 @@ class AlexaForBusiness {
       'gatewayArn',
       gatewayArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        253,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (softwareVersion != null) {
-      _s.validateStringLength(
-        'softwareVersion',
-        softwareVersion,
-        1,
-        50,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      253,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'softwareVersion',
+      softwareVersion,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateGateway'
@@ -5051,30 +4827,25 @@ class AlexaForBusiness {
       'gatewayGroupArn',
       gatewayGroupArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        100,
-      );
-    }
-    if (name != null) {
-      _s.validateStringPattern(
-        'name',
-        name,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateGatewayGroup'
@@ -5143,75 +4914,57 @@ class AlexaForBusiness {
       'networkProfileArn',
       networkProfileArn,
       r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
     );
-    if (certificateAuthorityArn != null) {
-      _s.validateStringPattern(
-        'certificateAuthorityArn',
-        certificateAuthorityArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (currentPassword != null) {
-      _s.validateStringLength(
-        'currentPassword',
-        currentPassword,
-        5,
-        128,
-      );
-    }
-    if (currentPassword != null) {
-      _s.validateStringPattern(
-        'currentPassword',
-        currentPassword,
-        r'''[\x00-\x7F]*''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (networkProfileName != null) {
-      _s.validateStringLength(
-        'networkProfileName',
-        networkProfileName,
-        1,
-        100,
-      );
-    }
-    if (networkProfileName != null) {
-      _s.validateStringPattern(
-        'networkProfileName',
-        networkProfileName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (nextPassword != null) {
-      _s.validateStringLength(
-        'nextPassword',
-        nextPassword,
-        0,
-        128,
-      );
-    }
-    if (nextPassword != null) {
-      _s.validateStringPattern(
-        'nextPassword',
-        nextPassword,
-        r'''(^$)|([\x00-\x7F]{5,})''',
-      );
-    }
-    if (trustAnchors != null) {}
+    _s.validateStringPattern(
+      'certificateAuthorityArn',
+      certificateAuthorityArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'currentPassword',
+      currentPassword,
+      5,
+      128,
+    );
+    _s.validateStringPattern(
+      'currentPassword',
+      currentPassword,
+      r'''[\x00-\x7F]*''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'networkProfileName',
+      networkProfileName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'networkProfileName',
+      networkProfileName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'nextPassword',
+      nextPassword,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'nextPassword',
+      nextPassword,
+      r'''(^$)|([\x00-\x7F]{5,})''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateNetworkProfile'
@@ -5297,52 +5050,40 @@ class AlexaForBusiness {
     String timezone,
     WakeWord wakeWord,
   }) async {
-    if (address != null) {
-      _s.validateStringLength(
-        'address',
-        address,
-        1,
-        500,
-      );
-    }
-    if (locale != null) {
-      _s.validateStringLength(
-        'locale',
-        locale,
-        1,
-        256,
-      );
-    }
-    if (profileArn != null) {
-      _s.validateStringPattern(
-        'profileArn',
-        profileArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (profileName != null) {
-      _s.validateStringLength(
-        'profileName',
-        profileName,
-        1,
-        100,
-      );
-    }
-    if (profileName != null) {
-      _s.validateStringPattern(
-        'profileName',
-        profileName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (timezone != null) {
-      _s.validateStringLength(
-        'timezone',
-        timezone,
-        1,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'address',
+      address,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'locale',
+      locale,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'profileArn',
+      profileArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'profileName',
+      profileName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'profileName',
+      profileName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringLength(
+      'timezone',
+      timezone,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateProfile'
@@ -5399,58 +5140,44 @@ class AlexaForBusiness {
     String roomArn,
     String roomName,
   }) async {
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (profileArn != null) {
-      _s.validateStringPattern(
-        'profileArn',
-        profileArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (providerCalendarId != null) {
-      _s.validateStringLength(
-        'providerCalendarId',
-        providerCalendarId,
-        0,
-        100,
-      );
-    }
-    if (roomArn != null) {
-      _s.validateStringPattern(
-        'roomArn',
-        roomArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (roomName != null) {
-      _s.validateStringLength(
-        'roomName',
-        roomName,
-        1,
-        100,
-      );
-    }
-    if (roomName != null) {
-      _s.validateStringPattern(
-        'roomName',
-        roomName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringPattern(
+      'profileArn',
+      profileArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'providerCalendarId',
+      providerCalendarId,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'roomArn',
+      roomArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'roomName',
+      roomName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'roomName',
+      roomName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateRoom'
@@ -5492,43 +5219,33 @@ class AlexaForBusiness {
     String skillGroupArn,
     String skillGroupName,
   }) async {
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        200,
-      );
-    }
-    if (description != null) {
-      _s.validateStringPattern(
-        'description',
-        description,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
-    if (skillGroupArn != null) {
-      _s.validateStringPattern(
-        'skillGroupArn',
-        skillGroupArn,
-        r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      );
-    }
-    if (skillGroupName != null) {
-      _s.validateStringLength(
-        'skillGroupName',
-        skillGroupName,
-        1,
-        100,
-      );
-    }
-    if (skillGroupName != null) {
-      _s.validateStringPattern(
-        'skillGroupName',
-        skillGroupName,
-        r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
+    _s.validateStringPattern(
+      'skillGroupArn',
+      skillGroupArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateStringLength(
+      'skillGroupName',
+      skillGroupName,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'skillGroupName',
+      skillGroupName,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateSkillGroup'

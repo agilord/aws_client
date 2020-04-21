@@ -104,11 +104,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -116,11 +118,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -183,11 +187,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -195,11 +201,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -255,11 +263,13 @@ class MigrationHub {
       progressUpdateStreamName,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStreamName',
       progressUpdateStreamName,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -340,11 +350,13 @@ class MigrationHub {
       progressUpdateStreamName,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStreamName',
       progressUpdateStreamName,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -388,11 +400,13 @@ class MigrationHub {
       applicationId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationId',
       applicationId,
       r'''^.{1,1600}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -439,11 +453,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -451,11 +467,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -532,11 +550,13 @@ class MigrationHub {
       createdArtifactName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'createdArtifactName',
       createdArtifactName,
       r'''arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -544,11 +564,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -556,11 +578,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -622,11 +646,13 @@ class MigrationHub {
       configurationId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'configurationId',
       configurationId,
       r'''^.{1,1600}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -634,11 +660,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -646,11 +674,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -711,11 +741,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -723,11 +755,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -776,30 +810,23 @@ class MigrationHub {
     int maxResults,
     String nextToken,
   }) async {
-    if (applicationIds != null) {}
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListApplicationStates'
@@ -870,11 +897,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -882,35 +911,31 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListCreatedArtifacts'
@@ -969,11 +994,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -981,35 +1008,31 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        10,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListDiscoveredResources'
@@ -1071,44 +1094,34 @@ class MigrationHub {
     String nextToken,
     String resourceName,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
-    if (resourceName != null) {
-      _s.validateStringLength(
-        'resourceName',
-        resourceName,
-        1,
-        1600,
-      );
-    }
-    if (resourceName != null) {
-      _s.validateStringPattern(
-        'resourceName',
-        resourceName,
-        r'''^.{1,1600}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
+    _s.validateStringLength(
+      'resourceName',
+      resourceName,
+      1,
+      1600,
+    );
+    _s.validateStringPattern(
+      'resourceName',
+      resourceName,
+      r'''^.{1,1600}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListMigrationTasks'
@@ -1150,29 +1163,23 @@ class MigrationHub {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ListProgressUpdateStreams'
@@ -1233,11 +1240,13 @@ class MigrationHub {
       applicationId,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationId',
       applicationId,
       r'''^.{1,1600}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
@@ -1324,11 +1333,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(nextUpdateSeconds, 'nextUpdateSeconds');
     _s.validateNumRange(
@@ -1336,6 +1347,7 @@ class MigrationHub {
       nextUpdateSeconds,
       0,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -1343,11 +1355,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(task, 'task');
     ArgumentError.checkNotNull(updateDateTime, 'updateDateTime');
@@ -1462,11 +1476,13 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'migrationTaskName',
       migrationTaskName,
       r'''[^:|]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
@@ -1474,11 +1490,13 @@ class MigrationHub {
       progressUpdateStream,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'progressUpdateStream',
       progressUpdateStream,
       r'''[^/:|\000-\037]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceAttributeList, 'resourceAttributeList');
     final headers = <String, String>{

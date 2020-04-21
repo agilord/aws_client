@@ -181,6 +181,7 @@ class Athena {
       database,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -188,6 +189,7 @@ class Athena {
       name,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -195,30 +197,25 @@ class Athena {
       queryString,
       1,
       262144,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        128,
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        1,
-        1024,
-      );
-    }
-    if (workGroup != null) {
-      _s.validateStringPattern(
-        'workGroup',
-        workGroup,
-        r'''[a-zA-z0-9._-]{1,128}''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      128,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'workGroup',
+      workGroup,
+      r'''[a-zA-z0-9._-]{1,128}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateNamedQuery'
@@ -277,15 +274,14 @@ class Athena {
       'name',
       name,
       r'''[a-zA-z0-9._-]{1,128}''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateWorkGroup'
@@ -362,6 +358,7 @@ class Athena {
       'workGroup',
       workGroup,
       r'''[a-zA-z0-9._-]{1,128}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -480,22 +477,18 @@ class Athena {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        1000,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetQueryResults'
@@ -531,6 +524,7 @@ class Athena {
       'workGroup',
       workGroup,
       r'''[a-zA-z0-9._-]{1,128}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -578,29 +572,23 @@ class Athena {
     String nextToken,
     String workGroup,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (workGroup != null) {
-      _s.validateStringPattern(
-        'workGroup',
-        workGroup,
-        r'''[a-zA-z0-9._-]{1,128}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'workGroup',
+      workGroup,
+      r'''[a-zA-z0-9._-]{1,128}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListNamedQueries'
@@ -649,29 +637,23 @@ class Athena {
     String nextToken,
     String workGroup,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
-    if (workGroup != null) {
-      _s.validateStringPattern(
-        'workGroup',
-        workGroup,
-        r'''[a-zA-z0-9._-]{1,128}''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'workGroup',
+      workGroup,
+      r'''[a-zA-z0-9._-]{1,128}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListQueryExecutions'
@@ -720,23 +702,20 @@ class Athena {
       resourceARN,
       1,
       1011,
+      isRequired: true,
     );
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        75,
-        1152921504606846976,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      75,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListTagsForResource'
@@ -771,22 +750,18 @@ class Athena {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1024,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListWorkGroups'
@@ -859,22 +834,19 @@ class Athena {
       queryString,
       1,
       262144,
+      isRequired: true,
     );
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        32,
-        128,
-      );
-    }
-    if (workGroup != null) {
-      _s.validateStringPattern(
-        'workGroup',
-        workGroup,
-        r'''[a-zA-z0-9._-]{1,128}''',
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      32,
+      128,
+    );
+    _s.validateStringPattern(
+      'workGroup',
+      workGroup,
+      r'''[a-zA-z0-9._-]{1,128}''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.StartQueryExecution'
@@ -968,6 +940,7 @@ class Athena {
       resourceARN,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1014,6 +987,7 @@ class Athena {
       resourceARN,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -1063,15 +1037,14 @@ class Athena {
       'workGroup',
       workGroup,
       r'''[a-zA-z0-9._-]{1,128}''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        1024,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UpdateWorkGroup'

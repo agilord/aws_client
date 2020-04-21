@@ -1379,21 +1379,17 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (indexName != null) {
-      _s.validateStringLength(
-        'indexName',
-        indexName,
-        3,
-        255,
-      );
-    }
-    if (indexName != null) {
-      _s.validateStringPattern(
-        'indexName',
-        indexName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'indexName',
+      indexName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'indexName',
+      indexName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.DescribeContributorInsights'
@@ -1887,7 +1883,6 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (attributesToGet != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.GetItem'
@@ -1972,37 +1967,29 @@ class DynamoDB {
     DateTime timeRangeLowerBound,
     DateTime timeRangeUpperBound,
   }) async {
-    if (exclusiveStartBackupArn != null) {
-      _s.validateStringLength(
-        'exclusiveStartBackupArn',
-        exclusiveStartBackupArn,
-        37,
-        1024,
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
-    if (tableName != null) {
-      _s.validateStringLength(
-        'tableName',
-        tableName,
-        3,
-        255,
-      );
-    }
-    if (tableName != null) {
-      _s.validateStringPattern(
-        'tableName',
-        tableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartBackupArn',
+      exclusiveStartBackupArn,
+      37,
+      1024,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListBackups'
@@ -2045,29 +2032,23 @@ class DynamoDB {
     String nextToken,
     String tableName,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        100,
-      );
-    }
-    if (tableName != null) {
-      _s.validateStringLength(
-        'tableName',
-        tableName,
-        3,
-        255,
-      );
-    }
-    if (tableName != null) {
-      _s.validateStringPattern(
-        'tableName',
-        tableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListContributorInsights'
@@ -2117,29 +2098,23 @@ class DynamoDB {
     int limit,
     String regionName,
   }) async {
-    if (exclusiveStartGlobalTableName != null) {
-      _s.validateStringLength(
-        'exclusiveStartGlobalTableName',
-        exclusiveStartGlobalTableName,
-        3,
-        255,
-      );
-    }
-    if (exclusiveStartGlobalTableName != null) {
-      _s.validateStringPattern(
-        'exclusiveStartGlobalTableName',
-        exclusiveStartGlobalTableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartGlobalTableName',
+      exclusiveStartGlobalTableName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartGlobalTableName',
+      exclusiveStartGlobalTableName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListGlobalTables'
@@ -2178,29 +2153,23 @@ class DynamoDB {
     String exclusiveStartTableName,
     int limit,
   }) async {
-    if (exclusiveStartTableName != null) {
-      _s.validateStringLength(
-        'exclusiveStartTableName',
-        exclusiveStartTableName,
-        3,
-        255,
-      );
-    }
-    if (exclusiveStartTableName != null) {
-      _s.validateStringPattern(
-        'exclusiveStartTableName',
-        exclusiveStartTableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        100,
-      );
-    }
+    _s.validateStringLength(
+      'exclusiveStartTableName',
+      exclusiveStartTableName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartTableName',
+      exclusiveStartTableName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ListTables'
@@ -3013,30 +2982,23 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (attributesToGet != null) {}
-    if (indexName != null) {
-      _s.validateStringLength(
-        'indexName',
-        indexName,
-        3,
-        255,
-      );
-    }
-    if (indexName != null) {
-      _s.validateStringPattern(
-        'indexName',
-        indexName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        1152921504606846976,
-      );
-    }
+    _s.validateStringLength(
+      'indexName',
+      indexName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'indexName',
+      indexName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Query'
@@ -3313,21 +3275,17 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (sourceTableName != null) {
-      _s.validateStringLength(
-        'sourceTableName',
-        sourceTableName,
-        3,
-        255,
-      );
-    }
-    if (sourceTableName != null) {
-      _s.validateStringPattern(
-        'sourceTableName',
-        sourceTableName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'sourceTableName',
+      sourceTableName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'sourceTableName',
+      sourceTableName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.RestoreTableToPointInTime'
@@ -3702,46 +3660,35 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (attributesToGet != null) {}
-    if (indexName != null) {
-      _s.validateStringLength(
-        'indexName',
-        indexName,
-        3,
-        255,
-      );
-    }
-    if (indexName != null) {
-      _s.validateStringPattern(
-        'indexName',
-        indexName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (segment != null) {
-      _s.validateNumRange(
-        'segment',
-        segment,
-        0,
-        999999,
-      );
-    }
-    if (totalSegments != null) {
-      _s.validateNumRange(
-        'totalSegments',
-        totalSegments,
-        1,
-        1000000,
-      );
-    }
+    _s.validateStringLength(
+      'indexName',
+      indexName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'indexName',
+      indexName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'segment',
+      segment,
+      0,
+      999999,
+    );
+    _s.validateNumRange(
+      'totalSegments',
+      totalSegments,
+      1,
+      1000000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.Scan'
@@ -4016,14 +3963,12 @@ class DynamoDB {
     ReturnItemCollectionMetrics returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
-    if (clientRequestToken != null) {
-      _s.validateStringLength(
-        'clientRequestToken',
-        clientRequestToken,
-        1,
-        36,
-      );
-    }
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      36,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TransactWriteItems'
@@ -4194,21 +4139,17 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (indexName != null) {
-      _s.validateStringLength(
-        'indexName',
-        indexName,
-        3,
-        255,
-      );
-    }
-    if (indexName != null) {
-      _s.validateStringPattern(
-        'indexName',
-        indexName,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateStringLength(
+      'indexName',
+      indexName,
+      3,
+      255,
+    );
+    _s.validateStringPattern(
+      'indexName',
+      indexName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateContributorInsights'
@@ -4378,16 +4319,12 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (globalTableGlobalSecondaryIndexSettingsUpdate != null) {}
-    if (globalTableProvisionedWriteCapacityUnits != null) {
-      _s.validateNumRange(
-        'globalTableProvisionedWriteCapacityUnits',
-        globalTableProvisionedWriteCapacityUnits,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (replicaSettingsUpdate != null) {}
+    _s.validateNumRange(
+      'globalTableProvisionedWriteCapacityUnits',
+      globalTableProvisionedWriteCapacityUnits,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateGlobalTableSettings'
@@ -4901,7 +4838,6 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (replicaUpdates != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTable'
@@ -4969,8 +4905,6 @@ class DynamoDB {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    if (globalSecondaryIndexUpdates != null) {}
-    if (replicaUpdates != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UpdateTableReplicaAutoScaling'

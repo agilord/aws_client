@@ -131,28 +131,25 @@ class CognitoIdentity {
       identityPoolName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolName',
       identityPoolName,
       r'''[\w\s+=,.@-]+''',
+      isRequired: true,
     );
-    if (developerProviderName != null) {
-      _s.validateStringLength(
-        'developerProviderName',
-        developerProviderName,
-        1,
-        128,
-      );
-    }
-    if (developerProviderName != null) {
-      _s.validateStringPattern(
-        'developerProviderName',
-        developerProviderName,
-        r'''[\w._-]+''',
-      );
-    }
-    if (supportedLoginProviders != null) {}
+    _s.validateStringLength(
+      'developerProviderName',
+      developerProviderName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'developerProviderName',
+      developerProviderName,
+      r'''[\w._-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.CreateIdentityPool'
@@ -234,11 +231,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -278,11 +277,13 @@ class CognitoIdentity {
       identityId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityId',
       identityId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -324,11 +325,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -397,21 +400,20 @@ class CognitoIdentity {
       identityId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityId',
       identityId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
-    if (customRoleArn != null) {
-      _s.validateStringLength(
-        'customRoleArn',
-        customRoleArn,
-        20,
-        2048,
-      );
-    }
-    if (logins != null) {}
+    _s.validateStringLength(
+      'customRoleArn',
+      customRoleArn,
+      20,
+      2048,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.GetCredentialsForIdentity'
@@ -491,28 +493,25 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
-    if (accountId != null) {
-      _s.validateStringLength(
-        'accountId',
-        accountId,
-        1,
-        15,
-      );
-    }
-    if (accountId != null) {
-      _s.validateStringPattern(
-        'accountId',
-        accountId,
-        r'''\d+''',
-      );
-    }
-    if (logins != null) {}
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      1,
+      15,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.GetId'
@@ -555,11 +554,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -614,13 +615,14 @@ class CognitoIdentity {
       identityId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityId',
       identityId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
-    if (logins != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.GetOpenIdToken'
@@ -710,36 +712,32 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(logins, 'logins');
-    if (identityId != null) {
-      _s.validateStringLength(
-        'identityId',
-        identityId,
-        1,
-        55,
-      );
-    }
-    if (identityId != null) {
-      _s.validateStringPattern(
-        'identityId',
-        identityId,
-        r'''[\w-]+:[0-9a-f-]+''',
-      );
-    }
-    if (tokenDuration != null) {
-      _s.validateNumRange(
-        'tokenDuration',
-        tokenDuration,
-        1,
-        86400,
-      );
-    }
+    _s.validateStringLength(
+      'identityId',
+      identityId,
+      1,
+      55,
+    );
+    _s.validateStringPattern(
+      'identityId',
+      identityId,
+      r'''[\w-]+:[0-9a-f-]+''',
+    );
+    _s.validateNumRange(
+      'tokenDuration',
+      tokenDuration,
+      1,
+      86400,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -798,11 +796,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -810,22 +810,19 @@ class CognitoIdentity {
       maxResults,
       1,
       60,
+      isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\S]+''',
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.ListIdentities'
@@ -872,22 +869,19 @@ class CognitoIdentity {
       maxResults,
       1,
       60,
+      isRequired: true,
     );
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\S]+''',
-      );
-    }
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.ListIdentityPools'
@@ -933,6 +927,7 @@ class CognitoIdentity {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1015,58 +1010,48 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
-    if (developerUserIdentifier != null) {
-      _s.validateStringLength(
-        'developerUserIdentifier',
-        developerUserIdentifier,
-        1,
-        1024,
-      );
-    }
-    if (identityId != null) {
-      _s.validateStringLength(
-        'identityId',
-        identityId,
-        1,
-        55,
-      );
-    }
-    if (identityId != null) {
-      _s.validateStringPattern(
-        'identityId',
-        identityId,
-        r'''[\w-]+:[0-9a-f-]+''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        60,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        1152921504606846976,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[\S]+''',
-      );
-    }
+    _s.validateStringLength(
+      'developerUserIdentifier',
+      developerUserIdentifier,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'identityId',
+      identityId,
+      1,
+      55,
+    );
+    _s.validateStringPattern(
+      'identityId',
+      identityId,
+      r'''[\w-]+:[0-9a-f-]+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      60,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.LookupDeveloperIdentity'
@@ -1144,6 +1129,7 @@ class CognitoIdentity {
       destinationUserIdentifier,
       1,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(developerProviderName, 'developerProviderName');
     _s.validateStringLength(
@@ -1151,11 +1137,13 @@ class CognitoIdentity {
       developerProviderName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'developerProviderName',
       developerProviderName,
       r'''[\w._-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -1163,11 +1151,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sourceUserIdentifier, 'sourceUserIdentifier');
     _s.validateStringLength(
@@ -1175,6 +1165,7 @@ class CognitoIdentity {
       sourceUserIdentifier,
       1,
       1024,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1236,14 +1227,15 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roles, 'roles');
-    if (roleMappings != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.SetIdentityPoolRoles'
@@ -1303,6 +1295,7 @@ class CognitoIdentity {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1363,11 +1356,13 @@ class CognitoIdentity {
       developerProviderName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'developerProviderName',
       developerProviderName,
       r'''[\w._-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         developerUserIdentifier, 'developerUserIdentifier');
@@ -1376,6 +1371,7 @@ class CognitoIdentity {
       developerUserIdentifier,
       1,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
@@ -1383,11 +1379,13 @@ class CognitoIdentity {
       identityId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityId',
       identityId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -1395,11 +1393,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1454,11 +1454,13 @@ class CognitoIdentity {
       identityId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityId',
       identityId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(logins, 'logins');
     ArgumentError.checkNotNull(loginsToRemove, 'loginsToRemove');
@@ -1505,6 +1507,7 @@ class CognitoIdentity {
       resourceArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -1595,11 +1598,13 @@ class CognitoIdentity {
       identityPoolId,
       1,
       55,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolId',
       identityPoolId,
       r'''[\w-]+:[0-9a-f-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(identityPoolName, 'identityPoolName');
     _s.validateStringLength(
@@ -1607,28 +1612,25 @@ class CognitoIdentity {
       identityPoolName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'identityPoolName',
       identityPoolName,
       r'''[\w\s+=,.@-]+''',
+      isRequired: true,
     );
-    if (developerProviderName != null) {
-      _s.validateStringLength(
-        'developerProviderName',
-        developerProviderName,
-        1,
-        128,
-      );
-    }
-    if (developerProviderName != null) {
-      _s.validateStringPattern(
-        'developerProviderName',
-        developerProviderName,
-        r'''[\w._-]+''',
-      );
-    }
-    if (supportedLoginProviders != null) {}
+    _s.validateStringLength(
+      'developerProviderName',
+      developerProviderName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'developerProviderName',
+      developerProviderName,
+      r'''[\w._-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.UpdateIdentityPool'

@@ -188,6 +188,7 @@ class MarketplaceCommerceAnalytics {
       destinationS3BucketName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleNameArn, 'roleNameArn');
     _s.validateStringLength(
@@ -195,6 +196,7 @@ class MarketplaceCommerceAnalytics {
       roleNameArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     _s.validateStringLength(
@@ -202,8 +204,8 @@ class MarketplaceCommerceAnalytics {
       snsTopicArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (customerDefinedValues != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MarketplaceCommerceAnalytics20150701.GenerateDataSet'
@@ -307,6 +309,7 @@ class MarketplaceCommerceAnalytics {
       destinationS3BucketName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(fromDate, 'fromDate');
     ArgumentError.checkNotNull(roleNameArn, 'roleNameArn');
@@ -315,6 +318,7 @@ class MarketplaceCommerceAnalytics {
       roleNameArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     _s.validateStringLength(
@@ -322,8 +326,8 @@ class MarketplaceCommerceAnalytics {
       snsTopicArn,
       1,
       1152921504606846976,
+      isRequired: true,
     );
-    if (customerDefinedValues != null) {}
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

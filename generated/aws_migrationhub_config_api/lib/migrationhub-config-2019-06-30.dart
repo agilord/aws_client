@@ -94,11 +94,13 @@ class MigrationHubConfig {
       homeRegion,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'homeRegion',
       homeRegion,
       r'''^([a-z]+)-([a-z]+)-([0-9]+)$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
     final headers = <String, String>{
@@ -157,59 +159,45 @@ class MigrationHubConfig {
     String nextToken,
     Target target,
   }) async {
-    if (controlId != null) {
-      _s.validateStringLength(
-        'controlId',
-        controlId,
-        1,
-        50,
-      );
-    }
-    if (controlId != null) {
-      _s.validateStringPattern(
-        'controlId',
-        controlId,
-        r'''^hrc-[a-z0-9]{12}$''',
-      );
-    }
-    if (homeRegion != null) {
-      _s.validateStringLength(
-        'homeRegion',
-        homeRegion,
-        1,
-        50,
-      );
-    }
-    if (homeRegion != null) {
-      _s.validateStringPattern(
-        'homeRegion',
-        homeRegion,
-        r'''^([a-z]+)-([a-z]+)-([0-9]+)$''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        1,
-        100,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        0,
-        2048,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-      );
-    }
+    _s.validateStringLength(
+      'controlId',
+      controlId,
+      1,
+      50,
+    );
+    _s.validateStringPattern(
+      'controlId',
+      controlId,
+      r'''^hrc-[a-z0-9]{12}$''',
+    );
+    _s.validateStringLength(
+      'homeRegion',
+      homeRegion,
+      1,
+      50,
+    );
+    _s.validateStringPattern(
+      'homeRegion',
+      homeRegion,
+      r'''^([a-z]+)-([a-z]+)-([0-9]+)$''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

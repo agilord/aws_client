@@ -74,11 +74,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         cloudWatchLoggingOption, 'cloudWatchLoggingOption');
@@ -89,6 +91,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -153,11 +156,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -166,6 +171,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(input, 'input');
     final headers = <String, String>{
@@ -231,11 +237,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -244,6 +252,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(inputId, 'inputId');
     _s.validateStringLength(
@@ -251,11 +260,13 @@ class KinesisAnalyticsV2 {
       inputId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'inputId',
       inputId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         inputProcessingConfiguration, 'inputProcessingConfiguration');
@@ -336,11 +347,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -349,6 +362,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(output, 'output');
     final headers = <String, String>{
@@ -413,11 +427,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -426,6 +442,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(referenceDataSource, 'referenceDataSource');
     final headers = <String, String>{
@@ -497,11 +514,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -510,6 +529,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpcConfiguration, 'vpcConfiguration');
     final headers = <String, String>{
@@ -589,11 +609,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(runtimeEnvironment, 'runtimeEnvironment');
     ArgumentError.checkNotNull(serviceExecutionRole, 'serviceExecutionRole');
@@ -602,21 +624,20 @@ class KinesisAnalyticsV2 {
       serviceExecutionRole,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceExecutionRole',
       serviceExecutionRole,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
-    if (applicationDescription != null) {
-      _s.validateStringLength(
-        'applicationDescription',
-        applicationDescription,
-        0,
-        1024,
-      );
-    }
-    if (tags != null) {}
+    _s.validateStringLength(
+      'applicationDescription',
+      applicationDescription,
+      0,
+      1024,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.CreateApplication'
@@ -665,11 +686,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(snapshotName, 'snapshotName');
     _s.validateStringLength(
@@ -677,11 +700,13 @@ class KinesisAnalyticsV2 {
       snapshotName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'snapshotName',
       snapshotName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -727,11 +752,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(createTimestamp, 'createTimestamp');
     final headers = <String, String>{
@@ -787,11 +814,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         cloudWatchLoggingOptionId, 'cloudWatchLoggingOptionId');
@@ -800,11 +829,13 @@ class KinesisAnalyticsV2 {
       cloudWatchLoggingOptionId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'cloudWatchLoggingOptionId',
       cloudWatchLoggingOptionId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -813,6 +844,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -869,11 +901,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -882,6 +916,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(inputId, 'inputId');
     _s.validateStringLength(
@@ -889,11 +924,13 @@ class KinesisAnalyticsV2 {
       inputId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'inputId',
       inputId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -956,11 +993,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -969,6 +1008,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(outputId, 'outputId');
     _s.validateStringLength(
@@ -976,11 +1016,13 @@ class KinesisAnalyticsV2 {
       outputId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'outputId',
       outputId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1041,11 +1083,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -1054,6 +1098,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(referenceId, 'referenceId');
     _s.validateStringLength(
@@ -1061,11 +1106,13 @@ class KinesisAnalyticsV2 {
       referenceId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'referenceId',
       referenceId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1117,11 +1164,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         snapshotCreationTimestamp, 'snapshotCreationTimestamp');
@@ -1131,11 +1180,13 @@ class KinesisAnalyticsV2 {
       snapshotName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'snapshotName',
       snapshotName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1185,11 +1236,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -1198,6 +1251,7 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpcConfigurationId, 'vpcConfigurationId');
     _s.validateStringLength(
@@ -1205,11 +1259,13 @@ class KinesisAnalyticsV2 {
       vpcConfigurationId,
       1,
       50,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'vpcConfigurationId',
       vpcConfigurationId,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1259,11 +1315,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1306,11 +1364,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(snapshotName, 'snapshotName');
     _s.validateStringLength(
@@ -1318,11 +1378,13 @@ class KinesisAnalyticsV2 {
       snapshotName,
       1,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'snapshotName',
       snapshotName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1390,27 +1452,25 @@ class KinesisAnalyticsV2 {
       serviceExecutionRole,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceExecutionRole',
       serviceExecutionRole,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
-    if (resourceARN != null) {
-      _s.validateStringLength(
-        'resourceARN',
-        resourceARN,
-        1,
-        2048,
-      );
-    }
-    if (resourceARN != null) {
-      _s.validateStringPattern(
-        'resourceARN',
-        resourceARN,
-        r'''arn:.*''',
-      );
-    }
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''arn:.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.DiscoverInputSchema'
@@ -1461,28 +1521,26 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        512,
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      512,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplicationSnapshots'
@@ -1525,29 +1583,23 @@ class KinesisAnalyticsV2 {
     int limit,
     String nextToken,
   }) async {
-    if (limit != null) {
-      _s.validateNumRange(
-        'limit',
-        limit,
-        1,
-        50,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringLength(
-        'nextToken',
-        nextToken,
-        1,
-        128,
-      );
-    }
-    if (nextToken != null) {
-      _s.validateStringPattern(
-        'nextToken',
-        nextToken,
-        r'''[a-zA-Z0-9_.-]+''',
-      );
-    }
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplications'
@@ -1587,11 +1639,13 @@ class KinesisAnalyticsV2 {
       resourceARN,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1637,11 +1691,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(runConfiguration, 'runConfiguration');
     final headers = <String, String>{
@@ -1684,11 +1740,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1736,11 +1794,13 @@ class KinesisAnalyticsV2 {
       resourceARN,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -1789,11 +1849,13 @@ class KinesisAnalyticsV2 {
       resourceARN,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
       r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -1865,11 +1927,13 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'applicationName',
       applicationName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         currentApplicationVersionId, 'currentApplicationVersionId');
@@ -1878,22 +1942,19 @@ class KinesisAnalyticsV2 {
       currentApplicationVersionId,
       1,
       999999999,
+      isRequired: true,
     );
-    if (serviceExecutionRoleUpdate != null) {
-      _s.validateStringLength(
-        'serviceExecutionRoleUpdate',
-        serviceExecutionRoleUpdate,
-        1,
-        2048,
-      );
-    }
-    if (serviceExecutionRoleUpdate != null) {
-      _s.validateStringPattern(
-        'serviceExecutionRoleUpdate',
-        serviceExecutionRoleUpdate,
-        r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      );
-    }
+    _s.validateStringLength(
+      'serviceExecutionRoleUpdate',
+      serviceExecutionRoleUpdate,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'serviceExecutionRoleUpdate',
+      serviceExecutionRoleUpdate,
+      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.UpdateApplication'

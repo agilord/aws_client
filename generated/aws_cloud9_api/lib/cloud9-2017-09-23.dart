@@ -104,11 +104,13 @@ class Cloud9 {
       instanceType,
       5,
       20,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceType',
       instanceType,
       r'''^[a-z][1-9][.][a-z0-9]+$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -116,46 +118,36 @@ class Cloud9 {
       name,
       1,
       60,
+      isRequired: true,
     );
-    if (automaticStopTimeMinutes != null) {
-      _s.validateNumRange(
-        'automaticStopTimeMinutes',
-        automaticStopTimeMinutes,
-        0,
-        20160,
-      );
-    }
-    if (clientRequestToken != null) {
-      _s.validateStringPattern(
-        'clientRequestToken',
-        clientRequestToken,
-        r'''[\x20-\x7E]{10,128}''',
-      );
-    }
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (ownerArn != null) {
-      _s.validateStringPattern(
-        'ownerArn',
-        ownerArn,
-        r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-      );
-    }
-    if (subnetId != null) {
-      _s.validateStringLength(
-        'subnetId',
-        subnetId,
-        5,
-        30,
-      );
-    }
-    if (tags != null) {}
+    _s.validateNumRange(
+      'automaticStopTimeMinutes',
+      automaticStopTimeMinutes,
+      0,
+      20160,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[\x20-\x7E]{10,128}''',
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringPattern(
+      'ownerArn',
+      ownerArn,
+      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+    );
+    _s.validateStringLength(
+      'subnetId',
+      subnetId,
+      5,
+      30,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.CreateEnvironmentEC2'
@@ -220,6 +212,7 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(userArn, 'userArn');
@@ -227,6 +220,7 @@ class Cloud9 {
       'userArn',
       userArn,
       r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -270,6 +264,7 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -314,12 +309,14 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userArn, 'userArn');
     _s.validateStringPattern(
       'userArn',
       userArn,
       r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -395,28 +392,22 @@ class Cloud9 {
     List<String> permissions,
     String userArn,
   }) async {
-    if (environmentId != null) {
-      _s.validateStringPattern(
-        'environmentId',
-        environmentId,
-        r'''^[a-zA-Z0-9]{8,32}$''',
-      );
-    }
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        25,
-      );
-    }
-    if (userArn != null) {
-      _s.validateStringPattern(
-        'userArn',
-        userArn,
-        r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-      );
-    }
+    _s.validateStringPattern(
+      'environmentId',
+      environmentId,
+      r'''^[a-zA-Z0-9]{8,32}$''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      25,
+    );
+    _s.validateStringPattern(
+      'userArn',
+      userArn,
+      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -460,6 +451,7 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -538,14 +530,12 @@ class Cloud9 {
     int maxResults,
     String nextToken,
   }) async {
-    if (maxResults != null) {
-      _s.validateNumRange(
-        'maxResults',
-        maxResults,
-        0,
-        25,
-      );
-    }
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      25,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.ListEnvironments'
@@ -583,6 +573,7 @@ class Cloud9 {
       'resourceARN',
       resourceARN,
       r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -627,6 +618,7 @@ class Cloud9 {
       'resourceARN',
       resourceARN,
       r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -670,6 +662,7 @@ class Cloud9 {
       'resourceARN',
       resourceARN,
       r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -719,23 +712,20 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
-    if (description != null) {
-      _s.validateStringLength(
-        'description',
-        description,
-        0,
-        200,
-      );
-    }
-    if (name != null) {
-      _s.validateStringLength(
-        'name',
-        name,
-        1,
-        60,
-      );
-    }
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      200,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      60,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UpdateEnvironment'
@@ -797,6 +787,7 @@ class Cloud9 {
       'environmentId',
       environmentId,
       r'''^[a-zA-Z0-9]{8,32}$''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(userArn, 'userArn');
@@ -804,6 +795,7 @@ class Cloud9 {
       'userArn',
       userArn,
       r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

@@ -73,11 +73,13 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scalingPlanName',
       scalingPlanName,
       r'''[\p{Print}&&[^|:/]]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -127,11 +129,13 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scalingPlanName',
       scalingPlanName,
       r'''[\p{Print}&&[^|:/]]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
@@ -184,11 +188,13 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scalingPlanName',
       scalingPlanName,
       r'''[\p{Print}&&[^|:/]]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
@@ -378,6 +384,7 @@ class AutoScalingPlans {
       'resourceId',
       resourceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
@@ -386,11 +393,13 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scalingPlanName',
       scalingPlanName,
       r'''[\p{Print}&&[^|:/]]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
@@ -455,11 +464,13 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scalingPlanName',
       scalingPlanName,
       r'''[\p{Print}&&[^|:/]]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
