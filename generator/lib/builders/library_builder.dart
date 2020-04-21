@@ -145,14 +145,16 @@ ${builder.constructor()}
 
       final pattern = member.shapeClass?.pattern;
 
-      if (!member.isRequired) {
-        writeln('if($name != null) {');
-      }
       if (pattern != null) {
+        if (!member.isRequired) {
+          writeln('if($name != null) {');
+        }
+
         writeln("_s.validateStringPattern('$name', $name, r'''$pattern''',);");
-      }
-      if (!member.isRequired) {
-        writeln('}');
+
+        if (!member.isRequired) {
+          writeln('}');
+        }
       }
     }
 
