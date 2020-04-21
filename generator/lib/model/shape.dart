@@ -276,6 +276,7 @@ extension NameStuff on String {
         'do',
         'enum',
         'false',
+        'for',
         'if',
         'in',
         'is',
