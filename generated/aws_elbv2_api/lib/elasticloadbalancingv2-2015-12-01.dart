@@ -260,6 +260,7 @@ class ElasticLoadBalancingv2 {
       port,
       1,
       65535,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(protocol, 'protocol');
     final $request = <String, dynamic>{
@@ -500,6 +501,7 @@ class ElasticLoadBalancingv2 {
       priority,
       1,
       50000,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateRule',

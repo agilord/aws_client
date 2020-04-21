@@ -5004,11 +5004,13 @@ class ElastiCache {
       nodeGroupId,
       1,
       4,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'nodeGroupId',
       nodeGroupId,
       r'''\d+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{

@@ -1208,6 +1208,7 @@ class CloudFront {
       'resource',
       resource,
       r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
+      isRequired: true,
     );
     final queryParams = <String, String>{};
     resource?.let((v) => queryParams['Resource'] = v.toString());
@@ -1241,6 +1242,7 @@ class CloudFront {
       'resource',
       resource,
       r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final queryParams = <String, String>{};
@@ -1275,6 +1277,7 @@ class CloudFront {
       'resource',
       resource,
       r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final queryParams = <String, String>{};

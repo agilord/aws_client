@@ -82,6 +82,7 @@ class IAM {
       clientID,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -90,6 +91,7 @@ class IAM {
       openIDConnectProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AddClientIDToOpenIDConnectProvider',
@@ -158,11 +160,13 @@ class IAM {
       instanceProfileName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -170,11 +174,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AddRoleToInstanceProfile',
@@ -221,11 +227,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -233,11 +241,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AddUserToGroup',
@@ -293,11 +303,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -305,6 +317,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AttachGroupPolicy',
@@ -367,6 +380,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -374,11 +388,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AttachRolePolicy',
@@ -434,6 +450,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -441,11 +458,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AttachUserPolicy',
@@ -504,11 +523,13 @@ class IAM {
       newPassword,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'newPassword',
       newPassword,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(oldPassword, 'oldPassword');
     _s.validateStringLength(
@@ -516,11 +537,13 @@ class IAM {
       oldPassword,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'oldPassword',
       oldPassword,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ChangePassword',
@@ -622,11 +645,13 @@ class IAM {
       accountAlias,
       3,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountAlias',
       accountAlias,
       r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateAccountAlias',
@@ -684,11 +709,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'path',
@@ -764,11 +791,13 @@ class IAM {
       instanceProfileName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'path',
@@ -846,11 +875,13 @@ class IAM {
       password,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'password',
       password,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -858,11 +889,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateLoginProfile',
@@ -978,6 +1011,7 @@ class IAM {
       url,
       1,
       255,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateOpenIDConnectProvider',
@@ -1087,11 +1121,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -1099,11 +1135,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -1218,6 +1256,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -1225,11 +1264,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreatePolicyVersion',
@@ -1368,11 +1409,13 @@ class IAM {
       assumeRolePolicyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'assumeRolePolicyDocument',
       assumeRolePolicyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -1380,11 +1423,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -1501,11 +1546,13 @@ class IAM {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\w._-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
     _s.validateStringLength(
@@ -1513,6 +1560,7 @@ class IAM {
       sAMLMetadataDocument,
       1000,
       10000000,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateSAMLProvider',
@@ -1587,11 +1635,13 @@ class IAM {
       awsServiceName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'awsServiceName',
       awsServiceName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'customSuffix',
@@ -1681,11 +1731,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CreateServiceSpecificCredential',
@@ -1766,11 +1818,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'path',
@@ -1865,11 +1919,13 @@ class IAM {
       virtualMFADeviceName,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'virtualMFADeviceName',
       virtualMFADeviceName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'path',
@@ -1938,11 +1994,13 @@ class IAM {
       serialNumber,
       9,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
       r'''[\w+=/:,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -1950,11 +2008,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeactivateMFADevice',
@@ -2007,11 +2067,13 @@ class IAM {
       accessKeyId,
       16,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'userName',
@@ -2063,11 +2125,13 @@ class IAM {
       accountAlias,
       3,
       63,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accountAlias',
       accountAlias,
       r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAccountAlias',
@@ -2124,11 +2188,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteGroup',
@@ -2182,11 +2248,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -2194,11 +2262,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteGroupPolicy',
@@ -2247,11 +2317,13 @@ class IAM {
       instanceProfileName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteInstanceProfile',
@@ -2297,11 +2369,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLoginProfile',
@@ -2343,6 +2417,7 @@ class IAM {
       openIDConnectProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteOpenIDConnectProvider',
@@ -2409,6 +2484,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeletePolicy',
@@ -2471,12 +2547,14 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringPattern(
       'versionId',
       versionId,
       r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeletePolicyVersion',
@@ -2526,11 +2604,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRole',
@@ -2568,11 +2648,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRolePermissionsBoundary',
@@ -2627,11 +2709,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2639,11 +2723,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteRolePolicy',
@@ -2687,6 +2773,7 @@ class IAM {
       sAMLProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteSAMLProvider',
@@ -2737,11 +2824,13 @@ class IAM {
       sSHPublicKeyId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -2749,11 +2838,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteSSHPublicKey',
@@ -2809,11 +2900,13 @@ class IAM {
       serverCertificateName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteServerCertificate',
@@ -2866,11 +2959,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteServiceLinkedRole',
@@ -2919,11 +3014,13 @@ class IAM {
       serviceSpecificCredentialId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
       r'''[\w]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'userName',
@@ -2986,11 +3083,13 @@ class IAM {
       certificateId,
       24,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateId',
       certificateId,
       r'''[\w]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'userName',
@@ -3077,11 +3176,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUser',
@@ -3118,11 +3219,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUserPermissionsBoundary',
@@ -3176,11 +3279,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3188,11 +3293,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteUserPolicy',
@@ -3237,11 +3344,13 @@ class IAM {
       serialNumber,
       9,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
       r'''[\w+=/:,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteVirtualMFADevice',
@@ -3295,11 +3404,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3307,6 +3418,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DetachGroupPolicy',
@@ -3362,6 +3474,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -3369,11 +3482,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DetachRolePolicy',
@@ -3428,6 +3543,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3435,11 +3551,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DetachUserPolicy',
@@ -3522,11 +3640,13 @@ class IAM {
       authenticationCode1,
       6,
       6,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'authenticationCode1',
       authenticationCode1,
       r'''[\d]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
@@ -3534,11 +3654,13 @@ class IAM {
       authenticationCode2,
       6,
       6,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'authenticationCode2',
       authenticationCode2,
       r'''[\d]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -3546,11 +3668,13 @@ class IAM {
       serialNumber,
       9,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
       r'''[\w+=/:,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3558,11 +3682,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'EnableMFADevice',
@@ -3768,11 +3894,13 @@ class IAM {
       entityPath,
       19,
       427,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'entityPath',
       entityPath,
       r'''^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*''',
+      isRequired: true,
     );
     _s.validateStringPattern(
       'organizationsPolicyId',
@@ -3876,6 +4004,7 @@ class IAM {
       arn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GenerateServiceLastAccessedDetails',
@@ -3912,11 +4041,13 @@ class IAM {
       accessKeyId,
       16,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetAccessKeyLastUsed',
@@ -4191,6 +4322,7 @@ class IAM {
       policySourceArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetContextKeysForPrincipalPolicy',
@@ -4276,11 +4408,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -4363,11 +4497,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -4375,11 +4511,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetGroupPolicy',
@@ -4422,11 +4560,13 @@ class IAM {
       instanceProfileName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetInstanceProfile',
@@ -4466,11 +4606,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetLoginProfile',
@@ -4513,6 +4655,7 @@ class IAM {
       openIDConnectProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetOpenIDConnectProvider',
@@ -4595,6 +4738,7 @@ class IAM {
       jobId,
       36,
       36,
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -4669,6 +4813,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetPolicy',
@@ -4742,12 +4887,14 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringPattern(
       'versionId',
       versionId,
       r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetPolicyVersion',
@@ -4798,11 +4945,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetRole',
@@ -4870,11 +5019,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -4882,11 +5033,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetRolePolicy',
@@ -4933,6 +5086,7 @@ class IAM {
       sAMLProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetSAMLProvider',
@@ -4993,11 +5147,13 @@ class IAM {
       sSHPublicKeyId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -5005,11 +5161,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetSSHPublicKey',
@@ -5056,11 +5214,13 @@ class IAM {
       serverCertificateName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetServerCertificate',
@@ -5165,6 +5325,7 @@ class IAM {
       jobId,
       36,
       36,
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -5281,6 +5442,7 @@ class IAM {
       jobId,
       36,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     _s.validateStringLength(
@@ -5288,11 +5450,13 @@ class IAM {
       serviceNamespace,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceNamespace',
       serviceNamespace,
       r'''[\w-]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -5355,6 +5519,7 @@ class IAM {
       deletionTaskId,
       1,
       1000,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetServiceLinkedRoleDeletionStatus',
@@ -5464,11 +5629,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -5476,11 +5643,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetUserPolicy',
@@ -5726,11 +5895,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -5848,11 +6019,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -5970,11 +6143,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -6110,6 +6285,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -6213,11 +6389,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -6387,11 +6565,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -6569,11 +6749,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -6932,6 +7114,7 @@ class IAM {
       arn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serviceNamespaces, 'serviceNamespaces');
     _s.validateStringLength(
@@ -7012,6 +7195,7 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -7101,11 +7285,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -7186,11 +7372,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -7736,11 +7924,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -7821,11 +8011,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'marker',
@@ -8102,11 +8294,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8114,11 +8308,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8126,11 +8322,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutGroupPolicy',
@@ -8185,6 +8383,7 @@ class IAM {
       permissionsBoundary,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -8192,11 +8391,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutRolePermissionsBoundary',
@@ -8300,11 +8501,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8312,11 +8515,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -8324,11 +8529,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutRolePolicy',
@@ -8380,6 +8587,7 @@ class IAM {
       permissionsBoundary,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8387,11 +8595,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutUserPermissionsBoundary',
@@ -8487,11 +8697,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8499,11 +8711,13 @@ class IAM {
       policyName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8511,11 +8725,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutUserPolicy',
@@ -8567,6 +8783,7 @@ class IAM {
       clientID,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -8575,6 +8792,7 @@ class IAM {
       openIDConnectProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'RemoveClientIDFromOpenIDConnectProvider',
@@ -8633,11 +8851,13 @@ class IAM {
       instanceProfileName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceProfileName',
       instanceProfileName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -8645,11 +8865,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'RemoveRoleFromInstanceProfile',
@@ -8696,11 +8918,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8708,11 +8932,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'RemoveUserFromGroup',
@@ -8763,11 +8989,13 @@ class IAM {
       serviceSpecificCredentialId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
       r'''[\w]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'userName',
@@ -8846,11 +9074,13 @@ class IAM {
       authenticationCode1,
       6,
       6,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'authenticationCode1',
       authenticationCode1,
       r'''[\d]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
@@ -8858,11 +9088,13 @@ class IAM {
       authenticationCode2,
       6,
       6,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'authenticationCode2',
       authenticationCode2,
       r'''[\d]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -8870,11 +9102,13 @@ class IAM {
       serialNumber,
       9,
       256,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serialNumber',
       serialNumber,
       r'''[\w+=/:,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8882,11 +9116,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ResyncMFADevice',
@@ -8945,12 +9181,14 @@ class IAM {
       policyArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringPattern(
       'versionId',
       versionId,
       r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'SetDefaultPolicyVersion',
@@ -9635,6 +9873,7 @@ class IAM {
       policySourceArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringLength(
       'callerArn',
@@ -9784,11 +10023,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{
@@ -9879,11 +10120,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'TagUser',
@@ -9930,11 +10173,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{
@@ -9983,11 +10228,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UntagUser',
@@ -10051,11 +10298,13 @@ class IAM {
       accessKeyId,
       16,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -10292,11 +10541,13 @@ class IAM {
       policyDocument,
       1,
       131072,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyDocument',
       policyDocument,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10304,11 +10555,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateAssumeRolePolicy',
@@ -10386,11 +10639,13 @@ class IAM {
       groupName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'groupName',
       groupName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'newGroupName',
@@ -10489,11 +10744,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'password',
@@ -10570,6 +10827,7 @@ class IAM {
       openIDConnectProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     final $request = <String, dynamic>{
@@ -10628,11 +10886,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -10692,11 +10952,13 @@ class IAM {
       description,
       0,
       1000,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'description',
       description,
       r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10704,11 +10966,13 @@ class IAM {
       roleName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleName',
       roleName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateRoleDescription',
@@ -10764,6 +11028,7 @@ class IAM {
       sAMLMetadataDocument,
       1000,
       10000000,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
     _s.validateStringLength(
@@ -10771,6 +11036,7 @@ class IAM {
       sAMLProviderArn,
       20,
       2048,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateSAMLProvider',
@@ -10833,11 +11099,13 @@ class IAM {
       sSHPublicKeyId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'sSHPublicKeyId',
       sSHPublicKeyId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10846,11 +11114,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UpdateSSHPublicKey',
@@ -10938,11 +11208,13 @@ class IAM {
       serverCertificateName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'newPath',
@@ -11021,11 +11293,13 @@ class IAM {
       serviceSpecificCredentialId,
       20,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serviceSpecificCredentialId',
       serviceSpecificCredentialId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -11098,11 +11372,13 @@ class IAM {
       certificateId,
       24,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateId',
       certificateId,
       r'''[\w]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
@@ -11195,11 +11471,13 @@ class IAM {
       userName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'newPath',
@@ -11296,11 +11574,13 @@ class IAM {
       sSHPublicKeyBody,
       1,
       16384,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'sSHPublicKeyBody',
       sSHPublicKeyBody,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11308,11 +11588,13 @@ class IAM {
       userName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'UploadSSHPublicKey',
@@ -11480,11 +11762,13 @@ class IAM {
       certificateBody,
       1,
       16384,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateBody',
       certificateBody,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(privateKey, 'privateKey');
     _s.validateStringLength(
@@ -11492,11 +11776,13 @@ class IAM {
       privateKey,
       1,
       16384,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'privateKey',
       privateKey,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -11504,11 +11790,13 @@ class IAM {
       serverCertificateName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'serverCertificateName',
       serverCertificateName,
       r'''[\w+=,.@-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'certificateChain',
@@ -11620,11 +11908,13 @@ class IAM {
       certificateBody,
       1,
       16384,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'certificateBody',
       certificateBody,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'userName',

@@ -110,17 +110,20 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
       role,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
@@ -158,11 +161,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -224,11 +229,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -262,11 +269,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -305,11 +314,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     await _protocol.send(
@@ -502,11 +513,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -623,11 +636,13 @@ class Lambda {
       functionName,
       1,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(functionZip, 'functionZip');
     ArgumentError.checkNotNull(handler, 'handler');
@@ -635,6 +650,7 @@ class Lambda {
       'handler',
       handler,
       r'''[a-zA-Z0-9./\-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(mode, 'mode');
     ArgumentError.checkNotNull(role, 'role');
@@ -642,6 +658,7 @@ class Lambda {
       'role',
       role,
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
     _s.validateStringLength(

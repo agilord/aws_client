@@ -2867,11 +2867,13 @@ class EC2 {
       launchTemplateName,
       3,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'launchTemplateName',
       launchTemplateName,
       r'''[a-zA-Z0-9\(\)\.\-/_]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'versionDescription',
@@ -6626,6 +6628,7 @@ class EC2 {
       maxResults,
       1,
       100,
+      isRequired: true,
     );
 // TODO: implement ec2
     throw UnimplementedError();

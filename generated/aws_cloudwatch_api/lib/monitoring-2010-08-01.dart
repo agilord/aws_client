@@ -119,6 +119,7 @@ class CloudWatch {
       metricName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -126,17 +127,20 @@ class CloudWatch {
       namespace,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stat, 'stat');
     _s.validateStringPattern(
       'stat',
       stat,
       r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAnomalyDetector',
@@ -477,6 +481,7 @@ class CloudWatch {
       metricName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -484,11 +489,13 @@ class CloudWatch {
       namespace,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
+      isRequired: true,
     );
     _s.validateStringPattern(
       'extendedStatistic',
@@ -910,6 +917,7 @@ class CloudWatch {
       period,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -917,11 +925,13 @@ class CloudWatch {
       ruleName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ruleName',
       ruleName,
       r'''[\x20-\x7E]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateStringLength(
@@ -1316,6 +1326,7 @@ class CloudWatch {
       metricName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -1323,11 +1334,13 @@ class CloudWatch {
       namespace,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
@@ -1335,6 +1348,7 @@ class CloudWatch {
       period,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $request = <String, dynamic>{
@@ -1597,6 +1611,7 @@ class CloudWatch {
       resourceARN,
       1,
       1024,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ListTagsForResource',
@@ -1659,6 +1674,7 @@ class CloudWatch {
       metricName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -1666,17 +1682,20 @@ class CloudWatch {
       namespace,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stat, 'stat');
     _s.validateStringPattern(
       'stat',
       stat,
       r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutAnomalyDetector',
@@ -1870,6 +1889,7 @@ class CloudWatch {
       alarmName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(alarmRule, 'alarmRule');
     _s.validateStringLength(
@@ -1877,6 +1897,7 @@ class CloudWatch {
       alarmRule,
       1,
       10240,
+      isRequired: true,
     );
     _s.validateStringLength(
       'alarmDescription',
@@ -2020,11 +2041,13 @@ class CloudWatch {
       ruleDefinition,
       1,
       8192,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ruleDefinition',
       ruleDefinition,
       r'''[\x00-\x7F]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -2032,11 +2055,13 @@ class CloudWatch {
       ruleName,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'ruleName',
       ruleName,
       r'''[\x20-\x7E]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'ruleState',
@@ -2398,6 +2423,7 @@ class CloudWatch {
       alarmName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(comparisonOperator, 'comparisonOperator');
     ArgumentError.checkNotNull(evaluationPeriods, 'evaluationPeriods');
@@ -2406,6 +2432,7 @@ class CloudWatch {
       evaluationPeriods,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     _s.validateStringLength(
       'alarmDescription',
@@ -2584,11 +2611,13 @@ class CloudWatch {
       namespace,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'namespace',
       namespace,
       r'''[^:].*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutMetricData',
@@ -2656,6 +2685,7 @@ class CloudWatch {
       alarmName,
       1,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stateReason, 'stateReason');
     _s.validateStringLength(
@@ -2663,6 +2693,7 @@ class CloudWatch {
       stateReason,
       0,
       1023,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(stateValue, 'stateValue');
     _s.validateStringLength(
@@ -2739,6 +2770,7 @@ class CloudWatch {
       resourceARN,
       1,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{
@@ -2791,6 +2823,7 @@ class CloudWatch {
       resourceARN,
       1,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{

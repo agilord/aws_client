@@ -118,6 +118,7 @@ class ElasticBeanstalk {
       cNAMEPrefix,
       4,
       63,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'CheckDNSAvailability',
@@ -228,6 +229,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -356,6 +358,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionLabel, 'versionLabel');
     _s.validateStringLength(
@@ -363,6 +366,7 @@ class ElasticBeanstalk {
       versionLabel,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -512,6 +516,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -519,6 +524,7 @@ class ElasticBeanstalk {
       templateName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -663,6 +669,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'cNAMEPrefix',
@@ -842,6 +849,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteApplication',
@@ -889,6 +897,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionLabel, 'versionLabel');
     _s.validateStringLength(
@@ -896,6 +905,7 @@ class ElasticBeanstalk {
       versionLabel,
       1,
       100,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteApplicationVersion',
@@ -937,6 +947,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -944,6 +955,7 @@ class ElasticBeanstalk {
       templateName,
       1,
       100,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteConfigurationTemplate',
@@ -984,6 +996,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
@@ -991,6 +1004,7 @@ class ElasticBeanstalk {
       environmentName,
       4,
       40,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteEnvironmentConfiguration',
@@ -1262,6 +1276,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'environmentName',
@@ -2377,6 +2392,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -2420,6 +2436,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         resourceLifecycleConfig, 'resourceLifecycleConfig');
@@ -2472,6 +2489,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionLabel, 'versionLabel');
     _s.validateStringLength(
@@ -2479,6 +2497,7 @@ class ElasticBeanstalk {
       versionLabel,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -2561,6 +2580,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -2568,6 +2588,7 @@ class ElasticBeanstalk {
       templateName,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -2855,6 +2876,7 @@ class ElasticBeanstalk {
       applicationName,
       1,
       100,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(optionSettings, 'optionSettings');
     _s.validateStringLength(

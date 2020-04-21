@@ -57,6 +57,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
@@ -64,6 +65,7 @@ class S3Control {
       bucket,
       3,
       255,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -71,6 +73,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -148,6 +151,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     _s.validateStringLength(
@@ -155,6 +159,7 @@ class S3Control {
       clientRequestToken,
       1,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(manifest, 'manifest');
     ArgumentError.checkNotNull(operation, 'operation');
@@ -164,6 +169,7 @@ class S3Control {
       priority,
       0,
       2147483647,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(report, 'report');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -172,6 +178,7 @@ class S3Control {
       roleArn,
       1,
       2048,
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -207,6 +214,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -214,6 +222,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -242,6 +251,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -249,6 +259,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -282,6 +293,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -289,6 +301,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -315,6 +328,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -349,6 +363,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -356,6 +371,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -386,6 +402,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -393,6 +410,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -423,6 +441,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -430,6 +449,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -464,6 +484,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -471,6 +492,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -505,6 +527,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -512,6 +535,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -541,6 +565,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -591,6 +616,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     _s.validateStringLength(
       'bucket',
@@ -663,6 +689,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     _s.validateNumRange(
       'maxResults',
@@ -721,6 +748,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -728,6 +756,7 @@ class S3Control {
       name,
       3,
       50,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{};
@@ -767,6 +796,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -774,6 +804,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{};
@@ -806,6 +837,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
@@ -847,6 +879,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -854,6 +887,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(priority, 'priority');
     _s.validateNumRange(
@@ -861,6 +895,7 @@ class S3Control {
       priority,
       0,
       2147483647,
+      isRequired: true,
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -909,6 +944,7 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -916,6 +952,7 @@ class S3Control {
       jobId,
       5,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(requestedJobStatus, 'requestedJobStatus');
     _s.validateStringLength(

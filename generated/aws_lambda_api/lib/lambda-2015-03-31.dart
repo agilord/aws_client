@@ -100,6 +100,7 @@ class Lambda {
       'action',
       action,
       r'''lambda:GetLayerVersion''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -107,17 +108,20 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringPattern(
       'principal',
       principal,
       r'''\d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -125,11 +129,13 @@ class Lambda {
       statementId,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     _s.validateStringPattern(
@@ -254,6 +260,7 @@ class Lambda {
       'action',
       action,
       r'''(lambda:[*]|lambda:[a-zA-Z]+|[*])''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -261,17 +268,20 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringPattern(
       'principal',
       principal,
       r'''.*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -279,11 +289,13 @@ class Lambda {
       statementId,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'eventSourceToken',
@@ -396,11 +408,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     _s.validateStringLength(
@@ -408,11 +422,13 @@ class Lambda {
       functionVersion,
       1,
       1024,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionVersion',
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -420,11 +436,13 @@ class Lambda {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -606,6 +624,7 @@ class Lambda {
       'eventSourceArn',
       eventSourceArn,
       r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -613,11 +632,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'batchSize',
@@ -841,11 +862,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(handler, 'handler');
     _s.validateStringLength(
@@ -853,17 +876,20 @@ class Lambda {
       handler,
       0,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'handler',
       handler,
       r'''[^\s]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
       role,
       r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(runtime, 'runtime');
     _s.validateStringLength(
@@ -956,11 +982,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -968,11 +996,13 @@ class Lambda {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1065,11 +1095,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1128,11 +1160,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1189,11 +1223,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1241,11 +1277,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final $payload = <String, dynamic>{};
@@ -1298,11 +1336,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
     _s.validateStringLength(
@@ -1310,11 +1350,13 @@ class Lambda {
       qualifier,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -1383,11 +1425,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1395,11 +1439,13 @@ class Lambda {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -1479,11 +1525,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1542,11 +1590,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -1604,11 +1654,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1675,11 +1727,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1727,11 +1781,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
@@ -1765,11 +1821,13 @@ class Lambda {
       arn,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'arn',
       arn,
       r'''arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -1806,11 +1864,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
@@ -1866,11 +1926,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -1934,11 +1996,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
     _s.validateStringLength(
@@ -1946,11 +2010,13 @@ class Lambda {
       qualifier,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -2103,11 +2169,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -2178,11 +2246,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     await _protocol.send(
@@ -2244,11 +2314,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'functionVersion',
@@ -2414,11 +2486,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maxItems',
@@ -2529,11 +2603,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maxItems',
@@ -2636,11 +2712,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maxItems',
@@ -2678,6 +2756,7 @@ class Lambda {
       'resource',
       resource,
       r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     await _protocol.send(
       null,
@@ -2735,11 +2814,13 @@ class Lambda {
       functionName,
       1,
       170,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maxItems',
@@ -2817,11 +2898,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -2918,11 +3001,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -2998,11 +3083,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         reservedConcurrentExecutions, 'reservedConcurrentExecutions');
@@ -3011,6 +3098,7 @@ class Lambda {
       reservedConcurrentExecutions,
       0,
       1152921504606846976,
+      isRequired: true,
     );
     final $payload = <String, dynamic>{
       'ReservedConcurrentExecutions': reservedConcurrentExecutions,
@@ -3116,11 +3204,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',
@@ -3206,11 +3296,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         provisionedConcurrentExecutions, 'provisionedConcurrentExecutions');
@@ -3219,6 +3311,7 @@ class Lambda {
       provisionedConcurrentExecutions,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
     _s.validateStringLength(
@@ -3226,11 +3319,13 @@ class Lambda {
       qualifier,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'qualifier',
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
+      isRequired: true,
     );
     final $payload = <String, dynamic>{
       'ProvisionedConcurrentExecutions': provisionedConcurrentExecutions,
@@ -3281,11 +3376,13 @@ class Lambda {
       layerName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'layerName',
       layerName,
       r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -3293,11 +3390,13 @@ class Lambda {
       statementId,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final $payload = <String, dynamic>{};
@@ -3365,11 +3464,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
@@ -3377,11 +3478,13 @@ class Lambda {
       statementId,
       1,
       100,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'statementId',
       statementId,
       r'''([a-zA-Z0-9-_.]+)''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'qualifier',
@@ -3429,6 +3532,7 @@ class Lambda {
       'resource',
       resource,
       r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
@@ -3468,6 +3572,7 @@ class Lambda {
       'resource',
       resource,
       r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{};
@@ -3542,11 +3647,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3554,11 +3661,13 @@ class Lambda {
       name,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -3847,11 +3956,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       's3Bucket',
@@ -4030,11 +4141,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'description',
@@ -4174,11 +4287,13 @@ class Lambda {
       functionName,
       1,
       140,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'functionName',
       functionName,
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',

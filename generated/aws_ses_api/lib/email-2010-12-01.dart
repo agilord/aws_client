@@ -643,6 +643,7 @@ class SES {
       policyName,
       1,
       64,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteIdentityPolicy',
@@ -1623,6 +1624,7 @@ class SES {
       policy,
       1,
       1152921504606846976,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -1630,6 +1632,7 @@ class SES {
       policyName,
       1,
       64,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutIdentityPolicy',
@@ -2693,6 +2696,7 @@ class SES {
       templateData,
       0,
       262144,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'SendTemplatedEmail',
@@ -3084,6 +3088,7 @@ class SES {
       templateData,
       0,
       262144,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{

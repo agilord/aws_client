@@ -464,11 +464,13 @@ class DynamoDB {
       backupName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'backupName',
       backupName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -476,11 +478,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -570,11 +574,13 @@ class DynamoDB {
       globalTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'globalTableName',
       globalTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(replicationGroup, 'replicationGroup');
     final headers = <String, String>{
@@ -877,11 +883,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -931,6 +939,7 @@ class DynamoDB {
       backupArn,
       37,
       1024,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1144,11 +1153,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1216,11 +1227,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1259,6 +1272,7 @@ class DynamoDB {
       backupArn,
       37,
       1024,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1310,11 +1324,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1355,11 +1371,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'indexName',
@@ -1429,11 +1447,13 @@ class DynamoDB {
       globalTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'globalTableName',
       globalTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1474,11 +1494,13 @@ class DynamoDB {
       globalTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'globalTableName',
       globalTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1615,11 +1637,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1662,11 +1686,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1703,11 +1729,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1847,11 +1875,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2187,6 +2217,7 @@ class DynamoDB {
       resourceArn,
       1,
       1283,
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2476,11 +2507,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2941,11 +2974,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'indexName',
@@ -3074,6 +3109,7 @@ class DynamoDB {
       backupArn,
       37,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(targetTableName, 'targetTableName');
     _s.validateStringLength(
@@ -3081,11 +3117,13 @@ class DynamoDB {
       targetTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'targetTableName',
       targetTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3229,11 +3267,13 @@ class DynamoDB {
       targetTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'targetTableName',
       targetTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'sourceTableName',
@@ -3612,11 +3652,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'indexName',
@@ -3710,6 +3752,7 @@ class DynamoDB {
       resourceArn,
       1,
       1283,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
@@ -3976,6 +4019,7 @@ class DynamoDB {
       resourceArn,
       1,
       1283,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
@@ -4034,11 +4078,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4085,11 +4131,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'indexName',
@@ -4170,11 +4218,13 @@ class DynamoDB {
       globalTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'globalTableName',
       globalTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(replicaUpdates, 'replicaUpdates');
     final headers = <String, String>{
@@ -4261,11 +4311,13 @@ class DynamoDB {
       globalTableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'globalTableName',
       globalTableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'globalTableProvisionedWriteCapacityUnits',
@@ -4612,11 +4664,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4776,11 +4830,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4841,11 +4897,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4921,11 +4979,13 @@ class DynamoDB {
       tableName,
       3,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'tableName',
       tableName,
       r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         timeToLiveSpecification, 'timeToLiveSpecification');

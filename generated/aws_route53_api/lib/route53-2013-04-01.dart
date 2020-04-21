@@ -89,6 +89,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
@@ -219,6 +220,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -279,6 +281,7 @@ class Route53 {
       resourceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     await _protocol.send(
@@ -378,6 +381,7 @@ class Route53 {
       callerReference,
       1,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(healthCheckConfig, 'healthCheckConfig');
     final $result = await _protocol.send(
@@ -509,6 +513,7 @@ class Route53 {
       callerReference,
       1,
       128,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -516,6 +521,7 @@ class Route53 {
       name,
       0,
       1024,
+      isRequired: true,
     );
     _s.validateStringLength(
       'delegationSetId',
@@ -687,6 +693,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -789,6 +796,7 @@ class Route53 {
       callerReference,
       1,
       128,
+      isRequired: true,
     );
     _s.validateStringLength(
       'hostedZoneId',
@@ -836,6 +844,7 @@ class Route53 {
       document,
       0,
       102400,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -843,6 +852,7 @@ class Route53 {
       name,
       0,
       512,
+      isRequired: true,
     );
     _s.validateStringLength(
       'comment',
@@ -907,6 +917,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -914,6 +925,7 @@ class Route53 {
       name,
       0,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
@@ -921,6 +933,7 @@ class Route53 {
       ttl,
       0,
       2147483647,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
     _s.validateStringLength(
@@ -928,6 +941,7 @@ class Route53 {
       trafficPolicyId,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
@@ -935,6 +949,7 @@ class Route53 {
       trafficPolicyVersion,
       1,
       1000,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -983,6 +998,7 @@ class Route53 {
       document,
       0,
       102400,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -990,6 +1006,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringLength(
       'comment',
@@ -1043,6 +1060,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
@@ -1088,6 +1106,7 @@ class Route53 {
       healthCheckId,
       0,
       64,
+      isRequired: true,
     );
     await _protocol.send(
       method: 'DELETE',
@@ -1169,6 +1188,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'DELETE',
@@ -1201,6 +1221,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     await _protocol.send(
       method: 'DELETE',
@@ -1236,6 +1257,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     await _protocol.send(
       method: 'DELETE',
@@ -1266,6 +1288,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
@@ -1273,6 +1296,7 @@ class Route53 {
       version,
       1,
       1000,
+      isRequired: true,
     );
     await _protocol.send(
       method: 'DELETE',
@@ -1308,6 +1332,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     await _protocol.send(
       method: 'DELETE',
@@ -1354,6 +1379,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpc, 'vpc');
     await _protocol.send(
@@ -1408,6 +1434,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
@@ -1506,6 +1533,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1655,6 +1683,7 @@ class Route53 {
       healthCheckId,
       0,
       64,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1700,6 +1729,7 @@ class Route53 {
       healthCheckId,
       0,
       64,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1733,6 +1763,7 @@ class Route53 {
       healthCheckId,
       0,
       64,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1759,6 +1790,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1821,6 +1853,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
@@ -1854,6 +1887,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1882,6 +1916,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1921,6 +1956,7 @@ class Route53 {
       delegationSetId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
@@ -1953,6 +1989,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
@@ -1960,6 +1997,7 @@ class Route53 {
       version,
       1,
       1000,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -1996,6 +2034,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'GET',
@@ -2574,6 +2613,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     _s.validateStringLength(
       'startRecordIdentifier',
@@ -2682,6 +2722,7 @@ class Route53 {
       resourceId,
       0,
       64,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
@@ -2949,6 +2990,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     _s.validateStringLength(
       'trafficPolicyInstanceNameMarker',
@@ -3065,6 +3107,7 @@ class Route53 {
       trafficPolicyId,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
@@ -3072,6 +3115,7 @@ class Route53 {
       trafficPolicyVersion,
       1,
       1000,
+      isRequired: true,
     );
     _s.validateStringLength(
       'hostedZoneIdMarker',
@@ -3145,6 +3189,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     _s.validateStringLength(
       'trafficPolicyVersionMarker',
@@ -3204,6 +3249,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     _s.validateStringLength(
       'nextToken',
@@ -3289,6 +3335,7 @@ class Route53 {
       hostedZoneId,
       0,
       32,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(recordName, 'recordName');
     _s.validateStringLength(
@@ -3296,6 +3343,7 @@ class Route53 {
       recordName,
       0,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(recordType, 'recordType');
     _s.validateStringLength(
@@ -3742,6 +3790,7 @@ class Route53 {
       healthCheckId,
       0,
       64,
+      isRequired: true,
     );
     _s.validateNumRange(
       'failureThreshold',
@@ -3826,6 +3875,7 @@ class Route53 {
       id,
       0,
       32,
+      isRequired: true,
     );
     _s.validateStringLength(
       'comment',
@@ -3868,6 +3918,7 @@ class Route53 {
       comment,
       0,
       1024,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3875,6 +3926,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
@@ -3882,6 +3934,7 @@ class Route53 {
       version,
       1,
       1000,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -3947,6 +4000,7 @@ class Route53 {
       id,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
@@ -3954,6 +4008,7 @@ class Route53 {
       ttl,
       0,
       2147483647,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
     _s.validateStringLength(
@@ -3961,6 +4016,7 @@ class Route53 {
       trafficPolicyId,
       1,
       36,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
@@ -3968,6 +4024,7 @@ class Route53 {
       trafficPolicyVersion,
       1,
       1000,
+      isRequired: true,
     );
     final $result = await _protocol.send(
       method: 'POST',

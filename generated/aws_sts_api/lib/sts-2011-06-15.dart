@@ -395,11 +395,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -407,11 +409,13 @@ class STS {
       roleSessionName,
       2,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -754,11 +758,13 @@ class STS {
       principalArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'principalArn',
       principalArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -766,11 +772,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(sAMLAssertion, 'sAMLAssertion');
     _s.validateStringLength(
@@ -778,6 +786,7 @@ class STS {
       sAMLAssertion,
       4,
       100000,
+      isRequired: true,
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -1126,11 +1135,13 @@ class STS {
       roleArn,
       20,
       2048,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleArn',
       roleArn,
       r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(roleSessionName, 'roleSessionName');
     _s.validateStringLength(
@@ -1138,11 +1149,13 @@ class STS {
       roleSessionName,
       2,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'roleSessionName',
       roleSessionName,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(webIdentityToken, 'webIdentityToken');
     _s.validateStringLength(
@@ -1150,6 +1163,7 @@ class STS {
       webIdentityToken,
       4,
       2048,
+      isRequired: true,
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -1251,6 +1265,7 @@ class STS {
       encodedMessage,
       1,
       10240,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DecodeAuthorizationMessage',
@@ -1309,11 +1324,13 @@ class STS {
       accessKeyId,
       16,
       128,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'accessKeyId',
       accessKeyId,
       r'''[\w]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'GetAccessKeyInfo',
@@ -1619,11 +1636,13 @@ class STS {
       name,
       2,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'name',
       name,
       r'''[\w+=,.@-]*''',
+      isRequired: true,
     );
     _s.validateNumRange(
       'durationSeconds',

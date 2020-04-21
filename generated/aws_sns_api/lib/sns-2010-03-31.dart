@@ -862,6 +862,7 @@ class SNS {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ListTagsForResource',
@@ -1785,6 +1786,7 @@ class SNS {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{
@@ -1865,6 +1867,7 @@ class SNS {
       resourceArn,
       1,
       1011,
+      isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{

@@ -299,6 +299,9 @@ const _$LastUpdateStatusReasonCodeEnumMap = {
       'InsufficientRolePermissions',
   LastUpdateStatusReasonCode.invalidConfiguration: 'InvalidConfiguration',
   LastUpdateStatusReasonCode.internalError: 'InternalError',
+  LastUpdateStatusReasonCode.subnetOutOfIPAddresses: 'SubnetOutOfIPAddresses',
+  LastUpdateStatusReasonCode.invalidSubnet: 'InvalidSubnet',
+  LastUpdateStatusReasonCode.invalidSecurityGroup: 'InvalidSecurityGroup',
 };
 
 const _$RuntimeEnumMap = {
@@ -317,9 +320,11 @@ const _$RuntimeEnumMap = {
   Runtime.dotnetcore1_0: 'dotnetcore1.0',
   Runtime.dotnetcore2_0: 'dotnetcore2.0',
   Runtime.dotnetcore2_1: 'dotnetcore2.1',
+  Runtime.dotnetcore3_1: 'dotnetcore3.1',
   Runtime.nodejs4_3Edge: 'nodejs4.3-edge',
   Runtime.go1X: 'go1.x',
   Runtime.ruby2_5: 'ruby2.5',
+  Runtime.ruby2_7: 'ruby2.7',
   Runtime.provided: 'provided',
 };
 
@@ -339,6 +344,8 @@ const _$StateReasonCodeEnumMap = {
   StateReasonCode.invalidConfiguration: 'InvalidConfiguration',
   StateReasonCode.internalError: 'InternalError',
   StateReasonCode.subnetOutOfIPAddresses: 'SubnetOutOfIPAddresses',
+  StateReasonCode.invalidSubnet: 'InvalidSubnet',
+  StateReasonCode.invalidSecurityGroup: 'InvalidSecurityGroup',
 };
 
 FunctionEventInvokeConfig _$FunctionEventInvokeConfigFromJson(

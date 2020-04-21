@@ -66,11 +66,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'AttachInstances',
@@ -119,11 +121,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{
@@ -174,11 +178,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{
@@ -217,11 +223,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scheduledActionNames, 'scheduledActionNames');
     final $request = <String, dynamic>{
@@ -265,11 +273,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         scheduledUpdateGroupActions, 'scheduledUpdateGroupActions');
@@ -355,11 +365,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lifecycleActionResult, 'lifecycleActionResult');
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
@@ -368,11 +380,13 @@ class AutoScaling {
       lifecycleHookName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
       r'''[A-Za-z0-9\-_\/]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'instanceId',
@@ -657,11 +671,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(maxSize, 'maxSize');
     ArgumentError.checkNotNull(minSize, 'minSize');
@@ -1007,11 +1023,13 @@ class AutoScaling {
       launchConfigurationName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'classicLinkVPCId',
@@ -1236,11 +1254,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteAutoScalingGroup',
@@ -1277,11 +1297,13 @@ class AutoScaling {
       launchConfigurationName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'launchConfigurationName',
       launchConfigurationName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLaunchConfiguration',
@@ -1319,11 +1341,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -1331,11 +1355,13 @@ class AutoScaling {
       lifecycleHookName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
       r'''[A-Za-z0-9\-_\/]+''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteLifecycleHook',
@@ -1372,11 +1398,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(topicARN, 'topicARN');
     _s.validateStringLength(
@@ -1384,11 +1412,13 @@ class AutoScaling {
       topicARN,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'topicARN',
       topicARN,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteNotificationConfiguration',
@@ -1432,11 +1462,13 @@ class AutoScaling {
       policyName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -1482,11 +1514,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -1494,11 +1528,13 @@ class AutoScaling {
       scheduledActionName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DeleteScheduledAction',
@@ -1786,11 +1822,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DescribeLifecycleHooks',
@@ -1834,11 +1872,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringPattern(
       'nextToken',
@@ -1891,11 +1931,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringPattern(
       'nextToken',
@@ -2328,11 +2370,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -2373,11 +2417,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{
@@ -2424,11 +2470,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{
@@ -2493,11 +2541,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'DisableMetricsCollection',
@@ -2569,11 +2619,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(granularity, 'granularity');
     _s.validateStringLength(
@@ -2581,11 +2633,13 @@ class AutoScaling {
       granularity,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'granularity',
       granularity,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'EnableMetricsCollection',
@@ -2640,11 +2694,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -2718,11 +2774,13 @@ class AutoScaling {
       policyName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -2779,11 +2837,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ExitStandby',
@@ -2926,11 +2986,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -2938,11 +3000,13 @@ class AutoScaling {
       lifecycleHookName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
       r'''[A-Za-z0-9\-_\/]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'notificationMetadata',
@@ -3036,11 +3100,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(notificationTypes, 'notificationTypes');
     ArgumentError.checkNotNull(topicARN, 'topicARN');
@@ -3049,11 +3115,13 @@ class AutoScaling {
       topicARN,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'topicARN',
       topicARN,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'PutNotificationConfiguration',
@@ -3209,11 +3277,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3221,11 +3291,13 @@ class AutoScaling {
       policyName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'policyName',
       policyName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'adjustmentType',
@@ -3365,11 +3437,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -3377,11 +3451,13 @@ class AutoScaling {
       scheduledActionName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'scheduledActionName',
       scheduledActionName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'recurrence',
@@ -3476,11 +3552,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
     _s.validateStringLength(
@@ -3488,11 +3566,13 @@ class AutoScaling {
       lifecycleHookName,
       1,
       255,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'lifecycleHookName',
       lifecycleHookName,
       r'''[A-Za-z0-9\-_\/]+''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'instanceId',
@@ -3582,11 +3662,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'ResumeProcesses',
@@ -3635,11 +3717,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(desiredCapacity, 'desiredCapacity');
     final $request = <String, dynamic>{
@@ -3694,11 +3778,13 @@ class AutoScaling {
       healthStatus,
       1,
       32,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'healthStatus',
       healthStatus,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3706,11 +3792,13 @@ class AutoScaling {
       instanceId,
       1,
       19,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceId',
       instanceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'SetInstanceHealth',
@@ -3758,11 +3846,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     ArgumentError.checkNotNull(protectedFromScaleIn, 'protectedFromScaleIn');
@@ -3842,11 +3932,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     final $request = <String, dynamic>{
       'Action': 'SuspendProcesses',
@@ -3899,11 +3991,13 @@ class AutoScaling {
       instanceId,
       1,
       19,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'instanceId',
       instanceId,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
@@ -4126,11 +4220,13 @@ class AutoScaling {
       autoScalingGroupName,
       1,
       1600,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'autoScalingGroupName',
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
     );
     _s.validateStringLength(
       'healthCheckType',

@@ -131,19 +131,22 @@ ${builder.constructor()}
         final min = member.shapeClass?.min ?? pow(2, -60).toInt();
 
         if (member.dartType == 'String') {
+          final isRequired = member.isRequired ? 'isRequired: true,' : '';
           writeln(
-              "_s.validateStringLength('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
+              "_s.validateStringLength('$name', $name, $min, $max, $isRequired);");
         } else if (member.dartType == 'int' || member.dartType == 'double') {
+          final isRequired = member.isRequired ? 'isRequired: true,' : '';
           writeln(
-              "_s.validateNumRange('$name', $name, $min, $max, isRequired: ${member.isRequired},);");
+              "_s.validateNumRange('$name', $name, $min, $max, $isRequired);");
         }
       }
 
       final pattern = member.shapeClass?.pattern;
 
       if (pattern != null) {
+        final isRequired = member.isRequired ? 'isRequired: true,' : '';
         writeln(
-            "_s.validateStringPattern('$name', $name, r'''$pattern''', isRequired: ${member.isRequired},);");
+            "_s.validateStringPattern('$name', $name, r'''$pattern''', $isRequired);");
       }
     }
 
