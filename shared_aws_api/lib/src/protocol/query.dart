@@ -36,6 +36,8 @@ class QueryProtocol {
     endpointUrl ??= 'https://$service.$region.amazonaws.com';
     service ??= extractService(Uri.parse(endpointUrl));
     region ??= extractRegion(Uri.parse(endpointUrl));
+    credentials ??= AwsClientCredentials.resolve();
+    ArgumentError.checkNotNull(credentials, 'credentials');
     return QueryProtocol._(client, service, region, endpointUrl, credentials);
   }
 
