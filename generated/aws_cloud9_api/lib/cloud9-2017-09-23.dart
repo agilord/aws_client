@@ -29,7 +29,7 @@ class Cloud9 {
   final _s.JsonProtocol _protocol;
   Cloud9({
     @_s.required String region,
-    @_s.required _s.AwsClientCredentials credentials,
+    _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(

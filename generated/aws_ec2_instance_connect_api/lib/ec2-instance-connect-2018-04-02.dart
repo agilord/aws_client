@@ -31,7 +31,7 @@ class EC2InstanceConnect {
   final _s.JsonProtocol _protocol;
   EC2InstanceConnect({
     @_s.required String region,
-    @_s.required _s.AwsClientCredentials credentials,
+    _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
