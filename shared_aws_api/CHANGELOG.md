@@ -1,3 +1,7 @@
+## 0.1.6
+
+- Auto-detect `AwsClientCredentials`.
+
 ## 0.1.5
 
 - Validation functions get an additional `isRequired` parameter.
