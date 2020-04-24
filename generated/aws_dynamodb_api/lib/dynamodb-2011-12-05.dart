@@ -32,7 +32,7 @@ class DynamoDB {
   final _s.JsonProtocol _protocol;
   DynamoDB({
     @_s.required String region,
-    @_s.required _s.AwsClientCredentials credentials,
+    _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(

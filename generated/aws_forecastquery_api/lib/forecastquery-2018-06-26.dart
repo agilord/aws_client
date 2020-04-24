@@ -28,7 +28,7 @@ class ForecastQueryService {
   final _s.JsonProtocol _protocol;
   ForecastQueryService({
     @_s.required String region,
-    @_s.required _s.AwsClientCredentials credentials,
+    _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(

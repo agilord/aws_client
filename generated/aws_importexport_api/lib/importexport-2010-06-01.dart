@@ -24,7 +24,7 @@ class ImportExport {
 
   ImportExport({
     @_s.required String region,
-    @_s.required _s.AwsClientCredentials credentials,
+    _s.AwsClientCredentials credentials,
     _s.Client client,
   }) : _protocol = _s.QueryProtocol(
           client: client,
