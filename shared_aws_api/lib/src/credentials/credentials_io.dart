@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:ini/ini.dart';
 import 'package:shared_aws_api/src/credentials.dart';
+import 'package:shared_aws_api/src/credentials/ini_config.dart';
 
 class CredentialsUtil {
   static AwsClientCredentials resolve() {
@@ -10,17 +10,19 @@ class CredentialsUtil {
 
   static AwsClientCredentials get fromEnvironment {
     final environment = Platform.environment;
-    final credentials = AwsClientCredentials(
-      accessKey: environment['AWS_ACCESS_KEY_ID'],
-      secretKey: environment['AWS_SECRET_ACCESS_KEY'],
-      sessionToken: environment['AWS_SESSION_TOKEN'],
-    );
+    final accessKey = environment['AWS_ACCESS_KEY_ID'];
+    final secretKey = environment['AWS_SECRET_ACCESS_KEY'];
+    final sessionToken = environment['AWS_SESSION_TOKEN'];
 
-    if (credentials.accessKey == null || credentials.secretKey == null) {
+    if (accessKey == null || secretKey == null) {
       return null;
     }
 
-    return credentials;
+    return AwsClientCredentials(
+      accessKey: accessKey,
+      secretKey: secretKey,
+      sessionToken: sessionToken,
+    );
   }
 
   static String get userHome =>
@@ -61,12 +63,12 @@ class CredentialsUtil {
       return null;
     }
 
-    final accesskey = config.get(profile, 'aws_access_key_id');
-    if (accesskey == null) {
+    final accessKey = config.get(profile, 'aws_access_key_id');
+    if (accessKey == null) {
       print('profile [$profile] does not contain "aws_access_key_id"');
       return null;
     }
 
-    return AwsClientCredentials(accessKey: accesskey, secretKey: secretKey);
+    return AwsClientCredentials(accessKey: accessKey, secretKey: secretKey);
   }
 }
