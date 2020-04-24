@@ -4,6 +4,9 @@
 
 import 'package:meta/meta.dart';
 
+import 'credentials/credentials_io.dart'
+    if (dart.library.html) 'credentials/credentials_html.dart';
+
 /// AWS credentials.
 class AwsClientCredentials {
   /// AWS access key
@@ -24,4 +27,6 @@ class AwsClientCredentials {
     assert(accessKey != null);
     assert(secretKey != null);
   }
+
+  static AwsClientCredentials resolve() => CredentialsUtil.resolve();
 }
