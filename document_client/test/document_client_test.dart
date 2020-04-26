@@ -34,13 +34,16 @@ void main() {
             'buzz3': {
               'BS': ['AA==']
             },
-            'buzz4': {'NS': ['1', '2', '3']}
+            'buzz4': {
+              'NS': ['1', '2', '3']
+            }
           }
         },
         'noCreativity': {'NULL': true}
       };
 
-      expect(jsonDecode(jsonEncode(fromJsonToAttributeValue)), equals(midCheck));
+      expect(
+          jsonDecode(jsonEncode(fromJsonToAttributeValue)), equals(midCheck));
 
       final fromAttributeValueToJson = fromJsonToAttributeValue.toJson();
 
