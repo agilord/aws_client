@@ -1,3 +1,7 @@
+## 0.1.7
+
+- Fix: export `XmlFindExtension` from `package:xml`.
+
 ## 0.1.6
 
 - Auto-detect `AwsClientCredentials`.
