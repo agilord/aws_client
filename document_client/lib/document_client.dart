@@ -105,7 +105,7 @@ class DocumentClient {
 
 class GetResponse {
   final ConsumedCapacity consumedCapacity;
-  final dynamic item;
+  final Map<String, dynamic> item;
 
   GetResponse(this.consumedCapacity, this.item);
 }
