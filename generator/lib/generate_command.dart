@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -93,7 +94,8 @@ class GenerateCommand extends Command {
     final notGeneratedApis = <String, Map<String, List<String>>>{};
     final latestBuiltApi = <String, String>{};
 
-    for (final service in services) {
+    for (var i = 0; i < services.length; i++) {
+      final service = services.elementAt(i);
       final def = File('./apis/$service.normal.json');
 
       final defJson =
@@ -105,8 +107,11 @@ class GenerateCommand extends Command {
         if (api.isRecognized &&
             (config.packages == null ||
                 config.packages.contains(api.packageName))) {
-          print(
+          final percentage = i * 100 ~/ services.length;
+
+          printPercentageInPlace(percentage,
               'Generating ${api.fileBasename} for package:${api.packageName}');
+
           // create directories
           final baseDir = '../generated/${api.packageName}';
           final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
@@ -189,13 +194,43 @@ class GenerateCommand extends Command {
       }
     }
 
+    printPercentageInPlace(100, 'Done');
+
     if (argResults['build'] == true) {
-      for (final baseDir in touchedDirs) {
+      final stopwatch = Stopwatch()..start();
+      var latestMessage = '';
+
+      var latestPercentage = 1;
+
+      Timer timer;
+
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        printPercentageInPlace(latestPercentage,
+            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
+      });
+
+      print('\nRunning build_runner in generated projects');
+
+      for (var i = 0; i < touchedDirs.length; i++) {
+        latestPercentage = i * 100 ~/ touchedDirs.length + 1;
+        final baseDir = touchedDirs.elementAt(i);
+
+        latestMessage = '- Running pub get in $baseDir';
+        printPercentageInPlace(latestPercentage,
+            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
+
         // TODO: once in git, detect if there was no change, and skip when not needed
         await _runPubGet(baseDir);
+
         // TODO: once in git, detect if there was no change, and skip when not needed
+        latestMessage = '- Running build_runner in $baseDir';
+        printPercentageInPlace(latestPercentage,
+            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
         await _runBuildRunner(baseDir);
       }
+
+      timer.cancel();
+      printPercentageInPlace(100, 'Done');
     }
 
     final monoPkgFile = File('mono_pkg.yaml');
@@ -219,7 +254,6 @@ class GenerateCommand extends Command {
   }
 
   Future<void> _runPubGet(String baseDir) async {
-    print('Running pub get in $baseDir ...');
     final pr = await Process.run(
       'pub',
       ['get', '--no-precompile'],
@@ -233,7 +267,6 @@ class GenerateCommand extends Command {
   }
 
   Future<void> _runBuildRunner(String baseDir) async {
-    print('Running build_runner in $baseDir ...');
     final pr = await Process.run(
       'pub',
       ['run', 'build_runner', 'build', '--delete-conflicting-outputs'],
@@ -254,4 +287,24 @@ void printPretty(Map<String, Map<String, List<String>>> foo) {
       print('  - $service: ${foo[protocol][service]}');
     }
   }
+}
+
+String formattedDuration(Duration d) =>
+    d.toString().split('.').first.padLeft(8, '0');
+
+String estimatedTimeLeft(int percentage, Duration elapsed) {
+  final estimatedTotal = elapsed * (1 / (percentage.toDouble() / 100));
+  final estimatedLeft = estimatedTotal - elapsed;
+  return 'Elapsed time: ${formattedDuration(elapsed)} - estimated time left: ${formattedDuration(estimatedLeft)}';
+}
+
+void printPercentageInPlace(int percentage, String message) {
+  stdout.write('\r${' ' * stdout.terminalColumns}');
+  stdout.write(
+      '\r${loadingBar(percentage)} ${percentage.toString().padLeft(3)}% $message');
+}
+
+String loadingBar(int percentage) {
+  final chars = '#' * ((percentage ~/ 10) + 1);
+  return '[${chars.padRight(10)}]';
 }
