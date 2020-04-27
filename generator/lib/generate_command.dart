@@ -114,13 +114,20 @@ class GenerateCommand extends Command {
 
           // create directories
           final baseDir = '../generated/${api.packageName}';
-          final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
+          final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart')
+            ..createSync(recursive: true);
           final pubspecFile = File('$baseDir/pubspec.yaml');
           final readmeFile = File('$baseDir/README.md');
-          final exampleFile = File('$baseDir/example/README.md');
+          final exampleFile = File('$baseDir/example/README.md')
+            ..createSync(recursive: true);
+          final compilationTestFile =
+              File('$baseDir/test/${api.fileBasename}.test.dart')
+                ..createSync(recursive: true);
 
-          serviceFile.parent.createSync(recursive: true);
-          exampleFile.createSync(recursive: true);
+          compilationTestFile.writeAsStringSync(buildCompileTest(
+            className: api.metadata.className,
+            importPath: '${api.packageName}/${api.fileBasename}',
+          ));
 
           var serviceText = buildService(api);
           if (argResults['format'] == true) {
@@ -240,7 +247,7 @@ class GenerateCommand extends Command {
     for (final baseDir in touchedDirs) {
       final pathParts = baseDir.split('/')..removeAt(0);
       final ensureBuildTestContent =
-          formatter.format(buildTest(pathParts.join('/')));
+          formatter.format(buildVerifyTest(pathParts.join('/')));
       File('$baseDir/test/ensure_build_test.dart')
         ..createSync(recursive: true)
         ..writeAsStringSync(ensureBuildTestContent);
