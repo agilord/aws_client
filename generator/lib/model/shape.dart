@@ -17,6 +17,8 @@ class Shape {
   @JsonKey(ignore: true)
   bool isUsedInInput = false;
   @JsonKey(ignore: true)
+  bool isTopLevelInputEnum = false;
+  @JsonKey(ignore: true)
   bool isUsedInOutput = false;
   final String type;
   @JsonKey(name: 'enum')

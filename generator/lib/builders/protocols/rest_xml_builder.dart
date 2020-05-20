@@ -32,6 +32,9 @@ class RestXmlServiceBuilder extends ServiceBuilder {
           shapeClass.members.firstWhere((m) => m.name == shapeClass.payload);
       if (payloadMember.streaming) {
         payloadArg = 'payload: ${payloadMember.fieldName},';
+      } else if (payloadMember.shapeClass.enumeration != null) {
+        payloadMember.shapeClass.isTopLevelInputEnum = true;
+        payloadArg = 'payload: ${payloadMember.fieldName}.toValue(),';
       } else if (payloadMember.shapeClass.type.isBasicType()) {
         payloadArg = 'payload: ${payloadMember.fieldName},';
       } else {

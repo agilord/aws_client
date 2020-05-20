@@ -28,11 +28,17 @@ class QueryServiceBuilder extends ServiceBuilder {
         '      \'Version\': \'${api.metadata.apiVersion}\',');
     buf.writeln('    };');
     parameterShape?.members?.forEach((member) {
+      var serializationSuffix = '';
+      if (member.shapeClass.enumeration != null) {
+        member.shapeClass.isTopLevelInputEnum = true;
+        serializationSuffix = '.toValue()';
+      }
       if (member.isRequired) {
-        buf.writeln("\$request['${member.name}'] = ${member.fieldName};");
+        buf.writeln(
+            "\$request['${member.name}'] = ${member.fieldName}$serializationSuffix;");
       } else {
         buf.writeln(
-            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg);");
+            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg$serializationSuffix);");
       }
     });
     final params = StringBuffer('\$request, '

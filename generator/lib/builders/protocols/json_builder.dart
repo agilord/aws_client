@@ -19,9 +19,16 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-    final payloadMembers = operation.input?.shapeClass?.members?.map((m) => '''
-    '${m.name}': ${m.fieldName}, 
-    ''')?.join();
+    final payloadMembers = operation.input?.shapeClass?.members?.map((m) {
+      var serializationSuffix = '';
+      if (m.shapeClass.enumeration != null) {
+        m.shapeClass.isTopLevelInputEnum = true;
+        serializationSuffix = '.toValue()';
+      }
+      return '''
+    '${m.name}': ${m.fieldName}$serializationSuffix,
+    ''';
+    })?.join();
     var payload = '';
     if (payloadMembers?.isNotEmpty == true) {
       payload = 'payload: {$payloadMembers},';
@@ -42,7 +49,7 @@ class JsonServiceBuilder extends ServiceBuilder {
         headers: headers,
         $payload
       );
-      
+
       ${outputClass == null ? '' : 'return $outputClass.fromJson(jsonResponse.body);'}''';
   }
 }

@@ -190,7 +190,7 @@ ${builder.constructor()}
       }).toList();
       writeln('}');
 
-      if (shape.api.generateToXml) {
+      if (shape.api.generateToXml || shape.isTopLevelInputEnum) {
         writeln("""extension on $name {
   String toValue() {
     switch (this) {
@@ -488,13 +488,13 @@ String _uppercaseName(String value) =>
     value.substring(0, 1).toUpperCase() + value.substring(1);
 
 extension Utils<T> on Iterable<T> {
-  Iterable<E> mapIndexed<E, T>(
-    E Function(int index, T item) f,
+  Iterable<E> mapIndexed<E, TYPE>(
+    E Function(int index, TYPE item) f,
   ) sync* {
     var index = 0;
 
     for (final item in this) {
-      yield f(index, item as T);
+      yield f(index, item as TYPE);
       index = index + 1;
     }
   }

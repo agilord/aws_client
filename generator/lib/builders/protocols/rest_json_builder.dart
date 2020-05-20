@@ -27,7 +27,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       if (payload == null) {
         buf.writeln('final \$payload = <String, dynamic>{');
         shapeClass.members.where((m) => m.isBody).forEach((member) {
-          buf.writeln("'${member.name}': ${member.fieldName},");
+          var serializationSuffix = '';
+          if (member.shapeClass.enumeration != null) {
+            member.shapeClass.isTopLevelInputEnum = true;
+            serializationSuffix = '.toValue()';
+          }
+          buf.writeln(
+              "'${member.name}': ${member.fieldName}$serializationSuffix,");
         });
         buf.writeln('};');
         buf.writeln('await _protocol.send(\$payload,');
