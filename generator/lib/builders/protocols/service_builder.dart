@@ -45,6 +45,10 @@ abstract class ServiceBuilder {
         if (m.dartType == 'DateTime') {
           converter = 'v.toUtc().toIso8601String()';
         }
+        if (m.shapeClass.enumeration != null) {
+          m.shapeClass.isTopLevelInputEnum = true;
+          converter = 'v.toValue()';
+        }
         out.writeln(
             '${m.fieldName}?.let((v) => $varName[\'${m.locationName ?? m.name}\'] = $converter);');
       }
