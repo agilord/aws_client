@@ -162,8 +162,8 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetName': datasetName,
-        'DatasetType': datasetType.toValue(),
-        'Domain': domain.toValue(),
+        'DatasetType': datasetType?.toValue(),
+        'Domain': domain?.toValue(),
         'Schema': schema,
         'DataFrequency': dataFrequency,
         'EncryptionConfig': encryptionConfig,
@@ -247,7 +247,7 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetGroupName': datasetGroupName,
-        'Domain': domain.toValue(),
+        'Domain': domain?.toValue(),
         'DatasetArns': datasetArns,
       },
     );

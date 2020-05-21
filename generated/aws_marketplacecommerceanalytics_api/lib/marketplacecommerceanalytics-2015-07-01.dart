@@ -218,7 +218,7 @@ class MarketplaceCommerceAnalytics {
       headers: headers,
       payload: {
         'dataSetPublicationDate': dataSetPublicationDate,
-        'dataSetType': dataSetType.toValue(),
+        'dataSetType': dataSetType?.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
@@ -340,7 +340,7 @@ class MarketplaceCommerceAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSetType': dataSetType.toValue(),
+        'dataSetType': dataSetType?.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'fromDate': fromDate,
         'roleNameArn': roleNameArn,

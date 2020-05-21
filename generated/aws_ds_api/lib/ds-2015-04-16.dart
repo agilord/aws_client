@@ -420,7 +420,7 @@ class DirectoryService {
         'ConnectSettings': connectSettings,
         'Name': name,
         'Password': password,
-        'Size': size.toValue(),
+        'Size': size?.toValue(),
         'Description': description,
         'ShortName': shortName,
         'Tags': tags,
@@ -752,7 +752,7 @@ class DirectoryService {
       payload: {
         'Name': name,
         'Password': password,
-        'Size': size.toValue(),
+        'Size': size?.toValue(),
         'Description': description,
         'ShortName': shortName,
         'Tags': tags,
@@ -931,7 +931,7 @@ class DirectoryService {
         'Password': password,
         'VpcSettings': vpcSettings,
         'Description': description,
-        'Edition': edition.toValue(),
+        'Edition': edition?.toValue(),
         'ShortName': shortName,
         'Tags': tags,
       },
@@ -1091,11 +1091,11 @@ class DirectoryService {
       payload: {
         'DirectoryId': directoryId,
         'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection.toValue(),
+        'TrustDirection': trustDirection?.toValue(),
         'TrustPassword': trustPassword,
         'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        'SelectiveAuth': selectiveAuth.toValue(),
-        'TrustType': trustType.toValue(),
+        'SelectiveAuth': selectiveAuth?.toValue(),
+        'TrustType': trustType?.toValue(),
       },
     );
 
@@ -1767,7 +1767,7 @@ class DirectoryService {
         'DirectoryId': directoryId,
         'Limit': limit,
         'NextToken': nextToken,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -2015,7 +2015,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -2177,7 +2177,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -3115,7 +3115,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'ShareMethod': shareMethod.toValue(),
+        'ShareMethod': shareMethod?.toValue(),
         'ShareTarget': shareTarget,
         'ShareNotes': shareNotes,
       },
@@ -3458,7 +3458,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        'SelectiveAuth': selectiveAuth.toValue(),
+        'SelectiveAuth': selectiveAuth?.toValue(),
       },
     );
 

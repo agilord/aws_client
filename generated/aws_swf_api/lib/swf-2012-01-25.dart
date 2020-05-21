@@ -1229,7 +1229,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus.toValue(),
+        'registrationStatus': registrationStatus?.toValue(),
         'maximumPageSize': maximumPageSize,
         'name': name,
         'nextPageToken': nextPageToken,
@@ -1522,7 +1522,7 @@ class SWF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'registrationStatus': registrationStatus.toValue(),
+        'registrationStatus': registrationStatus?.toValue(),
         'maximumPageSize': maximumPageSize,
         'nextPageToken': nextPageToken,
         'reverseOrder': reverseOrder,
@@ -1841,7 +1841,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus.toValue(),
+        'registrationStatus': registrationStatus?.toValue(),
         'maximumPageSize': maximumPageSize,
         'name': name,
         'nextPageToken': nextPageToken,
@@ -2817,7 +2817,7 @@ class SWF {
         'domain': domain,
         'name': name,
         'version': version,
-        'defaultChildPolicy': defaultChildPolicy.toValue(),
+        'defaultChildPolicy': defaultChildPolicy?.toValue(),
         'defaultExecutionStartToCloseTimeout':
             defaultExecutionStartToCloseTimeout,
         'defaultLambdaRole': defaultLambdaRole,
@@ -3699,7 +3699,7 @@ class SWF {
         'domain': domain,
         'workflowId': workflowId,
         'workflowType': workflowType,
-        'childPolicy': childPolicy.toValue(),
+        'childPolicy': childPolicy?.toValue(),
         'executionStartToCloseTimeout': executionStartToCloseTimeout,
         'input': input,
         'lambdaRole': lambdaRole,
@@ -3907,7 +3907,7 @@ class SWF {
       payload: {
         'domain': domain,
         'workflowId': workflowId,
-        'childPolicy': childPolicy.toValue(),
+        'childPolicy': childPolicy?.toValue(),
         'details': details,
         'reason': reason,
         'runId': runId,

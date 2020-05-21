@@ -195,7 +195,7 @@ class GlobalAccelerator {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'Enabled': enabled,
-        'IpAddressType': ipAddressType.toValue(),
+        'IpAddressType': ipAddressType?.toValue(),
         'IpAddresses': ipAddresses,
         'Tags': tags,
       },
@@ -346,7 +346,7 @@ class GlobalAccelerator {
         'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
         'HealthCheckPath': healthCheckPath,
         'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        'HealthCheckProtocol': healthCheckProtocol?.toValue(),
         'ThresholdCount': thresholdCount,
         'TrafficDialPercentage': trafficDialPercentage,
       },
@@ -441,8 +441,8 @@ class GlobalAccelerator {
         'AcceleratorArn': acceleratorArn,
         'IdempotencyToken': idempotencyToken,
         'PortRanges': portRanges,
-        'Protocol': protocol.toValue(),
-        'ClientAffinity': clientAffinity.toValue(),
+        'Protocol': protocol?.toValue(),
+        'ClientAffinity': clientAffinity?.toValue(),
       },
     );
 
@@ -1290,7 +1290,7 @@ class GlobalAccelerator {
       payload: {
         'AcceleratorArn': acceleratorArn,
         'Enabled': enabled,
-        'IpAddressType': ipAddressType.toValue(),
+        'IpAddressType': ipAddressType?.toValue(),
         'Name': name,
       },
     );
@@ -1494,7 +1494,7 @@ class GlobalAccelerator {
         'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
         'HealthCheckPath': healthCheckPath,
         'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        'HealthCheckProtocol': healthCheckProtocol?.toValue(),
         'ThresholdCount': thresholdCount,
         'TrafficDialPercentage': trafficDialPercentage,
       },
@@ -1570,9 +1570,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'ListenerArn': listenerArn,
-        'ClientAffinity': clientAffinity.toValue(),
+        'ClientAffinity': clientAffinity?.toValue(),
         'PortRanges': portRanges,
-        'Protocol': protocol.toValue(),
+        'Protocol': protocol?.toValue(),
       },
     );
 

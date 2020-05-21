@@ -287,7 +287,7 @@ class CloudHSM {
         'IamRoleArn': iamRoleArn,
         'SshKey': sshKey,
         'SubnetId': subnetId,
-        'SubscriptionType': subscriptionType.toValue(),
+        'SubscriptionType': subscriptionType?.toValue(),
         'ClientToken': clientToken,
         'EniIp': eniIp,
         'ExternalId': externalId,
@@ -758,7 +758,7 @@ class CloudHSM {
       headers: headers,
       payload: {
         'ClientArn': clientArn,
-        'ClientVersion': clientVersion.toValue(),
+        'ClientVersion': clientVersion?.toValue(),
         'HapgList': hapgList,
       },
     );

@@ -650,7 +650,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RuntimeEnvironment': runtimeEnvironment.toValue(),
+        'RuntimeEnvironment': runtimeEnvironment?.toValue(),
         'ServiceExecutionRole': serviceExecutionRole,
         'ApplicationConfiguration': applicationConfiguration,
         'ApplicationDescription': applicationDescription,

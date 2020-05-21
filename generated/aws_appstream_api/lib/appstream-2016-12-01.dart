@@ -566,7 +566,7 @@ class AppStream {
         'DisplayName': displayName,
         'DomainJoinInfo': domainJoinInfo,
         'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        'FleetType': fleetType.toValue(),
+        'FleetType': fleetType?.toValue(),
         'IamRoleArn': iamRoleArn,
         'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
         'ImageArn': imageArn,
@@ -1219,11 +1219,11 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
         'FirstName': firstName,
         'LastName': lastName,
-        'MessageAction': messageAction.toValue(),
+        'MessageAction': messageAction?.toValue(),
       },
     );
 
@@ -1525,7 +1525,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );
@@ -1791,7 +1791,7 @@ class AppStream {
         'MaxResults': maxResults,
         'Names': names,
         'NextToken': nextToken,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -1877,7 +1877,7 @@ class AppStream {
       payload: {
         'FleetName': fleetName,
         'StackName': stackName,
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
         'UserId': userId,
@@ -2049,7 +2049,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'StackName': stackName,
@@ -2099,7 +2099,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -2152,7 +2152,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );
@@ -2258,7 +2258,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );

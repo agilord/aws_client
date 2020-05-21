@@ -246,7 +246,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'target': target.toValue(),
+        'target': target?.toValue(),
         'flowActionsRoleArn': flowActionsRoleArn,
         'greengrassGroupName': greengrassGroupName,
         'metricsConfiguration': metricsConfiguration,
@@ -713,7 +713,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityType': entityType.toValue(),
+        'entityType': entityType?.toValue(),
         'thingName': thingName,
       },
     );

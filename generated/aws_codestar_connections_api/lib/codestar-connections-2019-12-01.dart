@@ -119,7 +119,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ConnectionName': connectionName,
-        'ProviderType': providerType.toValue(),
+        'ProviderType': providerType?.toValue(),
       },
     );
 
@@ -264,7 +264,7 @@ class CodeStarconnections {
       payload: {
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'ProviderTypeFilter': providerTypeFilter.toValue(),
+        'ProviderTypeFilter': providerTypeFilter?.toValue(),
       },
     );
 

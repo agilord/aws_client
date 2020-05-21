@@ -445,7 +445,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentId': deploymentId,
-        'deploymentWaitType': deploymentWaitType.toValue(),
+        'deploymentWaitType': deploymentWaitType?.toValue(),
       },
     );
   }
@@ -496,7 +496,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'computePlatform': computePlatform.toValue(),
+        'computePlatform': computePlatform?.toValue(),
         'tags': tags,
       },
     );
@@ -661,7 +661,7 @@ class CodeDeploy {
         'deploymentConfigName': deploymentConfigName,
         'deploymentGroupName': deploymentGroupName,
         'description': description,
-        'fileExistsBehavior': fileExistsBehavior.toValue(),
+        'fileExistsBehavior': fileExistsBehavior?.toValue(),
         'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
         'revision': revision,
         'targetInstances': targetInstances,
@@ -742,7 +742,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentConfigName': deploymentConfigName,
-        'computePlatform': computePlatform.toValue(),
+        'computePlatform': computePlatform?.toValue(),
         'minimumHealthyHosts': minimumHealthyHosts,
         'trafficRoutingConfig': trafficRoutingConfig,
       },
@@ -1575,12 +1575,12 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'deployed': deployed.toValue(),
+        'deployed': deployed?.toValue(),
         'nextToken': nextToken,
         's3Bucket': s3Bucket,
         's3KeyPrefix': s3KeyPrefix,
-        'sortBy': sortBy.toValue(),
-        'sortOrder': sortOrder.toValue(),
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2015,7 +2015,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'registrationStatus': registrationStatus.toValue(),
+        'registrationStatus': registrationStatus?.toValue(),
         'tagFilters': tagFilters,
       },
     );
@@ -2112,7 +2112,7 @@ class CodeDeploy {
       payload: {
         'deploymentId': deploymentId,
         'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 

@@ -197,7 +197,7 @@ class SMS {
         'encrypted': encrypted,
         'frequency': frequency,
         'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType.toValue(),
+        'licenseType': licenseType?.toValue(),
         'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         'roleName': roleName,
         'runOnce': runOnce,
@@ -442,7 +442,7 @@ class SMS {
       headers: headers,
       payload: {
         'appId': appId,
-        'changesetFormat': changesetFormat.toValue(),
+        'changesetFormat': changesetFormat?.toValue(),
       },
     );
 
@@ -480,7 +480,7 @@ class SMS {
       headers: headers,
       payload: {
         'appId': appId,
-        'templateFormat': templateFormat.toValue(),
+        'templateFormat': templateFormat?.toValue(),
       },
     );
 
@@ -1209,7 +1209,7 @@ class SMS {
         'encrypted': encrypted,
         'frequency': frequency,
         'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType.toValue(),
+        'licenseType': licenseType?.toValue(),
         'nextReplicationRunStartTime': nextReplicationRunStartTime,
         'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         'roleName': roleName,

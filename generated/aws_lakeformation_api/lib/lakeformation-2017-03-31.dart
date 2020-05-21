@@ -480,7 +480,7 @@ class LakeFormation {
         'NextToken': nextToken,
         'Principal': principal,
         'Resource': resource,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
       },
     );
 

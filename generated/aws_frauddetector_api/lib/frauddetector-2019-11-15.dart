@@ -186,7 +186,7 @@ class FraudDetector {
         'description': description,
         'externalModelEndpoints': externalModelEndpoints,
         'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode.toValue(),
+        'ruleExecutionMode': ruleExecutionMode?.toValue(),
       },
     );
 
@@ -246,7 +246,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'description': description,
       },
     );
@@ -342,7 +342,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'expression': expression,
-        'language': language.toValue(),
+        'language': language?.toValue(),
         'outcomes': outcomes,
         'ruleId': ruleId,
         'description': description,
@@ -398,8 +398,8 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSource': dataSource.toValue(),
-        'dataType': dataType.toValue(),
+        'dataSource': dataSource?.toValue(),
+        'dataType': dataType?.toValue(),
         'defaultValue': defaultValue,
         'name': name,
         'description': description,
@@ -746,7 +746,7 @@ class FraudDetector {
       payload: {
         'maxResults': maxResults,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'modelVersionNumber': modelVersionNumber,
         'nextToken': nextToken,
       },
@@ -983,7 +983,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -1046,7 +1046,7 @@ class FraudDetector {
       payload: {
         'maxResults': maxResults,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -1416,8 +1416,8 @@ class FraudDetector {
       payload: {
         'inputConfiguration': inputConfiguration,
         'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus.toValue(),
-        'modelSource': modelSource.toValue(),
+        'modelEndpointStatus': modelEndpointStatus?.toValue(),
+        'modelSource': modelSource?.toValue(),
         'outputConfiguration': outputConfiguration,
         'role': role,
       },
@@ -1494,7 +1494,7 @@ class FraudDetector {
       payload: {
         'labelSchema': labelSchema,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'modelVariables': modelVariables,
         'trainingDataSource': trainingDataSource,
         'description': description,
@@ -1655,7 +1655,7 @@ class FraudDetector {
         'rules': rules,
         'description': description,
         'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode.toValue(),
+        'ruleExecutionMode': ruleExecutionMode?.toValue(),
       },
     );
 
@@ -1792,7 +1792,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'detectorVersionId': detectorVersionId,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -1881,9 +1881,9 @@ class FraudDetector {
       payload: {
         'description': description,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType?.toValue(),
         'modelVersionNumber': modelVersionNumber,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -1991,7 +1991,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'expression': expression,
-        'language': language.toValue(),
+        'language': language?.toValue(),
         'outcomes': outcomes,
         'rule': rule,
         'description': description,

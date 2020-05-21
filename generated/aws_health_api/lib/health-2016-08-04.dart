@@ -396,7 +396,7 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'aggregateField': aggregateField.toValue(),
+        'aggregateField': aggregateField?.toValue(),
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,

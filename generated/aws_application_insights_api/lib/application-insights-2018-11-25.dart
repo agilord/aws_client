@@ -654,7 +654,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'Tier': tier.toValue(),
+        'Tier': tier?.toValue(),
       },
     );
 
@@ -1063,7 +1063,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'EventStatus': eventStatus.toValue(),
+        'EventStatus': eventStatus?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceGroupName': resourceGroupName,
@@ -1642,7 +1642,7 @@ class ApplicationInsights {
         'ResourceGroupName': resourceGroupName,
         'ComponentConfiguration': componentConfiguration,
         'Monitor': monitor,
-        'Tier': tier.toValue(),
+        'Tier': tier?.toValue(),
       },
     );
 

@@ -681,7 +681,7 @@ class Lambda {
       'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
       'MaximumRetryAttempts': maximumRetryAttempts,
       'ParallelizationFactor': parallelizationFactor,
-      'StartingPosition': startingPosition.toValue(),
+      'StartingPosition': startingPosition?.toValue(),
       'StartingPositionTimestamp': startingPositionTimestamp,
     };
     await _protocol.send(
@@ -920,7 +920,7 @@ class Lambda {
       'FunctionName': functionName,
       'Handler': handler,
       'Role': role,
-      'Runtime': runtime.toValue(),
+      'Runtime': runtime?.toValue(),
       'DeadLetterConfig': deadLetterConfig,
       'Description': description,
       'Environment': environment,
@@ -4198,7 +4198,7 @@ class Lambda {
       'MemorySize': memorySize,
       'RevisionId': revisionId,
       'Role': role,
-      'Runtime': runtime.toValue(),
+      'Runtime': runtime?.toValue(),
       'Timeout': timeout,
       'TracingConfig': tracingConfig,
       'VpcConfig': vpcConfig,

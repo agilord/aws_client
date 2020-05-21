@@ -275,7 +275,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Rules': rules,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -416,9 +416,9 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Addresses': addresses,
-        'IPAddressVersion': iPAddressVersion.toValue(),
+        'IPAddressVersion': iPAddressVersion?.toValue(),
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Description': description,
         'Tags': tags,
       },
@@ -524,7 +524,7 @@ class WAFV2 {
       payload: {
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Description': description,
         'Tags': tags,
       },
@@ -671,7 +671,7 @@ class WAFV2 {
       payload: {
         'Capacity': capacity,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
         'Description': description,
         'Rules': rules,
@@ -806,7 +806,7 @@ class WAFV2 {
       payload: {
         'DefaultAction': defaultAction,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
         'Description': description,
         'Rules': rules,
@@ -1010,7 +1010,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -1234,7 +1234,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -1358,7 +1358,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -1485,7 +1485,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -1579,7 +1579,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'VendorName': vendorName,
       },
     );
@@ -1749,7 +1749,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -1962,7 +1962,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'RuleName': ruleName,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'WebACLId': webACLId,
         'WebACLName': webACLName,
       },
@@ -2057,7 +2057,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -2151,7 +2151,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -2279,7 +2279,7 @@ class WAFV2 {
       payload: {
         'MaxItems': maxItems,
         'RuleMetricName': ruleMetricName,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'TimeWindow': timeWindow,
         'WebAclArn': webAclArn,
       },
@@ -2375,7 +2375,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -2514,7 +2514,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Limit': limit,
         'NextMarker': nextMarker,
       },
@@ -2601,7 +2601,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Limit': limit,
         'NextMarker': nextMarker,
       },
@@ -2688,7 +2688,7 @@ class WAFV2 {
       payload: {
         'Limit': limit,
         'NextMarker': nextMarker,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
       },
     );
 
@@ -2773,7 +2773,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Limit': limit,
         'NextMarker': nextMarker,
       },
@@ -2836,7 +2836,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'WebACLArn': webACLArn,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -2921,7 +2921,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Limit': limit,
         'NextMarker': nextMarker,
       },
@@ -3095,7 +3095,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Limit': limit,
         'NextMarker': nextMarker,
       },
@@ -3569,7 +3569,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Description': description,
       },
     );
@@ -3714,7 +3714,7 @@ class WAFV2 {
         'LockToken': lockToken,
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'Description': description,
       },
     );
@@ -3875,7 +3875,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
         'Description': description,
         'Rules': rules,
@@ -4050,7 +4050,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
         'Description': description,
         'Rules': rules,

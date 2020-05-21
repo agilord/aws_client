@@ -518,7 +518,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContentRange': contentRange,
-        'Format': format.toValue(),
+        'Format': format?.toValue(),
         'ClientRequestToken': clientRequestToken,
         'Recurrence': recurrence,
         'S3BucketName': s3BucketName,
@@ -600,7 +600,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType.toValue(),
+        'ConferenceProviderType': conferenceProviderType?.toValue(),
         'MeetingSetting': meetingSetting,
         'ClientRequestToken': clientRequestToken,
         'IPDialIn': iPDialIn,
@@ -954,12 +954,12 @@ class AlexaForBusiness {
       payload: {
         'ClientRequestToken': clientRequestToken,
         'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType.toValue(),
+        'SecurityType': securityType?.toValue(),
         'Ssid': ssid,
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CurrentPassword': currentPassword,
         'Description': description,
-        'EapMethod': eapMethod.toValue(),
+        'EapMethod': eapMethod?.toValue(),
         'NextPassword': nextPassword,
         'TrustAnchors': trustAnchors,
       },
@@ -1086,11 +1086,11 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit.toValue(),
+        'DistanceUnit': distanceUnit?.toValue(),
         'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit.toValue(),
+        'TemperatureUnit': temperatureUnit?.toValue(),
         'Timezone': timezone,
-        'WakeWord': wakeWord.toValue(),
+        'WakeWord': wakeWord?.toValue(),
         'ClientRequestToken': clientRequestToken,
         'Locale': locale,
         'MaxVolumeLimit': maxVolumeLimit,
@@ -1607,7 +1607,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType.toValue(),
+        'DeviceUsageType': deviceUsageType?.toValue(),
       },
     );
 
@@ -2752,7 +2752,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'EventType': eventType.toValue(),
+        'EventType': eventType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -2917,11 +2917,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EnablementType': enablementType.toValue(),
+        'EnablementType': enablementType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SkillGroupArn': skillGroupArn,
-        'SkillType': skillType.toValue(),
+        'SkillType': skillType?.toValue(),
       },
     );
 
@@ -4493,7 +4493,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ScheduleArn': scheduleArn,
-        'Format': format.toValue(),
+        'Format': format?.toValue(),
         'Recurrence': recurrence,
         'S3BucketName': s3BucketName,
         'S3KeyPrefix': s3KeyPrefix,
@@ -4551,7 +4551,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType.toValue(),
+        'ConferenceProviderType': conferenceProviderType?.toValue(),
         'MeetingSetting': meetingSetting,
         'IPDialIn': iPDialIn,
         'PSTNDialIn': pSTNDialIn,
@@ -5096,7 +5096,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit.toValue(),
+        'DistanceUnit': distanceUnit?.toValue(),
         'IsDefault': isDefault,
         'Locale': locale,
         'MaxVolumeLimit': maxVolumeLimit,
@@ -5105,9 +5105,9 @@ class AlexaForBusiness {
         'ProfileArn': profileArn,
         'ProfileName': profileName,
         'SetupModeDisabled': setupModeDisabled,
-        'TemperatureUnit': temperatureUnit.toValue(),
+        'TemperatureUnit': temperatureUnit?.toValue(),
         'Timezone': timezone,
-        'WakeWord': wakeWord.toValue(),
+        'WakeWord': wakeWord?.toValue(),
       },
     );
 

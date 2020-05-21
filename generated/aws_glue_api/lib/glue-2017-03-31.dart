@@ -1301,7 +1301,7 @@ class Glue {
         'SecurityGroupIds': securityGroupIds,
         'SubnetId': subnetId,
         'Tags': tags,
-        'WorkerType': workerType.toValue(),
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1563,7 +1563,7 @@ class Glue {
         'SecurityConfiguration': securityConfiguration,
         'Tags': tags,
         'Timeout': timeout,
-        'WorkerType': workerType.toValue(),
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1817,7 +1817,7 @@ class Glue {
         'NumberOfWorkers': numberOfWorkers,
         'Tags': tags,
         'Timeout': timeout,
-        'WorkerType': workerType.toValue(),
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1945,7 +1945,7 @@ class Glue {
       payload: {
         'DagEdges': dagEdges,
         'DagNodes': dagNodes,
-        'Language': language.toValue(),
+        'Language': language?.toValue(),
       },
     );
 
@@ -2192,7 +2192,7 @@ class Glue {
       payload: {
         'Actions': actions,
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
         'Description': description,
         'Predicate': predicate,
         'Schedule': schedule,
@@ -4760,7 +4760,7 @@ class Glue {
       payload: {
         'Mapping': mapping,
         'Source': source,
-        'Language': language.toValue(),
+        'Language': language?.toValue(),
         'Location': location,
         'Sinks': sinks,
       },
@@ -6305,7 +6305,7 @@ class Glue {
       headers: headers,
       payload: {
         'PolicyInJson': policyInJson,
-        'PolicyExistsCondition': policyExistsCondition.toValue(),
+        'PolicyExistsCondition': policyExistsCondition?.toValue(),
         'PolicyHashCondition': policyHashCondition,
       },
     );
@@ -6934,7 +6934,7 @@ class Glue {
         'NumberOfWorkers': numberOfWorkers,
         'SecurityConfiguration': securityConfiguration,
         'Timeout': timeout,
-        'WorkerType': workerType.toValue(),
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -8085,7 +8085,7 @@ class Glue {
         'Parameters': parameters,
         'Role': role,
         'Timeout': timeout,
-        'WorkerType': workerType.toValue(),
+        'WorkerType': workerType?.toValue(),
       },
     );
 

@@ -1330,7 +1330,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskId': taskId,
-        'taskStatus': taskStatus.toValue(),
+        'taskStatus': taskStatus?.toValue(),
         'errorId': errorId,
         'errorMessage': errorMessage,
         'errorStackTrace': errorStackTrace,

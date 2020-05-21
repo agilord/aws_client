@@ -518,7 +518,7 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
+        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
         'RoleName': roleName,
       },
     );
@@ -779,7 +779,7 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
+        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
         'RoleName': roleName,
       },
     );
@@ -851,7 +851,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FeatureSet': featureSet.toValue(),
+        'FeatureSet': featureSet?.toValue(),
       },
     );
 
@@ -1032,7 +1032,7 @@ class Organizations {
         'Content': content,
         'Description': description,
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -1452,7 +1452,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType?.toValue(),
         'TargetId': targetId,
       },
     );
@@ -1889,7 +1889,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType?.toValue(),
         'RootId': rootId,
       },
     );
@@ -2088,7 +2088,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType?.toValue(),
         'RootId': rootId,
       },
     );
@@ -2587,7 +2587,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChildType': childType.toValue(),
+        'ChildType': childType?.toValue(),
         'ParentId': parentId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -3275,7 +3275,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter.toValue(),
+        'Filter': filter?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -3383,7 +3383,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter.toValue(),
+        'Filter': filter?.toValue(),
         'TargetId': targetId,
         'MaxResults': maxResults,
         'NextToken': nextToken,

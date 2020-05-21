@@ -339,15 +339,15 @@ class Snowball {
       headers: headers,
       payload: {
         'AddressId': addressId,
-        'JobType': jobType.toValue(),
+        'JobType': jobType?.toValue(),
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption.toValue(),
+        'ShippingOption': shippingOption?.toValue(),
         'Description': description,
         'ForwardingAddressId': forwardingAddressId,
         'KmsKeyARN': kmsKeyARN,
         'Notification': notification,
-        'SnowballType': snowballType.toValue(),
+        'SnowballType': snowballType?.toValue(),
         'TaxDocuments': taxDocuments,
       },
     );
@@ -547,14 +547,14 @@ class Snowball {
         'ClusterId': clusterId,
         'Description': description,
         'ForwardingAddressId': forwardingAddressId,
-        'JobType': jobType.toValue(),
+        'JobType': jobType?.toValue(),
         'KmsKeyARN': kmsKeyARN,
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption.toValue(),
-        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
-        'SnowballType': snowballType.toValue(),
+        'ShippingOption': shippingOption?.toValue(),
+        'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
+        'SnowballType': snowballType?.toValue(),
         'TaxDocuments': taxDocuments,
       },
     );
@@ -1270,7 +1270,7 @@ class Snowball {
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption.toValue(),
+        'ShippingOption': shippingOption?.toValue(),
       },
     );
 
@@ -1406,8 +1406,8 @@ class Snowball {
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption.toValue(),
-        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+        'ShippingOption': shippingOption?.toValue(),
+        'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
       },
     );
 

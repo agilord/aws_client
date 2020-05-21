@@ -1085,10 +1085,10 @@ class KMS {
       payload: {
         'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
         'CustomKeyStoreId': customKeyStoreId,
-        'CustomerMasterKeySpec': customerMasterKeySpec.toValue(),
+        'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
         'Description': description,
-        'KeyUsage': keyUsage.toValue(),
-        'Origin': origin.toValue(),
+        'KeyUsage': keyUsage?.toValue(),
+        'Origin': origin?.toValue(),
         'Policy': policy,
         'Tags': tags,
       },
@@ -1271,7 +1271,7 @@ class KMS {
       headers: headers,
       payload: {
         'CiphertextBlob': ciphertextBlob,
-        'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
+        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
         'KeyId': keyId,
@@ -2280,7 +2280,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Plaintext': plaintext,
-        'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
+        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2474,7 +2474,7 @@ class KMS {
         'KeyId': keyId,
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
-        'KeySpec': keySpec.toValue(),
+        'KeySpec': keySpec?.toValue(),
         'NumberOfBytes': numberOfBytes,
       },
     );
@@ -2624,7 +2624,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec.toValue(),
+        'KeyPairSpec': keyPairSpec?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2767,7 +2767,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec.toValue(),
+        'KeyPairSpec': keyPairSpec?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2933,7 +2933,7 @@ class KMS {
         'KeyId': keyId,
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
-        'KeySpec': keySpec.toValue(),
+        'KeySpec': keySpec?.toValue(),
         'NumberOfBytes': numberOfBytes,
       },
     );
@@ -3261,8 +3261,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm.toValue(),
-        'WrappingKeySpec': wrappingKeySpec.toValue(),
+        'WrappingAlgorithm': wrappingAlgorithm?.toValue(),
+        'WrappingKeySpec': wrappingKeySpec?.toValue(),
       },
     );
 
@@ -3558,7 +3558,7 @@ class KMS {
         'EncryptedKeyMaterial': encryptedKeyMaterial,
         'ImportToken': importToken,
         'KeyId': keyId,
-        'ExpirationModel': expirationModel.toValue(),
+        'ExpirationModel': expirationModel?.toValue(),
         'ValidTo': validTo,
       },
     );
@@ -4514,10 +4514,10 @@ class KMS {
         'CiphertextBlob': ciphertextBlob,
         'DestinationKeyId': destinationKeyId,
         'DestinationEncryptionAlgorithm':
-            destinationEncryptionAlgorithm.toValue(),
+            destinationEncryptionAlgorithm?.toValue(),
         'DestinationEncryptionContext': destinationEncryptionContext,
         'GrantTokens': grantTokens,
-        'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm.toValue(),
+        'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
         'SourceEncryptionContext': sourceEncryptionContext,
         'SourceKeyId': sourceKeyId,
       },
@@ -4942,9 +4942,9 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Message': message,
-        'SigningAlgorithm': signingAlgorithm.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'GrantTokens': grantTokens,
-        'MessageType': messageType.toValue(),
+        'MessageType': messageType?.toValue(),
       },
     );
 
@@ -5572,9 +5572,9 @@ class KMS {
         'KeyId': keyId,
         'Message': message,
         'Signature': signature,
-        'SigningAlgorithm': signingAlgorithm.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'GrantTokens': grantTokens,
-        'MessageType': messageType.toValue(),
+        'MessageType': messageType?.toValue(),
       },
     );
 

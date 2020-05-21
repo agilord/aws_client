@@ -265,7 +265,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category.toValue(),
+        'category': category?.toValue(),
         'inputArtifactDetails': inputArtifactDetails,
         'outputArtifactDetails': outputArtifactDetails,
         'provider': provider,
@@ -397,7 +397,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category.toValue(),
+        'category': category?.toValue(),
         'provider': provider,
         'version': version,
       },
@@ -619,7 +619,7 @@ class CodePipeline {
         'pipelineName': pipelineName,
         'reason': reason,
         'stageName': stageName,
-        'transitionType': transitionType.toValue(),
+        'transitionType': transitionType?.toValue(),
       },
     );
   }
@@ -691,7 +691,7 @@ class CodePipeline {
       payload: {
         'pipelineName': pipelineName,
         'stageName': stageName,
-        'transitionType': transitionType.toValue(),
+        'transitionType': transitionType?.toValue(),
       },
     );
   }
@@ -1076,7 +1076,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'actionOwnerFilter': actionOwnerFilter.toValue(),
+        'actionOwnerFilter': actionOwnerFilter?.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -2027,7 +2027,7 @@ class CodePipeline {
       payload: {
         'pipelineExecutionId': pipelineExecutionId,
         'pipelineName': pipelineName,
-        'retryMode': retryMode.toValue(),
+        'retryMode': retryMode?.toValue(),
         'stageName': stageName,
       },
     );

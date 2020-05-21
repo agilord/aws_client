@@ -1261,7 +1261,7 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ApplicationId': applicationId,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
         'DryRun': dryRun,
         'UpdateDateTime': updateDateTime,
       },

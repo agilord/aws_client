@@ -253,7 +253,7 @@ class ComputeOptimizer {
         'instanceArn': instanceArn,
         'period': period,
         'startTime': startTime,
-        'stat': stat.toValue(),
+        'stat': stat?.toValue(),
       },
     );
 
@@ -382,7 +382,7 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'status': status.toValue(),
+        'status': status?.toValue(),
         'includeMemberAccounts': includeMemberAccounts,
       },
     );

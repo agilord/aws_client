@@ -576,7 +576,7 @@ class Inspector {
       headers: headers,
       payload: {
         'exclusionArns': exclusionArns,
-        'locale': locale.toValue(),
+        'locale': locale?.toValue(),
       },
     );
 
@@ -611,7 +611,7 @@ class Inspector {
       headers: headers,
       payload: {
         'findingArns': findingArns,
-        'locale': locale.toValue(),
+        'locale': locale?.toValue(),
       },
     );
 
@@ -676,7 +676,7 @@ class Inspector {
       headers: headers,
       payload: {
         'rulesPackageArns': rulesPackageArns,
-        'locale': locale.toValue(),
+        'locale': locale?.toValue(),
       },
     );
 
@@ -735,8 +735,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat.toValue(),
-        'reportType': reportType.toValue(),
+        'reportFileFormat': reportFileFormat?.toValue(),
+        'reportType': reportType?.toValue(),
       },
     );
 
@@ -814,7 +814,7 @@ class Inspector {
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
         'previewToken': previewToken,
-        'locale': locale.toValue(),
+        'locale': locale?.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
       },
@@ -1670,7 +1670,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'stopAction': stopAction.toValue(),
+        'stopAction': stopAction?.toValue(),
       },
     );
   }
@@ -1727,7 +1727,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event.toValue(),
+        'event': event?.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1785,7 +1785,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event.toValue(),
+        'event': event?.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },

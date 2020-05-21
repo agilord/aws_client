@@ -701,7 +701,7 @@ class ServiceQuotas {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ServiceCode': serviceCode,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 
@@ -816,7 +816,7 @@ class ServiceQuotas {
         'ServiceCode': serviceCode,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 

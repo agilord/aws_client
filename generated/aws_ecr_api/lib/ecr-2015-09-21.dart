@@ -425,7 +425,7 @@ class ECR {
       payload: {
         'repositoryName': repositoryName,
         'imageScanningConfiguration': imageScanningConfiguration,
-        'imageTagMutability': imageTagMutability.toValue(),
+        'imageTagMutability': imageTagMutability?.toValue(),
         'tags': tags,
       },
     );
@@ -1646,7 +1646,7 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'imageTagMutability': imageTagMutability.toValue(),
+        'imageTagMutability': imageTagMutability?.toValue(),
         'repositoryName': repositoryName,
         'registryId': registryId,
       },

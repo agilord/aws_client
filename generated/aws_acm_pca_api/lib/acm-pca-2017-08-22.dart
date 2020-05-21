@@ -139,7 +139,7 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-        'CertificateAuthorityType': certificateAuthorityType.toValue(),
+        'CertificateAuthorityType': certificateAuthorityType?.toValue(),
         'IdempotencyToken': idempotencyToken,
         'RevocationConfiguration': revocationConfiguration,
         'Tags': tags,
@@ -209,7 +209,7 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuditReportResponseFormat': auditReportResponseFormat.toValue(),
+        'AuditReportResponseFormat': auditReportResponseFormat?.toValue(),
         'CertificateAuthorityArn': certificateAuthorityArn,
         'S3BucketName': s3BucketName,
       },
@@ -1104,7 +1104,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Csr': csr,
-        'SigningAlgorithm': signingAlgorithm.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'Validity': validity,
         'IdempotencyToken': idempotencyToken,
         'TemplateArn': templateArn,
@@ -1476,7 +1476,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CertificateSerial': certificateSerial,
-        'RevocationReason': revocationReason.toValue(),
+        'RevocationReason': revocationReason?.toValue(),
       },
     );
   }
@@ -1661,7 +1661,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'RevocationConfiguration': revocationConfiguration,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
   }

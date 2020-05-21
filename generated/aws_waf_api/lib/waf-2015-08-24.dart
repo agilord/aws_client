@@ -480,7 +480,7 @@ class WAF {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey.toValue(),
+        'RateKey': rateKey?.toValue(),
         'RateLimit': rateLimit,
         'Tags': tags,
       },

@@ -222,7 +222,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'RequestItems': requestItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
       },
     );
 
@@ -393,8 +393,8 @@ class DynamoDB {
       headers: headers,
       payload: {
         'RequestItems': requestItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
       },
     );
 
@@ -905,7 +905,7 @@ class DynamoDB {
         'AttributeDefinitions': attributeDefinitions,
         'KeySchema': keySchema,
         'TableName': tableName,
-        'BillingMode': billingMode.toValue(),
+        'BillingMode': billingMode?.toValue(),
         'GlobalSecondaryIndexes': globalSecondaryIndexes,
         'LocalSecondaryIndexes': localSecondaryIndexes,
         'ProvisionedThroughput': provisionedThroughput,
@@ -1175,13 +1175,13 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator.toValue(),
+        'ConditionalOperator': conditionalOperator?.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
-        'ReturnValues': returnValues.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
+        'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -1900,7 +1900,7 @@ class DynamoDB {
         'ConsistentRead': consistentRead,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ProjectionExpression': projectionExpression,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
       },
     );
 
@@ -2001,7 +2001,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BackupType': backupType.toValue(),
+        'BackupType': backupType?.toValue(),
         'ExclusiveStartBackupArn': exclusiveStartBackupArn,
         'Limit': limit,
         'TableName': tableName,
@@ -2529,13 +2529,13 @@ class DynamoDB {
         'Item': item,
         'TableName': tableName,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator.toValue(),
+        'ConditionalOperator': conditionalOperator?.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
-        'ReturnValues': returnValues.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
+        'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -3012,7 +3012,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributesToGet': attributesToGet,
-        'ConditionalOperator': conditionalOperator.toValue(),
+        'ConditionalOperator': conditionalOperator?.toValue(),
         'ConsistentRead': consistentRead,
         'ExclusiveStartKey': exclusiveStartKey,
         'ExpressionAttributeNames': expressionAttributeNames,
@@ -3024,9 +3024,9 @@ class DynamoDB {
         'Limit': limit,
         'ProjectionExpression': projectionExpression,
         'QueryFilter': queryFilter,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
         'ScanIndexForward': scanIndexForward,
-        'Select': select.toValue(),
+        'Select': select?.toValue(),
       },
     );
 
@@ -3138,7 +3138,7 @@ class DynamoDB {
       payload: {
         'BackupArn': backupArn,
         'TargetTableName': targetTableName,
-        'BillingModeOverride': billingModeOverride.toValue(),
+        'BillingModeOverride': billingModeOverride?.toValue(),
         'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
@@ -3298,7 +3298,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TargetTableName': targetTableName,
-        'BillingModeOverride': billingModeOverride.toValue(),
+        'BillingModeOverride': billingModeOverride?.toValue(),
         'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
@@ -3702,7 +3702,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributesToGet': attributesToGet,
-        'ConditionalOperator': conditionalOperator.toValue(),
+        'ConditionalOperator': conditionalOperator?.toValue(),
         'ConsistentRead': consistentRead,
         'ExclusiveStartKey': exclusiveStartKey,
         'ExpressionAttributeNames': expressionAttributeNames,
@@ -3711,10 +3711,10 @@ class DynamoDB {
         'IndexName': indexName,
         'Limit': limit,
         'ProjectionExpression': projectionExpression,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
         'ScanFilter': scanFilter,
         'Segment': segment,
-        'Select': select.toValue(),
+        'Select': select?.toValue(),
         'TotalSegments': totalSegments,
       },
     );
@@ -3832,7 +3832,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TransactItems': transactItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
       },
     );
 
@@ -3982,8 +3982,8 @@ class DynamoDB {
       payload: {
         'TransactItems': transactItems,
         'ClientRequestToken': clientRequestToken,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
       },
     );
 
@@ -4161,7 +4161,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ContributorInsightsAction': contributorInsightsAction.toValue(),
+        'ContributorInsightsAction': contributorInsightsAction?.toValue(),
         'TableName': tableName,
         'IndexName': indexName,
       },
@@ -4337,7 +4337,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'GlobalTableName': globalTableName,
-        'GlobalTableBillingMode': globalTableBillingMode.toValue(),
+        'GlobalTableBillingMode': globalTableBillingMode?.toValue(),
         'GlobalTableGlobalSecondaryIndexSettingsUpdate':
             globalTableGlobalSecondaryIndexSettingsUpdate,
         'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate':
@@ -4687,13 +4687,13 @@ class DynamoDB {
         'TableName': tableName,
         'AttributeUpdates': attributeUpdates,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator.toValue(),
+        'ConditionalOperator': conditionalOperator?.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
-        'ReturnValues': returnValues.toValue(),
+        'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
+        'ReturnValues': returnValues?.toValue(),
         'UpdateExpression': updateExpression,
       },
     );
@@ -4851,7 +4851,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributeDefinitions': attributeDefinitions,
-        'BillingMode': billingMode.toValue(),
+        'BillingMode': billingMode?.toValue(),
         'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
         'ProvisionedThroughput': provisionedThroughput,
         'ReplicaUpdates': replicaUpdates,

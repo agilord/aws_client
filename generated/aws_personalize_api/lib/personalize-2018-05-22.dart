@@ -1155,7 +1155,7 @@ class Personalize {
       headers: headers,
       payload: {
         'solutionArn': solutionArn,
-        'trainingMode': trainingMode.toValue(),
+        'trainingMode': trainingMode?.toValue(),
       },
     );
 
@@ -2458,7 +2458,7 @@ class Personalize {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'recipeProvider': recipeProvider.toValue(),
+        'recipeProvider': recipeProvider?.toValue(),
       },
     );
 

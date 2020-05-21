@@ -235,7 +235,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions.toValue(),
+        'permissions': permissions?.toValue(),
         'userArn': userArn,
       },
     );
@@ -810,7 +810,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions.toValue(),
+        'permissions': permissions?.toValue(),
         'userArn': userArn,
       },
     );

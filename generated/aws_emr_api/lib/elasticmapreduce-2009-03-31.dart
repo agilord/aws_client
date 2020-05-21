@@ -312,7 +312,7 @@ class EMR {
       payload: {
         'ClusterId': clusterId,
         'StepIds': stepIds,
-        'StepCancellationOption': stepCancellationOption.toValue(),
+        'StepCancellationOption': stepCancellationOption?.toValue(),
       },
     );
 
@@ -820,7 +820,7 @@ class EMR {
       payload: {
         'ClusterId': clusterId,
         'InstanceFleetId': instanceFleetId,
-        'InstanceFleetType': instanceFleetType.toValue(),
+        'InstanceFleetType': instanceFleetType?.toValue(),
         'InstanceGroupId': instanceGroupId,
         'InstanceGroupTypes': instanceGroupTypes,
         'InstanceStates': instanceStates,
@@ -1579,8 +1579,8 @@ class EMR {
         'LogUri': logUri,
         'NewSupportedProducts': newSupportedProducts,
         'ReleaseLabel': releaseLabel,
-        'RepoUpgradeOnBoot': repoUpgradeOnBoot.toValue(),
-        'ScaleDownBehavior': scaleDownBehavior.toValue(),
+        'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
+        'ScaleDownBehavior': scaleDownBehavior?.toValue(),
         'SecurityConfiguration': securityConfiguration,
         'ServiceRole': serviceRole,
         'StepConcurrencyLevel': stepConcurrencyLevel,

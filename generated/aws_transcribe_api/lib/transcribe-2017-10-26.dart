@@ -120,7 +120,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'VocabularyName': vocabularyName,
         'Phrases': phrases,
         'VocabularyFileUri': vocabularyFileUri,
@@ -212,7 +212,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'VocabularyFilterName': vocabularyFilterName,
         'VocabularyFilterFileUri': vocabularyFilterFileUri,
         'Words': words,
@@ -653,7 +653,7 @@ class TranscribeService {
         'JobNameContains': jobNameContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 
@@ -732,7 +732,7 @@ class TranscribeService {
         'JobNameContains': jobNameContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 
@@ -812,7 +812,7 @@ class TranscribeService {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'StateEquals': stateEquals.toValue(),
+        'StateEquals': stateEquals?.toValue(),
       },
     );
 
@@ -1058,13 +1058,13 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Media': media,
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
         'OutputBucketName': outputBucketName,
-        'Specialty': specialty.toValue(),
-        'Type': type.toValue(),
-        'MediaFormat': mediaFormat.toValue(),
+        'Specialty': specialty?.toValue(),
+        'Type': type?.toValue(),
+        'MediaFormat': mediaFormat?.toValue(),
         'MediaSampleRateHertz': mediaSampleRateHertz,
         'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         'Settings': settings,
@@ -1245,12 +1245,12 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Media': media,
         'TranscriptionJobName': transcriptionJobName,
         'ContentRedaction': contentRedaction,
         'JobExecutionSettings': jobExecutionSettings,
-        'MediaFormat': mediaFormat.toValue(),
+        'MediaFormat': mediaFormat?.toValue(),
         'MediaSampleRateHertz': mediaSampleRateHertz,
         'OutputBucketName': outputBucketName,
         'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
@@ -1343,7 +1343,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'VocabularyName': vocabularyName,
         'Phrases': phrases,
         'VocabularyFileUri': vocabularyFileUri,

@@ -537,7 +537,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'sourceRegion': sourceRegion.toValue(),
+        'sourceRegion': sourceRegion?.toValue(),
         'targetSnapshotName': targetSnapshotName,
         'restoreDate': restoreDate,
         'sourceResourceName': sourceResourceName,
@@ -685,7 +685,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'contactEndpoint': contactEndpoint,
-        'protocol': protocol.toValue(),
+        'protocol': protocol?.toValue(),
       },
     );
 
@@ -2443,7 +2443,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol.toValue(),
+        'protocol': protocol?.toValue(),
       },
     );
 
@@ -3288,7 +3288,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'addOnType': addOnType.toValue(),
+        'addOnType': addOnType?.toValue(),
         'resourceName': resourceName,
       },
     );
@@ -4123,7 +4123,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'protocol': protocol.toValue(),
+        'protocol': protocol?.toValue(),
       },
     );
 
@@ -4315,11 +4315,11 @@ class Lightsail {
       payload: {
         'endTime': endTime,
         'instanceName': instanceName,
-        'metricName': metricName.toValue(),
+        'metricName': metricName?.toValue(),
         'period': period,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit.toValue(),
+        'unit': unit?.toValue(),
       },
     );
 
@@ -4880,11 +4880,11 @@ class Lightsail {
       payload: {
         'endTime': endTime,
         'loadBalancerName': loadBalancerName,
-        'metricName': metricName.toValue(),
+        'metricName': metricName?.toValue(),
         'period': period,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit.toValue(),
+        'unit': unit?.toValue(),
       },
     );
 
@@ -5552,7 +5552,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'passwordVersion': passwordVersion.toValue(),
+        'passwordVersion': passwordVersion?.toValue(),
       },
     );
 
@@ -5760,12 +5760,12 @@ class Lightsail {
       headers: headers,
       payload: {
         'endTime': endTime,
-        'metricName': metricName.toValue(),
+        'metricName': metricName?.toValue(),
         'period': period,
         'relationalDatabaseName': relationalDatabaseName,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit.toValue(),
+        'unit': unit?.toValue(),
       },
     );
 
@@ -6398,16 +6398,16 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'comparisonOperator': comparisonOperator.toValue(),
+        'comparisonOperator': comparisonOperator?.toValue(),
         'evaluationPeriods': evaluationPeriods,
-        'metricName': metricName.toValue(),
+        'metricName': metricName?.toValue(),
         'monitoredResourceName': monitoredResourceName,
         'threshold': threshold,
         'contactProtocols': contactProtocols,
         'datapointsToAlarm': datapointsToAlarm,
         'notificationEnabled': notificationEnabled,
         'notificationTriggers': notificationTriggers,
-        'treatMissingData': treatMissingData.toValue(),
+        'treatMissingData': treatMissingData?.toValue(),
       },
     );
 
@@ -6644,7 +6644,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol.toValue(),
+        'protocol': protocol?.toValue(),
       },
     );
 
@@ -7008,7 +7008,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'state': state.toValue(),
+        'state': state?.toValue(),
       },
     );
 
@@ -7209,7 +7209,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attributeName': attributeName.toValue(),
+        'attributeName': attributeName?.toValue(),
         'attributeValue': attributeValue,
         'loadBalancerName': loadBalancerName,
       },

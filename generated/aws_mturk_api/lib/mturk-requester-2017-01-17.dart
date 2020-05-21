@@ -925,7 +925,7 @@ class MTurk {
       payload: {
         'Description': description,
         'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
+        'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
         'AnswerKey': answerKey,
         'AutoGranted': autoGranted,
         'AutoGrantedValue': autoGrantedValue,
@@ -2078,7 +2078,7 @@ class MTurk {
         'HITTypeId': hITTypeId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 
@@ -2194,7 +2194,7 @@ class MTurk {
         'QualificationTypeId': qualificationTypeId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
       },
     );
 
@@ -2495,7 +2495,7 @@ class MTurk {
       headers: headers,
       payload: {
         'Notification': notification,
-        'TestEventType': testEventType.toValue(),
+        'TestEventType': testEventType?.toValue(),
       },
     );
 
@@ -2870,7 +2870,7 @@ class MTurk {
         'AutoGranted': autoGranted,
         'AutoGrantedValue': autoGrantedValue,
         'Description': description,
-        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
+        'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
         'RetryDelayInSeconds': retryDelayInSeconds,
         'Test': test,
         'TestDurationInSeconds': testDurationInSeconds,

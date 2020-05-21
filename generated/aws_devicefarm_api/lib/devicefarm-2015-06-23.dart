@@ -338,7 +338,7 @@ class DeviceFarm {
         'downlinkDelayMs': downlinkDelayMs,
         'downlinkJitterMs': downlinkJitterMs,
         'downlinkLossPercent': downlinkLossPercent,
-        'type': type.toValue(),
+        'type': type?.toValue(),
         'uplinkBandwidthBits': uplinkBandwidthBits,
         'uplinkDelayMs': uplinkDelayMs,
         'uplinkJitterMs': uplinkJitterMs,
@@ -583,7 +583,7 @@ class DeviceFarm {
         'clientId': clientId,
         'configuration': configuration,
         'instanceArn': instanceArn,
-        'interactionMode': interactionMode.toValue(),
+        'interactionMode': interactionMode?.toValue(),
         'name': name,
         'remoteDebugEnabled': remoteDebugEnabled,
         'remoteRecordAppArn': remoteRecordAppArn,
@@ -886,7 +886,7 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'type': type.toValue(),
+        'type': type?.toValue(),
         'contentType': contentType,
       },
     );
@@ -1673,7 +1673,7 @@ class DeviceFarm {
         'appArn': appArn,
         'configuration': configuration,
         'test': test,
-        'testType': testType.toValue(),
+        'testType': testType?.toValue(),
       },
     );
 
@@ -2432,7 +2432,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'type': type.toValue(),
+        'type': type?.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -2550,7 +2550,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type.toValue(),
+        'type': type?.toValue(),
       },
     );
 
@@ -2862,7 +2862,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type.toValue(),
+        'type': type?.toValue(),
       },
     );
 
@@ -3501,7 +3501,7 @@ class DeviceFarm {
         'sessionArn': sessionArn,
         'maxResult': maxResult,
         'nextToken': nextToken,
-        'type': type.toValue(),
+        'type': type?.toValue(),
       },
     );
 
@@ -3591,7 +3591,7 @@ class DeviceFarm {
         'endTimeBefore': endTimeBefore,
         'maxResult': maxResult,
         'nextToken': nextToken,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -3872,7 +3872,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type.toValue(),
+        'type': type?.toValue(),
       },
     );
 
@@ -4776,7 +4776,7 @@ class DeviceFarm {
         'downlinkJitterMs': downlinkJitterMs,
         'downlinkLossPercent': downlinkLossPercent,
         'name': name,
-        'type': type.toValue(),
+        'type': type?.toValue(),
         'uplinkBandwidthBits': uplinkBandwidthBits,
         'uplinkDelayMs': uplinkDelayMs,
         'uplinkJitterMs': uplinkJitterMs,

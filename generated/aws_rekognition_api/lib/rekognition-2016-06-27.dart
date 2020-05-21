@@ -170,7 +170,7 @@ class Rekognition {
       payload: {
         'SourceImage': sourceImage,
         'TargetImage': targetImage,
-        'QualityFilter': qualityFilter.toValue(),
+        'QualityFilter': qualityFilter?.toValue(),
         'SimilarityThreshold': similarityThreshold,
       },
     );
@@ -1690,7 +1690,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -1816,7 +1816,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2031,7 +2031,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2149,7 +2149,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2272,7 +2272,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2634,7 +2634,7 @@ class Rekognition {
         'DetectionAttributes': detectionAttributes,
         'ExternalImageId': externalImageId,
         'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter.toValue(),
+        'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -3148,7 +3148,7 @@ class Rekognition {
         'Image': image,
         'FaceMatchThreshold': faceMatchThreshold,
         'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter.toValue(),
+        'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -3466,7 +3466,7 @@ class Rekognition {
       payload: {
         'Video': video,
         'ClientRequestToken': clientRequestToken,
-        'FaceAttributes': faceAttributes.toValue(),
+        'FaceAttributes': faceAttributes?.toValue(),
         'JobTag': jobTag,
         'NotificationChannel': notificationChannel,
       },

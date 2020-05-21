@@ -587,7 +587,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -706,7 +706,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,

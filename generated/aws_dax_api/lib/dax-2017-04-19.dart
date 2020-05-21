@@ -637,7 +637,7 @@ class DAX {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SourceName': sourceName,
-        'SourceType': sourceType.toValue(),
+        'SourceType': sourceType?.toValue(),
         'StartTime': startTime,
       },
     );

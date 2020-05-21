@@ -2330,7 +2330,7 @@ class ConfigService {
         'AwsRegion': awsRegion,
         'ConfigRuleName': configRuleName,
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ComplianceType': complianceType.toValue(),
+        'ComplianceType': complianceType?.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -2413,7 +2413,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'Filters': filters,
-        'GroupByKey': groupByKey.toValue(),
+        'GroupByKey': groupByKey?.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -2497,7 +2497,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'Filters': filters,
-        'GroupByKey': groupByKey.toValue(),
+        'GroupByKey': groupByKey?.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -3220,8 +3220,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'resourceId': resourceId,
-        'resourceType': resourceType.toValue(),
-        'chronologicalOrder': chronologicalOrder.toValue(),
+        'resourceType': resourceType?.toValue(),
+        'chronologicalOrder': chronologicalOrder?.toValue(),
         'earlierTime': earlierTime,
         'laterTime': laterTime,
         'limit': limit,
@@ -3308,7 +3308,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Filters': filters,
         'Limit': limit,
         'NextToken': nextToken,
@@ -3391,7 +3391,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'resourceType': resourceType.toValue(),
+        'resourceType': resourceType?.toValue(),
         'includeDeletedResources': includeDeletedResources,
         'limit': limit,
         'nextToken': nextToken,

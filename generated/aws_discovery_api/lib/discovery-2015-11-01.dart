@@ -846,7 +846,7 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'configurationType': configurationType.toValue(),
+        'configurationType': configurationType?.toValue(),
         'filters': filters,
         'maxResults': maxResults,
         'nextToken': nextToken,

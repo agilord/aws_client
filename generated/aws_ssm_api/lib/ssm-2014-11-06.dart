@@ -128,7 +128,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Tags': tags,
       },
     );
@@ -568,7 +568,7 @@ class SSM {
         'Name': name,
         'AssociationName': associationName,
         'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity.toValue(),
+        'ComplianceSeverity': complianceSeverity?.toValue(),
         'DocumentVersion': documentVersion,
         'InstanceId': instanceId,
         'MaxConcurrency': maxConcurrency,
@@ -768,8 +768,8 @@ class SSM {
         'Content': content,
         'Name': name,
         'Attachments': attachments,
-        'DocumentFormat': documentFormat.toValue(),
-        'DocumentType': documentType.toValue(),
+        'DocumentFormat': documentFormat?.toValue(),
+        'DocumentType': documentType?.toValue(),
         'Requires': requires,
         'Tags': tags,
         'TargetType': targetType,
@@ -1283,14 +1283,14 @@ class SSM {
         'ApprovalRules': approvalRules,
         'ApprovedPatches': approvedPatches,
         'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel.toValue(),
+            approvedPatchesComplianceLevel?.toValue(),
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         'ClientToken': clientToken,
         'Description': description,
         'GlobalFilters': globalFilters,
-        'OperatingSystem': operatingSystem.toValue(),
+        'OperatingSystem': operatingSystem?.toValue(),
         'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
         'Sources': sources,
         'Tags': tags,
       },
@@ -1645,7 +1645,7 @@ class SSM {
         'TypeName': typeName,
         'ClientToken': clientToken,
         'DryRun': dryRun,
-        'SchemaDeleteOption': schemaDeleteOption.toValue(),
+        'SchemaDeleteOption': schemaDeleteOption?.toValue(),
       },
     );
 
@@ -2621,7 +2621,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType.toValue(),
+        'PermissionType': permissionType?.toValue(),
       },
     );
 
@@ -3421,7 +3421,7 @@ class SSM {
         'Filters': filters,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'WindowId': windowId,
       },
@@ -3659,7 +3659,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -4068,11 +4068,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem.toValue(),
-        'Property': property.toValue(),
+        'OperatingSystem': operatingSystem?.toValue(),
+        'Property': property?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'PatchSet': patchSet.toValue(),
+        'PatchSet': patchSet?.toValue(),
       },
     );
 
@@ -4125,7 +4125,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'State': state.toValue(),
+        'State': state?.toValue(),
         'Filters': filters,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -4352,7 +4352,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem.toValue(),
+        'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -4474,7 +4474,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'DocumentFormat': documentFormat.toValue(),
+        'DocumentFormat': documentFormat?.toValue(),
         'DocumentVersion': documentVersion,
         'VersionName': versionName,
       },
@@ -5352,7 +5352,7 @@ class SSM {
       headers: headers,
       payload: {
         'PatchGroup': patchGroup,
-        'OperatingSystem': operatingSystem.toValue(),
+        'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -6221,7 +6221,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -6298,7 +6298,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType.toValue(),
+        'PermissionType': permissionType?.toValue(),
         'AccountIdsToAdd': accountIdsToAdd,
         'AccountIdsToRemove': accountIdsToRemove,
         'SharedDocumentVersion': sharedDocumentVersion,
@@ -6834,7 +6834,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
         'Value': value,
         'AllowedPattern': allowedPattern,
         'Description': description,
@@ -6842,7 +6842,7 @@ class SSM {
         'Overwrite': overwrite,
         'Policies': policies,
         'Tags': tags,
-        'Tier': tier.toValue(),
+        'Tier': tier?.toValue(),
       },
     );
 
@@ -7097,7 +7097,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'WindowId': windowId,
         'ClientToken': clientToken,
@@ -7324,7 +7324,7 @@ class SSM {
         'MaxErrors': maxErrors,
         'Targets': targets,
         'TaskArn': taskArn,
-        'TaskType': taskType.toValue(),
+        'TaskType': taskType?.toValue(),
         'WindowId': windowId,
         'ClientToken': clientToken,
         'Description': description,
@@ -7393,7 +7393,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'TagKeys': tagKeys,
       },
     );
@@ -7559,7 +7559,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType.toValue(),
+        'SignalType': signalType?.toValue(),
         'Payload': payload,
       },
     );
@@ -7783,7 +7783,7 @@ class SSM {
         'CloudWatchOutputConfig': cloudWatchOutputConfig,
         'Comment': comment,
         'DocumentHash': documentHash,
-        'DocumentHashType': documentHashType.toValue(),
+        'DocumentHashType': documentHashType?.toValue(),
         'DocumentVersion': documentVersion,
         'InstanceIds': instanceIds,
         'MaxConcurrency': maxConcurrency,
@@ -8002,7 +8002,7 @@ class SSM {
         'DocumentVersion': documentVersion,
         'MaxConcurrency': maxConcurrency,
         'MaxErrors': maxErrors,
-        'Mode': mode.toValue(),
+        'Mode': mode?.toValue(),
         'Parameters': parameters,
         'Tags': tags,
         'TargetLocations': targetLocations,
@@ -8119,7 +8119,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -8369,7 +8369,7 @@ class SSM {
         'AssociationName': associationName,
         'AssociationVersion': associationVersion,
         'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity.toValue(),
+        'ComplianceSeverity': complianceSeverity?.toValue(),
         'DocumentVersion': documentVersion,
         'MaxConcurrency': maxConcurrency,
         'MaxErrors': maxErrors,
@@ -8538,7 +8538,7 @@ class SSM {
         'Content': content,
         'Name': name,
         'Attachments': attachments,
-        'DocumentFormat': documentFormat.toValue(),
+        'DocumentFormat': documentFormat?.toValue(),
         'DocumentVersion': documentVersion,
         'TargetType': targetType,
         'VersionName': versionName,
@@ -9347,7 +9347,7 @@ class SSM {
         'Priority': priority,
         'RelatedOpsItems': relatedOpsItems,
         'Severity': severity,
-        'Status': status.toValue(),
+        'Status': status?.toValue(),
         'Title': title,
       },
     );
@@ -9497,13 +9497,13 @@ class SSM {
         'ApprovalRules': approvalRules,
         'ApprovedPatches': approvedPatches,
         'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel.toValue(),
+            approvedPatchesComplianceLevel?.toValue(),
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         'Description': description,
         'GlobalFilters': globalFilters,
         'Name': name,
         'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
         'Replace': replace,
         'Sources': sources,
       },

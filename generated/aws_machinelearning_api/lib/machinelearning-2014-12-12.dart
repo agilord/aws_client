@@ -93,7 +93,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'Tags': tags,
       },
     );
@@ -1053,7 +1053,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelType': mLModelType.toValue(),
+        'MLModelType': mLModelType?.toValue(),
         'TrainingDataSourceId': trainingDataSourceId,
         'MLModelName': mLModelName,
         'Parameters': parameters,
@@ -1411,7 +1411,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
         'TagKeys': tagKeys,
       },
     );
@@ -1627,7 +1627,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable.toValue(),
+        'FilterVariable': filterVariable?.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -1636,7 +1636,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1845,7 +1845,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable.toValue(),
+        'FilterVariable': filterVariable?.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -1854,7 +1854,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2066,7 +2066,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable.toValue(),
+        'FilterVariable': filterVariable?.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -2075,7 +2075,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2295,7 +2295,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable.toValue(),
+        'FilterVariable': filterVariable?.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -2304,7 +2304,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2353,7 +2353,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType?.toValue(),
       },
     );
 

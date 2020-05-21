@@ -417,12 +417,12 @@ class AutoScalingPlans {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'ForecastDataType': forecastDataType.toValue(),
+        'ForecastDataType': forecastDataType?.toValue(),
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'StartTime': startTime,
       },
     );

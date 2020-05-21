@@ -336,7 +336,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType.toValue(),
+        'EndpointType': endpointType?.toValue(),
         'EngineName': engineName,
         'CertificateArn': certificateArn,
         'DatabaseName': databaseName,
@@ -355,7 +355,7 @@ class DatabaseMigrationService {
         'S3Settings': s3Settings,
         'ServerName': serverName,
         'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode.toValue(),
+        'SslMode': sslMode?.toValue(),
         'Tags': tags,
         'Username': username,
       },
@@ -823,7 +823,7 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MigrationType': migrationType.toValue(),
+        'MigrationType': migrationType?.toValue(),
         'ReplicationInstanceArn': replicationInstanceArn,
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'SourceEndpointArn': sourceEndpointArn,
@@ -1448,7 +1448,7 @@ class DatabaseMigrationService {
         'Marker': marker,
         'MaxRecords': maxRecords,
         'SourceIdentifier': sourceIdentifier,
-        'SourceType': sourceType.toValue(),
+        'SourceType': sourceType?.toValue(),
         'StartTime': startTime,
       },
     );
@@ -2207,7 +2207,7 @@ class DatabaseMigrationService {
         'DynamoDbSettings': dynamoDbSettings,
         'ElasticsearchSettings': elasticsearchSettings,
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType.toValue(),
+        'EndpointType': endpointType?.toValue(),
         'EngineName': engineName,
         'ExternalTableDefinition': externalTableDefinition,
         'ExtraConnectionAttributes': extraConnectionAttributes,
@@ -2220,7 +2220,7 @@ class DatabaseMigrationService {
         'S3Settings': s3Settings,
         'ServerName': serverName,
         'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode.toValue(),
+        'SslMode': sslMode?.toValue(),
         'Username': username,
       },
     );
@@ -2587,7 +2587,7 @@ class DatabaseMigrationService {
         'CdcStartPosition': cdcStartPosition,
         'CdcStartTime': cdcStartTime,
         'CdcStopPosition': cdcStopPosition,
-        'MigrationType': migrationType.toValue(),
+        'MigrationType': migrationType?.toValue(),
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'ReplicationTaskSettings': replicationTaskSettings,
         'TableMappings': tableMappings,
@@ -2716,7 +2716,7 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         'TablesToReload': tablesToReload,
-        'ReloadOption': reloadOption.toValue(),
+        'ReloadOption': reloadOption?.toValue(),
       },
     );
 
@@ -2835,7 +2835,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'StartReplicationTaskType': startReplicationTaskType.toValue(),
+        'StartReplicationTaskType': startReplicationTaskType?.toValue(),
         'CdcStartPosition': cdcStartPosition,
         'CdcStartTime': cdcStartTime,
         'CdcStopPosition': cdcStopPosition,

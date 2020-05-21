@@ -459,7 +459,7 @@ class CodeBuild {
       payload: {
         'exportConfig': exportConfig,
         'name': name,
-        'type': type.toValue(),
+        'type': type?.toValue(),
       },
     );
 
@@ -933,8 +933,8 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'authType': authType.toValue(),
-        'serverType': serverType.toValue(),
+        'authType': authType?.toValue(),
+        'serverType': serverType?.toValue(),
         'token': token,
         'shouldOverwrite': shouldOverwrite,
         'username': username,
@@ -1020,7 +1020,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'sortOrder': sortOrder.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1082,7 +1082,7 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         'nextToken': nextToken,
-        'sortOrder': sortOrder.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1176,8 +1176,8 @@ class CodeBuild {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'sortBy': sortBy.toValue(),
-        'sortOrder': sortOrder.toValue(),
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1248,8 +1248,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy.toValue(),
-        'sortOrder': sortOrder.toValue(),
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1317,7 +1317,7 @@ class CodeBuild {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortOrder': sortOrder.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1382,7 +1382,7 @@ class CodeBuild {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortOrder': sortOrder.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1463,8 +1463,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy.toValue(),
-        'sortOrder': sortOrder.toValue(),
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1540,8 +1540,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy.toValue(),
-        'sortOrder': sortOrder.toValue(),
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1906,16 +1906,16 @@ class CodeBuild {
         'buildspecOverride': buildspecOverride,
         'cacheOverride': cacheOverride,
         'certificateOverride': certificateOverride,
-        'computeTypeOverride': computeTypeOverride.toValue(),
+        'computeTypeOverride': computeTypeOverride?.toValue(),
         'encryptionKeyOverride': encryptionKeyOverride,
-        'environmentTypeOverride': environmentTypeOverride.toValue(),
+        'environmentTypeOverride': environmentTypeOverride?.toValue(),
         'environmentVariablesOverride': environmentVariablesOverride,
         'gitCloneDepthOverride': gitCloneDepthOverride,
         'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
         'idempotencyToken': idempotencyToken,
         'imageOverride': imageOverride,
         'imagePullCredentialsTypeOverride':
-            imagePullCredentialsTypeOverride.toValue(),
+            imagePullCredentialsTypeOverride?.toValue(),
         'insecureSslOverride': insecureSslOverride,
         'logsConfigOverride': logsConfigOverride,
         'privilegedModeOverride': privilegedModeOverride,
@@ -1928,7 +1928,7 @@ class CodeBuild {
         'serviceRoleOverride': serviceRoleOverride,
         'sourceAuthOverride': sourceAuthOverride,
         'sourceLocationOverride': sourceLocationOverride,
-        'sourceTypeOverride': sourceTypeOverride.toValue(),
+        'sourceTypeOverride': sourceTypeOverride?.toValue(),
         'sourceVersion': sourceVersion,
         'timeoutInMinutesOverride': timeoutInMinutesOverride,
       },

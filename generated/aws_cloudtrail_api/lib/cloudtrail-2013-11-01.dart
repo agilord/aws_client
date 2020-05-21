@@ -841,7 +841,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'EventCategory': eventCategory.toValue(),
+        'EventCategory': eventCategory?.toValue(),
         'LookupAttributes': lookupAttributes,
         'MaxResults': maxResults,
         'NextToken': nextToken,

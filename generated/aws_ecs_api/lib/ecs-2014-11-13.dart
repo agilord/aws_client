@@ -769,15 +769,15 @@ class ECS {
         'desiredCount': desiredCount,
         'enableECSManagedTags': enableECSManagedTags,
         'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        'launchType': launchType.toValue(),
+        'launchType': launchType?.toValue(),
         'loadBalancers': loadBalancers,
         'networkConfiguration': networkConfiguration,
         'placementConstraints': placementConstraints,
         'placementStrategy': placementStrategy,
         'platformVersion': platformVersion,
-        'propagateTags': propagateTags.toValue(),
+        'propagateTags': propagateTags?.toValue(),
         'role': role,
-        'schedulingStrategy': schedulingStrategy.toValue(),
+        'schedulingStrategy': schedulingStrategy?.toValue(),
         'serviceRegistries': serviceRegistries,
         'tags': tags,
         'taskDefinition': taskDefinition,
@@ -957,7 +957,7 @@ class ECS {
         'capacityProviderStrategy': capacityProviderStrategy,
         'clientToken': clientToken,
         'externalId': externalId,
-        'launchType': launchType.toValue(),
+        'launchType': launchType?.toValue(),
         'loadBalancers': loadBalancers,
         'networkConfiguration': networkConfiguration,
         'platformVersion': platformVersion,
@@ -1009,7 +1009,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name.toValue(),
+        'name': name?.toValue(),
         'principalArn': principalArn,
       },
     );
@@ -1869,7 +1869,7 @@ class ECS {
       payload: {
         'effectiveSettings': effectiveSettings,
         'maxResults': maxResults,
-        'name': name.toValue(),
+        'name': name?.toValue(),
         'nextToken': nextToken,
         'principalArn': principalArn,
         'value': value,
@@ -1947,7 +1947,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'targetType': targetType.toValue(),
+        'targetType': targetType?.toValue(),
         'attributeName': attributeName,
         'attributeValue': attributeValue,
         'cluster': cluster,
@@ -2088,7 +2088,7 @@ class ECS {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -2153,10 +2153,10 @@ class ECS {
       headers: headers,
       payload: {
         'cluster': cluster,
-        'launchType': launchType.toValue(),
+        'launchType': launchType?.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'schedulingStrategy': schedulingStrategy.toValue(),
+        'schedulingStrategy': schedulingStrategy?.toValue(),
       },
     );
 
@@ -2271,7 +2271,7 @@ class ECS {
         'familyPrefix': familyPrefix,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'status': status.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -2354,8 +2354,8 @@ class ECS {
         'familyPrefix': familyPrefix,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sort': sort.toValue(),
-        'status': status.toValue(),
+        'sort': sort?.toValue(),
+        'status': status?.toValue(),
       },
     );
 
@@ -2465,9 +2465,9 @@ class ECS {
       payload: {
         'cluster': cluster,
         'containerInstance': containerInstance,
-        'desiredStatus': desiredStatus.toValue(),
+        'desiredStatus': desiredStatus?.toValue(),
         'family': family,
-        'launchType': launchType.toValue(),
+        'launchType': launchType?.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
         'serviceName': serviceName,
@@ -2560,7 +2560,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name.toValue(),
+        'name': name?.toValue(),
         'value': value,
         'principalArn': principalArn,
       },
@@ -2610,7 +2610,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name.toValue(),
+        'name': name?.toValue(),
         'value': value,
       },
     );
@@ -3217,10 +3217,10 @@ class ECS {
         'cpu': cpu,
         'executionRoleArn': executionRoleArn,
         'inferenceAccelerators': inferenceAccelerators,
-        'ipcMode': ipcMode.toValue(),
+        'ipcMode': ipcMode?.toValue(),
         'memory': memory,
-        'networkMode': networkMode.toValue(),
-        'pidMode': pidMode.toValue(),
+        'networkMode': networkMode?.toValue(),
+        'pidMode': pidMode?.toValue(),
         'placementConstraints': placementConstraints,
         'proxyConfiguration': proxyConfiguration,
         'requiresCompatibilities': requiresCompatibilities,
@@ -3487,13 +3487,13 @@ class ECS {
         'count': count,
         'enableECSManagedTags': enableECSManagedTags,
         'group': group,
-        'launchType': launchType.toValue(),
+        'launchType': launchType?.toValue(),
         'networkConfiguration': networkConfiguration,
         'overrides': overrides,
         'placementConstraints': placementConstraints,
         'placementStrategy': placementStrategy,
         'platformVersion': platformVersion,
-        'propagateTags': propagateTags.toValue(),
+        'propagateTags': propagateTags?.toValue(),
         'referenceId': referenceId,
         'startedBy': startedBy,
         'tags': tags,
@@ -3655,7 +3655,7 @@ class ECS {
         'group': group,
         'networkConfiguration': networkConfiguration,
         'overrides': overrides,
-        'propagateTags': propagateTags.toValue(),
+        'propagateTags': propagateTags?.toValue(),
         'referenceId': referenceId,
         'startedBy': startedBy,
         'tags': tags,
@@ -4229,7 +4229,7 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstances': containerInstances,
-        'status': status.toValue(),
+        'status': status?.toValue(),
         'cluster': cluster,
       },
     );

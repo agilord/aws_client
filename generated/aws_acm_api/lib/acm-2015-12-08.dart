@@ -897,7 +897,7 @@ class ACM {
         'Options': options,
         'SubjectAlternativeNames': subjectAlternativeNames,
         'Tags': tags,
-        'ValidationMethod': validationMethod.toValue(),
+        'ValidationMethod': validationMethod?.toValue(),
       },
     );
 

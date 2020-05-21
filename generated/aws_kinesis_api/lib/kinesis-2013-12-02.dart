@@ -1119,7 +1119,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType.toValue(),
+        'ShardIteratorType': shardIteratorType?.toValue(),
         'StreamName': streamName,
         'StartingSequenceNumber': startingSequenceNumber,
         'Timestamp': timestamp,
@@ -2367,7 +2367,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType.toValue(),
+        'EncryptionType': encryptionType?.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2472,7 +2472,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType.toValue(),
+        'EncryptionType': encryptionType?.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2579,7 +2579,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ScalingType': scalingType.toValue(),
+        'ScalingType': scalingType?.toValue(),
         'StreamName': streamName,
         'TargetShardCount': targetShardCount,
       },

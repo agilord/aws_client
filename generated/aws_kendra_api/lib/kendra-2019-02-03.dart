@@ -312,7 +312,7 @@ class Kendra {
         'IndexId': indexId,
         'Name': name,
         'RoleArn': roleArn,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
         'Description': description,
         'Schedule': schedule,
       },
@@ -923,7 +923,7 @@ class Kendra {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'StartTimeFilter': startTimeFilter,
-        'StatusFilter': statusFilter.toValue(),
+        'StatusFilter': statusFilter?.toValue(),
       },
     );
 
@@ -1245,7 +1245,7 @@ class Kendra {
         'Facets': facets,
         'PageNumber': pageNumber,
         'PageSize': pageSize,
-        'QueryResultTypeFilter': queryResultTypeFilter.toValue(),
+        'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
         'RequestedDocumentAttributes': requestedDocumentAttributes,
       },
     );

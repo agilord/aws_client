@@ -1761,7 +1761,7 @@ class CloudWatchEvents {
         'EventPattern': eventPattern,
         'RoleArn': roleArn,
         'ScheduleExpression': scheduleExpression,
-        'State': state.toValue(),
+        'State': state?.toValue(),
         'Tags': tags,
       },
     );

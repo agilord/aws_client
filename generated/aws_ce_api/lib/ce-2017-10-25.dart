@@ -98,7 +98,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Name': name,
-        'RuleVersion': ruleVersion.toValue(),
+        'RuleVersion': ruleVersion?.toValue(),
         'Rules': rules,
       },
     );
@@ -326,7 +326,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -450,7 +450,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -541,8 +541,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity.toValue(),
-        'Metric': metric.toValue(),
+        'Granularity': granularity?.toValue(),
+        'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
         'Filter': filter,
         'PredictionIntervalLevel': predictionIntervalLevel,
@@ -764,9 +764,9 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Dimension': dimension.toValue(),
+        'Dimension': dimension?.toValue(),
         'TimePeriod': timePeriod,
-        'Context': context.toValue(),
+        'Context': context?.toValue(),
         'NextPageToken': nextPageToken,
         'SearchString': searchString,
       },
@@ -982,7 +982,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -1119,13 +1119,13 @@ class CostExplorer {
       payload: {
         'Service': service,
         'AccountId': accountId,
-        'AccountScope': accountScope.toValue(),
-        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
+        'AccountScope': accountScope?.toValue(),
+        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
         'NextPageToken': nextPageToken,
         'PageSize': pageSize,
-        'PaymentOption': paymentOption.toValue(),
+        'PaymentOption': paymentOption?.toValue(),
         'ServiceSpecification': serviceSpecification,
-        'TermInYears': termInYears.toValue(),
+        'TermInYears': termInYears?.toValue(),
       },
     );
 
@@ -1246,7 +1246,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'NextPageToken': nextPageToken,
       },
@@ -1461,7 +1461,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'MaxResults': maxResults,
         'Metrics': metrics,
@@ -1566,11 +1566,11 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
-        'PaymentOption': paymentOption.toValue(),
-        'SavingsPlansType': savingsPlansType.toValue(),
-        'TermInYears': termInYears.toValue(),
-        'AccountScope': accountScope.toValue(),
+        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
+        'PaymentOption': paymentOption?.toValue(),
+        'SavingsPlansType': savingsPlansType?.toValue(),
+        'TermInYears': termInYears?.toValue(),
+        'AccountScope': accountScope?.toValue(),
         'Filter': filter,
         'NextPageToken': nextPageToken,
         'PageSize': pageSize,
@@ -1654,7 +1654,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity.toValue(),
+        'Granularity': granularity?.toValue(),
       },
     );
 
@@ -1929,8 +1929,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity.toValue(),
-        'Metric': metric.toValue(),
+        'Granularity': granularity?.toValue(),
+        'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
         'Filter': filter,
         'PredictionIntervalLevel': predictionIntervalLevel,
@@ -2064,7 +2064,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'CostCategoryArn': costCategoryArn,
-        'RuleVersion': ruleVersion.toValue(),
+        'RuleVersion': ruleVersion?.toValue(),
         'Rules': rules,
       },
     );

@@ -313,8 +313,8 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -519,9 +519,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -709,8 +709,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -906,11 +906,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceIds': resourceIds,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1119,11 +1119,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1336,12 +1336,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'PolicyNames': policyNames,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1554,11 +1554,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionNames': scheduledActionNames,
       },
     );
@@ -1826,9 +1826,9 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
-        'PolicyType': policyType.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
+        'PolicyType': policyType?.toValue(),
         'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
         'TargetTrackingScalingPolicyConfiguration':
             targetTrackingScalingPolicyConfiguration,
@@ -2106,9 +2106,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'EndTime': endTime,
         'ScalableTargetAction': scalableTargetAction,
         'Schedule': schedule,
@@ -2380,8 +2380,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxCapacity': maxCapacity,
         'MinCapacity': minCapacity,
         'RoleARN': roleARN,

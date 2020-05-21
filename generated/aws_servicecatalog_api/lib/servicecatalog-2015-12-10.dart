@@ -126,7 +126,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType.toValue(),
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -268,7 +268,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'PrincipalType': principalType.toValue(),
+        'PrincipalType': principalType?.toValue(),
         'AcceptLanguage': acceptLanguage,
       },
     );
@@ -1350,7 +1350,7 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'Owner': owner,
-        'ProductType': productType.toValue(),
+        'ProductType': productType?.toValue(),
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
         'AcceptLanguage': acceptLanguage,
         'Description': description,
@@ -1541,7 +1541,7 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'PlanName': planName,
-        'PlanType': planType.toValue(),
+        'PlanType': planType?.toValue(),
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
@@ -1771,7 +1771,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Definition': definition,
-        'DefinitionType': definitionType.toValue(),
+        'DefinitionType': definitionType?.toValue(),
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'AcceptLanguage': acceptLanguage,
@@ -4232,7 +4232,7 @@ class ServiceCatalog {
         'AcceptLanguage': acceptLanguage,
         'PageSize': pageSize,
         'PageToken': pageToken,
-        'PortfolioShareType': portfolioShareType.toValue(),
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -4642,7 +4642,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OrganizationNodeType': organizationNodeType.toValue(),
+        'OrganizationNodeType': organizationNodeType?.toValue(),
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
         'PageSize': pageSize,
@@ -6051,7 +6051,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType.toValue(),
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -6220,8 +6220,8 @@ class ServiceCatalog {
         'Filters': filters,
         'PageSize': pageSize,
         'PageToken': pageToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6331,9 +6331,9 @@ class ServiceCatalog {
         'PageSize': pageSize,
         'PageToken': pageToken,
         'PortfolioId': portfolioId,
-        'ProductSource': productSource.toValue(),
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'ProductSource': productSource?.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6439,7 +6439,7 @@ class ServiceCatalog {
         'PageSize': pageSize,
         'PageToken': pageToken,
         'SortBy': sortBy,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7369,7 +7369,7 @@ class ServiceCatalog {
         'AcceptLanguage': acceptLanguage,
         'Active': active,
         'Description': description,
-        'Guidance': guidance.toValue(),
+        'Guidance': guidance?.toValue(),
         'Name': name,
       },
     );

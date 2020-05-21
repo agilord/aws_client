@@ -30,7 +30,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           var serializationSuffix = '';
           if (member.shapeClass.enumeration != null) {
             member.shapeClass.isTopLevelInputEnum = true;
-            serializationSuffix = '.toValue()';
+            serializationSuffix = '?.toValue()';
           }
           buf.writeln(
               "'${member.name}': ${member.fieldName}$serializationSuffix,");

@@ -229,7 +229,7 @@ class Firehose {
         'DeliveryStreamName': deliveryStreamName,
         'DeliveryStreamEncryptionConfigurationInput':
             deliveryStreamEncryptionConfigurationInput,
-        'DeliveryStreamType': deliveryStreamType.toValue(),
+        'DeliveryStreamType': deliveryStreamType?.toValue(),
         'ElasticsearchDestinationConfiguration':
             elasticsearchDestinationConfiguration,
         'ExtendedS3DestinationConfiguration':
@@ -460,7 +460,7 @@ class Firehose {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryStreamType': deliveryStreamType.toValue(),
+        'DeliveryStreamType': deliveryStreamType?.toValue(),
         'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
         'Limit': limit,
       },

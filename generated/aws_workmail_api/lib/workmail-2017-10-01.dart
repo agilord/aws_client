@@ -403,7 +403,7 @@ class WorkMail {
       payload: {
         'Name': name,
         'OrganizationId': organizationId,
-        'Type': type.toValue(),
+        'Type': type?.toValue(),
       },
     );
 
@@ -2074,7 +2074,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Description': description,
-        'Effect': effect.toValue(),
+        'Effect': effect?.toValue(),
         'Name': name,
         'OrganizationId': organizationId,
         'Actions': actions,

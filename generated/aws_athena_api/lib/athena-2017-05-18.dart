@@ -1059,7 +1059,7 @@ class Athena {
         'WorkGroup': workGroup,
         'ConfigurationUpdates': configurationUpdates,
         'Description': description,
-        'State': state.toValue(),
+        'State': state?.toValue(),
       },
     );
 

@@ -539,7 +539,7 @@ class CognitoIdentityProvider {
         'ClientMetadata': clientMetadata,
         'DesiredDeliveryMediums': desiredDeliveryMediums,
         'ForceAliasCreation': forceAliasCreation,
-        'MessageAction': messageAction.toValue(),
+        'MessageAction': messageAction?.toValue(),
         'TemporaryPassword': temporaryPassword,
         'UserAttributes': userAttributes,
         'ValidationData': validationData,
@@ -1386,7 +1386,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow.toValue(),
+        'AuthFlow': authFlow?.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         'AnalyticsMetadata': analyticsMetadata,
@@ -2184,7 +2184,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName.toValue(),
+        'ChallengeName': challengeName?.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         'AnalyticsMetadata': analyticsMetadata,
@@ -2543,7 +2543,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'EventId': eventId,
-        'FeedbackValue': feedbackValue.toValue(),
+        'FeedbackValue': feedbackValue?.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -2638,7 +2638,7 @@ class CognitoIdentityProvider {
         'DeviceKey': deviceKey,
         'UserPoolId': userPoolId,
         'Username': username,
-        'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
+        'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
       },
     );
 
@@ -3711,7 +3711,7 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderDetails': providerDetails,
         'ProviderName': providerName,
-        'ProviderType': providerType.toValue(),
+        'ProviderType': providerType?.toValue(),
         'UserPoolId': userPoolId,
         'AttributeMapping': attributeMapping,
         'IdpIdentifiers': idpIdentifiers,
@@ -4114,7 +4114,7 @@ class CognitoIdentityProvider {
         'EmailVerificationMessage': emailVerificationMessage,
         'EmailVerificationSubject': emailVerificationSubject,
         'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration.toValue(),
+        'MfaConfiguration': mfaConfiguration?.toValue(),
         'Policies': policies,
         'Schema': schema,
         'SmsAuthenticationMessage': smsAuthenticationMessage,
@@ -4439,7 +4439,7 @@ class CognitoIdentityProvider {
         'ExplicitAuthFlows': explicitAuthFlows,
         'GenerateSecret': generateSecret,
         'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
+        'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
         'ReadAttributes': readAttributes,
         'RefreshTokenValidity': refreshTokenValidity,
         'SupportedIdentityProviders': supportedIdentityProviders,
@@ -6402,7 +6402,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow.toValue(),
+        'AuthFlow': authFlow?.toValue(),
         'ClientId': clientId,
         'AnalyticsMetadata': analyticsMetadata,
         'AuthParameters': authParameters,
@@ -7523,7 +7523,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName.toValue(),
+        'ChallengeName': challengeName?.toValue(),
         'ClientId': clientId,
         'AnalyticsMetadata': analyticsMetadata,
         'ChallengeResponses': challengeResponses,
@@ -7837,7 +7837,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MfaConfiguration': mfaConfiguration.toValue(),
+        'MfaConfiguration': mfaConfiguration?.toValue(),
         'SmsMfaConfiguration': smsMfaConfiguration,
         'SoftwareTokenMfaConfiguration': softwareTokenMfaConfiguration,
       },
@@ -8424,7 +8424,7 @@ class CognitoIdentityProvider {
       payload: {
         'EventId': eventId,
         'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue.toValue(),
+        'FeedbackValue': feedbackValue?.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -8492,7 +8492,7 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
-        'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
+        'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
       },
     );
 
@@ -9077,7 +9077,7 @@ class CognitoIdentityProvider {
         'EmailVerificationMessage': emailVerificationMessage,
         'EmailVerificationSubject': emailVerificationSubject,
         'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration.toValue(),
+        'MfaConfiguration': mfaConfiguration?.toValue(),
         'Policies': policies,
         'SmsAuthenticationMessage': smsAuthenticationMessage,
         'SmsConfiguration': smsConfiguration,
@@ -9402,7 +9402,7 @@ class CognitoIdentityProvider {
         'DefaultRedirectURI': defaultRedirectURI,
         'ExplicitAuthFlows': explicitAuthFlows,
         'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
+        'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
         'ReadAttributes': readAttributes,
         'RefreshTokenValidity': refreshTokenValidity,
         'SupportedIdentityProviders': supportedIdentityProviders,

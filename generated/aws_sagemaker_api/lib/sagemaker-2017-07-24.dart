@@ -396,7 +396,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
         'ResourceSpec': resourceSpec,
@@ -516,7 +516,7 @@ class SageMaker {
         'AutoMLJobConfig': autoMLJobConfig,
         'AutoMLJobObjective': autoMLJobObjective,
         'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-        'ProblemType': problemType.toValue(),
+        'ProblemType': problemType?.toValue(),
         'Tags': tags,
       },
     );
@@ -821,7 +821,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthMode': authMode.toValue(),
+        'AuthMode': authMode?.toValue(),
         'DefaultUserSettings': defaultUserSettings,
         'DomainName': domainName,
         'SubnetIds': subnetIds,
@@ -2237,16 +2237,16 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceType': instanceType.toValue(),
+        'InstanceType': instanceType?.toValue(),
         'NotebookInstanceName': notebookInstanceName,
         'RoleArn': roleArn,
         'AcceleratorTypes': acceleratorTypes,
         'AdditionalCodeRepositories': additionalCodeRepositories,
         'DefaultCodeRepository': defaultCodeRepository,
-        'DirectInternetAccess': directInternetAccess.toValue(),
+        'DirectInternetAccess': directInternetAccess?.toValue(),
         'KmsKeyId': kmsKeyId,
         'LifecycleConfigName': lifecycleConfigName,
-        'RootAccess': rootAccess.toValue(),
+        'RootAccess': rootAccess?.toValue(),
         'SecurityGroupIds': securityGroupIds,
         'SubnetId': subnetId,
         'Tags': tags,
@@ -3078,7 +3078,7 @@ class SageMaker {
         'TransformJobName': transformJobName,
         'TransformOutput': transformOutput,
         'TransformResources': transformResources,
-        'BatchStrategy': batchStrategy.toValue(),
+        'BatchStrategy': batchStrategy?.toValue(),
         'DataProcessing': dataProcessing,
         'Environment': environment,
         'ExperimentConfig': experimentConfig,
@@ -3626,7 +3626,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -4430,7 +4430,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -5579,7 +5579,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource.toValue(),
+        'Resource': resource?.toValue(),
         'SuggestionQuery': suggestionQuery,
       },
     );
@@ -5668,8 +5668,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -5752,8 +5752,8 @@ class SageMaker {
         'DomainIdEquals': domainIdEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'UserProfileNameEquals': userProfileNameEquals,
       },
     );
@@ -5851,9 +5851,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -5946,9 +5946,9 @@ class SageMaker {
         'CandidateNameEquals': candidateNameEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6047,8 +6047,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6157,9 +6157,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6294,8 +6294,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6398,9 +6398,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6472,8 +6472,8 @@ class SageMaker {
         'CreatedBefore': createdBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6541,7 +6541,7 @@ class SageMaker {
         'CreationTimeBefore': creationTimeBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6609,7 +6609,7 @@ class SageMaker {
         'CreationTimeBefore': creationTimeBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6713,9 +6713,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6819,9 +6819,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6931,8 +6931,8 @@ class SageMaker {
         'JobReferenceCodeContains': jobReferenceCodeContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7020,8 +7020,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7108,8 +7108,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7236,9 +7236,9 @@ class SageMaker {
         'NextToken': nextToken,
         'ScheduledTimeAfter': scheduledTimeAfter,
         'ScheduledTimeBefore': scheduledTimeBefore,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7360,9 +7360,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7464,8 +7464,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7631,9 +7631,9 @@ class SageMaker {
         'NextToken': nextToken,
         'NotebookInstanceLifecycleConfigNameContains':
             notebookInstanceLifecycleConfigNameContains,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7725,9 +7725,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7967,9 +7967,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8059,9 +8059,9 @@ class SageMaker {
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8166,9 +8166,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
-        'StatusEquals': statusEquals.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8302,8 +8302,8 @@ class SageMaker {
         'ExperimentName': experimentName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'SourceArn': sourceArn,
         'TrialName': trialName,
       },
@@ -8414,8 +8414,8 @@ class SageMaker {
         'ExperimentName': experimentName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'TrialComponentName': trialComponentName,
       },
     );
@@ -8499,8 +8499,8 @@ class SageMaker {
         'DomainIdEquals': domainIdEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'UserProfileNameContains': userProfileNameContains,
       },
     );
@@ -8578,8 +8578,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy.toValue(),
-        'SortOrder': sortOrder.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -8724,12 +8724,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource.toValue(),
+        'Resource': resource?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SearchExpression': searchExpression,
         'SortBy': sortBy,
-        'SortOrder': sortOrder.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -9773,10 +9773,10 @@ class SageMaker {
             disassociateAdditionalCodeRepositories,
         'DisassociateDefaultCodeRepository': disassociateDefaultCodeRepository,
         'DisassociateLifecycleConfig': disassociateLifecycleConfig,
-        'InstanceType': instanceType.toValue(),
+        'InstanceType': instanceType?.toValue(),
         'LifecycleConfigName': lifecycleConfigName,
         'RoleArn': roleArn,
-        'RootAccess': rootAccess.toValue(),
+        'RootAccess': rootAccess?.toValue(),
         'VolumeSizeInGB': volumeSizeInGB,
       },
     );

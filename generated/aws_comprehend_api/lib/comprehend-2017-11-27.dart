@@ -116,7 +116,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -158,7 +158,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -202,7 +202,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -247,7 +247,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -464,9 +464,9 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'ClientRequestToken': clientRequestToken,
-        'Mode': mode.toValue(),
+        'Mode': mode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'Tags': tags,
         'VolumeKmsKeyId': volumeKmsKeyId,
@@ -723,7 +723,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'RecognizerName': recognizerName,
         'ClientRequestToken': clientRequestToken,
         'Tags': tags,
@@ -1387,7 +1387,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1434,7 +1434,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1483,7 +1483,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1532,7 +1532,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -2503,7 +2503,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'EntityRecognizerArn': entityRecognizerArn,
@@ -2638,7 +2638,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -2772,7 +2772,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
