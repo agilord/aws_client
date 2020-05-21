@@ -1,3 +1,9 @@
+## 0.0.4
+
+(git hash: 4cee286c9ae4967e060ea6ee05912c88ff0a39a4)
+
+- AwsClientCredentials is no longer a required parameter. (#168)
+
 ## 0.0.3
 
 (git hash: d14e29906c26bdf6ea6d4ece829c13c08a1a64df)
