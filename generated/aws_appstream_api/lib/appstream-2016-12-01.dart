@@ -566,7 +566,7 @@ class AppStream {
         'DisplayName': displayName,
         'DomainJoinInfo': domainJoinInfo,
         'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        'FleetType': fleetType,
+        'FleetType': fleetType?.toValue(),
         'IamRoleArn': iamRoleArn,
         'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
         'ImageArn': imageArn,
@@ -1219,11 +1219,11 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
         'FirstName': firstName,
         'LastName': lastName,
-        'MessageAction': messageAction,
+        'MessageAction': messageAction?.toValue(),
       },
     );
 
@@ -1525,7 +1525,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );
@@ -1791,7 +1791,7 @@ class AppStream {
         'MaxResults': maxResults,
         'Names': names,
         'NextToken': nextToken,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -1877,7 +1877,7 @@ class AppStream {
       payload: {
         'FleetName': fleetName,
         'StackName': stackName,
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
         'UserId': userId,
@@ -2049,7 +2049,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'StackName': stackName,
@@ -2099,7 +2099,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -2152,7 +2152,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );
@@ -2258,7 +2258,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType,
+        'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
       },
     );
@@ -3388,6 +3388,20 @@ enum AuthenticationType {
   userpool,
 }
 
+extension on AuthenticationType {
+  String toValue() {
+    switch (this) {
+      case AuthenticationType.api:
+        return 'API';
+      case AuthenticationType.saml:
+        return 'SAML';
+      case AuthenticationType.userpool:
+        return 'USERPOOL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4429,6 +4443,18 @@ enum FleetType {
   onDemand,
 }
 
+extension on FleetType {
+  String toValue() {
+    switch (this) {
+      case FleetType.alwaysOn:
+        return 'ALWAYS_ON';
+      case FleetType.onDemand:
+        return 'ON_DEMAND';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes an image.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4925,6 +4951,18 @@ enum MessageAction {
   suppress,
   @_s.JsonValue('RESEND')
   resend,
+}
+
+extension on MessageAction {
+  String toValue() {
+    switch (this) {
+      case MessageAction.suppress:
+        return 'SUPPRESS';
+      case MessageAction.resend:
+        return 'RESEND';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the network details of the fleet or image builder instance.
@@ -5702,6 +5740,20 @@ enum VisibilityType {
   private,
   @_s.JsonValue('SHARED')
   shared,
+}
+
+extension on VisibilityType {
+  String toValue() {
+    switch (this) {
+      case VisibilityType.public:
+        return 'PUBLIC';
+      case VisibilityType.private:
+        return 'PRIVATE';
+      case VisibilityType.shared:
+        return 'SHARED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes VPC configuration information for fleets and image builders.

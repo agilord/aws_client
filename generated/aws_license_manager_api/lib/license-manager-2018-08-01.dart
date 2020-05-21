@@ -126,7 +126,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LicenseCountingType': licenseCountingType,
+        'LicenseCountingType': licenseCountingType?.toValue(),
         'Name': name,
         'Description': description,
         'LicenseCount': licenseCount,
@@ -751,7 +751,7 @@ class LicenseManager {
       payload: {
         'LicenseConfigurationArn': licenseConfigurationArn,
         'Description': description,
-        'LicenseConfigurationStatus': licenseConfigurationStatus,
+        'LicenseConfigurationStatus': licenseConfigurationStatus?.toValue(),
         'LicenseCount': licenseCount,
         'LicenseCountHardLimit': licenseCountHardLimit,
         'LicenseRules': licenseRules,
@@ -1262,6 +1262,18 @@ enum LicenseConfigurationStatus {
   disabled,
 }
 
+extension on LicenseConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case LicenseConfigurationStatus.available:
+        return 'AVAILABLE';
+      case LicenseConfigurationStatus.disabled:
+        return 'DISABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Details about the usage of a resource associated with a license
 /// configuration.
 @_s.JsonSerializable(
@@ -1317,6 +1329,22 @@ enum LicenseCountingType {
   core,
   @_s.JsonValue('Socket')
   socket,
+}
+
+extension on LicenseCountingType {
+  String toValue() {
+    switch (this) {
+      case LicenseCountingType.vcpu:
+        return 'vCPU';
+      case LicenseCountingType.instance:
+        return 'Instance';
+      case LicenseCountingType.core:
+        return 'Core';
+      case LicenseCountingType.socket:
+        return 'Socket';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the failure of a license operation.

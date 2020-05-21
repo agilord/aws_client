@@ -459,7 +459,7 @@ class CodeBuild {
       payload: {
         'exportConfig': exportConfig,
         'name': name,
-        'type': type,
+        'type': type?.toValue(),
       },
     );
 
@@ -933,8 +933,8 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'authType': authType,
-        'serverType': serverType,
+        'authType': authType?.toValue(),
+        'serverType': serverType?.toValue(),
         'token': token,
         'shouldOverwrite': shouldOverwrite,
         'username': username,
@@ -1020,7 +1020,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'sortOrder': sortOrder,
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1082,7 +1082,7 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         'nextToken': nextToken,
-        'sortOrder': sortOrder,
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1176,8 +1176,8 @@ class CodeBuild {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'sortBy': sortBy,
-        'sortOrder': sortOrder,
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1248,8 +1248,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy,
-        'sortOrder': sortOrder,
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1317,7 +1317,7 @@ class CodeBuild {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortOrder': sortOrder,
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1382,7 +1382,7 @@ class CodeBuild {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortOrder': sortOrder,
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1463,8 +1463,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy,
-        'sortOrder': sortOrder,
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1540,8 +1540,8 @@ class CodeBuild {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sortBy': sortBy,
-        'sortOrder': sortOrder,
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1906,15 +1906,16 @@ class CodeBuild {
         'buildspecOverride': buildspecOverride,
         'cacheOverride': cacheOverride,
         'certificateOverride': certificateOverride,
-        'computeTypeOverride': computeTypeOverride,
+        'computeTypeOverride': computeTypeOverride?.toValue(),
         'encryptionKeyOverride': encryptionKeyOverride,
-        'environmentTypeOverride': environmentTypeOverride,
+        'environmentTypeOverride': environmentTypeOverride?.toValue(),
         'environmentVariablesOverride': environmentVariablesOverride,
         'gitCloneDepthOverride': gitCloneDepthOverride,
         'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
         'idempotencyToken': idempotencyToken,
         'imageOverride': imageOverride,
-        'imagePullCredentialsTypeOverride': imagePullCredentialsTypeOverride,
+        'imagePullCredentialsTypeOverride':
+            imagePullCredentialsTypeOverride?.toValue(),
         'insecureSslOverride': insecureSslOverride,
         'logsConfigOverride': logsConfigOverride,
         'privilegedModeOverride': privilegedModeOverride,
@@ -1927,7 +1928,7 @@ class CodeBuild {
         'serviceRoleOverride': serviceRoleOverride,
         'sourceAuthOverride': sourceAuthOverride,
         'sourceLocationOverride': sourceLocationOverride,
-        'sourceTypeOverride': sourceTypeOverride,
+        'sourceTypeOverride': sourceTypeOverride?.toValue(),
         'sourceVersion': sourceVersion,
         'timeoutInMinutesOverride': timeoutInMinutesOverride,
       },
@@ -2345,6 +2346,20 @@ enum AuthType {
   basicAuth,
   @_s.JsonValue('PERSONAL_ACCESS_TOKEN')
   personalAccessToken,
+}
+
+extension on AuthType {
+  String toValue() {
+    switch (this) {
+      case AuthType.oauth:
+        return 'OAUTH';
+      case AuthType.basicAuth:
+        return 'BASIC_AUTH';
+      case AuthType.personalAccessToken:
+        return 'PERSONAL_ACCESS_TOKEN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3021,6 +3036,22 @@ enum ComputeType {
   buildGeneral1_2xlarge,
 }
 
+extension on ComputeType {
+  String toValue() {
+    switch (this) {
+      case ComputeType.buildGeneral1Small:
+        return 'BUILD_GENERAL1_SMALL';
+      case ComputeType.buildGeneral1Medium:
+        return 'BUILD_GENERAL1_MEDIUM';
+      case ComputeType.buildGeneral1Large:
+        return 'BUILD_GENERAL1_LARGE';
+      case ComputeType.buildGeneral1_2xlarge:
+        return 'BUILD_GENERAL1_2XLARGE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3267,6 +3298,22 @@ enum EnvironmentType {
   armContainer,
 }
 
+extension on EnvironmentType {
+  String toValue() {
+    switch (this) {
+      case EnvironmentType.windowsContainer:
+        return 'WINDOWS_CONTAINER';
+      case EnvironmentType.linuxContainer:
+        return 'LINUX_CONTAINER';
+      case EnvironmentType.linuxGpuContainer:
+        return 'LINUX_GPU_CONTAINER';
+      case EnvironmentType.armContainer:
+        return 'ARM_CONTAINER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about an environment variable for a build project or a build.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3408,6 +3455,18 @@ enum ImagePullCredentialsType {
   codebuild,
   @_s.JsonValue('SERVICE_ROLE')
   serviceRole,
+}
+
+extension on ImagePullCredentialsType {
+  String toValue() {
+    switch (this) {
+      case ImagePullCredentialsType.codebuild:
+        return 'CODEBUILD';
+      case ImagePullCredentialsType.serviceRole:
+        return 'SERVICE_ROLE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -4662,6 +4721,20 @@ enum ProjectSortByType {
   lastModifiedTime,
 }
 
+extension on ProjectSortByType {
+  String toValue() {
+    switch (this) {
+      case ProjectSortByType.name:
+        return 'NAME';
+      case ProjectSortByType.createdTime:
+        return 'CREATED_TIME';
+      case ProjectSortByType.lastModifiedTime:
+        return 'LAST_MODIFIED_TIME';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about the build input source code for the build project.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5139,6 +5212,20 @@ enum ReportGroupSortByType {
   lastModifiedTime,
 }
 
+extension on ReportGroupSortByType {
+  String toValue() {
+    switch (this) {
+      case ReportGroupSortByType.name:
+        return 'NAME';
+      case ReportGroupSortByType.createdTime:
+        return 'CREATED_TIME';
+      case ReportGroupSortByType.lastModifiedTime:
+        return 'LAST_MODIFIED_TIME';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ReportPackagingType {
   @_s.JsonValue('ZIP')
   zip,
@@ -5162,6 +5249,16 @@ enum ReportStatusType {
 enum ReportType {
   @_s.JsonValue('TEST')
   test,
+}
+
+extension on ReportType {
+  String toValue() {
+    switch (this) {
+      case ReportType.test:
+        return 'TEST';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about S3 logs for a build project.
@@ -5268,6 +5365,20 @@ enum ServerType {
   githubEnterprise,
 }
 
+extension on ServerType {
+  String toValue() {
+    switch (this) {
+      case ServerType.github:
+        return 'GITHUB';
+      case ServerType.bitbucket:
+        return 'BITBUCKET';
+      case ServerType.githubEnterprise:
+        return 'GITHUB_ENTERPRISE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SharedResourceSortByType {
   @_s.JsonValue('ARN')
   arn,
@@ -5275,11 +5386,35 @@ enum SharedResourceSortByType {
   modifiedTime,
 }
 
+extension on SharedResourceSortByType {
+  String toValue() {
+    switch (this) {
+      case SharedResourceSortByType.arn:
+        return 'ARN';
+      case SharedResourceSortByType.modifiedTime:
+        return 'MODIFIED_TIME';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SortOrderType {
   @_s.JsonValue('ASCENDING')
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
+}
+
+extension on SortOrderType {
+  String toValue() {
+    switch (this) {
+      case SortOrderType.ascending:
+        return 'ASCENDING';
+      case SortOrderType.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about the authorization settings for AWS CodeBuild to access the
@@ -5366,6 +5501,28 @@ enum SourceType {
   githubEnterprise,
   @_s.JsonValue('NO_SOURCE')
   noSource,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.codecommit:
+        return 'CODECOMMIT';
+      case SourceType.codepipeline:
+        return 'CODEPIPELINE';
+      case SourceType.github:
+        return 'GITHUB';
+      case SourceType.s3:
+        return 'S3';
+      case SourceType.bitbucket:
+        return 'BITBUCKET';
+      case SourceType.githubEnterprise:
+        return 'GITHUB_ENTERPRISE';
+      case SourceType.noSource:
+        return 'NO_SOURCE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

@@ -338,7 +338,7 @@ class DeviceFarm {
         'downlinkDelayMs': downlinkDelayMs,
         'downlinkJitterMs': downlinkJitterMs,
         'downlinkLossPercent': downlinkLossPercent,
-        'type': type,
+        'type': type?.toValue(),
         'uplinkBandwidthBits': uplinkBandwidthBits,
         'uplinkDelayMs': uplinkDelayMs,
         'uplinkJitterMs': uplinkJitterMs,
@@ -583,7 +583,7 @@ class DeviceFarm {
         'clientId': clientId,
         'configuration': configuration,
         'instanceArn': instanceArn,
-        'interactionMode': interactionMode,
+        'interactionMode': interactionMode?.toValue(),
         'name': name,
         'remoteDebugEnabled': remoteDebugEnabled,
         'remoteRecordAppArn': remoteRecordAppArn,
@@ -886,7 +886,7 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'type': type,
+        'type': type?.toValue(),
         'contentType': contentType,
       },
     );
@@ -1673,7 +1673,7 @@ class DeviceFarm {
         'appArn': appArn,
         'configuration': configuration,
         'test': test,
-        'testType': testType,
+        'testType': testType?.toValue(),
       },
     );
 
@@ -2432,7 +2432,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'type': type,
+        'type': type?.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -2550,7 +2550,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type,
+        'type': type?.toValue(),
       },
     );
 
@@ -2862,7 +2862,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type,
+        'type': type?.toValue(),
       },
     );
 
@@ -3501,7 +3501,7 @@ class DeviceFarm {
         'sessionArn': sessionArn,
         'maxResult': maxResult,
         'nextToken': nextToken,
-        'type': type,
+        'type': type?.toValue(),
       },
     );
 
@@ -3591,7 +3591,7 @@ class DeviceFarm {
         'endTimeBefore': endTimeBefore,
         'maxResult': maxResult,
         'nextToken': nextToken,
-        'status': status,
+        'status': status?.toValue(),
       },
     );
 
@@ -3872,7 +3872,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'nextToken': nextToken,
-        'type': type,
+        'type': type?.toValue(),
       },
     );
 
@@ -4776,7 +4776,7 @@ class DeviceFarm {
         'downlinkJitterMs': downlinkJitterMs,
         'downlinkLossPercent': downlinkLossPercent,
         'name': name,
-        'type': type,
+        'type': type?.toValue(),
         'uplinkBandwidthBits': uplinkBandwidthBits,
         'uplinkDelayMs': uplinkDelayMs,
         'uplinkJitterMs': uplinkJitterMs,
@@ -5295,6 +5295,20 @@ enum ArtifactCategory {
   file,
   @_s.JsonValue('LOG')
   log,
+}
+
+extension on ArtifactCategory {
+  String toValue() {
+    switch (this) {
+      case ArtifactCategory.screenshot:
+        return 'SCREENSHOT';
+      case ArtifactCategory.file:
+        return 'FILE';
+      case ArtifactCategory.log:
+        return 'LOG';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ArtifactType {
@@ -6313,6 +6327,18 @@ enum DevicePoolType {
   private,
 }
 
+extension on DevicePoolType {
+  String toValue() {
+    switch (this) {
+      case DevicePoolType.curated:
+        return 'CURATED';
+      case DevicePoolType.private:
+        return 'PRIVATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents the device filters used in a test run and the maximum number of
 /// devices to be included in the run. It is passed in as the
 /// <code>deviceSelectionConfiguration</code> request parameter in
@@ -7040,6 +7066,20 @@ enum InteractionMode {
   noVideo,
   @_s.JsonValue('VIDEO_ONLY')
   videoOnly,
+}
+
+extension on InteractionMode {
+  String toValue() {
+    switch (this) {
+      case InteractionMode.interactive:
+        return 'INTERACTIVE';
+      case InteractionMode.noVideo:
+        return 'NO_VIDEO';
+      case InteractionMode.videoOnly:
+        return 'VIDEO_ONLY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents a device.
@@ -7987,6 +8027,18 @@ enum NetworkProfileType {
   curated,
   @_s.JsonValue('PRIVATE')
   private,
+}
+
+extension on NetworkProfileType {
+  String toValue() {
+    switch (this) {
+      case NetworkProfileType.curated:
+        return 'CURATED';
+      case NetworkProfileType.private:
+        return 'PRIVATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the metadata of a device offering.
@@ -10120,6 +10172,18 @@ enum TestGridSessionArtifactCategory {
   log,
 }
 
+extension on TestGridSessionArtifactCategory {
+  String toValue() {
+    switch (this) {
+      case TestGridSessionArtifactCategory.video:
+        return 'VIDEO';
+      case TestGridSessionArtifactCategory.log:
+        return 'LOG';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum TestGridSessionArtifactType {
   @_s.JsonValue('UNKNOWN')
   unknown,
@@ -10136,6 +10200,20 @@ enum TestGridSessionStatus {
   closed,
   @_s.JsonValue('ERRORED')
   errored,
+}
+
+extension on TestGridSessionStatus {
+  String toValue() {
+    switch (this) {
+      case TestGridSessionStatus.active:
+        return 'ACTIVE';
+      case TestGridSessionStatus.closed:
+        return 'CLOSED';
+      case TestGridSessionStatus.errored:
+        return 'ERRORED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum TestType {
@@ -10181,6 +10259,56 @@ enum TestType {
   remoteAccessRecord,
   @_s.JsonValue('REMOTE_ACCESS_REPLAY')
   remoteAccessReplay,
+}
+
+extension on TestType {
+  String toValue() {
+    switch (this) {
+      case TestType.builtinFuzz:
+        return 'BUILTIN_FUZZ';
+      case TestType.builtinExplorer:
+        return 'BUILTIN_EXPLORER';
+      case TestType.webPerformanceProfile:
+        return 'WEB_PERFORMANCE_PROFILE';
+      case TestType.appiumJavaJunit:
+        return 'APPIUM_JAVA_JUNIT';
+      case TestType.appiumJavaTestng:
+        return 'APPIUM_JAVA_TESTNG';
+      case TestType.appiumPython:
+        return 'APPIUM_PYTHON';
+      case TestType.appiumNode:
+        return 'APPIUM_NODE';
+      case TestType.appiumRuby:
+        return 'APPIUM_RUBY';
+      case TestType.appiumWebJavaJunit:
+        return 'APPIUM_WEB_JAVA_JUNIT';
+      case TestType.appiumWebJavaTestng:
+        return 'APPIUM_WEB_JAVA_TESTNG';
+      case TestType.appiumWebPython:
+        return 'APPIUM_WEB_PYTHON';
+      case TestType.appiumWebNode:
+        return 'APPIUM_WEB_NODE';
+      case TestType.appiumWebRuby:
+        return 'APPIUM_WEB_RUBY';
+      case TestType.calabash:
+        return 'CALABASH';
+      case TestType.instrumentation:
+        return 'INSTRUMENTATION';
+      case TestType.uiautomation:
+        return 'UIAUTOMATION';
+      case TestType.uiautomator:
+        return 'UIAUTOMATOR';
+      case TestType.xctest:
+        return 'XCTEST';
+      case TestType.xctestUi:
+        return 'XCTEST_UI';
+      case TestType.remoteAccessRecord:
+        return 'REMOTE_ACCESS_RECORD';
+      case TestType.remoteAccessReplay:
+        return 'REMOTE_ACCESS_REPLAY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents information about free trial device minutes for an AWS account.
@@ -10654,6 +10782,78 @@ enum UploadType {
   instrumentationTestSpec,
   @_s.JsonValue('XCTEST_UI_TEST_SPEC')
   xctestUiTestSpec,
+}
+
+extension on UploadType {
+  String toValue() {
+    switch (this) {
+      case UploadType.androidApp:
+        return 'ANDROID_APP';
+      case UploadType.iosApp:
+        return 'IOS_APP';
+      case UploadType.webApp:
+        return 'WEB_APP';
+      case UploadType.externalData:
+        return 'EXTERNAL_DATA';
+      case UploadType.appiumJavaJunitTestPackage:
+        return 'APPIUM_JAVA_JUNIT_TEST_PACKAGE';
+      case UploadType.appiumJavaTestngTestPackage:
+        return 'APPIUM_JAVA_TESTNG_TEST_PACKAGE';
+      case UploadType.appiumPythonTestPackage:
+        return 'APPIUM_PYTHON_TEST_PACKAGE';
+      case UploadType.appiumNodeTestPackage:
+        return 'APPIUM_NODE_TEST_PACKAGE';
+      case UploadType.appiumRubyTestPackage:
+        return 'APPIUM_RUBY_TEST_PACKAGE';
+      case UploadType.appiumWebJavaJunitTestPackage:
+        return 'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE';
+      case UploadType.appiumWebJavaTestngTestPackage:
+        return 'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE';
+      case UploadType.appiumWebPythonTestPackage:
+        return 'APPIUM_WEB_PYTHON_TEST_PACKAGE';
+      case UploadType.appiumWebNodeTestPackage:
+        return 'APPIUM_WEB_NODE_TEST_PACKAGE';
+      case UploadType.appiumWebRubyTestPackage:
+        return 'APPIUM_WEB_RUBY_TEST_PACKAGE';
+      case UploadType.calabashTestPackage:
+        return 'CALABASH_TEST_PACKAGE';
+      case UploadType.instrumentationTestPackage:
+        return 'INSTRUMENTATION_TEST_PACKAGE';
+      case UploadType.uiautomationTestPackage:
+        return 'UIAUTOMATION_TEST_PACKAGE';
+      case UploadType.uiautomatorTestPackage:
+        return 'UIAUTOMATOR_TEST_PACKAGE';
+      case UploadType.xctestTestPackage:
+        return 'XCTEST_TEST_PACKAGE';
+      case UploadType.xctestUiTestPackage:
+        return 'XCTEST_UI_TEST_PACKAGE';
+      case UploadType.appiumJavaJunitTestSpec:
+        return 'APPIUM_JAVA_JUNIT_TEST_SPEC';
+      case UploadType.appiumJavaTestngTestSpec:
+        return 'APPIUM_JAVA_TESTNG_TEST_SPEC';
+      case UploadType.appiumPythonTestSpec:
+        return 'APPIUM_PYTHON_TEST_SPEC';
+      case UploadType.appiumNodeTestSpec:
+        return 'APPIUM_NODE_TEST_SPEC';
+      case UploadType.appiumRubyTestSpec:
+        return 'APPIUM_RUBY_TEST_SPEC';
+      case UploadType.appiumWebJavaJunitTestSpec:
+        return 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC';
+      case UploadType.appiumWebJavaTestngTestSpec:
+        return 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC';
+      case UploadType.appiumWebPythonTestSpec:
+        return 'APPIUM_WEB_PYTHON_TEST_SPEC';
+      case UploadType.appiumWebNodeTestSpec:
+        return 'APPIUM_WEB_NODE_TEST_SPEC';
+      case UploadType.appiumWebRubyTestSpec:
+        return 'APPIUM_WEB_RUBY_TEST_SPEC';
+      case UploadType.instrumentationTestSpec:
+        return 'INSTRUMENTATION_TEST_SPEC';
+      case UploadType.xctestUiTestSpec:
+        return 'XCTEST_UI_TEST_SPEC';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.

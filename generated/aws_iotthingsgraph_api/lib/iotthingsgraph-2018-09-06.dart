@@ -246,7 +246,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'target': target,
+        'target': target?.toValue(),
         'flowActionsRoleArn': flowActionsRoleArn,
         'greengrassGroupName': greengrassGroupName,
         'metricsConfiguration': metricsConfiguration,
@@ -713,7 +713,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityType': entityType,
+        'entityType': entityType?.toValue(),
         'thingName': thingName,
       },
     );
@@ -2164,6 +2164,18 @@ enum DeploymentTarget {
   cloud,
 }
 
+extension on DeploymentTarget {
+  String toValue() {
+    switch (this) {
+      case DeploymentTarget.greengrass:
+        return 'GREENGRASS';
+      case DeploymentTarget.cloud:
+        return 'CLOUD';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2336,6 +2348,34 @@ enum EntityType {
   mapping,
   @_s.JsonValue('ENUM')
   $enum,
+}
+
+extension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.device:
+        return 'DEVICE';
+      case EntityType.service:
+        return 'SERVICE';
+      case EntityType.deviceModel:
+        return 'DEVICE_MODEL';
+      case EntityType.capability:
+        return 'CAPABILITY';
+      case EntityType.state:
+        return 'STATE';
+      case EntityType.action:
+        return 'ACTION';
+      case EntityType.event:
+        return 'EVENT';
+      case EntityType.property:
+        return 'PROPERTY';
+      case EntityType.mapping:
+        return 'MAPPING';
+      case EntityType.$enum:
+        return 'ENUM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum FlowExecutionEventType {

@@ -576,7 +576,7 @@ class Inspector {
       headers: headers,
       payload: {
         'exclusionArns': exclusionArns,
-        'locale': locale,
+        'locale': locale?.toValue(),
       },
     );
 
@@ -611,7 +611,7 @@ class Inspector {
       headers: headers,
       payload: {
         'findingArns': findingArns,
-        'locale': locale,
+        'locale': locale?.toValue(),
       },
     );
 
@@ -676,7 +676,7 @@ class Inspector {
       headers: headers,
       payload: {
         'rulesPackageArns': rulesPackageArns,
-        'locale': locale,
+        'locale': locale?.toValue(),
       },
     );
 
@@ -735,8 +735,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat,
-        'reportType': reportType,
+        'reportFileFormat': reportFileFormat?.toValue(),
+        'reportType': reportType?.toValue(),
       },
     );
 
@@ -814,7 +814,7 @@ class Inspector {
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
         'previewToken': previewToken,
-        'locale': locale,
+        'locale': locale?.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
       },
@@ -1670,7 +1670,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'stopAction': stopAction,
+        'stopAction': stopAction?.toValue(),
       },
     );
   }
@@ -1727,7 +1727,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event,
+        'event': event?.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1785,7 +1785,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event,
+        'event': event?.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -3242,6 +3242,24 @@ enum InspectorEvent {
   other,
 }
 
+extension on InspectorEvent {
+  String toValue() {
+    switch (this) {
+      case InspectorEvent.assessmentRunStarted:
+        return 'ASSESSMENT_RUN_STARTED';
+      case InspectorEvent.assessmentRunCompleted:
+        return 'ASSESSMENT_RUN_COMPLETED';
+      case InspectorEvent.assessmentRunStateChanged:
+        return 'ASSESSMENT_RUN_STATE_CHANGED';
+      case InspectorEvent.findingReported:
+        return 'FINDING_REPORTED';
+      case InspectorEvent.other:
+        return 'OTHER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// This data type is used in the <a>Finding</a> data type.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3495,6 +3513,16 @@ enum Locale {
   enUs,
 }
 
+extension on Locale {
+  String toValue() {
+    switch (this) {
+      case Locale.enUs:
+        return 'EN_US';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains information about the network interfaces interacting with an EC2
 /// instance. This data type is used as one of the elements of the
 /// <a>AssetAttributes</a> data type.
@@ -3645,6 +3673,18 @@ enum ReportFileFormat {
   pdf,
 }
 
+extension on ReportFileFormat {
+  String toValue() {
+    switch (this) {
+      case ReportFileFormat.html:
+        return 'HTML';
+      case ReportFileFormat.pdf:
+        return 'PDF';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ReportStatus {
   @_s.JsonValue('WORK_IN_PROGRESS')
   workInProgress,
@@ -3659,6 +3699,18 @@ enum ReportType {
   finding,
   @_s.JsonValue('FULL')
   full,
+}
+
+extension on ReportType {
+  String toValue() {
+    switch (this) {
+      case ReportType.finding:
+        return 'FINDING';
+      case ReportType.full:
+        return 'FULL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about a resource group. The resource group defines a
@@ -3848,6 +3900,18 @@ enum StopAction {
   startEvaluation,
   @_s.JsonValue('SKIP_EVALUATION')
   skipEvaluation,
+}
+
+extension on StopAction {
+  String toValue() {
+    switch (this) {
+      case StopAction.startEvaluation:
+        return 'START_EVALUATION';
+      case StopAction.skipEvaluation:
+        return 'SKIP_EVALUATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// This data type is used as a response element in the

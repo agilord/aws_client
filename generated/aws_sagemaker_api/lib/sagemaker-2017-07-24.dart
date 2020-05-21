@@ -396,7 +396,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType,
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
         'ResourceSpec': resourceSpec,
@@ -516,7 +516,7 @@ class SageMaker {
         'AutoMLJobConfig': autoMLJobConfig,
         'AutoMLJobObjective': autoMLJobObjective,
         'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-        'ProblemType': problemType,
+        'ProblemType': problemType?.toValue(),
         'Tags': tags,
       },
     );
@@ -821,7 +821,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthMode': authMode,
+        'AuthMode': authMode?.toValue(),
         'DefaultUserSettings': defaultUserSettings,
         'DomainName': domainName,
         'SubnetIds': subnetIds,
@@ -2237,16 +2237,16 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceType': instanceType,
+        'InstanceType': instanceType?.toValue(),
         'NotebookInstanceName': notebookInstanceName,
         'RoleArn': roleArn,
         'AcceleratorTypes': acceleratorTypes,
         'AdditionalCodeRepositories': additionalCodeRepositories,
         'DefaultCodeRepository': defaultCodeRepository,
-        'DirectInternetAccess': directInternetAccess,
+        'DirectInternetAccess': directInternetAccess?.toValue(),
         'KmsKeyId': kmsKeyId,
         'LifecycleConfigName': lifecycleConfigName,
-        'RootAccess': rootAccess,
+        'RootAccess': rootAccess?.toValue(),
         'SecurityGroupIds': securityGroupIds,
         'SubnetId': subnetId,
         'Tags': tags,
@@ -3078,7 +3078,7 @@ class SageMaker {
         'TransformJobName': transformJobName,
         'TransformOutput': transformOutput,
         'TransformResources': transformResources,
-        'BatchStrategy': batchStrategy,
+        'BatchStrategy': batchStrategy?.toValue(),
         'DataProcessing': dataProcessing,
         'Environment': environment,
         'ExperimentConfig': experimentConfig,
@@ -3626,7 +3626,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType,
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -4430,7 +4430,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType,
+        'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -5579,7 +5579,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource,
+        'Resource': resource?.toValue(),
         'SuggestionQuery': suggestionQuery,
       },
     );
@@ -5668,8 +5668,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -5752,8 +5752,8 @@ class SageMaker {
         'DomainIdEquals': domainIdEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'UserProfileNameEquals': userProfileNameEquals,
       },
     );
@@ -5851,9 +5851,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -5946,9 +5946,9 @@ class SageMaker {
         'CandidateNameEquals': candidateNameEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6047,8 +6047,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6157,9 +6157,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6294,8 +6294,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6398,9 +6398,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6472,8 +6472,8 @@ class SageMaker {
         'CreatedBefore': createdBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6541,7 +6541,7 @@ class SageMaker {
         'CreationTimeBefore': creationTimeBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6609,7 +6609,7 @@ class SageMaker {
         'CreationTimeBefore': creationTimeBefore,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6713,9 +6713,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6819,9 +6819,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6931,8 +6931,8 @@ class SageMaker {
         'JobReferenceCodeContains': jobReferenceCodeContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7020,8 +7020,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7108,8 +7108,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7236,9 +7236,9 @@ class SageMaker {
         'NextToken': nextToken,
         'ScheduledTimeAfter': scheduledTimeAfter,
         'ScheduledTimeBefore': scheduledTimeBefore,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7360,9 +7360,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7464,8 +7464,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7631,9 +7631,9 @@ class SageMaker {
         'NextToken': nextToken,
         'NotebookInstanceLifecycleConfigNameContains':
             notebookInstanceLifecycleConfigNameContains,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7725,9 +7725,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7967,9 +7967,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8059,9 +8059,9 @@ class SageMaker {
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8166,9 +8166,9 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
-        'StatusEquals': statusEquals,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
+        'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8302,8 +8302,8 @@ class SageMaker {
         'ExperimentName': experimentName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'SourceArn': sourceArn,
         'TrialName': trialName,
       },
@@ -8414,8 +8414,8 @@ class SageMaker {
         'ExperimentName': experimentName,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'TrialComponentName': trialComponentName,
       },
     );
@@ -8499,8 +8499,8 @@ class SageMaker {
         'DomainIdEquals': domainIdEquals,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
         'UserProfileNameContains': userProfileNameContains,
       },
     );
@@ -8578,8 +8578,8 @@ class SageMaker {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -8724,12 +8724,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource,
+        'Resource': resource?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SearchExpression': searchExpression,
         'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -9773,10 +9773,10 @@ class SageMaker {
             disassociateAdditionalCodeRepositories,
         'DisassociateDefaultCodeRepository': disassociateDefaultCodeRepository,
         'DisassociateLifecycleConfig': disassociateLifecycleConfig,
-        'InstanceType': instanceType,
+        'InstanceType': instanceType?.toValue(),
         'LifecycleConfigName': lifecycleConfigName,
         'RoleArn': roleArn,
-        'RootAccess': rootAccess,
+        'RootAccess': rootAccess?.toValue(),
         'VolumeSizeInGB': volumeSizeInGB,
       },
     );
@@ -10225,6 +10225,18 @@ enum AlgorithmSortBy {
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
+}
+
+extension on AlgorithmSortBy {
+  String toValue() {
+    switch (this) {
+      case AlgorithmSortBy.name:
+        return 'Name';
+      case AlgorithmSortBy.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies the training algorithm to use in a <a>CreateTrainingJob</a>
@@ -10967,6 +10979,16 @@ enum AppSortKey {
   creationTime,
 }
 
+extension on AppSortKey {
+  String toValue() {
+    switch (this) {
+      case AppSortKey.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Configuration to run a processing job in a specified container image.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11019,6 +11041,20 @@ enum AppType {
   tensorBoard,
 }
 
+extension on AppType {
+  String toValue() {
+    switch (this) {
+      case AppType.jupyterServer:
+        return 'JupyterServer';
+      case AppType.kernelGateway:
+        return 'KernelGateway';
+      case AppType.tensorBoard:
+        return 'TensorBoard';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum AssemblyType {
   @_s.JsonValue('None')
   none,
@@ -11053,6 +11089,18 @@ enum AuthMode {
   sso,
   @_s.JsonValue('IAM')
   iam,
+}
+
+extension on AuthMode {
+  String toValue() {
+    switch (this) {
+      case AuthMode.sso:
+        return 'SSO';
+      case AuthMode.iam:
+        return 'IAM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An AutoPilot job will return recommendations, or candidates. Each candidate
@@ -11377,6 +11425,24 @@ enum AutoMLJobStatus {
   stopping,
 }
 
+extension on AutoMLJobStatus {
+  String toValue() {
+    switch (this) {
+      case AutoMLJobStatus.completed:
+        return 'Completed';
+      case AutoMLJobStatus.inProgress:
+        return 'InProgress';
+      case AutoMLJobStatus.failed:
+        return 'Failed';
+      case AutoMLJobStatus.stopped:
+        return 'Stopped';
+      case AutoMLJobStatus.stopping:
+        return 'Stopping';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides a summary about a job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11538,11 +11604,37 @@ enum AutoMLSortBy {
   status,
 }
 
+extension on AutoMLSortBy {
+  String toValue() {
+    switch (this) {
+      case AutoMLSortBy.name:
+        return 'Name';
+      case AutoMLSortBy.creationTime:
+        return 'CreationTime';
+      case AutoMLSortBy.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum AutoMLSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on AutoMLSortOrder {
+  String toValue() {
+    switch (this) {
+      case AutoMLSortOrder.ascending:
+        return 'Ascending';
+      case AutoMLSortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AwsManagedHumanLoopRequestSource {
@@ -11557,6 +11649,18 @@ enum BatchStrategy {
   multiRecord,
   @_s.JsonValue('SingleRecord')
   singleRecord,
+}
+
+extension on BatchStrategy {
+  String toValue() {
+    switch (this) {
+      case BatchStrategy.multiRecord:
+        return 'MultiRecord';
+      case BatchStrategy.singleRecord:
+        return 'SingleRecord';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum BooleanOperator {
@@ -11575,6 +11679,20 @@ enum CandidateSortBy {
   finalObjectiveMetricValue,
 }
 
+extension on CandidateSortBy {
+  String toValue() {
+    switch (this) {
+      case CandidateSortBy.creationTime:
+        return 'CreationTime';
+      case CandidateSortBy.status:
+        return 'Status';
+      case CandidateSortBy.finalObjectiveMetricValue:
+        return 'FinalObjectiveMetricValue';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum CandidateStatus {
   @_s.JsonValue('Completed')
   completed,
@@ -11586,6 +11704,24 @@ enum CandidateStatus {
   stopped,
   @_s.JsonValue('Stopping')
   stopping,
+}
+
+extension on CandidateStatus {
+  String toValue() {
+    switch (this) {
+      case CandidateStatus.completed:
+        return 'Completed';
+      case CandidateStatus.inProgress:
+        return 'InProgress';
+      case CandidateStatus.failed:
+        return 'Failed';
+      case CandidateStatus.stopped:
+        return 'Stopped';
+      case CandidateStatus.stopping:
+        return 'Stopping';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum CandidateStepType {
@@ -11879,11 +12015,37 @@ enum CodeRepositorySortBy {
   lastModifiedTime,
 }
 
+extension on CodeRepositorySortBy {
+  String toValue() {
+    switch (this) {
+      case CodeRepositorySortBy.name:
+        return 'Name';
+      case CodeRepositorySortBy.creationTime:
+        return 'CreationTime';
+      case CodeRepositorySortBy.lastModifiedTime:
+        return 'LastModifiedTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum CodeRepositorySortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on CodeRepositorySortOrder {
+  String toValue() {
+    switch (this) {
+      case CodeRepositorySortOrder.ascending:
+        return 'Ascending';
+      case CodeRepositorySortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies summary information about a Git repository.
@@ -12002,6 +12164,26 @@ enum CompilationJobStatus {
   stopping,
   @_s.JsonValue('STOPPED')
   stopped,
+}
+
+extension on CompilationJobStatus {
+  String toValue() {
+    switch (this) {
+      case CompilationJobStatus.inprogress:
+        return 'INPROGRESS';
+      case CompilationJobStatus.completed:
+        return 'COMPLETED';
+      case CompilationJobStatus.failed:
+        return 'FAILED';
+      case CompilationJobStatus.starting:
+        return 'STARTING';
+      case CompilationJobStatus.stopping:
+        return 'STOPPING';
+      case CompilationJobStatus.stopped:
+        return 'STOPPED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A summary of a model compilation job.
@@ -15513,6 +15695,18 @@ enum DirectInternetAccess {
   disabled,
 }
 
+extension on DirectInternetAccess {
+  String toValue() {
+    switch (this) {
+      case DirectInternetAccess.enabled:
+        return 'Enabled';
+      case DirectInternetAccess.disabled:
+        return 'Disabled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15603,6 +15797,18 @@ enum EndpointConfigSortKey {
   creationTime,
 }
 
+extension on EndpointConfigSortKey {
+  String toValue() {
+    switch (this) {
+      case EndpointConfigSortKey.name:
+        return 'Name';
+      case EndpointConfigSortKey.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides summary information for an endpoint configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -15681,6 +15887,20 @@ enum EndpointSortKey {
   status,
 }
 
+extension on EndpointSortKey {
+  String toValue() {
+    switch (this) {
+      case EndpointSortKey.name:
+        return 'Name';
+      case EndpointSortKey.creationTime:
+        return 'CreationTime';
+      case EndpointSortKey.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum EndpointStatus {
   @_s.JsonValue('OutOfService')
   outOfService,
@@ -15698,6 +15918,30 @@ enum EndpointStatus {
   deleting,
   @_s.JsonValue('Failed')
   failed,
+}
+
+extension on EndpointStatus {
+  String toValue() {
+    switch (this) {
+      case EndpointStatus.outOfService:
+        return 'OutOfService';
+      case EndpointStatus.creating:
+        return 'Creating';
+      case EndpointStatus.updating:
+        return 'Updating';
+      case EndpointStatus.systemUpdating:
+        return 'SystemUpdating';
+      case EndpointStatus.rollingBack:
+        return 'RollingBack';
+      case EndpointStatus.inService:
+        return 'InService';
+      case EndpointStatus.deleting:
+        return 'Deleting';
+      case EndpointStatus.failed:
+        return 'Failed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides summary information for an endpoint.
@@ -15798,6 +16042,28 @@ enum ExecutionStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
+}
+
+extension on ExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionStatus.pending:
+        return 'Pending';
+      case ExecutionStatus.completed:
+        return 'Completed';
+      case ExecutionStatus.completedWithViolations:
+        return 'CompletedWithViolations';
+      case ExecutionStatus.inProgress:
+        return 'InProgress';
+      case ExecutionStatus.failed:
+        return 'Failed';
+      case ExecutionStatus.stopping:
+        return 'Stopping';
+      case ExecutionStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The properties of an experiment as returned by the <a>Search</a> API.
@@ -17507,6 +17773,20 @@ enum HyperParameterTuningJobSortByOptions {
   creationTime,
 }
 
+extension on HyperParameterTuningJobSortByOptions {
+  String toValue() {
+    switch (this) {
+      case HyperParameterTuningJobSortByOptions.name:
+        return 'Name';
+      case HyperParameterTuningJobSortByOptions.status:
+        return 'Status';
+      case HyperParameterTuningJobSortByOptions.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum HyperParameterTuningJobStatus {
   @_s.JsonValue('Completed')
   completed,
@@ -17518,6 +17798,24 @@ enum HyperParameterTuningJobStatus {
   stopped,
   @_s.JsonValue('Stopping')
   stopping,
+}
+
+extension on HyperParameterTuningJobStatus {
+  String toValue() {
+    switch (this) {
+      case HyperParameterTuningJobStatus.completed:
+        return 'Completed';
+      case HyperParameterTuningJobStatus.inProgress:
+        return 'InProgress';
+      case HyperParameterTuningJobStatus.failed:
+        return 'Failed';
+      case HyperParameterTuningJobStatus.stopped:
+        return 'Stopped';
+      case HyperParameterTuningJobStatus.stopping:
+        return 'Stopping';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The strategy hyperparameter tuning uses to find the best combination of
@@ -17981,6 +18279,90 @@ enum InstanceType {
   mlP3_8xlarge,
   @_s.JsonValue('ml.p3.16xlarge')
   mlP3_16xlarge,
+}
+
+extension on InstanceType {
+  String toValue() {
+    switch (this) {
+      case InstanceType.mlT2Medium:
+        return 'ml.t2.medium';
+      case InstanceType.mlT2Large:
+        return 'ml.t2.large';
+      case InstanceType.mlT2Xlarge:
+        return 'ml.t2.xlarge';
+      case InstanceType.mlT2_2xlarge:
+        return 'ml.t2.2xlarge';
+      case InstanceType.mlT3Medium:
+        return 'ml.t3.medium';
+      case InstanceType.mlT3Large:
+        return 'ml.t3.large';
+      case InstanceType.mlT3Xlarge:
+        return 'ml.t3.xlarge';
+      case InstanceType.mlT3_2xlarge:
+        return 'ml.t3.2xlarge';
+      case InstanceType.mlM4Xlarge:
+        return 'ml.m4.xlarge';
+      case InstanceType.mlM4_2xlarge:
+        return 'ml.m4.2xlarge';
+      case InstanceType.mlM4_4xlarge:
+        return 'ml.m4.4xlarge';
+      case InstanceType.mlM4_10xlarge:
+        return 'ml.m4.10xlarge';
+      case InstanceType.mlM4_16xlarge:
+        return 'ml.m4.16xlarge';
+      case InstanceType.mlM5Xlarge:
+        return 'ml.m5.xlarge';
+      case InstanceType.mlM5_2xlarge:
+        return 'ml.m5.2xlarge';
+      case InstanceType.mlM5_4xlarge:
+        return 'ml.m5.4xlarge';
+      case InstanceType.mlM5_12xlarge:
+        return 'ml.m5.12xlarge';
+      case InstanceType.mlM5_24xlarge:
+        return 'ml.m5.24xlarge';
+      case InstanceType.mlC4Xlarge:
+        return 'ml.c4.xlarge';
+      case InstanceType.mlC4_2xlarge:
+        return 'ml.c4.2xlarge';
+      case InstanceType.mlC4_4xlarge:
+        return 'ml.c4.4xlarge';
+      case InstanceType.mlC4_8xlarge:
+        return 'ml.c4.8xlarge';
+      case InstanceType.mlC5Xlarge:
+        return 'ml.c5.xlarge';
+      case InstanceType.mlC5_2xlarge:
+        return 'ml.c5.2xlarge';
+      case InstanceType.mlC5_4xlarge:
+        return 'ml.c5.4xlarge';
+      case InstanceType.mlC5_9xlarge:
+        return 'ml.c5.9xlarge';
+      case InstanceType.mlC5_18xlarge:
+        return 'ml.c5.18xlarge';
+      case InstanceType.mlC5dXlarge:
+        return 'ml.c5d.xlarge';
+      case InstanceType.mlC5d_2xlarge:
+        return 'ml.c5d.2xlarge';
+      case InstanceType.mlC5d_4xlarge:
+        return 'ml.c5d.4xlarge';
+      case InstanceType.mlC5d_9xlarge:
+        return 'ml.c5d.9xlarge';
+      case InstanceType.mlC5d_18xlarge:
+        return 'ml.c5d.18xlarge';
+      case InstanceType.mlP2Xlarge:
+        return 'ml.p2.xlarge';
+      case InstanceType.mlP2_8xlarge:
+        return 'ml.p2.8xlarge';
+      case InstanceType.mlP2_16xlarge:
+        return 'ml.p2.16xlarge';
+      case InstanceType.mlP3_2xlarge:
+        return 'ml.p3.2xlarge';
+      case InstanceType.mlP3_8xlarge:
+        return 'ml.p3.8xlarge';
+      case InstanceType.mlP3_16xlarge:
+        return 'ml.p3.16xlarge';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// For a hyperparameter of the integer type, specifies the range that a
@@ -18485,6 +18867,24 @@ enum LabelingJobStatus {
   stopped,
 }
 
+extension on LabelingJobStatus {
+  String toValue() {
+    switch (this) {
+      case LabelingJobStatus.inProgress:
+        return 'InProgress';
+      case LabelingJobStatus.completed:
+        return 'Completed';
+      case LabelingJobStatus.failed:
+        return 'Failed';
+      case LabelingJobStatus.stopping:
+        return 'Stopping';
+      case LabelingJobStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A set of conditions for stopping a labeling job. If any of the conditions
 /// are met, the job is automatically stopped. You can use these conditions to
 /// control the cost of data labeling.
@@ -18769,6 +19169,20 @@ enum ListCompilationJobsSortBy {
   status,
 }
 
+extension on ListCompilationJobsSortBy {
+  String toValue() {
+    switch (this) {
+      case ListCompilationJobsSortBy.name:
+        return 'Name';
+      case ListCompilationJobsSortBy.creationTime:
+        return 'CreationTime';
+      case ListCompilationJobsSortBy.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -18960,6 +19374,16 @@ class ListLabelingJobsForWorkteamResponse {
 enum ListLabelingJobsForWorkteamSortByOptions {
   @_s.JsonValue('CreationTime')
   creationTime,
+}
+
+extension on ListLabelingJobsForWorkteamSortByOptions {
+  String toValue() {
+    switch (this) {
+      case ListLabelingJobsForWorkteamSortByOptions.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -19374,6 +19798,18 @@ enum ListWorkteamsSortByOptions {
   createDate,
 }
 
+extension on ListWorkteamsSortByOptions {
+  String toValue() {
+    switch (this) {
+      case ListWorkteamsSortByOptions.name:
+        return 'Name';
+      case ListWorkteamsSortByOptions.createDate:
+        return 'CreateDate';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Defines the Amazon Cognito user group that is part of a work team.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19534,6 +19970,18 @@ enum ModelPackageSortBy {
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
+}
+
+extension on ModelPackageSortBy {
+  String toValue() {
+    switch (this) {
+      case ModelPackageSortBy.name:
+        return 'Name';
+      case ModelPackageSortBy.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ModelPackageStatus {
@@ -19706,6 +20154,18 @@ enum ModelSortKey {
   creationTime,
 }
 
+extension on ModelSortKey {
+  String toValue() {
+    switch (this) {
+      case ModelSortKey.name:
+        return 'Name';
+      case ModelSortKey.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides summary information about a model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19874,6 +20334,20 @@ enum MonitoringExecutionSortKey {
   scheduledTime,
   @_s.JsonValue('Status')
   status,
+}
+
+extension on MonitoringExecutionSortKey {
+  String toValue() {
+    switch (this) {
+      case MonitoringExecutionSortKey.creationTime:
+        return 'CreationTime';
+      case MonitoringExecutionSortKey.scheduledTime:
+        return 'ScheduledTime';
+      case MonitoringExecutionSortKey.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Summary of information about the last monitoring job to run.
@@ -20153,6 +20627,20 @@ enum MonitoringScheduleSortKey {
   status,
 }
 
+extension on MonitoringScheduleSortKey {
+  String toValue() {
+    switch (this) {
+      case MonitoringScheduleSortKey.name:
+        return 'Name';
+      case MonitoringScheduleSortKey.creationTime:
+        return 'CreationTime';
+      case MonitoringScheduleSortKey.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Summarizes the monitoring schedule.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -20333,11 +20821,37 @@ enum NotebookInstanceLifecycleConfigSortKey {
   lastModifiedTime,
 }
 
+extension on NotebookInstanceLifecycleConfigSortKey {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceLifecycleConfigSortKey.name:
+        return 'Name';
+      case NotebookInstanceLifecycleConfigSortKey.creationTime:
+        return 'CreationTime';
+      case NotebookInstanceLifecycleConfigSortKey.lastModifiedTime:
+        return 'LastModifiedTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum NotebookInstanceLifecycleConfigSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on NotebookInstanceLifecycleConfigSortOrder {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceLifecycleConfigSortOrder.ascending:
+        return 'Ascending';
+      case NotebookInstanceLifecycleConfigSortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides a summary of a notebook instance lifecycle configuration.
@@ -20422,11 +20936,37 @@ enum NotebookInstanceSortKey {
   status,
 }
 
+extension on NotebookInstanceSortKey {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceSortKey.name:
+        return 'Name';
+      case NotebookInstanceSortKey.creationTime:
+        return 'CreationTime';
+      case NotebookInstanceSortKey.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum NotebookInstanceSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on NotebookInstanceSortOrder {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceSortOrder.ascending:
+        return 'Ascending';
+      case NotebookInstanceSortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum NotebookInstanceStatus {
@@ -20444,6 +20984,28 @@ enum NotebookInstanceStatus {
   deleting,
   @_s.JsonValue('Updating')
   updating,
+}
+
+extension on NotebookInstanceStatus {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceStatus.pending:
+        return 'Pending';
+      case NotebookInstanceStatus.inService:
+        return 'InService';
+      case NotebookInstanceStatus.stopping:
+        return 'Stopping';
+      case NotebookInstanceStatus.stopped:
+        return 'Stopped';
+      case NotebookInstanceStatus.failed:
+        return 'Failed';
+      case NotebookInstanceStatus.deleting:
+        return 'Deleting';
+      case NotebookInstanceStatus.updating:
+        return 'Updating';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides summary information for an Amazon SageMaker notebook instance.
@@ -20633,6 +21195,18 @@ enum OrderKey {
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on OrderKey {
+  String toValue() {
+    switch (this) {
+      case OrderKey.ascending:
+        return 'Ascending';
+      case OrderKey.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about the output location for the compiled model and
@@ -20878,6 +21452,20 @@ enum ProblemType {
   multiclassClassification,
   @_s.JsonValue('Regression')
   regression,
+}
+
+extension on ProblemType {
+  String toValue() {
+    switch (this) {
+      case ProblemType.binaryClassification:
+        return 'BinaryClassification';
+      case ProblemType.multiclassClassification:
+        return 'MulticlassClassification';
+      case ProblemType.regression:
+        return 'Regression';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Configuration for the cluster used to run a processing job.
@@ -21162,6 +21750,24 @@ enum ProcessingJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
+}
+
+extension on ProcessingJobStatus {
+  String toValue() {
+    switch (this) {
+      case ProcessingJobStatus.inProgress:
+        return 'InProgress';
+      case ProcessingJobStatus.completed:
+        return 'Completed';
+      case ProcessingJobStatus.failed:
+        return 'Failed';
+      case ProcessingJobStatus.stopping:
+        return 'Stopping';
+      case ProcessingJobStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Summary of information about a processing job.
@@ -22325,6 +22931,22 @@ enum ResourceType {
   experimentTrialComponent,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.trainingJob:
+        return 'TrainingJob';
+      case ResourceType.experiment:
+        return 'Experiment';
+      case ResourceType.experimentTrial:
+        return 'ExperimentTrial';
+      case ResourceType.experimentTrialComponent:
+        return 'ExperimentTrialComponent';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The retention policy.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -22354,6 +22976,18 @@ enum RootAccess {
   enabled,
   @_s.JsonValue('Disabled')
   disabled,
+}
+
+extension on RootAccess {
+  String toValue() {
+    switch (this) {
+      case RootAccess.enabled:
+        return 'Enabled';
+      case RootAccess.disabled:
+        return 'Disabled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum RuleEvaluationStatus {
@@ -22579,6 +23213,22 @@ enum ScheduleStatus {
   stopped,
 }
 
+extension on ScheduleStatus {
+  String toValue() {
+    switch (this) {
+      case ScheduleStatus.pending:
+        return 'Pending';
+      case ScheduleStatus.failed:
+        return 'Failed';
+      case ScheduleStatus.scheduled:
+        return 'Scheduled';
+      case ScheduleStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A multi-expression that searches for the specified resource or resources in
 /// a search. All resource objects that satisfy the expression's condition are
 /// included in the search results. You must specify at least one subexpression,
@@ -22705,6 +23355,18 @@ enum SearchSortOrder {
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on SearchSortOrder {
+  String toValue() {
+    switch (this) {
+      case SearchSortOrder.ascending:
+        return 'Ascending';
+      case SearchSortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum SecondaryStatus {
@@ -22965,11 +23627,37 @@ enum SortBy {
   status,
 }
 
+extension on SortBy {
+  String toValue() {
+    switch (this) {
+      case SortBy.name:
+        return 'Name';
+      case SortBy.creationTime:
+        return 'CreationTime';
+      case SortBy.status:
+        return 'Status';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SortExperimentsBy {
   @_s.JsonValue('Name')
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
+}
+
+extension on SortExperimentsBy {
+  String toValue() {
+    switch (this) {
+      case SortExperimentsBy.name:
+        return 'Name';
+      case SortExperimentsBy.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum SortOrder {
@@ -22979,6 +23667,18 @@ enum SortOrder {
   descending,
 }
 
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'Ascending';
+      case SortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SortTrialComponentsBy {
   @_s.JsonValue('Name')
   name,
@@ -22986,11 +23686,35 @@ enum SortTrialComponentsBy {
   creationTime,
 }
 
+extension on SortTrialComponentsBy {
+  String toValue() {
+    switch (this) {
+      case SortTrialComponentsBy.name:
+        return 'Name';
+      case SortTrialComponentsBy.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SortTrialsBy {
   @_s.JsonValue('Name')
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
+}
+
+extension on SortTrialsBy {
+  String toValue() {
+    switch (this) {
+      case SortTrialsBy.name:
+        return 'Name';
+      case SortTrialsBy.creationTime:
+        return 'CreationTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies an algorithm that was used to create the model package. The
@@ -23791,6 +24515,22 @@ enum TrainingJobSortByOptions {
   finalObjectiveMetricValue,
 }
 
+extension on TrainingJobSortByOptions {
+  String toValue() {
+    switch (this) {
+      case TrainingJobSortByOptions.name:
+        return 'Name';
+      case TrainingJobSortByOptions.creationTime:
+        return 'CreationTime';
+      case TrainingJobSortByOptions.status:
+        return 'Status';
+      case TrainingJobSortByOptions.finalObjectiveMetricValue:
+        return 'FinalObjectiveMetricValue';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum TrainingJobStatus {
   @_s.JsonValue('InProgress')
   inProgress,
@@ -23802,6 +24542,24 @@ enum TrainingJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
+}
+
+extension on TrainingJobStatus {
+  String toValue() {
+    switch (this) {
+      case TrainingJobStatus.inProgress:
+        return 'InProgress';
+      case TrainingJobStatus.completed:
+        return 'Completed';
+      case TrainingJobStatus.failed:
+        return 'Failed';
+      case TrainingJobStatus.stopping:
+        return 'Stopping';
+      case TrainingJobStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The numbers of training jobs launched by a hyperparameter tuning job,
@@ -24178,6 +24936,24 @@ enum TransformJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
+}
+
+extension on TransformJobStatus {
+  String toValue() {
+    switch (this) {
+      case TransformJobStatus.inProgress:
+        return 'InProgress';
+      case TransformJobStatus.completed:
+        return 'Completed';
+      case TransformJobStatus.failed:
+        return 'Failed';
+      case TransformJobStatus.stopping:
+        return 'Stopping';
+      case TransformJobStatus.stopped:
+        return 'Stopped';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides a summary of a transform job. Multiple
@@ -25425,6 +26201,18 @@ enum UserProfileSortKey {
   creationTime,
   @_s.JsonValue('LastModifiedTime')
   lastModifiedTime,
+}
+
+extension on UserProfileSortKey {
+  String toValue() {
+    switch (this) {
+      case UserProfileSortKey.creationTime:
+        return 'CreationTime';
+      case UserProfileSortKey.lastModifiedTime:
+        return 'LastModifiedTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum UserProfileStatus {

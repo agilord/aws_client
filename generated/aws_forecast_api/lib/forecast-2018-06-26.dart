@@ -162,8 +162,8 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetName': datasetName,
-        'DatasetType': datasetType,
-        'Domain': domain,
+        'DatasetType': datasetType?.toValue(),
+        'Domain': domain?.toValue(),
         'Schema': schema,
         'DataFrequency': dataFrequency,
         'EncryptionConfig': encryptionConfig,
@@ -247,7 +247,7 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetGroupName': datasetGroupName,
-        'Domain': domain,
+        'Domain': domain?.toValue(),
         'DatasetArns': datasetArns,
       },
     );
@@ -2482,6 +2482,20 @@ enum DatasetType {
   itemMetadata,
 }
 
+extension on DatasetType {
+  String toValue() {
+    switch (this) {
+      case DatasetType.targetTimeSeries:
+        return 'TARGET_TIME_SERIES';
+      case DatasetType.relatedTimeSeries:
+        return 'RELATED_TIME_SERIES';
+      case DatasetType.itemMetadata:
+        return 'ITEM_METADATA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3095,6 +3109,28 @@ enum Domain {
   webTraffic,
   @_s.JsonValue('METRICS')
   metrics,
+}
+
+extension on Domain {
+  String toValue() {
+    switch (this) {
+      case Domain.retail:
+        return 'RETAIL';
+      case Domain.custom:
+        return 'CUSTOM';
+      case Domain.inventoryPlanning:
+        return 'INVENTORY_PLANNING';
+      case Domain.ec2Capacity:
+        return 'EC2_CAPACITY';
+      case Domain.workForce:
+        return 'WORK_FORCE';
+      case Domain.webTraffic:
+        return 'WEB_TRAFFIC';
+      case Domain.metrics:
+        return 'METRICS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An AWS Key Management Service (KMS) key and an AWS Identity and Access

@@ -218,7 +218,7 @@ class MarketplaceCommerceAnalytics {
       headers: headers,
       payload: {
         'dataSetPublicationDate': dataSetPublicationDate,
-        'dataSetType': dataSetType,
+        'dataSetType': dataSetType?.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
@@ -340,7 +340,7 @@ class MarketplaceCommerceAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSetType': dataSetType,
+        'dataSetType': dataSetType?.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'fromDate': fromDate,
         'roleNameArn': roleNameArn,
@@ -407,6 +407,64 @@ enum DataSetType {
   usSalesAndUseTaxRecords,
 }
 
+extension on DataSetType {
+  String toValue() {
+    switch (this) {
+      case DataSetType.customerSubscriberHourlyMonthlySubscriptions:
+        return 'customer_subscriber_hourly_monthly_subscriptions';
+      case DataSetType.customerSubscriberAnnualSubscriptions:
+        return 'customer_subscriber_annual_subscriptions';
+      case DataSetType.dailyBusinessUsageByInstanceType:
+        return 'daily_business_usage_by_instance_type';
+      case DataSetType.dailyBusinessFees:
+        return 'daily_business_fees';
+      case DataSetType.dailyBusinessFreeTrialConversions:
+        return 'daily_business_free_trial_conversions';
+      case DataSetType.dailyBusinessNewInstances:
+        return 'daily_business_new_instances';
+      case DataSetType.dailyBusinessNewProductSubscribers:
+        return 'daily_business_new_product_subscribers';
+      case DataSetType.dailyBusinessCanceledProductSubscribers:
+        return 'daily_business_canceled_product_subscribers';
+      case DataSetType.monthlyRevenueBillingAndRevenueData:
+        return 'monthly_revenue_billing_and_revenue_data';
+      case DataSetType.monthlyRevenueAnnualSubscriptions:
+        return 'monthly_revenue_annual_subscriptions';
+      case DataSetType.monthlyRevenueFieldDemonstrationUsage:
+        return 'monthly_revenue_field_demonstration_usage';
+      case DataSetType.monthlyRevenueFlexiblePaymentSchedule:
+        return 'monthly_revenue_flexible_payment_schedule';
+      case DataSetType.disbursedAmountByProduct:
+        return 'disbursed_amount_by_product';
+      case DataSetType.disbursedAmountByProductWithUncollectedFunds:
+        return 'disbursed_amount_by_product_with_uncollected_funds';
+      case DataSetType.disbursedAmountByInstanceHours:
+        return 'disbursed_amount_by_instance_hours';
+      case DataSetType.disbursedAmountByCustomerGeo:
+        return 'disbursed_amount_by_customer_geo';
+      case DataSetType.disbursedAmountByAgeOfUncollectedFunds:
+        return 'disbursed_amount_by_age_of_uncollected_funds';
+      case DataSetType.disbursedAmountByAgeOfDisbursedFunds:
+        return 'disbursed_amount_by_age_of_disbursed_funds';
+      case DataSetType.disbursedAmountByAgeOfPastDueFunds:
+        return 'disbursed_amount_by_age_of_past_due_funds';
+      case DataSetType.disbursedAmountByUncollectedFundsBreakdown:
+        return 'disbursed_amount_by_uncollected_funds_breakdown';
+      case DataSetType.customerProfileByIndustry:
+        return 'customer_profile_by_industry';
+      case DataSetType.customerProfileByRevenue:
+        return 'customer_profile_by_revenue';
+      case DataSetType.customerProfileByGeography:
+        return 'customer_profile_by_geography';
+      case DataSetType.salesCompensationBilledRevenue:
+        return 'sales_compensation_billed_revenue';
+      case DataSetType.usSalesAndUseTaxRecords:
+        return 'us_sales_and_use_tax_records';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Container for the result of the GenerateDataSet operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -452,6 +510,18 @@ enum SupportDataSetType {
   customerSupportContactsData,
   @_s.JsonValue('test_customer_support_contacts_data')
   testCustomerSupportContactsData,
+}
+
+extension on SupportDataSetType {
+  String toValue() {
+    switch (this) {
+      case SupportDataSetType.customerSupportContactsData:
+        return 'customer_support_contacts_data';
+      case SupportDataSetType.testCustomerSupportContactsData:
+        return 'test_customer_support_contacts_data';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {

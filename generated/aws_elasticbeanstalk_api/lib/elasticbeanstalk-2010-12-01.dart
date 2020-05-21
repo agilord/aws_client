@@ -1426,7 +1426,7 @@ class ElasticBeanstalk {
     };
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
-    status?.also((arg) => $request['Status'] = arg);
+    status?.also((arg) => $request['Status'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -1685,7 +1685,7 @@ class ElasticBeanstalk {
     nextToken?.also((arg) => $request['NextToken'] = arg);
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
     requestId?.also((arg) => $request['RequestId'] = arg);
-    severity?.also((arg) => $request['Severity'] = arg);
+    severity?.also((arg) => $request['Severity'] = arg.toValue());
     startTime?.also((arg) => $request['StartTime'] = arg);
     templateName?.also((arg) => $request['TemplateName'] = arg);
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
@@ -2107,7 +2107,7 @@ class ElasticBeanstalk {
       'Action': 'RequestEnvironmentInfo',
       'Version': '2010-12-01',
     };
-    $request['InfoType'] = infoType;
+    $request['InfoType'] = infoType.toValue();
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     await _protocol.send(
@@ -2207,7 +2207,7 @@ class ElasticBeanstalk {
       'Action': 'RetrieveEnvironmentInfo',
       'Version': '2010-12-01',
     };
-    $request['InfoType'] = infoType;
+    $request['InfoType'] = infoType.toValue();
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
@@ -2935,6 +2935,22 @@ enum ActionStatus {
   pending,
   running,
   unknown,
+}
+
+extension on ActionStatus {
+  String toValue() {
+    switch (this) {
+      case ActionStatus.scheduled:
+        return 'Scheduled';
+      case ActionStatus.pending:
+        return 'Pending';
+      case ActionStatus.running:
+        return 'Running';
+      case ActionStatus.unknown:
+        return 'Unknown';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -4580,6 +4596,18 @@ enum EnvironmentInfoType {
   bundle,
 }
 
+extension on EnvironmentInfoType {
+  String toValue() {
+    switch (this) {
+      case EnvironmentInfoType.tail:
+        return 'tail';
+      case EnvironmentInfoType.bundle:
+        return 'bundle';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   EnvironmentInfoType toEnvironmentInfoType() {
     switch (this) {
@@ -4890,6 +4918,26 @@ enum EventSeverity {
   warn,
   error,
   fatal,
+}
+
+extension on EventSeverity {
+  String toValue() {
+    switch (this) {
+      case EventSeverity.trace:
+        return 'TRACE';
+      case EventSeverity.debug:
+        return 'DEBUG';
+      case EventSeverity.info:
+        return 'INFO';
+      case EventSeverity.warn:
+        return 'WARN';
+      case EventSeverity.error:
+        return 'ERROR';
+      case EventSeverity.fatal:
+        return 'FATAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

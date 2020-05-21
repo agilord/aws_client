@@ -965,7 +965,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final queryParams = <String, String>{};
     requestedJobStatus
-        ?.let((v) => queryParams['requestedJobStatus'] = v.toString());
+        ?.let((v) => queryParams['requestedJobStatus'] = v.toValue());
     statusUpdateReason
         ?.let((v) => queryParams['statusUpdateReason'] = v.toString());
     final $result = await _protocol.send(

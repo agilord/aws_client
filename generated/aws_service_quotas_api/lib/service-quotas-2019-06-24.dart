@@ -701,7 +701,7 @@ class ServiceQuotas {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ServiceCode': serviceCode,
-        'Status': status,
+        'Status': status?.toValue(),
       },
     );
 
@@ -816,7 +816,7 @@ class ServiceQuotas {
         'ServiceCode': serviceCode,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status?.toValue(),
       },
     );
 
@@ -1769,6 +1769,24 @@ enum RequestStatus {
   denied,
   @_s.JsonValue('CASE_CLOSED')
   caseClosed,
+}
+
+extension on RequestStatus {
+  String toValue() {
+    switch (this) {
+      case RequestStatus.pending:
+        return 'PENDING';
+      case RequestStatus.caseOpened:
+        return 'CASE_OPENED';
+      case RequestStatus.approved:
+        return 'APPROVED';
+      case RequestStatus.denied:
+        return 'DENIED';
+      case RequestStatus.caseClosed:
+        return 'CASE_CLOSED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A structure that contains information about a requested change for a quota.

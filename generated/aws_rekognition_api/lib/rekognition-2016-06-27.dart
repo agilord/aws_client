@@ -170,7 +170,7 @@ class Rekognition {
       payload: {
         'SourceImage': sourceImage,
         'TargetImage': targetImage,
-        'QualityFilter': qualityFilter,
+        'QualityFilter': qualityFilter?.toValue(),
         'SimilarityThreshold': similarityThreshold,
       },
     );
@@ -1690,7 +1690,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -1816,7 +1816,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2031,7 +2031,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2149,7 +2149,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2272,7 +2272,7 @@ class Rekognition {
         'JobId': jobId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'SortBy': sortBy,
+        'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2634,7 +2634,7 @@ class Rekognition {
         'DetectionAttributes': detectionAttributes,
         'ExternalImageId': externalImageId,
         'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter,
+        'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -3148,7 +3148,7 @@ class Rekognition {
         'Image': image,
         'FaceMatchThreshold': faceMatchThreshold,
         'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter,
+        'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -3466,7 +3466,7 @@ class Rekognition {
       payload: {
         'Video': video,
         'ClientRequestToken': clientRequestToken,
-        'FaceAttributes': faceAttributes,
+        'FaceAttributes': faceAttributes?.toValue(),
         'JobTag': jobTag,
         'NotificationChannel': notificationChannel,
       },
@@ -4392,6 +4392,18 @@ enum CelebrityRecognitionSortBy {
   timestamp,
 }
 
+extension on CelebrityRecognitionSortBy {
+  String toValue() {
+    switch (this) {
+      case CelebrityRecognitionSortBy.id:
+        return 'ID';
+      case CelebrityRecognitionSortBy.timestamp:
+        return 'TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides information about a face in a target image that matches the source
 /// image face analyzed by <code>CompareFaces</code>. The <code>Face</code>
 /// property contains the bounding box of the face in the target image. The
@@ -4587,6 +4599,18 @@ enum ContentModerationSortBy {
   name,
   @_s.JsonValue('TIMESTAMP')
   timestamp,
+}
+
+extension on ContentModerationSortBy {
+  String toValue() {
+    switch (this) {
+      case ContentModerationSortBy.name:
+        return 'NAME';
+      case ContentModerationSortBy.timestamp:
+        return 'TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -5312,6 +5336,18 @@ enum FaceAttributes {
   all,
 }
 
+extension on FaceAttributes {
+  String toValue() {
+    switch (this) {
+      case FaceAttributes.$default:
+        return 'DEFAULT';
+      case FaceAttributes.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Structure containing attributes of the face that the algorithm detected.
 ///
 /// A <code>FaceDetail</code> object contains either the default facial
@@ -5554,6 +5590,18 @@ enum FaceSearchSortBy {
   $index,
   @_s.JsonValue('TIMESTAMP')
   timestamp,
+}
+
+extension on FaceSearchSortBy {
+  String toValue() {
+    switch (this) {
+      case FaceSearchSortBy.$index:
+        return 'INDEX';
+      case FaceSearchSortBy.timestamp:
+        return 'TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The predicted gender of a detected face.
@@ -6345,6 +6393,18 @@ enum LabelDetectionSortBy {
   timestamp,
 }
 
+extension on LabelDetectionSortBy {
+  String toValue() {
+    switch (this) {
+      case LabelDetectionSortBy.name:
+        return 'NAME';
+      case LabelDetectionSortBy.timestamp:
+        return 'TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Indicates the location of the landmark on the face.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6791,6 +6851,18 @@ enum PersonTrackingSortBy {
   timestamp,
 }
 
+extension on PersonTrackingSortBy {
+  String toValue() {
+    switch (this) {
+      case PersonTrackingSortBy.$index:
+        return 'INDEX';
+      case PersonTrackingSortBy.timestamp:
+        return 'TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The X and Y coordinates of a point on an image. The X and Y values returned
 /// are ratios of the overall image size. For example, if the input image is
 /// 700x200 and the operation returns X=0.5 and Y=0.25, then the point is at the
@@ -6992,6 +7064,24 @@ enum QualityFilter {
   medium,
   @_s.JsonValue('HIGH')
   high,
+}
+
+extension on QualityFilter {
+  String toValue() {
+    switch (this) {
+      case QualityFilter.none:
+        return 'NONE';
+      case QualityFilter.auto:
+        return 'AUTO';
+      case QualityFilter.low:
+        return 'LOW';
+      case QualityFilter.medium:
+        return 'MEDIUM';
+      case QualityFilter.high:
+        return 'HIGH';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum Reason {

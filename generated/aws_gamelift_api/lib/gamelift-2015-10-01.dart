@@ -142,7 +142,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptanceType': acceptanceType,
+        'AcceptanceType': acceptanceType?.toValue(),
         'PlayerIds': playerIds,
         'TicketId': ticketId,
       },
@@ -559,7 +559,7 @@ class GameLift {
       headers: headers,
       payload: {
         'Name': name,
-        'OperatingSystem': operatingSystem,
+        'OperatingSystem': operatingSystem?.toValue(),
         'StorageLocation': storageLocation,
         'Tags': tags,
         'Version': version,
@@ -917,17 +917,18 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EC2InstanceType': eC2InstanceType,
+        'EC2InstanceType': eC2InstanceType?.toValue(),
         'Name': name,
         'BuildId': buildId,
         'CertificateConfiguration': certificateConfiguration,
         'Description': description,
         'EC2InboundPermissions': eC2InboundPermissions,
-        'FleetType': fleetType,
+        'FleetType': fleetType?.toValue(),
         'InstanceRoleArn': instanceRoleArn,
         'LogPaths': logPaths,
         'MetricGroups': metricGroups,
-        'NewGameSessionProtectionPolicy': newGameSessionProtectionPolicy,
+        'NewGameSessionProtectionPolicy':
+            newGameSessionProtectionPolicy?.toValue(),
         'PeerVpcAwsAccountId': peerVpcAwsAccountId,
         'PeerVpcId': peerVpcId,
         'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
@@ -1205,8 +1206,8 @@ class GameLift {
         'MinSize': minSize,
         'RoleArn': roleArn,
         'AutoScalingPolicy': autoScalingPolicy,
-        'BalancingStrategy': balancingStrategy,
-        'GameServerProtectionPolicy': gameServerProtectionPolicy,
+        'BalancingStrategy': balancingStrategy?.toValue(),
+        'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
         'Tags': tags,
         'VpcSubnets': vpcSubnets,
       },
@@ -1871,7 +1872,7 @@ class GameLift {
         'RuleSetName': ruleSetName,
         'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         'AdditionalPlayerCount': additionalPlayerCount,
-        'BackfillMode': backfillMode,
+        'BackfillMode': backfillMode?.toValue(),
         'CustomEventData': customEventData,
         'Description': description,
         'GameProperties': gameProperties,
@@ -2923,7 +2924,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'DeleteOption': deleteOption,
+        'DeleteOption': deleteOption?.toValue(),
       },
     );
 
@@ -3798,7 +3799,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EC2InstanceType': eC2InstanceType,
+        'EC2InstanceType': eC2InstanceType?.toValue(),
       },
     );
 
@@ -5863,7 +5864,7 @@ class GameLift {
         'FleetId': fleetId,
         'Limit': limit,
         'NextToken': nextToken,
-        'StatusFilter': statusFilter,
+        'StatusFilter': statusFilter?.toValue(),
       },
     );
 
@@ -6329,7 +6330,7 @@ class GameLift {
         'Limit': limit,
         'Name': name,
         'NextToken': nextToken,
-        'RoutingStrategyType': routingStrategyType,
+        'RoutingStrategyType': routingStrategyType?.toValue(),
       },
     );
 
@@ -6434,7 +6435,7 @@ class GameLift {
       payload: {
         'Limit': limit,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status?.toValue(),
       },
     );
 
@@ -6742,7 +6743,7 @@ class GameLift {
         'GameServerGroupName': gameServerGroupName,
         'Limit': limit,
         'NextToken': nextToken,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7204,13 +7205,13 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'MetricName': metricName,
+        'MetricName': metricName?.toValue(),
         'Name': name,
-        'ComparisonOperator': comparisonOperator,
+        'ComparisonOperator': comparisonOperator?.toValue(),
         'EvaluationPeriods': evaluationPeriods,
-        'PolicyType': policyType,
+        'PolicyType': policyType?.toValue(),
         'ScalingAdjustment': scalingAdjustment,
-        'ScalingAdjustmentType': scalingAdjustmentType,
+        'ScalingAdjustmentType': scalingAdjustmentType?.toValue(),
         'TargetConfiguration': targetConfiguration,
         'Threshold': threshold,
       },
@@ -9455,7 +9456,8 @@ class GameLift {
         'Description': description,
         'MetricGroups': metricGroups,
         'Name': name,
-        'NewGameSessionProtectionPolicy': newGameSessionProtectionPolicy,
+        'NewGameSessionProtectionPolicy':
+            newGameSessionProtectionPolicy?.toValue(),
         'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
       },
     );
@@ -9869,8 +9871,8 @@ class GameLift {
         'GameServerId': gameServerId,
         'CustomSortKey': customSortKey,
         'GameServerData': gameServerData,
-        'HealthCheck': healthCheck,
-        'UtilizationStatus': utilizationStatus,
+        'HealthCheck': healthCheck?.toValue(),
+        'UtilizationStatus': utilizationStatus?.toValue(),
       },
     );
 
@@ -10029,8 +10031,8 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'BalancingStrategy': balancingStrategy,
-        'GameServerProtectionPolicy': gameServerProtectionPolicy,
+        'BalancingStrategy': balancingStrategy?.toValue(),
+        'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
         'InstanceDefinitions': instanceDefinitions,
         'RoleArn': roleArn,
       },
@@ -10163,8 +10165,8 @@ class GameLift {
         'GameSessionId': gameSessionId,
         'MaximumPlayerSessionCount': maximumPlayerSessionCount,
         'Name': name,
-        'PlayerSessionCreationPolicy': playerSessionCreationPolicy,
-        'ProtectionPolicy': protectionPolicy,
+        'PlayerSessionCreationPolicy': playerSessionCreationPolicy?.toValue(),
+        'ProtectionPolicy': protectionPolicy?.toValue(),
       },
     );
 
@@ -10502,7 +10504,7 @@ class GameLift {
         'AcceptanceRequired': acceptanceRequired,
         'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         'AdditionalPlayerCount': additionalPlayerCount,
-        'BackfillMode': backfillMode,
+        'BackfillMode': backfillMode?.toValue(),
         'CustomEventData': customEventData,
         'Description': description,
         'GameProperties': gameProperties,
@@ -10849,6 +10851,18 @@ enum AcceptanceType {
   reject,
 }
 
+extension on AcceptanceType {
+  String toValue() {
+    switch (this) {
+      case AcceptanceType.accept:
+        return 'ACCEPT';
+      case AcceptanceType.reject:
+        return 'REJECT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Properties that describe an alias resource.
 ///
 /// <ul>
@@ -11007,11 +11021,35 @@ enum BackfillMode {
   manual,
 }
 
+extension on BackfillMode {
+  String toValue() {
+    switch (this) {
+      case BackfillMode.automatic:
+        return 'AUTOMATIC';
+      case BackfillMode.manual:
+        return 'MANUAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum BalancingStrategy {
   @_s.JsonValue('SPOT_ONLY')
   spotOnly,
   @_s.JsonValue('SPOT_PREFERRED')
   spotPreferred,
+}
+
+extension on BalancingStrategy {
+  String toValue() {
+    switch (this) {
+      case BalancingStrategy.spotOnly:
+        return 'SPOT_ONLY';
+      case BalancingStrategy.spotPreferred:
+        return 'SPOT_PREFERRED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Properties describing a custom game build.
@@ -11124,6 +11162,20 @@ enum BuildStatus {
   failed,
 }
 
+extension on BuildStatus {
+  String toValue() {
+    switch (this) {
+      case BuildStatus.initialized:
+        return 'INITIALIZED';
+      case BuildStatus.ready:
+        return 'READY';
+      case BuildStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about the use of a TLS/SSL certificate for a fleet. TLS
 /// certificate generation is enabled at the fleet level, with one certificate
 /// generated for the fleet. When this feature is enabled, the certificate can
@@ -11187,6 +11239,22 @@ enum ComparisonOperatorType {
   lessThanThreshold,
   @_s.JsonValue('LessThanOrEqualToThreshold')
   lessThanOrEqualToThreshold,
+}
+
+extension on ComparisonOperatorType {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperatorType.greaterThanOrEqualToThreshold:
+        return 'GreaterThanOrEqualToThreshold';
+      case ComparisonOperatorType.greaterThanThreshold:
+        return 'GreaterThanThreshold';
+      case ComparisonOperatorType.lessThanThreshold:
+        return 'LessThanThreshold';
+      case ComparisonOperatorType.lessThanOrEqualToThreshold:
+        return 'LessThanOrEqualToThreshold';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the returned data in response to a request action.
@@ -12303,6 +12371,130 @@ enum EC2InstanceType {
   m5_24xlarge,
 }
 
+extension on EC2InstanceType {
+  String toValue() {
+    switch (this) {
+      case EC2InstanceType.t2Micro:
+        return 't2.micro';
+      case EC2InstanceType.t2Small:
+        return 't2.small';
+      case EC2InstanceType.t2Medium:
+        return 't2.medium';
+      case EC2InstanceType.t2Large:
+        return 't2.large';
+      case EC2InstanceType.c3Large:
+        return 'c3.large';
+      case EC2InstanceType.c3Xlarge:
+        return 'c3.xlarge';
+      case EC2InstanceType.c3_2xlarge:
+        return 'c3.2xlarge';
+      case EC2InstanceType.c3_4xlarge:
+        return 'c3.4xlarge';
+      case EC2InstanceType.c3_8xlarge:
+        return 'c3.8xlarge';
+      case EC2InstanceType.c4Large:
+        return 'c4.large';
+      case EC2InstanceType.c4Xlarge:
+        return 'c4.xlarge';
+      case EC2InstanceType.c4_2xlarge:
+        return 'c4.2xlarge';
+      case EC2InstanceType.c4_4xlarge:
+        return 'c4.4xlarge';
+      case EC2InstanceType.c4_8xlarge:
+        return 'c4.8xlarge';
+      case EC2InstanceType.c5Large:
+        return 'c5.large';
+      case EC2InstanceType.c5Xlarge:
+        return 'c5.xlarge';
+      case EC2InstanceType.c5_2xlarge:
+        return 'c5.2xlarge';
+      case EC2InstanceType.c5_4xlarge:
+        return 'c5.4xlarge';
+      case EC2InstanceType.c5_9xlarge:
+        return 'c5.9xlarge';
+      case EC2InstanceType.c5_12xlarge:
+        return 'c5.12xlarge';
+      case EC2InstanceType.c5_18xlarge:
+        return 'c5.18xlarge';
+      case EC2InstanceType.c5_24xlarge:
+        return 'c5.24xlarge';
+      case EC2InstanceType.r3Large:
+        return 'r3.large';
+      case EC2InstanceType.r3Xlarge:
+        return 'r3.xlarge';
+      case EC2InstanceType.r3_2xlarge:
+        return 'r3.2xlarge';
+      case EC2InstanceType.r3_4xlarge:
+        return 'r3.4xlarge';
+      case EC2InstanceType.r3_8xlarge:
+        return 'r3.8xlarge';
+      case EC2InstanceType.r4Large:
+        return 'r4.large';
+      case EC2InstanceType.r4Xlarge:
+        return 'r4.xlarge';
+      case EC2InstanceType.r4_2xlarge:
+        return 'r4.2xlarge';
+      case EC2InstanceType.r4_4xlarge:
+        return 'r4.4xlarge';
+      case EC2InstanceType.r4_8xlarge:
+        return 'r4.8xlarge';
+      case EC2InstanceType.r4_16xlarge:
+        return 'r4.16xlarge';
+      case EC2InstanceType.r5Large:
+        return 'r5.large';
+      case EC2InstanceType.r5Xlarge:
+        return 'r5.xlarge';
+      case EC2InstanceType.r5_2xlarge:
+        return 'r5.2xlarge';
+      case EC2InstanceType.r5_4xlarge:
+        return 'r5.4xlarge';
+      case EC2InstanceType.r5_8xlarge:
+        return 'r5.8xlarge';
+      case EC2InstanceType.r5_12xlarge:
+        return 'r5.12xlarge';
+      case EC2InstanceType.r5_16xlarge:
+        return 'r5.16xlarge';
+      case EC2InstanceType.r5_24xlarge:
+        return 'r5.24xlarge';
+      case EC2InstanceType.m3Medium:
+        return 'm3.medium';
+      case EC2InstanceType.m3Large:
+        return 'm3.large';
+      case EC2InstanceType.m3Xlarge:
+        return 'm3.xlarge';
+      case EC2InstanceType.m3_2xlarge:
+        return 'm3.2xlarge';
+      case EC2InstanceType.m4Large:
+        return 'm4.large';
+      case EC2InstanceType.m4Xlarge:
+        return 'm4.xlarge';
+      case EC2InstanceType.m4_2xlarge:
+        return 'm4.2xlarge';
+      case EC2InstanceType.m4_4xlarge:
+        return 'm4.4xlarge';
+      case EC2InstanceType.m4_10xlarge:
+        return 'm4.10xlarge';
+      case EC2InstanceType.m5Large:
+        return 'm5.large';
+      case EC2InstanceType.m5Xlarge:
+        return 'm5.xlarge';
+      case EC2InstanceType.m5_2xlarge:
+        return 'm5.2xlarge';
+      case EC2InstanceType.m5_4xlarge:
+        return 'm5.4xlarge';
+      case EC2InstanceType.m5_8xlarge:
+        return 'm5.8xlarge';
+      case EC2InstanceType.m5_12xlarge:
+        return 'm5.12xlarge';
+      case EC2InstanceType.m5_16xlarge:
+        return 'm5.16xlarge';
+      case EC2InstanceType.m5_24xlarge:
+        return 'm5.24xlarge';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Log entry describing an event that involves Amazon GameLift resources (such
 /// as a fleet). In addition to tracking activity, event codes and messages can
 /// provide additional information for troubleshooting and debugging problems.
@@ -12875,6 +13067,18 @@ enum FleetType {
   spot,
 }
 
+extension on FleetType {
+  String toValue() {
+    switch (this) {
+      case FleetType.onDemand:
+        return 'ON_DEMAND';
+      case FleetType.spot:
+        return 'SPOT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Current status of fleet utilization, including the number of game and player
 /// sessions being hosted.
 ///
@@ -13298,6 +13502,20 @@ enum GameServerGroupDeleteOption {
   retain,
 }
 
+extension on GameServerGroupDeleteOption {
+  String toValue() {
+    switch (this) {
+      case GameServerGroupDeleteOption.safeDelete:
+        return 'SAFE_DELETE';
+      case GameServerGroupDeleteOption.forceDelete:
+        return 'FORCE_DELETE';
+      case GameServerGroupDeleteOption.retain:
+        return 'RETAIN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum GameServerGroupInstanceType {
   @_s.JsonValue('c4.large')
   c4Large,
@@ -13403,6 +13621,16 @@ enum GameServerHealthCheck {
   healthy,
 }
 
+extension on GameServerHealthCheck {
+  String toValue() {
+    switch (this) {
+      case GameServerHealthCheck.healthy:
+        return 'HEALTHY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum GameServerProtectionPolicy {
   @_s.JsonValue('NO_PROTECTION')
   noProtection,
@@ -13410,11 +13638,35 @@ enum GameServerProtectionPolicy {
   fullProtection,
 }
 
+extension on GameServerProtectionPolicy {
+  String toValue() {
+    switch (this) {
+      case GameServerProtectionPolicy.noProtection:
+        return 'NO_PROTECTION';
+      case GameServerProtectionPolicy.fullProtection:
+        return 'FULL_PROTECTION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum GameServerUtilizationStatus {
   @_s.JsonValue('AVAILABLE')
   available,
   @_s.JsonValue('UTILIZED')
   utilized,
+}
+
+extension on GameServerUtilizationStatus {
+  String toValue() {
+    switch (this) {
+      case GameServerUtilizationStatus.available:
+        return 'AVAILABLE';
+      case GameServerUtilizationStatus.utilized:
+        return 'UTILIZED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Properties describing a game session.
@@ -14986,6 +15238,36 @@ enum MetricName {
   waitTime,
 }
 
+extension on MetricName {
+  String toValue() {
+    switch (this) {
+      case MetricName.activatingGameSessions:
+        return 'ActivatingGameSessions';
+      case MetricName.activeGameSessions:
+        return 'ActiveGameSessions';
+      case MetricName.activeInstances:
+        return 'ActiveInstances';
+      case MetricName.availableGameSessions:
+        return 'AvailableGameSessions';
+      case MetricName.availablePlayerSessions:
+        return 'AvailablePlayerSessions';
+      case MetricName.currentPlayerSessions:
+        return 'CurrentPlayerSessions';
+      case MetricName.idleInstances:
+        return 'IdleInstances';
+      case MetricName.percentAvailableGameSessions:
+        return 'PercentAvailableGameSessions';
+      case MetricName.percentIdleInstances:
+        return 'PercentIdleInstances';
+      case MetricName.queueDepth:
+        return 'QueueDepth';
+      case MetricName.waitTime:
+        return 'WaitTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum OperatingSystem {
   @_s.JsonValue('WINDOWS_2012')
   windows_2012,
@@ -14993,6 +15275,20 @@ enum OperatingSystem {
   amazonLinux,
   @_s.JsonValue('AMAZON_LINUX_2')
   amazonLinux_2,
+}
+
+extension on OperatingSystem {
+  String toValue() {
+    switch (this) {
+      case OperatingSystem.windows_2012:
+        return 'WINDOWS_2012';
+      case OperatingSystem.amazonLinux:
+        return 'AMAZON_LINUX';
+      case OperatingSystem.amazonLinux_2:
+        return 'AMAZON_LINUX_2';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a player session that was created as part of a
@@ -15345,6 +15641,18 @@ enum PlayerSessionCreationPolicy {
   denyAll,
 }
 
+extension on PlayerSessionCreationPolicy {
+  String toValue() {
+    switch (this) {
+      case PlayerSessionCreationPolicy.acceptAll:
+        return 'ACCEPT_ALL';
+      case PlayerSessionCreationPolicy.denyAll:
+        return 'DENY_ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum PlayerSessionStatus {
   @_s.JsonValue('RESERVED')
   reserved,
@@ -15363,11 +15671,35 @@ enum PolicyType {
   targetBased,
 }
 
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.ruleBased:
+        return 'RuleBased';
+      case PolicyType.targetBased:
+        return 'TargetBased';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ProtectionPolicy {
   @_s.JsonValue('NoProtection')
   noProtection,
   @_s.JsonValue('FullProtection')
   fullProtection,
+}
+
+extension on ProtectionPolicy {
+  String toValue() {
+    switch (this) {
+      case ProtectionPolicy.noProtection:
+        return 'NoProtection';
+      case ProtectionPolicy.fullProtection:
+        return 'FullProtection';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the returned data in response to a request action.
@@ -15585,6 +15917,18 @@ enum RoutingStrategyType {
   terminal,
 }
 
+extension on RoutingStrategyType {
+  String toValue() {
+    switch (this) {
+      case RoutingStrategyType.simple:
+        return 'SIMPLE';
+      case RoutingStrategyType.terminal:
+        return 'TERMINAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A collection of server process configurations that describe what processes
 /// to run on each instance in a fleet. Server processes run either a custom
 /// game build executable or a Realtime Servers script. Each instance in the
@@ -15707,6 +16051,20 @@ enum ScalingAdjustmentType {
   exactCapacity,
   @_s.JsonValue('PercentChangeInCapacity')
   percentChangeInCapacity,
+}
+
+extension on ScalingAdjustmentType {
+  String toValue() {
+    switch (this) {
+      case ScalingAdjustmentType.changeInCapacity:
+        return 'ChangeInCapacity';
+      case ScalingAdjustmentType.exactCapacity:
+        return 'ExactCapacity';
+      case ScalingAdjustmentType.percentChangeInCapacity:
+        return 'PercentChangeInCapacity';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Rule that controls how a fleet is scaled. Scaling policies are uniquely
@@ -15941,6 +16299,28 @@ enum ScalingStatusType {
   error,
 }
 
+extension on ScalingStatusType {
+  String toValue() {
+    switch (this) {
+      case ScalingStatusType.active:
+        return 'ACTIVE';
+      case ScalingStatusType.updateRequested:
+        return 'UPDATE_REQUESTED';
+      case ScalingStatusType.updating:
+        return 'UPDATING';
+      case ScalingStatusType.deleteRequested:
+        return 'DELETE_REQUESTED';
+      case ScalingStatusType.deleting:
+        return 'DELETING';
+      case ScalingStatusType.deleted:
+        return 'DELETED';
+      case ScalingStatusType.error:
+        return 'ERROR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Properties describing a Realtime script.
 ///
 /// <b>Related operations</b>
@@ -16098,6 +16478,18 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

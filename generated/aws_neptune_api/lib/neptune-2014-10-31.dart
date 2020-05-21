@@ -3068,7 +3068,7 @@ class Neptune {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
-    sourceType?.also((arg) => $request['SourceType'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -8018,6 +8018,26 @@ enum SourceType {
   dbSnapshot,
   dbCluster,
   dbClusterSnapshot,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.dbInstance:
+        return 'db-instance';
+      case SourceType.dbParameterGroup:
+        return 'db-parameter-group';
+      case SourceType.dbSecurityGroup:
+        return 'db-security-group';
+      case SourceType.dbSnapshot:
+        return 'db-snapshot';
+      case SourceType.dbCluster:
+        return 'db-cluster';
+      case SourceType.dbClusterSnapshot:
+        return 'db-cluster-snapshot';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

@@ -518,7 +518,7 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling,
+        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
         'RoleName': roleName,
       },
     );
@@ -779,7 +779,7 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling,
+        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
         'RoleName': roleName,
       },
     );
@@ -851,7 +851,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FeatureSet': featureSet,
+        'FeatureSet': featureSet?.toValue(),
       },
     );
 
@@ -1032,7 +1032,7 @@ class Organizations {
         'Content': content,
         'Description': description,
         'Name': name,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -1452,7 +1452,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType,
+        'PolicyType': policyType?.toValue(),
         'TargetId': targetId,
       },
     );
@@ -1889,7 +1889,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType,
+        'PolicyType': policyType?.toValue(),
         'RootId': rootId,
       },
     );
@@ -2088,7 +2088,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType,
+        'PolicyType': policyType?.toValue(),
         'RootId': rootId,
       },
     );
@@ -2587,7 +2587,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChildType': childType,
+        'ChildType': childType?.toValue(),
         'ParentId': parentId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -3275,7 +3275,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
+        'Filter': filter?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -3383,7 +3383,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
+        'Filter': filter?.toValue(),
         'TargetId': targetId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -4291,6 +4291,18 @@ enum ChildType {
   organizationalUnit,
 }
 
+extension on ChildType {
+  String toValue() {
+    switch (this) {
+      case ChildType.account:
+        return 'ACCOUNT';
+      case ChildType.organizationalUnit:
+        return 'ORGANIZATIONAL_UNIT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum CreateAccountFailureReason {
   @_s.JsonValue('ACCOUNT_LIMIT_EXCEEDED')
   accountLimitExceeded,
@@ -4790,6 +4802,16 @@ enum EffectivePolicyType {
   tagPolicy,
 }
 
+extension on EffectivePolicyType {
+  String toValue() {
+    switch (this) {
+      case EffectivePolicyType.tagPolicy:
+        return 'TAG_POLICY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5151,6 +5173,18 @@ enum IAMUserAccessToBilling {
   allow,
   @_s.JsonValue('DENY')
   deny,
+}
+
+extension on IAMUserAccessToBilling {
+  String toValue() {
+    switch (this) {
+      case IAMUserAccessToBilling.allow:
+        return 'ALLOW';
+      case IAMUserAccessToBilling.deny:
+        return 'DENY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -5696,6 +5730,18 @@ enum OrganizationFeatureSet {
   consolidatedBilling,
 }
 
+extension on OrganizationFeatureSet {
+  String toValue() {
+    switch (this) {
+      case OrganizationFeatureSet.all:
+        return 'ALL';
+      case OrganizationFeatureSet.consolidatedBilling:
+        return 'CONSOLIDATED_BILLING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains details about an organizational unit (OU). An OU is a container of
 /// AWS accounts within a root of an organization. Policies that are attached to
 /// an OU apply to all accounts contained in that OU and in any child OUs.
@@ -5937,6 +5983,18 @@ enum PolicyType {
   serviceControlPolicy,
   @_s.JsonValue('TAG_POLICY')
   tagPolicy,
+}
+
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.serviceControlPolicy:
+        return 'SERVICE_CONTROL_POLICY';
+      case PolicyType.tagPolicy:
+        return 'TAG_POLICY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum PolicyTypeStatus {

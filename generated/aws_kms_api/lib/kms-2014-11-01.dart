@@ -1085,10 +1085,10 @@ class KMS {
       payload: {
         'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
         'CustomKeyStoreId': customKeyStoreId,
-        'CustomerMasterKeySpec': customerMasterKeySpec,
+        'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
         'Description': description,
-        'KeyUsage': keyUsage,
-        'Origin': origin,
+        'KeyUsage': keyUsage?.toValue(),
+        'Origin': origin?.toValue(),
         'Policy': policy,
         'Tags': tags,
       },
@@ -1271,7 +1271,7 @@ class KMS {
       headers: headers,
       payload: {
         'CiphertextBlob': ciphertextBlob,
-        'EncryptionAlgorithm': encryptionAlgorithm,
+        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
         'KeyId': keyId,
@@ -2280,7 +2280,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Plaintext': plaintext,
-        'EncryptionAlgorithm': encryptionAlgorithm,
+        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2474,7 +2474,7 @@ class KMS {
         'KeyId': keyId,
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
-        'KeySpec': keySpec,
+        'KeySpec': keySpec?.toValue(),
         'NumberOfBytes': numberOfBytes,
       },
     );
@@ -2624,7 +2624,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec,
+        'KeyPairSpec': keyPairSpec?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2767,7 +2767,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec,
+        'KeyPairSpec': keyPairSpec?.toValue(),
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
       },
@@ -2933,7 +2933,7 @@ class KMS {
         'KeyId': keyId,
         'EncryptionContext': encryptionContext,
         'GrantTokens': grantTokens,
-        'KeySpec': keySpec,
+        'KeySpec': keySpec?.toValue(),
         'NumberOfBytes': numberOfBytes,
       },
     );
@@ -3261,8 +3261,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm,
-        'WrappingKeySpec': wrappingKeySpec,
+        'WrappingAlgorithm': wrappingAlgorithm?.toValue(),
+        'WrappingKeySpec': wrappingKeySpec?.toValue(),
       },
     );
 
@@ -3558,7 +3558,7 @@ class KMS {
         'EncryptedKeyMaterial': encryptedKeyMaterial,
         'ImportToken': importToken,
         'KeyId': keyId,
-        'ExpirationModel': expirationModel,
+        'ExpirationModel': expirationModel?.toValue(),
         'ValidTo': validTo,
       },
     );
@@ -4513,10 +4513,11 @@ class KMS {
       payload: {
         'CiphertextBlob': ciphertextBlob,
         'DestinationKeyId': destinationKeyId,
-        'DestinationEncryptionAlgorithm': destinationEncryptionAlgorithm,
+        'DestinationEncryptionAlgorithm':
+            destinationEncryptionAlgorithm?.toValue(),
         'DestinationEncryptionContext': destinationEncryptionContext,
         'GrantTokens': grantTokens,
-        'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm,
+        'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
         'SourceEncryptionContext': sourceEncryptionContext,
         'SourceKeyId': sourceKeyId,
       },
@@ -4941,9 +4942,9 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Message': message,
-        'SigningAlgorithm': signingAlgorithm,
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'GrantTokens': grantTokens,
-        'MessageType': messageType,
+        'MessageType': messageType?.toValue(),
       },
     );
 
@@ -5571,9 +5572,9 @@ class KMS {
         'KeyId': keyId,
         'Message': message,
         'Signature': signature,
-        'SigningAlgorithm': signingAlgorithm,
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'GrantTokens': grantTokens,
-        'MessageType': messageType,
+        'MessageType': messageType?.toValue(),
       },
     );
 
@@ -5588,6 +5589,20 @@ enum AlgorithmSpec {
   rsaesOaepSha_1,
   @_s.JsonValue('RSAES_OAEP_SHA_256')
   rsaesOaepSha_256,
+}
+
+extension on AlgorithmSpec {
+  String toValue() {
+    switch (this) {
+      case AlgorithmSpec.rsaesPkcs1V1_5:
+        return 'RSAES_PKCS1_V1_5';
+      case AlgorithmSpec.rsaesOaepSha_1:
+        return 'RSAES_OAEP_SHA_1';
+      case AlgorithmSpec.rsaesOaepSha_256:
+        return 'RSAES_OAEP_SHA_256';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about an alias.
@@ -5907,6 +5922,30 @@ enum CustomerMasterKeySpec {
   symmetricDefault,
 }
 
+extension on CustomerMasterKeySpec {
+  String toValue() {
+    switch (this) {
+      case CustomerMasterKeySpec.rsa_2048:
+        return 'RSA_2048';
+      case CustomerMasterKeySpec.rsa_3072:
+        return 'RSA_3072';
+      case CustomerMasterKeySpec.rsa_4096:
+        return 'RSA_4096';
+      case CustomerMasterKeySpec.eccNistP256:
+        return 'ECC_NIST_P256';
+      case CustomerMasterKeySpec.eccNistP384:
+        return 'ECC_NIST_P384';
+      case CustomerMasterKeySpec.eccNistP521:
+        return 'ECC_NIST_P521';
+      case CustomerMasterKeySpec.eccSecgP256k1:
+        return 'ECC_SECG_P256K1';
+      case CustomerMasterKeySpec.symmetricDefault:
+        return 'SYMMETRIC_DEFAULT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum DataKeyPairSpec {
   @_s.JsonValue('RSA_2048')
   rsa_2048,
@@ -5924,11 +5963,45 @@ enum DataKeyPairSpec {
   eccSecgP256k1,
 }
 
+extension on DataKeyPairSpec {
+  String toValue() {
+    switch (this) {
+      case DataKeyPairSpec.rsa_2048:
+        return 'RSA_2048';
+      case DataKeyPairSpec.rsa_3072:
+        return 'RSA_3072';
+      case DataKeyPairSpec.rsa_4096:
+        return 'RSA_4096';
+      case DataKeyPairSpec.eccNistP256:
+        return 'ECC_NIST_P256';
+      case DataKeyPairSpec.eccNistP384:
+        return 'ECC_NIST_P384';
+      case DataKeyPairSpec.eccNistP521:
+        return 'ECC_NIST_P521';
+      case DataKeyPairSpec.eccSecgP256k1:
+        return 'ECC_SECG_P256K1';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum DataKeySpec {
   @_s.JsonValue('AES_256')
   aes_256,
   @_s.JsonValue('AES_128')
   aes_128,
+}
+
+extension on DataKeySpec {
+  String toValue() {
+    switch (this) {
+      case DataKeySpec.aes_256:
+        return 'AES_256';
+      case DataKeySpec.aes_128:
+        return 'AES_128';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -6070,11 +6143,37 @@ enum EncryptionAlgorithmSpec {
   rsaesOaepSha_256,
 }
 
+extension on EncryptionAlgorithmSpec {
+  String toValue() {
+    switch (this) {
+      case EncryptionAlgorithmSpec.symmetricDefault:
+        return 'SYMMETRIC_DEFAULT';
+      case EncryptionAlgorithmSpec.rsaesOaepSha_1:
+        return 'RSAES_OAEP_SHA_1';
+      case EncryptionAlgorithmSpec.rsaesOaepSha_256:
+        return 'RSAES_OAEP_SHA_256';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ExpirationModelType {
   @_s.JsonValue('KEY_MATERIAL_EXPIRES')
   keyMaterialExpires,
   @_s.JsonValue('KEY_MATERIAL_DOES_NOT_EXPIRE')
   keyMaterialDoesNotExpire,
+}
+
+extension on ExpirationModelType {
+  String toValue() {
+    switch (this) {
+      case ExpirationModelType.keyMaterialExpires:
+        return 'KEY_MATERIAL_EXPIRES';
+      case ExpirationModelType.keyMaterialDoesNotExpire:
+        return 'KEY_MATERIAL_DOES_NOT_EXPIRE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -6776,6 +6875,18 @@ enum KeyUsageType {
   encryptDecrypt,
 }
 
+extension on KeyUsageType {
+  String toValue() {
+    switch (this) {
+      case KeyUsageType.signVerify:
+        return 'SIGN_VERIFY';
+      case KeyUsageType.encryptDecrypt:
+        return 'ENCRYPT_DECRYPT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6945,6 +7056,18 @@ enum MessageType {
   digest,
 }
 
+extension on MessageType {
+  String toValue() {
+    switch (this) {
+      case MessageType.raw:
+        return 'RAW';
+      case MessageType.digest:
+        return 'DIGEST';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum OriginType {
   @_s.JsonValue('AWS_KMS')
   awsKms,
@@ -6952,6 +7075,20 @@ enum OriginType {
   external,
   @_s.JsonValue('AWS_CLOUDHSM')
   awsCloudhsm,
+}
+
+extension on OriginType {
+  String toValue() {
+    switch (this) {
+      case OriginType.awsKms:
+        return 'AWS_KMS';
+      case OriginType.external:
+        return 'EXTERNAL';
+      case OriginType.awsCloudhsm:
+        return 'AWS_CLOUDHSM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -7085,6 +7222,32 @@ enum SigningAlgorithmSpec {
   ecdsaSha_512,
 }
 
+extension on SigningAlgorithmSpec {
+  String toValue() {
+    switch (this) {
+      case SigningAlgorithmSpec.rsassaPssSha_256:
+        return 'RSASSA_PSS_SHA_256';
+      case SigningAlgorithmSpec.rsassaPssSha_384:
+        return 'RSASSA_PSS_SHA_384';
+      case SigningAlgorithmSpec.rsassaPssSha_512:
+        return 'RSASSA_PSS_SHA_512';
+      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256:
+        return 'RSASSA_PKCS1_V1_5_SHA_256';
+      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384:
+        return 'RSASSA_PKCS1_V1_5_SHA_384';
+      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512:
+        return 'RSASSA_PKCS1_V1_5_SHA_512';
+      case SigningAlgorithmSpec.ecdsaSha_256:
+        return 'ECDSA_SHA_256';
+      case SigningAlgorithmSpec.ecdsaSha_384:
+        return 'ECDSA_SHA_384';
+      case SigningAlgorithmSpec.ecdsaSha_512:
+        return 'ECDSA_SHA_512';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and
 /// tag values are both required, but tag values can be empty (null) strings.
 ///
@@ -7163,6 +7326,16 @@ class VerifyResponse {
 enum WrappingKeySpec {
   @_s.JsonValue('RSA_2048')
   rsa_2048,
+}
+
+extension on WrappingKeySpec {
+  String toValue() {
+    switch (this) {
+      case WrappingKeySpec.rsa_2048:
+        return 'RSA_2048';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

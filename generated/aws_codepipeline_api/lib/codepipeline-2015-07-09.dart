@@ -265,7 +265,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category,
+        'category': category?.toValue(),
         'inputArtifactDetails': inputArtifactDetails,
         'outputArtifactDetails': outputArtifactDetails,
         'provider': provider,
@@ -397,7 +397,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category,
+        'category': category?.toValue(),
         'provider': provider,
         'version': version,
       },
@@ -619,7 +619,7 @@ class CodePipeline {
         'pipelineName': pipelineName,
         'reason': reason,
         'stageName': stageName,
-        'transitionType': transitionType,
+        'transitionType': transitionType?.toValue(),
       },
     );
   }
@@ -691,7 +691,7 @@ class CodePipeline {
       payload: {
         'pipelineName': pipelineName,
         'stageName': stageName,
-        'transitionType': transitionType,
+        'transitionType': transitionType?.toValue(),
       },
     );
   }
@@ -1076,7 +1076,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'actionOwnerFilter': actionOwnerFilter,
+        'actionOwnerFilter': actionOwnerFilter?.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -2027,7 +2027,7 @@ class CodePipeline {
       payload: {
         'pipelineExecutionId': pipelineExecutionId,
         'pipelineName': pipelineName,
-        'retryMode': retryMode,
+        'retryMode': retryMode?.toValue(),
         'stageName': stageName,
       },
     );
@@ -2386,6 +2386,26 @@ enum ActionCategory {
   invoke,
   @_s.JsonValue('Approval')
   approval,
+}
+
+extension on ActionCategory {
+  String toValue() {
+    switch (this) {
+      case ActionCategory.source:
+        return 'Source';
+      case ActionCategory.build:
+        return 'Build';
+      case ActionCategory.deploy:
+        return 'Deploy';
+      case ActionCategory.test:
+        return 'Test';
+      case ActionCategory.invoke:
+        return 'Invoke';
+      case ActionCategory.approval:
+        return 'Approval';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents information about an action configuration.
@@ -2864,6 +2884,20 @@ enum ActionOwner {
   thirdParty,
   @_s.JsonValue('Custom')
   custom,
+}
+
+extension on ActionOwner {
+  String toValue() {
+    switch (this) {
+      case ActionOwner.aws:
+        return 'AWS';
+      case ActionOwner.thirdParty:
+        return 'ThirdParty';
+      case ActionOwner.custom:
+        return 'Custom';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents information about the version (or revision) of an action.
@@ -4764,6 +4798,16 @@ enum StageRetryMode {
   failedActions,
 }
 
+extension on StageRetryMode {
+  String toValue() {
+    switch (this) {
+      case StageRetryMode.failedActions:
+        return 'FAILED_ACTIONS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents information about the state of the stage.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4803,6 +4847,18 @@ enum StageTransitionType {
   inbound,
   @_s.JsonValue('Outbound')
   outbound,
+}
+
+extension on StageTransitionType {
+  String toValue() {
+    switch (this) {
+      case StageTransitionType.inbound:
+        return 'Inbound';
+      case StageTransitionType.outbound:
+        return 'Outbound';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of a <code>StartPipelineExecution</code> action.

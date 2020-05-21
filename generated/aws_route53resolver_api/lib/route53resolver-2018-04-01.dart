@@ -321,7 +321,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'Direction': direction,
+        'Direction': direction?.toValue(),
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
         'Name': name,
@@ -433,7 +433,7 @@ class Route53Resolver {
       payload: {
         'CreatorRequestId': creatorRequestId,
         'DomainName': domainName,
-        'RuleType': ruleType,
+        'RuleType': ruleType?.toValue(),
         'Name': name,
         'ResolverEndpointId': resolverEndpointId,
         'Tags': tags,
@@ -2074,6 +2074,18 @@ enum ResolverEndpointDirection {
   outbound,
 }
 
+extension on ResolverEndpointDirection {
+  String toValue() {
+    switch (this) {
+      case ResolverEndpointDirection.inbound:
+        return 'INBOUND';
+      case ResolverEndpointDirection.outbound:
+        return 'OUTBOUND';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ResolverEndpointStatus {
   @_s.JsonValue('CREATING')
   creating,
@@ -2289,6 +2301,20 @@ enum RuleTypeOption {
   system,
   @_s.JsonValue('RECURSIVE')
   recursive,
+}
+
+extension on RuleTypeOption {
+  String toValue() {
+    switch (this) {
+      case RuleTypeOption.forward:
+        return 'FORWARD';
+      case RuleTypeOption.system:
+        return 'SYSTEM';
+      case RuleTypeOption.recursive:
+        return 'RECURSIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ShareStatus {

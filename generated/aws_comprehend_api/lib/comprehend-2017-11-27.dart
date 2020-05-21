@@ -116,7 +116,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -158,7 +158,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -202,7 +202,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -247,7 +247,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'TextList': textList,
       },
     );
@@ -464,9 +464,9 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'ClientRequestToken': clientRequestToken,
-        'Mode': mode,
+        'Mode': mode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'Tags': tags,
         'VolumeKmsKeyId': volumeKmsKeyId,
@@ -723,7 +723,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'RecognizerName': recognizerName,
         'ClientRequestToken': clientRequestToken,
         'Tags': tags,
@@ -1387,7 +1387,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1434,7 +1434,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1483,7 +1483,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -1532,7 +1532,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'Text': text,
       },
     );
@@ -2503,7 +2503,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'EntityRecognizerArn': entityRecognizerArn,
@@ -2638,7 +2638,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -2772,7 +2772,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -4482,6 +4482,18 @@ enum DocumentClassifierMode {
   multiLabel,
 }
 
+extension on DocumentClassifierMode {
+  String toValue() {
+    switch (this) {
+      case DocumentClassifierMode.multiClass:
+        return 'MULTI_CLASS';
+      case DocumentClassifierMode.multiLabel:
+        return 'MULTI_LABEL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides output results configuration parameters for custom classifier jobs.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5834,6 +5846,38 @@ enum LanguageCode {
   zhTw,
 }
 
+extension on LanguageCode {
+  String toValue() {
+    switch (this) {
+      case LanguageCode.en:
+        return 'en';
+      case LanguageCode.es:
+        return 'es';
+      case LanguageCode.fr:
+        return 'fr';
+      case LanguageCode.de:
+        return 'de';
+      case LanguageCode.it:
+        return 'it';
+      case LanguageCode.pt:
+        return 'pt';
+      case LanguageCode.ar:
+        return 'ar';
+      case LanguageCode.hi:
+        return 'hi';
+      case LanguageCode.ja:
+        return 'ja';
+      case LanguageCode.ko:
+        return 'ko';
+      case LanguageCode.zh:
+        return 'zh';
+      case LanguageCode.zhTw:
+        return 'zh-TW';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6774,6 +6818,26 @@ enum SyntaxLanguageCode {
   it,
   @_s.JsonValue('pt')
   pt,
+}
+
+extension on SyntaxLanguageCode {
+  String toValue() {
+    switch (this) {
+      case SyntaxLanguageCode.en:
+        return 'en';
+      case SyntaxLanguageCode.es:
+        return 'es';
+      case SyntaxLanguageCode.fr:
+        return 'fr';
+      case SyntaxLanguageCode.de:
+        return 'de';
+      case SyntaxLanguageCode.it:
+        return 'it';
+      case SyntaxLanguageCode.pt:
+        return 'pt';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents a work in the input text that was recognized and assigned a part

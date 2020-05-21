@@ -1649,7 +1649,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        'loaContentType': loaContentType,
+        'loaContentType': loaContentType?.toValue(),
         'providerName': providerName,
       },
     );
@@ -2023,7 +2023,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'interconnectId': interconnectId,
-        'loaContentType': loaContentType,
+        'loaContentType': loaContentType?.toValue(),
         'providerName': providerName,
       },
     );
@@ -2130,7 +2130,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        'loaContentType': loaContentType,
+        'loaContentType': loaContentType?.toValue(),
         'providerName': providerName,
       },
     );
@@ -4225,6 +4225,16 @@ class Loa {
 enum LoaContentType {
   @_s.JsonValue('application/pdf')
   applicationPdf,
+}
+
+extension on LoaContentType {
+  String toValue() {
+    switch (this) {
+      case LoaContentType.applicationPdf:
+        return 'application/pdf';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about an AWS Direct Connect location.

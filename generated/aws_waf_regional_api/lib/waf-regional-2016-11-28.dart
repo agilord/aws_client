@@ -552,7 +552,7 @@ class WAFRegional {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey,
+        'RateKey': rateKey?.toValue(),
         'RateLimit': rateLimit,
         'Tags': tags,
       },
@@ -3705,7 +3705,7 @@ class WAFRegional {
       headers: headers,
       payload: {
         'WebACLId': webACLId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -9282,6 +9282,16 @@ enum RateKey {
   ip,
 }
 
+extension on RateKey {
+  String toValue() {
+    switch (this) {
+      case RateKey.ip:
+        return 'IP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a
 /// complex type that contains the <code>RegexMatchSetId</code> and
 /// <code>Name</code> of a <code>RegexMatchSet</code>, and the values that you
@@ -9668,6 +9678,18 @@ enum ResourceType {
   applicationLoadBalancer,
   @_s.JsonValue('API_GATEWAY')
   apiGateway,
+}
+
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.applicationLoadBalancer:
+        return 'APPLICATION_LOAD_BALANCER';
+      case ResourceType.apiGateway:
+        return 'API_GATEWAY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A combination of <a>ByteMatchSet</a>, <a>IPSet</a>, and/or

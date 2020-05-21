@@ -681,7 +681,7 @@ class Lambda {
       'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
       'MaximumRetryAttempts': maximumRetryAttempts,
       'ParallelizationFactor': parallelizationFactor,
-      'StartingPosition': startingPosition,
+      'StartingPosition': startingPosition?.toValue(),
       'StartingPositionTimestamp': startingPositionTimestamp,
     };
     await _protocol.send(
@@ -920,7 +920,7 @@ class Lambda {
       'FunctionName': functionName,
       'Handler': handler,
       'Role': role,
-      'Runtime': runtime,
+      'Runtime': runtime?.toValue(),
       'DeadLetterConfig': deadLetterConfig,
       'Description': description,
       'Environment': environment,
@@ -2190,8 +2190,8 @@ class Lambda {
     );
     final headers = <String, String>{};
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
-    invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toString());
-    logType?.let((v) => headers['X-Amz-Log-Type'] = v.toString());
+    invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toValue());
+    logType?.let((v) => headers['X-Amz-Log-Type'] = v.toValue());
     await _protocol.send(
       payload,
       headers: headers,
@@ -4198,7 +4198,7 @@ class Lambda {
       'MemorySize': memorySize,
       'RevisionId': revisionId,
       'Role': role,
-      'Runtime': runtime,
+      'Runtime': runtime?.toValue(),
       'Timeout': timeout,
       'TracingConfig': tracingConfig,
       'VpcConfig': vpcConfig,
@@ -4746,6 +4746,20 @@ enum EventSourcePosition {
   atTimestamp,
 }
 
+extension on EventSourcePosition {
+  String toValue() {
+    switch (this) {
+      case EventSourcePosition.trimHorizon:
+        return 'TRIM_HORIZON';
+      case EventSourcePosition.latest:
+        return 'LATEST';
+      case EventSourcePosition.atTimestamp:
+        return 'AT_TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The code for the Lambda function. You can specify either an object in Amazon
 /// S3, or upload a deployment package directly.
 @_s.JsonSerializable(
@@ -5285,6 +5299,20 @@ enum InvocationType {
   dryRun,
 }
 
+extension on InvocationType {
+  String toValue() {
+    switch (this) {
+      case InvocationType.event:
+        return 'Event';
+      case InvocationType.requestResponse:
+        return 'RequestResponse';
+      case InvocationType.dryRun:
+        return 'DryRun';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A success response (<code>202 Accepted</code>) indicates that the request is
 /// queued for invocation.
 @deprecated
@@ -5703,6 +5731,18 @@ enum LogType {
   tail,
 }
 
+extension on LogType {
+  String toValue() {
+    switch (this) {
+      case LogType.none:
+        return 'None';
+      case LogType.tail:
+        return 'Tail';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A destination for events that failed processing.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5948,6 +5988,56 @@ enum Runtime {
   ruby2_7,
   @_s.JsonValue('provided')
   provided,
+}
+
+extension on Runtime {
+  String toValue() {
+    switch (this) {
+      case Runtime.nodejs:
+        return 'nodejs';
+      case Runtime.nodejs4_3:
+        return 'nodejs4.3';
+      case Runtime.nodejs6_10:
+        return 'nodejs6.10';
+      case Runtime.nodejs8_10:
+        return 'nodejs8.10';
+      case Runtime.nodejs10X:
+        return 'nodejs10.x';
+      case Runtime.nodejs12X:
+        return 'nodejs12.x';
+      case Runtime.java8:
+        return 'java8';
+      case Runtime.java11:
+        return 'java11';
+      case Runtime.python2_7:
+        return 'python2.7';
+      case Runtime.python3_6:
+        return 'python3.6';
+      case Runtime.python3_7:
+        return 'python3.7';
+      case Runtime.python3_8:
+        return 'python3.8';
+      case Runtime.dotnetcore1_0:
+        return 'dotnetcore1.0';
+      case Runtime.dotnetcore2_0:
+        return 'dotnetcore2.0';
+      case Runtime.dotnetcore2_1:
+        return 'dotnetcore2.1';
+      case Runtime.dotnetcore3_1:
+        return 'dotnetcore3.1';
+      case Runtime.nodejs4_3Edge:
+        return 'nodejs4.3-edge';
+      case Runtime.go1X:
+        return 'go1.x';
+      case Runtime.ruby2_5:
+        return 'ruby2.5';
+      case Runtime.ruby2_7:
+        return 'ruby2.7';
+      case Runtime.provided:
+        return 'provided';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum State {

@@ -612,7 +612,7 @@ class ServiceDiscovery {
       payload: {
         'NamespaceName': namespaceName,
         'ServiceName': serviceName,
-        'HealthStatus': healthStatus,
+        'HealthStatus': healthStatus?.toValue(),
         'MaxResults': maxResults,
         'QueryParameters': queryParameters,
       },
@@ -1459,7 +1459,7 @@ class ServiceDiscovery {
       payload: {
         'InstanceId': instanceId,
         'ServiceId': serviceId,
-        'Status': status,
+        'Status': status?.toValue(),
       },
     );
   }
@@ -1608,6 +1608,18 @@ enum CustomHealthStatus {
   healthy,
   @_s.JsonValue('UNHEALTHY')
   unhealthy,
+}
+
+extension on CustomHealthStatus {
+  String toValue() {
+    switch (this) {
+      case CustomHealthStatus.healthy:
+        return 'HEALTHY';
+      case CustomHealthStatus.unhealthy:
+        return 'UNHEALTHY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -2303,6 +2315,20 @@ enum HealthStatusFilter {
   unhealthy,
   @_s.JsonValue('ALL')
   all,
+}
+
+extension on HealthStatusFilter {
+  String toValue() {
+    switch (this) {
+      case HealthStatusFilter.healthy:
+        return 'HEALTHY';
+      case HealthStatusFilter.unhealthy:
+        return 'UNHEALTHY';
+      case HealthStatusFilter.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// In a response to a <a>DiscoverInstance</a> request,

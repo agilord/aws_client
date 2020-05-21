@@ -286,10 +286,10 @@ class CloudWatch {
     alarmName?.also((arg) => $request['AlarmName'] = arg);
     alarmTypes?.also((arg) => $request['AlarmTypes'] = arg);
     endDate?.also((arg) => $request['EndDate'] = arg);
-    historyItemType?.also((arg) => $request['HistoryItemType'] = arg);
+    historyItemType?.also((arg) => $request['HistoryItemType'] = arg.toValue());
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    scanBy?.also((arg) => $request['ScanBy'] = arg);
+    scanBy?.also((arg) => $request['ScanBy'] = arg.toValue());
     startDate?.also((arg) => $request['StartDate'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -428,7 +428,7 @@ class CloudWatch {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     parentsOfAlarmName?.also((arg) => $request['ParentsOfAlarmName'] = arg);
-    stateValue?.also((arg) => $request['StateValue'] = arg);
+    stateValue?.also((arg) => $request['StateValue'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -517,8 +517,8 @@ class CloudWatch {
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     extendedStatistic?.also((arg) => $request['ExtendedStatistic'] = arg);
     period?.also((arg) => $request['Period'] = arg);
-    statistic?.also((arg) => $request['Statistic'] = arg);
-    unit?.also((arg) => $request['Unit'] = arg);
+    statistic?.also((arg) => $request['Statistic'] = arg.toValue());
+    unit?.also((arg) => $request['Unit'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -1114,7 +1114,7 @@ class CloudWatch {
     $request['StartTime'] = startTime;
     maxDatapoints?.also((arg) => $request['MaxDatapoints'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    scanBy?.also((arg) => $request['ScanBy'] = arg);
+    scanBy?.also((arg) => $request['ScanBy'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -1363,7 +1363,7 @@ class CloudWatch {
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     extendedStatistics?.also((arg) => $request['ExtendedStatistics'] = arg);
     statistics?.also((arg) => $request['Statistics'] = arg);
-    unit?.also((arg) => $request['Unit'] = arg);
+    unit?.also((arg) => $request['Unit'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -2497,7 +2497,7 @@ class CloudWatch {
       'Version': '2010-08-01',
     };
     $request['AlarmName'] = alarmName;
-    $request['ComparisonOperator'] = comparisonOperator;
+    $request['ComparisonOperator'] = comparisonOperator.toValue();
     $request['EvaluationPeriods'] = evaluationPeriods;
     actionsEnabled?.also((arg) => $request['ActionsEnabled'] = arg);
     alarmActions?.also((arg) => $request['AlarmActions'] = arg);
@@ -2514,12 +2514,12 @@ class CloudWatch {
     namespace?.also((arg) => $request['Namespace'] = arg);
     oKActions?.also((arg) => $request['OKActions'] = arg);
     period?.also((arg) => $request['Period'] = arg);
-    statistic?.also((arg) => $request['Statistic'] = arg);
+    statistic?.also((arg) => $request['Statistic'] = arg.toValue());
     tags?.also((arg) => $request['Tags'] = arg);
     threshold?.also((arg) => $request['Threshold'] = arg);
     thresholdMetricId?.also((arg) => $request['ThresholdMetricId'] = arg);
     treatMissingData?.also((arg) => $request['TreatMissingData'] = arg);
-    unit?.also((arg) => $request['Unit'] = arg);
+    unit?.also((arg) => $request['Unit'] = arg.toValue());
     await _protocol.send(
       $request,
       method: 'POST',
@@ -2708,7 +2708,7 @@ class CloudWatch {
     };
     $request['AlarmName'] = alarmName;
     $request['StateReason'] = stateReason;
-    $request['StateValue'] = stateValue;
+    $request['StateValue'] = stateValue.toValue();
     stateReasonData?.also((arg) => $request['StateReasonData'] = arg);
     await _protocol.send(
       $request,
@@ -3016,6 +3016,28 @@ enum ComparisonOperator {
   lessThanLowerOrGreaterThanUpperThreshold,
   lessThanLowerThreshold,
   greaterThanUpperThreshold,
+}
+
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.greaterThanOrEqualToThreshold:
+        return 'GreaterThanOrEqualToThreshold';
+      case ComparisonOperator.greaterThanThreshold:
+        return 'GreaterThanThreshold';
+      case ComparisonOperator.lessThanThreshold:
+        return 'LessThanThreshold';
+      case ComparisonOperator.lessThanOrEqualToThreshold:
+        return 'LessThanOrEqualToThreshold';
+      case ComparisonOperator.lessThanLowerOrGreaterThanUpperThreshold:
+        return 'LessThanLowerOrGreaterThanUpperThreshold';
+      case ComparisonOperator.lessThanLowerThreshold:
+        return 'LessThanLowerThreshold';
+      case ComparisonOperator.greaterThanUpperThreshold:
+        return 'GreaterThanUpperThreshold';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -3627,6 +3649,20 @@ enum HistoryItemType {
   configurationUpdate,
   stateUpdate,
   action,
+}
+
+extension on HistoryItemType {
+  String toValue() {
+    switch (this) {
+      case HistoryItemType.configurationUpdate:
+        return 'ConfigurationUpdate';
+      case HistoryItemType.stateUpdate:
+        return 'StateUpdate';
+      case HistoryItemType.action:
+        return 'Action';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -4543,6 +4579,18 @@ enum ScanBy {
   timestampAscending,
 }
 
+extension on ScanBy {
+  String toValue() {
+    switch (this) {
+      case ScanBy.timestampDescending:
+        return 'TimestampDescending';
+      case ScanBy.timestampAscending:
+        return 'TimestampAscending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   ScanBy toScanBy() {
     switch (this) {
@@ -4583,6 +4631,68 @@ enum StandardUnit {
   terabitsSecond,
   countSecond,
   none,
+}
+
+extension on StandardUnit {
+  String toValue() {
+    switch (this) {
+      case StandardUnit.seconds:
+        return 'Seconds';
+      case StandardUnit.microseconds:
+        return 'Microseconds';
+      case StandardUnit.milliseconds:
+        return 'Milliseconds';
+      case StandardUnit.bytes:
+        return 'Bytes';
+      case StandardUnit.kilobytes:
+        return 'Kilobytes';
+      case StandardUnit.megabytes:
+        return 'Megabytes';
+      case StandardUnit.gigabytes:
+        return 'Gigabytes';
+      case StandardUnit.terabytes:
+        return 'Terabytes';
+      case StandardUnit.bits:
+        return 'Bits';
+      case StandardUnit.kilobits:
+        return 'Kilobits';
+      case StandardUnit.megabits:
+        return 'Megabits';
+      case StandardUnit.gigabits:
+        return 'Gigabits';
+      case StandardUnit.terabits:
+        return 'Terabits';
+      case StandardUnit.percent:
+        return 'Percent';
+      case StandardUnit.count:
+        return 'Count';
+      case StandardUnit.bytesSecond:
+        return 'Bytes/Second';
+      case StandardUnit.kilobytesSecond:
+        return 'Kilobytes/Second';
+      case StandardUnit.megabytesSecond:
+        return 'Megabytes/Second';
+      case StandardUnit.gigabytesSecond:
+        return 'Gigabytes/Second';
+      case StandardUnit.terabytesSecond:
+        return 'Terabytes/Second';
+      case StandardUnit.bitsSecond:
+        return 'Bits/Second';
+      case StandardUnit.kilobitsSecond:
+        return 'Kilobits/Second';
+      case StandardUnit.megabitsSecond:
+        return 'Megabits/Second';
+      case StandardUnit.gigabitsSecond:
+        return 'Gigabits/Second';
+      case StandardUnit.terabitsSecond:
+        return 'Terabits/Second';
+      case StandardUnit.countSecond:
+        return 'Count/Second';
+      case StandardUnit.none:
+        return 'None';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -4653,6 +4763,20 @@ enum StateValue {
   insufficientData,
 }
 
+extension on StateValue {
+  String toValue() {
+    switch (this) {
+      case StateValue.ok:
+        return 'OK';
+      case StateValue.alarm:
+        return 'ALARM';
+      case StateValue.insufficientData:
+        return 'INSUFFICIENT_DATA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   StateValue toStateValue() {
     switch (this) {
@@ -4673,6 +4797,24 @@ enum Statistic {
   sum,
   minimum,
   maximum,
+}
+
+extension on Statistic {
+  String toValue() {
+    switch (this) {
+      case Statistic.sampleCount:
+        return 'SampleCount';
+      case Statistic.average:
+        return 'Average';
+      case Statistic.sum:
+        return 'Sum';
+      case Statistic.minimum:
+        return 'Minimum';
+      case Statistic.maximum:
+        return 'Maximum';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

@@ -846,7 +846,7 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'configurationType': configurationType,
+        'configurationType': configurationType?.toValue(),
         'filters': filters,
         'maxResults': maxResults,
         'nextToken': nextToken,
@@ -1491,6 +1491,22 @@ enum ConfigurationItemType {
   connection,
   @_s.JsonValue('APPLICATION')
   application,
+}
+
+extension on ConfigurationItemType {
+  String toValue() {
+    switch (this) {
+      case ConfigurationItemType.server:
+        return 'SERVER';
+      case ConfigurationItemType.process:
+        return 'PROCESS';
+      case ConfigurationItemType.connection:
+        return 'CONNECTION';
+      case ConfigurationItemType.application:
+        return 'APPLICATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT

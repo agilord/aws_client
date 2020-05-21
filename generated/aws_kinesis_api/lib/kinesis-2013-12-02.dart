@@ -1119,7 +1119,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType,
+        'ShardIteratorType': shardIteratorType?.toValue(),
         'StreamName': streamName,
         'StartingSequenceNumber': startingSequenceNumber,
         'Timestamp': timestamp,
@@ -2367,7 +2367,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType,
+        'EncryptionType': encryptionType?.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2472,7 +2472,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType,
+        'EncryptionType': encryptionType?.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2579,7 +2579,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ScalingType': scalingType,
+        'ScalingType': scalingType?.toValue(),
         'StreamName': streamName,
         'TargetShardCount': targetShardCount,
       },
@@ -2772,6 +2772,18 @@ enum EncryptionType {
   none,
   @_s.JsonValue('KMS')
   kms,
+}
+
+extension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.none:
+        return 'NONE';
+      case EncryptionType.kms:
+        return 'KMS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents enhanced metrics types.
@@ -3602,6 +3614,16 @@ enum ScalingType {
   uniformScaling,
 }
 
+extension on ScalingType {
+  String toValue() {
+    switch (this) {
+      case ScalingType.uniformScaling:
+        return 'UNIFORM_SCALING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The range of possible sequence numbers for the shard.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3675,6 +3697,24 @@ enum ShardIteratorType {
   latest,
   @_s.JsonValue('AT_TIMESTAMP')
   atTimestamp,
+}
+
+extension on ShardIteratorType {
+  String toValue() {
+    switch (this) {
+      case ShardIteratorType.atSequenceNumber:
+        return 'AT_SEQUENCE_NUMBER';
+      case ShardIteratorType.afterSequenceNumber:
+        return 'AFTER_SEQUENCE_NUMBER';
+      case ShardIteratorType.trimHorizon:
+        return 'TRIM_HORIZON';
+      case ShardIteratorType.latest:
+        return 'LATEST';
+      case ShardIteratorType.atTimestamp:
+        return 'AT_TIMESTAMP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output for <a>DescribeStream</a>.

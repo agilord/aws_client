@@ -296,7 +296,7 @@ class FSx {
       payload: {
         'FileSystemId': fileSystemId,
         'Report': report,
-        'Type': type,
+        'Type': type?.toValue(),
         'ClientRequestToken': clientRequestToken,
         'Paths': paths,
         'Tags': tags,
@@ -490,14 +490,14 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileSystemType': fileSystemType,
+        'FileSystemType': fileSystemType?.toValue(),
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
         'ClientRequestToken': clientRequestToken,
         'KmsKeyId': kmsKeyId,
         'LustreConfiguration': lustreConfiguration,
         'SecurityGroupIds': securityGroupIds,
-        'StorageType': storageType,
+        'StorageType': storageType?.toValue(),
         'Tags': tags,
         'WindowsConfiguration': windowsConfiguration,
       },
@@ -660,7 +660,7 @@ class FSx {
         'SubnetIds': subnetIds,
         'ClientRequestToken': clientRequestToken,
         'SecurityGroupIds': securityGroupIds,
-        'StorageType': storageType,
+        'StorageType': storageType?.toValue(),
         'Tags': tags,
         'WindowsConfiguration': windowsConfiguration,
       },
@@ -2181,6 +2181,16 @@ enum DataRepositoryTaskType {
   exportToRepository,
 }
 
+extension on DataRepositoryTaskType {
+  String toValue() {
+    switch (this) {
+      case DataRepositoryTaskType.exportToRepository:
+        return 'EXPORT_TO_REPOSITORY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The response object for <code>DeleteBackup</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2560,6 +2570,18 @@ enum FileSystemType {
   lustre,
 }
 
+extension on FileSystemType {
+  String toValue() {
+    switch (this) {
+      case FileSystemType.windows:
+        return 'WINDOWS';
+      case FileSystemType.lustre:
+        return 'LUSTRE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A filter used to restrict the results of describe calls. You can use
 /// multiple filters to return results that meet all applied filter
 /// requirements.
@@ -2851,6 +2873,18 @@ enum StorageType {
   ssd,
   @_s.JsonValue('HDD')
   hdd,
+}
+
+extension on StorageType {
+  String toValue() {
+    switch (this) {
+      case StorageType.ssd:
+        return 'SSD';
+      case StorageType.hdd:
+        return 'HDD';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies a key-value pair for a resource tag.

@@ -236,7 +236,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         'Expected': expected,
-        'ReturnValues': returnValues,
+        'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -507,7 +507,7 @@ class DynamoDB {
         'Item': item,
         'TableName': tableName,
         'Expected': expected,
-        'ReturnValues': returnValues,
+        'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -775,7 +775,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         'Expected': expected,
-        'ReturnValues': returnValues,
+        'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -1529,6 +1529,24 @@ enum ReturnValue {
   allNew,
   @_s.JsonValue('UPDATED_NEW')
   updatedNew,
+}
+
+extension on ReturnValue {
+  String toValue() {
+    switch (this) {
+      case ReturnValue.none:
+        return 'NONE';
+      case ReturnValue.allOld:
+        return 'ALL_OLD';
+      case ReturnValue.updatedOld:
+        return 'UPDATED_OLD';
+      case ReturnValue.allNew:
+        return 'ALL_NEW';
+      case ReturnValue.updatedNew:
+        return 'UPDATED_NEW';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ScalarAttributeType {

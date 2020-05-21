@@ -139,7 +139,7 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-        'CertificateAuthorityType': certificateAuthorityType,
+        'CertificateAuthorityType': certificateAuthorityType?.toValue(),
         'IdempotencyToken': idempotencyToken,
         'RevocationConfiguration': revocationConfiguration,
         'Tags': tags,
@@ -209,7 +209,7 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuditReportResponseFormat': auditReportResponseFormat,
+        'AuditReportResponseFormat': auditReportResponseFormat?.toValue(),
         'CertificateAuthorityArn': certificateAuthorityArn,
         'S3BucketName': s3BucketName,
       },
@@ -1104,7 +1104,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Csr': csr,
-        'SigningAlgorithm': signingAlgorithm,
+        'SigningAlgorithm': signingAlgorithm?.toValue(),
         'Validity': validity,
         'IdempotencyToken': idempotencyToken,
         'TemplateArn': templateArn,
@@ -1476,7 +1476,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CertificateSerial': certificateSerial,
-        'RevocationReason': revocationReason,
+        'RevocationReason': revocationReason?.toValue(),
       },
     );
   }
@@ -1661,7 +1661,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'RevocationConfiguration': revocationConfiguration,
-        'Status': status,
+        'Status': status?.toValue(),
       },
     );
   }
@@ -1786,6 +1786,18 @@ enum AuditReportResponseFormat {
   json,
   @_s.JsonValue('CSV')
   csv,
+}
+
+extension on AuditReportResponseFormat {
+  String toValue() {
+    switch (this) {
+      case AuditReportResponseFormat.json:
+        return 'JSON';
+      case AuditReportResponseFormat.csv:
+        return 'CSV';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AuditReportStatus {
@@ -1943,11 +1955,45 @@ enum CertificateAuthorityStatus {
   failed,
 }
 
+extension on CertificateAuthorityStatus {
+  String toValue() {
+    switch (this) {
+      case CertificateAuthorityStatus.creating:
+        return 'CREATING';
+      case CertificateAuthorityStatus.pendingCertificate:
+        return 'PENDING_CERTIFICATE';
+      case CertificateAuthorityStatus.active:
+        return 'ACTIVE';
+      case CertificateAuthorityStatus.deleted:
+        return 'DELETED';
+      case CertificateAuthorityStatus.disabled:
+        return 'DISABLED';
+      case CertificateAuthorityStatus.expired:
+        return 'EXPIRED';
+      case CertificateAuthorityStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum CertificateAuthorityType {
   @_s.JsonValue('ROOT')
   root,
   @_s.JsonValue('SUBORDINATE')
   subordinate,
+}
+
+extension on CertificateAuthorityType {
+  String toValue() {
+    switch (this) {
+      case CertificateAuthorityType.root:
+        return 'ROOT';
+      case CertificateAuthorityType.subordinate:
+        return 'SUBORDINATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -2453,6 +2499,30 @@ enum RevocationReason {
   aACompromise,
 }
 
+extension on RevocationReason {
+  String toValue() {
+    switch (this) {
+      case RevocationReason.unspecified:
+        return 'UNSPECIFIED';
+      case RevocationReason.keyCompromise:
+        return 'KEY_COMPROMISE';
+      case RevocationReason.certificateAuthorityCompromise:
+        return 'CERTIFICATE_AUTHORITY_COMPROMISE';
+      case RevocationReason.affiliationChanged:
+        return 'AFFILIATION_CHANGED';
+      case RevocationReason.superseded:
+        return 'SUPERSEDED';
+      case RevocationReason.cessationOfOperation:
+        return 'CESSATION_OF_OPERATION';
+      case RevocationReason.privilegeWithdrawn:
+        return 'PRIVILEGE_WITHDRAWN';
+      case RevocationReason.aACompromise:
+        return 'A_A_COMPROMISE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SigningAlgorithm {
   @_s.JsonValue('SHA256WITHECDSA')
   sha256withecdsa,
@@ -2466,6 +2536,26 @@ enum SigningAlgorithm {
   sha384withrsa,
   @_s.JsonValue('SHA512WITHRSA')
   sha512withrsa,
+}
+
+extension on SigningAlgorithm {
+  String toValue() {
+    switch (this) {
+      case SigningAlgorithm.sha256withecdsa:
+        return 'SHA256WITHECDSA';
+      case SigningAlgorithm.sha384withecdsa:
+        return 'SHA384WITHECDSA';
+      case SigningAlgorithm.sha512withecdsa:
+        return 'SHA512WITHECDSA';
+      case SigningAlgorithm.sha256withrsa:
+        return 'SHA256WITHRSA';
+      case SigningAlgorithm.sha384withrsa:
+        return 'SHA384WITHRSA';
+      case SigningAlgorithm.sha512withrsa:
+        return 'SHA512WITHRSA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Tags are labels that you can use to identify and organize your private CAs.

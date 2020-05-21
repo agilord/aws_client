@@ -1301,7 +1301,7 @@ class Glue {
         'SecurityGroupIds': securityGroupIds,
         'SubnetId': subnetId,
         'Tags': tags,
-        'WorkerType': workerType,
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1563,7 +1563,7 @@ class Glue {
         'SecurityConfiguration': securityConfiguration,
         'Tags': tags,
         'Timeout': timeout,
-        'WorkerType': workerType,
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1817,7 +1817,7 @@ class Glue {
         'NumberOfWorkers': numberOfWorkers,
         'Tags': tags,
         'Timeout': timeout,
-        'WorkerType': workerType,
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1945,7 +1945,7 @@ class Glue {
       payload: {
         'DagEdges': dagEdges,
         'DagNodes': dagNodes,
-        'Language': language,
+        'Language': language?.toValue(),
       },
     );
 
@@ -2192,7 +2192,7 @@ class Glue {
       payload: {
         'Actions': actions,
         'Name': name,
-        'Type': type,
+        'Type': type?.toValue(),
         'Description': description,
         'Predicate': predicate,
         'Schedule': schedule,
@@ -4760,7 +4760,7 @@ class Glue {
       payload: {
         'Mapping': mapping,
         'Source': source,
-        'Language': language,
+        'Language': language?.toValue(),
         'Location': location,
         'Sinks': sinks,
       },
@@ -6305,7 +6305,7 @@ class Glue {
       headers: headers,
       payload: {
         'PolicyInJson': policyInJson,
-        'PolicyExistsCondition': policyExistsCondition,
+        'PolicyExistsCondition': policyExistsCondition?.toValue(),
         'PolicyHashCondition': policyHashCondition,
       },
     );
@@ -6934,7 +6934,7 @@ class Glue {
         'NumberOfWorkers': numberOfWorkers,
         'SecurityConfiguration': securityConfiguration,
         'Timeout': timeout,
-        'WorkerType': workerType,
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -8085,7 +8085,7 @@ class Glue {
         'Parameters': parameters,
         'Role': role,
         'Timeout': timeout,
-        'WorkerType': workerType,
+        'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -11163,6 +11163,20 @@ enum ExistCondition {
   none,
 }
 
+extension on ExistCondition {
+  String toValue() {
+    switch (this) {
+      case ExistCondition.mustExist:
+        return 'MUST_EXIST';
+      case ExistCondition.notExist:
+        return 'NOT_EXIST';
+      case ExistCondition.none:
+        return 'NONE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Specifies configuration properties for an exporting labels task run.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13349,6 +13363,18 @@ enum Language {
   python,
   @_s.JsonValue('SCALA')
   scala,
+}
+
+extension on Language {
+  String toValue() {
+    switch (this) {
+      case Language.python:
+        return 'PYTHON';
+      case Language.scala:
+        return 'SCALA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Status and error information about the most recent crawl.
@@ -15684,6 +15710,20 @@ enum TriggerType {
   onDemand,
 }
 
+extension on TriggerType {
+  String toValue() {
+    switch (this) {
+      case TriggerType.scheduled:
+        return 'SCHEDULED';
+      case TriggerType.conditional:
+        return 'CONDITIONAL';
+      case TriggerType.onDemand:
+        return 'ON_DEMAND';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A structure used to provide information used to update a trigger. This
 /// object updates the previous trigger definition by overwriting it completely.
 @_s.JsonSerializable(
@@ -16140,6 +16180,20 @@ enum WorkerType {
   g_1x,
   @_s.JsonValue('G.2X')
   g_2x,
+}
+
+extension on WorkerType {
+  String toValue() {
+    switch (this) {
+      case WorkerType.standard:
+        return 'Standard';
+      case WorkerType.g_1x:
+        return 'G.1X';
+      case WorkerType.g_2x:
+        return 'G.2X';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A workflow represents a flow in which AWS Glue components should be executed

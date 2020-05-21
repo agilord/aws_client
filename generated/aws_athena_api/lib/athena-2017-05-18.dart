@@ -1059,7 +1059,7 @@ class Athena {
         'WorkGroup': workGroup,
         'ConfigurationUpdates': configurationUpdates,
         'Description': description,
-        'State': state,
+        'State': state?.toValue(),
       },
     );
 
@@ -2233,6 +2233,18 @@ enum WorkGroupState {
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on WorkGroupState {
+  String toValue() {
+    switch (this) {
+      case WorkGroupState.enabled:
+        return 'ENABLED';
+      case WorkGroupState.disabled:
+        return 'DISABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The summary information for the workgroup, which includes its name, state,

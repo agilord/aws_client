@@ -841,7 +841,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'EventCategory': eventCategory,
+        'EventCategory': eventCategory?.toValue(),
         'LookupAttributes': lookupAttributes,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -1663,6 +1663,16 @@ class Event {
 enum EventCategory {
   @_s.JsonValue('insight')
   insight,
+}
+
+extension on EventCategory {
+  String toValue() {
+    switch (this) {
+      case EventCategory.insight:
+        return 'insight';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Use event selectors to further specify the management and data event

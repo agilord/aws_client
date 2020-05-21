@@ -1761,7 +1761,7 @@ class EventBridge {
         'EventPattern': eventPattern,
         'RoleArn': roleArn,
         'ScheduleExpression': scheduleExpression,
-        'State': state,
+        'State': state?.toValue(),
         'Tags': tags,
       },
     );
@@ -3566,6 +3566,18 @@ enum RuleState {
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on RuleState {
+  String toValue() {
+    switch (this) {
+      case RuleState.enabled:
+        return 'ENABLED';
+      case RuleState.disabled:
+        return 'DISABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// This parameter contains the criteria (either InstanceIds or a tag) used to

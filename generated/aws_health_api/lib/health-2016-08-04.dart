@@ -396,7 +396,7 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'aggregateField': aggregateField,
+        'aggregateField': aggregateField?.toValue(),
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
@@ -1905,6 +1905,16 @@ enum EntityStatusCode {
 enum EventAggregateField {
   @_s.JsonValue('eventTypeCategory')
   eventTypeCategory,
+}
+
+extension on EventAggregateField {
+  String toValue() {
+    switch (this) {
+      case EventAggregateField.eventTypeCategory:
+        return 'eventTypeCategory';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum EventStatusCode {

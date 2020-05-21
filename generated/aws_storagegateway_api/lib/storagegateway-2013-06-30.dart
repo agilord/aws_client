@@ -1086,7 +1086,7 @@ class StorageGateway {
         'KMSEncrypted': kMSEncrypted,
         'KMSKey': kMSKey,
         'NFSFileShareDefaults': nFSFileShareDefaults,
-        'ObjectACL': objectACL,
+        'ObjectACL': objectACL?.toValue(),
         'ReadOnly': readOnly,
         'RequesterPays': requesterPays,
         'Squash': squash,
@@ -1320,7 +1320,7 @@ class StorageGateway {
         'InvalidUserList': invalidUserList,
         'KMSEncrypted': kMSEncrypted,
         'KMSKey': kMSKey,
-        'ObjectACL': objectACL,
+        'ObjectACL': objectACL?.toValue(),
         'ReadOnly': readOnly,
         'RequesterPays': requesterPays,
         'SMBACLEnabled': sMBACLEnabled,
@@ -4964,7 +4964,7 @@ class StorageGateway {
         'KMSEncrypted': kMSEncrypted,
         'KMSKey': kMSKey,
         'NFSFileShareDefaults': nFSFileShareDefaults,
-        'ObjectACL': objectACL,
+        'ObjectACL': objectACL?.toValue(),
         'ReadOnly': readOnly,
         'RequesterPays': requesterPays,
         'Squash': squash,
@@ -5129,7 +5129,7 @@ class StorageGateway {
         'InvalidUserList': invalidUserList,
         'KMSEncrypted': kMSEncrypted,
         'KMSKey': kMSKey,
-        'ObjectACL': objectACL,
+        'ObjectACL': objectACL?.toValue(),
         'ReadOnly': readOnly,
         'RequesterPays': requesterPays,
         'SMBACLEnabled': sMBACLEnabled,
@@ -5193,7 +5193,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'SMBSecurityStrategy': sMBSecurityStrategy,
+        'SMBSecurityStrategy': sMBSecurityStrategy?.toValue(),
       },
     );
 
@@ -7531,6 +7531,28 @@ enum ObjectACL {
   awsExecRead,
 }
 
+extension on ObjectACL {
+  String toValue() {
+    switch (this) {
+      case ObjectACL.private:
+        return 'private';
+      case ObjectACL.publicRead:
+        return 'public-read';
+      case ObjectACL.publicReadWrite:
+        return 'public-read-write';
+      case ObjectACL.authenticatedRead:
+        return 'authenticated-read';
+      case ObjectACL.bucketOwnerRead:
+        return 'bucket-owner-read';
+      case ObjectACL.bucketOwnerFullControl:
+        return 'bucket-owner-full-control';
+      case ObjectACL.awsExecRead:
+        return 'aws-exec-read';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// RefreshCacheOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7765,6 +7787,20 @@ enum SMBSecurityStrategy {
   mandatorySigning,
   @_s.JsonValue('MandatoryEncryption')
   mandatoryEncryption,
+}
+
+extension on SMBSecurityStrategy {
+  String toValue() {
+    switch (this) {
+      case SMBSecurityStrategy.clientSpecified:
+        return 'ClientSpecified';
+      case SMBSecurityStrategy.mandatorySigning:
+        return 'MandatorySigning';
+      case SMBSecurityStrategy.mandatoryEncryption:
+        return 'MandatoryEncryption';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

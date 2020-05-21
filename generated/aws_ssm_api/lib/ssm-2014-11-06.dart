@@ -128,7 +128,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
         'Tags': tags,
       },
     );
@@ -568,7 +568,7 @@ class SSM {
         'Name': name,
         'AssociationName': associationName,
         'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity,
+        'ComplianceSeverity': complianceSeverity?.toValue(),
         'DocumentVersion': documentVersion,
         'InstanceId': instanceId,
         'MaxConcurrency': maxConcurrency,
@@ -768,8 +768,8 @@ class SSM {
         'Content': content,
         'Name': name,
         'Attachments': attachments,
-        'DocumentFormat': documentFormat,
-        'DocumentType': documentType,
+        'DocumentFormat': documentFormat?.toValue(),
+        'DocumentType': documentType?.toValue(),
         'Requires': requires,
         'Tags': tags,
         'TargetType': targetType,
@@ -1282,14 +1282,15 @@ class SSM {
         'Name': name,
         'ApprovalRules': approvalRules,
         'ApprovedPatches': approvedPatches,
-        'ApprovedPatchesComplianceLevel': approvedPatchesComplianceLevel,
+        'ApprovedPatchesComplianceLevel':
+            approvedPatchesComplianceLevel?.toValue(),
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         'ClientToken': clientToken,
         'Description': description,
         'GlobalFilters': globalFilters,
-        'OperatingSystem': operatingSystem,
+        'OperatingSystem': operatingSystem?.toValue(),
         'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction,
+        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
         'Sources': sources,
         'Tags': tags,
       },
@@ -1644,7 +1645,7 @@ class SSM {
         'TypeName': typeName,
         'ClientToken': clientToken,
         'DryRun': dryRun,
-        'SchemaDeleteOption': schemaDeleteOption,
+        'SchemaDeleteOption': schemaDeleteOption?.toValue(),
       },
     );
 
@@ -2620,7 +2621,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType,
+        'PermissionType': permissionType?.toValue(),
       },
     );
 
@@ -3420,7 +3421,7 @@ class SSM {
         'Filters': filters,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'WindowId': windowId,
       },
@@ -3658,7 +3659,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -4067,11 +4068,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem,
-        'Property': property,
+        'OperatingSystem': operatingSystem?.toValue(),
+        'Property': property?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'PatchSet': patchSet,
+        'PatchSet': patchSet?.toValue(),
       },
     );
 
@@ -4124,7 +4125,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'State': state,
+        'State': state?.toValue(),
         'Filters': filters,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -4351,7 +4352,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem,
+        'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -4473,7 +4474,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'DocumentFormat': documentFormat,
+        'DocumentFormat': documentFormat?.toValue(),
         'DocumentVersion': documentVersion,
         'VersionName': versionName,
       },
@@ -5351,7 +5352,7 @@ class SSM {
       headers: headers,
       payload: {
         'PatchGroup': patchGroup,
-        'OperatingSystem': operatingSystem,
+        'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -6220,7 +6221,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -6297,7 +6298,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType,
+        'PermissionType': permissionType?.toValue(),
         'AccountIdsToAdd': accountIdsToAdd,
         'AccountIdsToRemove': accountIdsToRemove,
         'SharedDocumentVersion': sharedDocumentVersion,
@@ -6833,7 +6834,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type,
+        'Type': type?.toValue(),
         'Value': value,
         'AllowedPattern': allowedPattern,
         'Description': description,
@@ -6841,7 +6842,7 @@ class SSM {
         'Overwrite': overwrite,
         'Policies': policies,
         'Tags': tags,
-        'Tier': tier,
+        'Tier': tier?.toValue(),
       },
     );
 
@@ -7096,7 +7097,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'WindowId': windowId,
         'ClientToken': clientToken,
@@ -7323,7 +7324,7 @@ class SSM {
         'MaxErrors': maxErrors,
         'Targets': targets,
         'TaskArn': taskArn,
-        'TaskType': taskType,
+        'TaskType': taskType?.toValue(),
         'WindowId': windowId,
         'ClientToken': clientToken,
         'Description': description,
@@ -7392,7 +7393,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType?.toValue(),
         'TagKeys': tagKeys,
       },
     );
@@ -7558,7 +7559,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType,
+        'SignalType': signalType?.toValue(),
         'Payload': payload,
       },
     );
@@ -7782,7 +7783,7 @@ class SSM {
         'CloudWatchOutputConfig': cloudWatchOutputConfig,
         'Comment': comment,
         'DocumentHash': documentHash,
-        'DocumentHashType': documentHashType,
+        'DocumentHashType': documentHashType?.toValue(),
         'DocumentVersion': documentVersion,
         'InstanceIds': instanceIds,
         'MaxConcurrency': maxConcurrency,
@@ -8001,7 +8002,7 @@ class SSM {
         'DocumentVersion': documentVersion,
         'MaxConcurrency': maxConcurrency,
         'MaxErrors': maxErrors,
-        'Mode': mode,
+        'Mode': mode?.toValue(),
         'Parameters': parameters,
         'Tags': tags,
         'TargetLocations': targetLocations,
@@ -8118,7 +8119,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -8368,7 +8369,7 @@ class SSM {
         'AssociationName': associationName,
         'AssociationVersion': associationVersion,
         'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity,
+        'ComplianceSeverity': complianceSeverity?.toValue(),
         'DocumentVersion': documentVersion,
         'MaxConcurrency': maxConcurrency,
         'MaxErrors': maxErrors,
@@ -8537,7 +8538,7 @@ class SSM {
         'Content': content,
         'Name': name,
         'Attachments': attachments,
-        'DocumentFormat': documentFormat,
+        'DocumentFormat': documentFormat?.toValue(),
         'DocumentVersion': documentVersion,
         'TargetType': targetType,
         'VersionName': versionName,
@@ -9346,7 +9347,7 @@ class SSM {
         'Priority': priority,
         'RelatedOpsItems': relatedOpsItems,
         'Severity': severity,
-        'Status': status,
+        'Status': status?.toValue(),
         'Title': title,
       },
     );
@@ -9495,13 +9496,14 @@ class SSM {
         'BaselineId': baselineId,
         'ApprovalRules': approvalRules,
         'ApprovedPatches': approvedPatches,
-        'ApprovedPatchesComplianceLevel': approvedPatchesComplianceLevel,
+        'ApprovedPatchesComplianceLevel':
+            approvedPatchesComplianceLevel?.toValue(),
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         'Description': description,
         'GlobalFilters': globalFilters,
         'Name': name,
         'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction,
+        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
         'Replace': replace,
         'Sources': sources,
       },
@@ -9825,6 +9827,24 @@ enum AssociationComplianceSeverity {
   low,
   @_s.JsonValue('UNSPECIFIED')
   unspecified,
+}
+
+extension on AssociationComplianceSeverity {
+  String toValue() {
+    switch (this) {
+      case AssociationComplianceSeverity.critical:
+        return 'CRITICAL';
+      case AssociationComplianceSeverity.high:
+        return 'HIGH';
+      case AssociationComplianceSeverity.medium:
+        return 'MEDIUM';
+      case AssociationComplianceSeverity.low:
+        return 'LOW';
+      case AssociationComplianceSeverity.unspecified:
+        return 'UNSPECIFIED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the parameters for a document.
@@ -13420,11 +13440,37 @@ enum DocumentFormat {
   text,
 }
 
+extension on DocumentFormat {
+  String toValue() {
+    switch (this) {
+      case DocumentFormat.yaml:
+        return 'YAML';
+      case DocumentFormat.json:
+        return 'JSON';
+      case DocumentFormat.text:
+        return 'TEXT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum DocumentHashType {
   @_s.JsonValue('Sha256')
   sha256,
   @_s.JsonValue('Sha1')
   sha1,
+}
+
+extension on DocumentHashType {
+  String toValue() {
+    switch (this) {
+      case DocumentHashType.sha256:
+        return 'Sha256';
+      case DocumentHashType.sha1:
+        return 'Sha1';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the name of a Systems Manager document.
@@ -13602,6 +13648,16 @@ enum DocumentPermissionType {
   share,
 }
 
+extension on DocumentPermissionType {
+  String toValue() {
+    switch (this) {
+      case DocumentPermissionType.share:
+        return 'Share';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An SSM document required by the current document.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13661,6 +13717,32 @@ enum DocumentType {
   deploymentStrategy,
   @_s.JsonValue('ChangeCalendar')
   changeCalendar,
+}
+
+extension on DocumentType {
+  String toValue() {
+    switch (this) {
+      case DocumentType.command:
+        return 'Command';
+      case DocumentType.policy:
+        return 'Policy';
+      case DocumentType.automation:
+        return 'Automation';
+      case DocumentType.session:
+        return 'Session';
+      case DocumentType.package:
+        return 'Package';
+      case DocumentType.applicationConfiguration:
+        return 'ApplicationConfiguration';
+      case DocumentType.applicationConfigurationSchema:
+        return 'ApplicationConfigurationSchema';
+      case DocumentType.deploymentStrategy:
+        return 'DeploymentStrategy';
+      case DocumentType.changeCalendar:
+        return 'ChangeCalendar';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Version information about the document.
@@ -13759,6 +13841,18 @@ enum ExecutionMode {
   auto,
   @_s.JsonValue('Interactive')
   interactive,
+}
+
+extension on ExecutionMode {
+  String toValue() {
+    switch (this) {
+      case ExecutionMode.auto:
+        return 'Auto';
+      case ExecutionMode.interactive:
+        return 'Interactive';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a failed association.
@@ -15931,6 +16025,18 @@ enum InventorySchemaDeleteOption {
   deleteSchema,
 }
 
+extension on InventorySchemaDeleteOption {
+  String toValue() {
+    switch (this) {
+      case InventorySchemaDeleteOption.disableSchema:
+        return 'DisableSchema';
+      case InventorySchemaDeleteOption.deleteSchema:
+        return 'DeleteSchema';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16736,6 +16842,18 @@ enum MaintenanceWindowResourceType {
   resourceGroup,
 }
 
+extension on MaintenanceWindowResourceType {
+  String toValue() {
+    switch (this) {
+      case MaintenanceWindowResourceType.instance:
+        return 'INSTANCE';
+      case MaintenanceWindowResourceType.resourceGroup:
+        return 'RESOURCE_GROUP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The parameters for a RUN_COMMAND task type.
 ///
 /// For information about specifying and updating task parameters, see
@@ -17125,6 +17243,22 @@ enum MaintenanceWindowTaskType {
   lambda,
 }
 
+extension on MaintenanceWindowTaskType {
+  String toValue() {
+    switch (this) {
+      case MaintenanceWindowTaskType.runCommand:
+        return 'RUN_COMMAND';
+      case MaintenanceWindowTaskType.automation:
+        return 'AUTOMATION';
+      case MaintenanceWindowTaskType.stepFunctions:
+        return 'STEP_FUNCTIONS';
+      case MaintenanceWindowTaskType.lambda:
+        return 'LAMBDA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17237,6 +17371,28 @@ enum OperatingSystem {
   suse,
   @_s.JsonValue('CENTOS')
   centos,
+}
+
+extension on OperatingSystem {
+  String toValue() {
+    switch (this) {
+      case OperatingSystem.windows:
+        return 'WINDOWS';
+      case OperatingSystem.amazonLinux:
+        return 'AMAZON_LINUX';
+      case OperatingSystem.amazonLinux_2:
+        return 'AMAZON_LINUX_2';
+      case OperatingSystem.ubuntu:
+        return 'UBUNTU';
+      case OperatingSystem.redhatEnterpriseLinux:
+        return 'REDHAT_ENTERPRISE_LINUX';
+      case OperatingSystem.suse:
+        return 'SUSE';
+      case OperatingSystem.centos:
+        return 'CENTOS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// One or more aggregators for viewing counts of OpsItems using different
@@ -17634,6 +17790,20 @@ enum OpsItemStatus {
   inProgress,
   @_s.JsonValue('Resolved')
   resolved,
+}
+
+extension on OpsItemStatus {
+  String toValue() {
+    switch (this) {
+      case OpsItemStatus.open:
+        return 'Open';
+      case OpsItemStatus.inProgress:
+        return 'InProgress';
+      case OpsItemStatus.resolved:
+        return 'Resolved';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A count of OpsItems.
@@ -18062,6 +18232,20 @@ enum ParameterTier {
   intelligentTiering,
 }
 
+extension on ParameterTier {
+  String toValue() {
+    switch (this) {
+      case ParameterTier.standard:
+        return 'Standard';
+      case ParameterTier.advanced:
+        return 'Advanced';
+      case ParameterTier.intelligentTiering:
+        return 'Intelligent-Tiering';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ParameterType {
   @_s.JsonValue('String')
   string,
@@ -18069,6 +18253,20 @@ enum ParameterType {
   stringList,
   @_s.JsonValue('SecureString')
   secureString,
+}
+
+extension on ParameterType {
+  String toValue() {
+    switch (this) {
+      case ParameterType.string:
+        return 'String';
+      case ParameterType.stringList:
+        return 'StringList';
+      case ParameterType.secureString:
+        return 'SecureString';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// This data type is deprecated. Instead, use <a>ParameterStringFilter</a>.
@@ -18187,6 +18385,18 @@ enum PatchAction {
   allowAsDependency,
   @_s.JsonValue('BLOCK')
   block,
+}
+
+extension on PatchAction {
+  String toValue() {
+    switch (this) {
+      case PatchAction.allowAsDependency:
+        return 'ALLOW_AS_DEPENDENCY';
+      case PatchAction.block:
+        return 'BLOCK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Defines the basic information about a patch baseline.
@@ -18310,6 +18520,26 @@ enum PatchComplianceLevel {
   informational,
   @_s.JsonValue('UNSPECIFIED')
   unspecified,
+}
+
+extension on PatchComplianceLevel {
+  String toValue() {
+    switch (this) {
+      case PatchComplianceLevel.critical:
+        return 'CRITICAL';
+      case PatchComplianceLevel.high:
+        return 'HIGH';
+      case PatchComplianceLevel.medium:
+        return 'MEDIUM';
+      case PatchComplianceLevel.low:
+        return 'LOW';
+      case PatchComplianceLevel.informational:
+        return 'INFORMATIONAL';
+      case PatchComplianceLevel.unspecified:
+        return 'UNSPECIFIED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum PatchDeploymentStatus {
@@ -18478,6 +18708,26 @@ enum PatchProperty {
   severity,
 }
 
+extension on PatchProperty {
+  String toValue() {
+    switch (this) {
+      case PatchProperty.product:
+        return 'PRODUCT';
+      case PatchProperty.productFamily:
+        return 'PRODUCT_FAMILY';
+      case PatchProperty.classification:
+        return 'CLASSIFICATION';
+      case PatchProperty.msrcSeverity:
+        return 'MSRC_SEVERITY';
+      case PatchProperty.priority:
+        return 'PRIORITY';
+      case PatchProperty.severity:
+        return 'SEVERITY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Defines an approval rule for a patch baseline.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18550,6 +18800,18 @@ enum PatchSet {
   os,
   @_s.JsonValue('APPLICATION')
   application,
+}
+
+extension on PatchSet {
+  String toValue() {
+    switch (this) {
+      case PatchSet.os:
+        return 'OS';
+      case PatchSet.application:
+        return 'APPLICATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about the patches to use to update the instances, including
@@ -19288,6 +19550,26 @@ enum ResourceTypeForTagging {
   opsItem,
 }
 
+extension on ResourceTypeForTagging {
+  String toValue() {
+    switch (this) {
+      case ResourceTypeForTagging.document:
+        return 'Document';
+      case ResourceTypeForTagging.managedInstance:
+        return 'ManagedInstance';
+      case ResourceTypeForTagging.maintenanceWindow:
+        return 'MaintenanceWindow';
+      case ResourceTypeForTagging.parameter:
+        return 'Parameter';
+      case ResourceTypeForTagging.patchBaseline:
+        return 'PatchBaseline';
+      case ResourceTypeForTagging.opsItem:
+        return 'OpsItem';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The inventory item result attribute.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19703,6 +19985,18 @@ enum SessionState {
   history,
 }
 
+extension on SessionState {
+  String toValue() {
+    switch (this) {
+      case SessionState.active:
+        return 'Active';
+      case SessionState.history:
+        return 'History';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SessionStatus {
   @_s.JsonValue('Connected')
   connected,
@@ -19785,6 +20079,24 @@ enum SignalType {
   stopStep,
   @_s.JsonValue('Resume')
   resume,
+}
+
+extension on SignalType {
+  String toValue() {
+    switch (this) {
+      case SignalType.approve:
+        return 'Approve';
+      case SignalType.reject:
+        return 'Reject';
+      case SignalType.startStep:
+        return 'StartStep';
+      case SignalType.stopStep:
+        return 'StopStep';
+      case SignalType.resume:
+        return 'Resume';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -20047,6 +20359,18 @@ enum StopType {
   complete,
   @_s.JsonValue('Cancel')
   cancel,
+}
+
+extension on StopType {
+  String toValue() {
+    switch (this) {
+      case StopType.complete:
+        return 'Complete';
+      case StopType.cancel:
+        return 'Cancel';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Metadata that you assign to your AWS resources. Tags enable you to

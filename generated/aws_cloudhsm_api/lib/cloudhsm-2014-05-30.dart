@@ -287,7 +287,7 @@ class CloudHSM {
         'IamRoleArn': iamRoleArn,
         'SshKey': sshKey,
         'SubnetId': subnetId,
-        'SubscriptionType': subscriptionType,
+        'SubscriptionType': subscriptionType?.toValue(),
         'ClientToken': clientToken,
         'EniIp': eniIp,
         'ExternalId': externalId,
@@ -758,7 +758,7 @@ class CloudHSM {
       headers: headers,
       payload: {
         'ClientArn': clientArn,
-        'ClientVersion': clientVersion,
+        'ClientVersion': clientVersion?.toValue(),
         'HapgList': hapgList,
       },
     );
@@ -1372,6 +1372,18 @@ enum ClientVersion {
   $5_3,
 }
 
+extension on ClientVersion {
+  String toValue() {
+    switch (this) {
+      case ClientVersion.$5_1:
+        return '5.1';
+      case ClientVersion.$5_3:
+        return '5.3';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Indicates that an internal error occurred.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1977,6 +1989,16 @@ class RemoveTagsFromResourceResponse {
 enum SubscriptionType {
   @_s.JsonValue('PRODUCTION')
   production,
+}
+
+extension on SubscriptionType {
+  String toValue() {
+    switch (this) {
+      case SubscriptionType.production:
+        return 'PRODUCTION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM

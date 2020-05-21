@@ -253,7 +253,7 @@ class ComputeOptimizer {
         'instanceArn': instanceArn,
         'period': period,
         'startTime': startTime,
-        'stat': stat,
+        'stat': stat?.toValue(),
       },
     );
 
@@ -382,7 +382,7 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'status': status,
+        'status': status?.toValue(),
         'includeMemberAccounts': includeMemberAccounts,
       },
     );
@@ -943,6 +943,18 @@ enum MetricStatistic {
   average,
 }
 
+extension on MetricStatistic {
+  String toValue() {
+    switch (this) {
+      case MetricStatistic.maximum:
+        return 'Maximum';
+      case MetricStatistic.average:
+        return 'Average';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a projected utilization metric of a recommendation option, such as
 /// an Amazon EC2 instance.
 @_s.JsonSerializable(
@@ -1082,6 +1094,22 @@ enum Status {
   pending,
   @_s.JsonValue('Failed')
   failed,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.active:
+        return 'Active';
+      case Status.inactive:
+        return 'Inactive';
+      case Status.pending:
+        return 'Pending';
+      case Status.failed:
+        return 'Failed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The summary of a recommendation.

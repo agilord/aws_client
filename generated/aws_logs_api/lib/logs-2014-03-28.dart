@@ -975,7 +975,7 @@ class CloudWatchLogs {
       payload: {
         'limit': limit,
         'nextToken': nextToken,
-        'statusCode': statusCode,
+        'statusCode': statusCode?.toValue(),
         'taskId': taskId,
       },
     );
@@ -1155,7 +1155,7 @@ class CloudWatchLogs {
         'limit': limit,
         'logStreamNamePrefix': logStreamNamePrefix,
         'nextToken': nextToken,
-        'orderBy': orderBy,
+        'orderBy': orderBy?.toValue(),
       },
     );
 
@@ -1342,7 +1342,7 @@ class CloudWatchLogs {
         'logGroupName': logGroupName,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'status': status,
+        'status': status?.toValue(),
       },
     );
 
@@ -2641,7 +2641,7 @@ class CloudWatchLogs {
         'filterName': filterName,
         'filterPattern': filterPattern,
         'logGroupName': logGroupName,
-        'distribution': distribution,
+        'distribution': distribution?.toValue(),
         'roleArn': roleArn,
       },
     );
@@ -3192,6 +3192,18 @@ enum Distribution {
   byLogStream,
 }
 
+extension on Distribution {
+  String toValue() {
+    switch (this) {
+      case Distribution.random:
+        return 'Random';
+      case Distribution.byLogStream:
+        return 'ByLogStream';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents an export task.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3314,6 +3326,26 @@ enum ExportTaskStatusCode {
   pendingCancel,
   @_s.JsonValue('RUNNING')
   running,
+}
+
+extension on ExportTaskStatusCode {
+  String toValue() {
+    switch (this) {
+      case ExportTaskStatusCode.cancelled:
+        return 'CANCELLED';
+      case ExportTaskStatusCode.completed:
+        return 'COMPLETED';
+      case ExportTaskStatusCode.failed:
+        return 'FAILED';
+      case ExportTaskStatusCode.pending:
+        return 'PENDING';
+      case ExportTaskStatusCode.pendingCancel:
+        return 'PENDING_CANCEL';
+      case ExportTaskStatusCode.running:
+        return 'RUNNING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3784,6 +3816,18 @@ enum OrderBy {
   lastEventTime,
 }
 
+extension on OrderBy {
+  String toValue() {
+    switch (this) {
+      case OrderBy.logStreamName:
+        return 'LogStreamName';
+      case OrderBy.lastEventTime:
+        return 'LastEventTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents a log event.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3952,6 +3996,24 @@ enum QueryStatus {
   failed,
   @_s.JsonValue('Cancelled')
   cancelled,
+}
+
+extension on QueryStatus {
+  String toValue() {
+    switch (this) {
+      case QueryStatus.scheduled:
+        return 'Scheduled';
+      case QueryStatus.running:
+        return 'Running';
+      case QueryStatus.complete:
+        return 'Complete';
+      case QueryStatus.failed:
+        return 'Failed';
+      case QueryStatus.cancelled:
+        return 'Cancelled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the rejected events.

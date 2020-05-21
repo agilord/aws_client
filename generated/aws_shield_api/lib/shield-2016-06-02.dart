@@ -1049,7 +1049,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AutoRenew': autoRenew,
+        'AutoRenew': autoRenew?.toValue(),
       },
     );
 
@@ -1341,6 +1341,18 @@ enum AutoRenew {
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on AutoRenew {
+  String toValue() {
+    switch (this) {
+      case AutoRenew.enabled:
+        return 'ENABLED';
+      case AutoRenew.disabled:
+        return 'DISABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A contributor to the attack and their contribution.

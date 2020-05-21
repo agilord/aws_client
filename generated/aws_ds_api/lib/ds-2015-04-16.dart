@@ -420,7 +420,7 @@ class DirectoryService {
         'ConnectSettings': connectSettings,
         'Name': name,
         'Password': password,
-        'Size': size,
+        'Size': size?.toValue(),
         'Description': description,
         'ShortName': shortName,
         'Tags': tags,
@@ -752,7 +752,7 @@ class DirectoryService {
       payload: {
         'Name': name,
         'Password': password,
-        'Size': size,
+        'Size': size?.toValue(),
         'Description': description,
         'ShortName': shortName,
         'Tags': tags,
@@ -931,7 +931,7 @@ class DirectoryService {
         'Password': password,
         'VpcSettings': vpcSettings,
         'Description': description,
-        'Edition': edition,
+        'Edition': edition?.toValue(),
         'ShortName': shortName,
         'Tags': tags,
       },
@@ -1091,11 +1091,11 @@ class DirectoryService {
       payload: {
         'DirectoryId': directoryId,
         'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection,
+        'TrustDirection': trustDirection?.toValue(),
         'TrustPassword': trustPassword,
         'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        'SelectiveAuth': selectiveAuth,
-        'TrustType': trustType,
+        'SelectiveAuth': selectiveAuth?.toValue(),
+        'TrustType': trustType?.toValue(),
       },
     );
 
@@ -1767,7 +1767,7 @@ class DirectoryService {
         'DirectoryId': directoryId,
         'Limit': limit,
         'NextToken': nextToken,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -2015,7 +2015,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -2177,7 +2177,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -3115,7 +3115,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'ShareMethod': shareMethod,
+        'ShareMethod': shareMethod?.toValue(),
         'ShareTarget': shareTarget,
         'ShareNotes': shareNotes,
       },
@@ -3458,7 +3458,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        'SelectiveAuth': selectiveAuth,
+        'SelectiveAuth': selectiveAuth?.toValue(),
       },
     );
 
@@ -4473,6 +4473,18 @@ enum DirectoryEdition {
   standard,
 }
 
+extension on DirectoryEdition {
+  String toValue() {
+    switch (this) {
+      case DirectoryEdition.enterprise:
+        return 'Enterprise';
+      case DirectoryEdition.standard:
+        return 'Standard';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains directory limit information for a Region.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4537,6 +4549,18 @@ enum DirectorySize {
   small,
   @_s.JsonValue('Large')
   large,
+}
+
+extension on DirectorySize {
+  String toValue() {
+    switch (this) {
+      case DirectorySize.small:
+        return 'Small';
+      case DirectorySize.large:
+        return 'Large';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum DirectoryStage {
@@ -4995,6 +5019,16 @@ enum LDAPSType {
   client,
 }
 
+extension on LDAPSType {
+  String toValue() {
+    switch (this) {
+      case LDAPSType.client:
+        return 'Client';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5443,6 +5477,18 @@ enum SelectiveAuth {
   disabled,
 }
 
+extension on SelectiveAuth {
+  String toValue() {
+    switch (this) {
+      case SelectiveAuth.enabled:
+        return 'Enabled';
+      case SelectiveAuth.disabled:
+        return 'Disabled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5466,6 +5512,18 @@ enum ShareMethod {
   organizations,
   @_s.JsonValue('HANDSHAKE')
   handshake,
+}
+
+extension on ShareMethod {
+  String toValue() {
+    switch (this) {
+      case ShareMethod.organizations:
+        return 'ORGANIZATIONS';
+      case ShareMethod.handshake:
+        return 'HANDSHAKE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ShareStatus {
@@ -5814,6 +5872,20 @@ enum TrustDirection {
   twoWay,
 }
 
+extension on TrustDirection {
+  String toValue() {
+    switch (this) {
+      case TrustDirection.oneWayOutgoing:
+        return 'One-Way: Outgoing';
+      case TrustDirection.oneWayIncoming:
+        return 'One-Way: Incoming';
+      case TrustDirection.twoWay:
+        return 'Two-Way';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum TrustState {
   @_s.JsonValue('Creating')
   creating,
@@ -5844,6 +5916,18 @@ enum TrustType {
   forest,
   @_s.JsonValue('External')
   external,
+}
+
+extension on TrustType {
+  String toValue() {
+    switch (this) {
+      case TrustType.forest:
+        return 'Forest';
+      case TrustType.external:
+        return 'External';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

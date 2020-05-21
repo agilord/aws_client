@@ -313,8 +313,8 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
-        'ServiceNamespace': serviceNamespace,
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -519,9 +519,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -709,8 +709,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
-        'ServiceNamespace': serviceNamespace,
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
       },
     );
 
@@ -906,11 +906,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceIds': resourceIds,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1119,11 +1119,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1336,12 +1336,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'PolicyNames': policyNames,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1554,11 +1554,11 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionNames': scheduledActionNames,
       },
     );
@@ -1826,9 +1826,9 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
-        'ServiceNamespace': serviceNamespace,
-        'PolicyType': policyType,
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
+        'PolicyType': policyType?.toValue(),
         'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
         'TargetTrackingScalingPolicyConfiguration':
             targetTrackingScalingPolicyConfiguration,
@@ -2106,9 +2106,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'EndTime': endTime,
         'ScalableTargetAction': scalableTargetAction,
         'Schedule': schedule,
@@ -2380,8 +2380,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
-        'ServiceNamespace': serviceNamespace,
+        'ScalableDimension': scalableDimension?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue(),
         'MaxCapacity': maxCapacity,
         'MinCapacity': minCapacity,
         'RoleARN': roleARN,
@@ -2703,6 +2703,18 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.stepScaling:
+        return 'StepScaling';
+      case PolicyType.targetTrackingScaling:
+        return 'TargetTrackingScaling';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Application Auto Scaling.
 @_s.JsonSerializable(
@@ -2819,6 +2831,41 @@ enum ScalableDimension {
   comprehendDocumentClassifierEndpointDesiredInferenceUnits,
   @_s.JsonValue('lambda:function:ProvisionedConcurrency')
   lambdaFunctionProvisionedConcurrency,
+}
+
+extension on ScalableDimension {
+  String toValue() {
+    switch (this) {
+      case ScalableDimension.ecsServiceDesiredCount:
+        return 'ecs:service:DesiredCount';
+      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
+        return 'ec2:spot-fleet-request:TargetCapacity';
+      case ScalableDimension.elasticmapreduceInstancegroupInstanceCount:
+        return 'elasticmapreduce:instancegroup:InstanceCount';
+      case ScalableDimension.appstreamFleetDesiredCapacity:
+        return 'appstream:fleet:DesiredCapacity';
+      case ScalableDimension.dynamodbTableReadCapacityUnits:
+        return 'dynamodb:table:ReadCapacityUnits';
+      case ScalableDimension.dynamodbTableWriteCapacityUnits:
+        return 'dynamodb:table:WriteCapacityUnits';
+      case ScalableDimension.dynamodbIndexReadCapacityUnits:
+        return 'dynamodb:index:ReadCapacityUnits';
+      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
+        return 'dynamodb:index:WriteCapacityUnits';
+      case ScalableDimension.rdsClusterReadReplicaCount:
+        return 'rds:cluster:ReadReplicaCount';
+      case ScalableDimension.sagemakerVariantDesiredInstanceCount:
+        return 'sagemaker:variant:DesiredInstanceCount';
+      case ScalableDimension.customResourceResourceTypeProperty:
+        return 'custom-resource:ResourceType:Property';
+      case ScalableDimension
+          .comprehendDocumentClassifierEndpointDesiredInferenceUnits:
+        return 'comprehend:document-classifier-endpoint:DesiredInferenceUnits';
+      case ScalableDimension.lambdaFunctionProvisionedConcurrency:
+        return 'lambda:function:ProvisionedConcurrency';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents a scalable target.
@@ -3648,6 +3695,34 @@ enum ServiceNamespace {
   comprehend,
   @_s.JsonValue('lambda')
   lambda,
+}
+
+extension on ServiceNamespace {
+  String toValue() {
+    switch (this) {
+      case ServiceNamespace.ecs:
+        return 'ecs';
+      case ServiceNamespace.elasticmapreduce:
+        return 'elasticmapreduce';
+      case ServiceNamespace.ec2:
+        return 'ec2';
+      case ServiceNamespace.appstream:
+        return 'appstream';
+      case ServiceNamespace.dynamodb:
+        return 'dynamodb';
+      case ServiceNamespace.rds:
+        return 'rds';
+      case ServiceNamespace.sagemaker:
+        return 'sagemaker';
+      case ServiceNamespace.customResource:
+        return 'custom-resource';
+      case ServiceNamespace.comprehend:
+        return 'comprehend';
+      case ServiceNamespace.lambda:
+        return 'lambda';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents a step adjustment for a <a>StepScalingPolicyConfiguration</a>.

@@ -1261,7 +1261,7 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ApplicationId': applicationId,
-        'Status': status,
+        'Status': status?.toValue(),
         'DryRun': dryRun,
         'UpdateDateTime': updateDateTime,
       },
@@ -1559,6 +1559,20 @@ enum ApplicationStatus {
   inProgress,
   @_s.JsonValue('COMPLETED')
   completed,
+}
+
+extension on ApplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationStatus.notStarted:
+        return 'NOT_STARTED';
+      case ApplicationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ApplicationStatus.completed:
+        return 'COMPLETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

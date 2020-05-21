@@ -897,7 +897,7 @@ class ACM {
         'Options': options,
         'SubjectAlternativeNames': subjectAlternativeNames,
         'Tags': tags,
-        'ValidationMethod': validationMethod,
+        'ValidationMethod': validationMethod?.toValue(),
       },
     );
 
@@ -2010,6 +2010,18 @@ enum ValidationMethod {
   email,
   @_s.JsonValue('DNS')
   dns,
+}
+
+extension on ValidationMethod {
+  String toValue() {
+    switch (this) {
+      case ValidationMethod.email:
+        return 'EMAIL';
+      case ValidationMethod.dns:
+        return 'DNS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class InvalidArgsException extends _s.GenericAwsException {

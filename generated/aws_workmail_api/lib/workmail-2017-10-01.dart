@@ -403,7 +403,7 @@ class WorkMail {
       payload: {
         'Name': name,
         'OrganizationId': organizationId,
-        'Type': type,
+        'Type': type?.toValue(),
       },
     );
 
@@ -2074,7 +2074,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Description': description,
-        'Effect': effect,
+        'Effect': effect?.toValue(),
         'Name': name,
         'OrganizationId': organizationId,
         'Actions': actions,
@@ -2723,6 +2723,18 @@ enum AccessControlRuleEffect {
   allow,
   @_s.JsonValue('DENY')
   deny,
+}
+
+extension on AccessControlRuleEffect {
+  String toValue() {
+    switch (this) {
+      case AccessControlRuleEffect.allow:
+        return 'ALLOW';
+      case AccessControlRuleEffect.deny:
+        return 'DENY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3729,6 +3741,18 @@ enum ResourceType {
   room,
   @_s.JsonValue('EQUIPMENT')
   equipment,
+}
+
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.room:
+        return 'ROOM';
+      case ResourceType.equipment:
+        return 'EQUIPMENT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a tag applied to a resource.

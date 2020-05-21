@@ -445,7 +445,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentId': deploymentId,
-        'deploymentWaitType': deploymentWaitType,
+        'deploymentWaitType': deploymentWaitType?.toValue(),
       },
     );
   }
@@ -496,7 +496,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'computePlatform': computePlatform,
+        'computePlatform': computePlatform?.toValue(),
         'tags': tags,
       },
     );
@@ -661,7 +661,7 @@ class CodeDeploy {
         'deploymentConfigName': deploymentConfigName,
         'deploymentGroupName': deploymentGroupName,
         'description': description,
-        'fileExistsBehavior': fileExistsBehavior,
+        'fileExistsBehavior': fileExistsBehavior?.toValue(),
         'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
         'revision': revision,
         'targetInstances': targetInstances,
@@ -742,7 +742,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentConfigName': deploymentConfigName,
-        'computePlatform': computePlatform,
+        'computePlatform': computePlatform?.toValue(),
         'minimumHealthyHosts': minimumHealthyHosts,
         'trafficRoutingConfig': trafficRoutingConfig,
       },
@@ -1575,12 +1575,12 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'deployed': deployed,
+        'deployed': deployed?.toValue(),
         'nextToken': nextToken,
         's3Bucket': s3Bucket,
         's3KeyPrefix': s3KeyPrefix,
-        'sortBy': sortBy,
-        'sortOrder': sortOrder,
+        'sortBy': sortBy?.toValue(),
+        'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2015,7 +2015,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'registrationStatus': registrationStatus,
+        'registrationStatus': registrationStatus?.toValue(),
         'tagFilters': tagFilters,
       },
     );
@@ -2112,7 +2112,7 @@ class CodeDeploy {
       payload: {
         'deploymentId': deploymentId,
         'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-        'status': status,
+        'status': status?.toValue(),
       },
     );
 
@@ -2828,6 +2828,20 @@ enum ApplicationRevisionSortBy {
   lastUsedTime,
 }
 
+extension on ApplicationRevisionSortBy {
+  String toValue() {
+    switch (this) {
+      case ApplicationRevisionSortBy.registerTime:
+        return 'registerTime';
+      case ApplicationRevisionSortBy.firstUsedTime:
+        return 'firstUsedTime';
+      case ApplicationRevisionSortBy.lastUsedTime:
+        return 'lastUsedTime';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about a configuration for automatically rolling back to a
 /// previous version of an application revision when a deployment is not
 /// completed successfully.
@@ -3154,6 +3168,20 @@ enum ComputePlatform {
   lambda,
   @_s.JsonValue('ECS')
   ecs,
+}
+
+extension on ComputePlatform {
+  String toValue() {
+    switch (this) {
+      case ComputePlatform.server:
+        return 'Server';
+      case ComputePlatform.lambda:
+        return 'Lambda';
+      case ComputePlatform.ecs:
+        return 'ECS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of a CreateApplication operation.
@@ -3884,6 +3912,18 @@ enum DeploymentWaitType {
   terminationWait,
 }
 
+extension on DeploymentWaitType {
+  String toValue() {
+    switch (this) {
+      case DeploymentWaitType.readyWait:
+        return 'READY_WAIT';
+      case DeploymentWaitType.terminationWait:
+        return 'TERMINATION_WAIT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Diagnostic information about executable scripts that are part of a
 /// deployment.
 @_s.JsonSerializable(
@@ -4362,6 +4402,20 @@ enum FileExistsBehavior {
   overwrite,
   @_s.JsonValue('RETAIN')
   retain,
+}
+
+extension on FileExistsBehavior {
+  String toValue() {
+    switch (this) {
+      case FileExistsBehavior.disallow:
+        return 'DISALLOW';
+      case FileExistsBehavior.overwrite:
+        return 'OVERWRITE';
+      case FileExistsBehavior.retain:
+        return 'RETAIN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about an application revision.
@@ -5055,6 +5109,26 @@ enum LifecycleEventStatus {
   unknown,
 }
 
+extension on LifecycleEventStatus {
+  String toValue() {
+    switch (this) {
+      case LifecycleEventStatus.pending:
+        return 'Pending';
+      case LifecycleEventStatus.inProgress:
+        return 'InProgress';
+      case LifecycleEventStatus.succeeded:
+        return 'Succeeded';
+      case LifecycleEventStatus.failed:
+        return 'Failed';
+      case LifecycleEventStatus.skipped:
+        return 'Skipped';
+      case LifecycleEventStatus.unknown:
+        return 'Unknown';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents the output of a ListApplicationRevisions operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5295,6 +5369,20 @@ enum ListStateFilterAction {
   ignore,
 }
 
+extension on ListStateFilterAction {
+  String toValue() {
+    switch (this) {
+      case ListStateFilterAction.include:
+        return 'include';
+      case ListStateFilterAction.exclude:
+        return 'exclude';
+      case ListStateFilterAction.ignore:
+        return 'ignore';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5504,6 +5592,18 @@ enum RegistrationStatus {
   deregistered,
 }
 
+extension on RegistrationStatus {
+  String toValue() {
+    switch (this) {
+      case RegistrationStatus.registered:
+        return 'Registered';
+      case RegistrationStatus.deregistered:
+        return 'Deregistered';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about an application revision.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5692,6 +5792,18 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('descending')
   descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ascending';
+      case SortOrder.descending:
+        return 'descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of a StopDeployment operation.

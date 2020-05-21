@@ -312,7 +312,7 @@ class Kendra {
         'IndexId': indexId,
         'Name': name,
         'RoleArn': roleArn,
-        'Type': type,
+        'Type': type?.toValue(),
         'Description': description,
         'Schedule': schedule,
       },
@@ -923,7 +923,7 @@ class Kendra {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'StartTimeFilter': startTimeFilter,
-        'StatusFilter': statusFilter,
+        'StatusFilter': statusFilter?.toValue(),
       },
     );
 
@@ -1245,7 +1245,7 @@ class Kendra {
         'Facets': facets,
         'PageNumber': pageNumber,
         'PageSize': pageSize,
-        'QueryResultTypeFilter': queryResultTypeFilter,
+        'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
         'RequestedDocumentAttributes': requestedDocumentAttributes,
       },
     );
@@ -2297,6 +2297,26 @@ enum DataSourceSyncJobStatus {
   aborted,
 }
 
+extension on DataSourceSyncJobStatus {
+  String toValue() {
+    switch (this) {
+      case DataSourceSyncJobStatus.failed:
+        return 'FAILED';
+      case DataSourceSyncJobStatus.succeeded:
+        return 'SUCCEEDED';
+      case DataSourceSyncJobStatus.syncing:
+        return 'SYNCING';
+      case DataSourceSyncJobStatus.incomplete:
+        return 'INCOMPLETE';
+      case DataSourceSyncJobStatus.stopping:
+        return 'STOPPING';
+      case DataSourceSyncJobStatus.aborted:
+        return 'ABORTED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Maps a column or attribute in the data source to an index field. You must
 /// first create the fields in the index using the <a>UpdateIndex</a> operation.
 @_s.JsonSerializable(
@@ -2335,6 +2355,20 @@ enum DataSourceType {
   sharepoint,
   @_s.JsonValue('DATABASE')
   database,
+}
+
+extension on DataSourceType {
+  String toValue() {
+    switch (this) {
+      case DataSourceType.s3:
+        return 'S3';
+      case DataSourceType.sharepoint:
+        return 'SHAREPOINT';
+      case DataSourceType.database:
+        return 'DATABASE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides information for connecting to an Amazon VPC.
@@ -3320,6 +3354,20 @@ enum QueryResultType {
   questionAnswer,
   @_s.JsonValue('ANSWER')
   answer,
+}
+
+extension on QueryResultType {
+  String toValue() {
+    switch (this) {
+      case QueryResultType.document:
+        return 'DOCUMENT';
+      case QueryResultType.questionAnswer:
+        return 'QUESTION_ANSWER';
+      case QueryResultType.answer:
+        return 'ANSWER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ReadAccessType {

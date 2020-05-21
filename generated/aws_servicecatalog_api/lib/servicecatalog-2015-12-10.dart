@@ -126,7 +126,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType,
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -268,7 +268,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'PrincipalType': principalType,
+        'PrincipalType': principalType?.toValue(),
         'AcceptLanguage': acceptLanguage,
       },
     );
@@ -1350,7 +1350,7 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'Owner': owner,
-        'ProductType': productType,
+        'ProductType': productType?.toValue(),
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
         'AcceptLanguage': acceptLanguage,
         'Description': description,
@@ -1541,7 +1541,7 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'PlanName': planName,
-        'PlanType': planType,
+        'PlanType': planType?.toValue(),
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
@@ -1771,7 +1771,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Definition': definition,
-        'DefinitionType': definitionType,
+        'DefinitionType': definitionType?.toValue(),
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'AcceptLanguage': acceptLanguage,
@@ -4232,7 +4232,7 @@ class ServiceCatalog {
         'AcceptLanguage': acceptLanguage,
         'PageSize': pageSize,
         'PageToken': pageToken,
-        'PortfolioShareType': portfolioShareType,
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -4642,7 +4642,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OrganizationNodeType': organizationNodeType,
+        'OrganizationNodeType': organizationNodeType?.toValue(),
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
         'PageSize': pageSize,
@@ -6051,7 +6051,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType,
+        'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -6220,8 +6220,8 @@ class ServiceCatalog {
         'Filters': filters,
         'PageSize': pageSize,
         'PageToken': pageToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6331,9 +6331,9 @@ class ServiceCatalog {
         'PageSize': pageSize,
         'PageToken': pageToken,
         'PortfolioId': portfolioId,
-        'ProductSource': productSource,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'ProductSource': productSource?.toValue(),
+        'SortBy': sortBy?.toValue(),
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6439,7 +6439,7 @@ class ServiceCatalog {
         'PageSize': pageSize,
         'PageToken': pageToken,
         'SortBy': sortBy,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7369,7 +7369,7 @@ class ServiceCatalog {
         'AcceptLanguage': acceptLanguage,
         'Active': active,
         'Description': description,
-        'Guidance': guidance,
+        'Guidance': guidance?.toValue(),
         'Name': name,
       },
     );
@@ -9350,6 +9350,20 @@ enum OrganizationNodeType {
   account,
 }
 
+extension on OrganizationNodeType {
+  String toValue() {
+    switch (this) {
+      case OrganizationNodeType.organization:
+        return 'ORGANIZATION';
+      case OrganizationNodeType.organizationalUnit:
+        return 'ORGANIZATIONAL_UNIT';
+      case OrganizationNodeType.account:
+        return 'ACCOUNT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The constraints that the administrator has put on the parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9420,6 +9434,20 @@ enum PortfolioShareType {
   awsOrganizations,
 }
 
+extension on PortfolioShareType {
+  String toValue() {
+    switch (this) {
+      case PortfolioShareType.imported:
+        return 'IMPORTED';
+      case PortfolioShareType.awsServicecatalog:
+        return 'AWS_SERVICECATALOG';
+      case PortfolioShareType.awsOrganizations:
+        return 'AWS_ORGANIZATIONS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about a principal.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9448,9 +9476,29 @@ enum PrincipalType {
   iam,
 }
 
+extension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.iam:
+        return 'IAM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ProductSource {
   @_s.JsonValue('ACCOUNT')
   account,
+}
+
+extension on ProductSource {
+  String toValue() {
+    switch (this) {
+      case ProductSource.account:
+        return 'ACCOUNT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ProductType {
@@ -9458,6 +9506,18 @@ enum ProductType {
   cloudFormationTemplate,
   @_s.JsonValue('MARKETPLACE')
   marketplace,
+}
+
+extension on ProductType {
+  String toValue() {
+    switch (this) {
+      case ProductType.cloudFormationTemplate:
+        return 'CLOUD_FORMATION_TEMPLATE';
+      case ProductType.marketplace:
+        return 'MARKETPLACE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A single product view aggregation value/count pair, containing metadata
@@ -9548,6 +9608,20 @@ enum ProductViewSortBy {
   versionCount,
   @_s.JsonValue('CreationDate')
   creationDate,
+}
+
+extension on ProductViewSortBy {
+  String toValue() {
+    switch (this) {
+      case ProductViewSortBy.title:
+        return 'Title';
+      case ProductViewSortBy.versionCount:
+        return 'VersionCount';
+      case ProductViewSortBy.creationDate:
+        return 'CreationDate';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Summary information about a product view.
@@ -10029,6 +10103,16 @@ enum ProvisionedProductPlanType {
   cloudformation,
 }
 
+extension on ProvisionedProductPlanType {
+  String toValue() {
+    switch (this) {
+      case ProvisionedProductPlanType.cloudformation:
+        return 'CLOUDFORMATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ProvisionedProductStatus {
   @_s.JsonValue('AVAILABLE')
   available,
@@ -10154,6 +10238,18 @@ enum ProvisioningArtifactGuidance {
   $default,
   @_s.JsonValue('DEPRECATED')
   deprecated,
+}
+
+extension on ProvisioningArtifactGuidance {
+  String toValue() {
+    switch (this) {
+      case ProvisioningArtifactGuidance.$default:
+        return 'DEFAULT';
+      case ProvisioningArtifactGuidance.deprecated:
+        return 'DEPRECATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a parameter used to provision a product.
@@ -11068,6 +11164,16 @@ enum ServiceActionDefinitionType {
   ssmAutomation,
 }
 
+extension on ServiceActionDefinitionType {
+  String toValue() {
+    switch (this) {
+      case ServiceActionDefinitionType.ssmAutomation:
+        return 'SSM_AUTOMATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An object containing detailed information about the self-service action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11194,6 +11300,18 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An AWS CloudFormation stack, in a specific account and region, that's part

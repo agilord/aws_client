@@ -23,7 +23,7 @@ class JsonServiceBuilder extends ServiceBuilder {
       var serializationSuffix = '';
       if (m.shapeClass.enumeration != null) {
         m.shapeClass.isTopLevelInputEnum = true;
-        serializationSuffix = '.toValue()';
+        serializationSuffix = '?.toValue()';
       }
       return '''
     '${m.name}': ${m.fieldName}$serializationSuffix,

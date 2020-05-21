@@ -98,7 +98,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Name': name,
-        'RuleVersion': ruleVersion,
+        'RuleVersion': ruleVersion?.toValue(),
         'Rules': rules,
       },
     );
@@ -326,7 +326,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -450,7 +450,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -541,8 +541,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity,
-        'Metric': metric,
+        'Granularity': granularity?.toValue(),
+        'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
         'Filter': filter,
         'PredictionIntervalLevel': predictionIntervalLevel,
@@ -764,9 +764,9 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Dimension': dimension,
+        'Dimension': dimension?.toValue(),
         'TimePeriod': timePeriod,
-        'Context': context,
+        'Context': context?.toValue(),
         'NextPageToken': nextPageToken,
         'SearchString': searchString,
       },
@@ -982,7 +982,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'Metrics': metrics,
         'NextPageToken': nextPageToken,
@@ -1119,13 +1119,13 @@ class CostExplorer {
       payload: {
         'Service': service,
         'AccountId': accountId,
-        'AccountScope': accountScope,
-        'LookbackPeriodInDays': lookbackPeriodInDays,
+        'AccountScope': accountScope?.toValue(),
+        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
         'NextPageToken': nextPageToken,
         'PageSize': pageSize,
-        'PaymentOption': paymentOption,
+        'PaymentOption': paymentOption?.toValue(),
         'ServiceSpecification': serviceSpecification,
-        'TermInYears': termInYears,
+        'TermInYears': termInYears?.toValue(),
       },
     );
 
@@ -1246,7 +1246,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'NextPageToken': nextPageToken,
       },
@@ -1461,7 +1461,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
         'GroupBy': groupBy,
         'MaxResults': maxResults,
         'Metrics': metrics,
@@ -1566,11 +1566,11 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LookbackPeriodInDays': lookbackPeriodInDays,
-        'PaymentOption': paymentOption,
-        'SavingsPlansType': savingsPlansType,
-        'TermInYears': termInYears,
-        'AccountScope': accountScope,
+        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
+        'PaymentOption': paymentOption?.toValue(),
+        'SavingsPlansType': savingsPlansType?.toValue(),
+        'TermInYears': termInYears?.toValue(),
+        'AccountScope': accountScope?.toValue(),
         'Filter': filter,
         'NextPageToken': nextPageToken,
         'PageSize': pageSize,
@@ -1654,7 +1654,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         'Filter': filter,
-        'Granularity': granularity,
+        'Granularity': granularity?.toValue(),
       },
     );
 
@@ -1929,8 +1929,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity,
-        'Metric': metric,
+        'Granularity': granularity?.toValue(),
+        'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
         'Filter': filter,
         'PredictionIntervalLevel': predictionIntervalLevel,
@@ -2064,7 +2064,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'CostCategoryArn': costCategoryArn,
-        'RuleVersion': ruleVersion,
+        'RuleVersion': ruleVersion?.toValue(),
         'Rules': rules,
       },
     );
@@ -2080,6 +2080,18 @@ enum AccountScope {
   linked,
 }
 
+extension on AccountScope {
+  String toValue() {
+    switch (this) {
+      case AccountScope.payer:
+        return 'PAYER';
+      case AccountScope.linked:
+        return 'LINKED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum Context {
   @_s.JsonValue('COST_AND_USAGE')
   costAndUsage,
@@ -2087,6 +2099,20 @@ enum Context {
   reservations,
   @_s.JsonValue('SAVINGS_PLANS')
   savingsPlans,
+}
+
+extension on Context {
+  String toValue() {
+    switch (this) {
+      case Context.costAndUsage:
+        return 'COST_AND_USAGE';
+      case Context.reservations:
+        return 'RESERVATIONS';
+      case Context.savingsPlans:
+        return 'SAVINGS_PLANS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The structure of Cost Categories. This includes detailed metadata and the
@@ -2215,6 +2241,16 @@ class CostCategoryRule {
 enum CostCategoryRuleVersion {
   @_s.JsonValue('CostCategoryExpression.v1')
   costCategoryExpressionV1,
+}
+
+extension on CostCategoryRuleVersion {
+  String toValue() {
+    switch (this) {
+      case CostCategoryRuleVersion.costCategoryExpressionV1:
+        return 'CostCategoryExpression.v1';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The Cost Categories values used for filtering the costs.
@@ -2614,6 +2650,72 @@ enum Dimension {
   savingsPlanArn,
   @_s.JsonValue('PAYMENT_OPTION')
   paymentOption,
+}
+
+extension on Dimension {
+  String toValue() {
+    switch (this) {
+      case Dimension.az:
+        return 'AZ';
+      case Dimension.instanceType:
+        return 'INSTANCE_TYPE';
+      case Dimension.linkedAccount:
+        return 'LINKED_ACCOUNT';
+      case Dimension.linkedAccountName:
+        return 'LINKED_ACCOUNT_NAME';
+      case Dimension.operation:
+        return 'OPERATION';
+      case Dimension.purchaseType:
+        return 'PURCHASE_TYPE';
+      case Dimension.region:
+        return 'REGION';
+      case Dimension.service:
+        return 'SERVICE';
+      case Dimension.serviceCode:
+        return 'SERVICE_CODE';
+      case Dimension.usageType:
+        return 'USAGE_TYPE';
+      case Dimension.usageTypeGroup:
+        return 'USAGE_TYPE_GROUP';
+      case Dimension.recordType:
+        return 'RECORD_TYPE';
+      case Dimension.operatingSystem:
+        return 'OPERATING_SYSTEM';
+      case Dimension.tenancy:
+        return 'TENANCY';
+      case Dimension.scope:
+        return 'SCOPE';
+      case Dimension.platform:
+        return 'PLATFORM';
+      case Dimension.subscriptionId:
+        return 'SUBSCRIPTION_ID';
+      case Dimension.legalEntityName:
+        return 'LEGAL_ENTITY_NAME';
+      case Dimension.deploymentOption:
+        return 'DEPLOYMENT_OPTION';
+      case Dimension.databaseEngine:
+        return 'DATABASE_ENGINE';
+      case Dimension.cacheEngine:
+        return 'CACHE_ENGINE';
+      case Dimension.instanceTypeFamily:
+        return 'INSTANCE_TYPE_FAMILY';
+      case Dimension.billingEntity:
+        return 'BILLING_ENTITY';
+      case Dimension.reservationId:
+        return 'RESERVATION_ID';
+      case Dimension.resourceId:
+        return 'RESOURCE_ID';
+      case Dimension.rightsizingType:
+        return 'RIGHTSIZING_TYPE';
+      case Dimension.savingsPlansType:
+        return 'SAVINGS_PLANS_TYPE';
+      case Dimension.savingsPlanArn:
+        return 'SAVINGS_PLAN_ARN';
+      case Dimension.paymentOption:
+        return 'PAYMENT_OPTION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The metadata that you can use to filter and group your results. You can use
@@ -3602,6 +3704,20 @@ enum Granularity {
   hourly,
 }
 
+extension on Granularity {
+  String toValue() {
+    switch (this) {
+      case Granularity.daily:
+        return 'DAILY';
+      case Granularity.monthly:
+        return 'MONTHLY';
+      case Granularity.hourly:
+        return 'HOURLY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// One level of grouped data in the results.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3732,6 +3848,20 @@ enum LookbackPeriodInDays {
   sixtyDays,
 }
 
+extension on LookbackPeriodInDays {
+  String toValue() {
+    switch (this) {
+      case LookbackPeriodInDays.sevenDays:
+        return 'SEVEN_DAYS';
+      case LookbackPeriodInDays.thirtyDays:
+        return 'THIRTY_DAYS';
+      case LookbackPeriodInDays.sixtyDays:
+        return 'SIXTY_DAYS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum MatchOption {
   @_s.JsonValue('EQUALS')
   equals,
@@ -3762,6 +3892,28 @@ enum Metric {
   usageQuantity,
   @_s.JsonValue('NORMALIZED_USAGE_AMOUNT')
   normalizedUsageAmount,
+}
+
+extension on Metric {
+  String toValue() {
+    switch (this) {
+      case Metric.blendedCost:
+        return 'BLENDED_COST';
+      case Metric.unblendedCost:
+        return 'UNBLENDED_COST';
+      case Metric.amortizedCost:
+        return 'AMORTIZED_COST';
+      case Metric.netUnblendedCost:
+        return 'NET_UNBLENDED_COST';
+      case Metric.netAmortizedCost:
+        return 'NET_AMORTIZED_COST';
+      case Metric.usageQuantity:
+        return 'USAGE_QUANTITY';
+      case Metric.normalizedUsageAmount:
+        return 'NORMALIZED_USAGE_AMOUNT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The aggregated value for a metric.
@@ -3826,6 +3978,26 @@ enum PaymentOption {
   mediumUtilization,
   @_s.JsonValue('HEAVY_UTILIZATION')
   heavyUtilization,
+}
+
+extension on PaymentOption {
+  String toValue() {
+    switch (this) {
+      case PaymentOption.noUpfront:
+        return 'NO_UPFRONT';
+      case PaymentOption.partialUpfront:
+        return 'PARTIAL_UPFRONT';
+      case PaymentOption.allUpfront:
+        return 'ALL_UPFRONT';
+      case PaymentOption.lightUtilization:
+        return 'LIGHT_UTILIZATION';
+      case PaymentOption.mediumUtilization:
+        return 'MEDIUM_UTILIZATION';
+      case PaymentOption.heavyUtilization:
+        return 'HEAVY_UTILIZATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Details about the Amazon RDS instances that AWS recommends that you
@@ -5099,6 +5271,18 @@ enum SupportedSavingsPlansType {
   ec2InstanceSp,
 }
 
+extension on SupportedSavingsPlansType {
+  String toValue() {
+    switch (this) {
+      case SupportedSavingsPlansType.computeSp:
+        return 'COMPUTE_SP';
+      case SupportedSavingsPlansType.ec2InstanceSp:
+        return 'EC2_INSTANCE_SP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The values that are available for a tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5182,6 +5366,18 @@ enum TermInYears {
   oneYear,
   @_s.JsonValue('THREE_YEARS')
   threeYears,
+}
+
+extension on TermInYears {
+  String toValue() {
+    switch (this) {
+      case TermInYears.oneYear:
+        return 'ONE_YEAR';
+      case TermInYears.threeYears:
+        return 'THREE_YEARS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Details on termination recommendation.

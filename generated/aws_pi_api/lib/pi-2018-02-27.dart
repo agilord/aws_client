@@ -207,7 +207,7 @@ class PI {
         'GroupBy': groupBy,
         'Identifier': identifier,
         'Metric': metric,
-        'ServiceType': serviceType,
+        'ServiceType': serviceType?.toValue(),
         'StartTime': startTime,
         'Filter': filter,
         'MaxResults': maxResults,
@@ -332,7 +332,7 @@ class PI {
         'EndTime': endTime,
         'Identifier': identifier,
         'MetricQueries': metricQueries,
-        'ServiceType': serviceType,
+        'ServiceType': serviceType?.toValue(),
         'StartTime': startTime,
         'MaxResults': maxResults,
         'NextToken': nextToken,
@@ -795,6 +795,16 @@ class ResponseResourceMetricKey {
 enum ServiceType {
   @_s.JsonValue('RDS')
   rds,
+}
+
+extension on ServiceType {
+  String toValue() {
+    switch (this) {
+      case ServiceType.rds:
+        return 'RDS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
