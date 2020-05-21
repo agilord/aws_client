@@ -1379,7 +1379,7 @@ class SES {
       'Action': 'ListIdentities',
       'Version': '2010-12-01',
     };
-    identityType?.also((arg) => $request['IdentityType'] = arg);
+    identityType?.also((arg) => $request['IdentityType'] = arg.toValue());
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
@@ -2894,7 +2894,7 @@ class SES {
     };
     $request['Enabled'] = enabled;
     $request['Identity'] = identity;
-    $request['NotificationType'] = notificationType;
+    $request['NotificationType'] = notificationType.toValue();
     await _protocol.send(
       $request,
       method: 'POST',
@@ -2951,7 +2951,8 @@ class SES {
       'Version': '2010-12-01',
     };
     $request['Identity'] = identity;
-    behaviorOnMXFailure?.also((arg) => $request['BehaviorOnMXFailure'] = arg);
+    behaviorOnMXFailure
+        ?.also((arg) => $request['BehaviorOnMXFailure'] = arg.toValue());
     mailFromDomain?.also((arg) => $request['MailFromDomain'] = arg);
     await _protocol.send(
       $request,
@@ -3007,7 +3008,7 @@ class SES {
       'Version': '2010-12-01',
     };
     $request['Identity'] = identity;
-    $request['NotificationType'] = notificationType;
+    $request['NotificationType'] = notificationType.toValue();
     snsTopic?.also((arg) => $request['SnsTopic'] = arg);
     await _protocol.send(
       $request,
@@ -3604,6 +3605,18 @@ class AddHeaderAction {
 enum BehaviorOnMXFailure {
   useDefaultValue,
   rejectMessage,
+}
+
+extension on BehaviorOnMXFailure {
+  String toValue() {
+    switch (this) {
+      case BehaviorOnMXFailure.useDefaultValue:
+        return 'UseDefaultValue';
+      case BehaviorOnMXFailure.rejectMessage:
+        return 'RejectMessage';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -5080,6 +5093,18 @@ enum IdentityType {
   domain,
 }
 
+extension on IdentityType {
+  String toValue() {
+    switch (this) {
+      case IdentityType.emailAddress:
+        return 'EmailAddress';
+      case IdentityType.domain:
+        return 'Domain';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   IdentityType toIdentityType() {
     switch (this) {
@@ -5502,6 +5527,20 @@ enum NotificationType {
   bounce,
   complaint,
   delivery,
+}
+
+extension on NotificationType {
+  String toValue() {
+    switch (this) {
+      case NotificationType.bounce:
+        return 'Bounce';
+      case NotificationType.complaint:
+        return 'Complaint';
+      case NotificationType.delivery:
+        return 'Delivery';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

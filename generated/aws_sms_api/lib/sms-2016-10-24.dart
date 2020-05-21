@@ -197,7 +197,7 @@ class SMS {
         'encrypted': encrypted,
         'frequency': frequency,
         'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType,
+        'licenseType': licenseType.toValue(),
         'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         'roleName': roleName,
         'runOnce': runOnce,
@@ -442,7 +442,7 @@ class SMS {
       headers: headers,
       payload: {
         'appId': appId,
-        'changesetFormat': changesetFormat,
+        'changesetFormat': changesetFormat.toValue(),
       },
     );
 
@@ -480,7 +480,7 @@ class SMS {
       headers: headers,
       payload: {
         'appId': appId,
-        'templateFormat': templateFormat,
+        'templateFormat': templateFormat.toValue(),
       },
     );
 
@@ -1209,7 +1209,7 @@ class SMS {
         'encrypted': encrypted,
         'frequency': frequency,
         'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType,
+        'licenseType': licenseType.toValue(),
         'nextReplicationRunStartTime': nextReplicationRunStartTime,
         'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         'roleName': roleName,
@@ -1862,6 +1862,18 @@ enum LicenseType {
   byol,
 }
 
+extension on LicenseType {
+  String toValue() {
+    switch (this) {
+      case LicenseType.aws:
+        return 'AWS';
+      case LicenseType.byol:
+        return 'BYOL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1890,6 +1902,18 @@ enum OutputFormat {
   json,
   @_s.JsonValue('YAML')
   yaml,
+}
+
+extension on OutputFormat {
+  String toValue() {
+    switch (this) {
+      case OutputFormat.json:
+        return 'JSON';
+      case OutputFormat.yaml:
+        return 'YAML';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

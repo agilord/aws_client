@@ -103,7 +103,7 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
@@ -258,7 +258,7 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
@@ -791,7 +791,7 @@ class S3 {
     );
     final headers = <String, String>{};
     copySource?.let((v) => headers['x-amz-copy-source'] = v.toString());
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
@@ -825,15 +825,14 @@ class S3 {
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
     metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
     metadataDirective
-        ?.let((v) => headers['x-amz-metadata-directive'] = v.toString());
+        ?.let((v) => headers['x-amz-metadata-directive'] = v.toValue());
     objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toString());
-    objectLockMode
-        ?.let((v) => headers['x-amz-object-lock-mode'] = v.toString());
+        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
+    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
         headers['x-amz-object-lock-retain-until-date'] =
             v.toUtc().toIso8601String());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -847,11 +846,11 @@ class S3 {
     sSEKMSKeyId?.let((v) =>
         headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
     serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toString());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toString());
+        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
+    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
     tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
     taggingDirective
-        ?.let((v) => headers['x-amz-tagging-directive'] = v.toString());
+        ?.let((v) => headers['x-amz-tagging-directive'] = v.toValue());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
     final $result = await _protocol.send(
@@ -999,7 +998,7 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -1396,7 +1395,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
@@ -1411,13 +1410,12 @@ class S3 {
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
     metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
     objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toString());
-    objectLockMode
-        ?.let((v) => headers['x-amz-object-lock-mode'] = v.toString());
+        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
+    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
         headers['x-amz-object-lock-retain-until-date'] =
             v.toUtc().toIso8601String());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -1431,8 +1429,8 @@ class S3 {
     sSEKMSKeyId?.let((v) =>
         headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
     serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toString());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toString());
+        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
+    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
     tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
@@ -1997,7 +1995,7 @@ class S3 {
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -2171,7 +2169,7 @@ class S3 {
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/$bucket?delete',
@@ -3376,7 +3374,7 @@ class S3 {
     ifUnmodifiedSince?.let(
         (v) => headers['If-Unmodified-Since'] = v.toUtc().toIso8601String());
     range?.let((v) => headers['Range'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -3470,7 +3468,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -3522,7 +3520,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -3595,7 +3593,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -3720,7 +3718,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/$bucket/$key?torrent',
@@ -4004,7 +4002,7 @@ class S3 {
     ifUnmodifiedSince?.let(
         (v) => headers['If-Unmodified-Since'] = v.toUtc().toIso8601String());
     range?.let((v) => headers['Range'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -4355,7 +4353,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final queryParams = <String, String>{};
     delimiter?.let((v) => queryParams['delimiter'] = v.toString());
-    encodingType?.let((v) => queryParams['encoding-type'] = v.toString());
+    encodingType?.let((v) => queryParams['encoding-type'] = v.toValue());
     keyMarker?.let((v) => queryParams['key-marker'] = v.toString());
     maxUploads?.let((v) => queryParams['max-uploads'] = v.toString());
     prefix?.let((v) => queryParams['prefix'] = v.toString());
@@ -4449,7 +4447,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final queryParams = <String, String>{};
     delimiter?.let((v) => queryParams['delimiter'] = v.toString());
-    encodingType?.let((v) => queryParams['encoding-type'] = v.toString());
+    encodingType?.let((v) => queryParams['encoding-type'] = v.toValue());
     keyMarker?.let((v) => queryParams['key-marker'] = v.toString());
     maxKeys?.let((v) => queryParams['max-keys'] = v.toString());
     prefix?.let((v) => queryParams['prefix'] = v.toString());
@@ -4527,10 +4525,10 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     delimiter?.let((v) => queryParams['delimiter'] = v.toString());
-    encodingType?.let((v) => queryParams['encoding-type'] = v.toString());
+    encodingType?.let((v) => queryParams['encoding-type'] = v.toValue());
     marker?.let((v) => queryParams['marker'] = v.toString());
     maxKeys?.let((v) => queryParams['max-keys'] = v.toString());
     prefix?.let((v) => queryParams['prefix'] = v.toString());
@@ -4643,12 +4641,12 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     continuationToken
         ?.let((v) => queryParams['continuation-token'] = v.toString());
     delimiter?.let((v) => queryParams['delimiter'] = v.toString());
-    encodingType?.let((v) => queryParams['encoding-type'] = v.toString());
+    encodingType?.let((v) => queryParams['encoding-type'] = v.toValue());
     fetchOwner?.let((v) => queryParams['fetch-owner'] = v.toString());
     maxKeys?.let((v) => queryParams['max-keys'] = v.toString());
     prefix?.let((v) => queryParams['prefix'] = v.toString());
@@ -4749,7 +4747,7 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     maxParts?.let((v) => queryParams['max-parts'] = v.toString());
@@ -5004,7 +5002,7 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
@@ -6962,7 +6960,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
@@ -6979,13 +6977,12 @@ class S3 {
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
     metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
     objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toString());
-    objectLockMode
-        ?.let((v) => headers['x-amz-object-lock-mode'] = v.toString());
+        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
+    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
         headers['x-amz-object-lock-retain-until-date'] =
             v.toUtc().toIso8601String());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -6999,8 +6996,8 @@ class S3 {
     sSEKMSKeyId?.let((v) =>
         headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
     serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toString());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toString());
+        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
+    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
     tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
@@ -7201,7 +7198,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toString());
+    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
@@ -7209,7 +7206,7 @@ class S3 {
     grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
     grantWrite?.let((v) => headers['x-amz-grant-write'] = v.toString());
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -7279,7 +7276,7 @@ class S3 {
     );
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -7332,7 +7329,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
@@ -7409,7 +7406,7 @@ class S3 {
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -7964,7 +7961,7 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
@@ -8383,7 +8380,7 @@ class S3 {
     final headers = <String, String>{};
     contentLength?.let((v) => headers['Content-Length'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -8692,7 +8689,7 @@ class S3 {
     copySourceSSECustomerKeyMD5?.let((v) =>
         headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
             v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toString());
+    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());

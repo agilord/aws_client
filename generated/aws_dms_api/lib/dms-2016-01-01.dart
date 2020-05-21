@@ -336,7 +336,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType,
+        'EndpointType': endpointType.toValue(),
         'EngineName': engineName,
         'CertificateArn': certificateArn,
         'DatabaseName': databaseName,
@@ -355,7 +355,7 @@ class DatabaseMigrationService {
         'S3Settings': s3Settings,
         'ServerName': serverName,
         'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode,
+        'SslMode': sslMode.toValue(),
         'Tags': tags,
         'Username': username,
       },
@@ -823,7 +823,7 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MigrationType': migrationType,
+        'MigrationType': migrationType.toValue(),
         'ReplicationInstanceArn': replicationInstanceArn,
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'SourceEndpointArn': sourceEndpointArn,
@@ -1448,7 +1448,7 @@ class DatabaseMigrationService {
         'Marker': marker,
         'MaxRecords': maxRecords,
         'SourceIdentifier': sourceIdentifier,
-        'SourceType': sourceType,
+        'SourceType': sourceType.toValue(),
         'StartTime': startTime,
       },
     );
@@ -2207,7 +2207,7 @@ class DatabaseMigrationService {
         'DynamoDbSettings': dynamoDbSettings,
         'ElasticsearchSettings': elasticsearchSettings,
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType,
+        'EndpointType': endpointType.toValue(),
         'EngineName': engineName,
         'ExternalTableDefinition': externalTableDefinition,
         'ExtraConnectionAttributes': extraConnectionAttributes,
@@ -2220,7 +2220,7 @@ class DatabaseMigrationService {
         'S3Settings': s3Settings,
         'ServerName': serverName,
         'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode,
+        'SslMode': sslMode.toValue(),
         'Username': username,
       },
     );
@@ -2587,7 +2587,7 @@ class DatabaseMigrationService {
         'CdcStartPosition': cdcStartPosition,
         'CdcStartTime': cdcStartTime,
         'CdcStopPosition': cdcStopPosition,
-        'MigrationType': migrationType,
+        'MigrationType': migrationType.toValue(),
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'ReplicationTaskSettings': replicationTaskSettings,
         'TableMappings': tableMappings,
@@ -2716,7 +2716,7 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         'TablesToReload': tablesToReload,
-        'ReloadOption': reloadOption,
+        'ReloadOption': reloadOption.toValue(),
       },
     );
 
@@ -2835,7 +2835,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'StartReplicationTaskType': startReplicationTaskType,
+        'StartReplicationTaskType': startReplicationTaskType.toValue(),
         'CdcStartPosition': cdcStartPosition,
         'CdcStartTime': cdcStartTime,
         'CdcStopPosition': cdcStopPosition,
@@ -3865,6 +3865,22 @@ enum DmsSslModeValue {
   verifyFull,
 }
 
+extension on DmsSslModeValue {
+  String toValue() {
+    switch (this) {
+      case DmsSslModeValue.none:
+        return 'none';
+      case DmsSslModeValue.require:
+        return 'require';
+      case DmsSslModeValue.verifyCa:
+        return 'verify-ca';
+      case DmsSslModeValue.verifyFull:
+        return 'verify-full';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The settings in JSON format for the DMS Transfer type source endpoint.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4488,6 +4504,20 @@ enum MigrationTypeValue {
   cdc,
   @_s.JsonValue('full-load-and-cdc')
   fullLoadAndCdc,
+}
+
+extension on MigrationTypeValue {
+  String toValue() {
+    switch (this) {
+      case MigrationTypeValue.fullLoad:
+        return 'full-load';
+      case MigrationTypeValue.cdc:
+        return 'cdc';
+      case MigrationTypeValue.fullLoadAndCdc:
+        return 'full-load-and-cdc';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// <p/>
@@ -5127,6 +5157,18 @@ enum ReloadOptionValue {
   validateOnly,
 }
 
+extension on ReloadOptionValue {
+  String toValue() {
+    switch (this) {
+      case ReloadOptionValue.dataReload:
+        return 'data-reload';
+      case ReloadOptionValue.validateOnly:
+        return 'validate-only';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5161,6 +5203,18 @@ enum ReplicationEndpointTypeValue {
   source,
   @_s.JsonValue('target')
   target,
+}
+
+extension on ReplicationEndpointTypeValue {
+  String toValue() {
+    switch (this) {
+      case ReplicationEndpointTypeValue.source:
+        return 'source';
+      case ReplicationEndpointTypeValue.target:
+        return 'target';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides information that defines a replication instance.
@@ -6084,6 +6138,16 @@ enum SourceType {
   replicationInstance,
 }
 
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.replicationInstance:
+        return 'replication-instance';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// <p/>
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6128,6 +6192,20 @@ enum StartReplicationTaskTypeValue {
   resumeProcessing,
   @_s.JsonValue('reload-target')
   reloadTarget,
+}
+
+extension on StartReplicationTaskTypeValue {
+  String toValue() {
+    switch (this) {
+      case StartReplicationTaskTypeValue.startReplication:
+        return 'start-replication';
+      case StartReplicationTaskTypeValue.resumeProcessing:
+        return 'resume-processing';
+      case StartReplicationTaskTypeValue.reloadTarget:
+        return 'reload-target';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// <p/>

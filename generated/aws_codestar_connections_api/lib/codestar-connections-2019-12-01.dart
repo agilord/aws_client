@@ -119,7 +119,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ConnectionName': connectionName,
-        'ProviderType': providerType,
+        'ProviderType': providerType.toValue(),
       },
     );
 
@@ -264,7 +264,7 @@ class CodeStarconnections {
       payload: {
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'ProviderTypeFilter': providerTypeFilter,
+        'ProviderTypeFilter': providerTypeFilter.toValue(),
       },
     );
 
@@ -406,6 +406,16 @@ class ListConnectionsOutput {
 enum ProviderType {
   @_s.JsonValue('Bitbucket')
   bitbucket,
+}
+
+extension on ProviderType {
+  String toValue() {
+    switch (this) {
+      case ProviderType.bitbucket:
+        return 'Bitbucket';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class LimitExceededException extends _s.GenericAwsException {

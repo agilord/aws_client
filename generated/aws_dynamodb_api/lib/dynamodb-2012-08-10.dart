@@ -222,7 +222,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'RequestItems': requestItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -393,8 +393,8 @@ class DynamoDB {
       headers: headers,
       payload: {
         'RequestItems': requestItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
       },
     );
 
@@ -905,7 +905,7 @@ class DynamoDB {
         'AttributeDefinitions': attributeDefinitions,
         'KeySchema': keySchema,
         'TableName': tableName,
-        'BillingMode': billingMode,
+        'BillingMode': billingMode.toValue(),
         'GlobalSecondaryIndexes': globalSecondaryIndexes,
         'LocalSecondaryIndexes': localSecondaryIndexes,
         'ProvisionedThroughput': provisionedThroughput,
@@ -1175,13 +1175,13 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator,
+        'ConditionalOperator': conditionalOperator.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
-        'ReturnValues': returnValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -1900,7 +1900,7 @@ class DynamoDB {
         'ConsistentRead': consistentRead,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ProjectionExpression': projectionExpression,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -2001,7 +2001,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BackupType': backupType,
+        'BackupType': backupType.toValue(),
         'ExclusiveStartBackupArn': exclusiveStartBackupArn,
         'Limit': limit,
         'TableName': tableName,
@@ -2529,13 +2529,13 @@ class DynamoDB {
         'Item': item,
         'TableName': tableName,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator,
+        'ConditionalOperator': conditionalOperator.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
-        'ReturnValues': returnValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -3012,7 +3012,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributesToGet': attributesToGet,
-        'ConditionalOperator': conditionalOperator,
+        'ConditionalOperator': conditionalOperator.toValue(),
         'ConsistentRead': consistentRead,
         'ExclusiveStartKey': exclusiveStartKey,
         'ExpressionAttributeNames': expressionAttributeNames,
@@ -3024,9 +3024,9 @@ class DynamoDB {
         'Limit': limit,
         'ProjectionExpression': projectionExpression,
         'QueryFilter': queryFilter,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         'ScanIndexForward': scanIndexForward,
-        'Select': select,
+        'Select': select.toValue(),
       },
     );
 
@@ -3138,7 +3138,7 @@ class DynamoDB {
       payload: {
         'BackupArn': backupArn,
         'TargetTableName': targetTableName,
-        'BillingModeOverride': billingModeOverride,
+        'BillingModeOverride': billingModeOverride.toValue(),
         'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
@@ -3298,7 +3298,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TargetTableName': targetTableName,
-        'BillingModeOverride': billingModeOverride,
+        'BillingModeOverride': billingModeOverride.toValue(),
         'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
@@ -3702,7 +3702,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributesToGet': attributesToGet,
-        'ConditionalOperator': conditionalOperator,
+        'ConditionalOperator': conditionalOperator.toValue(),
         'ConsistentRead': consistentRead,
         'ExclusiveStartKey': exclusiveStartKey,
         'ExpressionAttributeNames': expressionAttributeNames,
@@ -3711,10 +3711,10 @@ class DynamoDB {
         'IndexName': indexName,
         'Limit': limit,
         'ProjectionExpression': projectionExpression,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         'ScanFilter': scanFilter,
         'Segment': segment,
-        'Select': select,
+        'Select': select.toValue(),
         'TotalSegments': totalSegments,
       },
     );
@@ -3832,7 +3832,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TransactItems': transactItems,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -3982,8 +3982,8 @@ class DynamoDB {
       payload: {
         'TransactItems': transactItems,
         'ClientRequestToken': clientRequestToken,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
       },
     );
 
@@ -4161,7 +4161,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ContributorInsightsAction': contributorInsightsAction,
+        'ContributorInsightsAction': contributorInsightsAction.toValue(),
         'TableName': tableName,
         'IndexName': indexName,
       },
@@ -4337,7 +4337,7 @@ class DynamoDB {
       headers: headers,
       payload: {
         'GlobalTableName': globalTableName,
-        'GlobalTableBillingMode': globalTableBillingMode,
+        'GlobalTableBillingMode': globalTableBillingMode.toValue(),
         'GlobalTableGlobalSecondaryIndexSettingsUpdate':
             globalTableGlobalSecondaryIndexSettingsUpdate,
         'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate':
@@ -4687,13 +4687,13 @@ class DynamoDB {
         'TableName': tableName,
         'AttributeUpdates': attributeUpdates,
         'ConditionExpression': conditionExpression,
-        'ConditionalOperator': conditionalOperator,
+        'ConditionalOperator': conditionalOperator.toValue(),
         'Expected': expected,
         'ExpressionAttributeNames': expressionAttributeNames,
         'ExpressionAttributeValues': expressionAttributeValues,
-        'ReturnConsumedCapacity': returnConsumedCapacity,
-        'ReturnItemCollectionMetrics': returnItemCollectionMetrics,
-        'ReturnValues': returnValues,
+        'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
+        'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        'ReturnValues': returnValues.toValue(),
         'UpdateExpression': updateExpression,
       },
     );
@@ -4851,7 +4851,7 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
         'AttributeDefinitions': attributeDefinitions,
-        'BillingMode': billingMode,
+        'BillingMode': billingMode.toValue(),
         'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
         'ProvisionedThroughput': provisionedThroughput,
         'ReplicaUpdates': replicaUpdates,
@@ -5770,6 +5770,22 @@ enum BackupTypeFilter {
   all,
 }
 
+extension on BackupTypeFilter {
+  String toValue() {
+    switch (this) {
+      case BackupTypeFilter.user:
+        return 'USER';
+      case BackupTypeFilter.system:
+        return 'SYSTEM';
+      case BackupTypeFilter.awsBackup:
+        return 'AWS_BACKUP';
+      case BackupTypeFilter.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents the output of a <code>BatchGetItem</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5948,6 +5964,18 @@ enum BillingMode {
   provisioned,
   @_s.JsonValue('PAY_PER_REQUEST')
   payPerRequest,
+}
+
+extension on BillingMode {
+  String toValue() {
+    switch (this) {
+      case BillingMode.provisioned:
+        return 'PROVISIONED';
+      case BillingMode.payPerRequest:
+        return 'PAY_PER_REQUEST';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains the details for the read/write capacity mode.
@@ -6328,6 +6356,18 @@ enum ConditionalOperator {
   or,
 }
 
+extension on ConditionalOperator {
+  String toValue() {
+    switch (this) {
+      case ConditionalOperator.and:
+        return 'AND';
+      case ConditionalOperator.or:
+        return 'OR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The capacity units consumed by an operation. The data returned includes the
 /// total provisioned throughput consumed, along with statistics for the table
 /// and any indexes involved in the operation. <code>ConsumedCapacity</code> is
@@ -6420,6 +6460,18 @@ enum ContributorInsightsAction {
   enable,
   @_s.JsonValue('DISABLE')
   disable,
+}
+
+extension on ContributorInsightsAction {
+  String toValue() {
+    switch (this) {
+      case ContributorInsightsAction.enable:
+        return 'ENABLE';
+      case ContributorInsightsAction.disable:
+        return 'DISABLE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ContributorInsightsStatus {
@@ -9628,11 +9680,37 @@ enum ReturnConsumedCapacity {
   none,
 }
 
+extension on ReturnConsumedCapacity {
+  String toValue() {
+    switch (this) {
+      case ReturnConsumedCapacity.indexes:
+        return 'INDEXES';
+      case ReturnConsumedCapacity.total:
+        return 'TOTAL';
+      case ReturnConsumedCapacity.none:
+        return 'NONE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ReturnItemCollectionMetrics {
   @_s.JsonValue('SIZE')
   size,
   @_s.JsonValue('NONE')
   none,
+}
+
+extension on ReturnItemCollectionMetrics {
+  String toValue() {
+    switch (this) {
+      case ReturnItemCollectionMetrics.size:
+        return 'SIZE';
+      case ReturnItemCollectionMetrics.none:
+        return 'NONE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ReturnValue {
@@ -9646,6 +9724,24 @@ enum ReturnValue {
   allNew,
   @_s.JsonValue('UPDATED_NEW')
   updatedNew,
+}
+
+extension on ReturnValue {
+  String toValue() {
+    switch (this) {
+      case ReturnValue.none:
+        return 'NONE';
+      case ReturnValue.allOld:
+        return 'ALL_OLD';
+      case ReturnValue.updatedOld:
+        return 'UPDATED_OLD';
+      case ReturnValue.allNew:
+        return 'ALL_NEW';
+      case ReturnValue.updatedNew:
+        return 'UPDATED_NEW';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ReturnValuesOnConditionCheckFailure {
@@ -9866,6 +9962,22 @@ enum Select {
   specificAttributes,
   @_s.JsonValue('COUNT')
   count,
+}
+
+extension on Select {
+  String toValue() {
+    switch (this) {
+      case Select.allAttributes:
+        return 'ALL_ATTRIBUTES';
+      case Select.allProjectedAttributes:
+        return 'ALL_PROJECTED_ATTRIBUTES';
+      case Select.specificAttributes:
+        return 'SPECIFIC_ATTRIBUTES';
+      case Select.count:
+        return 'COUNT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains the details of the table when the backup was created.

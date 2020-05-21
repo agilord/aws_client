@@ -561,7 +561,7 @@ class CloudFormation {
     $request['ChangeSetName'] = changeSetName;
     $request['StackName'] = stackName;
     capabilities?.also((arg) => $request['Capabilities'] = arg);
-    changeSetType?.also((arg) => $request['ChangeSetType'] = arg);
+    changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
     clientToken?.also((arg) => $request['ClientToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
@@ -933,7 +933,7 @@ class CloudFormation {
     enableTerminationProtection
         ?.also((arg) => $request['EnableTerminationProtection'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
-    onFailure?.also((arg) => $request['OnFailure'] = arg);
+    onFailure?.also((arg) => $request['OnFailure'] = arg.toValue());
     parameters?.also((arg) => $request['Parameters'] = arg);
     resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
@@ -1374,7 +1374,7 @@ class CloudFormation {
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
-    permissionModel?.also((arg) => $request['PermissionModel'] = arg);
+    permissionModel?.also((arg) => $request['PermissionModel'] = arg.toValue());
     tags?.also((arg) => $request['Tags'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
@@ -1745,7 +1745,7 @@ class CloudFormation {
       'Version': '2010-05-15',
     };
     arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     await _protocol.send(
@@ -2456,7 +2456,7 @@ class CloudFormation {
       'Version': '2010-05-15',
     };
     arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     final $result = await _protocol.send(
@@ -2982,7 +2982,7 @@ class CloudFormation {
     };
     changeSetName?.also((arg) => $request['ChangeSetName'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
-    templateStage?.also((arg) => $request['TemplateStage'] = arg);
+    templateStage?.also((arg) => $request['TemplateStage'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -3537,7 +3537,7 @@ class CloudFormation {
     };
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    status?.also((arg) => $request['Status'] = arg);
+    status?.also((arg) => $request['Status'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -3680,8 +3680,8 @@ class CloudFormation {
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     registrationStatusFilter
-        ?.also((arg) => $request['RegistrationStatusFilter'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+        ?.also((arg) => $request['RegistrationStatusFilter'] = arg.toValue());
+    type?.also((arg) => $request['Type'] = arg.toValue());
     typeArn?.also((arg) => $request['TypeArn'] = arg);
     typeName?.also((arg) => $request['TypeName'] = arg);
     final $result = await _protocol.send(
@@ -3798,10 +3798,11 @@ class CloudFormation {
       'Version': '2010-05-15',
     };
     arn?.also((arg) => $request['Arn'] = arg);
-    deprecatedStatus?.also((arg) => $request['DeprecatedStatus'] = arg);
+    deprecatedStatus
+        ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -3913,11 +3914,13 @@ class CloudFormation {
       'Action': 'ListTypes',
       'Version': '2010-05-15',
     };
-    deprecatedStatus?.also((arg) => $request['DeprecatedStatus'] = arg);
+    deprecatedStatus
+        ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    provisioningType?.also((arg) => $request['ProvisioningType'] = arg);
-    visibility?.also((arg) => $request['Visibility'] = arg);
+    provisioningType
+        ?.also((arg) => $request['ProvisioningType'] = arg.toValue());
+    visibility?.also((arg) => $request['Visibility'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -4017,11 +4020,11 @@ class CloudFormation {
       'Version': '2010-05-15',
     };
     $request['BearerToken'] = bearerToken;
-    $request['OperationStatus'] = operationStatus;
+    $request['OperationStatus'] = operationStatus.toValue();
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     currentOperationStatus
-        ?.also((arg) => $request['CurrentOperationStatus'] = arg);
-    errorCode?.also((arg) => $request['ErrorCode'] = arg);
+        ?.also((arg) => $request['CurrentOperationStatus'] = arg.toValue());
+    errorCode?.also((arg) => $request['ErrorCode'] = arg.toValue());
     resourceModel?.also((arg) => $request['ResourceModel'] = arg);
     statusMessage?.also((arg) => $request['StatusMessage'] = arg);
     await _protocol.send(
@@ -4197,7 +4200,7 @@ class CloudFormation {
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     executionRoleArn?.also((arg) => $request['ExecutionRoleArn'] = arg);
     loggingConfig?.also((arg) => $request['LoggingConfig'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -4331,7 +4334,7 @@ class CloudFormation {
       'Version': '2010-05-15',
     };
     arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     await _protocol.send(
@@ -4405,7 +4408,7 @@ class CloudFormation {
     };
     $request['LogicalResourceId'] = logicalResourceId;
     $request['StackName'] = stackName;
-    $request['Status'] = status;
+    $request['Status'] = status.toValue();
     $request['UniqueId'] = uniqueId;
     await _protocol.send(
       $request,
@@ -5412,7 +5415,7 @@ class CloudFormation {
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
-    permissionModel?.also((arg) => $request['PermissionModel'] = arg);
+    permissionModel?.also((arg) => $request['PermissionModel'] = arg.toValue());
     regions?.also((arg) => $request['Regions'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
@@ -5870,6 +5873,20 @@ enum ChangeSetType {
   import,
 }
 
+extension on ChangeSetType {
+  String toValue() {
+    switch (this) {
+      case ChangeSetType.create:
+        return 'CREATE';
+      case ChangeSetType.update:
+        return 'UPDATE';
+      case ChangeSetType.import:
+        return 'IMPORT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   ChangeSetType toChangeSetType() {
     switch (this) {
@@ -6067,6 +6084,18 @@ class DeploymentTargets {
 enum DeprecatedStatus {
   live,
   deprecated,
+}
+
+extension on DeprecatedStatus {
+  String toValue() {
+    switch (this) {
+      case DeprecatedStatus.live:
+        return 'LIVE';
+      case DeprecatedStatus.deprecated:
+        return 'DEPRECATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -7038,6 +7067,42 @@ enum HandlerErrorCode {
   internalFailure,
 }
 
+extension on HandlerErrorCode {
+  String toValue() {
+    switch (this) {
+      case HandlerErrorCode.notUpdatable:
+        return 'NotUpdatable';
+      case HandlerErrorCode.invalidRequest:
+        return 'InvalidRequest';
+      case HandlerErrorCode.accessDenied:
+        return 'AccessDenied';
+      case HandlerErrorCode.invalidCredentials:
+        return 'InvalidCredentials';
+      case HandlerErrorCode.alreadyExists:
+        return 'AlreadyExists';
+      case HandlerErrorCode.notFound:
+        return 'NotFound';
+      case HandlerErrorCode.resourceConflict:
+        return 'ResourceConflict';
+      case HandlerErrorCode.throttling:
+        return 'Throttling';
+      case HandlerErrorCode.serviceLimitExceeded:
+        return 'ServiceLimitExceeded';
+      case HandlerErrorCode.notStabilized:
+        return 'NotStabilized';
+      case HandlerErrorCode.generalServiceException:
+        return 'GeneralServiceException';
+      case HandlerErrorCode.serviceInternalError:
+        return 'ServiceInternalError';
+      case HandlerErrorCode.networkFailure:
+        return 'NetworkFailure';
+      case HandlerErrorCode.internalFailure:
+        return 'InternalFailure';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   HandlerErrorCode toHandlerErrorCode() {
     switch (this) {
@@ -7419,6 +7484,20 @@ enum OnFailure {
   delete,
 }
 
+extension on OnFailure {
+  String toValue() {
+    switch (this) {
+      case OnFailure.doNothing:
+        return 'DO_NOTHING';
+      case OnFailure.rollback:
+        return 'ROLLBACK';
+      case OnFailure.delete:
+        return 'DELETE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   OnFailure toOnFailure() {
     switch (this) {
@@ -7438,6 +7517,22 @@ enum OperationStatus {
   inProgress,
   success,
   failed,
+}
+
+extension on OperationStatus {
+  String toValue() {
+    switch (this) {
+      case OperationStatus.pending:
+        return 'PENDING';
+      case OperationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case OperationStatus.success:
+        return 'SUCCESS';
+      case OperationStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -7590,6 +7685,18 @@ enum PermissionModels {
   selfManaged,
 }
 
+extension on PermissionModels {
+  String toValue() {
+    switch (this) {
+      case PermissionModels.serviceManaged:
+        return 'SERVICE_MANAGED';
+      case PermissionModels.selfManaged:
+        return 'SELF_MANAGED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   PermissionModels toPermissionModels() {
     switch (this) {
@@ -7686,6 +7793,20 @@ enum ProvisioningType {
   fullyMutable,
 }
 
+extension on ProvisioningType {
+  String toValue() {
+    switch (this) {
+      case ProvisioningType.nonProvisionable:
+        return 'NON_PROVISIONABLE';
+      case ProvisioningType.immutable:
+        return 'IMMUTABLE';
+      case ProvisioningType.fullyMutable:
+        return 'FULLY_MUTABLE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   ProvisioningType toProvisioningType() {
     switch (this) {
@@ -7733,6 +7854,20 @@ enum RegistrationStatus {
   failed,
 }
 
+extension on RegistrationStatus {
+  String toValue() {
+    switch (this) {
+      case RegistrationStatus.complete:
+        return 'COMPLETE';
+      case RegistrationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case RegistrationStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   RegistrationStatus toRegistrationStatus() {
     switch (this) {
@@ -7749,6 +7884,16 @@ extension on String {
 
 enum RegistryType {
   resource,
+}
+
+extension on RegistryType {
+  String toValue() {
+    switch (this) {
+      case RegistryType.resource:
+        return 'RESOURCE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -8035,6 +8180,18 @@ class ResourceIdentifierSummary {
 enum ResourceSignalStatus {
   success,
   failure,
+}
+
+extension on ResourceSignalStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceSignalStatus.success:
+        return 'SUCCESS';
+      case ResourceSignalStatus.failure:
+        return 'FAILURE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -10204,6 +10361,18 @@ enum StackSetStatus {
   deleted,
 }
 
+extension on StackSetStatus {
+  String toValue() {
+    switch (this) {
+      case StackSetStatus.active:
+        return 'ACTIVE';
+      case StackSetStatus.deleted:
+        return 'DELETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   StackSetStatus toStackSetStatus() {
     switch (this) {
@@ -10550,6 +10719,18 @@ enum TemplateStage {
   processed,
 }
 
+extension on TemplateStage {
+  String toValue() {
+    switch (this) {
+      case TemplateStage.original:
+        return 'Original';
+      case TemplateStage.processed:
+        return 'Processed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   TemplateStage toTemplateStage() {
     switch (this) {
@@ -10759,6 +10940,18 @@ class ValidateTemplateOutput {
 enum Visibility {
   public,
   private,
+}
+
+extension on Visibility {
+  String toValue() {
+    switch (this) {
+      case Visibility.public:
+        return 'PUBLIC';
+      case Visibility.private:
+        return 'PRIVATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

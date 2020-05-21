@@ -229,7 +229,7 @@ class Firehose {
         'DeliveryStreamName': deliveryStreamName,
         'DeliveryStreamEncryptionConfigurationInput':
             deliveryStreamEncryptionConfigurationInput,
-        'DeliveryStreamType': deliveryStreamType,
+        'DeliveryStreamType': deliveryStreamType.toValue(),
         'ElasticsearchDestinationConfiguration':
             elasticsearchDestinationConfiguration,
         'ExtendedS3DestinationConfiguration':
@@ -460,7 +460,7 @@ class Firehose {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryStreamType': deliveryStreamType,
+        'DeliveryStreamType': deliveryStreamType.toValue(),
         'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
         'Limit': limit,
       },
@@ -1647,6 +1647,18 @@ enum DeliveryStreamType {
   directPut,
   @_s.JsonValue('KinesisStreamAsSource')
   kinesisStreamAsSource,
+}
+
+extension on DeliveryStreamType {
+  String toValue() {
+    switch (this) {
+      case DeliveryStreamType.directPut:
+        return 'DirectPut';
+      case DeliveryStreamType.kinesisStreamAsSource:
+        return 'KinesisStreamAsSource';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

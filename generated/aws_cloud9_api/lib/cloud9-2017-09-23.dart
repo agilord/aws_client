@@ -235,7 +235,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions,
+        'permissions': permissions.toValue(),
         'userArn': userArn,
       },
     );
@@ -810,7 +810,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions,
+        'permissions': permissions.toValue(),
         'userArn': userArn,
       },
     );
@@ -1210,6 +1210,18 @@ enum MemberPermissions {
   readWrite,
   @_s.JsonValue('read-only')
   readOnly,
+}
+
+extension on MemberPermissions {
+  String toValue() {
+    switch (this) {
+      case MemberPermissions.readWrite:
+        return 'read-write';
+      case MemberPermissions.readOnly:
+        return 'read-only';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum Permissions {

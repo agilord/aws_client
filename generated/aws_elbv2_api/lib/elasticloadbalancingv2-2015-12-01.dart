@@ -270,7 +270,7 @@ class ElasticLoadBalancingv2 {
     $request['DefaultActions'] = defaultActions;
     $request['LoadBalancerArn'] = loadBalancerArn;
     $request['Port'] = port;
-    $request['Protocol'] = protocol;
+    $request['Protocol'] = protocol.toValue();
     certificates?.also((arg) => $request['Certificates'] = arg);
     sslPolicy?.also((arg) => $request['SslPolicy'] = arg);
     final $result = await _protocol.send(
@@ -403,13 +403,13 @@ class ElasticLoadBalancingv2 {
       'Version': '2015-12-01',
     };
     $request['Name'] = name;
-    ipAddressType?.also((arg) => $request['IpAddressType'] = arg);
-    scheme?.also((arg) => $request['Scheme'] = arg);
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg.toValue());
+    scheme?.also((arg) => $request['Scheme'] = arg.toValue());
     securityGroups?.also((arg) => $request['SecurityGroups'] = arg);
     subnetMappings?.also((arg) => $request['SubnetMappings'] = arg);
     subnets?.also((arg) => $request['Subnets'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
-    type?.also((arg) => $request['Type'] = arg);
+    type?.also((arg) => $request['Type'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -715,15 +715,16 @@ class ElasticLoadBalancingv2 {
         ?.also((arg) => $request['HealthCheckIntervalSeconds'] = arg);
     healthCheckPath?.also((arg) => $request['HealthCheckPath'] = arg);
     healthCheckPort?.also((arg) => $request['HealthCheckPort'] = arg);
-    healthCheckProtocol?.also((arg) => $request['HealthCheckProtocol'] = arg);
+    healthCheckProtocol
+        ?.also((arg) => $request['HealthCheckProtocol'] = arg.toValue());
     healthCheckTimeoutSeconds
         ?.also((arg) => $request['HealthCheckTimeoutSeconds'] = arg);
     healthyThresholdCount
         ?.also((arg) => $request['HealthyThresholdCount'] = arg);
     matcher?.also((arg) => $request['Matcher'] = arg);
     port?.also((arg) => $request['Port'] = arg);
-    protocol?.also((arg) => $request['Protocol'] = arg);
-    targetType?.also((arg) => $request['TargetType'] = arg);
+    protocol?.also((arg) => $request['Protocol'] = arg.toValue());
+    targetType?.also((arg) => $request['TargetType'] = arg.toValue());
     unhealthyThresholdCount
         ?.also((arg) => $request['UnhealthyThresholdCount'] = arg);
     vpcId?.also((arg) => $request['VpcId'] = arg);
@@ -1498,7 +1499,7 @@ class ElasticLoadBalancingv2 {
     certificates?.also((arg) => $request['Certificates'] = arg);
     defaultActions?.also((arg) => $request['DefaultActions'] = arg);
     port?.also((arg) => $request['Port'] = arg);
-    protocol?.also((arg) => $request['Protocol'] = arg);
+    protocol?.also((arg) => $request['Protocol'] = arg.toValue());
     sslPolicy?.also((arg) => $request['SslPolicy'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -1734,7 +1735,8 @@ class ElasticLoadBalancingv2 {
         ?.also((arg) => $request['HealthCheckIntervalSeconds'] = arg);
     healthCheckPath?.also((arg) => $request['HealthCheckPath'] = arg);
     healthCheckPort?.also((arg) => $request['HealthCheckPort'] = arg);
-    healthCheckProtocol?.also((arg) => $request['HealthCheckProtocol'] = arg);
+    healthCheckProtocol
+        ?.also((arg) => $request['HealthCheckProtocol'] = arg.toValue());
     healthCheckTimeoutSeconds
         ?.also((arg) => $request['HealthCheckTimeoutSeconds'] = arg);
     healthyThresholdCount
@@ -1939,7 +1941,7 @@ class ElasticLoadBalancingv2 {
       'Action': 'SetIpAddressType',
       'Version': '2015-12-01',
     };
-    $request['IpAddressType'] = ipAddressType;
+    $request['IpAddressType'] = ipAddressType.toValue();
     $request['LoadBalancerArn'] = loadBalancerArn;
     final $result = await _protocol.send(
       $request,
@@ -3014,6 +3016,18 @@ enum IpAddressType {
   dualstack,
 }
 
+extension on IpAddressType {
+  String toValue() {
+    switch (this) {
+      case IpAddressType.ipv4:
+        return 'ipv4';
+      case IpAddressType.dualstack:
+        return 'dualstack';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   IpAddressType toIpAddressType() {
     switch (this) {
@@ -3337,6 +3351,18 @@ enum LoadBalancerSchemeEnum {
   internal,
 }
 
+extension on LoadBalancerSchemeEnum {
+  String toValue() {
+    switch (this) {
+      case LoadBalancerSchemeEnum.internetFacing:
+        return 'internet-facing';
+      case LoadBalancerSchemeEnum.internal:
+        return 'internal';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   LoadBalancerSchemeEnum toLoadBalancerSchemeEnum() {
     switch (this) {
@@ -3398,6 +3424,18 @@ extension on String {
 enum LoadBalancerTypeEnum {
   application,
   network,
+}
+
+extension on LoadBalancerTypeEnum {
+  String toValue() {
+    switch (this) {
+      case LoadBalancerTypeEnum.application:
+        return 'application';
+      case LoadBalancerTypeEnum.network:
+        return 'network';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -3548,6 +3586,26 @@ enum ProtocolEnum {
   tls,
   udp,
   tcpUdp,
+}
+
+extension on ProtocolEnum {
+  String toValue() {
+    switch (this) {
+      case ProtocolEnum.http:
+        return 'HTTP';
+      case ProtocolEnum.https:
+        return 'HTTPS';
+      case ProtocolEnum.tcp:
+        return 'TCP';
+      case ProtocolEnum.tls:
+        return 'TLS';
+      case ProtocolEnum.udp:
+        return 'UDP';
+      case ProtocolEnum.tcpUdp:
+        return 'TCP_UDP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -4625,6 +4683,20 @@ enum TargetTypeEnum {
   instance,
   ip,
   lambda,
+}
+
+extension on TargetTypeEnum {
+  String toValue() {
+    switch (this) {
+      case TargetTypeEnum.instance:
+        return 'instance';
+      case TargetTypeEnum.ip:
+        return 'ip';
+      case TargetTypeEnum.lambda:
+        return 'lambda';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

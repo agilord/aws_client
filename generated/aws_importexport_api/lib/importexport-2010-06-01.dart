@@ -100,7 +100,7 @@ class ImportExport {
       'Action': 'CreateJob',
       'Version': '2010-06-01',
     };
-    $request['JobType'] = jobType;
+    $request['JobType'] = jobType.toValue();
     $request['Manifest'] = manifest;
     $request['ValidateOnly'] = validateOnly;
     aPIVersion?.also((arg) => $request['APIVersion'] = arg);
@@ -268,7 +268,7 @@ class ImportExport {
       'Version': '2010-06-01',
     };
     $request['JobId'] = jobId;
-    $request['JobType'] = jobType;
+    $request['JobType'] = jobType.toValue();
     $request['Manifest'] = manifest;
     $request['ValidateOnly'] = validateOnly;
     aPIVersion?.also((arg) => $request['APIVersion'] = arg);
@@ -626,6 +626,18 @@ class Job {
 enum JobType {
   import,
   export,
+}
+
+extension on JobType {
+  String toValue() {
+    switch (this) {
+      case JobType.import:
+        return 'Import';
+      case JobType.export:
+        return 'Export';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

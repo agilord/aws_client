@@ -186,7 +186,7 @@ class FraudDetector {
         'description': description,
         'externalModelEndpoints': externalModelEndpoints,
         'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode,
+        'ruleExecutionMode': ruleExecutionMode.toValue(),
       },
     );
 
@@ -246,7 +246,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'description': description,
       },
     );
@@ -342,7 +342,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'expression': expression,
-        'language': language,
+        'language': language.toValue(),
         'outcomes': outcomes,
         'ruleId': ruleId,
         'description': description,
@@ -398,8 +398,8 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSource': dataSource,
-        'dataType': dataType,
+        'dataSource': dataSource.toValue(),
+        'dataType': dataType.toValue(),
         'defaultValue': defaultValue,
         'name': name,
         'description': description,
@@ -746,7 +746,7 @@ class FraudDetector {
       payload: {
         'maxResults': maxResults,
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
         'nextToken': nextToken,
       },
@@ -983,7 +983,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -1046,7 +1046,7 @@ class FraudDetector {
       payload: {
         'maxResults': maxResults,
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'nextToken': nextToken,
       },
     );
@@ -1416,8 +1416,8 @@ class FraudDetector {
       payload: {
         'inputConfiguration': inputConfiguration,
         'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus,
-        'modelSource': modelSource,
+        'modelEndpointStatus': modelEndpointStatus.toValue(),
+        'modelSource': modelSource.toValue(),
         'outputConfiguration': outputConfiguration,
         'role': role,
       },
@@ -1494,7 +1494,7 @@ class FraudDetector {
       payload: {
         'labelSchema': labelSchema,
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'modelVariables': modelVariables,
         'trainingDataSource': trainingDataSource,
         'description': description,
@@ -1655,7 +1655,7 @@ class FraudDetector {
         'rules': rules,
         'description': description,
         'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode,
+        'ruleExecutionMode': ruleExecutionMode.toValue(),
       },
     );
 
@@ -1792,7 +1792,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'detectorVersionId': detectorVersionId,
-        'status': status,
+        'status': status.toValue(),
       },
     );
 
@@ -1881,9 +1881,9 @@ class FraudDetector {
       payload: {
         'description': description,
         'modelId': modelId,
-        'modelType': modelType,
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
-        'status': status,
+        'status': status.toValue(),
       },
     );
 
@@ -1991,7 +1991,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'expression': expression,
-        'language': language,
+        'language': language.toValue(),
         'outcomes': outcomes,
         'rule': rule,
         'description': description,
@@ -2239,6 +2239,20 @@ enum DataSource {
   externalModelScore,
 }
 
+extension on DataSource {
+  String toValue() {
+    switch (this) {
+      case DataSource.event:
+        return 'EVENT';
+      case DataSource.modelScore:
+        return 'MODEL_SCORE';
+      case DataSource.externalModelScore:
+        return 'EXTERNAL_MODEL_SCORE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum DataType {
   @_s.JsonValue('STRING')
   string,
@@ -2248,6 +2262,22 @@ enum DataType {
   float,
   @_s.JsonValue('BOOLEAN')
   boolean,
+}
+
+extension on DataType {
+  String toValue() {
+    switch (this) {
+      case DataType.string:
+        return 'STRING';
+      case DataType.integer:
+        return 'INTEGER';
+      case DataType.float:
+        return 'FLOAT';
+      case DataType.boolean:
+        return 'BOOLEAN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -2383,6 +2413,20 @@ enum DetectorVersionStatus {
   active,
   @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+extension on DetectorVersionStatus {
+  String toValue() {
+    switch (this) {
+      case DetectorVersionStatus.draft:
+        return 'DRAFT';
+      case DetectorVersionStatus.active:
+        return 'ACTIVE';
+      case DetectorVersionStatus.inactive:
+        return 'INACTIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The summary of the detector version.
@@ -2775,6 +2819,16 @@ enum Language {
   detectorpl,
 }
 
+extension on Language {
+  String toValue() {
+    switch (this) {
+      case Language.detectorpl:
+        return 'DETECTORPL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2857,6 +2911,18 @@ enum ModelEndpointStatus {
   associated,
   @_s.JsonValue('DISSOCIATED')
   dissociated,
+}
+
+extension on ModelEndpointStatus {
+  String toValue() {
+    switch (this) {
+      case ModelEndpointStatus.associated:
+        return 'ASSOCIATED';
+      case ModelEndpointStatus.dissociated:
+        return 'DISSOCIATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The model input configuration.
@@ -2977,9 +3043,29 @@ enum ModelSource {
   sagemaker,
 }
 
+extension on ModelSource {
+  String toValue() {
+    switch (this) {
+      case ModelSource.sagemaker:
+        return 'SAGEMAKER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ModelTypeEnum {
   @_s.JsonValue('ONLINE_FRAUD_INSIGHTS')
   onlineFraudInsights,
+}
+
+extension on ModelTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ModelTypeEnum.onlineFraudInsights:
+        return 'ONLINE_FRAUD_INSIGHTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The model variable.&gt;
@@ -3127,6 +3213,30 @@ enum ModelVersionStatus {
   inactive,
   @_s.JsonValue('ERROR')
   error,
+}
+
+extension on ModelVersionStatus {
+  String toValue() {
+    switch (this) {
+      case ModelVersionStatus.trainingInProgress:
+        return 'TRAINING_IN_PROGRESS';
+      case ModelVersionStatus.trainingComplete:
+        return 'TRAINING_COMPLETE';
+      case ModelVersionStatus.activateRequested:
+        return 'ACTIVATE_REQUESTED';
+      case ModelVersionStatus.activateInProgress:
+        return 'ACTIVATE_IN_PROGRESS';
+      case ModelVersionStatus.active:
+        return 'ACTIVE';
+      case ModelVersionStatus.inactivateInProgress:
+        return 'INACTIVATE_IN_PROGRESS';
+      case ModelVersionStatus.inactive:
+        return 'INACTIVE';
+      case ModelVersionStatus.error:
+        return 'ERROR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The outcome.
@@ -3322,6 +3432,18 @@ enum RuleExecutionMode {
   allMatched,
   @_s.JsonValue('FIRST_MATCHED')
   firstMatched,
+}
+
+extension on RuleExecutionMode {
+  String toValue() {
+    switch (this) {
+      case RuleExecutionMode.allMatched:
+        return 'ALL_MATCHED';
+      case RuleExecutionMode.firstMatched:
+        return 'FIRST_MATCHED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The rule results.

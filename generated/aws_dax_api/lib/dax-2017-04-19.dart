@@ -637,7 +637,7 @@ class DAX {
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SourceName': sourceName,
-        'SourceType': sourceType,
+        'SourceType': sourceType.toValue(),
         'StartTime': startTime,
       },
     );
@@ -2010,6 +2010,20 @@ enum SourceType {
   parameterGroup,
   @_s.JsonValue('SUBNET_GROUP')
   subnetGroup,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.cluster:
+        return 'CLUSTER';
+      case SourceType.parameterGroup:
+        return 'PARAMETER_GROUP';
+      case SourceType.subnetGroup:
+        return 'SUBNET_GROUP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the subnet associated with a DAX cluster. This parameter refers

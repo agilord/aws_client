@@ -1190,7 +1190,7 @@ class WorkSpaces {
         'Ec2ImageId': ec2ImageId,
         'ImageDescription': imageDescription,
         'ImageName': imageName,
-        'IngestionProcess': ingestionProcess,
+        'IngestionProcess': ingestionProcess.toValue(),
         'Tags': tags,
       },
     );
@@ -1373,7 +1373,7 @@ class WorkSpaces {
       payload: {
         'DedicatedTenancyManagementCidrRange':
             dedicatedTenancyManagementCidrRange,
-        'DedicatedTenancySupport': dedicatedTenancySupport,
+        'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
       },
     );
 
@@ -1665,7 +1665,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        'WorkspaceState': workspaceState,
+        'WorkspaceState': workspaceState.toValue(),
       },
     );
 
@@ -1835,7 +1835,7 @@ class WorkSpaces {
         'EnableSelfService': enableSelfService,
         'SubnetIds': subnetIds,
         'Tags': tags,
-        'Tenancy': tenancy,
+        'Tenancy': tenancy.toValue(),
       },
     );
 
@@ -2325,6 +2325,16 @@ enum DedicatedTenancyModificationStateEnum {
 enum DedicatedTenancySupportEnum {
   @_s.JsonValue('ENABLED')
   enabled,
+}
+
+extension on DedicatedTenancySupportEnum {
+  String toValue() {
+    switch (this) {
+      case DedicatedTenancySupportEnum.enabled:
+        return 'ENABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum DedicatedTenancySupportResultEnum {
@@ -3300,11 +3310,35 @@ enum TargetWorkspaceState {
   adminMaintenance,
 }
 
+extension on TargetWorkspaceState {
+  String toValue() {
+    switch (this) {
+      case TargetWorkspaceState.available:
+        return 'AVAILABLE';
+      case TargetWorkspaceState.adminMaintenance:
+        return 'ADMIN_MAINTENANCE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum Tenancy {
   @_s.JsonValue('DEDICATED')
   dedicated,
   @_s.JsonValue('SHARED')
   shared,
+}
+
+extension on Tenancy {
+  String toValue() {
+    switch (this) {
+      case Tenancy.dedicated:
+        return 'DEDICATED';
+      case Tenancy.shared:
+        return 'SHARED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the information used to terminate a WorkSpace.
@@ -3854,6 +3888,20 @@ enum WorkspaceImageIngestionProcess {
   byolGraphics,
   @_s.JsonValue('BYOL_GRAPHICSPRO')
   byolGraphicspro,
+}
+
+extension on WorkspaceImageIngestionProcess {
+  String toValue() {
+    switch (this) {
+      case WorkspaceImageIngestionProcess.byolRegular:
+        return 'BYOL_REGULAR';
+      case WorkspaceImageIngestionProcess.byolGraphics:
+        return 'BYOL_GRAPHICS';
+      case WorkspaceImageIngestionProcess.byolGraphicspro:
+        return 'BYOL_GRAPHICSPRO';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum WorkspaceImageRequiredTenancy {

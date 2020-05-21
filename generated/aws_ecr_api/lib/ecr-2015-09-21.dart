@@ -425,7 +425,7 @@ class ECR {
       payload: {
         'repositoryName': repositoryName,
         'imageScanningConfiguration': imageScanningConfiguration,
-        'imageTagMutability': imageTagMutability,
+        'imageTagMutability': imageTagMutability.toValue(),
         'tags': tags,
       },
     );
@@ -1646,7 +1646,7 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'imageTagMutability': imageTagMutability,
+        'imageTagMutability': imageTagMutability.toValue(),
         'repositoryName': repositoryName,
         'registryId': registryId,
       },
@@ -3003,6 +3003,18 @@ enum ImageTagMutability {
   mutable,
   @_s.JsonValue('IMMUTABLE')
   immutable,
+}
+
+extension on ImageTagMutability {
+  String toValue() {
+    switch (this) {
+      case ImageTagMutability.mutable:
+        return 'MUTABLE';
+      case ImageTagMutability.immutable:
+        return 'IMMUTABLE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

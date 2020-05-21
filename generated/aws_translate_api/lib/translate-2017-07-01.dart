@@ -173,7 +173,7 @@ class Translate {
       headers: headers,
       payload: {
         'Name': name,
-        'TerminologyDataFormat': terminologyDataFormat,
+        'TerminologyDataFormat': terminologyDataFormat.toValue(),
       },
     );
 
@@ -258,7 +258,7 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MergeStrategy': mergeStrategy,
+        'MergeStrategy': mergeStrategy.toValue(),
         'Name': name,
         'TerminologyData': terminologyData,
         'Description': description,
@@ -923,6 +923,16 @@ enum MergeStrategy {
   overwrite,
 }
 
+extension on MergeStrategy {
+  String toValue() {
+    switch (this) {
+      case MergeStrategy.overwrite:
+        return 'OVERWRITE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The output configuration properties for a batch translation job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1071,6 +1081,18 @@ enum TerminologyDataFormat {
   csv,
   @_s.JsonValue('TMX')
   tmx,
+}
+
+extension on TerminologyDataFormat {
+  String toValue() {
+    switch (this) {
+      case TerminologyDataFormat.csv:
+        return 'CSV';
+      case TerminologyDataFormat.tmx:
+        return 'TMX';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The location of the custom terminology data.

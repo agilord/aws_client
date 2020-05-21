@@ -195,7 +195,7 @@ class GlobalAccelerator {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'Enabled': enabled,
-        'IpAddressType': ipAddressType,
+        'IpAddressType': ipAddressType.toValue(),
         'IpAddresses': ipAddresses,
         'Tags': tags,
       },
@@ -346,7 +346,7 @@ class GlobalAccelerator {
         'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
         'HealthCheckPath': healthCheckPath,
         'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol,
+        'HealthCheckProtocol': healthCheckProtocol.toValue(),
         'ThresholdCount': thresholdCount,
         'TrafficDialPercentage': trafficDialPercentage,
       },
@@ -441,8 +441,8 @@ class GlobalAccelerator {
         'AcceleratorArn': acceleratorArn,
         'IdempotencyToken': idempotencyToken,
         'PortRanges': portRanges,
-        'Protocol': protocol,
-        'ClientAffinity': clientAffinity,
+        'Protocol': protocol.toValue(),
+        'ClientAffinity': clientAffinity.toValue(),
       },
     );
 
@@ -1290,7 +1290,7 @@ class GlobalAccelerator {
       payload: {
         'AcceleratorArn': acceleratorArn,
         'Enabled': enabled,
-        'IpAddressType': ipAddressType,
+        'IpAddressType': ipAddressType.toValue(),
         'Name': name,
       },
     );
@@ -1494,7 +1494,7 @@ class GlobalAccelerator {
         'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
         'HealthCheckPath': healthCheckPath,
         'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol,
+        'HealthCheckProtocol': healthCheckProtocol.toValue(),
         'ThresholdCount': thresholdCount,
         'TrafficDialPercentage': trafficDialPercentage,
       },
@@ -1570,9 +1570,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'ListenerArn': listenerArn,
-        'ClientAffinity': clientAffinity,
+        'ClientAffinity': clientAffinity.toValue(),
         'PortRanges': portRanges,
-        'Protocol': protocol,
+        'Protocol': protocol.toValue(),
       },
     );
 
@@ -1957,6 +1957,18 @@ enum ClientAffinity {
   sourceIp,
 }
 
+extension on ClientAffinity {
+  String toValue() {
+    switch (this) {
+      case ClientAffinity.none:
+        return 'NONE';
+      case ClientAffinity.sourceIp:
+        return 'SOURCE_IP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2326,6 +2338,20 @@ enum HealthCheckProtocol {
   https,
 }
 
+extension on HealthCheckProtocol {
+  String toValue() {
+    switch (this) {
+      case HealthCheckProtocol.tcp:
+        return 'TCP';
+      case HealthCheckProtocol.http:
+        return 'HTTP';
+      case HealthCheckProtocol.https:
+        return 'HTTPS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum HealthState {
   @_s.JsonValue('INITIAL')
   initial,
@@ -2338,6 +2364,16 @@ enum HealthState {
 enum IpAddressType {
   @_s.JsonValue('IPV4')
   ipv4,
+}
+
+extension on IpAddressType {
+  String toValue() {
+    switch (this) {
+      case IpAddressType.ipv4:
+        return 'IPV4';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A complex type for the set of IP addresses for an accelerator.
@@ -2554,6 +2590,18 @@ enum Protocol {
   tcp,
   @_s.JsonValue('UDP')
   udp,
+}
+
+extension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.tcp:
+        return 'TCP';
+      case Protocol.udp:
+        return 'UDP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

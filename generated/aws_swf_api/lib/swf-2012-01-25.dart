@@ -1229,7 +1229,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus,
+        'registrationStatus': registrationStatus.toValue(),
         'maximumPageSize': maximumPageSize,
         'name': name,
         'nextPageToken': nextPageToken,
@@ -1522,7 +1522,7 @@ class SWF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'registrationStatus': registrationStatus,
+        'registrationStatus': registrationStatus.toValue(),
         'maximumPageSize': maximumPageSize,
         'nextPageToken': nextPageToken,
         'reverseOrder': reverseOrder,
@@ -1841,7 +1841,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus,
+        'registrationStatus': registrationStatus.toValue(),
         'maximumPageSize': maximumPageSize,
         'name': name,
         'nextPageToken': nextPageToken,
@@ -2817,7 +2817,7 @@ class SWF {
         'domain': domain,
         'name': name,
         'version': version,
-        'defaultChildPolicy': defaultChildPolicy,
+        'defaultChildPolicy': defaultChildPolicy.toValue(),
         'defaultExecutionStartToCloseTimeout':
             defaultExecutionStartToCloseTimeout,
         'defaultLambdaRole': defaultLambdaRole,
@@ -3699,7 +3699,7 @@ class SWF {
         'domain': domain,
         'workflowId': workflowId,
         'workflowType': workflowType,
-        'childPolicy': childPolicy,
+        'childPolicy': childPolicy.toValue(),
         'executionStartToCloseTimeout': executionStartToCloseTimeout,
         'input': input,
         'lambdaRole': lambdaRole,
@@ -3907,7 +3907,7 @@ class SWF {
       payload: {
         'domain': domain,
         'workflowId': workflowId,
-        'childPolicy': childPolicy,
+        'childPolicy': childPolicy.toValue(),
         'details': details,
         'reason': reason,
         'runId': runId,
@@ -4986,6 +4986,20 @@ enum ChildPolicy {
   requestCancel,
   @_s.JsonValue('ABANDON')
   abandon,
+}
+
+extension on ChildPolicy {
+  String toValue() {
+    switch (this) {
+      case ChildPolicy.terminate:
+        return 'TERMINATE';
+      case ChildPolicy.requestCancel:
+        return 'REQUEST_CANCEL';
+      case ChildPolicy.abandon:
+        return 'ABANDON';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
@@ -7621,6 +7635,18 @@ enum RegistrationStatus {
   registered,
   @_s.JsonValue('DEPRECATED')
   deprecated,
+}
+
+extension on RegistrationStatus {
+  String toValue() {
+    switch (this) {
+      case RegistrationStatus.registered:
+        return 'REGISTERED';
+      case RegistrationStatus.deprecated:
+        return 'DEPRECATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides the details of the <code>RequestCancelActivityTask</code> decision.

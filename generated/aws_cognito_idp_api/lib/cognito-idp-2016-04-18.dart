@@ -539,7 +539,7 @@ class CognitoIdentityProvider {
         'ClientMetadata': clientMetadata,
         'DesiredDeliveryMediums': desiredDeliveryMediums,
         'ForceAliasCreation': forceAliasCreation,
-        'MessageAction': messageAction,
+        'MessageAction': messageAction.toValue(),
         'TemporaryPassword': temporaryPassword,
         'UserAttributes': userAttributes,
         'ValidationData': validationData,
@@ -1386,7 +1386,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow,
+        'AuthFlow': authFlow.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         'AnalyticsMetadata': analyticsMetadata,
@@ -2184,7 +2184,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName,
+        'ChallengeName': challengeName.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         'AnalyticsMetadata': analyticsMetadata,
@@ -2543,7 +2543,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'EventId': eventId,
-        'FeedbackValue': feedbackValue,
+        'FeedbackValue': feedbackValue.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -2638,7 +2638,7 @@ class CognitoIdentityProvider {
         'DeviceKey': deviceKey,
         'UserPoolId': userPoolId,
         'Username': username,
-        'DeviceRememberedStatus': deviceRememberedStatus,
+        'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
 
@@ -3711,7 +3711,7 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderDetails': providerDetails,
         'ProviderName': providerName,
-        'ProviderType': providerType,
+        'ProviderType': providerType.toValue(),
         'UserPoolId': userPoolId,
         'AttributeMapping': attributeMapping,
         'IdpIdentifiers': idpIdentifiers,
@@ -4114,7 +4114,7 @@ class CognitoIdentityProvider {
         'EmailVerificationMessage': emailVerificationMessage,
         'EmailVerificationSubject': emailVerificationSubject,
         'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration,
+        'MfaConfiguration': mfaConfiguration.toValue(),
         'Policies': policies,
         'Schema': schema,
         'SmsAuthenticationMessage': smsAuthenticationMessage,
@@ -4439,7 +4439,7 @@ class CognitoIdentityProvider {
         'ExplicitAuthFlows': explicitAuthFlows,
         'GenerateSecret': generateSecret,
         'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors,
+        'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
         'ReadAttributes': readAttributes,
         'RefreshTokenValidity': refreshTokenValidity,
         'SupportedIdentityProviders': supportedIdentityProviders,
@@ -6402,7 +6402,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow,
+        'AuthFlow': authFlow.toValue(),
         'ClientId': clientId,
         'AnalyticsMetadata': analyticsMetadata,
         'AuthParameters': authParameters,
@@ -7523,7 +7523,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName,
+        'ChallengeName': challengeName.toValue(),
         'ClientId': clientId,
         'AnalyticsMetadata': analyticsMetadata,
         'ChallengeResponses': challengeResponses,
@@ -7837,7 +7837,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MfaConfiguration': mfaConfiguration,
+        'MfaConfiguration': mfaConfiguration.toValue(),
         'SmsMfaConfiguration': smsMfaConfiguration,
         'SoftwareTokenMfaConfiguration': softwareTokenMfaConfiguration,
       },
@@ -8424,7 +8424,7 @@ class CognitoIdentityProvider {
       payload: {
         'EventId': eventId,
         'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue,
+        'FeedbackValue': feedbackValue.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -8492,7 +8492,7 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
-        'DeviceRememberedStatus': deviceRememberedStatus,
+        'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
 
@@ -9077,7 +9077,7 @@ class CognitoIdentityProvider {
         'EmailVerificationMessage': emailVerificationMessage,
         'EmailVerificationSubject': emailVerificationSubject,
         'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration,
+        'MfaConfiguration': mfaConfiguration.toValue(),
         'Policies': policies,
         'SmsAuthenticationMessage': smsAuthenticationMessage,
         'SmsConfiguration': smsConfiguration,
@@ -9402,7 +9402,7 @@ class CognitoIdentityProvider {
         'DefaultRedirectURI': defaultRedirectURI,
         'ExplicitAuthFlows': explicitAuthFlows,
         'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors,
+        'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
         'ReadAttributes': readAttributes,
         'RefreshTokenValidity': refreshTokenValidity,
         'SupportedIdentityProviders': supportedIdentityProviders,
@@ -10615,6 +10615,28 @@ enum AuthFlowType {
   adminUserPasswordAuth,
 }
 
+extension on AuthFlowType {
+  String toValue() {
+    switch (this) {
+      case AuthFlowType.userSrpAuth:
+        return 'USER_SRP_AUTH';
+      case AuthFlowType.refreshTokenAuth:
+        return 'REFRESH_TOKEN_AUTH';
+      case AuthFlowType.refreshToken:
+        return 'REFRESH_TOKEN';
+      case AuthFlowType.customAuth:
+        return 'CUSTOM_AUTH';
+      case AuthFlowType.adminNoSrpAuth:
+        return 'ADMIN_NO_SRP_AUTH';
+      case AuthFlowType.userPasswordAuth:
+        return 'USER_PASSWORD_AUTH';
+      case AuthFlowType.adminUserPasswordAuth:
+        return 'ADMIN_USER_PASSWORD_AUTH';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The authentication result.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10686,6 +10708,34 @@ enum ChallengeNameType {
   adminNoSrpAuth,
   @_s.JsonValue('NEW_PASSWORD_REQUIRED')
   newPasswordRequired,
+}
+
+extension on ChallengeNameType {
+  String toValue() {
+    switch (this) {
+      case ChallengeNameType.smsMfa:
+        return 'SMS_MFA';
+      case ChallengeNameType.softwareTokenMfa:
+        return 'SOFTWARE_TOKEN_MFA';
+      case ChallengeNameType.selectMfaType:
+        return 'SELECT_MFA_TYPE';
+      case ChallengeNameType.mfaSetup:
+        return 'MFA_SETUP';
+      case ChallengeNameType.passwordVerifier:
+        return 'PASSWORD_VERIFIER';
+      case ChallengeNameType.customChallenge:
+        return 'CUSTOM_CHALLENGE';
+      case ChallengeNameType.deviceSrpAuth:
+        return 'DEVICE_SRP_AUTH';
+      case ChallengeNameType.devicePasswordVerifier:
+        return 'DEVICE_PASSWORD_VERIFIER';
+      case ChallengeNameType.adminNoSrpAuth:
+        return 'ADMIN_NO_SRP_AUTH';
+      case ChallengeNameType.newPasswordRequired:
+        return 'NEW_PASSWORD_REQUIRED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ChallengeResponse {
@@ -11243,6 +11293,18 @@ enum DeviceRememberedStatusType {
   notRemembered,
 }
 
+extension on DeviceRememberedStatusType {
+  String toValue() {
+    switch (this) {
+      case DeviceRememberedStatusType.remembered:
+        return 'remembered';
+      case DeviceRememberedStatusType.notRemembered:
+        return 'not_remembered';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The device verifier against which it will be authenticated.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11642,6 +11704,18 @@ enum FeedbackValueType {
   valid,
   @_s.JsonValue('Invalid')
   invalid,
+}
+
+extension on FeedbackValueType {
+  String toValue() {
+    switch (this) {
+      case FeedbackValueType.valid:
+        return 'Valid';
+      case FeedbackValueType.invalid:
+        return 'Invalid';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Respresents the response from the server regarding the request to reset a
@@ -12140,6 +12214,26 @@ enum IdentityProviderTypeType {
   oidc,
 }
 
+extension on IdentityProviderTypeType {
+  String toValue() {
+    switch (this) {
+      case IdentityProviderTypeType.saml:
+        return 'SAML';
+      case IdentityProviderTypeType.facebook:
+        return 'Facebook';
+      case IdentityProviderTypeType.google:
+        return 'Google';
+      case IdentityProviderTypeType.loginWithAmazon:
+        return 'LoginWithAmazon';
+      case IdentityProviderTypeType.signInWithApple:
+        return 'SignInWithApple';
+      case IdentityProviderTypeType.oidc:
+        return 'OIDC';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Initiates the authentication response.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12559,6 +12653,18 @@ enum MessageActionType {
   suppress,
 }
 
+extension on MessageActionType {
+  String toValue() {
+    switch (this) {
+      case MessageActionType.resend:
+        return 'RESEND';
+      case MessageActionType.suppress:
+        return 'SUPPRESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The message template structure.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12789,6 +12895,18 @@ enum PreventUserExistenceErrorTypes {
   legacy,
   @_s.JsonValue('ENABLED')
   enabled,
+}
+
+extension on PreventUserExistenceErrorTypes {
+  String toValue() {
+    switch (this) {
+      case PreventUserExistenceErrorTypes.legacy:
+        return 'LEGACY';
+      case PreventUserExistenceErrorTypes.enabled:
+        return 'ENABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A container for identity provider details.
@@ -14225,6 +14343,20 @@ enum UserPoolMfaType {
   on,
   @_s.JsonValue('OPTIONAL')
   optional,
+}
+
+extension on UserPoolMfaType {
+  String toValue() {
+    switch (this) {
+      case UserPoolMfaType.off:
+        return 'OFF';
+      case UserPoolMfaType.on:
+        return 'ON';
+      case UserPoolMfaType.optional:
+        return 'OPTIONAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The policy associated with a user pool.

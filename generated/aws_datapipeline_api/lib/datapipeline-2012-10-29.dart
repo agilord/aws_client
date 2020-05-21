@@ -1330,7 +1330,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskId': taskId,
-        'taskStatus': taskStatus,
+        'taskStatus': taskStatus.toValue(),
         'errorId': errorId,
         'errorMessage': errorMessage,
         'errorStackTrace': errorStackTrace,
@@ -2257,6 +2257,20 @@ enum TaskStatus {
   failed,
   @_s.JsonValue('FALSE')
   $false,
+}
+
+extension on TaskStatus {
+  String toValue() {
+    switch (this) {
+      case TaskStatus.finished:
+        return 'FINISHED';
+      case TaskStatus.failed:
+        return 'FAILED';
+      case TaskStatus.$false:
+        return 'FALSE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains the output of ValidatePipelineDefinition.

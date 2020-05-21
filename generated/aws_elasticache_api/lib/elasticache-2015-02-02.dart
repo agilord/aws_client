@@ -804,7 +804,7 @@ class ElastiCache {
       'Version': '2015-02-02',
     };
     $request['CacheClusterId'] = cacheClusterId;
-    aZMode?.also((arg) => $request['AZMode'] = arg);
+    aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
     authToken?.also((arg) => $request['AuthToken'] = arg);
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
@@ -2662,7 +2662,7 @@ class ElastiCache {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
-    sourceType?.also((arg) => $request['SourceType'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -4015,11 +4015,11 @@ class ElastiCache {
       'Version': '2015-02-02',
     };
     $request['CacheClusterId'] = cacheClusterId;
-    aZMode?.also((arg) => $request['AZMode'] = arg);
+    aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     authToken?.also((arg) => $request['AuthToken'] = arg);
     authTokenUpdateStrategy
-        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg);
+        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg.toValue());
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     cacheNodeIdsToRemove?.also((arg) => $request['CacheNodeIdsToRemove'] = arg);
@@ -4462,7 +4462,7 @@ class ElastiCache {
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     authToken?.also((arg) => $request['AuthToken'] = arg);
     authTokenUpdateStrategy
-        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg);
+        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg.toValue());
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     automaticFailoverEnabled
@@ -5035,6 +5035,18 @@ enum AZMode {
   crossAz,
 }
 
+extension on AZMode {
+  String toValue() {
+    switch (this) {
+      case AZMode.singleAz:
+        return 'single-az';
+      case AZMode.crossAz:
+        return 'cross-az';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   AZMode toAZMode() {
     switch (this) {
@@ -5103,6 +5115,18 @@ extension on String {
 enum AuthTokenUpdateStrategyType {
   set,
   rotate,
+}
+
+extension on AuthTokenUpdateStrategyType {
+  String toValue() {
+    switch (this) {
+      case AuthTokenUpdateStrategyType.set:
+        return 'SET';
+      case AuthTokenUpdateStrategyType.rotate:
+        return 'ROTATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -8976,6 +9000,24 @@ enum SourceType {
   cacheSecurityGroup,
   cacheSubnetGroup,
   replicationGroup,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.cacheCluster:
+        return 'cache-cluster';
+      case SourceType.cacheParameterGroup:
+        return 'cache-parameter-group';
+      case SourceType.cacheSecurityGroup:
+        return 'cache-security-group';
+      case SourceType.cacheSubnetGroup:
+        return 'cache-subnet-group';
+      case SourceType.replicationGroup:
+        return 'replication-group';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

@@ -537,7 +537,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'sourceRegion': sourceRegion,
+        'sourceRegion': sourceRegion.toValue(),
         'targetSnapshotName': targetSnapshotName,
         'restoreDate': restoreDate,
         'sourceResourceName': sourceResourceName,
@@ -685,7 +685,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'contactEndpoint': contactEndpoint,
-        'protocol': protocol,
+        'protocol': protocol.toValue(),
       },
     );
 
@@ -2443,7 +2443,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol,
+        'protocol': protocol.toValue(),
       },
     );
 
@@ -3288,7 +3288,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'addOnType': addOnType,
+        'addOnType': addOnType.toValue(),
         'resourceName': resourceName,
       },
     );
@@ -4123,7 +4123,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'protocol': protocol,
+        'protocol': protocol.toValue(),
       },
     );
 
@@ -4315,11 +4315,11 @@ class Lightsail {
       payload: {
         'endTime': endTime,
         'instanceName': instanceName,
-        'metricName': metricName,
+        'metricName': metricName.toValue(),
         'period': period,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit,
+        'unit': unit.toValue(),
       },
     );
 
@@ -4880,11 +4880,11 @@ class Lightsail {
       payload: {
         'endTime': endTime,
         'loadBalancerName': loadBalancerName,
-        'metricName': metricName,
+        'metricName': metricName.toValue(),
         'period': period,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit,
+        'unit': unit.toValue(),
       },
     );
 
@@ -5552,7 +5552,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'passwordVersion': passwordVersion,
+        'passwordVersion': passwordVersion.toValue(),
       },
     );
 
@@ -5760,12 +5760,12 @@ class Lightsail {
       headers: headers,
       payload: {
         'endTime': endTime,
-        'metricName': metricName,
+        'metricName': metricName.toValue(),
         'period': period,
         'relationalDatabaseName': relationalDatabaseName,
         'startTime': startTime,
         'statistics': statistics,
-        'unit': unit,
+        'unit': unit.toValue(),
       },
     );
 
@@ -6398,16 +6398,16 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'comparisonOperator': comparisonOperator,
+        'comparisonOperator': comparisonOperator.toValue(),
         'evaluationPeriods': evaluationPeriods,
-        'metricName': metricName,
+        'metricName': metricName.toValue(),
         'monitoredResourceName': monitoredResourceName,
         'threshold': threshold,
         'contactProtocols': contactProtocols,
         'datapointsToAlarm': datapointsToAlarm,
         'notificationEnabled': notificationEnabled,
         'notificationTriggers': notificationTriggers,
-        'treatMissingData': treatMissingData,
+        'treatMissingData': treatMissingData.toValue(),
       },
     );
 
@@ -6644,7 +6644,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol,
+        'protocol': protocol.toValue(),
       },
     );
 
@@ -7008,7 +7008,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'state': state,
+        'state': state.toValue(),
       },
     );
 
@@ -7209,7 +7209,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attributeName': attributeName,
+        'attributeName': attributeName.toValue(),
         'attributeValue': attributeValue,
         'loadBalancerName': loadBalancerName,
       },
@@ -7535,6 +7535,16 @@ enum AddOnType {
   autoSnapshot,
 }
 
+extension on AddOnType {
+  String toValue() {
+    switch (this) {
+      case AddOnType.autoSnapshot:
+        return 'AutoSnapshot';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes an alarm.
 ///
 /// An alarm is a way to monitor your Amazon Lightsail resource metrics. For
@@ -7734,6 +7744,20 @@ enum AlarmState {
   alarm,
   @_s.JsonValue('INSUFFICIENT_DATA')
   insufficientData,
+}
+
+extension on AlarmState {
+  String toValue() {
+    switch (this) {
+      case AlarmState.ok:
+        return 'OK';
+      case AlarmState.alarm:
+        return 'ALARM';
+      case AlarmState.insufficientData:
+        return 'INSUFFICIENT_DATA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -8291,6 +8315,22 @@ enum ComparisonOperator {
   lessThanOrEqualToThreshold,
 }
 
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.greaterThanOrEqualToThreshold:
+        return 'GreaterThanOrEqualToThreshold';
+      case ComparisonOperator.greaterThanThreshold:
+        return 'GreaterThanThreshold';
+      case ComparisonOperator.lessThanThreshold:
+        return 'LessThanThreshold';
+      case ComparisonOperator.lessThanOrEqualToThreshold:
+        return 'LessThanOrEqualToThreshold';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a contact method.
 ///
 /// A contact method is a way to send you notifications. For more information,
@@ -8385,11 +8425,33 @@ enum ContactMethodVerificationProtocol {
   email,
 }
 
+extension on ContactMethodVerificationProtocol {
+  String toValue() {
+    switch (this) {
+      case ContactMethodVerificationProtocol.email:
+        return 'Email';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ContactProtocol {
   @_s.JsonValue('Email')
   email,
   @_s.JsonValue('SMS')
   sms,
+}
+
+extension on ContactProtocol {
+  String toValue() {
+    switch (this) {
+      case ContactProtocol.email:
+        return 'Email';
+      case ContactProtocol.sms:
+        return 'SMS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -11292,6 +11354,18 @@ enum InstanceAccessProtocol {
   rdp,
 }
 
+extension on InstanceAccessProtocol {
+  String toValue() {
+    switch (this) {
+      case InstanceAccessProtocol.ssh:
+        return 'ssh';
+      case InstanceAccessProtocol.rdp:
+        return 'rdp';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the Amazon Elastic Compute Cloud instance and related resources to
 /// be created using the <code>create cloud formation stack</code> operation.
 @_s.JsonSerializable(
@@ -11541,6 +11615,26 @@ enum InstanceMetricName {
   statusCheckFailedInstance,
   @_s.JsonValue('StatusCheckFailed_System')
   statusCheckFailedSystem,
+}
+
+extension on InstanceMetricName {
+  String toValue() {
+    switch (this) {
+      case InstanceMetricName.cPUUtilization:
+        return 'CPUUtilization';
+      case InstanceMetricName.networkIn:
+        return 'NetworkIn';
+      case InstanceMetricName.networkOut:
+        return 'NetworkOut';
+      case InstanceMetricName.statusCheckFailed:
+        return 'StatusCheckFailed';
+      case InstanceMetricName.statusCheckFailedInstance:
+        return 'StatusCheckFailed_Instance';
+      case InstanceMetricName.statusCheckFailedSystem:
+        return 'StatusCheckFailed_System';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes monthly data transfer rates and port information for an instance.
@@ -12075,6 +12169,20 @@ enum LoadBalancerAttributeName {
   sessionStickinessLbCookieDurationSeconds,
 }
 
+extension on LoadBalancerAttributeName {
+  String toValue() {
+    switch (this) {
+      case LoadBalancerAttributeName.healthCheckPath:
+        return 'HealthCheckPath';
+      case LoadBalancerAttributeName.sessionStickinessEnabled:
+        return 'SessionStickinessEnabled';
+      case LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
+        return 'SessionStickiness_LB_CookieDurationSeconds';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum LoadBalancerMetricName {
   @_s.JsonValue('ClientTLSNegotiationErrorCount')
   clientTLSNegotiationErrorCount,
@@ -12100,6 +12208,38 @@ enum LoadBalancerMetricName {
   rejectedConnectionCount,
   @_s.JsonValue('RequestCount')
   requestCount,
+}
+
+extension on LoadBalancerMetricName {
+  String toValue() {
+    switch (this) {
+      case LoadBalancerMetricName.clientTLSNegotiationErrorCount:
+        return 'ClientTLSNegotiationErrorCount';
+      case LoadBalancerMetricName.healthyHostCount:
+        return 'HealthyHostCount';
+      case LoadBalancerMetricName.unhealthyHostCount:
+        return 'UnhealthyHostCount';
+      case LoadBalancerMetricName.hTTPCodeLb_4xxCount:
+        return 'HTTPCode_LB_4XX_Count';
+      case LoadBalancerMetricName.hTTPCodeLb_5xxCount:
+        return 'HTTPCode_LB_5XX_Count';
+      case LoadBalancerMetricName.hTTPCodeInstance_2xxCount:
+        return 'HTTPCode_Instance_2XX_Count';
+      case LoadBalancerMetricName.hTTPCodeInstance_3xxCount:
+        return 'HTTPCode_Instance_3XX_Count';
+      case LoadBalancerMetricName.hTTPCodeInstance_4xxCount:
+        return 'HTTPCode_Instance_4XX_Count';
+      case LoadBalancerMetricName.hTTPCodeInstance_5xxCount:
+        return 'HTTPCode_Instance_5XX_Count';
+      case LoadBalancerMetricName.instanceResponseTime:
+        return 'InstanceResponseTime';
+      case LoadBalancerMetricName.rejectedConnectionCount:
+        return 'RejectedConnectionCount';
+      case LoadBalancerMetricName.requestCount:
+        return 'RequestCount';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum LoadBalancerProtocol {
@@ -12632,6 +12772,60 @@ enum MetricName {
   networkTransmitThroughput,
 }
 
+extension on MetricName {
+  String toValue() {
+    switch (this) {
+      case MetricName.cPUUtilization:
+        return 'CPUUtilization';
+      case MetricName.networkIn:
+        return 'NetworkIn';
+      case MetricName.networkOut:
+        return 'NetworkOut';
+      case MetricName.statusCheckFailed:
+        return 'StatusCheckFailed';
+      case MetricName.statusCheckFailedInstance:
+        return 'StatusCheckFailed_Instance';
+      case MetricName.statusCheckFailedSystem:
+        return 'StatusCheckFailed_System';
+      case MetricName.clientTLSNegotiationErrorCount:
+        return 'ClientTLSNegotiationErrorCount';
+      case MetricName.healthyHostCount:
+        return 'HealthyHostCount';
+      case MetricName.unhealthyHostCount:
+        return 'UnhealthyHostCount';
+      case MetricName.hTTPCodeLb_4xxCount:
+        return 'HTTPCode_LB_4XX_Count';
+      case MetricName.hTTPCodeLb_5xxCount:
+        return 'HTTPCode_LB_5XX_Count';
+      case MetricName.hTTPCodeInstance_2xxCount:
+        return 'HTTPCode_Instance_2XX_Count';
+      case MetricName.hTTPCodeInstance_3xxCount:
+        return 'HTTPCode_Instance_3XX_Count';
+      case MetricName.hTTPCodeInstance_4xxCount:
+        return 'HTTPCode_Instance_4XX_Count';
+      case MetricName.hTTPCodeInstance_5xxCount:
+        return 'HTTPCode_Instance_5XX_Count';
+      case MetricName.instanceResponseTime:
+        return 'InstanceResponseTime';
+      case MetricName.rejectedConnectionCount:
+        return 'RejectedConnectionCount';
+      case MetricName.requestCount:
+        return 'RequestCount';
+      case MetricName.databaseConnections:
+        return 'DatabaseConnections';
+      case MetricName.diskQueueDepth:
+        return 'DiskQueueDepth';
+      case MetricName.freeStorageSpace:
+        return 'FreeStorageSpace';
+      case MetricName.networkReceiveThroughput:
+        return 'NetworkReceiveThroughput';
+      case MetricName.networkTransmitThroughput:
+        return 'NetworkTransmitThroughput';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum MetricStatistic {
   @_s.JsonValue('Minimum')
   minimum,
@@ -12700,6 +12894,68 @@ enum MetricUnit {
   countSecond,
   @_s.JsonValue('None')
   none,
+}
+
+extension on MetricUnit {
+  String toValue() {
+    switch (this) {
+      case MetricUnit.seconds:
+        return 'Seconds';
+      case MetricUnit.microseconds:
+        return 'Microseconds';
+      case MetricUnit.milliseconds:
+        return 'Milliseconds';
+      case MetricUnit.bytes:
+        return 'Bytes';
+      case MetricUnit.kilobytes:
+        return 'Kilobytes';
+      case MetricUnit.megabytes:
+        return 'Megabytes';
+      case MetricUnit.gigabytes:
+        return 'Gigabytes';
+      case MetricUnit.terabytes:
+        return 'Terabytes';
+      case MetricUnit.bits:
+        return 'Bits';
+      case MetricUnit.kilobits:
+        return 'Kilobits';
+      case MetricUnit.megabits:
+        return 'Megabits';
+      case MetricUnit.gigabits:
+        return 'Gigabits';
+      case MetricUnit.terabits:
+        return 'Terabits';
+      case MetricUnit.percent:
+        return 'Percent';
+      case MetricUnit.count:
+        return 'Count';
+      case MetricUnit.bytesSecond:
+        return 'Bytes/Second';
+      case MetricUnit.kilobytesSecond:
+        return 'Kilobytes/Second';
+      case MetricUnit.megabytesSecond:
+        return 'Megabytes/Second';
+      case MetricUnit.gigabytesSecond:
+        return 'Gigabytes/Second';
+      case MetricUnit.terabytesSecond:
+        return 'Terabytes/Second';
+      case MetricUnit.bitsSecond:
+        return 'Bits/Second';
+      case MetricUnit.kilobitsSecond:
+        return 'Kilobits/Second';
+      case MetricUnit.megabitsSecond:
+        return 'Megabits/Second';
+      case MetricUnit.gigabitsSecond:
+        return 'Gigabits/Second';
+      case MetricUnit.terabitsSecond:
+        return 'Terabits/Second';
+      case MetricUnit.countSecond:
+        return 'Count/Second';
+      case MetricUnit.none:
+        return 'None';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes resource being monitored by an alarm.
@@ -13323,6 +13579,42 @@ enum RegionName {
   apNortheast_2,
 }
 
+extension on RegionName {
+  String toValue() {
+    switch (this) {
+      case RegionName.usEast_1:
+        return 'us-east-1';
+      case RegionName.usEast_2:
+        return 'us-east-2';
+      case RegionName.usWest_1:
+        return 'us-west-1';
+      case RegionName.usWest_2:
+        return 'us-west-2';
+      case RegionName.euWest_1:
+        return 'eu-west-1';
+      case RegionName.euWest_2:
+        return 'eu-west-2';
+      case RegionName.euWest_3:
+        return 'eu-west-3';
+      case RegionName.euCentral_1:
+        return 'eu-central-1';
+      case RegionName.caCentral_1:
+        return 'ca-central-1';
+      case RegionName.apSouth_1:
+        return 'ap-south-1';
+      case RegionName.apSoutheast_1:
+        return 'ap-southeast-1';
+      case RegionName.apSoutheast_2:
+        return 'ap-southeast-2';
+      case RegionName.apNortheast_1:
+        return 'ap-northeast-1';
+      case RegionName.apNortheast_2:
+        return 'ap-northeast-2';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a database.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13697,6 +13989,26 @@ enum RelationalDatabaseMetricName {
   networkTransmitThroughput,
 }
 
+extension on RelationalDatabaseMetricName {
+  String toValue() {
+    switch (this) {
+      case RelationalDatabaseMetricName.cPUUtilization:
+        return 'CPUUtilization';
+      case RelationalDatabaseMetricName.databaseConnections:
+        return 'DatabaseConnections';
+      case RelationalDatabaseMetricName.diskQueueDepth:
+        return 'DiskQueueDepth';
+      case RelationalDatabaseMetricName.freeStorageSpace:
+        return 'FreeStorageSpace';
+      case RelationalDatabaseMetricName.networkReceiveThroughput:
+        return 'NetworkReceiveThroughput';
+      case RelationalDatabaseMetricName.networkTransmitThroughput:
+        return 'NetworkTransmitThroughput';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the parameters of a database.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13761,6 +14073,20 @@ enum RelationalDatabasePasswordVersion {
   previous,
   @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on RelationalDatabasePasswordVersion {
+  String toValue() {
+    switch (this) {
+      case RelationalDatabasePasswordVersion.current:
+        return 'CURRENT';
+      case RelationalDatabasePasswordVersion.previous:
+        return 'PREVIOUS';
+      case RelationalDatabasePasswordVersion.pending:
+        return 'PENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a database snapshot.
@@ -14182,6 +14508,22 @@ enum TreatMissingData {
   ignore,
   @_s.JsonValue('missing')
   missing,
+}
+
+extension on TreatMissingData {
+  String toValue() {
+    switch (this) {
+      case TreatMissingData.breaching:
+        return 'breaching';
+      case TreatMissingData.notBreaching:
+        return 'notBreaching';
+      case TreatMissingData.ignore:
+        return 'ignore';
+      case TreatMissingData.missing:
+        return 'missing';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

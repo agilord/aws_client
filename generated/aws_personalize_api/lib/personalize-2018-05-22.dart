@@ -1155,7 +1155,7 @@ class Personalize {
       headers: headers,
       payload: {
         'solutionArn': solutionArn,
-        'trainingMode': trainingMode,
+        'trainingMode': trainingMode.toValue(),
       },
     );
 
@@ -2458,7 +2458,7 @@ class Personalize {
       payload: {
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'recipeProvider': recipeProvider,
+        'recipeProvider': recipeProvider.toValue(),
       },
     );
 
@@ -4992,6 +4992,16 @@ enum RecipeProvider {
   service,
 }
 
+extension on RecipeProvider {
+  String toValue() {
+    switch (this) {
+      case RecipeProvider.service:
+        return 'SERVICE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides a summary of the properties of a recipe. For a complete listing,
 /// call the <a>DescribeRecipe</a> API.
 @_s.JsonSerializable(
@@ -5435,6 +5445,18 @@ enum TrainingMode {
   full,
   @_s.JsonValue('UPDATE')
   update,
+}
+
+extension on TrainingMode {
+  String toValue() {
+    switch (this) {
+      case TrainingMode.full:
+        return 'FULL';
+      case TrainingMode.update:
+        return 'UPDATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// If hyperparameter optimization (HPO) was performed, contains the

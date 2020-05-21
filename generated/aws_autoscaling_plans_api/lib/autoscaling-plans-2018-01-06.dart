@@ -417,12 +417,12 @@ class AutoScalingPlans {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'ForecastDataType': forecastDataType,
+        'ForecastDataType': forecastDataType.toValue(),
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension,
+        'ScalableDimension': scalableDimension.toValue(),
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace,
+        'ServiceNamespace': serviceNamespace.toValue(),
         'StartTime': startTime,
       },
     );
@@ -769,6 +769,22 @@ enum ForecastDataType {
   scheduledActionMaxCapacity,
 }
 
+extension on ForecastDataType {
+  String toValue() {
+    switch (this) {
+      case ForecastDataType.capacityForecast:
+        return 'CapacityForecast';
+      case ForecastDataType.loadForecast:
+        return 'LoadForecast';
+      case ForecastDataType.scheduledActionMinCapacity:
+        return 'ScheduledActionMinCapacity';
+      case ForecastDataType.scheduledActionMaxCapacity:
+        return 'ScheduledActionMaxCapacity';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -967,6 +983,30 @@ enum ScalableDimension {
   dynamodbIndexReadCapacityUnits,
   @_s.JsonValue('dynamodb:index:WriteCapacityUnits')
   dynamodbIndexWriteCapacityUnits,
+}
+
+extension on ScalableDimension {
+  String toValue() {
+    switch (this) {
+      case ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
+        return 'autoscaling:autoScalingGroup:DesiredCapacity';
+      case ScalableDimension.ecsServiceDesiredCount:
+        return 'ecs:service:DesiredCount';
+      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
+        return 'ec2:spot-fleet-request:TargetCapacity';
+      case ScalableDimension.rdsClusterReadReplicaCount:
+        return 'rds:cluster:ReadReplicaCount';
+      case ScalableDimension.dynamodbTableReadCapacityUnits:
+        return 'dynamodb:table:ReadCapacityUnits';
+      case ScalableDimension.dynamodbTableWriteCapacityUnits:
+        return 'dynamodb:table:WriteCapacityUnits';
+      case ScalableDimension.dynamodbIndexReadCapacityUnits:
+        return 'dynamodb:index:ReadCapacityUnits';
+      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
+        return 'dynamodb:index:WriteCapacityUnits';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a scaling instruction for a scalable resource.
@@ -1556,6 +1596,24 @@ enum ServiceNamespace {
   rds,
   @_s.JsonValue('dynamodb')
   dynamodb,
+}
+
+extension on ServiceNamespace {
+  String toValue() {
+    switch (this) {
+      case ServiceNamespace.autoscaling:
+        return 'autoscaling';
+      case ServiceNamespace.ecs:
+        return 'ecs';
+      case ServiceNamespace.ec2:
+        return 'ec2';
+      case ServiceNamespace.rds:
+        return 'rds';
+      case ServiceNamespace.dynamodb:
+        return 'dynamodb';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents a tag.

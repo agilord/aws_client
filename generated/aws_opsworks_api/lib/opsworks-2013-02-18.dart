@@ -601,7 +601,7 @@ class OpsWorks {
         'DefaultAvailabilityZone': defaultAvailabilityZone,
         'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType,
+        'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         'DefaultSshKeyName': defaultSshKeyName,
         'DefaultSubnetId': defaultSubnetId,
         'HostnameTheme': hostnameTheme,
@@ -718,7 +718,7 @@ class OpsWorks {
       payload: {
         'Name': name,
         'StackId': stackId,
-        'Type': type,
+        'Type': type.toValue(),
         'AppSource': appSource,
         'Attributes': attributes,
         'DataSources': dataSources,
@@ -1042,15 +1042,15 @@ class OpsWorks {
         'StackId': stackId,
         'AgentVersion': agentVersion,
         'AmiId': amiId,
-        'Architecture': architecture,
-        'AutoScalingType': autoScalingType,
+        'Architecture': architecture.toValue(),
+        'AutoScalingType': autoScalingType.toValue(),
         'AvailabilityZone': availabilityZone,
         'BlockDeviceMappings': blockDeviceMappings,
         'EbsOptimized': ebsOptimized,
         'Hostname': hostname,
         'InstallUpdatesOnBoot': installUpdatesOnBoot,
         'Os': os,
-        'RootDeviceType': rootDeviceType,
+        'RootDeviceType': rootDeviceType.toValue(),
         'SshKeyName': sshKeyName,
         'SubnetId': subnetId,
         'Tenancy': tenancy,
@@ -1219,7 +1219,7 @@ class OpsWorks {
         'Name': name,
         'Shortname': shortname,
         'StackId': stackId,
-        'Type': type,
+        'Type': type.toValue(),
         'Attributes': attributes,
         'AutoAssignElasticIps': autoAssignElasticIps,
         'AutoAssignPublicIps': autoAssignPublicIps,
@@ -1607,7 +1607,7 @@ class OpsWorks {
         'CustomJson': customJson,
         'DefaultAvailabilityZone': defaultAvailabilityZone,
         'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType,
+        'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         'DefaultSshKeyName': defaultSshKeyName,
         'DefaultSubnetId': defaultSubnetId,
         'HostnameTheme': hostnameTheme,
@@ -4126,7 +4126,7 @@ class OpsWorks {
         'Environment': environment,
         'Name': name,
         'SslConfiguration': sslConfiguration,
-        'Type': type,
+        'Type': type.toValue(),
       },
     );
   }
@@ -4339,8 +4339,8 @@ class OpsWorks {
         'InstanceId': instanceId,
         'AgentVersion': agentVersion,
         'AmiId': amiId,
-        'Architecture': architecture,
-        'AutoScalingType': autoScalingType,
+        'Architecture': architecture.toValue(),
+        'AutoScalingType': autoScalingType.toValue(),
         'EbsOptimized': ebsOptimized,
         'Hostname': hostname,
         'InstallUpdatesOnBoot': installUpdatesOnBoot,
@@ -4866,7 +4866,7 @@ class OpsWorks {
         'DefaultAvailabilityZone': defaultAvailabilityZone,
         'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType,
+        'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         'DefaultSshKeyName': defaultSshKeyName,
         'DefaultSubnetId': defaultSubnetId,
         'HostnameTheme': hostnameTheme,
@@ -5128,11 +5128,45 @@ enum AppType {
   other,
 }
 
+extension on AppType {
+  String toValue() {
+    switch (this) {
+      case AppType.awsFlowRuby:
+        return 'aws-flow-ruby';
+      case AppType.java:
+        return 'java';
+      case AppType.rails:
+        return 'rails';
+      case AppType.php:
+        return 'php';
+      case AppType.nodejs:
+        return 'nodejs';
+      case AppType.static:
+        return 'static';
+      case AppType.other:
+        return 'other';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum Architecture {
   @_s.JsonValue('x86_64')
   x86_64,
   @_s.JsonValue('i386')
   i386,
+}
+
+extension on Architecture {
+  String toValue() {
+    switch (this) {
+      case Architecture.x86_64:
+        return 'x86_64';
+      case Architecture.i386:
+        return 'i386';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
@@ -5215,6 +5249,18 @@ enum AutoScalingType {
   load,
   @_s.JsonValue('timer')
   timer,
+}
+
+extension on AutoScalingType {
+  String toValue() {
+    switch (this) {
+      case AutoScalingType.load:
+        return 'load';
+      case AutoScalingType.timer:
+        return 'timer';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a block device mapping. This data type maps directly to the Amazon
@@ -7526,6 +7572,38 @@ enum LayerType {
   custom,
 }
 
+extension on LayerType {
+  String toValue() {
+    switch (this) {
+      case LayerType.awsFlowRuby:
+        return 'aws-flow-ruby';
+      case LayerType.ecsCluster:
+        return 'ecs-cluster';
+      case LayerType.javaApp:
+        return 'java-app';
+      case LayerType.lb:
+        return 'lb';
+      case LayerType.web:
+        return 'web';
+      case LayerType.phpApp:
+        return 'php-app';
+      case LayerType.railsApp:
+        return 'rails-app';
+      case LayerType.nodejsApp:
+        return 'nodejs-app';
+      case LayerType.memcached:
+        return 'memcached';
+      case LayerType.dbMaster:
+        return 'db-master';
+      case LayerType.monitoringMaster:
+        return 'monitoring-master';
+      case LayerType.custom:
+        return 'custom';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Specifies the lifecycle event configuration
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8058,6 +8136,18 @@ enum RootDeviceType {
   ebs,
   @_s.JsonValue('instance-store')
   instanceStore,
+}
+
+extension on RootDeviceType {
+  String toValue() {
+    switch (this) {
+      case RootDeviceType.ebs:
+        return 'ebs';
+      case RootDeviceType.instanceStore:
+        return 'instance-store';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a user's SSH information.

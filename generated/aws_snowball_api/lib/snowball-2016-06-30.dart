@@ -339,15 +339,15 @@ class Snowball {
       headers: headers,
       payload: {
         'AddressId': addressId,
-        'JobType': jobType,
+        'JobType': jobType.toValue(),
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption,
+        'ShippingOption': shippingOption.toValue(),
         'Description': description,
         'ForwardingAddressId': forwardingAddressId,
         'KmsKeyARN': kmsKeyARN,
         'Notification': notification,
-        'SnowballType': snowballType,
+        'SnowballType': snowballType.toValue(),
         'TaxDocuments': taxDocuments,
       },
     );
@@ -547,14 +547,14 @@ class Snowball {
         'ClusterId': clusterId,
         'Description': description,
         'ForwardingAddressId': forwardingAddressId,
-        'JobType': jobType,
+        'JobType': jobType.toValue(),
         'KmsKeyARN': kmsKeyARN,
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption,
-        'SnowballCapacityPreference': snowballCapacityPreference,
-        'SnowballType': snowballType,
+        'ShippingOption': shippingOption.toValue(),
+        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+        'SnowballType': snowballType.toValue(),
         'TaxDocuments': taxDocuments,
       },
     );
@@ -1270,7 +1270,7 @@ class Snowball {
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption,
+        'ShippingOption': shippingOption.toValue(),
       },
     );
 
@@ -1406,8 +1406,8 @@ class Snowball {
         'Notification': notification,
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption,
-        'SnowballCapacityPreference': snowballCapacityPreference,
+        'ShippingOption': shippingOption.toValue(),
+        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
       },
     );
 
@@ -2354,6 +2354,20 @@ enum JobType {
   localUse,
 }
 
+extension on JobType {
+  String toValue() {
+    switch (this) {
+      case JobType.import:
+        return 'IMPORT';
+      case JobType.export:
+        return 'EXPORT';
+      case JobType.localUse:
+        return 'LOCAL_USE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains a key range. For export jobs, a <code>S3Resource</code> object can
 /// have an optional <code>KeyRange</code> value. The length of the range is
 /// defined at job creation, and has either an inclusive
@@ -2690,6 +2704,22 @@ enum ShippingOption {
   standard,
 }
 
+extension on ShippingOption {
+  String toValue() {
+    switch (this) {
+      case ShippingOption.secondDay:
+        return 'SECOND_DAY';
+      case ShippingOption.nextDay:
+        return 'NEXT_DAY';
+      case ShippingOption.express:
+        return 'EXPRESS';
+      case ShippingOption.standard:
+        return 'STANDARD';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SnowballCapacity {
   @_s.JsonValue('T50')
   t50,
@@ -2705,6 +2735,26 @@ enum SnowballCapacity {
   noPreference,
 }
 
+extension on SnowballCapacity {
+  String toValue() {
+    switch (this) {
+      case SnowballCapacity.t50:
+        return 'T50';
+      case SnowballCapacity.t80:
+        return 'T80';
+      case SnowballCapacity.t100:
+        return 'T100';
+      case SnowballCapacity.t42:
+        return 'T42';
+      case SnowballCapacity.t98:
+        return 'T98';
+      case SnowballCapacity.noPreference:
+        return 'NoPreference';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SnowballType {
   @_s.JsonValue('STANDARD')
   standard,
@@ -2716,6 +2766,24 @@ enum SnowballType {
   edgeCg,
   @_s.JsonValue('EDGE_S')
   edgeS,
+}
+
+extension on SnowballType {
+  String toValue() {
+    switch (this) {
+      case SnowballType.standard:
+        return 'STANDARD';
+      case SnowballType.edge:
+        return 'EDGE';
+      case SnowballType.edgeC:
+        return 'EDGE_C';
+      case SnowballType.edgeCg:
+        return 'EDGE_CG';
+      case SnowballType.edgeS:
+        return 'EDGE_S';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The tax documents required in your AWS Region.

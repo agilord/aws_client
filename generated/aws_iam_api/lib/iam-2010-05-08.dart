@@ -4764,7 +4764,7 @@ class IAM {
     $request['JobId'] = jobId;
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
-    sortKey?.also((arg) => $request['SortKey'] = arg);
+    sortKey?.also((arg) => $request['SortKey'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -5173,7 +5173,7 @@ class IAM {
       'Action': 'GetSSHPublicKey',
       'Version': '2010-05-08',
     };
-    $request['Encoding'] = encoding;
+    $request['Encoding'] = encoding.toValue();
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
     $request['UserName'] = userName;
     final $result = await _protocol.send(
@@ -6320,11 +6320,12 @@ class IAM {
       'Version': '2010-05-08',
     };
     $request['PolicyArn'] = policyArn;
-    entityFilter?.also((arg) => $request['EntityFilter'] = arg);
+    entityFilter?.also((arg) => $request['EntityFilter'] = arg.toValue());
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     pathPrefix?.also((arg) => $request['PathPrefix'] = arg);
-    policyUsageFilter?.also((arg) => $request['PolicyUsageFilter'] = arg);
+    policyUsageFilter
+        ?.also((arg) => $request['PolicyUsageFilter'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -7020,8 +7021,9 @@ class IAM {
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     onlyAttached?.also((arg) => $request['OnlyAttached'] = arg);
     pathPrefix?.also((arg) => $request['PathPrefix'] = arg);
-    policyUsageFilter?.also((arg) => $request['PolicyUsageFilter'] = arg);
-    scope?.also((arg) => $request['Scope'] = arg);
+    policyUsageFilter
+        ?.also((arg) => $request['PolicyUsageFilter'] = arg.toValue());
+    scope?.also((arg) => $request['Scope'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -8202,7 +8204,8 @@ class IAM {
       'Action': 'ListVirtualMFADevices',
       'Version': '2010-05-08',
     };
-    assignmentStatus?.also((arg) => $request['AssignmentStatus'] = arg);
+    assignmentStatus
+        ?.also((arg) => $request['AssignmentStatus'] = arg.toValue());
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     final $result = await _protocol.send(
@@ -9252,7 +9255,8 @@ class IAM {
       'Action': 'SetSecurityTokenServicePreferences',
       'Version': '2010-05-08',
     };
-    $request['GlobalEndpointTokenVersion'] = globalEndpointTokenVersion;
+    $request['GlobalEndpointTokenVersion'] =
+        globalEndpointTokenVersion.toValue();
     await _protocol.send(
       $request,
       method: 'POST',
@@ -10323,7 +10327,7 @@ class IAM {
       'Version': '2010-05-08',
     };
     $request['AccessKeyId'] = accessKeyId;
-    $request['Status'] = status;
+    $request['Status'] = status.toValue();
     userName?.also((arg) => $request['UserName'] = arg);
     await _protocol.send(
       $request,
@@ -11127,7 +11131,7 @@ class IAM {
       'Version': '2010-05-08',
     };
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
-    $request['Status'] = status;
+    $request['Status'] = status.toValue();
     $request['UserName'] = userName;
     await _protocol.send(
       $request,
@@ -11318,7 +11322,7 @@ class IAM {
       'Version': '2010-05-08',
     };
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
-    $request['Status'] = status;
+    $request['Status'] = status.toValue();
     userName?.also((arg) => $request['UserName'] = arg);
     await _protocol.send(
       $request,
@@ -11397,7 +11401,7 @@ class IAM {
       'Version': '2010-05-08',
     };
     $request['CertificateId'] = certificateId;
-    $request['Status'] = status;
+    $request['Status'] = status.toValue();
     userName?.also((arg) => $request['UserName'] = arg);
     await _protocol.send(
       $request,
@@ -12679,6 +12683,24 @@ enum EntityType {
   group,
   localManagedPolicy,
   awsManagedPolicy,
+}
+
+extension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.user:
+        return 'User';
+      case EntityType.role:
+        return 'Role';
+      case EntityType.group:
+        return 'Group';
+      case EntityType.localManagedPolicy:
+        return 'LocalManagedPolicy';
+      case EntityType.awsManagedPolicy:
+        return 'AWSManagedPolicy';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -15471,6 +15493,18 @@ enum PolicyUsageType {
   permissionsBoundary,
 }
 
+extension on PolicyUsageType {
+  String toValue() {
+    switch (this) {
+      case PolicyUsageType.permissionsPolicy:
+        return 'PermissionsPolicy';
+      case PolicyUsageType.permissionsBoundary:
+        return 'PermissionsBoundary';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   PolicyUsageType toPolicyUsageType() {
     switch (this) {
@@ -16851,6 +16885,20 @@ enum AssignmentStatusType {
   any,
 }
 
+extension on AssignmentStatusType {
+  String toValue() {
+    switch (this) {
+      case AssignmentStatusType.assigned:
+        return 'Assigned';
+      case AssignmentStatusType.unassigned:
+        return 'Unassigned';
+      case AssignmentStatusType.any:
+        return 'Any';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   AssignmentStatusType toAssignmentStatusType() {
     switch (this) {
@@ -16870,6 +16918,18 @@ enum EncodingType {
   pem,
 }
 
+extension on EncodingType {
+  String toValue() {
+    switch (this) {
+      case EncodingType.ssh:
+        return 'SSH';
+      case EncodingType.pem:
+        return 'PEM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   EncodingType toEncodingType() {
     switch (this) {
@@ -16885,6 +16945,18 @@ extension on String {
 enum GlobalEndpointTokenVersion {
   v1Token,
   v2Token,
+}
+
+extension on GlobalEndpointTokenVersion {
+  String toValue() {
+    switch (this) {
+      case GlobalEndpointTokenVersion.v1Token:
+        return 'v1Token';
+      case GlobalEndpointTokenVersion.v2Token:
+        return 'v2Token';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -16945,6 +17017,20 @@ enum PolicyScopeType {
   local,
 }
 
+extension on PolicyScopeType {
+  String toValue() {
+    switch (this) {
+      case PolicyScopeType.all:
+        return 'All';
+      case PolicyScopeType.aws:
+        return 'AWS';
+      case PolicyScopeType.local:
+        return 'Local';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   PolicyScopeType toPolicyScopeType() {
     switch (this) {
@@ -16983,6 +17069,22 @@ enum SortKeyType {
   lastAuthenticatedTimeDescending,
 }
 
+extension on SortKeyType {
+  String toValue() {
+    switch (this) {
+      case SortKeyType.serviceNamespaceAscending:
+        return 'SERVICE_NAMESPACE_ASCENDING';
+      case SortKeyType.serviceNamespaceDescending:
+        return 'SERVICE_NAMESPACE_DESCENDING';
+      case SortKeyType.lastAuthenticatedTimeAscending:
+        return 'LAST_AUTHENTICATED_TIME_ASCENDING';
+      case SortKeyType.lastAuthenticatedTimeDescending:
+        return 'LAST_AUTHENTICATED_TIME_DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   SortKeyType toSortKeyType() {
     switch (this) {
@@ -17002,6 +17104,18 @@ extension on String {
 enum StatusType {
   active,
   inactive,
+}
+
+extension on StatusType {
+  String toValue() {
+    switch (this) {
+      case StatusType.active:
+        return 'Active';
+      case StatusType.inactive:
+        return 'Inactive';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

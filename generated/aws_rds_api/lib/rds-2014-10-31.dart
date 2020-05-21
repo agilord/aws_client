@@ -3818,7 +3818,7 @@ class RDS {
     };
     $request['Auth'] = auth;
     $request['DBProxyName'] = dBProxyName;
-    $request['EngineFamily'] = engineFamily;
+    $request['EngineFamily'] = engineFamily.toValue();
     $request['RoleArn'] = roleArn;
     $request['VpcSubnetIds'] = vpcSubnetIds;
     debugLogging?.also((arg) => $request['DebugLogging'] = arg);
@@ -7100,7 +7100,7 @@ class RDS {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
-    sourceType?.also((arg) => $request['SourceType'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -13361,7 +13361,7 @@ class RDS {
       'Version': '2014-10-31',
     };
     $request['KmsKeyId'] = kmsKeyId;
-    $request['Mode'] = mode;
+    $request['Mode'] = mode.toValue();
     $request['ResourceArn'] = resourceArn;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     final $result = await _protocol.send(
@@ -13834,6 +13834,18 @@ class AccountQuota {
 enum ActivityStreamMode {
   sync,
   async,
+}
+
+extension on ActivityStreamMode {
+  String toValue() {
+    switch (this) {
+      case ActivityStreamMode.sync:
+        return 'sync';
+      case ActivityStreamMode.async:
+        return 'async';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -18115,6 +18127,18 @@ enum EngineFamily {
   postgresql,
 }
 
+extension on EngineFamily {
+  String toValue() {
+    switch (this) {
+      case EngineFamily.mysql:
+        return 'MYSQL';
+      case EngineFamily.postgresql:
+        return 'POSTGRESQL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   EngineFamily toEngineFamily() {
     switch (this) {
@@ -20782,6 +20806,26 @@ enum SourceType {
   dbSnapshot,
   dbCluster,
   dbClusterSnapshot,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.dbInstance:
+        return 'db-instance';
+      case SourceType.dbParameterGroup:
+        return 'db-parameter-group';
+      case SourceType.dbSecurityGroup:
+        return 'db-security-group';
+      case SourceType.dbSnapshot:
+        return 'db-snapshot';
+      case SourceType.dbCluster:
+        return 'db-cluster';
+      case SourceType.dbClusterSnapshot:
+        return 'db-cluster-snapshot';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

@@ -651,7 +651,7 @@ class DataSync {
       payload: {
         'S3BucketArn': s3BucketArn,
         'S3Config': s3Config,
-        'S3StorageClass': s3StorageClass,
+        'S3StorageClass': s3StorageClass.toValue(),
         'Subdirectory': subdirectory,
         'Tags': tags,
       },
@@ -3422,6 +3422,26 @@ enum S3StorageClass {
   glacier,
   @_s.JsonValue('DEEP_ARCHIVE')
   deepArchive,
+}
+
+extension on S3StorageClass {
+  String toValue() {
+    switch (this) {
+      case S3StorageClass.standard:
+        return 'STANDARD';
+      case S3StorageClass.standardIa:
+        return 'STANDARD_IA';
+      case S3StorageClass.onezoneIa:
+        return 'ONEZONE_IA';
+      case S3StorageClass.intelligentTiering:
+        return 'INTELLIGENT_TIERING';
+      case S3StorageClass.glacier:
+        return 'GLACIER';
+      case S3StorageClass.deepArchive:
+        return 'DEEP_ARCHIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the mount options that are available for DataSync to access an

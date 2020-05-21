@@ -654,7 +654,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'Tier': tier,
+        'Tier': tier.toValue(),
       },
     );
 
@@ -1063,7 +1063,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'EndTime': endTime,
-        'EventStatus': eventStatus,
+        'EventStatus': eventStatus.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'ResourceGroupName': resourceGroupName,
@@ -1642,7 +1642,7 @@ class ApplicationInsights {
         'ResourceGroupName': resourceGroupName,
         'ComponentConfiguration': componentConfiguration,
         'Monitor': monitor,
-        'Tier': tier,
+        'Tier': tier.toValue(),
       },
     );
 
@@ -1910,6 +1910,20 @@ enum ConfigurationEventStatus {
   warn,
   @_s.JsonValue('ERROR')
   error,
+}
+
+extension on ConfigurationEventStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigurationEventStatus.info:
+        return 'INFO';
+      case ConfigurationEventStatus.warn:
+        return 'WARN';
+      case ConfigurationEventStatus.error:
+        return 'ERROR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -2757,6 +2771,24 @@ enum Tier {
   dotNetWeb,
   @_s.JsonValue('SQL_SERVER')
   sqlServer,
+}
+
+extension on Tier {
+  String toValue() {
+    switch (this) {
+      case Tier.$default:
+        return 'DEFAULT';
+      case Tier.dotNetCore:
+        return 'DOT_NET_CORE';
+      case Tier.dotNetWorker:
+        return 'DOT_NET_WORKER';
+      case Tier.dotNetWeb:
+        return 'DOT_NET_WEB';
+      case Tier.sqlServer:
+        return 'SQL_SERVER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

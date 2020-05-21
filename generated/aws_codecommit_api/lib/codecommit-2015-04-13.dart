@@ -282,11 +282,11 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption,
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'filePaths': filePaths,
         'maxConflictFiles': maxConflictFiles,
         'maxMergeHunks': maxMergeHunks,
@@ -1219,14 +1219,14 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption,
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         'authorName': authorName,
         'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
         'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'email': email,
         'keepEmptyFolders': keepEmptyFolders,
       },
@@ -1715,11 +1715,11 @@ class CodeCommit {
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'filePath': filePath,
-        'mergeOption': mergeOption,
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'maxMergeHunks': maxMergeHunks,
         'nextToken': nextToken,
       },
@@ -1788,7 +1788,7 @@ class CodeCommit {
         'actorArn': actorArn,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'pullRequestEventType': pullRequestEventType,
+        'pullRequestEventType': pullRequestEventType.toValue(),
       },
     );
 
@@ -2646,8 +2646,8 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
       },
     );
 
@@ -2753,11 +2753,11 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption,
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'maxConflictFiles': maxConflictFiles,
         'nextToken': nextToken,
       },
@@ -2849,8 +2849,8 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
       },
     );
 
@@ -3320,7 +3320,7 @@ class CodeCommit {
         'authorArn': authorArn,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'pullRequestStatus': pullRequestStatus,
+        'pullRequestStatus': pullRequestStatus.toValue(),
       },
     );
 
@@ -3361,8 +3361,8 @@ class CodeCommit {
       headers: headers,
       payload: {
         'nextToken': nextToken,
-        'order': order,
-        'sortBy': sortBy,
+        'order': order.toValue(),
+        'sortBy': sortBy.toValue(),
       },
     );
 
@@ -3697,9 +3697,9 @@ class CodeCommit {
         'sourceCommitSpecifier': sourceCommitSpecifier,
         'authorName': authorName,
         'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
         'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'email': email,
         'keepEmptyFolders': keepEmptyFolders,
         'targetBranch': targetBranch,
@@ -3849,9 +3849,9 @@ class CodeCommit {
         'sourceCommitSpecifier': sourceCommitSpecifier,
         'authorName': authorName,
         'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
         'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'email': email,
         'keepEmptyFolders': keepEmptyFolders,
         'targetBranch': targetBranch,
@@ -4069,9 +4069,9 @@ class CodeCommit {
         'repositoryName': repositoryName,
         'authorName': authorName,
         'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
         'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'email': email,
         'keepEmptyFolders': keepEmptyFolders,
         'sourceCommitId': sourceCommitId,
@@ -4212,9 +4212,9 @@ class CodeCommit {
         'repositoryName': repositoryName,
         'authorName': authorName,
         'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel,
+        'conflictDetailLevel': conflictDetailLevel.toValue(),
         'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy,
+        'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
         'email': email,
         'keepEmptyFolders': keepEmptyFolders,
         'sourceCommitId': sourceCommitId,
@@ -4276,7 +4276,7 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'overrideStatus': overrideStatus,
+        'overrideStatus': overrideStatus.toValue(),
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -4675,7 +4675,7 @@ class CodeCommit {
         'repositoryName': repositoryName,
         'commitMessage': commitMessage,
         'email': email,
-        'fileMode': fileMode,
+        'fileMode': fileMode.toValue(),
         'name': name,
         'parentCommitId': parentCommitId,
       },
@@ -5355,7 +5355,7 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'approvalState': approvalState,
+        'approvalState': approvalState.toValue(),
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -5449,7 +5449,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'pullRequestId': pullRequestId,
-        'pullRequestStatus': pullRequestStatus,
+        'pullRequestStatus': pullRequestStatus.toValue(),
       },
     );
 
@@ -5831,6 +5831,18 @@ enum ApprovalState {
   approve,
   @_s.JsonValue('REVOKE')
   revoke,
+}
+
+extension on ApprovalState {
+  String toValue() {
+    switch (this) {
+      case ApprovalState.approve:
+        return 'APPROVE';
+      case ApprovalState.revoke:
+        return 'REVOKE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Returns information about a change in the approval state for a pull request.
@@ -6468,6 +6480,18 @@ enum ConflictDetailLevelTypeEnum {
   lineLevel,
 }
 
+extension on ConflictDetailLevelTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ConflictDetailLevelTypeEnum.fileLevel:
+        return 'FILE_LEVEL';
+      case ConflictDetailLevelTypeEnum.lineLevel:
+        return 'LINE_LEVEL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about the metadata for a conflict in a merge operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6576,6 +6600,22 @@ enum ConflictResolutionStrategyTypeEnum {
   acceptDestination,
   @_s.JsonValue('AUTOMERGE')
   automerge,
+}
+
+extension on ConflictResolutionStrategyTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ConflictResolutionStrategyTypeEnum.none:
+        return 'NONE';
+      case ConflictResolutionStrategyTypeEnum.acceptSource:
+        return 'ACCEPT_SOURCE';
+      case ConflictResolutionStrategyTypeEnum.acceptDestination:
+        return 'ACCEPT_DESTINATION';
+      case ConflictResolutionStrategyTypeEnum.automerge:
+        return 'AUTOMERGE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -7084,6 +7124,20 @@ enum FileModeTypeEnum {
   normal,
   @_s.JsonValue('SYMLINK')
   symlink,
+}
+
+extension on FileModeTypeEnum {
+  String toValue() {
+    switch (this) {
+      case FileModeTypeEnum.executable:
+        return 'EXECUTABLE';
+      case FileModeTypeEnum.normal:
+        return 'NORMAL';
+      case FileModeTypeEnum.symlink:
+        return 'SYMLINK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about file modes in a merge or pull request.
@@ -8088,6 +8142,20 @@ enum MergeOptionTypeEnum {
   threeWayMerge,
 }
 
+extension on MergeOptionTypeEnum {
+  String toValue() {
+    switch (this) {
+      case MergeOptionTypeEnum.fastForwardMerge:
+        return 'FAST_FORWARD_MERGE';
+      case MergeOptionTypeEnum.squashMerge:
+        return 'SQUASH_MERGE';
+      case MergeOptionTypeEnum.threeWayMerge:
+        return 'THREE_WAY_MERGE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8185,6 +8253,18 @@ enum OrderEnum {
   descending,
 }
 
+extension on OrderEnum {
+  String toValue() {
+    switch (this) {
+      case OrderEnum.ascending:
+        return 'ascending';
+      case OrderEnum.descending:
+        return 'descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Returns information about the template that created the approval rule for a
 /// pull request.
 @_s.JsonSerializable(
@@ -8214,6 +8294,18 @@ enum OverrideStatus {
   override,
   @_s.JsonValue('REVOKE')
   revoke,
+}
+
+extension on OverrideStatus {
+  String toValue() {
+    switch (this) {
+      case OverrideStatus.override:
+        return 'OVERRIDE';
+      case OverrideStatus.revoke:
+        return 'REVOKE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -8550,6 +8642,32 @@ enum PullRequestEventType {
   pullRequestApprovalStateChanged,
 }
 
+extension on PullRequestEventType {
+  String toValue() {
+    switch (this) {
+      case PullRequestEventType.pullRequestCreated:
+        return 'PULL_REQUEST_CREATED';
+      case PullRequestEventType.pullRequestStatusChanged:
+        return 'PULL_REQUEST_STATUS_CHANGED';
+      case PullRequestEventType.pullRequestSourceReferenceUpdated:
+        return 'PULL_REQUEST_SOURCE_REFERENCE_UPDATED';
+      case PullRequestEventType.pullRequestMergeStateChanged:
+        return 'PULL_REQUEST_MERGE_STATE_CHANGED';
+      case PullRequestEventType.pullRequestApprovalRuleCreated:
+        return 'PULL_REQUEST_APPROVAL_RULE_CREATED';
+      case PullRequestEventType.pullRequestApprovalRuleUpdated:
+        return 'PULL_REQUEST_APPROVAL_RULE_UPDATED';
+      case PullRequestEventType.pullRequestApprovalRuleDeleted:
+        return 'PULL_REQUEST_APPROVAL_RULE_DELETED';
+      case PullRequestEventType.pullRequestApprovalRuleOverridden:
+        return 'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN';
+      case PullRequestEventType.pullRequestApprovalStateChanged:
+        return 'PULL_REQUEST_APPROVAL_STATE_CHANGED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Returns information about the change in the merge state for a pull request
 /// event.
 @_s.JsonSerializable(
@@ -8641,6 +8759,18 @@ enum PullRequestStatusEnum {
   open,
   @_s.JsonValue('CLOSED')
   closed,
+}
+
+extension on PullRequestStatusEnum {
+  String toValue() {
+    switch (this) {
+      case PullRequestStatusEnum.open:
+        return 'OPEN';
+      case PullRequestStatusEnum.closed:
+        return 'CLOSED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Returns information about a pull request target.
@@ -9034,6 +9164,18 @@ enum SortByEnum {
   repositoryName,
   @_s.JsonValue('lastModifiedDate')
   lastModifiedDate,
+}
+
+extension on SortByEnum {
+  String toValue() {
+    switch (this) {
+      case SortByEnum.repositoryName:
+        return 'repositoryName';
+      case SortByEnum.lastModifiedDate:
+        return 'lastModifiedDate';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a source file that is part of changes made in a commit.

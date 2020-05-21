@@ -769,15 +769,15 @@ class ECS {
         'desiredCount': desiredCount,
         'enableECSManagedTags': enableECSManagedTags,
         'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        'launchType': launchType,
+        'launchType': launchType.toValue(),
         'loadBalancers': loadBalancers,
         'networkConfiguration': networkConfiguration,
         'placementConstraints': placementConstraints,
         'placementStrategy': placementStrategy,
         'platformVersion': platformVersion,
-        'propagateTags': propagateTags,
+        'propagateTags': propagateTags.toValue(),
         'role': role,
-        'schedulingStrategy': schedulingStrategy,
+        'schedulingStrategy': schedulingStrategy.toValue(),
         'serviceRegistries': serviceRegistries,
         'tags': tags,
         'taskDefinition': taskDefinition,
@@ -957,7 +957,7 @@ class ECS {
         'capacityProviderStrategy': capacityProviderStrategy,
         'clientToken': clientToken,
         'externalId': externalId,
-        'launchType': launchType,
+        'launchType': launchType.toValue(),
         'loadBalancers': loadBalancers,
         'networkConfiguration': networkConfiguration,
         'platformVersion': platformVersion,
@@ -1009,7 +1009,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name,
+        'name': name.toValue(),
         'principalArn': principalArn,
       },
     );
@@ -1869,7 +1869,7 @@ class ECS {
       payload: {
         'effectiveSettings': effectiveSettings,
         'maxResults': maxResults,
-        'name': name,
+        'name': name.toValue(),
         'nextToken': nextToken,
         'principalArn': principalArn,
         'value': value,
@@ -1947,7 +1947,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'targetType': targetType,
+        'targetType': targetType.toValue(),
         'attributeName': attributeName,
         'attributeValue': attributeValue,
         'cluster': cluster,
@@ -2088,7 +2088,7 @@ class ECS {
         'filter': filter,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'status': status,
+        'status': status.toValue(),
       },
     );
 
@@ -2153,10 +2153,10 @@ class ECS {
       headers: headers,
       payload: {
         'cluster': cluster,
-        'launchType': launchType,
+        'launchType': launchType.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'schedulingStrategy': schedulingStrategy,
+        'schedulingStrategy': schedulingStrategy.toValue(),
       },
     );
 
@@ -2271,7 +2271,7 @@ class ECS {
         'familyPrefix': familyPrefix,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'status': status,
+        'status': status.toValue(),
       },
     );
 
@@ -2354,8 +2354,8 @@ class ECS {
         'familyPrefix': familyPrefix,
         'maxResults': maxResults,
         'nextToken': nextToken,
-        'sort': sort,
-        'status': status,
+        'sort': sort.toValue(),
+        'status': status.toValue(),
       },
     );
 
@@ -2465,9 +2465,9 @@ class ECS {
       payload: {
         'cluster': cluster,
         'containerInstance': containerInstance,
-        'desiredStatus': desiredStatus,
+        'desiredStatus': desiredStatus.toValue(),
         'family': family,
-        'launchType': launchType,
+        'launchType': launchType.toValue(),
         'maxResults': maxResults,
         'nextToken': nextToken,
         'serviceName': serviceName,
@@ -2560,7 +2560,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name,
+        'name': name.toValue(),
         'value': value,
         'principalArn': principalArn,
       },
@@ -2610,7 +2610,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name,
+        'name': name.toValue(),
         'value': value,
       },
     );
@@ -3217,10 +3217,10 @@ class ECS {
         'cpu': cpu,
         'executionRoleArn': executionRoleArn,
         'inferenceAccelerators': inferenceAccelerators,
-        'ipcMode': ipcMode,
+        'ipcMode': ipcMode.toValue(),
         'memory': memory,
-        'networkMode': networkMode,
-        'pidMode': pidMode,
+        'networkMode': networkMode.toValue(),
+        'pidMode': pidMode.toValue(),
         'placementConstraints': placementConstraints,
         'proxyConfiguration': proxyConfiguration,
         'requiresCompatibilities': requiresCompatibilities,
@@ -3487,13 +3487,13 @@ class ECS {
         'count': count,
         'enableECSManagedTags': enableECSManagedTags,
         'group': group,
-        'launchType': launchType,
+        'launchType': launchType.toValue(),
         'networkConfiguration': networkConfiguration,
         'overrides': overrides,
         'placementConstraints': placementConstraints,
         'placementStrategy': placementStrategy,
         'platformVersion': platformVersion,
-        'propagateTags': propagateTags,
+        'propagateTags': propagateTags.toValue(),
         'referenceId': referenceId,
         'startedBy': startedBy,
         'tags': tags,
@@ -3655,7 +3655,7 @@ class ECS {
         'group': group,
         'networkConfiguration': networkConfiguration,
         'overrides': overrides,
-        'propagateTags': propagateTags,
+        'propagateTags': propagateTags.toValue(),
         'referenceId': referenceId,
         'startedBy': startedBy,
         'tags': tags,
@@ -4229,7 +4229,7 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstances': containerInstances,
-        'status': status,
+        'status': status.toValue(),
         'cluster': cluster,
       },
     );
@@ -6436,6 +6436,24 @@ enum ContainerInstanceStatus {
   registrationFailed,
 }
 
+extension on ContainerInstanceStatus {
+  String toValue() {
+    switch (this) {
+      case ContainerInstanceStatus.active:
+        return 'ACTIVE';
+      case ContainerInstanceStatus.draining:
+        return 'DRAINING';
+      case ContainerInstanceStatus.registering:
+        return 'REGISTERING';
+      case ContainerInstanceStatus.deregistering:
+        return 'DEREGISTERING';
+      case ContainerInstanceStatus.registrationFailed:
+        return 'REGISTRATION_FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The overrides that should be sent to a container. An empty container
 /// override can be passed in. An example of an empty container override would
 /// be <code>{"containerOverrides": [ ] }</code>. If a non-empty container
@@ -7178,6 +7196,20 @@ enum DesiredStatus {
   stopped,
 }
 
+extension on DesiredStatus {
+  String toValue() {
+    switch (this) {
+      case DesiredStatus.running:
+        return 'RUNNING';
+      case DesiredStatus.pending:
+        return 'PENDING';
+      case DesiredStatus.stopped:
+        return 'STOPPED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An object representing a container instance host device.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7770,6 +7802,20 @@ enum IpcMode {
   none,
 }
 
+extension on IpcMode {
+  String toValue() {
+    switch (this) {
+      case IpcMode.host:
+        return 'host';
+      case IpcMode.task:
+        return 'task';
+      case IpcMode.none:
+        return 'none';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The Linux capabilities for the container that are added to or dropped from
 /// the default configuration provided by Docker. For more information on the
 /// default capabilities and the non-default available capabilities, see <a
@@ -7869,6 +7915,18 @@ enum LaunchType {
   ec2,
   @_s.JsonValue('FARGATE')
   fargate,
+}
+
+extension on LaunchType {
+  String toValue() {
+    switch (this) {
+      case LaunchType.ec2:
+        return 'EC2';
+      case LaunchType.fargate:
+        return 'FARGATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Linux-specific options that are applied to the container, such as Linux
@@ -8627,11 +8685,39 @@ enum NetworkMode {
   none,
 }
 
+extension on NetworkMode {
+  String toValue() {
+    switch (this) {
+      case NetworkMode.bridge:
+        return 'bridge';
+      case NetworkMode.host:
+        return 'host';
+      case NetworkMode.awsvpc:
+        return 'awsvpc';
+      case NetworkMode.none:
+        return 'none';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum PidMode {
   @_s.JsonValue('host')
   host,
   @_s.JsonValue('task')
   task,
+}
+
+extension on PidMode {
+  String toValue() {
+    switch (this) {
+      case PidMode.host:
+        return 'host';
+      case PidMode.task:
+        return 'task';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An object representing a constraint on task placement. For more information,
@@ -8860,6 +8946,18 @@ enum PropagateTags {
   taskDefinition,
   @_s.JsonValue('SERVICE')
   service,
+}
+
+extension on PropagateTags {
+  String toValue() {
+    switch (this) {
+      case PropagateTags.taskDefinition:
+        return 'TASK_DEFINITION';
+      case PropagateTags.service:
+        return 'SERVICE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The configuration details for the App Mesh proxy.
@@ -9245,6 +9343,18 @@ enum SchedulingStrategy {
   replica,
   @_s.JsonValue('DAEMON')
   daemon,
+}
+
+extension on SchedulingStrategy {
+  String toValue() {
+    switch (this) {
+      case SchedulingStrategy.replica:
+        return 'REPLICA';
+      case SchedulingStrategy.daemon:
+        return 'DAEMON';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum Scope {
@@ -9695,11 +9805,41 @@ enum SettingName {
   containerInsights,
 }
 
+extension on SettingName {
+  String toValue() {
+    switch (this) {
+      case SettingName.serviceLongArnFormat:
+        return 'serviceLongArnFormat';
+      case SettingName.taskLongArnFormat:
+        return 'taskLongArnFormat';
+      case SettingName.containerInstanceLongArnFormat:
+        return 'containerInstanceLongArnFormat';
+      case SettingName.awsvpcTrunking:
+        return 'awsvpcTrunking';
+      case SettingName.containerInsights:
+        return 'containerInsights';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SortOrder {
   @_s.JsonValue('ASC')
   asc,
   @_s.JsonValue('DESC')
   desc,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.asc:
+        return 'ASC';
+      case SortOrder.desc:
+        return 'DESC';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum StabilityStatus {
@@ -9930,6 +10070,16 @@ class TagResourceResponse {
 enum TargetType {
   @_s.JsonValue('container-instance')
   containerInstance,
+}
+
+extension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.containerInstance:
+        return 'container-instance';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Details on a task in a cluster.
@@ -10589,6 +10739,20 @@ enum TaskDefinitionFamilyStatus {
   all,
 }
 
+extension on TaskDefinitionFamilyStatus {
+  String toValue() {
+    switch (this) {
+      case TaskDefinitionFamilyStatus.active:
+        return 'ACTIVE';
+      case TaskDefinitionFamilyStatus.inactive:
+        return 'INACTIVE';
+      case TaskDefinitionFamilyStatus.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum TaskDefinitionField {
   @_s.JsonValue('TAGS')
   tags,
@@ -10644,6 +10808,18 @@ enum TaskDefinitionStatus {
   active,
   @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+extension on TaskDefinitionStatus {
+  String toValue() {
+    switch (this) {
+      case TaskDefinitionStatus.active:
+        return 'ACTIVE';
+      case TaskDefinitionStatus.inactive:
+        return 'INACTIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum TaskField {

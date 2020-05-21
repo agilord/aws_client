@@ -312,7 +312,7 @@ class EMR {
       payload: {
         'ClusterId': clusterId,
         'StepIds': stepIds,
-        'StepCancellationOption': stepCancellationOption,
+        'StepCancellationOption': stepCancellationOption.toValue(),
       },
     );
 
@@ -820,7 +820,7 @@ class EMR {
       payload: {
         'ClusterId': clusterId,
         'InstanceFleetId': instanceFleetId,
-        'InstanceFleetType': instanceFleetType,
+        'InstanceFleetType': instanceFleetType.toValue(),
         'InstanceGroupId': instanceGroupId,
         'InstanceGroupTypes': instanceGroupTypes,
         'InstanceStates': instanceStates,
@@ -1579,8 +1579,8 @@ class EMR {
         'LogUri': logUri,
         'NewSupportedProducts': newSupportedProducts,
         'ReleaseLabel': releaseLabel,
-        'RepoUpgradeOnBoot': repoUpgradeOnBoot,
-        'ScaleDownBehavior': scaleDownBehavior,
+        'RepoUpgradeOnBoot': repoUpgradeOnBoot.toValue(),
+        'ScaleDownBehavior': scaleDownBehavior.toValue(),
         'SecurityConfiguration': securityConfiguration,
         'ServiceRole': serviceRole,
         'StepConcurrencyLevel': stepConcurrencyLevel,
@@ -3682,6 +3682,20 @@ enum InstanceFleetType {
   task,
 }
 
+extension on InstanceFleetType {
+  String toValue() {
+    switch (this) {
+      case InstanceFleetType.master:
+        return 'MASTER';
+      case InstanceFleetType.core:
+        return 'CORE';
+      case InstanceFleetType.task:
+        return 'TASK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// This entity represents an instance group, which is a group of instances that
 /// have common purpose. For example, CORE instance group is used for HDFS.
 @_s.JsonSerializable(
@@ -5223,6 +5237,18 @@ enum RepoUpgradeOnBoot {
   none,
 }
 
+extension on RepoUpgradeOnBoot {
+  String toValue() {
+    switch (this) {
+      case RepoUpgradeOnBoot.security:
+        return 'SECURITY';
+      case RepoUpgradeOnBoot.none:
+        return 'NONE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The result of the <a>RunJobFlow</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5251,6 +5277,18 @@ enum ScaleDownBehavior {
   terminateAtInstanceHour,
   @_s.JsonValue('TERMINATE_AT_TASK_COMPLETION')
   terminateAtTaskCompletion,
+}
+
+extension on ScaleDownBehavior {
+  String toValue() {
+    switch (this) {
+      case ScaleDownBehavior.terminateAtInstanceHour:
+        return 'TERMINATE_AT_INSTANCE_HOUR';
+      case ScaleDownBehavior.terminateAtTaskCompletion:
+        return 'TERMINATE_AT_TASK_COMPLETION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The type of adjustment the automatic scaling activity makes when triggered,
@@ -5624,6 +5662,18 @@ enum StepCancellationOption {
   sendInterrupt,
   @_s.JsonValue('TERMINATE_PROCESS')
   terminateProcess,
+}
+
+extension on StepCancellationOption {
+  String toValue() {
+    switch (this) {
+      case StepCancellationOption.sendInterrupt:
+        return 'SEND_INTERRUPT';
+      case StepCancellationOption.terminateProcess:
+        return 'TERMINATE_PROCESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specification of a cluster (job flow) step.

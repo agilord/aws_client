@@ -93,7 +93,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType.toValue(),
         'Tags': tags,
       },
     );
@@ -1053,7 +1053,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelType': mLModelType,
+        'MLModelType': mLModelType.toValue(),
         'TrainingDataSourceId': trainingDataSourceId,
         'MLModelName': mLModelName,
         'Parameters': parameters,
@@ -1411,7 +1411,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType.toValue(),
         'TagKeys': tagKeys,
       },
     );
@@ -1627,7 +1627,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable,
+        'FilterVariable': filterVariable.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -1636,7 +1636,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1845,7 +1845,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable,
+        'FilterVariable': filterVariable.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -1854,7 +1854,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2066,7 +2066,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable,
+        'FilterVariable': filterVariable.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -2075,7 +2075,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2295,7 +2295,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'EQ': eq,
-        'FilterVariable': filterVariable,
+        'FilterVariable': filterVariable.toValue(),
         'GE': ge,
         'GT': gt,
         'LE': le,
@@ -2304,7 +2304,7 @@ class MachineLearning {
         'NE': ne,
         'NextToken': nextToken,
         'Prefix': prefix,
-        'SortOrder': sortOrder,
+        'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2353,7 +2353,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -3095,6 +3095,30 @@ enum BatchPredictionFilterVariable {
   dataURI,
 }
 
+extension on BatchPredictionFilterVariable {
+  String toValue() {
+    switch (this) {
+      case BatchPredictionFilterVariable.createdAt:
+        return 'CreatedAt';
+      case BatchPredictionFilterVariable.lastUpdatedAt:
+        return 'LastUpdatedAt';
+      case BatchPredictionFilterVariable.status:
+        return 'Status';
+      case BatchPredictionFilterVariable.name:
+        return 'Name';
+      case BatchPredictionFilterVariable.iAMUser:
+        return 'IAMUser';
+      case BatchPredictionFilterVariable.mLModelId:
+        return 'MLModelId';
+      case BatchPredictionFilterVariable.dataSourceId:
+        return 'DataSourceId';
+      case BatchPredictionFilterVariable.dataURI:
+        return 'DataURI';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents the output of a <code>CreateBatchPrediction</code> operation, and
 /// is an acknowledgement that Amazon ML received the request.
 ///
@@ -3431,6 +3455,26 @@ enum DataSourceFilterVariable {
   dataLocationS3,
   @_s.JsonValue('IAMUser')
   iAMUser,
+}
+
+extension on DataSourceFilterVariable {
+  String toValue() {
+    switch (this) {
+      case DataSourceFilterVariable.createdAt:
+        return 'CreatedAt';
+      case DataSourceFilterVariable.lastUpdatedAt:
+        return 'LastUpdatedAt';
+      case DataSourceFilterVariable.status:
+        return 'Status';
+      case DataSourceFilterVariable.name:
+        return 'Name';
+      case DataSourceFilterVariable.dataLocationS3:
+        return 'DataLocationS3';
+      case DataSourceFilterVariable.iAMUser:
+        return 'IAMUser';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of a <code>DeleteBatchPrediction</code> operation.
@@ -3899,6 +3943,30 @@ enum EvaluationFilterVariable {
   dataSourceId,
   @_s.JsonValue('DataURI')
   dataURI,
+}
+
+extension on EvaluationFilterVariable {
+  String toValue() {
+    switch (this) {
+      case EvaluationFilterVariable.createdAt:
+        return 'CreatedAt';
+      case EvaluationFilterVariable.lastUpdatedAt:
+        return 'LastUpdatedAt';
+      case EvaluationFilterVariable.status:
+        return 'Status';
+      case EvaluationFilterVariable.name:
+        return 'Name';
+      case EvaluationFilterVariable.iAMUser:
+        return 'IAMUser';
+      case EvaluationFilterVariable.mLModelId:
+        return 'MLModelId';
+      case EvaluationFilterVariable.dataSourceId:
+        return 'DataSourceId';
+      case EvaluationFilterVariable.dataURI:
+        return 'DataURI';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
@@ -4868,6 +4936,34 @@ enum MLModelFilterVariable {
   trainingDataURI,
 }
 
+extension on MLModelFilterVariable {
+  String toValue() {
+    switch (this) {
+      case MLModelFilterVariable.createdAt:
+        return 'CreatedAt';
+      case MLModelFilterVariable.lastUpdatedAt:
+        return 'LastUpdatedAt';
+      case MLModelFilterVariable.status:
+        return 'Status';
+      case MLModelFilterVariable.name:
+        return 'Name';
+      case MLModelFilterVariable.iAMUser:
+        return 'IAMUser';
+      case MLModelFilterVariable.trainingDataSourceId:
+        return 'TrainingDataSourceId';
+      case MLModelFilterVariable.realtimeEndpointStatus:
+        return 'RealtimeEndpointStatus';
+      case MLModelFilterVariable.mLModelType:
+        return 'MLModelType';
+      case MLModelFilterVariable.algorithm:
+        return 'Algorithm';
+      case MLModelFilterVariable.trainingDataURI:
+        return 'TrainingDataURI';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum MLModelType {
   @_s.JsonValue('REGRESSION')
   regression,
@@ -4875,6 +4971,20 @@ enum MLModelType {
   binary,
   @_s.JsonValue('MULTICLASS')
   multiclass,
+}
+
+extension on MLModelType {
+  String toValue() {
+    switch (this) {
+      case MLModelType.regression:
+        return 'REGRESSION';
+      case MLModelType.binary:
+        return 'BINARY';
+      case MLModelType.multiclass:
+        return 'MULTICLASS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Measurements of how well the <code>MLModel</code> performed on known
@@ -5820,6 +5930,18 @@ enum SortOrder {
   dsc,
 }
 
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.asc:
+        return 'asc';
+      case SortOrder.dsc:
+        return 'dsc';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A custom key-value pair associated with an ML object, such as an ML model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5872,6 +5994,22 @@ enum TaggableResourceType {
   evaluation,
   @_s.JsonValue('MLModel')
   mLModel,
+}
+
+extension on TaggableResourceType {
+  String toValue() {
+    switch (this) {
+      case TaggableResourceType.batchPrediction:
+        return 'BatchPrediction';
+      case TaggableResourceType.dataSource:
+        return 'DataSource';
+      case TaggableResourceType.evaluation:
+        return 'Evaluation';
+      case TaggableResourceType.mLModel:
+        return 'MLModel';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the output of an <code>UpdateBatchPrediction</code> operation.

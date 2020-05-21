@@ -480,7 +480,7 @@ class LakeFormation {
         'NextToken': nextToken,
         'Principal': principal,
         'Resource': resource,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -941,6 +941,22 @@ enum DataLakeResourceType {
   table,
   @_s.JsonValue('DATA_LOCATION')
   dataLocation,
+}
+
+extension on DataLakeResourceType {
+  String toValue() {
+    switch (this) {
+      case DataLakeResourceType.catalog:
+        return 'CATALOG';
+      case DataLakeResourceType.database:
+        return 'DATABASE';
+      case DataLakeResourceType.table:
+        return 'TABLE';
+      case DataLakeResourceType.dataLocation:
+        return 'DATA_LOCATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The AWS Lake Formation principal.

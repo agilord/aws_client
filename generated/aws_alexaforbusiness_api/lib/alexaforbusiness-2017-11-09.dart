@@ -518,7 +518,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContentRange': contentRange,
-        'Format': format,
+        'Format': format.toValue(),
         'ClientRequestToken': clientRequestToken,
         'Recurrence': recurrence,
         'S3BucketName': s3BucketName,
@@ -600,7 +600,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType,
+        'ConferenceProviderType': conferenceProviderType.toValue(),
         'MeetingSetting': meetingSetting,
         'ClientRequestToken': clientRequestToken,
         'IPDialIn': iPDialIn,
@@ -954,12 +954,12 @@ class AlexaForBusiness {
       payload: {
         'ClientRequestToken': clientRequestToken,
         'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType,
+        'SecurityType': securityType.toValue(),
         'Ssid': ssid,
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CurrentPassword': currentPassword,
         'Description': description,
-        'EapMethod': eapMethod,
+        'EapMethod': eapMethod.toValue(),
         'NextPassword': nextPassword,
         'TrustAnchors': trustAnchors,
       },
@@ -1086,11 +1086,11 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit,
+        'DistanceUnit': distanceUnit.toValue(),
         'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit,
+        'TemperatureUnit': temperatureUnit.toValue(),
         'Timezone': timezone,
-        'WakeWord': wakeWord,
+        'WakeWord': wakeWord.toValue(),
         'ClientRequestToken': clientRequestToken,
         'Locale': locale,
         'MaxVolumeLimit': maxVolumeLimit,
@@ -1607,7 +1607,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType,
+        'DeviceUsageType': deviceUsageType.toValue(),
       },
     );
 
@@ -2752,7 +2752,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'EventType': eventType,
+        'EventType': eventType.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
       },
@@ -2917,11 +2917,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EnablementType': enablementType,
+        'EnablementType': enablementType.toValue(),
         'MaxResults': maxResults,
         'NextToken': nextToken,
         'SkillGroupArn': skillGroupArn,
-        'SkillType': skillType,
+        'SkillType': skillType.toValue(),
       },
     );
 
@@ -4493,7 +4493,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ScheduleArn': scheduleArn,
-        'Format': format,
+        'Format': format.toValue(),
         'Recurrence': recurrence,
         'S3BucketName': s3BucketName,
         'S3KeyPrefix': s3KeyPrefix,
@@ -4551,7 +4551,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType,
+        'ConferenceProviderType': conferenceProviderType.toValue(),
         'MeetingSetting': meetingSetting,
         'IPDialIn': iPDialIn,
         'PSTNDialIn': pSTNDialIn,
@@ -5096,7 +5096,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit,
+        'DistanceUnit': distanceUnit.toValue(),
         'IsDefault': isDefault,
         'Locale': locale,
         'MaxVolumeLimit': maxVolumeLimit,
@@ -5105,9 +5105,9 @@ class AlexaForBusiness {
         'ProfileArn': profileArn,
         'ProfileName': profileName,
         'SetupModeDisabled': setupModeDisabled,
-        'TemperatureUnit': temperatureUnit,
+        'TemperatureUnit': temperatureUnit.toValue(),
         'Timezone': timezone,
-        'WakeWord': wakeWord,
+        'WakeWord': wakeWord.toValue(),
       },
     );
 
@@ -5516,6 +5516,18 @@ enum BusinessReportFormat {
   csvZip,
 }
 
+extension on BusinessReportFormat {
+  String toValue() {
+    switch (this) {
+      case BusinessReportFormat.csv:
+        return 'CSV';
+      case BusinessReportFormat.csvZip:
+        return 'CSV_ZIP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum BusinessReportInterval {
   @_s.JsonValue('ONE_DAY')
   oneDay,
@@ -5753,6 +5765,34 @@ enum ConferenceProviderType {
   zoom,
   @_s.JsonValue('CUSTOM')
   custom,
+}
+
+extension on ConferenceProviderType {
+  String toValue() {
+    switch (this) {
+      case ConferenceProviderType.chime:
+        return 'CHIME';
+      case ConferenceProviderType.bluejeans:
+        return 'BLUEJEANS';
+      case ConferenceProviderType.fuze:
+        return 'FUZE';
+      case ConferenceProviderType.googleHangouts:
+        return 'GOOGLE_HANGOUTS';
+      case ConferenceProviderType.polycom:
+        return 'POLYCOM';
+      case ConferenceProviderType.ringcentral:
+        return 'RINGCENTRAL';
+      case ConferenceProviderType.skypeForBusiness:
+        return 'SKYPE_FOR_BUSINESS';
+      case ConferenceProviderType.webex:
+        return 'WEBEX';
+      case ConferenceProviderType.zoom:
+        return 'ZOOM';
+      case ConferenceProviderType.custom:
+        return 'CUSTOM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ConnectionStatus {
@@ -6545,6 +6585,18 @@ enum DeviceEventType {
   deviceStatus,
 }
 
+extension on DeviceEventType {
+  String toValue() {
+    switch (this) {
+      case DeviceEventType.connectionStatus:
+        return 'CONNECTION_STATUS';
+      case DeviceEventType.deviceStatus:
+        return 'DEVICE_STATUS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Detailed information about a device's network profile.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6681,6 +6733,16 @@ enum DeviceUsageType {
   voice,
 }
 
+extension on DeviceUsageType {
+  String toValue() {
+    switch (this) {
+      case DeviceUsageType.voice:
+        return 'VOICE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6748,6 +6810,18 @@ enum DistanceUnit {
   imperial,
 }
 
+extension on DistanceUnit {
+  String toValue() {
+    switch (this) {
+      case DistanceUnit.metric:
+        return 'METRIC';
+      case DistanceUnit.imperial:
+        return 'IMPERIAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum EnablementType {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -6760,6 +6834,18 @@ enum EnablementTypeFilter {
   enabled,
   @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on EnablementTypeFilter {
+  String toValue() {
+    switch (this) {
+      case EnablementTypeFilter.enabled:
+        return 'ENABLED';
+      case EnablementTypeFilter.pending:
+        return 'PENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Settings for the end of meeting reminder feature that are applied to a room
@@ -7595,6 +7681,16 @@ enum NetworkEapMethod {
   eapTls,
 }
 
+extension on NetworkEapMethod {
+  String toValue() {
+    switch (this) {
+      case NetworkEapMethod.eapTls:
+        return 'EAP_TLS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The network profile associated with a device.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7729,6 +7825,24 @@ enum NetworkSecurityType {
   wpa2Psk,
   @_s.JsonValue('WPA2_ENTERPRISE')
   wpa2Enterprise,
+}
+
+extension on NetworkSecurityType {
+  String toValue() {
+    switch (this) {
+      case NetworkSecurityType.open:
+        return 'OPEN';
+      case NetworkSecurityType.wep:
+        return 'WEP';
+      case NetworkSecurityType.wpaPsk:
+        return 'WPA_PSK';
+      case NetworkSecurityType.wpa2Psk:
+        return 'WPA2_PSK';
+      case NetworkSecurityType.wpa2Enterprise:
+        return 'WPA2_ENTERPRISE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The information for public switched telephone network (PSTN) conferencing.
@@ -8654,6 +8768,20 @@ enum SkillTypeFilter {
   all,
 }
 
+extension on SkillTypeFilter {
+  String toValue() {
+    switch (this) {
+      case SkillTypeFilter.public:
+        return 'PUBLIC';
+      case SkillTypeFilter.private:
+        return 'PRIVATE';
+      case SkillTypeFilter.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The detailed information about an Alexa skill.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8848,6 +8976,18 @@ enum TemperatureUnit {
   fahrenheit,
   @_s.JsonValue('CELSIUS')
   celsius,
+}
+
+extension on TemperatureUnit {
+  String toValue() {
+    switch (this) {
+      case TemperatureUnit.fahrenheit:
+        return 'FAHRENHEIT';
+      case TemperatureUnit.celsius:
+        return 'CELSIUS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The text message.
@@ -9177,6 +9317,22 @@ enum WakeWord {
   echo,
   @_s.JsonValue('COMPUTER')
   computer,
+}
+
+extension on WakeWord {
+  String toValue() {
+    switch (this) {
+      case WakeWord.alexa:
+        return 'ALEXA';
+      case WakeWord.amazon:
+        return 'AMAZON';
+      case WakeWord.echo:
+        return 'ECHO';
+      case WakeWord.computer:
+        return 'COMPUTER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

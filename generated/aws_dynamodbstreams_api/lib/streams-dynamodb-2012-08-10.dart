@@ -271,7 +271,7 @@ class DynamoDBStreams {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType,
+        'ShardIteratorType': shardIteratorType.toValue(),
         'StreamArn': streamArn,
         'SequenceNumber': sequenceNumber,
       },
@@ -830,6 +830,22 @@ enum ShardIteratorType {
   atSequenceNumber,
   @_s.JsonValue('AFTER_SEQUENCE_NUMBER')
   afterSequenceNumber,
+}
+
+extension on ShardIteratorType {
+  String toValue() {
+    switch (this) {
+      case ShardIteratorType.trimHorizon:
+        return 'TRIM_HORIZON';
+      case ShardIteratorType.latest:
+        return 'LATEST';
+      case ShardIteratorType.atSequenceNumber:
+        return 'AT_SEQUENCE_NUMBER';
+      case ShardIteratorType.afterSequenceNumber:
+        return 'AFTER_SEQUENCE_NUMBER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents all of the data describing a particular stream.

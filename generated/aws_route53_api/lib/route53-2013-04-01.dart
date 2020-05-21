@@ -2631,7 +2631,7 @@ class Route53 {
     maxItems?.let((v) => queryParams['maxitems'] = v.toString());
     startRecordIdentifier?.let((v) => queryParams['identifier'] = v.toString());
     startRecordName?.let((v) => queryParams['name'] = v.toString());
-    startRecordType?.let((v) => queryParams['type'] = v.toString());
+    startRecordType?.let((v) => queryParams['type'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/hostedzone/$hostedZoneId/rrset',
@@ -2912,7 +2912,7 @@ class Route53 {
     trafficPolicyInstanceNameMarker
         ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
     trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toString());
+        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances',
@@ -3004,7 +3004,7 @@ class Route53 {
     trafficPolicyInstanceNameMarker
         ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
     trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toString());
+        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances/hostedzone',
@@ -3137,7 +3137,7 @@ class Route53 {
     trafficPolicyInstanceNameMarker
         ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
     trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toString());
+        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances/trafficpolicy',
@@ -3377,7 +3377,7 @@ class Route53 {
     final queryParams = <String, String>{};
     hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
     recordName?.let((v) => queryParams['recordname'] = v.toString());
-    recordType?.let((v) => queryParams['recordtype'] = v.toString());
+    recordType?.let((v) => queryParams['recordtype'] = v.toValue());
     eDNS0ClientSubnetIP
         ?.let((v) => queryParams['edns0clientsubnetip'] = v.toString());
     eDNS0ClientSubnetMask

@@ -2330,7 +2330,7 @@ class ConfigService {
         'AwsRegion': awsRegion,
         'ConfigRuleName': configRuleName,
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ComplianceType': complianceType,
+        'ComplianceType': complianceType.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -2413,7 +2413,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'Filters': filters,
-        'GroupByKey': groupByKey,
+        'GroupByKey': groupByKey.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -2497,7 +2497,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'Filters': filters,
-        'GroupByKey': groupByKey,
+        'GroupByKey': groupByKey.toValue(),
         'Limit': limit,
         'NextToken': nextToken,
       },
@@ -3220,8 +3220,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'resourceId': resourceId,
-        'resourceType': resourceType,
-        'chronologicalOrder': chronologicalOrder,
+        'resourceType': resourceType.toValue(),
+        'chronologicalOrder': chronologicalOrder.toValue(),
         'earlierTime': earlierTime,
         'laterTime': laterTime,
         'limit': limit,
@@ -3308,7 +3308,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceType': resourceType,
+        'ResourceType': resourceType.toValue(),
         'Filters': filters,
         'Limit': limit,
         'NextToken': nextToken,
@@ -3391,7 +3391,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'resourceType': resourceType,
+        'resourceType': resourceType.toValue(),
         'includeDeletedResources': includeDeletedResources,
         'limit': limit,
         'nextToken': nextToken,
@@ -5327,6 +5327,18 @@ enum ChronologicalOrder {
   forward,
 }
 
+extension on ChronologicalOrder {
+  String toValue() {
+    switch (this) {
+      case ChronologicalOrder.reverse:
+        return 'Reverse';
+      case ChronologicalOrder.forward:
+        return 'Forward';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Indicates whether an AWS resource or AWS Config rule is compliant and
 /// provides the number of contributors that affect the compliance.
 @_s.JsonSerializable(
@@ -5517,6 +5529,22 @@ enum ComplianceType {
   notApplicable,
   @_s.JsonValue('INSUFFICIENT_DATA')
   insufficientData,
+}
+
+extension on ComplianceType {
+  String toValue() {
+    switch (this) {
+      case ComplianceType.compliant:
+        return 'COMPLIANT';
+      case ComplianceType.nonCompliant:
+        return 'NON_COMPLIANT';
+      case ComplianceType.notApplicable:
+        return 'NOT_APPLICABLE';
+      case ComplianceType.insufficientData:
+        return 'INSUFFICIENT_DATA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Provides status of the delivery of the snapshot or the configuration history
@@ -5755,6 +5783,18 @@ enum ConfigRuleComplianceSummaryGroupKey {
   accountId,
   @_s.JsonValue('AWS_REGION')
   awsRegion,
+}
+
+extension on ConfigRuleComplianceSummaryGroupKey {
+  String toValue() {
+    switch (this) {
+      case ConfigRuleComplianceSummaryGroupKey.accountId:
+        return 'ACCOUNT_ID';
+      case ConfigRuleComplianceSummaryGroupKey.awsRegion:
+        return 'AWS_REGION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Status information for your AWS managed Config rules. The status includes
@@ -9652,6 +9692,20 @@ enum ResourceCountGroupKey {
   awsRegion,
 }
 
+extension on ResourceCountGroupKey {
+  String toValue() {
+    switch (this) {
+      case ResourceCountGroupKey.resourceType:
+        return 'RESOURCE_TYPE';
+      case ResourceCountGroupKey.accountId:
+        return 'ACCOUNT_ID';
+      case ResourceCountGroupKey.awsRegion:
+        return 'AWS_REGION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Filters the results by resource account ID, region, resource ID, and
 /// resource name.
 @_s.JsonSerializable(
@@ -9928,6 +9982,194 @@ enum ResourceType {
   awsKmsKey,
   @_s.JsonValue('AWS::QLDB::Ledger')
   awsQldbLedger,
+}
+
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.awsEc2CustomerGateway:
+        return 'AWS::EC2::CustomerGateway';
+      case ResourceType.awsEc2Eip:
+        return 'AWS::EC2::EIP';
+      case ResourceType.awsEc2Host:
+        return 'AWS::EC2::Host';
+      case ResourceType.awsEc2Instance:
+        return 'AWS::EC2::Instance';
+      case ResourceType.awsEc2InternetGateway:
+        return 'AWS::EC2::InternetGateway';
+      case ResourceType.awsEc2NetworkAcl:
+        return 'AWS::EC2::NetworkAcl';
+      case ResourceType.awsEc2NetworkInterface:
+        return 'AWS::EC2::NetworkInterface';
+      case ResourceType.awsEc2RouteTable:
+        return 'AWS::EC2::RouteTable';
+      case ResourceType.awsEc2SecurityGroup:
+        return 'AWS::EC2::SecurityGroup';
+      case ResourceType.awsEc2Subnet:
+        return 'AWS::EC2::Subnet';
+      case ResourceType.awsCloudTrailTrail:
+        return 'AWS::CloudTrail::Trail';
+      case ResourceType.awsEc2Volume:
+        return 'AWS::EC2::Volume';
+      case ResourceType.awsEc2Vpc:
+        return 'AWS::EC2::VPC';
+      case ResourceType.awsEc2VPNConnection:
+        return 'AWS::EC2::VPNConnection';
+      case ResourceType.awsEc2VPNGateway:
+        return 'AWS::EC2::VPNGateway';
+      case ResourceType.awsEc2RegisteredHAInstance:
+        return 'AWS::EC2::RegisteredHAInstance';
+      case ResourceType.awsEc2NatGateway:
+        return 'AWS::EC2::NatGateway';
+      case ResourceType.awsEc2EgressOnlyInternetGateway:
+        return 'AWS::EC2::EgressOnlyInternetGateway';
+      case ResourceType.awsEc2VPCEndpoint:
+        return 'AWS::EC2::VPCEndpoint';
+      case ResourceType.awsEc2VPCEndpointService:
+        return 'AWS::EC2::VPCEndpointService';
+      case ResourceType.awsEc2FlowLog:
+        return 'AWS::EC2::FlowLog';
+      case ResourceType.awsEc2VPCPeeringConnection:
+        return 'AWS::EC2::VPCPeeringConnection';
+      case ResourceType.awsElasticsearchDomain:
+        return 'AWS::Elasticsearch::Domain';
+      case ResourceType.awsIamGroup:
+        return 'AWS::IAM::Group';
+      case ResourceType.awsIamPolicy:
+        return 'AWS::IAM::Policy';
+      case ResourceType.awsIamRole:
+        return 'AWS::IAM::Role';
+      case ResourceType.awsIamUser:
+        return 'AWS::IAM::User';
+      case ResourceType.awsElasticLoadBalancingV2LoadBalancer:
+        return 'AWS::ElasticLoadBalancingV2::LoadBalancer';
+      case ResourceType.awsAcmCertificate:
+        return 'AWS::ACM::Certificate';
+      case ResourceType.awsRdsDBInstance:
+        return 'AWS::RDS::DBInstance';
+      case ResourceType.awsRdsDBSubnetGroup:
+        return 'AWS::RDS::DBSubnetGroup';
+      case ResourceType.awsRdsDBSecurityGroup:
+        return 'AWS::RDS::DBSecurityGroup';
+      case ResourceType.awsRdsDBSnapshot:
+        return 'AWS::RDS::DBSnapshot';
+      case ResourceType.awsRdsDBCluster:
+        return 'AWS::RDS::DBCluster';
+      case ResourceType.awsRdsDBClusterSnapshot:
+        return 'AWS::RDS::DBClusterSnapshot';
+      case ResourceType.awsRdsEventSubscription:
+        return 'AWS::RDS::EventSubscription';
+      case ResourceType.awsS3Bucket:
+        return 'AWS::S3::Bucket';
+      case ResourceType.awsS3AccountPublicAccessBlock:
+        return 'AWS::S3::AccountPublicAccessBlock';
+      case ResourceType.awsRedshiftCluster:
+        return 'AWS::Redshift::Cluster';
+      case ResourceType.awsRedshiftClusterSnapshot:
+        return 'AWS::Redshift::ClusterSnapshot';
+      case ResourceType.awsRedshiftClusterParameterGroup:
+        return 'AWS::Redshift::ClusterParameterGroup';
+      case ResourceType.awsRedshiftClusterSecurityGroup:
+        return 'AWS::Redshift::ClusterSecurityGroup';
+      case ResourceType.awsRedshiftClusterSubnetGroup:
+        return 'AWS::Redshift::ClusterSubnetGroup';
+      case ResourceType.awsRedshiftEventSubscription:
+        return 'AWS::Redshift::EventSubscription';
+      case ResourceType.awsSsmManagedInstanceInventory:
+        return 'AWS::SSM::ManagedInstanceInventory';
+      case ResourceType.awsCloudWatchAlarm:
+        return 'AWS::CloudWatch::Alarm';
+      case ResourceType.awsCloudFormationStack:
+        return 'AWS::CloudFormation::Stack';
+      case ResourceType.awsElasticLoadBalancingLoadBalancer:
+        return 'AWS::ElasticLoadBalancing::LoadBalancer';
+      case ResourceType.awsAutoScalingAutoScalingGroup:
+        return 'AWS::AutoScaling::AutoScalingGroup';
+      case ResourceType.awsAutoScalingLaunchConfiguration:
+        return 'AWS::AutoScaling::LaunchConfiguration';
+      case ResourceType.awsAutoScalingScalingPolicy:
+        return 'AWS::AutoScaling::ScalingPolicy';
+      case ResourceType.awsAutoScalingScheduledAction:
+        return 'AWS::AutoScaling::ScheduledAction';
+      case ResourceType.awsDynamoDBTable:
+        return 'AWS::DynamoDB::Table';
+      case ResourceType.awsCodeBuildProject:
+        return 'AWS::CodeBuild::Project';
+      case ResourceType.awsWafRateBasedRule:
+        return 'AWS::WAF::RateBasedRule';
+      case ResourceType.awsWafRule:
+        return 'AWS::WAF::Rule';
+      case ResourceType.awsWafRuleGroup:
+        return 'AWS::WAF::RuleGroup';
+      case ResourceType.awsWafWebACL:
+        return 'AWS::WAF::WebACL';
+      case ResourceType.awsWAFRegionalRateBasedRule:
+        return 'AWS::WAFRegional::RateBasedRule';
+      case ResourceType.awsWAFRegionalRule:
+        return 'AWS::WAFRegional::Rule';
+      case ResourceType.awsWAFRegionalRuleGroup:
+        return 'AWS::WAFRegional::RuleGroup';
+      case ResourceType.awsWAFRegionalWebACL:
+        return 'AWS::WAFRegional::WebACL';
+      case ResourceType.awsCloudFrontDistribution:
+        return 'AWS::CloudFront::Distribution';
+      case ResourceType.awsCloudFrontStreamingDistribution:
+        return 'AWS::CloudFront::StreamingDistribution';
+      case ResourceType.awsLambdaFunction:
+        return 'AWS::Lambda::Function';
+      case ResourceType.awsElasticBeanstalkApplication:
+        return 'AWS::ElasticBeanstalk::Application';
+      case ResourceType.awsElasticBeanstalkApplicationVersion:
+        return 'AWS::ElasticBeanstalk::ApplicationVersion';
+      case ResourceType.awsElasticBeanstalkEnvironment:
+        return 'AWS::ElasticBeanstalk::Environment';
+      case ResourceType.awsWAFv2WebACL:
+        return 'AWS::WAFv2::WebACL';
+      case ResourceType.awsWAFv2RuleGroup:
+        return 'AWS::WAFv2::RuleGroup';
+      case ResourceType.awsWAFv2IPSet:
+        return 'AWS::WAFv2::IPSet';
+      case ResourceType.awsWAFv2RegexPatternSet:
+        return 'AWS::WAFv2::RegexPatternSet';
+      case ResourceType.awsWAFv2ManagedRuleSet:
+        return 'AWS::WAFv2::ManagedRuleSet';
+      case ResourceType.awsXRayEncryptionConfig:
+        return 'AWS::XRay::EncryptionConfig';
+      case ResourceType.awsSsmAssociationCompliance:
+        return 'AWS::SSM::AssociationCompliance';
+      case ResourceType.awsSsmPatchCompliance:
+        return 'AWS::SSM::PatchCompliance';
+      case ResourceType.awsShieldProtection:
+        return 'AWS::Shield::Protection';
+      case ResourceType.awsShieldRegionalProtection:
+        return 'AWS::ShieldRegional::Protection';
+      case ResourceType.awsConfigResourceCompliance:
+        return 'AWS::Config::ResourceCompliance';
+      case ResourceType.awsApiGatewayStage:
+        return 'AWS::ApiGateway::Stage';
+      case ResourceType.awsApiGatewayRestApi:
+        return 'AWS::ApiGateway::RestApi';
+      case ResourceType.awsApiGatewayV2Stage:
+        return 'AWS::ApiGatewayV2::Stage';
+      case ResourceType.awsApiGatewayV2Api:
+        return 'AWS::ApiGatewayV2::Api';
+      case ResourceType.awsCodePipelinePipeline:
+        return 'AWS::CodePipeline::Pipeline';
+      case ResourceType.awsServiceCatalogCloudFormationProvisionedProduct:
+        return 'AWS::ServiceCatalog::CloudFormationProvisionedProduct';
+      case ResourceType.awsServiceCatalogCloudFormationProduct:
+        return 'AWS::ServiceCatalog::CloudFormationProduct';
+      case ResourceType.awsServiceCatalogPortfolio:
+        return 'AWS::ServiceCatalog::Portfolio';
+      case ResourceType.awsSqsQueue:
+        return 'AWS::SQS::Queue';
+      case ResourceType.awsKmsKey:
+        return 'AWS::KMS::Key';
+      case ResourceType.awsQldbLedger:
+        return 'AWS::QLDB::Ledger';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The dynamic value of the resource.

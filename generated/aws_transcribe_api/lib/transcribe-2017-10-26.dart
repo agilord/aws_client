@@ -120,7 +120,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         'Phrases': phrases,
         'VocabularyFileUri': vocabularyFileUri,
@@ -212,7 +212,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'VocabularyFilterName': vocabularyFilterName,
         'VocabularyFilterFileUri': vocabularyFilterFileUri,
         'Words': words,
@@ -653,7 +653,7 @@ class TranscribeService {
         'JobNameContains': jobNameContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status.toValue(),
       },
     );
 
@@ -732,7 +732,7 @@ class TranscribeService {
         'JobNameContains': jobNameContains,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status.toValue(),
       },
     );
 
@@ -812,7 +812,7 @@ class TranscribeService {
         'MaxResults': maxResults,
         'NameContains': nameContains,
         'NextToken': nextToken,
-        'StateEquals': stateEquals,
+        'StateEquals': stateEquals.toValue(),
       },
     );
 
@@ -1058,13 +1058,13 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'Media': media,
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
         'OutputBucketName': outputBucketName,
-        'Specialty': specialty,
-        'Type': type,
-        'MediaFormat': mediaFormat,
+        'Specialty': specialty.toValue(),
+        'Type': type.toValue(),
+        'MediaFormat': mediaFormat.toValue(),
         'MediaSampleRateHertz': mediaSampleRateHertz,
         'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         'Settings': settings,
@@ -1245,12 +1245,12 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'Media': media,
         'TranscriptionJobName': transcriptionJobName,
         'ContentRedaction': contentRedaction,
         'JobExecutionSettings': jobExecutionSettings,
-        'MediaFormat': mediaFormat,
+        'MediaFormat': mediaFormat.toValue(),
         'MediaSampleRateHertz': mediaSampleRateHertz,
         'OutputBucketName': outputBucketName,
         'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
@@ -1343,7 +1343,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         'Phrases': phrases,
         'VocabularyFileUri': vocabularyFileUri,
@@ -1758,6 +1758,76 @@ enum LanguageCode {
   arAe,
 }
 
+extension on LanguageCode {
+  String toValue() {
+    switch (this) {
+      case LanguageCode.enUs:
+        return 'en-US';
+      case LanguageCode.esUs:
+        return 'es-US';
+      case LanguageCode.enAu:
+        return 'en-AU';
+      case LanguageCode.frCa:
+        return 'fr-CA';
+      case LanguageCode.enGb:
+        return 'en-GB';
+      case LanguageCode.deDe:
+        return 'de-DE';
+      case LanguageCode.ptBr:
+        return 'pt-BR';
+      case LanguageCode.frFr:
+        return 'fr-FR';
+      case LanguageCode.itIt:
+        return 'it-IT';
+      case LanguageCode.koKr:
+        return 'ko-KR';
+      case LanguageCode.esEs:
+        return 'es-ES';
+      case LanguageCode.enIn:
+        return 'en-IN';
+      case LanguageCode.hiIn:
+        return 'hi-IN';
+      case LanguageCode.arSa:
+        return 'ar-SA';
+      case LanguageCode.ruRu:
+        return 'ru-RU';
+      case LanguageCode.zhCn:
+        return 'zh-CN';
+      case LanguageCode.nlNl:
+        return 'nl-NL';
+      case LanguageCode.idId:
+        return 'id-ID';
+      case LanguageCode.taIn:
+        return 'ta-IN';
+      case LanguageCode.faIr:
+        return 'fa-IR';
+      case LanguageCode.enIe:
+        return 'en-IE';
+      case LanguageCode.enAb:
+        return 'en-AB';
+      case LanguageCode.enWl:
+        return 'en-WL';
+      case LanguageCode.ptPt:
+        return 'pt-PT';
+      case LanguageCode.teIn:
+        return 'te-IN';
+      case LanguageCode.trTr:
+        return 'tr-TR';
+      case LanguageCode.deCh:
+        return 'de-CH';
+      case LanguageCode.heIl:
+        return 'he-IL';
+      case LanguageCode.msMy:
+        return 'ms-MY';
+      case LanguageCode.jaJp:
+        return 'ja-JP';
+      case LanguageCode.arAe:
+        return 'ar-AE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1930,6 +2000,22 @@ enum MediaFormat {
   wav,
   @_s.JsonValue('flac')
   flac,
+}
+
+extension on MediaFormat {
+  String toValue() {
+    switch (this) {
+      case MediaFormat.mp3:
+        return 'mp3';
+      case MediaFormat.mp4:
+        return 'mp4';
+      case MediaFormat.wav:
+        return 'wav';
+      case MediaFormat.flac:
+        return 'flac';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Identifies the location of a medical transcript.
@@ -2354,6 +2440,16 @@ enum Specialty {
   primarycare,
 }
 
+extension on Specialty {
+  String toValue() {
+    switch (this) {
+      case Specialty.primarycare:
+        return 'PRIMARYCARE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2569,6 +2665,22 @@ enum TranscriptionJobStatus {
   completed,
 }
 
+extension on TranscriptionJobStatus {
+  String toValue() {
+    switch (this) {
+      case TranscriptionJobStatus.queued:
+        return 'QUEUED';
+      case TranscriptionJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case TranscriptionJobStatus.failed:
+        return 'FAILED';
+      case TranscriptionJobStatus.completed:
+        return 'COMPLETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides a summary of information about a transcription job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2646,6 +2758,18 @@ enum Type {
   conversation,
   @_s.JsonValue('DICTATION')
   dictation,
+}
+
+extension on Type {
+  String toValue() {
+    switch (this) {
+      case Type.conversation:
+        return 'CONVERSATION';
+      case Type.dictation:
+        return 'DICTATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -2791,6 +2915,20 @@ enum VocabularyState {
   ready,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on VocabularyState {
+  String toValue() {
+    switch (this) {
+      case VocabularyState.pending:
+        return 'PENDING';
+      case VocabularyState.ready:
+        return 'READY';
+      case VocabularyState.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {

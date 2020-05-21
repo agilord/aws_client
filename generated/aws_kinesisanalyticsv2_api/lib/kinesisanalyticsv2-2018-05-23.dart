@@ -650,7 +650,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RuntimeEnvironment': runtimeEnvironment,
+        'RuntimeEnvironment': runtimeEnvironment.toValue(),
         'ServiceExecutionRole': serviceExecutionRole,
         'ApplicationConfiguration': applicationConfiguration,
         'ApplicationDescription': applicationDescription,
@@ -5192,6 +5192,20 @@ enum RuntimeEnvironment {
   flink_1_6,
   @_s.JsonValue('FLINK-1_8')
   flink_1_8,
+}
+
+extension on RuntimeEnvironment {
+  String toValue() {
+    switch (this) {
+      case RuntimeEnvironment.sql_1_0:
+        return 'SQL-1_0';
+      case RuntimeEnvironment.flink_1_6:
+        return 'FLINK-1_6';
+      case RuntimeEnvironment.flink_1_8:
+        return 'FLINK-1_8';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the location of a Java-based Amazon Kinesis Data Analytics

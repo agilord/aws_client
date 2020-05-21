@@ -3203,7 +3203,7 @@ class Redshift {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
-    sourceType?.also((arg) => $request['SourceType'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -3481,7 +3481,7 @@ class Redshift {
       'Action': 'DescribeNodeConfigurationOptions',
       'Version': '2012-12-01',
     };
-    $request['ActionType'] = actionType;
+    $request['ActionType'] = actionType.toValue();
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3777,7 +3777,8 @@ class Redshift {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     scheduledActionName?.also((arg) => $request['ScheduledActionName'] = arg);
     startTime?.also((arg) => $request['StartTime'] = arg);
-    targetActionType?.also((arg) => $request['TargetActionType'] = arg);
+    targetActionType
+        ?.also((arg) => $request['TargetActionType'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       method: 'POST',
@@ -6447,6 +6448,20 @@ enum ActionType {
   restoreCluster,
   recommendNodeConfig,
   resizeCluster,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.restoreCluster:
+        return 'restore-cluster';
+      case ActionType.recommendNodeConfig:
+        return 'recommend-node-config';
+      case ActionType.resizeCluster:
+        return 'resize-cluster';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -10171,6 +10186,20 @@ enum ScheduledActionTypeValues {
   resumeCluster,
 }
 
+extension on ScheduledActionTypeValues {
+  String toValue() {
+    switch (this) {
+      case ScheduledActionTypeValues.resizeCluster:
+        return 'ResizeCluster';
+      case ScheduledActionTypeValues.pauseCluster:
+        return 'PauseCluster';
+      case ScheduledActionTypeValues.resumeCluster:
+        return 'ResumeCluster';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   ScheduledActionTypeValues toScheduledActionTypeValues() {
     switch (this) {
@@ -10686,6 +10715,24 @@ enum SourceType {
   clusterSecurityGroup,
   clusterSnapshot,
   scheduledAction,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.cluster:
+        return 'cluster';
+      case SourceType.clusterParameterGroup:
+        return 'cluster-parameter-group';
+      case SourceType.clusterSecurityGroup:
+        return 'cluster-security-group';
+      case SourceType.clusterSnapshot:
+        return 'cluster-snapshot';
+      case SourceType.scheduledAction:
+        return 'scheduled-action';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

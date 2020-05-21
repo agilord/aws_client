@@ -480,7 +480,7 @@ class WAF {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey,
+        'RateKey': rateKey.toValue(),
         'RateLimit': rateLimit,
         'Tags': tags,
       },
@@ -8991,6 +8991,16 @@ class RateBasedRule {
 enum RateKey {
   @_s.JsonValue('IP')
   ip,
+}
+
+extension on RateKey {
+  String toValue() {
+    switch (this) {
+      case RateKey.ip:
+        return 'IP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a

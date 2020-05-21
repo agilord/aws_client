@@ -143,10 +143,10 @@ class Transfer {
       headers: headers,
       payload: {
         'EndpointDetails': endpointDetails,
-        'EndpointType': endpointType,
+        'EndpointType': endpointType.toValue(),
         'HostKey': hostKey,
         'IdentityProviderDetails': identityProviderDetails,
-        'IdentityProviderType': identityProviderType,
+        'IdentityProviderType': identityProviderType.toValue(),
         'LoggingRole': loggingRole,
         'Tags': tags,
       },
@@ -357,7 +357,7 @@ class Transfer {
         'UserName': userName,
         'HomeDirectory': homeDirectory,
         'HomeDirectoryMappings': homeDirectoryMappings,
-        'HomeDirectoryType': homeDirectoryType,
+        'HomeDirectoryType': homeDirectoryType.toValue(),
         'Policy': policy,
         'SshPublicKeyBody': sshPublicKeyBody,
         'Tags': tags,
@@ -1371,7 +1371,7 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         'EndpointDetails': endpointDetails,
-        'EndpointType': endpointType,
+        'EndpointType': endpointType.toValue(),
         'HostKey': hostKey,
         'IdentityProviderDetails': identityProviderDetails,
         'LoggingRole': loggingRole,
@@ -1558,7 +1558,7 @@ class Transfer {
         'UserName': userName,
         'HomeDirectory': homeDirectory,
         'HomeDirectoryMappings': homeDirectoryMappings,
-        'HomeDirectoryType': homeDirectoryType,
+        'HomeDirectoryType': homeDirectoryType.toValue(),
         'Policy': policy,
         'Role': role,
       },
@@ -1895,6 +1895,20 @@ enum EndpointType {
   vpcEndpoint,
 }
 
+extension on EndpointType {
+  String toValue() {
+    switch (this) {
+      case EndpointType.public:
+        return 'PUBLIC';
+      case EndpointType.vpc:
+        return 'VPC';
+      case EndpointType.vpcEndpoint:
+        return 'VPC_ENDPOINT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents an object that contains entries and a targets for
 /// <code>HomeDirectoryMappings</code>.
 @_s.JsonSerializable(
@@ -1927,6 +1941,18 @@ enum HomeDirectoryType {
   path,
   @_s.JsonValue('LOGICAL')
   logical,
+}
+
+extension on HomeDirectoryType {
+  String toValue() {
+    switch (this) {
+      case HomeDirectoryType.path:
+        return 'PATH';
+      case HomeDirectoryType.logical:
+        return 'LOGICAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Returns information related to the type of user authentication that is in
@@ -1969,6 +1995,18 @@ enum IdentityProviderType {
   serviceManaged,
   @_s.JsonValue('API_GATEWAY')
   apiGateway,
+}
+
+extension on IdentityProviderType {
+  String toValue() {
+    switch (this) {
+      case IdentityProviderType.serviceManaged:
+        return 'SERVICE_MANAGED';
+      case IdentityProviderType.apiGateway:
+        return 'API_GATEWAY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// This response identifies the user, the server they belong to, and the

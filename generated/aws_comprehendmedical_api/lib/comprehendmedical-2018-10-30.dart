@@ -587,7 +587,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -706,7 +706,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode,
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken': clientRequestToken,
         'JobName': jobName,
@@ -1673,6 +1673,16 @@ enum JobStatus {
 enum LanguageCode {
   @_s.JsonValue('en')
   en,
+}
+
+extension on LanguageCode {
+  String toValue() {
+    switch (this) {
+      case LanguageCode.en:
+        return 'en';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

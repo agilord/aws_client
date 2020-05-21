@@ -925,7 +925,7 @@ class MTurk {
       payload: {
         'Description': description,
         'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus,
+        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
         'AnswerKey': answerKey,
         'AutoGranted': autoGranted,
         'AutoGrantedValue': autoGrantedValue,
@@ -2078,7 +2078,7 @@ class MTurk {
         'HITTypeId': hITTypeId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status.toValue(),
       },
     );
 
@@ -2194,7 +2194,7 @@ class MTurk {
         'QualificationTypeId': qualificationTypeId,
         'MaxResults': maxResults,
         'NextToken': nextToken,
-        'Status': status,
+        'Status': status.toValue(),
       },
     );
 
@@ -2495,7 +2495,7 @@ class MTurk {
       headers: headers,
       payload: {
         'Notification': notification,
-        'TestEventType': testEventType,
+        'TestEventType': testEventType.toValue(),
       },
     );
 
@@ -2870,7 +2870,7 @@ class MTurk {
         'AutoGranted': autoGranted,
         'AutoGrantedValue': autoGrantedValue,
         'Description': description,
-        'QualificationTypeStatus': qualificationTypeStatus,
+        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
         'RetryDelayInSeconds': retryDelayInSeconds,
         'Test': test,
         'TestDurationInSeconds': testDurationInSeconds,
@@ -3245,6 +3245,38 @@ enum EventType {
   hITDisposed,
   @_s.JsonValue('Ping')
   ping,
+}
+
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.assignmentAccepted:
+        return 'AssignmentAccepted';
+      case EventType.assignmentAbandoned:
+        return 'AssignmentAbandoned';
+      case EventType.assignmentReturned:
+        return 'AssignmentReturned';
+      case EventType.assignmentSubmitted:
+        return 'AssignmentSubmitted';
+      case EventType.assignmentRejected:
+        return 'AssignmentRejected';
+      case EventType.assignmentApproved:
+        return 'AssignmentApproved';
+      case EventType.hITCreated:
+        return 'HITCreated';
+      case EventType.hITExpired:
+        return 'HITExpired';
+      case EventType.hITReviewable:
+        return 'HITReviewable';
+      case EventType.hITExtended:
+        return 'HITExtended';
+      case EventType.hITDisposed:
+        return 'HITDisposed';
+      case EventType.ping:
+        return 'Ping';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -4242,6 +4274,18 @@ enum QualificationStatus {
   revoked,
 }
 
+extension on QualificationStatus {
+  String toValue() {
+    switch (this) {
+      case QualificationStatus.granted:
+        return 'Granted';
+      case QualificationStatus.revoked:
+        return 'Revoked';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The QualificationType data structure represents a Qualification type, a
 /// description of a property of a Worker that must match the requirements of a
 /// HIT for the Worker to be able to accept the HIT. The type also describes how
@@ -4353,6 +4397,18 @@ enum QualificationTypeStatus {
   active,
   @_s.JsonValue('Inactive')
   inactive,
+}
+
+extension on QualificationTypeStatus {
+  String toValue() {
+    switch (this) {
+      case QualificationTypeStatus.active:
+        return 'Active';
+      case QualificationTypeStatus.inactive:
+        return 'Inactive';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -4583,6 +4639,18 @@ enum ReviewableHITStatus {
   reviewable,
   @_s.JsonValue('Reviewing')
   reviewing,
+}
+
+extension on ReviewableHITStatus {
+  String toValue() {
+    switch (this) {
+      case ReviewableHITStatus.reviewable:
+        return 'Reviewable';
+      case ReviewableHITStatus.reviewing:
+        return 'Reviewing';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
