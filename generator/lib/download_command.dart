@@ -1,11 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:archive/archive.dart';
+import 'package:args/command_runner.dart';
+import 'package:aws_client.generator/model/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 class DownloadCommand extends Command {
+  Config config;
+
+  DownloadCommand([this.config]) {
+    argParser
+      ..addOption(
+        'config-file',
+        help: 'Configuration file describing package generation.',
+        defaultsTo: 'config.yaml',
+      );
+  }
+
   @override
   String get name => 'download';
 
@@ -14,15 +27,18 @@ class DownloadCommand extends Command {
 
   @override
   Future<void> run() async {
+    config ??= Config.fromJson(json.decode(json.encode(loadYaml(
+            File(argResults['config-file'] as String).readAsStringSync())))
+        as Map<String, dynamic>);
     print('Downloading JSON definitions from Github...');
-    await _fetchApiDefinitions();
+    await _fetchApiDefinitions(config.awsSdkJsReference);
     print('Definitions downloaded');
   }
 }
 
-Future<void> _fetchApiDefinitions() async {
+Future<void> _fetchApiDefinitions(String reference) async {
   final response = await http
-      .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/master');
+      .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/$reference');
   final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   // Extract the contents of the Zip archive to disk.
   for (final file in archive) {

@@ -25,6 +25,8 @@ class GenerateCommand extends Command {
   String get description =>
       'Generates the API from the downloaded API definitions.';
 
+  Config config;
+
   GenerateCommand() {
     argParser
       ..addFlag(
@@ -62,8 +64,13 @@ class GenerateCommand extends Command {
   @override
   Future<void> run() async {
     final stopwatch = Stopwatch()..start();
+
+    config = Config.fromJson(json.decode(json.encode(loadYaml(
+            File(argResults['config-file'] as String).readAsStringSync())))
+        as Map<String, dynamic>);
+
     if (argResults['download'] == true) {
-      await DownloadCommand().run();
+      await DownloadCommand(config).run();
     }
     await _generateClasses();
 
@@ -73,10 +80,6 @@ class GenerateCommand extends Command {
   Future _generateClasses() async {
     print('Generating Dart classes...');
     final devMode = argResults['dev'] == true;
-
-    final config = Config.fromJson(json.decode(json.encode(loadYaml(
-            File(argResults['config-file'] as String).readAsStringSync())))
-        as Map<String, dynamic>);
 
     final formatter = DartFormatter(fixes: StyleFix.all);
     final dir = Directory('./apis');

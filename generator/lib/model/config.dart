@@ -8,7 +8,9 @@ class Config {
 
   final List<String> packages;
 
-  Config({this.protocols, this.packages});
+  final String awsSdkJsReference;
+
+  Config(this.awsSdkJsReference, {this.protocols, this.packages});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 }
