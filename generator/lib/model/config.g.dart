@@ -7,8 +7,10 @@ part of 'config.dart';
 // **************************************************************************
 
 Config _$ConfigFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, allowedKeys: const ['protocols', 'packages']);
+  $checkKeys(json,
+      allowedKeys: const ['protocols', 'packages', 'awsSdkJsReference']);
   return Config(
+    json['awsSdkJsReference'] as String,
     protocols: (json['protocols'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
