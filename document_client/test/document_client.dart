@@ -6,43 +6,43 @@ import 'package:test/test.dart';
 import 'package:http/testing.dart';
 import 'package:http/http.dart';
 
+DocumentClient mockedDocumentClient(dynamic mockData) => DocumentClient(
+      region: 'foo',
+      credentials: AwsClientCredentials(accessKey: '123', secretKey: '123'),
+      client: MockClient(
+        (req) async => Response(
+          jsonEncode(mockData),
+          200,
+        ),
+      ),
+    );
+
 void main() {
   group('Calling methods on document client', () {
     test('calling get()', () async {
-      final mockClient = MockClient(
-        (req) async => Response(
-          jsonEncode({
-            'Item': {
-              'foo': {'BOOL': true},
-              'bar': {'S': 'baz'},
-              'fizz': {
-                'M': {
-                  'buzz1': {'B': 'AA=='},
-                  'buzz2': {
-                    'L': [
-                      {'S': 'stringyDingy'}
-                    ]
-                  },
-                  'buzz3': {
-                    'BS': ['AA==']
-                  },
-                  'buzz4': {
-                    'NS': ['1', '2', '3']
-                  }
-                }
+      final dc = mockedDocumentClient({
+        'Item': {
+          'foo': {'BOOL': true},
+          'bar': {'S': 'baz'},
+          'fizz': {
+            'M': {
+              'buzz1': {'B': 'AA=='},
+              'buzz2': {
+                'L': [
+                  {'S': 'stringyDingy'}
+                ]
               },
-              'noCreativity': {'NULL': true}
-            },
-          }),
-          200,
-        ),
-      );
-
-      final dc = DocumentClient(
-        region: 'foo',
-        credentials: AwsClientCredentials(accessKey: '123', secretKey: '123'),
-        client: mockClient,
-      );
+              'buzz3': {
+                'BS': ['AA==']
+              },
+              'buzz4': {
+                'NS': ['1', '2', '3']
+              }
+            }
+          },
+          'noCreativity': {'NULL': true}
+        },
+      });
 
       final ret = await dc.get(tableName: 'täjbel', key: {'Key': 'Peele'});
 
@@ -62,35 +62,22 @@ void main() {
     });
 
     test('calling batchGet()', () async {
-      final mockClient = MockClient(
-        (req) async => Response(
-          jsonEncode({
-            'Responses': {
-              'Table1': [
-                {
-                  'Key': {'S': 'Peele'}
-                },
-              ],
-            }
-          }),
-          200,
-        ),
-      );
-
-      final dc = DocumentClient(
-        region: 'foo',
-        credentials: AwsClientCredentials(accessKey: '123', secretKey: '123'),
-        client: mockClient,
-      );
-
-      final ret = await dc.batchGet(requestItems: {
-        'Table1': KeysAndProjection(
-          keys: [
+      final dc = mockedDocumentClient({
+        'Responses': {
+          'Table1': [
             {
-              'Key': 'Peele',
+              'Key': {'S': 'Peele'}
             },
           ],
-        ),
+        }
+      });
+
+      final ret = await dc.batchGet(requestItems: {
+        'Table1': KeysAndProjection(keys: [
+          {
+            'Key': 'Peele',
+          }
+        ])
       });
 
       expect(
@@ -103,6 +90,49 @@ void main() {
           ],
         }),
       );
+    });
+
+    test('calling batchWrite()', () async {
+      final dc = mockedDocumentClient({
+        'ItemCollectionMetrics': {
+          'FooTable': [
+            {
+              'ItemCollectionKey': {
+                'BarKey': {'S': 'Baz'},
+              },
+              'SizeEstimateRangeGB': [666.333]
+            }
+          ],
+        },
+        'UnprocessedItems': {
+          'FizzTable': [
+            {
+              'DeleteRequest': {
+                'Key': {
+                  'FailureKey': {'S': ':-('}
+                }
+              }
+            },
+            {
+              'PutRequest': {
+                'Item': {
+                  'FailureItem': {'S': ':-S'}
+                }
+              },
+            },
+          ],
+        },
+      });
+
+      final batchRet = await dc.batchWrite(requestItems: {
+        'TableBuzz': [
+          Write(putItem: {'TotallyRealisticKey': 'StringData'}),
+          Write(deleteKey: {'DeleteMe': 80085}),
+        ],
+      });
+
+      expect(batchRet.unprocessedItems['FizzTable'], hasLength(2));
+      expect(batchRet.itemCollectionMetrics['FooTable'], hasLength(1));
     });
   });
 }
