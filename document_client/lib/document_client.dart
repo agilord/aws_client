@@ -163,6 +163,98 @@ class DocumentClient {
       ),
     );
   }
+
+  /// Puts or deletes multiple items in one or more tables by delegating
+  /// to `DynamoDB.batchWriteItem()`.
+  ///
+  /// Supply the same parameters as {DynamoDB.batchWriteItem} with
+  /// `AttributeValue`s substituted by native Dart types.
+  Future<BatchWriteResponse> batchWrite({
+    @required Map<String, List<Write>> requestItems,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+  }) async {
+    final ri = requestItems.map(
+      (k, v) => MapEntry(
+        k,
+        v
+            .map(
+              (e) => WriteRequest(
+                deleteRequest: e.deleteKey?.let((d) => DeleteRequest(
+                      key: d.fromJsonToAttributeValue(),
+                    )),
+                putRequest: e.putItem?.let((p) => PutRequest(
+                      item: p.fromJsonToAttributeValue(),
+                    )),
+              ),
+            )
+            .toList(),
+      ),
+    );
+    final writeOutput = await _dynamoDB.batchWriteItem(
+      requestItems: ri,
+      returnConsumedCapacity: returnConsumedCapacity,
+      returnItemCollectionMetrics: returnItemCollectionMetrics,
+    );
+
+    return BatchWriteResponse(
+      consumedCapacity: writeOutput.consumedCapacity,
+      unprocessedItems: writeOutput.unprocessedItems?.map((k, v) => MapEntry(
+            k,
+            v
+                .map((e) => Write(
+                      deleteKey: e.deleteRequest?.let((d) => d.key.toJson()),
+                      putItem: e.putRequest?.let((p) => p.item.toJson()),
+                    ))
+                .toList(),
+          )),
+      itemCollectionMetrics:
+          writeOutput.itemCollectionMetrics?.map((k, v) => MapEntry(
+                k,
+                v
+                    .map((e) => ItemCollectionMetricsDC(
+                          itemCollectionKey: e.itemCollectionKey.toJson(),
+                          sizeEstimateRangeGB: e.sizeEstimateRangeGB,
+                        ))
+                    .toList(),
+              )),
+    );
+  }
+}
+
+class Write {
+  final Map<String, dynamic> putItem;
+  final Map<String, dynamic> deleteKey;
+
+  Write({this.putItem, this.deleteKey}) {
+    if (!(putItem == null || deleteKey == null)) {
+      throw ArgumentError('Either putItem or deleteKey has to be null,'
+          " both can't be set in the same Write object");
+    }
+
+    if (putItem == null && deleteKey == null) {
+      throw ArgumentError('Either putItem or deleteKey has to be non null');
+    }
+  }
+}
+
+class BatchWriteResponse {
+  final List<ConsumedCapacity> consumedCapacity;
+  final Map<String, List<ItemCollectionMetricsDC>> itemCollectionMetrics;
+  final Map<String, List<Write>> unprocessedItems;
+
+  BatchWriteResponse({
+    this.consumedCapacity,
+    this.itemCollectionMetrics,
+    this.unprocessedItems,
+  });
+}
+
+class ItemCollectionMetricsDC {
+  final Map<String, dynamic> itemCollectionKey;
+  final List<double> sizeEstimateRangeGB;
+
+  ItemCollectionMetricsDC({this.itemCollectionKey, this.sizeEstimateRangeGB});
 }
 
 /// Represents a set of primary keys and, for each key, the attributes to
