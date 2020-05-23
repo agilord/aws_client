@@ -145,13 +145,13 @@ class DocumentClient {
 
     return BatchGetResponse(
       response.consumedCapacity,
-      response.responses.map(
+      response.responses?.map(
         (k, v) => MapEntry(
           k,
           v.map((e) => e.toJson()).toList(),
         ),
       ),
-      response.unprocessedKeys.map(
+      response.unprocessedKeys?.map(
         (k, v) => MapEntry(
           k,
           KeysAndProjection(
