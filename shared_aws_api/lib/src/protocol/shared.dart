@@ -49,17 +49,17 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
 }
 
 class Uint8ListListConverter
-    implements JsonConverter<List<Uint8List>, List<String>> {
+    implements JsonConverter<List<Uint8List>, List<dynamic>> {
   const Uint8ListListConverter();
 
   @override
-  List<Uint8List> fromJson(List<String> json) {
+  List<Uint8List> fromJson(List<dynamic> json) {
     if (json == null) {
       return null;
     } else {
       return json.map((x) {
         if (x != null) {
-          return base64.decode(x);
+          return base64.decode(x as String);
         }
         return null;
       }).toList(growable: false);

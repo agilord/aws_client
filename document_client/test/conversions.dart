@@ -5,8 +5,8 @@ import 'package:document_client/src/translator.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Translator', () {
-    test('translate back and forth between JSON and DynamoDB Input/Output', () {
+  group('Converting', () {
+    test('convert back and forth between JSON and DynamoDB Input/Output', () {
       final jsonPayload = {
         'foo': true,
         'bar': 'baz',
