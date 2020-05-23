@@ -12,4 +12,26 @@ void main() async {
 
   print(jsonEncode(getResponse.item));
   // e.g. { "wheels": 24, "units": "inch" }
+
+  final batchGetResponse = await dc.batchGet(
+    requestItems: {
+      'Table-1': KeysAndProjection(
+        keys: [
+          {
+            'HashKey': 'hashkey',
+            'NumberRangeKey': 1,
+          }
+        ],
+      ),
+      'Table-2': KeysAndProjection(
+        keys: [
+          {
+            'foo': 'bar',
+          }
+        ],
+      ),
+    },
+  );
+
+  print(jsonEncode(batchGetResponse.responses));
 }
