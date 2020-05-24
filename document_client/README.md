@@ -7,9 +7,7 @@ The document client simplifies working with items in Amazon DynamoDB by abstract
 
 ## Links
 
-- [**Current list of packages**](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
-- [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
 
 ## Contributors
 
