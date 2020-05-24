@@ -104,7 +104,7 @@ class BumpVersionCommand extends Command {
 
       final newSharedVersion = protocolConfig.shared;
       final oldSharedVersion =
-          pubspecMap['dependencies']['aws_client'] as String;
+          pubspecMap['dependencies']['shared_aws_api'] as String;
 
       // no change needed ?
       if (currentHash != null &&
@@ -112,6 +112,11 @@ class BumpVersionCommand extends Command {
           changelogContent.contains(currentHash) &&
           oldSharedVersion == newSharedVersion) {
         print('$package will not be bumped');
+        continue;
+      }
+
+      if (oldSharedVersion == newSharedVersion &&
+          currentVersion == newVersion) {
         continue;
       }
 
