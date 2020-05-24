@@ -96,6 +96,7 @@ class GenerateCommand extends Command {
     final touchedDirs = <String>{};
     final notGeneratedApis = <String, Map<String, List<String>>>{};
     final latestBuiltApi = <String, String>{};
+    final generatedApis = <String, String>{};
 
     for (var i = 0; i < services.length; i++) {
       final service = services.elementAt(i);
@@ -179,6 +180,7 @@ class GenerateCommand extends Command {
           }
 
           touchedDirs.add(baseDir);
+          generatedApis[api.packageName] = api.metadata.serviceFullName;
         } else {
           notGeneratedApis[api.metadata.protocol] ??= {};
           notGeneratedApis[api.metadata.protocol]
@@ -198,6 +200,12 @@ class GenerateCommand extends Command {
     }
 
     printPercentageInPlace(100, 'Done');
+
+    print('\nGenerated packages:');
+
+    (generatedApis.entries.toList()..sort((a, b) => a.value.compareTo(b.value)))
+        .forEach(
+            (e) => print('- [${e.value}](https://pub.dev/packages/${e.key})'));
 
     if (argResults['build'] == true) {
       final stopwatch = Stopwatch()..start();
