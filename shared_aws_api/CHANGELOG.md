@@ -1,3 +1,8 @@
+## 0.1.8
+
+- Fixed type conversion issue in `Uint8ListListConverter`.
+- Fixed type parameter in extension method.
+
 ## 0.1.7
 
 - Fix: export `XmlFindExtension` from `package:xml`.
