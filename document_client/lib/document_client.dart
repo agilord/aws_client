@@ -19,17 +19,17 @@ export 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 /// by the `DocumentClient`. The `DocumentClient`, does not accept
 /// `AttributeValue`s in favor of native Dart types.
 ///
-/// |                             Dart Type                                  | DynamoDB AttributeValue |
-/// |:----------------------------------------------------------------------:|-------------------------|
-/// | String                                                                 | S                       |
-/// | int, double                                                            | N                       |
-/// | bool                                                                   | BOOL                    |
-/// | null                                                                   | NULL                    |
-/// | List<num>                                                              | NS                      |
-/// | List<Uint8List>                                                        | BS                      |
-/// | List                                                                   | L                       |
-/// | Map                                                                    | M                       |
-/// | Uint8List                                                              | B                       |
+/// | Dart Type                                    | DynamoDB AttributeValue |
+/// |:--------------------------------------------:|-------------------------|
+/// | String                                       | S                       |
+/// | int, double                                  | N                       |
+/// | bool                                         | BOOL                    |
+/// | null                                         | NULL                    |
+/// | List<num>                                    | NS                      |
+/// | List<Uint8List>                              | BS                      |
+/// | List                                         | L                       |
+/// | Map                                          | M                       |
+/// | Uint8List                                    | B                       |
 ///
 /// ## Support for Sets
 ///
@@ -40,7 +40,7 @@ export 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 /// [Amazon DynamoDB Data Model Documentation](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html)
 /// For more information see {AWS.DynamoDB.DocumentClient.createSet}
 class DocumentClient {
-  final DynamoDB _dynamoDB;
+  final DynamoDB dynamoDB;
 
   DocumentClient(
       {@required String region,
@@ -48,32 +48,16 @@ class DocumentClient {
       AwsClientCredentials credentials,
       String endpointUrl,
       Client client})
-      : _dynamoDB = dynamoDB ??
+      : dynamoDB = dynamoDB ??
             DynamoDB(
                 region: region,
                 credentials: credentials,
                 endpointUrl: endpointUrl,
                 client: client);
 
-  /// Returns a set of attributes for the item with the given primary key
-  /// by delegating to `DynamoDB.getItem()`.
-  ///
-  /// Supply the same parameters as DynamoDB.getItem with
-  /// `AttributeValue`s substituted by native Dart types.
-  ///
-  /// @see DynamoDB.getItem
-  /// @example Get an item from a table
-  ///
-  ///  final documentClient = DocumentClient();
-  ///
-  ///  await documentClient.get(
-  ///   tableName: 'Table',
-  ///   key: {
-  ///     'HashKey': 'hashkey'
-  ///   }
-  ///  );
-  ///
-  Future<GetResponse> get({
+  /// Returns a set of attributes for the item with the given primary key by
+  /// delegating to DynamoDB.getItem().
+  Future<GetOutput> get({
     @required String tableName,
     @required Map<String, dynamic> key,
     List<String> attributesToGet,
@@ -82,7 +66,7 @@ class DocumentClient {
     String projectionExpression,
     ReturnConsumedCapacity returnConsumedCapacity,
   }) async {
-    final getItemOutput = await _dynamoDB.getItem(
+    final getItemOutput = await dynamoDB.getItem(
         key: key.fromJsonToAttributeValue(),
         tableName: tableName,
         attributesToGet: attributesToGet,
@@ -90,43 +74,15 @@ class DocumentClient {
         expressionAttributeNames: expressionAttributeNames,
         projectionExpression: projectionExpression,
         returnConsumedCapacity: returnConsumedCapacity);
-    return GetResponse(
+    return GetOutput(
       getItemOutput.consumedCapacity,
       getItemOutput.item.toJson(),
     );
   }
 
-  /// Returns the attributes of one or more items from one or more tables
-  /// by delegating to `DynamoDB.batchGetItem()`.
-  ///
-  /// Supply the same parameters as {DynamoDB.batchGetItem} with
-  /// `AttributeValue`s substituted by native Dart types.
-  ///
-  /// @see DynamoDB.batchGetItem
-  /// @example Get items from multiple tables
-  ///
-  ///  final documentClient = DocumentClient();
-  ///
-  ///  final batchGetResponse = await documentClient.batchGet(
-  ///    requestItems: {
-  ///      'Table-1': KeysAndProjection(
-  ///        keys: [
-  ///          {
-  ///            'HashKey': 'hashkey',
-  ///            'NumberRangeKey': 1,
-  ///          }
-  ///        ],
-  ///      ),
-  ///      'Table-2': KeysAndProjection(
-  ///        keys: [
-  ///          {
-  ///            'foo': 'bar',
-  ///          }
-  ///        ],
-  ///      ),
-  ///    },
-  ///  );
-  Future<BatchGetResponse> batchGet({
+  /// Returns the attributes of one or more items from one or more tables by
+  /// delegating to DynamoDB.batchGetItem().
+  Future<BatchGetOutput> batchGet({
     ReturnConsumedCapacity returnConsumedCapacity,
     @required Map<String, KeysAndProjection> requestItems,
   }) async {
@@ -138,12 +94,12 @@ class DocumentClient {
           consistentRead: v.consistentRead,
           expressionAttributeNames: v.expressionAttributeNames,
         )));
-    final response = await _dynamoDB.batchGetItem(
+    final response = await dynamoDB.batchGetItem(
       requestItems: ri,
       returnConsumedCapacity: returnConsumedCapacity,
     );
 
-    return BatchGetResponse(
+    return BatchGetOutput(
       response.consumedCapacity,
       response.responses?.map(
         (k, v) => MapEntry(
@@ -164,12 +120,9 @@ class DocumentClient {
     );
   }
 
-  /// Puts or deletes multiple items in one or more tables by delegating
-  /// to `DynamoDB.batchWriteItem()`.
-  ///
-  /// Supply the same parameters as {DynamoDB.batchWriteItem} with
-  /// `AttributeValue`s substituted by native Dart types.
-  Future<BatchWriteResponse> batchWrite({
+  /// Puts or deletes multiple items in one or more tables by delegating to
+  /// DynamoDB.batchWriteItem().
+  Future<BatchWriteOutput> batchWrite({
     @required Map<String, List<Write>> requestItems,
     ReturnConsumedCapacity returnConsumedCapacity,
     ReturnItemCollectionMetrics returnItemCollectionMetrics,
@@ -191,15 +144,15 @@ class DocumentClient {
             .toList(),
       ),
     );
-    final writeOutput = await _dynamoDB.batchWriteItem(
+    final wr = await dynamoDB.batchWriteItem(
       requestItems: ri,
       returnConsumedCapacity: returnConsumedCapacity,
       returnItemCollectionMetrics: returnItemCollectionMetrics,
     );
 
-    return BatchWriteResponse(
-      consumedCapacity: writeOutput.consumedCapacity,
-      unprocessedItems: writeOutput.unprocessedItems?.map((k, v) => MapEntry(
+    return BatchWriteOutput(
+      consumedCapacity: wr.consumedCapacity,
+      unprocessedItems: wr.unprocessedItems?.map((k, v) => MapEntry(
             k,
             v
                 .map((e) => Write(
@@ -208,18 +161,474 @@ class DocumentClient {
                     ))
                 .toList(),
           )),
-      itemCollectionMetrics:
-          writeOutput.itemCollectionMetrics?.map((k, v) => MapEntry(
-                k,
-                v
-                    .map((e) => ItemCollectionMetricsDC(
-                          itemCollectionKey: e.itemCollectionKey.toJson(),
-                          sizeEstimateRangeGB: e.sizeEstimateRangeGB,
-                        ))
-                    .toList(),
-              )),
+      itemCollectionMetrics: wr.itemCollectionMetrics?.map((k, v) => MapEntry(
+            k,
+            v
+                .map((e) => ItemCollectionMetricsDC(
+                      itemCollectionKey: e.itemCollectionKey.toJson(),
+                      sizeEstimateRangeGB: e.sizeEstimateRangeGB,
+                    ))
+                .toList(),
+          )),
     );
   }
+
+  /// Deletes a single item in a table by primary key by delegating to DynamoDB.deleteItem().
+  Future<OperationOutput> delete({
+    @required Map<String, dynamic> key,
+    @required String tableName,
+    String conditionExpression,
+    ConditionalOperator conditionalOperator,
+    Map<String, ExpectedAttributeValueDC> expected,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    ReturnValue returnValues,
+  }) async {
+    final dr = await dynamoDB.deleteItem(
+      key: key.fromJsonToAttributeValue(),
+      tableName: tableName,
+      conditionExpression: conditionExpression,
+      conditionalOperator: conditionalOperator,
+      expected: expected?.map((key, value) => MapEntry(
+          key,
+          ExpectedAttributeValue(
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+            comparisonOperator: value.comparisonOperator,
+            exists: value.exists,
+            value: toAttributeValue(value.value),
+          ))),
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues?.fromJsonToAttributeValue(),
+      returnConsumedCapacity: returnConsumedCapacity,
+      returnItemCollectionMetrics: returnItemCollectionMetrics,
+      returnValues: returnValues,
+    );
+
+    return OperationOutput(
+      attributes: dr.attributes.toJson(),
+      consumedCapacity: dr.consumedCapacity,
+      itemCollectionMetrics: ItemCollectionMetricsDC(
+        itemCollectionKey: dr.itemCollectionMetrics.itemCollectionKey?.toJson(),
+        sizeEstimateRangeGB: dr.itemCollectionMetrics.sizeEstimateRangeGB,
+      ),
+    );
+  }
+
+  /// Creates a new item, or replaces an old item with a new item by delegating to AWS.DynamoDB.putItem().
+  Future<OperationOutput> put({
+    @required Map<String, dynamic> item,
+    @required String tableName,
+    String conditionExpression,
+    ConditionalOperator conditionalOperator,
+    Map<String, ExpectedAttributeValueDC> expected,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    ReturnValue returnValues,
+  }) async {
+    final pr = await dynamoDB.putItem(
+      item: item.fromJsonToAttributeValue(),
+      tableName: tableName,
+      conditionExpression: conditionExpression,
+      conditionalOperator: conditionalOperator,
+      expected: expected.map((key, value) => MapEntry(
+          key,
+          ExpectedAttributeValue(
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+            comparisonOperator: value.comparisonOperator,
+            exists: value.exists,
+            value: toAttributeValue(value.value),
+          ))),
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues?.fromJsonToAttributeValue(),
+      returnConsumedCapacity: returnConsumedCapacity,
+      returnItemCollectionMetrics: returnItemCollectionMetrics,
+      returnValues: returnValues,
+    );
+
+    return OperationOutput(
+      attributes: pr.attributes?.toJson(),
+      consumedCapacity: pr.consumedCapacity,
+      itemCollectionMetrics: ItemCollectionMetricsDC(
+        itemCollectionKey:
+            pr.itemCollectionMetrics?.itemCollectionKey?.toJson(),
+        sizeEstimateRangeGB: pr.itemCollectionMetrics?.sizeEstimateRangeGB,
+      ),
+    );
+  }
+
+  /// Directly access items from a table by primary key or a secondary index.
+  Future<QueryOutputDC> query({
+    @required String tableName,
+    List<String> attributesToGet,
+    ConditionalOperator conditionalOperator,
+    bool consistentRead,
+    Map<String, dynamic> exclusiveStartKey,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    String filterExpression,
+    String indexName,
+    String keyConditionExpression,
+    Map<String, ConditionDC> keyConditions,
+    int limit,
+    String projectionExpression,
+    Map<String, ConditionDC> queryFilter,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    bool scanIndexForward,
+    Select select,
+  }) async {
+    final qr = await dynamoDB.query(
+      tableName: tableName,
+      attributesToGet: attributesToGet,
+      conditionalOperator: conditionalOperator,
+      consistentRead: consistentRead,
+      exclusiveStartKey: exclusiveStartKey?.fromJsonToAttributeValue(),
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues?.fromJsonToAttributeValue(),
+      filterExpression: filterExpression,
+      indexName: indexName,
+      keyConditionExpression: keyConditionExpression,
+      keyConditions: keyConditions?.map((key, value) => MapEntry(
+          key,
+          Condition(
+            comparisonOperator: value.comparisonOperator,
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+          ))),
+      limit: limit,
+      projectionExpression: projectionExpression,
+      queryFilter: queryFilter?.map((key, value) => MapEntry(
+          key,
+          Condition(
+            comparisonOperator: value.comparisonOperator,
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+          ))),
+      returnConsumedCapacity: returnConsumedCapacity,
+      scanIndexForward: scanIndexForward,
+      select: select,
+    );
+
+    return QueryOutputDC(
+      consumedCapacity: qr.consumedCapacity,
+      count: qr.count,
+      scannedCount: qr.scannedCount,
+      items: qr.items?.map((e) => e.toJson())?.toList(),
+      lastEvaluatedKey: qr.lastEvaluatedKey?.toJson(),
+    );
+  }
+
+  /// Returns one or more items and item attributes by accessing every item in a table or a secondary index.
+  Future<QueryOutputDC> scan({
+    @required String tableName,
+    List<String> attributesToGet,
+    ConditionalOperator conditionalOperator,
+    bool consistentRead,
+    Map<String, dynamic> exclusiveStartKey,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    String filterExpression,
+    String indexName,
+    int limit,
+    String projectionExpression,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    Map<String, ConditionDC> scanFilter,
+    int segment,
+    Select select,
+    int totalSegments,
+  }) async {
+    final sr = await dynamoDB.scan(
+      tableName: tableName,
+      attributesToGet: attributesToGet,
+      conditionalOperator: conditionalOperator,
+      consistentRead: consistentRead,
+      exclusiveStartKey: exclusiveStartKey.fromJsonToAttributeValue(),
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues.fromJsonToAttributeValue(),
+      filterExpression: filterExpression,
+      indexName: indexName,
+      limit: limit,
+      projectionExpression: projectionExpression,
+      returnConsumedCapacity: returnConsumedCapacity,
+      scanFilter: scanFilter?.map((key, value) => MapEntry(
+          key,
+          Condition(
+            comparisonOperator: value.comparisonOperator,
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+          ))),
+      segment: segment,
+      select: select,
+      totalSegments: totalSegments,
+    );
+
+    return QueryOutputDC(
+      consumedCapacity: sr.consumedCapacity,
+      count: sr.count,
+      scannedCount: sr.scannedCount,
+      items: sr.items?.map((e) => e.toJson())?.toList(),
+      lastEvaluatedKey: sr.lastEvaluatedKey?.toJson(),
+    );
+  }
+
+  /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist by delegating to AWS.DynamoDB.updateItem().
+  Future<OperationOutput> update({
+    @required Map<String, dynamic> key,
+    @required String tableName,
+    Map<String, UpdateDC> attributeUpdates,
+    String conditionExpression,
+    ConditionalOperator conditionalOperator,
+    Map<String, ExpectedAttributeValueDC> expected,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    ReturnValue returnValues,
+    String updateExpression,
+  }) async {
+    final ur = await dynamoDB.updateItem(
+      key: key.fromJsonToAttributeValue(),
+      tableName: tableName,
+      attributeUpdates: attributeUpdates.map((key, value) => MapEntry(
+          key,
+          AttributeValueUpdate(
+              action: value.action, value: toAttributeValue(value.value)))),
+      conditionExpression: conditionExpression,
+      conditionalOperator: conditionalOperator,
+      expected: expected.map((key, value) => MapEntry(
+          key,
+          ExpectedAttributeValue(
+            attributeValueList:
+                value.attributeValueList?.map(toAttributeValue)?.toList(),
+            comparisonOperator: value.comparisonOperator,
+            exists: value.exists,
+            value: toAttributeValue(value.value),
+          ))),
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues.fromJsonToAttributeValue(),
+      returnConsumedCapacity: returnConsumedCapacity,
+      returnItemCollectionMetrics: returnItemCollectionMetrics,
+      returnValues: returnValues,
+      updateExpression: updateExpression,
+    );
+
+    return OperationOutput(
+      attributes: ur.attributes?.toJson(),
+      consumedCapacity: ur.consumedCapacity,
+      itemCollectionMetrics: ItemCollectionMetricsDC(
+        itemCollectionKey:
+            ur.itemCollectionMetrics?.itemCollectionKey?.toJson(),
+        sizeEstimateRangeGB: ur.itemCollectionMetrics?.sizeEstimateRangeGB,
+      ),
+    );
+  }
+
+  /// Atomically retrieves multiple items from one or more tables (but not from indexes) in a single account and region.
+  Future<TransactGetOutput> transactGet({
+    @required List<GetDC> transactItems,
+    ReturnConsumedCapacity returnConsumedCapacity,
+  }) async {
+    final tgr = await dynamoDB.transactGetItems(
+      transactItems: transactItems
+          .map((e) => TransactGetItem(
+                get: Get(
+                  key: e.key.fromJsonToAttributeValue(),
+                  tableName: e.tableName,
+                  expressionAttributeNames: e.expressionAttributeNames,
+                  projectionExpression: e.projectionExpression,
+                ),
+              ))
+          .toList(),
+      returnConsumedCapacity: returnConsumedCapacity,
+    );
+
+    return TransactGetOutput(
+      consumedCapacity: tgr.consumedCapacity,
+      responses: tgr.responses.map((e) => e.item.toJson()).toList(),
+    );
+  }
+
+  /// Synchronous write operation that groups up to 10 action requests
+  Future<void> transactWrite({
+    @required List<TransactWrite> transactItems,
+    String clientRequestToken,
+    ReturnConsumedCapacity returnConsumedCapacity,
+    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+  }) async {
+    await dynamoDB.transactWriteItems(
+      transactItems: transactItems
+          .map((e) => TransactWriteItem(
+                conditionCheck: e.conditionCheck?.let((e) => ConditionCheck(
+                    tableName: e.tableName,
+                    key: e.value.fromJsonToAttributeValue(),
+                    conditionExpression: e.expression,
+                    expressionAttributeNames: e.expressionAttributeNames,
+                    expressionAttributeValues:
+                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                    returnValuesOnConditionCheckFailure:
+                        e.returnValuesOnConditionCheckFailure)),
+                delete: e.conditionCheck?.let((e) => Delete(
+                    tableName: e.tableName,
+                    key: e.value.fromJsonToAttributeValue(),
+                    conditionExpression: e.expression,
+                    expressionAttributeNames: e.expressionAttributeNames,
+                    expressionAttributeValues:
+                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                    returnValuesOnConditionCheckFailure:
+                        e.returnValuesOnConditionCheckFailure)),
+                put: e.conditionCheck?.let((e) => Put(
+                    tableName: e.tableName,
+                    item: e.value.fromJsonToAttributeValue(),
+                    conditionExpression: e.expression,
+                    expressionAttributeNames: e.expressionAttributeNames,
+                    expressionAttributeValues:
+                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                    returnValuesOnConditionCheckFailure:
+                        e.returnValuesOnConditionCheckFailure)),
+                update: e.conditionCheck?.let((e) => Update(
+                    tableName: e.tableName,
+                    key: e.value.fromJsonToAttributeValue(),
+                    conditionExpression: e.expression,
+                    expressionAttributeNames: e.expressionAttributeNames,
+                    expressionAttributeValues:
+                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                    returnValuesOnConditionCheckFailure:
+                        e.returnValuesOnConditionCheckFailure)),
+              ))
+          .toList(),
+      clientRequestToken: clientRequestToken,
+      returnConsumedCapacity: returnConsumedCapacity,
+      returnItemCollectionMetrics: returnItemCollectionMetrics,
+    );
+  }
+}
+
+class Operation {
+  final String expression;
+  final Map<String, dynamic> value;
+  final String tableName;
+  final Map<String, String> expressionAttributeNames;
+  final Map<String, dynamic> expressionAttributeValues;
+  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+
+  Operation({
+    @required this.value,
+    @required this.tableName,
+    this.expression,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnValuesOnConditionCheckFailure,
+  });
+}
+
+class TransactWrite {
+  final Operation conditionCheck;
+  final Operation delete;
+  final Operation put;
+  final Operation update;
+
+  TransactWrite({
+    this.conditionCheck,
+    this.delete,
+    this.put,
+    this.update,
+  }) {
+    final nulls = [conditionCheck, delete, put, update].where((e) => e == null);
+    if (nulls.length < 3) {
+      throw ArgumentError(
+          'Only one of the conditionCheck/delete/put/update fields can be set at the same time');
+    }
+  }
+}
+
+class TransactGetOutput {
+  final List<Map<String, dynamic>> responses;
+  final List<ConsumedCapacity> consumedCapacity;
+
+  TransactGetOutput({this.responses, this.consumedCapacity});
+}
+
+class GetDC {
+  final Map<String, dynamic> key;
+  final String tableName;
+  final Map<String, String> expressionAttributeNames;
+  final String projectionExpression;
+
+  GetDC({
+    @required this.key,
+    @required this.tableName,
+    this.expressionAttributeNames,
+    this.projectionExpression,
+  });
+}
+
+class UpdateDC {
+  final AttributeAction action;
+  final dynamic value;
+
+  UpdateDC(this.action, this.value);
+}
+
+class QueryOutputDC {
+  final ConsumedCapacity consumedCapacity;
+  final int count;
+  final List<Map<String, dynamic>> items;
+  final Map<String, dynamic> lastEvaluatedKey;
+  final int scannedCount;
+
+  QueryOutputDC({
+    this.consumedCapacity,
+    this.count,
+    this.items,
+    this.lastEvaluatedKey,
+    this.scannedCount,
+  });
+}
+
+class ConditionDC {
+  final ComparisonOperator comparisonOperator;
+  final List<dynamic> attributeValueList;
+
+  ConditionDC({
+    @required this.comparisonOperator,
+    this.attributeValueList,
+  });
+}
+
+class OperationOutput {
+  final Map<String, dynamic> attributes;
+  final ConsumedCapacity consumedCapacity;
+  final ItemCollectionMetricsDC itemCollectionMetrics;
+
+  OperationOutput({
+    this.attributes,
+    this.consumedCapacity,
+    this.itemCollectionMetrics,
+  });
+}
+
+class ExpectedAttributeValueDC {
+  final List<dynamic> attributeValueList;
+  final ComparisonOperator comparisonOperator;
+  final bool exists;
+  final dynamic value;
+
+  ExpectedAttributeValueDC({
+    this.attributeValueList,
+    this.comparisonOperator,
+    this.exists,
+    this.value,
+  });
 }
 
 class Write {
@@ -238,12 +647,12 @@ class Write {
   }
 }
 
-class BatchWriteResponse {
+class BatchWriteOutput {
   final List<ConsumedCapacity> consumedCapacity;
   final Map<String, List<ItemCollectionMetricsDC>> itemCollectionMetrics;
   final Map<String, List<Write>> unprocessedItems;
 
-  BatchWriteResponse({
+  BatchWriteOutput({
     this.consumedCapacity,
     this.itemCollectionMetrics,
     this.unprocessedItems,
@@ -257,88 +666,10 @@ class ItemCollectionMetricsDC {
   ItemCollectionMetricsDC({this.itemCollectionKey, this.sizeEstimateRangeGB});
 }
 
-/// Represents a set of primary keys and, for each key, the attributes to
-/// retrieve from the table.
-///
-/// For each primary key, you must provide <i>all</i> of the key attributes. For
-/// example, with a simple primary key, you only need to provide the partition
-/// key. For a composite primary key, you must provide <i>both</i> the partition
-/// key and the sort key.
 class KeysAndProjection {
-  /// The primary key attribute values that define the items and the attributes
-  /// associated with the items.
   final List<Map<String, dynamic>> keys;
-
-  /// The consistency of a read operation. If set to <code>true</code>, then a
-  /// strongly consistent read is used; otherwise, an eventually consistent read
-  /// is used.
   final bool consistentRead;
-
-  /// One or more substitution tokens for attribute names in an expression. The
-  /// following are some use cases for using
-  /// <code>ExpressionAttributeNames</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
-  /// </li>
-  /// <li>
-  /// To create a placeholder for repeating occurrences of an attribute name in an
-  /// expression.
-  /// </li>
-  /// <li>
-  /// To prevent special characters in an attribute name from being misinterpreted
-  /// in an expression.
-  /// </li>
-  /// </ul>
-  /// Use the <b>#</b> character in an expression to dereference an attribute
-  /// name. For example, consider the following attribute name:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Percentile</code>
-  /// </li>
-  /// </ul>
-  /// The name of this attribute conflicts with a reserved word, so it cannot be
-  /// used directly in an expression. (For the complete list of reserved words,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
-  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
-  /// this, you could specify the following for
-  /// <code>ExpressionAttributeNames</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>{"#P":"Percentile"}</code>
-  /// </li>
-  /// </ul>
-  /// You could then use this substitution in an expression, as in this example:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>#P = :val</code>
-  /// </li>
-  /// </ul> <note>
-  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
-  /// values</i>, which are placeholders for the actual value at runtime.
-  /// </note>
-  /// For more information on expression attribute names, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
-  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final Map<String, String> expressionAttributeNames;
-
-  /// A string that identifies one or more attributes to retrieve from the table.
-  /// These attributes can include scalars, sets, or elements of a JSON document.
-  /// The attributes in the <code>ProjectionExpression</code> must be separated by
-  /// commas.
-  ///
-  /// If no attribute names are specified, then all attributes will be returned.
-  /// If any of the requested attributes are not found, they will not appear in
-  /// the result.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
-  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final String projectionExpression;
 
   KeysAndProjection({
@@ -349,61 +680,17 @@ class KeysAndProjection {
   });
 }
 
-class BatchGetResponse {
-  /// The read capacity units consumed by the entire <code>BatchGetItem</code>
-  /// operation.
-  ///
-  /// Each element consists of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TableName</code> - The table that consumed the provisioned throughput.
-  /// </li>
-  /// <li>
-  /// <code>CapacityUnits</code> - The total number of capacity units consumed.
-  /// </li>
-  /// </ul>
+class BatchGetOutput {
   final List<ConsumedCapacity> consumedCapacity;
-
-  /// A map of table name to a list of items. Each object in
-  /// <code>Responses</code> consists of a table name, along with a map of
-  /// attribute data consisting of the data type and attribute value.
   final Map<String, List<Map<String, dynamic>>> responses;
-
-  /// A map of tables and their respective keys that were not processed with the
-  /// current response. The <code>UnprocessedKeys</code> value is in the same form
-  /// as <code>RequestItems</code>, so the value can be provided directly to a
-  /// subsequent <code>BatchGetItem</code> operation. For more information, see
-  /// <code>RequestItems</code> in the Request Parameters section.
-  ///
-  /// Each element consists of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Keys</code> - An array of primary key attribute values that define
-  /// specific items in the table.
-  /// </li>
-  /// <li>
-  /// <code>ProjectionExpression</code> - One or more attributes to be retrieved
-  /// from the table or index. By default, all attributes are returned. If a
-  /// requested attribute is not found, it does not appear in the result.
-  /// </li>
-  /// <li>
-  /// <code>ConsistentRead</code> - The consistency of a read operation. If set to
-  /// <code>true</code>, then a strongly consistent read is used; otherwise, an
-  /// eventually consistent read is used.
-  /// </li>
-  /// </ul>
-  /// If there are no unprocessed keys remaining, the response contains an empty
-  /// <code>UnprocessedKeys</code> map.
   final Map<String, KeysAndProjection> unprocessedKeys;
 
-  BatchGetResponse(this.consumedCapacity, this.responses, this.unprocessedKeys);
+  BatchGetOutput(this.consumedCapacity, this.responses, this.unprocessedKeys);
 }
 
-class GetResponse {
+class GetOutput {
   final ConsumedCapacity consumedCapacity;
   final Map<String, dynamic> item;
 
-  GetResponse(this.consumedCapacity, this.item);
+  GetOutput(this.consumedCapacity, this.item);
 }
