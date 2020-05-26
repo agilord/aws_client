@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Shorten description to make Pub happy
+
 ## 0.0.2
 
 - Fix bugs in transactWrite
