@@ -477,7 +477,7 @@ class DocumentClient {
                         e.expressionAttributeValues?.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
-                delete: e.conditionCheck?.let((e) => Delete(
+                delete: e.delete?.let((e) => Delete(
                     tableName: e.tableName,
                     key: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
@@ -486,7 +486,7 @@ class DocumentClient {
                         e.expressionAttributeValues?.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
-                put: e.conditionCheck?.let((e) => Put(
+                put: e.put?.let((e) => Put(
                     tableName: e.tableName,
                     item: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
@@ -495,10 +495,11 @@ class DocumentClient {
                         e.expressionAttributeValues?.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
-                update: e.conditionCheck?.let((e) => Update(
+                update: e.update?.let((e) => Update(
                     tableName: e.tableName,
                     key: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
+                    updateExpression: e.updateExpression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
                         e.expressionAttributeValues?.fromJsonToAttributeValue(),
@@ -531,11 +532,33 @@ class Operation {
   });
 }
 
+class UpdateOperation extends Operation {
+  final String updateExpression;
+
+  UpdateOperation({
+    @required Map<String, dynamic> value,
+    @required String tableName,
+    String expression,
+    this.updateExpression,
+    Map<String, String> expressionAttributeNames,
+    Map<String, dynamic> expressionAttributeValues,
+    ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure,
+  }) : super(
+          tableName: tableName,
+          value: value,
+          expression: expression,
+          expressionAttributeNames: expressionAttributeNames,
+          expressionAttributeValues: expressionAttributeValues,
+          returnValuesOnConditionCheckFailure:
+              returnValuesOnConditionCheckFailure,
+        );
+}
+
 class TransactWrite {
   final Operation conditionCheck;
   final Operation delete;
   final Operation put;
-  final Operation update;
+  final UpdateOperation update;
 
   TransactWrite({
     this.conditionCheck,
