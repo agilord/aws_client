@@ -52,11 +52,19 @@ dynamic toDartType(AttributeValue value) {
 }
 
 extension AttributeTranslator on Map<String, AttributeValue> {
-  Map<String, dynamic> toJson() =>
-      map((key, value) => MapEntry(key, toDartType(value)));
+  Map<String, dynamic> toJson() {
+    if (this != null) {
+      return map((key, value) => MapEntry(key, toDartType(value)));
+    }
+    return null;
+  }
 }
 
 extension DynamicTranslator on Map<String, dynamic> {
-  Map<String, AttributeValue> fromJsonToAttributeValue() =>
+  Map<String, AttributeValue> fromJsonToAttributeValue() {
+    if (this != null) {
       map((key, value) => MapEntry(key, toAttributeValue(value)));
+    }
+    return null;
+  }
 }

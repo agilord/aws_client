@@ -2,7 +2,7 @@ name: document_client
 description: |
   The DynamoDB document client simplifies working with items.
   It uses native Dart types as input parameters, as well as converts response data to native Dart types.
-version: 0.0.3
+version: 0.0.4
 
 homepage: https://github.com/agilord/aws_client
 

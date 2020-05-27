@@ -350,10 +350,10 @@ class DocumentClient {
       attributesToGet: attributesToGet,
       conditionalOperator: conditionalOperator,
       consistentRead: consistentRead,
-      exclusiveStartKey: exclusiveStartKey.fromJsonToAttributeValue(),
+      exclusiveStartKey: exclusiveStartKey?.fromJsonToAttributeValue(),
       expressionAttributeNames: expressionAttributeNames,
       expressionAttributeValues:
-          expressionAttributeValues.fromJsonToAttributeValue(),
+          expressionAttributeValues?.fromJsonToAttributeValue(),
       filterExpression: filterExpression,
       indexName: indexName,
       limit: limit,
@@ -404,7 +404,7 @@ class DocumentClient {
               action: value.action, value: toAttributeValue(value.value)))),
       conditionExpression: conditionExpression,
       conditionalOperator: conditionalOperator,
-      expected: expected.map((key, value) => MapEntry(
+      expected: expected?.map((key, value) => MapEntry(
           key,
           ExpectedAttributeValue(
             attributeValueList:
@@ -415,7 +415,7 @@ class DocumentClient {
           ))),
       expressionAttributeNames: expressionAttributeNames,
       expressionAttributeValues:
-          expressionAttributeValues.fromJsonToAttributeValue(),
+          expressionAttributeValues?.fromJsonToAttributeValue(),
       returnConsumedCapacity: returnConsumedCapacity,
       returnItemCollectionMetrics: returnItemCollectionMetrics,
       returnValues: returnValues,
@@ -470,7 +470,7 @@ class DocumentClient {
           .map((e) => TransactWriteItem(
                 conditionCheck: e.conditionCheck?.let((e) => ConditionCheck(
                     tableName: e.tableName,
-                    key: e.value.fromJsonToAttributeValue(),
+                    key: e.value?.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
@@ -479,7 +479,7 @@ class DocumentClient {
                         e.returnValuesOnConditionCheckFailure)),
                 delete: e.delete?.let((e) => Delete(
                     tableName: e.tableName,
-                    key: e.value.fromJsonToAttributeValue(),
+                    key: e.value?.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
@@ -488,7 +488,7 @@ class DocumentClient {
                         e.returnValuesOnConditionCheckFailure)),
                 put: e.put?.let((e) => Put(
                     tableName: e.tableName,
-                    item: e.value.fromJsonToAttributeValue(),
+                    item: e.value?.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
@@ -497,7 +497,7 @@ class DocumentClient {
                         e.returnValuesOnConditionCheckFailure)),
                 update: e.update?.let((e) => Update(
                     tableName: e.tableName,
-                    key: e.value.fromJsonToAttributeValue(),
+                    key: e.value?.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     updateExpression: e.updateExpression,
                     expressionAttributeNames: e.expressionAttributeNames,
