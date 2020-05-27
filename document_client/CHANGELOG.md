@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Fix crashes because of null parameters
+
 ## 0.0.3
 
 - Shorten description to make Pub happy
