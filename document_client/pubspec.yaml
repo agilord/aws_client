@@ -1,13 +1,13 @@
 name: document_client
 description: |
-  The DynamoDB document client simplifies working with items by abstracting the notion of attribute values.
-  This abstraction annotates native Dart types supplied as input parameters, as well as converts annotated response data to native Dart types.
-version: 0.0.2
+  The DynamoDB document client simplifies working with items.
+  It uses native Dart types as input parameters, as well as converts response data to native Dart types.
+version: 0.0.4
 
 homepage: https://github.com/agilord/aws_client
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   aws_dynamodb_api: ^0.0.3
