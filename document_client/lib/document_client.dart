@@ -396,9 +396,9 @@ class DocumentClient {
     String updateExpression,
   }) async {
     final ur = await dynamoDB.updateItem(
-      key: key.fromJsonToAttributeValue(),
+      key: key?.fromJsonToAttributeValue(),
       tableName: tableName,
-      attributeUpdates: attributeUpdates.map((key, value) => MapEntry(
+      attributeUpdates: attributeUpdates?.map((key, value) => MapEntry(
           key,
           AttributeValueUpdate(
               action: value.action, value: toAttributeValue(value.value)))),

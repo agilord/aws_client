@@ -63,7 +63,7 @@ extension AttributeTranslator on Map<String, AttributeValue> {
 extension DynamicTranslator on Map<String, dynamic> {
   Map<String, AttributeValue> fromJsonToAttributeValue() {
     if (this != null) {
-      map((key, value) => MapEntry(key, toAttributeValue(value)));
+      return map((key, value) => MapEntry(key, toAttributeValue(value)));
     }
     return null;
   }
