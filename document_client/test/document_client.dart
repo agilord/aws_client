@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:document_client/document_client.dart';
-import 'package:test/test.dart';
-import 'package:http/testing.dart';
 import 'package:http/http.dart';
+import 'package:http/testing.dart';
+import 'package:test/test.dart';
 
 DocumentClient mockedDocumentClient(dynamic mockData) => DocumentClient(
       region: 'foo',
@@ -133,6 +133,31 @@ void main() {
 
       expect(batchRet.unprocessedItems['FizzTable'], hasLength(2));
       expect(batchRet.itemCollectionMetrics['FooTable'], hasLength(1));
+    });
+
+    test('calling update()', () async {
+      final dc = mockedDocumentClient({
+        'Attributes': {
+          'test': {'N': '1337'},
+        },
+        'ItemCollectionMetrics': {
+          'testTable': [
+            {
+              'ItemCollectionKey': {
+                'test': {'S': 'Baz'},
+              },
+              'SizeEstimateRangeGB': [666.333]
+            }
+          ],
+        },
+      });
+
+      final updateRet = await dc.update(
+        key: {'test': 6.66},
+        tableName: 'foo',
+      );
+
+      expect(updateRet.attributes['test'], equals(1337));
     });
   });
 }
