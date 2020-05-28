@@ -27,7 +27,7 @@ part 'storagegateway-2013-06-30.g.dart';
 /// appliance with cloud-based storage to provide seamless and secure
 /// integration between an organization's on-premises IT environment and the AWS
 /// storage infrastructure. The service enables you to securely upload data to
-/// the AWS cloud for cost effective backup and rapid disaster recovery.
+/// the AWS Cloud for cost effective backup and rapid disaster recovery.
 class StorageGateway {
   final _s.JsonProtocol _protocol;
   StorageGateway({
@@ -228,7 +228,7 @@ class StorageGateway {
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
-  /// working storage. Each string have a minimum length of 1 and maximum length
+  /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddCacheOutput> addCache({
     @_s.required List<String> diskIds,
@@ -345,7 +345,7 @@ class StorageGateway {
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
-  /// working storage. Each string have a minimum length of 1 and maximum length
+  /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddUploadBufferOutput> addUploadBuffer({
     @_s.required List<String> diskIds,
@@ -397,7 +397,7 @@ class StorageGateway {
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
-  /// working storage. Each string have a minimum length of 1 and maximum length
+  /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddWorkingStorageOutput> addWorkingStorage({
     @_s.required List<String> diskIds,
@@ -434,8 +434,8 @@ class StorageGateway {
   /// Assigns a tape to a tape pool for archiving. The tape assigned to a pool
   /// is archived in the S3 storage class that is associated with the pool. When
   /// you use your backup application to eject the tape, the tape is archived
-  /// directly into the S3 storage class (Glacier or Deep Archive) that
-  /// corresponds to the pool.
+  /// directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive)
+  /// that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   ///
@@ -446,8 +446,8 @@ class StorageGateway {
   /// The ID of the pool that you want to add your tape to for archiving. The
   /// tape in this pool is archived in the S3 storage class that is associated
   /// with the pool. When you use your backup application to eject the tape, the
-  /// tape is archived directly into the storage class (Glacier or Deep Archive)
-  /// that corresponds to the pool.
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
+  /// Deep Archive) that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   ///
@@ -766,12 +766,12 @@ class StorageGateway {
   /// The size of the volume in bytes.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
   /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [snapshotId] :
@@ -894,11 +894,12 @@ class StorageGateway {
   /// Creates a Network File System (NFS) file share on an existing file
   /// gateway. In Storage Gateway, a file share is a file system mount point
   /// backed by Amazon S3 cloud storage. Storage Gateway exposes file shares
-  /// using a NFS interface. This operation is only supported for file gateways.
+  /// using an NFS interface. This operation is only supported for file
+  /// gateways.
   /// <important>
   /// File gateway requires AWS Security Token Service (AWS STS) to be activated
-  /// to enable you create a file share. Make sure AWS STS is activated in the
-  /// AWS Region you are creating your file gateway in. If AWS STS is not
+  /// to enable you to create a file share. Make sure AWS STS is activated in
+  /// the AWS Region you are creating your file gateway in. If AWS STS is not
   /// activated in the AWS Region, activate it. For information about how to
   /// activate AWS STS, see Activating and Deactivating AWS STS in an AWS Region
   /// in the AWS Identity and Access Management User Guide.
@@ -942,11 +943,11 @@ class StorageGateway {
   /// and otherwise to false. The default value is true.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side
+  /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server-side
   /// encryption. This value can only be set when KMSEncrypted is true.
   /// Optional.
   ///
@@ -1051,7 +1052,7 @@ class StorageGateway {
       'defaultStorageClass',
       defaultStorageClass,
       5,
-      20,
+      50,
     );
     _s.validateStringLength(
       'kMSKey',
@@ -1100,7 +1101,8 @@ class StorageGateway {
   /// Creates a Server Message Block (SMB) file share on an existing file
   /// gateway. In Storage Gateway, a file share is a file system mount point
   /// backed by Amazon S3 cloud storage. Storage Gateway expose file shares
-  /// using a SMB interface. This operation is only supported for file gateways.
+  /// using an SMB interface. This operation is only supported for file
+  /// gateways.
   /// <important>
   /// File gateways require AWS Security Token Service (AWS STS) to be activated
   /// to enable you to create a file share. Make sure that AWS STS is activated
@@ -1165,16 +1167,16 @@ class StorageGateway {
   /// Parameter [invalidUserList] :
   /// A list of users or groups in the Active Directory that are not allowed to
   /// access the file share. A group must be prefixed with the @ character. For
-  /// example <code>@group1</code>. Can only be set if Authentication is set to
+  /// example, <code>@group1</code>. Can only be set if Authentication is set to
   /// <code>ActiveDirectory</code>.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
   /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [objectACL] :
@@ -1289,7 +1291,7 @@ class StorageGateway {
       'defaultStorageClass',
       defaultStorageClass,
       5,
-      20,
+      50,
     );
     _s.validateStringLength(
       'kMSKey',
@@ -1335,11 +1337,11 @@ class StorageGateway {
   /// Initiates a snapshot of a volume.
   ///
   /// AWS Storage Gateway provides the ability to back up point-in-time
-  /// snapshots of your data to Amazon Simple Storage (S3) for durable off-site
-  /// recovery, as well as import the data to an Amazon Elastic Block Store
-  /// (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots
-  /// of your gateway volume on a scheduled or ad hoc basis. This API enables
-  /// you to take ad-hoc snapshot. For more information, see <a
+  /// snapshots of your data to Amazon Simple Storage Service (Amazon S3) for
+  /// durable off-site recovery, as well as import the data to an Amazon Elastic
+  /// Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can
+  /// take snapshots of your gateway volume on a scheduled or ad hoc basis. This
+  /// API enables you to take an ad hoc snapshot. For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot">Editing
   /// a Snapshot Schedule</a>.
   ///
@@ -1562,13 +1564,13 @@ class StorageGateway {
   /// previously used for this volume as the new target name.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server
-  /// side encryption. This value can only be set when KMSEncrypted is true.
-  /// Optional.
+  /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3
+  /// server-side encryption. This value can only be set when KMSEncrypted is
+  /// true. Optional.
   ///
   /// Parameter [snapshotId] :
   /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the
@@ -1674,8 +1676,8 @@ class StorageGateway {
   }
 
   /// Creates a virtual tape by using your own barcode. You write data to the
-  /// virtual tape and then archive the tape. A barcode is unique and can not be
-  /// reused if it has already been used on a tape . This applies to barcodes
+  /// virtual tape and then archive the tape. A barcode is unique and cannot be
+  /// reused if it has already been used on a tape. This applies to barcodes
   /// used on deleted tapes. This operation is only supported in the tape
   /// gateway type.
   /// <note>
@@ -1702,24 +1704,24 @@ class StorageGateway {
   /// Parameter [tapeSizeInBytes] :
   /// The size, in bytes, of the virtual tape that you want to create.
   /// <note>
-  /// The size must be aligned by gigabyte (1024*1024*1024 byte).
+  /// The size must be aligned by gigabyte (1024*1024*1024 bytes).
   /// </note>
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of the AWS KMS Key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [poolId] :
   /// The ID of the pool that you want to add your tape to for archiving. The
   /// tape in this pool is archived in the S3 storage class that is associated
   /// with the pool. When you use your backup application to eject the tape, the
-  /// tape is archived directly into the storage class (Glacier or Deep Archive)
-  /// that corresponds to the pool.
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
+  /// Deep Archive) that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   ///
@@ -1840,24 +1842,24 @@ class StorageGateway {
   /// Parameter [tapeSizeInBytes] :
   /// The size, in bytes, of the virtual tapes that you want to create.
   /// <note>
-  /// The size must be aligned by gigabyte (1024*1024*1024 byte).
+  /// The size must be aligned by gigabyte (1024*1024*1024 bytes).
   /// </note>
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
   /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [poolId] :
   /// The ID of the pool that you want to add your tape to for archiving. The
   /// tape in this pool is archived in the S3 storage class that is associated
   /// with the pool. When you use your backup application to eject the tape, the
-  /// tape is archived directly into the storage class (Glacier or Deep Archive)
-  /// that corresponds to the pool.
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
+  /// Deep Archive) that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   ///
@@ -1956,6 +1958,43 @@ class StorageGateway {
     );
 
     return CreateTapesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the automatic tape creation policy of a gateway. If you delete
+  /// this policy, new virtual tapes must be created manually. Use the Amazon
+  /// Resource Name (ARN) of the gateway in your request to remove the policy.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  Future<DeleteAutomaticTapeCreationPolicyOutput>
+      deleteAutomaticTapeCreationPolicy({
+    @_s.required String gatewayARN,
+  }) async {
+    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
+    _s.validateStringLength(
+      'gatewayARN',
+      gatewayARN,
+      50,
+      500,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StorageGateway_20130630.DeleteAutomaticTapeCreationPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayARN': gatewayARN,
+      },
+    );
+
+    return DeleteAutomaticTapeCreationPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the bandwidth rate limits of a gateway. You can delete either the
@@ -2178,8 +2217,10 @@ class StorageGateway {
   /// you identify the volume by providing its Amazon Resource Name (ARN). This
   /// operation is only supported in stored and cached volume gateway types.
   /// <note>
-  /// To list or delete a snapshot, you must use the Amazon EC2 API. in
-  /// <i>Amazon Elastic Compute Cloud API Reference</i>.
+  /// To list or delete a snapshot, you must use the Amazon EC2 API. For more
+  /// information, go to <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html">DescribeSnapshots</a>
+  /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
   /// </note>
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -2450,7 +2491,7 @@ class StorageGateway {
   }
 
   /// Returns information about the cache of a gateway. This operation is only
-  /// supported in the cached volume, tape and file gateway types.
+  /// supported in the cached volume, tape, and file gateway types.
   ///
   /// The response includes disk IDs that are configured as cache, and it
   /// includes the amount of cache allocated and used.
@@ -2490,7 +2531,7 @@ class StorageGateway {
   /// This operation is only supported in the cached volume gateway types.
   ///
   /// The list of gateway volumes in the request must be from one gateway. In
-  /// the response Amazon Storage Gateway returns volume information sorted by
+  /// the response, AWS Storage Gateway returns volume information sorted by
   /// volume Amazon Resource Name (ARN).
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -2498,7 +2539,7 @@ class StorageGateway {
   ///
   /// Parameter [volumeARNs] :
   /// An array of strings where each string represents the Amazon Resource Name
-  /// (ARN) of a cached volume. All of the specified cached volumes must from
+  /// (ARN) of a cached volume. All of the specified cached volumes must be from
   /// the same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
   Future<DescribeCachediSCSIVolumesOutput> describeCachediSCSIVolumes({
     @_s.required List<String> volumeARNs,
@@ -2772,7 +2813,7 @@ class StorageGateway {
 
   /// Returns the description of the gateway volumes specified in the request.
   /// The list of gateway volumes in the request must be from one gateway. In
-  /// the response Amazon Storage Gateway returns volume information sorted by
+  /// the response AWS Storage Gateway returns volume information sorted by
   /// volume ARNs. This operation is only supported in stored volume gateway
   /// type.
   ///
@@ -2781,7 +2822,7 @@ class StorageGateway {
   ///
   /// Parameter [volumeARNs] :
   /// An array of strings where each string represents the Amazon Resource Name
-  /// (ARN) of a stored volume. All of the specified stored volumes must from
+  /// (ARN) of a stored volume. All of the specified stored volumes must be from
   /// the same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
   Future<DescribeStorediSCSIVolumesOutput> describeStorediSCSIVolumes({
     @_s.required List<String> volumeARNs,
@@ -2816,7 +2857,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   ///
   /// Parameter [limit] :
-  /// Specifies that the number of virtual tapes descried be limited to the
+  /// Specifies that the number of virtual tapes described be limited to the
   /// specified number.
   ///
   /// Parameter [marker] :
@@ -3207,7 +3248,7 @@ class StorageGateway {
   /// Use this operation for a tape gateway that is not reachable or not
   /// functioning. This operation is only supported in the tape gateway type.
   /// <important>
-  /// Once a gateway is disabled it cannot be enabled.
+  /// After a gateway is disabled, it cannot be enabled.
   /// </important>
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -3374,6 +3415,43 @@ class StorageGateway {
     return JoinDomainOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists the automatic tape creation policies for a gateway. If there are no
+  /// automatic tape creation policies for the gateway, it returns an empty
+  /// list.
+  ///
+  /// This operation is only supported for tape gateways.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  Future<ListAutomaticTapeCreationPoliciesOutput>
+      listAutomaticTapeCreationPolicies({
+    String gatewayARN,
+  }) async {
+    _s.validateStringLength(
+      'gatewayARN',
+      gatewayARN,
+      50,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StorageGateway_20130630.ListAutomaticTapeCreationPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayARN': gatewayARN,
+      },
+    );
+
+    return ListAutomaticTapeCreationPoliciesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets a list of the file shares for a specific file gateway, or the list of
   /// file shares that belong to the calling user account. This operation is
   /// only supported for file gateways.
@@ -3382,7 +3460,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   ///
   /// Parameter [gatewayARN] :
-  /// The Amazon resource Name (ARN) of the gateway whose file shares you want
+  /// The Amazon Resource Name (ARN) of the gateway whose file shares you want
   /// to list. If this field is not present, all file shares under your account
   /// are listed.
   ///
@@ -3953,7 +4031,7 @@ class StorageGateway {
   ///
   /// Parameter [tagKeys] :
   /// The keys of the tags you want to remove from the specified resource. A tag
-  /// is composed of a key/value pair.
+  /// is composed of a key-value pair.
   Future<RemoveTagsFromResourceOutput> removeTagsFromResource({
     @_s.required String resourceARN,
     @_s.required List<String> tagKeys,
@@ -3986,12 +4064,12 @@ class StorageGateway {
     return RemoveTagsFromResourceOutput.fromJson(jsonResponse.body);
   }
 
-  /// Resets all cache disks that have encountered a error and makes the disks
+  /// Resets all cache disks that have encountered an error and makes the disks
   /// available for reconfiguration as cache storage. If your cache disk
-  /// encounters a error, the gateway prevents read and write operations on
+  /// encounters an error, the gateway prevents read and write operations on
   /// virtual tapes in the gateway. For example, an error can occur when a disk
   /// is corrupted or removed from the gateway. When a cache is reset, the
-  /// gateway loses its cache storage. At this point you can reconfigure the
+  /// gateway loses its cache storage. At this point, you can reconfigure the
   /// disks as cache disks. This operation is only supported in the cached
   /// volume and tape types.
   /// <important>
@@ -4289,7 +4367,7 @@ class StorageGateway {
   /// down the gateway component in the VM to avoid unpredictable conditions.
   /// </note>
   /// After the gateway is shutdown, you cannot call any other API except
-  /// <a>StartGateway</a>, <a>DescribeGatewayInformation</a>, and
+  /// <a>StartGateway</a>, <a>DescribeGatewayInformation</a> and
   /// <a>ListGateways</a>. For more information, see <a>ActivateGateway</a>.
   /// Your applications cannot read from or write to the gateway's storage
   /// volumes, and there are no snapshots taken.
@@ -4418,6 +4496,57 @@ class StorageGateway {
     );
 
     return StartGatewayOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the automatic tape creation policy of a gateway. Use this to
+  /// update the policy with a new set of automatic tape creation rules. This is
+  /// only supported for tape gateways.
+  ///
+  /// By default, there is no automatic tape creation policy.
+  /// <note>
+  /// A gateway can have only one automatic tape creation policy.
+  /// </note>
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [automaticTapeCreationRules] :
+  /// An automatic tape creation policy consists of a list of automatic tape
+  /// creation rules. The rules determine when and how to automatically create
+  /// new tapes.
+  Future<UpdateAutomaticTapeCreationPolicyOutput>
+      updateAutomaticTapeCreationPolicy({
+    @_s.required List<AutomaticTapeCreationRule> automaticTapeCreationRules,
+    @_s.required String gatewayARN,
+  }) async {
+    ArgumentError.checkNotNull(
+        automaticTapeCreationRules, 'automaticTapeCreationRules');
+    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
+    _s.validateStringLength(
+      'gatewayARN',
+      gatewayARN,
+      50,
+      500,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StorageGateway_20130630.UpdateAutomaticTapeCreationPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AutomaticTapeCreationRules': automaticTapeCreationRules,
+        'GatewayARN': gatewayARN,
+      },
+    );
+
+    return UpdateAutomaticTapeCreationPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the bandwidth rate limits of a gateway. You can update both the
@@ -4862,12 +4991,12 @@ class StorageGateway {
   /// and otherwise to false. The default value is true.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
   /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [nFSFileShareDefaults] :
@@ -4932,7 +5061,7 @@ class StorageGateway {
       'defaultStorageClass',
       defaultStorageClass,
       5,
-      20,
+      50,
     );
     _s.validateStringLength(
       'kMSKey',
@@ -5027,12 +5156,12 @@ class StorageGateway {
   /// <code>ActiveDirectory</code>.
   ///
   /// Parameter [kMSEncrypted] :
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   ///
   /// Parameter [kMSKey] :
   /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3
-  /// server side encryption. This value can only be set when KMSEncrypted is
+  /// server-side encryption. This value can only be set when KMSEncrypted is
   /// true. Optional.
   ///
   /// Parameter [objectACL] :
@@ -5102,7 +5231,7 @@ class StorageGateway {
       'defaultStorageClass',
       defaultStorageClass,
       5,
-      20,
+      50,
     );
     _s.validateStringLength(
       'kMSKey',
@@ -5448,8 +5577,8 @@ class AddUploadBufferOutput {
       _$AddUploadBufferOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway for which working storage was
-/// configured.
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway for
+/// which working storage was configured.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5507,6 +5636,81 @@ class AttachVolumeOutput {
   });
   factory AttachVolumeOutput.fromJson(Map<String, dynamic> json) =>
       _$AttachVolumeOutputFromJson(json);
+}
+
+/// Information about the gateway's automatic tape creation policies, including
+/// the automatic tape creation rules and the gateway that is using the
+/// policies.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AutomaticTapeCreationPolicyInfo {
+  /// An automatic tape creation policy consists of a list of automatic tape
+  /// creation rules. This returns the rules that determine when and how to
+  /// automatically create new tapes.
+  @_s.JsonKey(name: 'AutomaticTapeCreationRules')
+  final List<AutomaticTapeCreationRule> automaticTapeCreationRules;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  AutomaticTapeCreationPolicyInfo({
+    this.automaticTapeCreationRules,
+    this.gatewayARN,
+  });
+  factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) =>
+      _$AutomaticTapeCreationPolicyInfoFromJson(json);
+}
+
+/// An automatic tape creation policy consists of automatic tape creation rules
+/// where each rule defines when and how to create new tapes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AutomaticTapeCreationRule {
+  /// The minimum number of available virtual tapes that the gateway maintains at
+  /// all times. If the number of tapes on the gateway goes below this value, the
+  /// gateway creates as many new tapes as are needed to have
+  /// <code>MinimumNumTapes</code> on the gateway.
+  @_s.JsonKey(name: 'MinimumNumTapes')
+  final int minimumNumTapes;
+
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the Amazon S3 storage class that is associated
+  /// with the pool. When you use your backup application to eject the tape, the
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
+  /// Deep Archive) that corresponds to the pool.
+  ///
+  /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+  @_s.JsonKey(name: 'PoolId')
+  final String poolId;
+
+  /// A prefix that you append to the barcode of the virtual tape that you are
+  /// creating. This prefix makes the barcode unique.
+  /// <note>
+  /// The prefix must be 1-4 characters in length and must be one of the uppercase
+  /// letters from A to Z.
+  /// </note>
+  @_s.JsonKey(name: 'TapeBarcodePrefix')
+  final String tapeBarcodePrefix;
+
+  /// The size, in bytes, of the virtual tape capacity.
+  @_s.JsonKey(name: 'TapeSizeInBytes')
+  final int tapeSizeInBytes;
+
+  AutomaticTapeCreationRule({
+    @_s.required this.minimumNumTapes,
+    @_s.required this.poolId,
+    @_s.required this.tapeBarcodePrefix,
+    @_s.required this.tapeSizeInBytes,
+  });
+  factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) =>
+      _$AutomaticTapeCreationRuleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AutomaticTapeCreationRuleToJson(this);
 }
 
 enum AvailabilityMonitorTestStatus {
@@ -5881,8 +6085,25 @@ class CreateTapesOutput {
       _$CreateTapesOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway whose bandwidth rate information
-/// was deleted.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteAutomaticTapeCreationPolicyOutput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DeleteAutomaticTapeCreationPolicyOutput({
+    this.gatewayARN,
+  });
+  factory DeleteAutomaticTapeCreationPolicyOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteAutomaticTapeCreationPolicyOutputFromJson(json);
+}
+
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
+/// bandwidth rate information was deleted.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6011,7 +6232,8 @@ class DeleteTapeOutput {
       _$DeleteTapeOutputFromJson(json);
 }
 
-/// A JSON object containing the of the storage volume that was deleted
+/// A JSON object containing the Amazon Resource Name (ARN) of the storage
+/// volume that was deleted
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6094,7 +6316,7 @@ class DescribeBandwidthRateLimitOutput {
     createFactory: true,
     createToJson: false)
 class DescribeCacheOutput {
-  /// The amount of cache in bytes allocated to the a gateway.
+  /// The amount of cache in bytes allocated to a gateway.
   @_s.JsonKey(name: 'CacheAllocatedInBytes')
   final int cacheAllocatedInBytes;
 
@@ -6121,7 +6343,7 @@ class DescribeCacheOutput {
   final double cacheUsedPercentage;
 
   /// An array of strings that identify disks that are to be configured as working
-  /// storage. Each string have a minimum length of 1 and maximum length of 300.
+  /// storage. Each string has a minimum length of 1 and maximum length of 300.
   /// You can get the disk IDs from the <a>ListLocalDisks</a> API.
   @_s.JsonKey(name: 'DiskIds')
   final List<String> diskIds;
@@ -6763,7 +6985,7 @@ class DescribeVTLDevicesOutput {
   @_s.JsonKey(name: 'Marker')
   final String marker;
 
-  /// An array of VTL device objects composed of the Amazon Resource Name(ARN) of
+  /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of
   /// the VTL devices.
   @_s.JsonKey(name: 'VTLDevices')
   final List<VTLDevice> vTLDevices;
@@ -7091,6 +7313,26 @@ class JoinDomainOutput {
       _$JoinDomainOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAutomaticTapeCreationPoliciesOutput {
+  /// Gets a listing of information about the gateway's automatic tape creation
+  /// policies, including the automatic tape creation rules and the gateway that
+  /// is using the policies.
+  @_s.JsonKey(name: 'AutomaticTapeCreationPolicyInfos')
+  final List<AutomaticTapeCreationPolicyInfo> automaticTapeCreationPolicyInfos;
+
+  ListAutomaticTapeCreationPoliciesOutput({
+    this.automaticTapeCreationPolicyInfos,
+  });
+  factory ListAutomaticTapeCreationPoliciesOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListAutomaticTapeCreationPoliciesOutputFromJson(json);
+}
+
 /// ListFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7393,7 +7635,7 @@ class NFSFileShareInfo {
   @_s.JsonKey(name: 'GuessMIMETypeEnabled')
   final bool guessMIMETypeEnabled;
 
-  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or
   /// false to use a key managed by Amazon S3. Optional.
   @_s.JsonKey(name: 'KMSEncrypted')
   final bool kMSEncrypted;
@@ -7835,7 +8077,8 @@ class SetSMBGuestPasswordOutput {
       _$SetSMBGuestPasswordOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway that was shut down.
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
+/// was shut down.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7869,7 +8112,8 @@ class StartAvailabilityMonitorTestOutput {
       _$StartAvailabilityMonitorTestOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway that was restarted.
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
+/// was restarted.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8042,8 +8286,8 @@ class Tape {
   /// The ID of the pool that contains tapes that will be archived. The tapes in
   /// this pool are archived in the S3 storage class that is associated with the
   /// pool. When you use your backup application to eject the tape, the tape is
-  /// archived directly into the storage class (Glacier or Deep Archive) that
-  /// corresponds to the pool.
+  /// archived directly into the storage class (S3 Glacier or S# Glacier Deep
+  /// Archive) that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   @_s.JsonKey(name: 'PoolId')
@@ -8194,8 +8438,8 @@ class TapeInfo {
   /// The ID of the pool that you want to add your tape to for archiving. The tape
   /// in this pool is archived in the S3 storage class that is associated with the
   /// pool. When you use your backup application to eject the tape, the tape is
-  /// archived directly into the storage class (Glacier or Deep Archive) that
-  /// corresponds to the pool.
+  /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
+  /// Archive) that corresponds to the pool.
   ///
   /// Valid values: "GLACIER", "DEEP_ARCHIVE"
   @_s.JsonKey(name: 'PoolId')
@@ -8267,8 +8511,25 @@ class TapeRecoveryPointInfo {
       _$TapeRecoveryPointInfoFromJson(json);
 }
 
-/// A JSON object containing the of the gateway whose throttle information was
-/// updated.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAutomaticTapeCreationPolicyOutput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  UpdateAutomaticTapeCreationPolicyOutput({
+    this.gatewayARN,
+  });
+  factory UpdateAutomaticTapeCreationPolicyOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateAutomaticTapeCreationPolicyOutputFromJson(json);
+}
+
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
+/// throttle information was updated.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8332,7 +8593,8 @@ class UpdateGatewayInformationOutput {
       _$UpdateGatewayInformationOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway that was updated.
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
+/// was updated.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8349,8 +8611,8 @@ class UpdateGatewaySoftwareNowOutput {
       _$UpdateGatewaySoftwareNowOutputFromJson(json);
 }
 
-/// A JSON object containing the of the gateway whose maintenance start time is
-/// updated.
+/// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
+/// maintenance start time is updated.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8420,7 +8682,8 @@ class UpdateSMBSecurityStrategyOutput {
       _$UpdateSMBSecurityStrategyOutputFromJson(json);
 }
 
-/// A JSON object containing the of the updated storage volume.
+/// A JSON object containing the Amazon Resource Name (ARN) of the updated
+/// storage volume.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

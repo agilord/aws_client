@@ -27,6 +27,24 @@ part 'support-2013-04-15.g.dart';
 /// information about the AWS Support operations and data types. This service
 /// enables you to manage your AWS Support cases programmatically. It uses HTTP
 /// methods that return results in JSON format.
+/// <important>
+/// <ul>
+/// <li>
+/// You must have a Business or Enterprise support plan to use the AWS Support
+/// API.
+/// </li>
+/// <li>
+/// If you call the AWS Support API from an account that doesn't have a Business
+/// or Enterprise support plan, the <code>SubscriptionRequiredException</code>
+/// error message appears. For information about changing your support plan, see
+/// <a href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
+/// </li>
+/// </ul> </important>
+/// The AWS Support service also exposes a set of <a
+/// href="http://aws.amazon.com/premiumsupport/trustedadvisor/">Trusted
+/// Advisor</a> features. You can retrieve a list of checks and their
+/// descriptions, get check results, specify checks to refresh, and get the
+/// refresh status of checks.
 class Support {
   final _s.JsonProtocol _protocol;
   Support({
@@ -42,17 +60,12 @@ class Support {
           endpointUrl: endpointUrl,
         );
 
-  /// Adds one or more attachments to an attachment set. If an
-  /// <code>attachmentSetId</code> is not specified, a new attachment set is
-  /// created, and the ID of the set is returned in the response. If an
-  /// <code>attachmentSetId</code> is specified, the attachments are added to
-  /// the specified set, if it exists.
+  /// Adds one or more attachments to an attachment set.
   ///
-  /// An attachment set is a temporary container for attachments that are to be
-  /// added to a case or case communication. The set is available for one hour
-  /// after it is created; the <code>expiryTime</code> returned in the response
-  /// indicates when the set expires. The maximum number of attachments in a set
-  /// is 3, and the maximum size of any attachment in the set is 5 MB.
+  /// An attachment set is a temporary container for attachments that you add to
+  /// a case or case communication. The set is available for 1 hour after it's
+  /// created. The <code>expiryTime</code> returned in the response is when the
+  /// set expires.
   ///
   /// May throw [InternalServerError].
   /// May throw [AttachmentSetIdNotFound].
@@ -61,8 +74,15 @@ class Support {
   /// May throw [AttachmentLimitExceeded].
   ///
   /// Parameter [attachments] :
-  /// One or more attachments to add to the set. The limit is 3 attachments per
-  /// set, and the size limit is 5 MB per attachment.
+  /// One or more attachments to add to the set. You can add up to three
+  /// attachments per set. The size limit is 5 MB per attachment.
+  ///
+  /// In the <code>Attachment</code> object, use the <code>data</code> parameter
+  /// to specify the contents of the attachment file. In the previous request
+  /// syntax, the value for <code>data</code> appear as <code>blob</code>, which
+  /// is represented as a base64-encoded string. The value for
+  /// <code>fileName</code> is the name of the attachment, such as
+  /// <code>troubleshoot-screenshot.png</code>.
   ///
   /// Parameter [attachmentSetId] :
   /// The ID of the attachment set. If an <code>attachmentSetId</code> is not
@@ -160,81 +180,40 @@ class Support {
     return AddCommunicationToCaseResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new case in the AWS Support Center. This operation is modeled on
-  /// the behavior of the AWS Support Center <a
+  /// Creates a case in the AWS Support Center. This operation is similar to how
+  /// you create a case in the AWS Support Center <a
   /// href="https://console.aws.amazon.com/support/home#/case/create">Create
-  /// Case</a> page. Its parameters require you to specify the following
-  /// information:
+  /// Case</a> page.
+  ///
+  /// The AWS Support API doesn't support requesting service limit increases.
+  /// You can submit a service limit increase in the following ways:
   ///
   /// <ul>
   /// <li>
-  /// <b>issueType.</b> The type of issue for the case. You can specify either
-  /// "customer-service" or "technical." If you do not indicate a value, the
-  /// default is "technical."
-  /// <note>
-  /// Service limit increases are not supported by the Support API; you must
-  /// submit service limit increase requests in <a
-  /// href="https://console.aws.amazon.com/support">Support Center</a>.
-  ///
-  /// The <code>caseId</code> is not the <code>displayId</code> that appears in
-  /// <a href="https://console.aws.amazon.com/support">Support Center</a>. You
-  /// can use the <a>DescribeCases</a> API to get the <code>displayId</code>.
-  /// </note> </li>
-  /// <li>
-  /// <b>serviceCode.</b> The code for an AWS service. You can get the possible
-  /// <code>serviceCode</code> values by calling <a>DescribeServices</a>.
-  /// </li>
-  /// <li>
-  /// <b>categoryCode.</b> The category for the service defined for the
-  /// <code>serviceCode</code> value. You also get the category code for a
-  /// service by calling <a>DescribeServices</a>. Each AWS service defines its
-  /// own set of category codes.
-  /// </li>
-  /// <li>
-  /// <b>severityCode.</b> A value that indicates the urgency of the case, which
-  /// in turn determines the response time according to your service level
-  /// agreement with AWS Support. You can get the possible
-  /// <code>severityCode</code> values by calling <a>DescribeSeverityLevels</a>.
-  /// For more information about the meaning of the codes, see
-  /// <a>SeverityLevel</a> and <a
-  /// href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity">Choosing
-  /// a Severity</a>.
-  /// </li>
-  /// <li>
-  /// <b>subject.</b> The <b>Subject</b> field on the AWS Support Center <a
+  /// Submit a request from the AWS Support Center <a
   /// href="https://console.aws.amazon.com/support/home#/case/create">Create
   /// Case</a> page.
   /// </li>
   /// <li>
-  /// <b>communicationBody.</b> The <b>Description</b> field on the AWS Support
-  /// Center <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create">Create
-  /// Case</a> page.
+  /// Use the Service Quotas <a
+  /// href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html">RequestServiceQuotaIncrease</a>
+  /// operation.
   /// </li>
-  /// <li>
-  /// <b>attachmentSetId.</b> The ID of a set of attachments that has been
-  /// created by using <a>AddAttachmentsToSet</a>.
-  /// </li>
-  /// <li>
-  /// <b>language.</b> The human language in which AWS Support handles the case.
-  /// English and Japanese are currently supported.
-  /// </li>
-  /// <li>
-  /// <b>ccEmailAddresses.</b> The AWS Support Center <b>CC</b> field on the <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create">Create
-  /// Case</a> page. You can list email addresses to be copied on any
-  /// correspondence about the case. The account that opens the case is already
-  /// identified by passing the AWS Credentials in the HTTP POST method or in a
-  /// method or function call from one of the programming languages supported by
-  /// an <a href="http://aws.amazon.com/tools/">AWS SDK</a>.
-  /// </li>
-  /// </ul> <note>
-  /// To add additional communication or attachments to an existing case, use
-  /// <a>AddCommunicationToCase</a>.
-  /// </note>
+  /// </ul>
   /// A successful <a>CreateCase</a> request returns an AWS Support case number.
-  /// Case numbers are used by the <a>DescribeCases</a> operation to retrieve
-  /// existing AWS Support cases.
+  /// You can use the <a>DescribeCases</a> operation and specify the case number
+  /// to get existing AWS Support cases. After you create a case, you can use
+  /// the <a>AddCommunicationToCase</a> operation to add additional
+  /// communication or attachments to an existing case.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// The <code>caseId</code> is separate from the <code>displayId</code> that
+  /// appears in the <a href="https://console.aws.amazon.com/support">Support
+  /// Center</a>. You can use the <a>DescribeCases</a> operation to get the
+  /// <code>displayId</code>.
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [InternalServerError].
   /// May throw [CaseCreationLimitExceeded].
@@ -242,47 +221,59 @@ class Support {
   /// May throw [AttachmentSetExpired].
   ///
   /// Parameter [communicationBody] :
-  /// The communication body text when you create an AWS Support case by calling
-  /// <a>CreateCase</a>.
+  /// The communication body text that describes the issue. This text appears in
+  /// the <b>Description</b> field on the AWS Support Center <a
+  /// href="https://console.aws.amazon.com/support/home#/case/create">Create
+  /// Case</a> page.
   ///
   /// Parameter [subject] :
-  /// The title of the AWS Support case.
+  /// The title of the AWS Support case. The title appears in the <b>Subject</b>
+  /// field on the AWS Support Center <a
+  /// href="https://console.aws.amazon.com/support/home#/case/create">Create
+  /// Case</a> page.
   ///
   /// Parameter [attachmentSetId] :
   /// The ID of a set of one or more attachments for the case. Create the set by
-  /// using <a>AddAttachmentsToSet</a>.
+  /// using the <a>AddAttachmentsToSet</a> operation.
   ///
   /// Parameter [categoryCode] :
-  /// The category of problem for the AWS Support case.
+  /// The category of problem for the AWS Support case. You also use the
+  /// <a>DescribeServices</a> operation to get the category code for a service.
+  /// Each AWS service defines its own set of category codes.
   ///
   /// Parameter [ccEmailAddresses] :
   /// A list of email addresses that AWS Support copies on case correspondence.
+  /// AWS Support identifies the account that creates the case when you specify
+  /// your AWS credentials in an HTTP POST method or use the <a
+  /// href="http://aws.amazon.com/tools/">AWS SDKs</a>.
   ///
   /// Parameter [issueType] :
-  /// The type of issue for the case. You can specify either "customer-service"
-  /// or "technical." If you do not indicate a value, the default is
-  /// "technical."
-  /// <note>
-  /// Service limit increases are not supported by the Support API; you must
-  /// submit service limit increase requests in <a
-  /// href="https://console.aws.amazon.com/support">Support Center</a>.
-  /// </note>
+  /// The type of issue for the case. You can specify
+  /// <code>customer-service</code> or <code>technical</code>. If you don't
+  /// specify a value, the default is <code>technical</code>.
   ///
   /// Parameter [language] :
-  /// The ISO 639-1 code for the language in which AWS provides support. AWS
-  /// Support currently supports English ("en") and Japanese ("ja"). Language
-  /// parameters must be passed explicitly for operations that take them.
+  /// The language in which AWS Support handles the case. You must specify the
+  /// ISO 639-1 code for the <code>language</code> parameter if you want support
+  /// in that language. Currently, English ("en") and Japanese ("ja") are
+  /// supported.
   ///
   /// Parameter [serviceCode] :
-  /// The code for the AWS service returned by the call to
-  /// <a>DescribeServices</a>.
+  /// The code for the AWS service. You can use the <a>DescribeServices</a>
+  /// operation to get the possible <code>serviceCode</code> values.
   ///
   /// Parameter [severityCode] :
-  /// The code for the severity level returned by the call to
-  /// <a>DescribeSeverityLevels</a>.
+  /// A value that indicates the urgency of the case. This value determines the
+  /// response time according to your service level agreement with AWS Support.
+  /// You can use the <a>DescribeSeverityLevels</a> operation to get the
+  /// possible values for <code>severityCode</code>.
+  ///
+  /// For more information, see <a>SeverityLevel</a> and <a
+  /// href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity">Choosing
+  /// a Severity</a> in the <i>AWS Support User Guide</i>.
   /// <note>
   /// The availability of severity levels depends on the support plan for the
-  /// account.
+  /// AWS account.
   /// </note>
   Future<CreateCaseResponse> createCase({
     @_s.required String communicationBody,
@@ -330,10 +321,11 @@ class Support {
     return CreateCaseResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the attachment that has the specified ID. Attachment IDs are
-  /// generated by the case management system when you add an attachment to a
-  /// case or case communication. Attachment IDs are returned in the
-  /// <a>AttachmentDetails</a> objects that are returned by the
+  /// Returns the attachment that has the specified ID. Attachments can include
+  /// screenshots, error logs, or other files that describe your issue.
+  /// Attachment IDs are generated by the case management system when you add an
+  /// attachment to a case or case communication. Attachment IDs are returned in
+  /// the <a>AttachmentDetails</a> objects that are returned by the
   /// <a>DescribeCommunications</a> operation.
   ///
   /// May throw [InternalServerError].
@@ -1039,11 +1031,29 @@ class AttachmentDetails {
 /// <code>high</code>, <code>urgent</code>, and <code>critical</code>.
 /// </li>
 /// <li>
-/// <b>status.</b> The status of the case in the AWS Support Center. The
-/// possible values are: <code>resolved</code>,
-/// <code>pending-customer-action</code>, <code>opened</code>,
-/// <code>unassigned</code>, and <code>work-in-progress</code>.
+/// <b>status.</b> The status of the case in the AWS Support Center. Valid
+/// values:
+///
+/// <ul>
+/// <li>
+/// <code>opened</code>
 /// </li>
+/// <li>
+/// <code>pending-customer-action</code>
+/// </li>
+/// <li>
+/// <code>reopened</code>
+/// </li>
+/// <li>
+/// <code>resolved</code>
+/// </li>
+/// <li>
+/// <code>unassigned</code>
+/// </li>
+/// <li>
+/// <code>work-in-progress</code>
+/// </li>
+/// </ul> </li>
 /// <li>
 /// <b>subject.</b> The subject line of the case.
 /// </li>
@@ -1102,9 +1112,30 @@ class CaseDetails {
   @_s.JsonKey(name: 'severityCode')
   final String severityCode;
 
-  /// The status of the case. Valid values: <code>resolved</code> |
-  /// <code>pending-customer-action</code> | <code>opened</code> |
-  /// <code>unassigned</code> | <code>work-in-progress</code>.
+  /// The status of the case.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>opened</code>
+  /// </li>
+  /// <li>
+  /// <code>pending-customer-action</code>
+  /// </li>
+  /// <li>
+  /// <code>reopened</code>
+  /// </li>
+  /// <li>
+  /// <code>resolved</code>
+  /// </li>
+  /// <li>
+  /// <code>unassigned</code>
+  /// </li>
+  /// <li>
+  /// <code>work-in-progress</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'status')
   final String status;
 
@@ -1218,7 +1249,7 @@ class Communication {
     createToJson: false)
 class CreateCaseResponse {
   /// The AWS Support case ID requested or returned in the call. The case ID is an
-  /// alphanumeric string formatted as shown in this example:
+  /// alphanumeric string in the following format:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
   @_s.JsonKey(name: 'caseId')
   final String caseId;
@@ -1238,7 +1269,12 @@ class CreateCaseResponse {
     createFactory: true,
     createToJson: false)
 class DescribeAttachmentResponse {
-  /// The attachment content and file name.
+  /// This object includes the attachment content and file name.
+  ///
+  /// In the previous response syntax, the value for the <code>data</code>
+  /// parameter appears as <code>blob</code>, which is represented as a
+  /// base64-encoded string. The value for <code>fileName</code> is the name of
+  /// the attachment, such as <code>troubleshoot-screenshot.png</code>.
   @_s.JsonKey(name: 'attachment')
   final Attachment attachment;
 
@@ -1604,7 +1640,7 @@ class TrustedAdvisorCheckDescription {
   final String category;
 
   /// The description of the Trusted Advisor check, which includes the alert
-  /// criteria and recommended actions (contains HTML markup).
+  /// criteria and recommended operations (contains HTML markup).
   @_s.JsonKey(name: 'description')
   final String description;
 
@@ -1775,8 +1811,8 @@ class TrustedAdvisorCheckSummary {
       _$TrustedAdvisorCheckSummaryFromJson(json);
 }
 
-/// The estimated cost savings that might be realized if the recommended actions
-/// are taken.
+/// The estimated cost savings that might be realized if the recommended
+/// operations are taken.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1784,12 +1820,12 @@ class TrustedAdvisorCheckSummary {
     createToJson: false)
 class TrustedAdvisorCostOptimizingSummary {
   /// The estimated monthly savings that might be realized if the recommended
-  /// actions are taken.
+  /// operations are taken.
   @_s.JsonKey(name: 'estimatedMonthlySavings')
   final double estimatedMonthlySavings;
 
   /// The estimated percentage of savings that might be realized if the
-  /// recommended actions are taken.
+  /// recommended operations are taken.
   @_s.JsonKey(name: 'estimatedPercentMonthlySavings')
   final double estimatedPercentMonthlySavings;
 

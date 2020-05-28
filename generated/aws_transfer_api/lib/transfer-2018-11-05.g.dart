@@ -40,6 +40,7 @@ DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
 DescribedServer _$DescribedServerFromJson(Map<String, dynamic> json) {
   return DescribedServer(
     arn: json['Arn'] as String,
+    certificate: json['Certificate'] as String,
     endpointDetails: json['EndpointDetails'] == null
         ? null
         : EndpointDetails.fromJson(
@@ -54,6 +55,7 @@ DescribedServer _$DescribedServerFromJson(Map<String, dynamic> json) {
     identityProviderType: _$enumDecodeNullable(
         _$IdentityProviderTypeEnumMap, json['IdentityProviderType']),
     loggingRole: json['LoggingRole'] as String,
+    protocols: (json['Protocols'] as List)?.map((e) => e as String)?.toList(),
     serverId: json['ServerId'] as String,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     tags: (json['Tags'] as List)

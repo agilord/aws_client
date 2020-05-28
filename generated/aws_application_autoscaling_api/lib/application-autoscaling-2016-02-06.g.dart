@@ -221,6 +221,10 @@ const _$MetricTypeEnumMap = {
   MetricType.comprehendInferenceUtilization: 'ComprehendInferenceUtilization',
   MetricType.lambdaProvisionedConcurrencyUtilization:
       'LambdaProvisionedConcurrencyUtilization',
+  MetricType.cassandraReadCapacityUtilization:
+      'CassandraReadCapacityUtilization',
+  MetricType.cassandraWriteCapacityUtilization:
+      'CassandraWriteCapacityUtilization',
 };
 
 PutScalingPolicyResponse _$PutScalingPolicyResponseFromJson(
@@ -287,6 +291,10 @@ const _$ScalableDimensionEnumMap = {
       'comprehend:document-classifier-endpoint:DesiredInferenceUnits',
   ScalableDimension.lambdaFunctionProvisionedConcurrency:
       'lambda:function:ProvisionedConcurrency',
+  ScalableDimension.cassandraTableReadCapacityUnits:
+      'cassandra:table:ReadCapacityUnits',
+  ScalableDimension.cassandraTableWriteCapacityUnits:
+      'cassandra:table:WriteCapacityUnits',
 };
 
 const _$ServiceNamespaceEnumMap = {
@@ -300,6 +308,7 @@ const _$ServiceNamespaceEnumMap = {
   ServiceNamespace.customResource: 'custom-resource',
   ServiceNamespace.comprehend: 'comprehend',
   ServiceNamespace.lambda: 'lambda',
+  ServiceNamespace.cassandra: 'cassandra',
 };
 
 ScalableTargetAction _$ScalableTargetActionFromJson(Map<String, dynamic> json) {

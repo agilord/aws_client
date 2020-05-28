@@ -7456,6 +7456,14 @@ class RDS {
   /// Parameter [engine] :
   /// The name of the engine to retrieve DB instance options for.
   ///
+  /// Parameter [availabilityZoneGroup] :
+  /// The Availability Zone group associated with a Local Zone. Specify this
+  /// parameter to retrieve available offerings for the Local Zones in the
+  /// group.
+  ///
+  /// Omit this parameter to show the available offerings in the specified AWS
+  /// Region.
+  ///
   /// Parameter [dBInstanceClass] :
   /// The DB instance class filter value. Specify this parameter to show only
   /// the available offerings matching the specified DB instance class.
@@ -7491,6 +7499,7 @@ class RDS {
   /// A value that indicates whether to show only VPC or non-VPC offerings.
   Future<OrderableDBInstanceOptionsMessage> describeOrderableDBInstanceOptions({
     @_s.required String engine,
+    String availabilityZoneGroup,
     String dBInstanceClass,
     String engineVersion,
     List<Filter> filters,
@@ -7505,6 +7514,8 @@ class RDS {
       'Version': '2014-10-31',
     };
     $request['Engine'] = engine;
+    availabilityZoneGroup
+        ?.also((arg) => $request['AvailabilityZoneGroup'] = arg);
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -10893,6 +10904,17 @@ class RDS {
   /// Migrating Data to an Amazon Aurora MySQL DB Cluster</a> in the <i>Amazon
   /// Aurora User Guide</i>.
   /// <note>
+  /// This action only restores the DB cluster, not the DB instances for that DB
+  /// cluster. You must invoke the <code>CreateDBInstance</code> action to
+  /// create DB instances for the restored DB cluster, specifying the identifier
+  /// of the restored DB cluster in <code>DBClusterIdentifier</code>. You can
+  /// create DB instances only after the <code>RestoreDBClusterFromS3</code>
+  /// action has completed and the DB cluster is available.
+  /// </note>
+  /// For more information on Amazon Aurora, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+  /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
   ///
@@ -11308,6 +11330,9 @@ class RDS {
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
   /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// <note>
+  /// This action only applies to Aurora DB clusters.
+  /// </note>
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterQuotaExceededFault].
@@ -19536,6 +19561,9 @@ class OptionVersion {
 /// This data type is used as a response element in the
 /// <code>DescribeOrderableDBInstanceOptions</code> action.
 class OrderableDBInstanceOption {
+  /// The Availability Zone group for a DB instance.
+  final String availabilityZoneGroup;
+
   /// A list of Availability Zones for a DB instance.
   final List<AvailabilityZone> availabilityZones;
 
@@ -19606,8 +19634,8 @@ class OrderableDBInstanceOption {
   /// True if a DB instance supports Performance Insights, otherwise false.
   final bool supportsPerformanceInsights;
 
-  /// Whether or not Amazon RDS can automatically scale storage for DB instances
-  /// that use the specified instance class.
+  /// Whether Amazon RDS can automatically scale storage for DB instances that use
+  /// the specified DB instance class.
   final bool supportsStorageAutoscaling;
 
   /// Indicates whether a DB instance supports encrypted storage.
@@ -19617,6 +19645,7 @@ class OrderableDBInstanceOption {
   final bool vpc;
 
   OrderableDBInstanceOption({
+    this.availabilityZoneGroup,
     this.availabilityZones,
     this.availableProcessorFeatures,
     this.dBInstanceClass,
@@ -19644,6 +19673,8 @@ class OrderableDBInstanceOption {
   });
   factory OrderableDBInstanceOption.fromXml(_s.XmlElement elem) {
     return OrderableDBInstanceOption(
+      availabilityZoneGroup:
+          _s.extractXmlStringValue(elem, 'AvailabilityZoneGroup'),
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('AvailabilityZone')

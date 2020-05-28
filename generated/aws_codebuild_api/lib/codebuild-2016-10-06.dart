@@ -1693,7 +1693,7 @@ class CodeBuild {
   /// Parameter [idempotencyToken] :
   /// A unique, case sensitive identifier you provide to ensure the idempotency
   /// of the StartBuild request. The token is included in the StartBuild request
-  /// and is valid for 12 hours. If you repeat the StartBuild request with the
+  /// and is valid for 5 minutes. If you repeat the StartBuild request with the
   /// same token, but change a parameter, AWS CodeBuild returns a parameter
   /// mismatch error.
   ///
@@ -3343,7 +3343,10 @@ class EnvironmentVariable {
   /// <ul>
   /// <li>
   /// <code>PARAMETER_STORE</code>: An environment variable stored in Amazon EC2
-  /// Systems Manager Parameter Store.
+  /// Systems Manager Parameter Store. To learn how to specify a parameter store
+  /// environment variable, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#parameter-store-build-spec">
+  /// parameter store reference-key in the buildspec file</a>.
   /// </li>
   /// <li>
   /// <code>PLAINTEXT</code>: An environment variable in plain text format. This
@@ -3351,7 +3354,10 @@ class EnvironmentVariable {
   /// </li>
   /// <li>
   /// <code>SECRETS_MANAGER</code>: An environment variable stored in AWS Secrets
-  /// Manager.
+  /// Manager. To learn how to specify a secrets manager environment variable, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#secrets-manager-build-spec">
+  /// secrets manager reference-key in the buildspec file</a>.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'type')
@@ -4552,17 +4558,17 @@ class ProjectEnvironment {
   /// <li>
   /// The environment type <code>LINUX_CONTAINER</code> with compute type
   /// <code>build.general1.2xlarge</code> is available only in regions US East (N.
-  /// Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), EU
-  /// (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific
-  /// (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing),
-  /// and China (Ningxia).
+  /// Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland),
+  /// EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul),
+  /// Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China
+  /// (Ningxia).
   /// </li>
   /// <li>
   /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
-  /// regions US East (N. Virginia), US East (N. Virginia), US West (Oregon),
-  /// Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific
-  /// (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific
-  /// (Sydney) , China (Beijing), and China (Ningxia).
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada
+  /// (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo),
+  /// Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) ,
+  /// China (Beijing), and China (Ningxia).
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'type')
@@ -5877,17 +5883,18 @@ class WebhookFilter {
   @_s.JsonKey(name: 'pattern')
   final String pattern;
 
-  /// The type of webhook filter. There are five webhook filter types:
+  /// The type of webhook filter. There are six webhook filter types:
   /// <code>EVENT</code>, <code>ACTOR_ACCOUNT_ID</code>, <code>HEAD_REF</code>,
-  /// <code>BASE_REF</code>, and <code>FILE_PATH</code>.
+  /// <code>BASE_REF</code>, <code>FILE_PATH</code>, and
+  /// <code>COMMIT_MESSAGE</code>.
   /// <dl> <dt> EVENT </dt> <dd>
   /// A webhook event triggers a build when the provided <code>pattern</code>
-  /// matches one of four event types: <code>PUSH</code>,
-  /// <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>, and
-  /// <code>PULL_REQUEST_REOPENED</code>. The <code>EVENT</code> patterns are
-  /// specified as a comma-separated string. For example, <code>PUSH,
-  /// PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code> filters all push, pull
-  /// request created, and pull request updated events.
+  /// matches one of five event types: <code>PUSH</code>,
+  /// <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>,
+  /// <code>PULL_REQUEST_REOPENED</code>, and <code>PULL_REQUEST_MERGED</code>.
+  /// The <code>EVENT</code> patterns are specified as a comma-separated string.
+  /// For example, <code>PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code>
+  /// filters all push, pull request created, and pull request updated events.
   /// <note>
   /// The <code>PULL_REQUEST_REOPENED</code> works with GitHub and GitHub
   /// Enterprise only.
@@ -5911,7 +5918,16 @@ class WebhookFilter {
   /// A webhook triggers a build when the path of a changed file matches the
   /// regular expression <code>pattern</code>.
   /// <note>
-  /// Works with GitHub and GitHub Enterprise push events only.
+  /// Works with GitHub and Bitbucket events push and pull requests events. Also
+  /// works with GitHub Enterprise push events, but does not work with GitHub
+  /// Enterprise pull request events.
+  /// </note> </dd> <dt>COMMIT_MESSAGE</dt> <dd>
+  /// A webhook triggers a build when the head commit message matches the regular
+  /// expression <code>pattern</code>.
+  /// <note>
+  /// Works with GitHub and Bitbucket events push and pull requests events. Also
+  /// works with GitHub Enterprise push events, but does not work with GitHub
+  /// Enterprise pull request events.
   /// </note> </dd> </dl>
   @_s.JsonKey(name: 'type')
   final WebhookFilterType type;
@@ -5945,6 +5961,8 @@ enum WebhookFilterType {
   actorAccountId,
   @_s.JsonValue('FILE_PATH')
   filePath,
+  @_s.JsonValue('COMMIT_MESSAGE')
+  commitMessage,
 }
 
 class AccountLimitExceededException extends _s.GenericAwsException {

@@ -1714,6 +1714,9 @@ InstancePortInfo _$InstancePortInfoFromJson(Map<String, dynamic> json) {
     accessFrom: json['accessFrom'] as String,
     accessType:
         _$enumDecodeNullable(_$PortAccessTypeEnumMap, json['accessType']),
+    cidrListAliases:
+        (json['cidrListAliases'] as List)?.map((e) => e as String)?.toList(),
+    cidrs: (json['cidrs'] as List)?.map((e) => e as String)?.toList(),
     commonName: json['commonName'] as String,
     fromPort: json['fromPort'] as int,
     protocol: _$enumDecodeNullable(_$NetworkProtocolEnumMap, json['protocol']),
@@ -1735,10 +1738,14 @@ const _$NetworkProtocolEnumMap = {
   NetworkProtocol.tcp: 'tcp',
   NetworkProtocol.all: 'all',
   NetworkProtocol.udp: 'udp',
+  NetworkProtocol.icmp: 'icmp',
 };
 
 InstancePortState _$InstancePortStateFromJson(Map<String, dynamic> json) {
   return InstancePortState(
+    cidrListAliases:
+        (json['cidrListAliases'] as List)?.map((e) => e as String)?.toList(),
+    cidrs: (json['cidrs'] as List)?.map((e) => e as String)?.toList(),
     fromPort: json['fromPort'] as int,
     protocol: _$enumDecodeNullable(_$NetworkProtocolEnumMap, json['protocol']),
     state: _$enumDecodeNullable(_$PortStateEnumMap, json['state']),
@@ -2218,6 +2225,8 @@ Map<String, dynamic> _$PortInfoToJson(PortInfo instance) {
     }
   }
 
+  writeNotNull('cidrListAliases', instance.cidrListAliases);
+  writeNotNull('cidrs', instance.cidrs);
   writeNotNull('fromPort', instance.fromPort);
   writeNotNull('protocol', _$NetworkProtocolEnumMap[instance.protocol]);
   writeNotNull('toPort', instance.toPort);

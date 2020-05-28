@@ -236,18 +236,18 @@ class DatabaseMigrationService {
   /// Guide.</i>
   ///
   /// Parameter [kafkaSettings] :
-  /// Settings in JSON format for the target Apache Kafka endpoint. For
-  /// information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
-  /// Migration User Guide.</i>
+  /// Settings in JSON format for the target Apache Kafka endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration User Guide.</i>
   ///
   /// Parameter [kinesisSettings] :
   /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
-  /// Streams. For information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
-  /// Database Migration User Guide.</i>
+  /// Streams. For more information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html">Using
+  /// Amazon Kinesis Data Streams as a Target for AWS Database Migration
+  /// Service</a> in the <i>AWS Database Migration User Guide.</i>
   ///
   /// Parameter [kmsKeyId] :
   /// An AWS KMS key identifier that is used to encrypt the connection
@@ -261,11 +261,16 @@ class DatabaseMigrationService {
   ///
   /// Parameter [mongoDbSettings] :
   /// Settings in JSON format for the source MongoDB endpoint. For more
-  /// information about the available settings, see the configuration properties
-  /// section in <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">Using
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html#CHAP_Source.MongoDB.Configuration">Using
   /// MongoDB as a Target for AWS Database Migration Service</a> in the <i>AWS
   /// Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [neptuneSettings] :
+  /// Settings in JSON format for the target Amazon Neptune endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings">https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings</a>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [password] :
   /// The password to be used to log in to the endpoint database.
@@ -311,6 +316,7 @@ class DatabaseMigrationService {
     KinesisSettings kinesisSettings,
     String kmsKeyId,
     MongoDbSettings mongoDbSettings,
+    NeptuneSettings neptuneSettings,
     String password,
     int port,
     RedshiftSettings redshiftSettings,
@@ -349,6 +355,7 @@ class DatabaseMigrationService {
         'KinesisSettings': kinesisSettings,
         'KmsKeyId': kmsKeyId,
         'MongoDbSettings': mongoDbSettings,
+        'NeptuneSettings': neptuneSettings,
         'Password': password,
         'Port': port,
         'RedshiftSettings': redshiftSettings,
@@ -737,8 +744,9 @@ class DatabaseMigrationService {
   /// Parameter [tableMappings] :
   /// The table mappings for the task, in JSON format. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Table
-  /// Mapping</a> in the <i>AWS Database Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Using
+  /// Table Mapping to Specify Task Settings</a> in the <i>AWS Database
+  /// Migration User Guide.</i>
   ///
   /// Parameter [targetEndpointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies the target
@@ -786,11 +794,19 @@ class DatabaseMigrationService {
   /// Parameter [replicationTaskSettings] :
   /// Overall settings for the task, in JSON format. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Task
-  /// Settings</a> in the <i>AWS Database Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Specifying
+  /// Task Settings for AWS Database Migration Service Tasks</a> in the <i>AWS
+  /// Database Migration User Guide.</i>
   ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the replication task.
+  ///
+  /// Parameter [taskData] :
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// User Guide.</i>
   Future<CreateReplicationTaskResponse> createReplicationTask({
     @_s.required MigrationTypeValue migrationType,
     @_s.required String replicationInstanceArn,
@@ -803,6 +819,7 @@ class DatabaseMigrationService {
     String cdcStopPosition,
     String replicationTaskSettings,
     List<Tag> tags,
+    String taskData,
   }) async {
     ArgumentError.checkNotNull(migrationType, 'migrationType');
     ArgumentError.checkNotNull(
@@ -834,6 +851,7 @@ class DatabaseMigrationService {
         'CdcStopPosition': cdcStopPosition,
         'ReplicationTaskSettings': replicationTaskSettings,
         'Tags': tags,
+        'TaskData': taskData,
       },
     );
 
@@ -1689,6 +1707,8 @@ class DatabaseMigrationService {
   /// Parameter [filters] :
   /// Filters applied to the describe action.
   ///
+  /// Valid filter names: replication-subnet-group-id
+  ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -2117,18 +2137,18 @@ class DatabaseMigrationService {
   /// parameter, pass the empty string ("") as an argument.
   ///
   /// Parameter [kafkaSettings] :
-  /// Settings in JSON format for the target Apache Kafka endpoint. For
-  /// information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
-  /// Migration User Guide.</i>
+  /// Settings in JSON format for the target Apache Kafka endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration User Guide.</i>
   ///
   /// Parameter [kinesisSettings] :
   /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
-  /// Streams. For information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
-  /// Database Migration User Guide.</i>
+  /// Streams. For more information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html">Using
+  /// Amazon Kinesis Data Streams as a Target for AWS Database Migration
+  /// Service</a> in the <i>AWS Database Migration User Guide.</i>
   ///
   /// Parameter [mongoDbSettings] :
   /// Settings in JSON format for the source MongoDB endpoint. For more
@@ -2137,6 +2157,12 @@ class DatabaseMigrationService {
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">
   /// Using MongoDB as a Target for AWS Database Migration Service</a> in the
   /// <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [neptuneSettings] :
+  /// Settings in JSON format for the target Amazon Neptune endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings">https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings</a>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [password] :
   /// The password to be used to login to the endpoint database.
@@ -2179,6 +2205,7 @@ class DatabaseMigrationService {
     KafkaSettings kafkaSettings,
     KinesisSettings kinesisSettings,
     MongoDbSettings mongoDbSettings,
+    NeptuneSettings neptuneSettings,
     String password,
     int port,
     RedshiftSettings redshiftSettings,
@@ -2214,6 +2241,7 @@ class DatabaseMigrationService {
         'KafkaSettings': kafkaSettings,
         'KinesisSettings': kinesisSettings,
         'MongoDbSettings': mongoDbSettings,
+        'NeptuneSettings': neptuneSettings,
         'Password': password,
         'Port': port,
         'RedshiftSettings': redshiftSettings,
@@ -2553,7 +2581,7 @@ class DatabaseMigrationService {
   /// </ul>
   ///
   /// Parameter [replicationTaskSettings] :
-  /// JSON file that contains settings for the task, such as target metadata
+  /// JSON file that contains settings for the task, such as task metadata
   /// settings.
   ///
   /// Parameter [tableMappings] :
@@ -2561,6 +2589,13 @@ class DatabaseMigrationService {
   /// contains the table mappings. Precede the path with <code>file://</code>.
   /// When working with the DMS API, provide the JSON as the parameter value,
   /// for example: <code>--table-mappings file://mappingfile.json</code>
+  ///
+  /// Parameter [taskData] :
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// User Guide.</i>
   Future<ModifyReplicationTaskResponse> modifyReplicationTask({
     @_s.required String replicationTaskArn,
     String cdcStartPosition,
@@ -2570,6 +2605,7 @@ class DatabaseMigrationService {
     String replicationTaskIdentifier,
     String replicationTaskSettings,
     String tableMappings,
+    String taskData,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -2591,6 +2627,7 @@ class DatabaseMigrationService {
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'ReplicationTaskSettings': replicationTaskSettings,
         'TableMappings': tableMappings,
+        'TaskData': taskData,
       },
     );
 
@@ -4120,6 +4157,11 @@ class Endpoint {
   @_s.JsonKey(name: 'MongoDbSettings')
   final MongoDbSettings mongoDbSettings;
 
+  /// The settings for the MongoDB source endpoint. For more information, see the
+  /// <code>NeptuneSettings</code> structure.
+  @_s.JsonKey(name: 'NeptuneSettings')
+  final NeptuneSettings neptuneSettings;
+
   /// The port value used to access the endpoint.
   @_s.JsonKey(name: 'Port')
   final int port;
@@ -4172,6 +4214,7 @@ class Endpoint {
     this.kinesisSettings,
     this.kmsKeyId,
     this.mongoDbSettings,
+    this.neptuneSettings,
     this.port,
     this.redshiftSettings,
     this.s3Settings,
@@ -4714,6 +4757,72 @@ class MongoDbSettings {
       _$MongoDbSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$MongoDbSettingsToJson(this);
+}
+
+/// Provides information that defines an Amazon Neptune endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NeptuneSettings {
+  /// A folder path where you where you want AWS DMS to store migrated graph data
+  /// in the S3 bucket specified by <code>S3BucketName</code>
+  @_s.JsonKey(name: 'S3BucketFolder')
+  final String s3BucketFolder;
+
+  /// The name of the S3 bucket for AWS DMS to temporarily store migrated graph
+  /// data in CSV files before bulk-loading it to the Neptune target database. AWS
+  /// DMS maps the SQL source data to graph data before storing it in these CSV
+  /// files.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of
+  /// migrated graph data to the Neptune target database before raising an error.
+  /// The default is 250.
+  @_s.JsonKey(name: 'ErrorRetryDuration')
+  final int errorRetryDuration;
+
+  /// If you want IAM authorization enabled for this endpoint, set this parameter
+  /// to <code>true</code> and attach the appropriate role policy document to your
+  /// service role specified by <code>ServiceAccessRoleArn</code>. The default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'IamAuthEnabled')
+  final bool iamAuthEnabled;
+
+  /// The maximum size in KB of migrated graph data stored in a CSV file before
+  /// AWS DMS bulk-loads the data to the Neptune target database. The default is
+  /// 1048576 KB. If successful, AWS DMS clears the bucket, ready to store the
+  /// next batch of migrated graph data.
+  @_s.JsonKey(name: 'MaxFileSize')
+  final int maxFileSize;
+
+  /// The number of times for AWS DMS to retry a bulk-load of migrated graph data
+  /// to the Neptune target database before raising an error. The default is 5.
+  @_s.JsonKey(name: 'MaxRetryCount')
+  final int maxRetryCount;
+
+  /// The ARN of the service role you have created for the Neptune target
+  /// endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole">https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole</a>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'ServiceAccessRoleArn')
+  final String serviceAccessRoleArn;
+
+  NeptuneSettings({
+    @_s.required this.s3BucketFolder,
+    @_s.required this.s3BucketName,
+    this.errorRetryDuration,
+    this.iamAuthEnabled,
+    this.maxFileSize,
+    this.maxRetryCount,
+    this.serviceAccessRoleArn,
+  });
+  factory NeptuneSettings.fromJson(Map<String, dynamic> json) =>
+      _$NeptuneSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NeptuneSettingsToJson(this);
 }
 
 enum NestingLevelValue {
@@ -5609,6 +5718,14 @@ class ReplicationTask {
   @_s.JsonKey(name: 'TargetEndpointArn')
   final String targetEndpointArn;
 
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// User Guide.</i>
+  @_s.JsonKey(name: 'TaskData')
+  final String taskData;
+
   ReplicationTask({
     this.cdcStartPosition,
     this.cdcStopPosition,
@@ -5627,6 +5744,7 @@ class ReplicationTask {
     this.stopReason,
     this.tableMappings,
     this.targetEndpointArn,
+    this.taskData,
   });
   factory ReplicationTask.fromJson(Map<String, dynamic> json) =>
       _$ReplicationTaskFromJson(json);
@@ -6287,6 +6405,12 @@ class SupportedEndpointType {
   @_s.JsonKey(name: 'EngineName')
   final String engineName;
 
+  /// The earliest AWS DMS engine version that supports this endpoint engine. Note
+  /// that endpoint engines released with AWS DMS versions earlier than 3.1.1 do
+  /// not return a value for this parameter.
+  @_s.JsonKey(name: 'ReplicationInstanceEngineMinimumVersion')
+  final String replicationInstanceEngineMinimumVersion;
+
   /// Indicates if Change Data Capture (CDC) is supported.
   @_s.JsonKey(name: 'SupportsCDC')
   final bool supportsCDC;
@@ -6295,6 +6419,7 @@ class SupportedEndpointType {
     this.endpointType,
     this.engineDisplayName,
     this.engineName,
+    this.replicationInstanceEngineMinimumVersion,
     this.supportsCDC,
   });
   factory SupportedEndpointType.fromJson(Map<String, dynamic> json) =>

@@ -1,5 +1,5 @@
 name: aws_transfer_api
-description: AWS API client for AWS Transfer for SFTP (generated from SDK API specification).
+description: AWS API client for AWS Transfer Family (generated from SDK API specification).
 version: 0.0.2
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_transfer_api
 

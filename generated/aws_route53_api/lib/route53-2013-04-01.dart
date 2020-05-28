@@ -106,30 +106,34 @@ class Route53 {
   /// create a resource record set that routes traffic for test.example.com to a
   /// web server that has an IP address of 192.0.2.44.
   ///
+  /// <b>Deleting Resource Record Sets</b>
+  ///
+  /// To delete a resource record set, you must specify all the same values that
+  /// you specified when you created it.
+  ///
   /// <b>Change Batches and Transactional Changes</b>
   ///
   /// The request body must include a document with a
   /// <code>ChangeResourceRecordSetsRequest</code> element. The request body
   /// contains a list of change items, known as a change batch. Change batches
-  /// are considered transactional changes. When using the Amazon Route 53 API
-  /// to change resource record sets, Route 53 either makes all or none of the
-  /// changes in a change batch request. This ensures that Route 53 never
-  /// partially implements the intended changes to the resource record sets in a
-  /// hosted zone.
+  /// are considered transactional changes. Route 53 validates the changes in
+  /// the request and then either makes all or none of the changes in the change
+  /// batch request. This ensures that DNS routing isn't adversely affected by
+  /// partial changes to the resource record sets in a hosted zone.
   ///
-  /// For example, a change batch request that deletes the <code>CNAME</code>
-  /// record for www.example.com and creates an alias resource record set for
-  /// www.example.com. Route 53 deletes the first resource record set and
-  /// creates the second resource record set in a single operation. If either
-  /// the <code>DELETE</code> or the <code>CREATE</code> action fails, then both
-  /// changes (plus any other changes in the batch) fail, and the original
+  /// For example, suppose a change batch request contains two changes: it
+  /// deletes the <code>CNAME</code> resource record set for www.example.com and
+  /// creates an alias resource record set for www.example.com. If validation
+  /// for both records succeeds, Route 53 deletes the first resource record set
+  /// and creates the second resource record set in a single operation. If
+  /// validation for either the <code>DELETE</code> or the <code>CREATE</code>
+  /// action fails, then the request is canceled, and the original
   /// <code>CNAME</code> record continues to exist.
-  /// <important>
-  /// Due to the nature of transactional changes, you can't delete the same
-  /// resource record set more than once in a single change batch. If you
-  /// attempt to delete the same change batch more than once, Route 53 returns
-  /// an <code>InvalidChangeBatch</code> error.
-  /// </important>
+  /// <note>
+  /// If you try to delete the same resource record set more than once in a
+  /// single change batch, Route 53 returns an <code>InvalidChangeBatch</code>
+  /// error.
+  /// </note>
   /// <b>Traffic Flow</b>
   ///
   /// To create resource record sets for complex routing configurations, use
@@ -4898,6 +4902,12 @@ enum CloudWatchRegion {
   saEast_1,
   cnNorthwest_1,
   cnNorth_1,
+  afSouth_1,
+  euSouth_1,
+  usGovWest_1,
+  usGovEast_1,
+  usIsoEast_1,
+  usIsobEast_1,
 }
 
 extension on CloudWatchRegion {
@@ -4945,6 +4955,18 @@ extension on CloudWatchRegion {
         return 'cn-northwest-1';
       case CloudWatchRegion.cnNorth_1:
         return 'cn-north-1';
+      case CloudWatchRegion.afSouth_1:
+        return 'af-south-1';
+      case CloudWatchRegion.euSouth_1:
+        return 'eu-south-1';
+      case CloudWatchRegion.usGovWest_1:
+        return 'us-gov-west-1';
+      case CloudWatchRegion.usGovEast_1:
+        return 'us-gov-east-1';
+      case CloudWatchRegion.usIsoEast_1:
+        return 'us-iso-east-1';
+      case CloudWatchRegion.usIsobEast_1:
+        return 'us-isob-east-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -4995,6 +5017,18 @@ extension on String {
         return CloudWatchRegion.cnNorthwest_1;
       case 'cn-north-1':
         return CloudWatchRegion.cnNorth_1;
+      case 'af-south-1':
+        return CloudWatchRegion.afSouth_1;
+      case 'eu-south-1':
+        return CloudWatchRegion.euSouth_1;
+      case 'us-gov-west-1':
+        return CloudWatchRegion.usGovWest_1;
+      case 'us-gov-east-1':
+        return CloudWatchRegion.usGovEast_1;
+      case 'us-iso-east-1':
+        return CloudWatchRegion.usIsoEast_1;
+      case 'us-isob-east-1':
+        return CloudWatchRegion.usIsobEast_1;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8394,6 +8428,8 @@ enum ResourceRecordSetRegion {
   apEast_1,
   meSouth_1,
   apSouth_1,
+  afSouth_1,
+  euSouth_1,
 }
 
 extension on ResourceRecordSetRegion {
@@ -8441,6 +8477,10 @@ extension on ResourceRecordSetRegion {
         return 'me-south-1';
       case ResourceRecordSetRegion.apSouth_1:
         return 'ap-south-1';
+      case ResourceRecordSetRegion.afSouth_1:
+        return 'af-south-1';
+      case ResourceRecordSetRegion.euSouth_1:
+        return 'eu-south-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8491,6 +8531,10 @@ extension on String {
         return ResourceRecordSetRegion.meSouth_1;
       case 'ap-south-1':
         return ResourceRecordSetRegion.apSouth_1;
+      case 'af-south-1':
+        return ResourceRecordSetRegion.afSouth_1;
+      case 'eu-south-1':
+        return ResourceRecordSetRegion.euSouth_1;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9081,6 +9125,10 @@ enum VPCRegion {
   euCentral_1,
   apEast_1,
   meSouth_1,
+  usGovWest_1,
+  usGovEast_1,
+  usIsoEast_1,
+  usIsobEast_1,
   apSoutheast_1,
   apSoutheast_2,
   apSouth_1,
@@ -9091,6 +9139,8 @@ enum VPCRegion {
   saEast_1,
   caCentral_1,
   cnNorth_1,
+  afSouth_1,
+  euSouth_1,
 }
 
 extension on VPCRegion {
@@ -9116,6 +9166,14 @@ extension on VPCRegion {
         return 'ap-east-1';
       case VPCRegion.meSouth_1:
         return 'me-south-1';
+      case VPCRegion.usGovWest_1:
+        return 'us-gov-west-1';
+      case VPCRegion.usGovEast_1:
+        return 'us-gov-east-1';
+      case VPCRegion.usIsoEast_1:
+        return 'us-iso-east-1';
+      case VPCRegion.usIsobEast_1:
+        return 'us-isob-east-1';
       case VPCRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case VPCRegion.apSoutheast_2:
@@ -9136,6 +9194,10 @@ extension on VPCRegion {
         return 'ca-central-1';
       case VPCRegion.cnNorth_1:
         return 'cn-north-1';
+      case VPCRegion.afSouth_1:
+        return 'af-south-1';
+      case VPCRegion.euSouth_1:
+        return 'eu-south-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9164,6 +9226,14 @@ extension on String {
         return VPCRegion.apEast_1;
       case 'me-south-1':
         return VPCRegion.meSouth_1;
+      case 'us-gov-west-1':
+        return VPCRegion.usGovWest_1;
+      case 'us-gov-east-1':
+        return VPCRegion.usGovEast_1;
+      case 'us-iso-east-1':
+        return VPCRegion.usIsoEast_1;
+      case 'us-isob-east-1':
+        return VPCRegion.usIsobEast_1;
       case 'ap-southeast-1':
         return VPCRegion.apSoutheast_1;
       case 'ap-southeast-2':
@@ -9184,6 +9254,10 @@ extension on String {
         return VPCRegion.caCentral_1;
       case 'cn-north-1':
         return VPCRegion.cnNorth_1;
+      case 'af-south-1':
+        return VPCRegion.afSouth_1;
+      case 'eu-south-1':
+        return VPCRegion.euSouth_1;
     }
     throw Exception('Unknown enum value: $this');
   }

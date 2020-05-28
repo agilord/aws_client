@@ -71,13 +71,16 @@ const _$RedactionTypeEnumMap = {
   RedactionType.pii: 'PII',
 };
 
-CreateVocabularyFilterResponse _$CreateVocabularyFilterResponseFromJson(
+CreateMedicalVocabularyResponse _$CreateMedicalVocabularyResponseFromJson(
     Map<String, dynamic> json) {
-  return CreateVocabularyFilterResponse(
+  return CreateMedicalVocabularyResponse(
+    failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
     lastModifiedTime: unixFromJson(json['LastModifiedTime']),
-    vocabularyFilterName: json['VocabularyFilterName'] as String,
+    vocabularyName: json['VocabularyName'] as String,
+    vocabularyState:
+        _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
   );
 }
 
@@ -115,6 +118,22 @@ const _$LanguageCodeEnumMap = {
   LanguageCode.arAe: 'ar-AE',
 };
 
+const _$VocabularyStateEnumMap = {
+  VocabularyState.pending: 'PENDING',
+  VocabularyState.ready: 'READY',
+  VocabularyState.failed: 'FAILED',
+};
+
+CreateVocabularyFilterResponse _$CreateVocabularyFilterResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateVocabularyFilterResponse(
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    lastModifiedTime: unixFromJson(json['LastModifiedTime']),
+    vocabularyFilterName: json['VocabularyFilterName'] as String,
+  );
+}
+
 CreateVocabularyResponse _$CreateVocabularyResponseFromJson(
     Map<String, dynamic> json) {
   return CreateVocabularyResponse(
@@ -128,12 +147,6 @@ CreateVocabularyResponse _$CreateVocabularyResponseFromJson(
   );
 }
 
-const _$VocabularyStateEnumMap = {
-  VocabularyState.pending: 'PENDING',
-  VocabularyState.ready: 'READY',
-  VocabularyState.failed: 'FAILED',
-};
-
 GetMedicalTranscriptionJobResponse _$GetMedicalTranscriptionJobResponseFromJson(
     Map<String, dynamic> json) {
   return GetMedicalTranscriptionJobResponse(
@@ -141,6 +154,20 @@ GetMedicalTranscriptionJobResponse _$GetMedicalTranscriptionJobResponseFromJson(
         ? null
         : MedicalTranscriptionJob.fromJson(
             json['MedicalTranscriptionJob'] as Map<String, dynamic>),
+  );
+}
+
+GetMedicalVocabularyResponse _$GetMedicalVocabularyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetMedicalVocabularyResponse(
+    downloadUri: json['DownloadUri'] as String,
+    failureReason: json['FailureReason'] as String,
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    lastModifiedTime: unixFromJson(json['LastModifiedTime']),
+    vocabularyName: json['VocabularyName'] as String,
+    vocabularyState:
+        _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
   );
 }
 
@@ -224,6 +251,19 @@ const _$TranscriptionJobStatusEnumMap = {
   TranscriptionJobStatus.completed: 'COMPLETED',
 };
 
+ListMedicalVocabulariesResponse _$ListMedicalVocabulariesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListMedicalVocabulariesResponse(
+    nextToken: json['NextToken'] as String,
+    status: _$enumDecodeNullable(_$VocabularyStateEnumMap, json['Status']),
+    vocabularies: (json['Vocabularies'] as List)
+        ?.map((e) => e == null
+            ? null
+            : VocabularyInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListTranscriptionJobsResponse _$ListTranscriptionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTranscriptionJobsResponse(
@@ -242,8 +282,7 @@ ListVocabulariesResponse _$ListVocabulariesResponseFromJson(
     Map<String, dynamic> json) {
   return ListVocabulariesResponse(
     nextToken: json['NextToken'] as String,
-    status:
-        _$enumDecodeNullable(_$TranscriptionJobStatusEnumMap, json['Status']),
+    status: _$enumDecodeNullable(_$VocabularyStateEnumMap, json['Status']),
     vocabularies: (json['Vocabularies'] as List)
         ?.map((e) => e == null
             ? null
@@ -368,6 +407,7 @@ MedicalTranscriptionSetting _$MedicalTranscriptionSettingFromJson(
     maxSpeakerLabels: json['MaxSpeakerLabels'] as int,
     showAlternatives: json['ShowAlternatives'] as bool,
     showSpeakerLabels: json['ShowSpeakerLabels'] as bool,
+    vocabularyName: json['VocabularyName'] as String,
   );
 }
 
@@ -386,6 +426,7 @@ Map<String, dynamic> _$MedicalTranscriptionSettingToJson(
   writeNotNull('MaxSpeakerLabels', instance.maxSpeakerLabels);
   writeNotNull('ShowAlternatives', instance.showAlternatives);
   writeNotNull('ShowSpeakerLabels', instance.showSpeakerLabels);
+  writeNotNull('VocabularyName', instance.vocabularyName);
   return val;
 }
 
@@ -508,6 +549,18 @@ TranscriptionJobSummary _$TranscriptionJobSummaryFromJson(
     transcriptionJobName: json['TranscriptionJobName'] as String,
     transcriptionJobStatus: _$enumDecodeNullable(
         _$TranscriptionJobStatusEnumMap, json['TranscriptionJobStatus']),
+  );
+}
+
+UpdateMedicalVocabularyResponse _$UpdateMedicalVocabularyResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateMedicalVocabularyResponse(
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    lastModifiedTime: unixFromJson(json['LastModifiedTime']),
+    vocabularyName: json['VocabularyName'] as String,
+    vocabularyState:
+        _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
   );
 }
 

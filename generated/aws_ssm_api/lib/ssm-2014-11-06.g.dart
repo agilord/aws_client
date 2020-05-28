@@ -91,6 +91,8 @@ AssociationDescription _$AssociationDescriptionFromJson(
     status: json['Status'] == null
         ? null
         : AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -136,6 +138,11 @@ const _$AssociationComplianceSeverityEnumMap = {
   AssociationComplianceSeverity.medium: 'MEDIUM',
   AssociationComplianceSeverity.low: 'LOW',
   AssociationComplianceSeverity.unspecified: 'UNSPECIFIED',
+};
+
+const _$AssociationSyncComplianceEnumMap = {
+  AssociationSyncCompliance.auto: 'AUTO',
+  AssociationSyncCompliance.manual: 'MANUAL',
 };
 
 AssociationExecution _$AssociationExecutionFromJson(Map<String, dynamic> json) {
@@ -240,6 +247,7 @@ const _$AssociationFilterKeyEnumMap = {
   AssociationFilterKey.lastExecutedBefore: 'LastExecutedBefore',
   AssociationFilterKey.lastExecutedAfter: 'LastExecutedAfter',
   AssociationFilterKey.associationName: 'AssociationName',
+  AssociationFilterKey.resourceGroupName: 'ResourceGroupName',
 };
 
 AssociationOverview _$AssociationOverviewFromJson(Map<String, dynamic> json) {
@@ -305,6 +313,8 @@ AssociationVersionInfo _$AssociationVersionInfoFromJson(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
     scheduleExpression: json['ScheduleExpression'] as String,
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -575,6 +585,7 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    timeoutSeconds: json['TimeoutSeconds'] as int,
   );
 }
 
@@ -833,6 +844,8 @@ CreateAssociationBatchRequestEntry _$CreateAssociationBatchRequestEntryFromJson(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
     scheduleExpression: json['ScheduleExpression'] as String,
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -863,6 +876,8 @@ Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
   writeNotNull('OutputLocation', instance.outputLocation?.toJson());
   writeNotNull('Parameters', instance.parameters);
   writeNotNull('ScheduleExpression', instance.scheduleExpression);
+  writeNotNull('SyncCompliance',
+      _$AssociationSyncComplianceEnumMap[instance.syncCompliance]);
   writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
   return val;
 }
@@ -1761,6 +1776,8 @@ const _$OperatingSystemEnumMap = {
   OperatingSystem.redhatEnterpriseLinux: 'REDHAT_ENTERPRISE_LINUX',
   OperatingSystem.suse: 'SUSE',
   OperatingSystem.centos: 'CENTOS',
+  OperatingSystem.oracleLinux: 'ORACLE_LINUX',
+  OperatingSystem.debian: 'DEBIAN',
 };
 
 GetDeployablePatchSnapshotForInstanceResult
@@ -3276,6 +3293,7 @@ OutputSource _$OutputSourceFromJson(Map<String, dynamic> json) {
 Parameter _$ParameterFromJson(Map<String, dynamic> json) {
   return Parameter(
     arn: json['ARN'] as String,
+    dataType: json['DataType'] as String,
     lastModifiedDate: unixFromJson(json['LastModifiedDate']),
     name: json['Name'] as String,
     selector: json['Selector'] as String,
@@ -3295,6 +3313,7 @@ const _$ParameterTypeEnumMap = {
 ParameterHistory _$ParameterHistoryFromJson(Map<String, dynamic> json) {
   return ParameterHistory(
     allowedPattern: json['AllowedPattern'] as String,
+    dataType: json['DataType'] as String,
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
     labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
@@ -3331,6 +3350,7 @@ ParameterInlinePolicy _$ParameterInlinePolicyFromJson(
 ParameterMetadata _$ParameterMetadataFromJson(Map<String, dynamic> json) {
   return ParameterMetadata(
     allowedPattern: json['AllowedPattern'] as String,
+    dataType: json['DataType'] as String,
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
     lastModifiedDate: unixFromJson(json['LastModifiedDate']),

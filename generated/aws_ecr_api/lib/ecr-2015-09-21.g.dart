@@ -318,6 +318,8 @@ const _$ImageFailureCodeEnumMap = {
   ImageFailureCode.imageTagDoesNotMatchDigest: 'ImageTagDoesNotMatchDigest',
   ImageFailureCode.imageNotFound: 'ImageNotFound',
   ImageFailureCode.missingDigestAndTag: 'MissingDigestAndTag',
+  ImageFailureCode.imageReferencedByManifestList:
+      'ImageReferencedByManifestList',
 };
 
 ImageIdentifier _$ImageIdentifierFromJson(Map<String, dynamic> json) {

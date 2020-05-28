@@ -48,15 +48,12 @@ class ECR {
   /// Checks the availability of one or more image layers in a repository.
   ///
   /// When an image is pushed to a repository, each image layer is checked to
-  /// verify if it has been uploaded before. If it is, then the image layer is
-  /// skipped.
-  ///
-  /// When an image is pulled from a repository, each image layer is checked
-  /// once to verify it is available to be pulled.
+  /// verify if it has been uploaded before. If it has been uploaded, then the
+  /// image layer is skipped.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [RepositoryNotFoundException].
@@ -276,9 +273,9 @@ class ECR {
   /// When an image is pushed, the CompleteLayerUpload API is called once per
   /// each new image layer to verify that the upload has completed.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -936,11 +933,11 @@ class ECR {
   /// image.
   ///
   /// When an image is pulled, the GetDownloadUrlForLayer API is called once per
-  /// image layer.
+  /// image layer that is not already cached.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -1230,13 +1227,13 @@ class ECR {
   /// Notifies Amazon ECR that you intend to upload an image layer.
   ///
   /// When an image is pushed, the InitiateLayerUpload API is called once per
-  /// image layer that has not already been uploaded. Whether an image layer has
-  /// been uploaded before is determined by the
-  /// <a>BatchCheckLayerAvailability</a> API action.
+  /// image layer that has not already been uploaded. Whether or not an image
+  /// layer has been uploaded is determined by the BatchCheckLayerAvailability
+  /// API action.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -1429,12 +1426,12 @@ class ECR {
   /// Creates or updates the image manifest and tags associated with an image.
   ///
   /// When an image is pushed and all new image layers have been uploaded, the
-  /// PutImage API is called once to create or update the image manifest and
+  /// PutImage API is called once to create or update the image manifest and the
   /// tags associated with the image.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -1442,6 +1439,7 @@ class ECR {
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageAlreadyExistsException].
   /// May throw [LayersNotFoundException].
+  /// May throw [ReferencedImagesNotFoundException].
   /// May throw [LimitExceededException].
   /// May throw [ImageTagAlreadyExistsException].
   ///
@@ -1818,6 +1816,8 @@ class ECR {
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [UnsupportedImageTypeException].
+  /// May throw [LimitExceededException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageNotFoundException].
   ///
@@ -2034,9 +2034,9 @@ class ECR {
   /// 20MB). The UploadLayerPart API is called once per each new image layer
   /// part.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -2743,6 +2743,9 @@ class ImageDetail {
   final ImageScanStatus imageScanStatus;
 
   /// The size, in bytes, of the image in the repository.
+  ///
+  /// If the image is a manifest list, this will be the max size of all manifests
+  /// in the list.
   /// <note>
   /// Beginning with Docker version 1.9, the Docker client compresses image layers
   /// before pushing them to a V2 Docker registry. The output of the <code>docker
@@ -2817,6 +2820,8 @@ enum ImageFailureCode {
   imageNotFound,
   @_s.JsonValue('MissingDigestAndTag')
   missingDigestAndTag,
+  @_s.JsonValue('ImageReferencedByManifestList')
+  imageReferencedByManifestList,
 }
 
 /// An object with identifying information for an Amazon ECR image.
@@ -3720,6 +3725,14 @@ class LimitExceededException extends _s.GenericAwsException {
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+class ReferencedImagesNotFoundException extends _s.GenericAwsException {
+  ReferencedImagesNotFoundException({String type, String message})
+      : super(
+            type: type,
+            code: 'ReferencedImagesNotFoundException',
+            message: message);
+}
+
 class RepositoryAlreadyExistsException extends _s.GenericAwsException {
   RepositoryAlreadyExistsException({String type, String message})
       : super(
@@ -3763,6 +3776,14 @@ class TooManyTagsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+class UnsupportedImageTypeException extends _s.GenericAwsException {
+  UnsupportedImageTypeException({String type, String message})
+      : super(
+            type: type,
+            code: 'UnsupportedImageTypeException',
+            message: message);
+}
+
 class UploadNotFoundException extends _s.GenericAwsException {
   UploadNotFoundException({String type, String message})
       : super(type: type, code: 'UploadNotFoundException', message: message);
@@ -3801,6 +3822,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LifecyclePolicyPreviewNotFoundException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'ReferencedImagesNotFoundException': (type, message) =>
+      ReferencedImagesNotFoundException(type: type, message: message),
   'RepositoryAlreadyExistsException': (type, message) =>
       RepositoryAlreadyExistsException(type: type, message: message),
   'RepositoryNotEmptyException': (type, message) =>
@@ -3815,6 +3838,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServerException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnsupportedImageTypeException': (type, message) =>
+      UnsupportedImageTypeException(type: type, message: message),
   'UploadNotFoundException': (type, message) =>
       UploadNotFoundException(type: type, message: message),
 };

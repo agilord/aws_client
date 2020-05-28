@@ -4922,7 +4922,8 @@ class FunctionConfiguration {
   @_s.JsonKey(name: 'StateReasonCode')
   final StateReasonCode stateReasonCode;
 
-  /// The amount of time that Lambda allows a function to run before stopping it.
+  /// The amount of time in seconds that Lambda allows a function to run before
+  /// stopping it.
   @_s.JsonKey(name: 'Timeout')
   final int timeout;
 

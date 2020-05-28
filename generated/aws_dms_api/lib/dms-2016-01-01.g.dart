@@ -496,6 +496,10 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
         ? null
         : MongoDbSettings.fromJson(
             json['MongoDbSettings'] as Map<String, dynamic>),
+    neptuneSettings: json['NeptuneSettings'] == null
+        ? null
+        : NeptuneSettings.fromJson(
+            json['NeptuneSettings'] as Map<String, dynamic>),
     port: json['Port'] as int,
     redshiftSettings: json['RedshiftSettings'] == null
         ? null
@@ -801,6 +805,37 @@ const _$NestingLevelValueEnumMap = {
   NestingLevelValue.one: 'one',
 };
 
+NeptuneSettings _$NeptuneSettingsFromJson(Map<String, dynamic> json) {
+  return NeptuneSettings(
+    s3BucketFolder: json['S3BucketFolder'] as String,
+    s3BucketName: json['S3BucketName'] as String,
+    errorRetryDuration: json['ErrorRetryDuration'] as int,
+    iamAuthEnabled: json['IamAuthEnabled'] as bool,
+    maxFileSize: json['MaxFileSize'] as int,
+    maxRetryCount: json['MaxRetryCount'] as int,
+    serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$NeptuneSettingsToJson(NeptuneSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3BucketFolder', instance.s3BucketFolder);
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('ErrorRetryDuration', instance.errorRetryDuration);
+  writeNotNull('IamAuthEnabled', instance.iamAuthEnabled);
+  writeNotNull('MaxFileSize', instance.maxFileSize);
+  writeNotNull('MaxRetryCount', instance.maxRetryCount);
+  writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
+  return val;
+}
+
 OrderableReplicationInstance _$OrderableReplicationInstanceFromJson(
     Map<String, dynamic> json) {
   return OrderableReplicationInstance(
@@ -1065,6 +1100,7 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     stopReason: json['StopReason'] as String,
     tableMappings: json['TableMappings'] as String,
     targetEndpointArn: json['TargetEndpointArn'] as String,
+    taskData: json['TaskData'] as String,
   );
 }
 
@@ -1259,6 +1295,8 @@ SupportedEndpointType _$SupportedEndpointTypeFromJson(
         _$ReplicationEndpointTypeValueEnumMap, json['EndpointType']),
     engineDisplayName: json['EngineDisplayName'] as String,
     engineName: json['EngineName'] as String,
+    replicationInstanceEngineMinimumVersion:
+        json['ReplicationInstanceEngineMinimumVersion'] as String,
     supportsCDC: json['SupportsCDC'] as bool,
   );
 }

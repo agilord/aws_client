@@ -53,6 +53,45 @@ AttachVolumeOutput _$AttachVolumeOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+AutomaticTapeCreationPolicyInfo _$AutomaticTapeCreationPolicyInfoFromJson(
+    Map<String, dynamic> json) {
+  return AutomaticTapeCreationPolicyInfo(
+    automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    gatewayARN: json['GatewayARN'] as String,
+  );
+}
+
+AutomaticTapeCreationRule _$AutomaticTapeCreationRuleFromJson(
+    Map<String, dynamic> json) {
+  return AutomaticTapeCreationRule(
+    minimumNumTapes: json['MinimumNumTapes'] as int,
+    poolId: json['PoolId'] as String,
+    tapeBarcodePrefix: json['TapeBarcodePrefix'] as String,
+    tapeSizeInBytes: json['TapeSizeInBytes'] as int,
+  );
+}
+
+Map<String, dynamic> _$AutomaticTapeCreationRuleToJson(
+    AutomaticTapeCreationRule instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinimumNumTapes', instance.minimumNumTapes);
+  writeNotNull('PoolId', instance.poolId);
+  writeNotNull('TapeBarcodePrefix', instance.tapeBarcodePrefix);
+  writeNotNull('TapeSizeInBytes', instance.tapeSizeInBytes);
+  return val;
+}
+
 CachediSCSIVolume _$CachediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return CachediSCSIVolume(
     createdDate: unixFromJson(json['CreatedDate']),
@@ -155,6 +194,14 @@ CreateTapeWithBarcodeOutput _$CreateTapeWithBarcodeOutputFromJson(
 CreateTapesOutput _$CreateTapesOutputFromJson(Map<String, dynamic> json) {
   return CreateTapesOutput(
     tapeARNs: (json['TapeARNs'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+DeleteAutomaticTapeCreationPolicyOutput
+    _$DeleteAutomaticTapeCreationPolicyOutputFromJson(
+        Map<String, dynamic> json) {
+  return DeleteAutomaticTapeCreationPolicyOutput(
+    gatewayARN: json['GatewayARN'] as String,
   );
 }
 
@@ -567,6 +614,20 @@ JoinDomainOutput _$JoinDomainOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListAutomaticTapeCreationPoliciesOutput
+    _$ListAutomaticTapeCreationPoliciesOutputFromJson(
+        Map<String, dynamic> json) {
+  return ListAutomaticTapeCreationPoliciesOutput(
+    automaticTapeCreationPolicyInfos:
+        (json['AutomaticTapeCreationPolicyInfos'] as List)
+            ?.map((e) => e == null
+                ? null
+                : AutomaticTapeCreationPolicyInfo.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 ListFileSharesOutput _$ListFileSharesOutputFromJson(Map<String, dynamic> json) {
   return ListFileSharesOutput(
     fileShareInfoList: (json['FileShareInfoList'] as List)
@@ -921,6 +982,14 @@ TapeRecoveryPointInfo _$TapeRecoveryPointInfoFromJson(
     tapeRecoveryPointTime: unixFromJson(json['TapeRecoveryPointTime']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
+  );
+}
+
+UpdateAutomaticTapeCreationPolicyOutput
+    _$UpdateAutomaticTapeCreationPolicyOutputFromJson(
+        Map<String, dynamic> json) {
+  return UpdateAutomaticTapeCreationPolicyOutput(
+    gatewayARN: json['GatewayARN'] as String,
   );
 }
 

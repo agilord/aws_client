@@ -1679,6 +1679,81 @@ class Redshift {
     );
   }
 
+  /// Creates a usage limit for a specified Amazon Redshift feature on a
+  /// cluster. The usage limit is identified by the returned usage limit
+  /// identifier.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [UsageLimitAlreadyExistsFault].
+  /// May throw [InvalidUsageLimitFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [amount] :
+  /// The limit amount. If time-based, this amount is in minutes. If data-based,
+  /// this amount is in terabytes (TB). The value must be a positive number.
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster that you want to limit usage.
+  ///
+  /// Parameter [featureType] :
+  /// The Amazon Redshift feature that you want to limit.
+  ///
+  /// Parameter [limitType] :
+  /// The type of limit. Depending on the feature type, this can be based on a
+  /// time duration or data size. If <code>FeatureType</code> is
+  /// <code>spectrum</code>, then <code>LimitType</code> must be
+  /// <code>data-scanned</code>. If <code>FeatureType</code> is
+  /// <code>concurrency-scaling</code>, then <code>LimitType</code> must be
+  /// <code>time</code>.
+  ///
+  /// Parameter [breachAction] :
+  /// The action that Amazon Redshift takes when the limit is reached. The
+  /// default is log. For more information about this parameter, see
+  /// <a>UsageLimit</a>.
+  ///
+  /// Parameter [period] :
+  /// The time period that the amount applies to. A <code>weekly</code> period
+  /// begins on Sunday. The default is <code>monthly</code>.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag instances.
+  Future<UsageLimit> createUsageLimit({
+    @_s.required int amount,
+    @_s.required String clusterIdentifier,
+    @_s.required UsageLimitFeatureType featureType,
+    @_s.required UsageLimitLimitType limitType,
+    UsageLimitBreachAction breachAction,
+    UsageLimitPeriod period,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(amount, 'amount');
+    ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    ArgumentError.checkNotNull(featureType, 'featureType');
+    ArgumentError.checkNotNull(limitType, 'limitType');
+    final $request = <String, dynamic>{
+      'Action': 'CreateUsageLimit',
+      'Version': '2012-12-01',
+    };
+    $request['Amount'] = amount;
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    $request['FeatureType'] = featureType.toValue();
+    $request['LimitType'] = limitType.toValue();
+    breachAction?.also((arg) => $request['BreachAction'] = arg.toValue());
+    period?.also((arg) => $request['Period'] = arg.toValue());
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'CreateUsageLimitResult',
+    );
+    return UsageLimit.fromXml($result);
+  }
+
   /// Deletes a previously provisioned cluster without its final snapshot being
   /// created. A successful response from the web service indicates that the
   /// request was received correctly. Use <a>DescribeClusters</a> to monitor the
@@ -2111,6 +2186,30 @@ class Redshift {
     };
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a usage limit from a cluster.
+  ///
+  /// May throw [UsageLimitNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to delete.
+  Future<void> deleteUsageLimit({
+    @_s.required String usageLimitId,
+  }) async {
+    ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
+    final $request = <String, dynamic>{
+      'Action': 'DeleteUsageLimit',
+      'Version': '2012-12-01',
+    };
+    $request['UsageLimitId'] = usageLimitId;
     await _protocol.send(
       $request,
       method: 'POST',
@@ -4140,6 +4239,108 @@ class Redshift {
     return TaggedResourceListMessage.fromXml($result);
   }
 
+  /// Shows usage limits on a cluster. Results are filtered based on the
+  /// combination of input usage limit identifier, cluster identifier, and
+  /// feature type parameters:
+  ///
+  /// <ul>
+  /// <li>
+  /// If usage limit identifier, cluster identifier, and feature type are not
+  /// provided, then all usage limit objects for the current account in the
+  /// current region are returned.
+  /// </li>
+  /// <li>
+  /// If usage limit identifier is provided, then the corresponding usage limit
+  /// object is returned.
+  /// </li>
+  /// <li>
+  /// If cluster identifier is provided, then all usage limit objects for the
+  /// specified cluster are returned.
+  /// </li>
+  /// <li>
+  /// If cluster identifier and feature type are provided, then all usage limit
+  /// objects for the combination of cluster and feature are returned.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster for which you want to describe usage limits.
+  ///
+  /// Parameter [featureType] :
+  /// The feature type for which you want to describe usage limits.
+  ///
+  /// Parameter [marker] :
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeUsageLimits</a> request
+  /// exceed the value specified in <code>MaxRecords</code>, AWS returns a value
+  /// in the <code>Marker</code> field of the response. You can retrieve the
+  /// next set of response records by providing the returned marker value in the
+  /// <code>Marker</code> parameter and retrying the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  ///
+  /// Parameter [tagKeys] :
+  /// A tag key or keys for which you want to return all matching usage limit
+  /// objects that are associated with the specified key or keys. For example,
+  /// suppose that you have parameter groups that are tagged with keys called
+  /// <code>owner</code> and <code>environment</code>. If you specify both of
+  /// these tag keys in the request, Amazon Redshift returns a response with the
+  /// usage limit objects have either or both of these tag keys associated with
+  /// them.
+  ///
+  /// Parameter [tagValues] :
+  /// A tag value or values for which you want to return all matching usage
+  /// limit objects that are associated with the specified tag value or values.
+  /// For example, suppose that you have parameter groups that are tagged with
+  /// values called <code>admin</code> and <code>test</code>. If you specify
+  /// both of these tag values in the request, Amazon Redshift returns a
+  /// response with the usage limit objects that have either or both of these
+  /// tag values associated with them.
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to describe.
+  Future<UsageLimitList> describeUsageLimits({
+    String clusterIdentifier,
+    UsageLimitFeatureType featureType,
+    String marker,
+    int maxRecords,
+    List<String> tagKeys,
+    List<String> tagValues,
+    String usageLimitId,
+  }) async {
+    final $request = <String, dynamic>{
+      'Action': 'DescribeUsageLimits',
+      'Version': '2012-12-01',
+    };
+    clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
+    featureType?.also((arg) => $request['FeatureType'] = arg.toValue());
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    tagKeys?.also((arg) => $request['TagKeys'] = arg);
+    tagValues?.also((arg) => $request['TagValues'] = arg);
+    usageLimitId?.also((arg) => $request['UsageLimitId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeUsageLimitsResult',
+    );
+    return UsageLimitList.fromXml($result);
+  }
+
   /// Stops logging information, such as queries and connection attempts, for
   /// the specified Amazon Redshift cluster.
   ///
@@ -5530,6 +5731,46 @@ class Redshift {
     return SnapshotSchedule.fromXml($result);
   }
 
+  /// Modifies a usage limit in a cluster. You can't modify the feature type or
+  /// period of a usage limit.
+  ///
+  /// May throw [InvalidUsageLimitFault].
+  /// May throw [UsageLimitNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to modify.
+  ///
+  /// Parameter [amount] :
+  /// The new limit amount. For more information about this parameter, see
+  /// <a>UsageLimit</a>.
+  ///
+  /// Parameter [breachAction] :
+  /// The new action that Amazon Redshift takes when the limit is reached. For
+  /// more information about this parameter, see <a>UsageLimit</a>.
+  Future<UsageLimit> modifyUsageLimit({
+    @_s.required String usageLimitId,
+    int amount,
+    UsageLimitBreachAction breachAction,
+  }) async {
+    ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
+    final $request = <String, dynamic>{
+      'Action': 'ModifyUsageLimit',
+      'Version': '2012-12-01',
+    };
+    $request['UsageLimitId'] = usageLimitId;
+    amount?.also((arg) => $request['Amount'] = arg);
+    breachAction?.also((arg) => $request['BreachAction'] = arg.toValue());
+    final $result = await _protocol.send(
+      $request,
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyUsageLimitResult',
+    );
+    return UsageLimit.fromXml($result);
+  }
+
   /// Pauses a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
@@ -5970,7 +6211,7 @@ class Redshift {
   /// same instance type and size. In other words, you can only restore a
   /// dc1.large instance type into another dc1.large instance type or dc2.large
   /// instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore
-  /// to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more
+  /// to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more
   /// information about node types, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes">
   /// About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management
@@ -11118,6 +11359,231 @@ class UpdateTarget {
   }
 }
 
+/// Describes a usage limit object for a cluster.
+class UsageLimit {
+  /// The limit amount. If time-based, this amount is in minutes. If data-based,
+  /// this amount is in terabytes (TB).
+  final int amount;
+
+  /// The action that Amazon Redshift takes when the limit is reached. Possible
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>log</b> - To log an event in a system table. The default is log.
+  /// </li>
+  /// <li>
+  /// <b>emit-metric</b> - To emit CloudWatch metrics.
+  /// </li>
+  /// <li>
+  /// <b>disable</b> - To disable the feature until the next usage period begins.
+  /// </li>
+  /// </ul>
+  final UsageLimitBreachAction breachAction;
+
+  /// The identifier of the cluster with a usage limit.
+  final String clusterIdentifier;
+
+  /// The Amazon Redshift feature to which the limit applies.
+  final UsageLimitFeatureType featureType;
+
+  /// The type of limit. Depending on the feature type, this can be based on a
+  /// time duration or data size.
+  final UsageLimitLimitType limitType;
+
+  /// The time period that the amount applies to. A <code>weekly</code> period
+  /// begins on Sunday. The default is <code>monthly</code>.
+  final UsageLimitPeriod period;
+
+  /// A list of tag instances.
+  final List<Tag> tags;
+
+  /// The identifier of the usage limit.
+  final String usageLimitId;
+
+  UsageLimit({
+    this.amount,
+    this.breachAction,
+    this.clusterIdentifier,
+    this.featureType,
+    this.limitType,
+    this.period,
+    this.tags,
+    this.usageLimitId,
+  });
+  factory UsageLimit.fromXml(_s.XmlElement elem) {
+    return UsageLimit(
+      amount: _s.extractXmlIntValue(elem, 'Amount'),
+      breachAction: _s
+          .extractXmlStringValue(elem, 'BreachAction')
+          ?.toUsageLimitBreachAction(),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      featureType: _s
+          .extractXmlStringValue(elem, 'FeatureType')
+          ?.toUsageLimitFeatureType(),
+      limitType:
+          _s.extractXmlStringValue(elem, 'LimitType')?.toUsageLimitLimitType(),
+      period: _s.extractXmlStringValue(elem, 'Period')?.toUsageLimitPeriod(),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      usageLimitId: _s.extractXmlStringValue(elem, 'UsageLimitId'),
+    );
+  }
+}
+
+enum UsageLimitBreachAction {
+  log,
+  emitMetric,
+  disable,
+}
+
+extension on UsageLimitBreachAction {
+  String toValue() {
+    switch (this) {
+      case UsageLimitBreachAction.log:
+        return 'log';
+      case UsageLimitBreachAction.emitMetric:
+        return 'emit-metric';
+      case UsageLimitBreachAction.disable:
+        return 'disable';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitBreachAction toUsageLimitBreachAction() {
+    switch (this) {
+      case 'log':
+        return UsageLimitBreachAction.log;
+      case 'emit-metric':
+        return UsageLimitBreachAction.emitMetric;
+      case 'disable':
+        return UsageLimitBreachAction.disable;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum UsageLimitFeatureType {
+  spectrum,
+  concurrencyScaling,
+}
+
+extension on UsageLimitFeatureType {
+  String toValue() {
+    switch (this) {
+      case UsageLimitFeatureType.spectrum:
+        return 'spectrum';
+      case UsageLimitFeatureType.concurrencyScaling:
+        return 'concurrency-scaling';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitFeatureType toUsageLimitFeatureType() {
+    switch (this) {
+      case 'spectrum':
+        return UsageLimitFeatureType.spectrum;
+      case 'concurrency-scaling':
+        return UsageLimitFeatureType.concurrencyScaling;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum UsageLimitLimitType {
+  time,
+  dataScanned,
+}
+
+extension on UsageLimitLimitType {
+  String toValue() {
+    switch (this) {
+      case UsageLimitLimitType.time:
+        return 'time';
+      case UsageLimitLimitType.dataScanned:
+        return 'data-scanned';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitLimitType toUsageLimitLimitType() {
+    switch (this) {
+      case 'time':
+        return UsageLimitLimitType.time;
+      case 'data-scanned':
+        return UsageLimitLimitType.dataScanned;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+class UsageLimitList {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String marker;
+
+  /// Contains the output from the <a>DescribeUsageLimits</a> action.
+  final List<UsageLimit> usageLimits;
+
+  UsageLimitList({
+    this.marker,
+    this.usageLimits,
+  });
+  factory UsageLimitList.fromXml(_s.XmlElement elem) {
+    return UsageLimitList(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      usageLimits: _s.extractXmlChild(elem, 'UsageLimits')?.let((elem) => elem
+          .findElements('UsageLimits')
+          .map((c) => UsageLimit.fromXml(c))
+          .toList()),
+    );
+  }
+}
+
+enum UsageLimitPeriod {
+  daily,
+  weekly,
+  monthly,
+}
+
+extension on UsageLimitPeriod {
+  String toValue() {
+    switch (this) {
+      case UsageLimitPeriod.daily:
+        return 'daily';
+      case UsageLimitPeriod.weekly:
+        return 'weekly';
+      case UsageLimitPeriod.monthly:
+        return 'monthly';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitPeriod toUsageLimitPeriod() {
+    switch (this) {
+      case 'daily':
+        return UsageLimitPeriod.daily;
+      case 'weekly':
+        return UsageLimitPeriod.weekly;
+      case 'monthly':
+        return UsageLimitPeriod.monthly;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the members of a VPC security group.
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
@@ -11570,6 +12036,11 @@ class InvalidTagFault extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidTagFault', message: message);
 }
 
+class InvalidUsageLimitFault extends _s.GenericAwsException {
+  InvalidUsageLimitFault({String type, String message})
+      : super(type: type, code: 'InvalidUsageLimitFault', message: message);
+}
+
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String type, String message})
       : super(
@@ -11859,6 +12330,17 @@ class UnsupportedOptionFault extends _s.GenericAwsException {
       : super(type: type, code: 'UnsupportedOptionFault', message: message);
 }
 
+class UsageLimitAlreadyExistsFault extends _s.GenericAwsException {
+  UsageLimitAlreadyExistsFault({String type, String message})
+      : super(
+            type: type, code: 'UsageLimitAlreadyExistsFault', message: message);
+}
+
+class UsageLimitNotFoundFault extends _s.GenericAwsException {
+  UsageLimitNotFoundFault({String type, String message})
+      : super(type: type, code: 'UsageLimitNotFoundFault', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessToSnapshotDeniedFault': (type, message) =>
       AccessToSnapshotDeniedFault(type: type, message: message),
@@ -11983,6 +12465,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidTableRestoreArgumentFault(type: type, message: message),
   'InvalidTagFault': (type, message) =>
       InvalidTagFault(type: type, message: message),
+  'InvalidUsageLimitFault': (type, message) =>
+      InvalidUsageLimitFault(type: type, message: message),
   'InvalidVPCNetworkStateFault': (type, message) =>
       InvalidVPCNetworkStateFault(type: type, message: message),
   'LimitExceededFault': (type, message) =>
@@ -12069,4 +12553,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       UnsupportedOperationFault(type: type, message: message),
   'UnsupportedOptionFault': (type, message) =>
       UnsupportedOptionFault(type: type, message: message),
+  'UsageLimitAlreadyExistsFault': (type, message) =>
+      UsageLimitAlreadyExistsFault(type: type, message: message),
+  'UsageLimitNotFoundFault': (type, message) =>
+      UsageLimitNotFoundFault(type: type, message: message),
 };

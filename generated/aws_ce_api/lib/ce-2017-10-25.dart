@@ -1272,6 +1272,13 @@ class CostExplorer {
   /// value for <code>GetRightsizingRecommendation</code> is
   /// "<code>AmazonEC2</code>".
   ///
+  /// Parameter [configuration] :
+  /// Enables you to customize recommendations across two attributes. You can
+  /// choose to view recommendations for instances within the same instance
+  /// families or across different instance families. You can also choose to
+  /// view your estimated savings associated with recommendations with
+  /// consideration of existing Savings Plans or RI benefits, or niether.
+  ///
   /// Parameter [nextPageToken] :
   /// The pagination token that indicates the next set of results that you want
   /// to retrieve.
@@ -1281,6 +1288,7 @@ class CostExplorer {
   /// object.
   Future<GetRightsizingRecommendationResponse> getRightsizingRecommendation({
     @_s.required String service,
+    RightsizingRecommendationConfiguration configuration,
     Expression filter,
     String nextPageToken,
     int pageSize,
@@ -1328,6 +1336,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Service': service,
+        'Configuration': configuration,
         'Filter': filter,
         'NextPageToken': nextPageToken,
         'PageSize': pageSize,
@@ -3496,6 +3505,14 @@ class GetReservationUtilizationResponse {
     createFactory: true,
     createToJson: false)
 class GetRightsizingRecommendationResponse {
+  /// Enables you to customize recommendations across two attributes. You can
+  /// choose to view recommendations for instances within the same instance
+  /// families or across different instance families. You can also choose to view
+  /// your estimated savings associated with recommendations with consideration of
+  /// existing Savings Plans or RI benefits, or niether.
+  @_s.JsonKey(name: 'Configuration')
+  final RightsizingRecommendationConfiguration configuration;
+
   /// Information regarding this specific recommendation set.
   @_s.JsonKey(name: 'Metadata')
   final RightsizingRecommendationMetadata metadata;
@@ -3513,6 +3530,7 @@ class GetRightsizingRecommendationResponse {
   final RightsizingRecommendationSummary summary;
 
   GetRightsizingRecommendationResponse({
+    this.configuration,
     this.metadata,
     this.nextPageToken,
     this.rightsizingRecommendations,
@@ -4060,6 +4078,13 @@ class RDSInstanceDetails {
       _$RDSInstanceDetailsFromJson(json);
 }
 
+enum RecommendationTarget {
+  @_s.JsonValue('SAME_INSTANCE_FAMILY')
+  sameInstanceFamily,
+  @_s.JsonValue('CROSS_INSTANCE_FAMILY')
+  crossInstanceFamily,
+}
+
 /// Details about the Amazon Redshift instances that AWS recommends that you
 /// purchase.
 @_s.JsonSerializable(
@@ -4590,6 +4615,40 @@ class RightsizingRecommendation {
   });
   factory RightsizingRecommendation.fromJson(Map<String, dynamic> json) =>
       _$RightsizingRecommendationFromJson(json);
+}
+
+/// Enables you to customize recommendations across two attributes. You can
+/// choose to view recommendations for instances within the same instance
+/// families or across different instance families. You can also choose to view
+/// your estimated savings associated with recommendations with consideration of
+/// existing Savings Plans or RI benefits, or niether.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RightsizingRecommendationConfiguration {
+  /// The option to consider RI or Savings Plans discount benefits in your savings
+  /// calculation. The default value is <code>TRUE</code>.
+  @_s.JsonKey(name: 'BenefitsConsidered')
+  final bool benefitsConsidered;
+
+  /// The option to see recommendations within the same instance family, or
+  /// recommendations for instances across other families. The default value is
+  /// <code>SAME_INSTANCE_FAMILY</code>.
+  @_s.JsonKey(name: 'RecommendationTarget')
+  final RecommendationTarget recommendationTarget;
+
+  RightsizingRecommendationConfiguration({
+    @_s.required this.benefitsConsidered,
+    @_s.required this.recommendationTarget,
+  });
+  factory RightsizingRecommendationConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$RightsizingRecommendationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$RightsizingRecommendationConfigurationToJson(this);
 }
 
 /// Metadata for this recommendation set.

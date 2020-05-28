@@ -598,9 +598,7 @@ class ResourceGroupsTaggingAPI {
   ///
   /// Parameter [resourceARNList] :
   /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
-  /// resource. You can specify a minimum of 1 and a maximum of 20 ARNs
-  /// (resources) to tag. An ARN can be set to a maximum of 1600 characters. For
-  /// more information, see <a
+  /// resource. For more information, see <a
   /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
@@ -658,9 +656,7 @@ class ResourceGroupsTaggingAPI {
   ///
   /// Parameter [resourceARNList] :
   /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
-  /// resource. You can specify a minimum of 1 and a maximum of 20 ARNs
-  /// (resources) to untag. An ARN can be set to a maximum of 1600 characters.
-  /// For more information, see <a
+  /// resource. For more information, see <a
   /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
@@ -1034,8 +1030,8 @@ class Summary {
 }
 
 /// The metadata that you apply to AWS resources to help you categorize and
-/// organize them. Each tag consists of a key and an optional value, both of
-/// which you define. For more information, see <a
+/// organize them. Each tag consists of a key and a value, both of which you
+/// define. For more information, see <a
 /// href="http://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
 /// AWS Resources</a> in the <i>AWS General Reference</i>.
 @_s.JsonSerializable(
@@ -1049,8 +1045,8 @@ class Tag {
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
+  /// One part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key). The value can be empty or null.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -1074,8 +1070,8 @@ class TagFilter {
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
+  /// One part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key). The value can be empty or null.
   @_s.JsonKey(name: 'Values')
   final List<String> values;
 

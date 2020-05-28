@@ -365,6 +365,11 @@ class Firehose {
       1,
       100,
     );
+    _s.validateStringPattern(
+      'exclusiveStartDestinationId',
+      exclusiveStartDestinationId,
+      r'''[a-zA-Z0-9-]+''',
+    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -513,6 +518,11 @@ class Firehose {
       exclusiveStartTagKey,
       1,
       128,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartTagKey',
+      exclusiveStartTagKey,
+      r'''^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$''',
     );
     _s.validateNumRange(
       'limit',
@@ -776,9 +786,12 @@ class Firehose {
   ///
   /// Even if encryption is currently enabled for a delivery stream, you can
   /// still invoke this operation on it to change the ARN of the CMK or both its
-  /// type and ARN. In this case, Kinesis Data Firehose schedules the grant it
-  /// had on the old CMK for retirement and creates a grant that enables it to
-  /// use the new CMK to encrypt and decrypt data and to manage the grant.
+  /// type and ARN. If you invoke this method to change the CMK, and the old CMK
+  /// is of type <code>CUSTOMER_MANAGED_CMK</code>, Kinesis Data Firehose
+  /// schedules the grant it had on the old CMK for retirement. If the new CMK
+  /// is of type <code>CUSTOMER_MANAGED_CMK</code>, Kinesis Data Firehose
+  /// creates a grant that enables it to use the new CMK to encrypt and decrypt
+  /// data and to manage the grant.
   ///
   /// If a delivery stream already has encryption enabled and then you invoke
   /// this operation to change the ARN of the CMK or both its type and ARN and
@@ -787,10 +800,13 @@ class Firehose {
   /// old CMK.
   ///
   /// If the encryption status of your delivery stream is
-  /// <code>ENABLING_FAILED</code>, you can invoke this operation again.
+  /// <code>ENABLING_FAILED</code>, you can invoke this operation again with a
+  /// valid CMK. The CMK must be enabled and the key policy mustn't explicitly
+  /// deny the permission for Kinesis Data Firehose to invoke KMS encrypt and
+  /// decrypt operations.
   ///
-  /// You can only enable SSE for a delivery stream that uses
-  /// <code>DirectPut</code> as its source.
+  /// You can enable SSE for a delivery stream only if it's a delivery stream
+  /// that uses <code>DirectPut</code> as its source.
   ///
   /// The <code>StartDeliveryStreamEncryption</code> and
   /// <code>StopDeliveryStreamEncryption</code> operations have a combined limit
@@ -1157,6 +1173,12 @@ class Firehose {
       100,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'destinationId',
+      destinationId,
+      r'''[a-zA-Z0-9-]+''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UpdateDestination'
@@ -1265,6 +1287,8 @@ enum CompressionFormat {
   zip,
   @_s.JsonValue('Snappy')
   snappy,
+  @_s.JsonValue('HADOOP_SNAPPY')
+  hadoopSnappy,
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
@@ -1358,17 +1382,20 @@ class DataFormatConversionConfiguration {
   final bool enabled;
 
   /// Specifies the deserializer that you want Kinesis Data Firehose to use to
-  /// convert the format of your data from JSON.
+  /// convert the format of your data from JSON. This parameter is required if
+  /// <code>Enabled</code> is set to true.
   @_s.JsonKey(name: 'InputFormatConfiguration')
   final InputFormatConfiguration inputFormatConfiguration;
 
   /// Specifies the serializer that you want Kinesis Data Firehose to use to
-  /// convert the format of your data to the Parquet or ORC format.
+  /// convert the format of your data to the Parquet or ORC format. This parameter
+  /// is required if <code>Enabled</code> is set to true.
   @_s.JsonKey(name: 'OutputFormatConfiguration')
   final OutputFormatConfiguration outputFormatConfiguration;
 
   /// Specifies the AWS Glue Data Catalog table that contains the column
-  /// information.
+  /// information. This parameter is required if <code>Enabled</code> is set to
+  /// true.
   @_s.JsonKey(name: 'SchemaConfiguration')
   final SchemaConfiguration schemaConfiguration;
 
@@ -1552,8 +1579,8 @@ class DeliveryStreamEncryptionConfiguration {
       _$DeliveryStreamEncryptionConfigurationFromJson(json);
 }
 
-/// Used to specify the type and Amazon Resource Name (ARN) of the CMK needed
-/// for Server-Side Encryption (SSE).
+/// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
+/// Server-Side Encryption (SSE).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1574,9 +1601,21 @@ class DeliveryStreamEncryptionConfigurationInput {
   /// Firehose manages that grant.
   ///
   /// When you invoke <a>StartDeliveryStreamEncryption</a> to change the CMK for a
-  /// delivery stream that is already encrypted with a customer managed CMK,
-  /// Kinesis Data Firehose schedules the grant it had on the old CMK for
-  /// retirement.
+  /// delivery stream that is encrypted with a customer managed CMK, Kinesis Data
+  /// Firehose schedules the grant it had on the old CMK for retirement.
+  ///
+  /// You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery
+  /// streams. If a <a>CreateDeliveryStream</a> or
+  /// <a>StartDeliveryStreamEncryption</a> operation exceeds this limit, Kinesis
+  /// Data Firehose throws a <code>LimitExceededException</code>.
+  /// <important>
+  /// To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose
+  /// doesn't support asymmetric CMKs. For information about symmetric and
+  /// asymmetric CMKs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html">About
+  /// Symmetric and Asymmetric CMKs</a> in the AWS Key Management Service
+  /// developer guide.
+  /// </important>
   @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
@@ -1625,6 +1664,20 @@ enum DeliveryStreamFailureType {
   kmsKeyNotFound,
   @_s.JsonValue('KMS_OPT_IN_REQUIRED')
   kmsOptInRequired,
+  @_s.JsonValue('CREATE_ENI_FAILED')
+  createEniFailed,
+  @_s.JsonValue('DELETE_ENI_FAILED')
+  deleteEniFailed,
+  @_s.JsonValue('SUBNET_NOT_FOUND')
+  subnetNotFound,
+  @_s.JsonValue('SECURITY_GROUP_NOT_FOUND')
+  securityGroupNotFound,
+  @_s.JsonValue('ENI_ACCESS_DENIED')
+  eniAccessDenied,
+  @_s.JsonValue('SUBNET_ACCESS_DENIED')
+  subnetAccessDenied,
+  @_s.JsonValue('SECURITY_GROUP_ACCESS_DENIED')
+  securityGroupAccessDenied,
   @_s.JsonValue('UNKNOWN_ERROR')
   unknownError,
 }
@@ -1885,6 +1938,10 @@ class ElasticsearchDestinationConfiguration {
   @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
+  /// The details of the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'VpcConfiguration')
+  final VpcConfiguration vpcConfiguration;
+
   ElasticsearchDestinationConfiguration({
     @_s.required this.indexName,
     @_s.required this.roleARN,
@@ -1898,6 +1955,7 @@ class ElasticsearchDestinationConfiguration {
     this.retryOptions,
     this.s3BackupMode,
     this.typeName,
+    this.vpcConfiguration,
   });
   Map<String, dynamic> toJson() =>
       _$ElasticsearchDestinationConfigurationToJson(this);
@@ -1969,6 +2027,10 @@ class ElasticsearchDestinationDescription {
   @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
+  /// The details of the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'VpcConfigurationDescription')
+  final VpcConfigurationDescription vpcConfigurationDescription;
+
   ElasticsearchDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -1982,6 +2044,7 @@ class ElasticsearchDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
     this.typeName,
+    this.vpcConfigurationDescription,
   });
   factory ElasticsearchDestinationDescription.fromJson(
           Map<String, dynamic> json) =>
@@ -2486,7 +2549,8 @@ class HiveJsonSerDe {
 }
 
 /// Specifies the deserializer you want to use to convert the format of the
-/// input data.
+/// input data. This parameter is required if <code>Enabled</code> is set to
+/// true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2816,7 +2880,8 @@ class OrcSerDe {
 }
 
 /// Specifies the serializer that you want Kinesis Data Firehose to use to
-/// convert the format of your data before it writes it to Amazon S3.
+/// convert the format of your data before it writes it to Amazon S3. This
+/// parameter is required if <code>Enabled</code> is set to true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3583,7 +3648,8 @@ class S3DestinationUpdate {
 }
 
 /// Specifies the schema to which you want Kinesis Data Firehose to configure
-/// your data before it writes it to Amazon S3.
+/// your data before it writes it to Amazon S3. This parameter is required if
+/// <code>Enabled</code> is set to true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4011,6 +4077,100 @@ class UpdateDestinationOutput {
   UpdateDestinationOutput();
   factory UpdateDestinationOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateDestinationOutputFromJson(json);
+}
+
+/// The details of the VPC of the Amazon ES destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VpcConfiguration {
+  /// The ARN of the IAM role that you want the delivery stream to use to create
+  /// endpoints in the destination VPC.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The IDs of the security groups that you want Kinesis Data Firehose to use
+  /// when it creates ENIs in the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The IDs of the subnets that you want Kinesis Data Firehose to use to create
+  /// ENIs in the VPC of the Amazon ES destination. Make sure that the routing
+  /// tables and inbound and outbound rules allow traffic to flow from the subnets
+  /// whose IDs are specified here to the subnets that have the destination Amazon
+  /// ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the
+  /// subnets that are specified here. Do not delete or modify these ENIs.
+  ///
+  /// The number of ENIs that Kinesis Data Firehose creates in the subnets
+  /// specified here scales up and down automatically based on throughput. To
+  /// enable Kinesis Data Firehose to scale up the number of ENIs to match
+  /// throughput, ensure that you have sufficient quota. To help you calculate the
+  /// quota you need, assume that Kinesis Data Firehose can create up to three
+  /// ENIs for this delivery stream for each of the subnets specified here. For
+  /// more information about ENI quota, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
+  /// Interfaces </a> in the Amazon VPC Quotas topic.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  VpcConfiguration({
+    @_s.required this.roleARN,
+    @_s.required this.securityGroupIds,
+    @_s.required this.subnetIds,
+  });
+  Map<String, dynamic> toJson() => _$VpcConfigurationToJson(this);
+}
+
+/// The details of the VPC of the Amazon ES destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class VpcConfigurationDescription {
+  /// The ARN of the IAM role that you want the delivery stream uses to create
+  /// endpoints in the destination VPC.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The IDs of the security groups that Kinesis Data Firehose uses when it
+  /// creates ENIs in the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The IDs of the subnets that Kinesis Data Firehose uses to create ENIs in the
+  /// VPC of the Amazon ES destination. Make sure that the routing tables and
+  /// inbound and outbound rules allow traffic to flow from the subnets whose IDs
+  /// are specified here to the subnets that have the destination Amazon ES
+  /// endpoints. Kinesis Data Firehose creates at least one ENI in each of the
+  /// subnets that are specified here. Do not delete or modify these ENIs.
+  ///
+  /// The number of ENIs that Kinesis Data Firehose creates in the subnets
+  /// specified here scales up and down automatically based on throughput. To
+  /// enable Kinesis Data Firehose to scale up the number of ENIs to match
+  /// throughput, ensure that you have sufficient quota. To help you calculate the
+  /// quota you need, assume that Kinesis Data Firehose can create up to three
+  /// ENIs for this delivery stream for each of the subnets specified here. For
+  /// more information about ENI quota, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
+  /// Interfaces </a> in the Amazon VPC Quotas topic.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// The ID of the Amazon ES destination's VPC.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  VpcConfigurationDescription({
+    @_s.required this.roleARN,
+    @_s.required this.securityGroupIds,
+    @_s.required this.subnetIds,
+    @_s.required this.vpcId,
+  });
+  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) =>
+      _$VpcConfigurationDescriptionFromJson(json);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

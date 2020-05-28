@@ -39,6 +39,101 @@ class TranscribeService {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates a new custom vocabulary that you can use to change how Amazon
+  /// Transcribe Medical transcribes your audio file.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language code used for the entries within your custom vocabulary. The
+  /// language code of your custom vocabulary must match the language code of
+  /// your transcription job. US English (en-US) is the only language code
+  /// available for Amazon Transcribe Medical.
+  ///
+  /// Parameter [vocabularyFileUri] :
+  /// The Amazon S3 location of the text file you use to define your custom
+  /// vocabulary. The URI must be in the same AWS region as the API endpoint
+  /// you're calling. Enter information about your
+  /// <code>VocabularyFileUri</code> in the following format:
+  ///
+  /// <code>
+  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
+  /// </code>
+  ///
+  /// This is an example of a vocabulary file uri location in Amazon S3:
+  ///
+  /// <code>https://s3.us-east-1.amazonaws.com/examplebucket/vocab.txt</code>
+  ///
+  /// For more information about S3 object names, see <a
+  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
+  ///
+  /// For more information about custom vocabularies, see <a
+  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary-med">Medical
+  /// Custom Vocabularies</a>.
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the custom vocabulary. This case-sensitive name must be unique
+  /// within an AWS account. If you try to create a vocabulary with the same
+  /// name as a previous vocabulary you will receive a
+  /// <code>ConflictException</code> error.
+  Future<CreateMedicalVocabularyResponse> createMedicalVocabulary({
+    @_s.required LanguageCode languageCode,
+    @_s.required String vocabularyFileUri,
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(vocabularyFileUri, 'vocabularyFileUri');
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.CreateMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode?.toValue(),
+        'VocabularyFileUri': vocabularyFileUri,
+        'VocabularyName': vocabularyName,
+      },
+    );
+
+    return CreateMedicalVocabularyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new custom vocabulary that you can use to change the way Amazon
   /// Transcribe handles transcription of an audio file.
   ///
@@ -52,7 +147,9 @@ class TranscribeService {
   ///
   /// Parameter [vocabularyName] :
   /// The name of the vocabulary. The name must be unique within an AWS account.
-  /// The name is case-sensitive.
+  /// The name is case-sensitive. If you try to create a vocabulary with the
+  /// same name as a previous vocabulary you will receive a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [phrases] :
   /// An array of strings that contains the vocabulary entries.
@@ -145,7 +242,9 @@ class TranscribeService {
   ///
   /// Parameter [vocabularyFilterName] :
   /// The vocabulary filter name. The name must be unique within the account
-  /// that contains it.
+  /// that contains it.If you try to create a vocabulary filter with the same
+  /// name as a previous vocabulary filter you will receive a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [vocabularyFilterFileUri] :
   /// The Amazon S3 location of a text file used as input to create the
@@ -262,6 +361,48 @@ class TranscribeService {
       headers: headers,
       payload: {
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
+      },
+    );
+  }
+
+  /// Deletes a vocabulary from Amazon Transcribe Medical.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary you are choosing to delete.
+  Future<void> deleteMedicalVocabulary({
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DeleteMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'VocabularyName': vocabularyName,
       },
     );
   }
@@ -439,6 +580,51 @@ class TranscribeService {
     );
 
     return GetMedicalTranscriptionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve information about a medical vocabulary.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary you are trying to get information about. The
+  /// value you enter for this request is case-sensitive.
+  Future<GetMedicalVocabularyResponse> getMedicalVocabulary({
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.GetMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'VocabularyName': vocabularyName,
+      },
+    );
+
+    return GetMedicalVocabularyResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a transcription job. To see the status of the
@@ -658,6 +844,85 @@ class TranscribeService {
     );
 
     return ListMedicalTranscriptionJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of vocabularies that match the specified criteria. You get
+  /// the entire list of vocabularies if you don't enter a value in any of the
+  /// request parameters.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of vocabularies to return in the response.
+  ///
+  /// Parameter [nameContains] :
+  /// Returns vocabularies in the list whose name contains the specified string.
+  /// The search is case-insensitive, <code>ListMedicalVocabularies</code>
+  /// returns both "vocabularyname" and "VocabularyName" in the response list.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of your previous request to
+  /// <code>ListMedicalVocabularies</code> was truncated, include the
+  /// <code>NextToken</code> to fetch the next set of jobs.
+  ///
+  /// Parameter [stateEquals] :
+  /// When specified, only returns vocabularies with the
+  /// <code>VocabularyState</code> equal to the specified vocabulary state.
+  Future<ListMedicalVocabulariesResponse> listMedicalVocabularies({
+    int maxResults,
+    String nameContains,
+    String nextToken,
+    VocabularyState stateEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nameContains',
+      nameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'nameContains',
+      nameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListMedicalVocabularies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MaxResults': maxResults,
+        'NameContains': nameContains,
+        'NextToken': nextToken,
+        'StateEquals': stateEquals?.toValue(),
+      },
+    );
+
+    return ListMedicalVocabulariesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists transcription jobs with the specified status.
@@ -906,7 +1171,9 @@ class TranscribeService {
   /// Parameter [medicalTranscriptionJobName] :
   /// The name of the medical transcription job. You can't use the strings "."
   /// or ".." by themselves as the job name. The name must also be unique within
-  /// an AWS account.
+  /// an AWS account. If you try to create a medical transcription job with the
+  /// same name as a previous medical transcription job you will receive a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [outputBucketName] :
   /// The Amazon S3 location where the transcription is stored.
@@ -930,10 +1197,10 @@ class TranscribeService {
   /// The medical specialty of any clinician speaking in the input media.
   ///
   /// Parameter [type] :
-  /// The speech of clinician in the input audio. <code>CONVERSATION</code>
-  /// refers to conversations clinicians have with patients.
-  /// <code>DICTATION</code> refers to medical professionals dictating their
-  /// notes about a patient encounter.
+  /// The type of speech in the input audio. <code>CONVERSATION</code> refers to
+  /// conversations between two or more speakers, e.g., a conversations between
+  /// doctors and patients. <code>DICTATION</code> refers to single-speaker
+  /// dictated speech, e.g., for clinical notes.
   ///
   /// Parameter [mediaFormat] :
   /// The audio format of the input media file.
@@ -1090,7 +1357,9 @@ class TranscribeService {
   /// Parameter [transcriptionJobName] :
   /// The name of the job. Note that you can't use the strings "." or ".." by
   /// themselves as the job name. The name must also be unique within an AWS
-  /// account.
+  /// account. If you try to create a transcription job with the same name as a
+  /// previous transcription job you will receive a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [contentRedaction] :
   /// An object that contains the request parameters for content redaction.
@@ -1261,6 +1530,98 @@ class TranscribeService {
     return StartTranscriptionJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates an existing vocabulary with new values in a different text file.
+  /// The <code>UpdateMedicalVocabulary</code> operation overwrites all of the
+  /// existing information with the values that you provide in the request.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language code of the entries in the updated vocabulary. US English
+  /// (en-US) is the only valid language code in Amazon Transcribe Medical.
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary to update. The name is case-sensitive. If you
+  /// try to update a vocabulary with the same name as a previous vocabulary you
+  /// will receive a <code>ConflictException</code> error.
+  ///
+  /// Parameter [vocabularyFileUri] :
+  /// The Amazon S3 location of the text file containing the definition of the
+  /// custom vocabulary. The URI must be in the same AWS region as the API
+  /// endpoint you are calling. You can see the fields you need to enter for you
+  /// Amazon S3 location in the example URI here:
+  ///
+  /// <code>
+  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
+  /// </code>
+  ///
+  /// For example:
+  ///
+  /// <code>https://s3.us-east-1.amazonaws.com/examplebucket/vocab.txt</code>
+  ///
+  /// For more information about S3 object names, see <a
+  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
+  ///
+  /// For more information about custom vocabularies in Amazon Transcribe
+  /// Medical, see <a
+  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Medical
+  /// Custom Vocabularies</a>.
+  Future<UpdateMedicalVocabularyResponse> updateMedicalVocabulary({
+    @_s.required LanguageCode languageCode,
+    @_s.required String vocabularyName,
+    String vocabularyFileUri,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.UpdateMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode?.toValue(),
+        'VocabularyName': vocabularyName,
+        'VocabularyFileUri': vocabularyFileUri,
+      },
+    );
+
+    return UpdateMedicalVocabularyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates an existing vocabulary with new values. The
   /// <code>UpdateVocabulary</code> operation overwrites all of the existing
   /// information with the values that you provide in the request.
@@ -1275,7 +1636,9 @@ class TranscribeService {
   /// The language code of the vocabulary entries.
   ///
   /// Parameter [vocabularyName] :
-  /// The name of the vocabulary to update. The name is case-sensitive.
+  /// The name of the vocabulary to update. The name is case-sensitive. If you
+  /// try to update a vocabulary with the same name as a previous vocabulary you
+  /// will receive a <code>ConflictException</code> error.
   ///
   /// Parameter [phrases] :
   /// An array of strings containing the vocabulary entries.
@@ -1361,7 +1724,9 @@ class TranscribeService {
   /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyFilterName] :
-  /// The name of the vocabulary filter to update.
+  /// The name of the vocabulary filter to update. If you try to update a
+  /// vocabulary filter with the same name as a previous vocabulary filter you
+  /// will receive a <code>ConflictException</code> error.
   ///
   /// Parameter [vocabularyFilterFileUri] :
   /// The Amazon S3 location of a text file used as input to create the
@@ -1474,6 +1839,50 @@ class ContentRedaction {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateMedicalVocabularyResponse {
+  /// If the <code>VocabularyState</code> field is <code>FAILED</code>, this field
+  /// contains information about why the job failed.
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// The language code you chose to describe the entries in your custom
+  /// vocabulary. US English (en-US) is the only valid language code for Amazon
+  /// Transcribe Medical.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time you created the vocabulary.
+  @_s.JsonKey(
+      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+  final DateTime lastModifiedTime;
+
+  /// The name of the vocabulary. The name must be unique within an AWS account.
+  /// It is also case-sensitive.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of your custom vocabulary in Amazon Transcribe Medical.
+  /// If the state is <code>READY</code> you can use the vocabulary in a
+  /// <code>StartMedicalTranscriptionJob</code> request.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  CreateMedicalVocabularyResponse({
+    this.failureReason,
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory CreateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateMedicalVocabularyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateVocabularyFilterResponse {
   /// The language code of the words in the collection.
   @_s.JsonKey(name: 'LanguageCode')
@@ -1555,6 +1964,53 @@ class GetMedicalTranscriptionJobResponse {
   factory GetMedicalTranscriptionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetMedicalTranscriptionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetMedicalVocabularyResponse {
+  /// The Amazon S3 location where the vocabulary is stored. Use this URI to get
+  /// the contents of the vocabulary. You can download your vocabulary from the
+  /// URI for a limited time.
+  @_s.JsonKey(name: 'DownloadUri')
+  final String downloadUri;
+
+  /// If the <code>VocabularyState</code> is <code>FAILED</code>, this field
+  /// contains information about why the job failed.
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// The valid language code returned for your vocabulary entries.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time the vocabulary was last modified with a text file
+  /// different from what was previously used.
+  @_s.JsonKey(
+      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+  final DateTime lastModifiedTime;
+
+  /// The valid name that Amazon Transcribe Medical returns.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of the vocabulary.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  GetMedicalVocabularyResponse({
+    this.downloadUri,
+    this.failureReason,
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory GetMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetMedicalVocabularyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1867,6 +2323,40 @@ class ListMedicalTranscriptionJobsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListMedicalVocabulariesResponse {
+  /// The <code>ListMedicalVocabularies</code> operation returns a page of
+  /// vocabularies at a time. The maximum size of the page is set by the
+  /// <code>MaxResults</code> parameter. If there are more jobs in the list than
+  /// the page size, Amazon Transcribe Medical returns the <code>NextPage</code>
+  /// token. Include the token in the next request to the
+  /// <code>ListMedicalVocabularies</code> operation to return the next page of
+  /// jobs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The requested vocabulary state.
+  @_s.JsonKey(name: 'Status')
+  final VocabularyState status;
+
+  /// A list of objects that describe the vocabularies that match the search
+  /// criteria in the request.
+  @_s.JsonKey(name: 'Vocabularies')
+  final List<VocabularyInfo> vocabularies;
+
+  ListMedicalVocabulariesResponse({
+    this.nextToken,
+    this.status,
+    this.vocabularies,
+  });
+  factory ListMedicalVocabulariesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListMedicalVocabulariesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTranscriptionJobsResponse {
   /// The <code>ListTranscriptionJobs</code> operation returns a page of jobs at a
   /// time. The maximum size of the page is set by the <code>MaxResults</code>
@@ -1911,7 +2401,7 @@ class ListVocabulariesResponse {
 
   /// The requested vocabulary state.
   @_s.JsonKey(name: 'Status')
-  final TranscriptionJobStatus status;
+  final VocabularyState status;
 
   /// A list of objects that describe the vocabularies that match the search
   /// criteria in the request.
@@ -2314,12 +2804,18 @@ class MedicalTranscriptionSetting {
   @_s.JsonKey(name: 'ShowSpeakerLabels')
   final bool showSpeakerLabels;
 
+  /// The name of the vocabulary to use when processing a medical transcription
+  /// job.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
   MedicalTranscriptionSetting({
     this.channelIdentification,
     this.maxAlternatives,
     this.maxSpeakerLabels,
     this.showAlternatives,
     this.showSpeakerLabels,
+    this.vocabularyName,
   });
   factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) =>
       _$MedicalTranscriptionSettingFromJson(json);
@@ -2770,6 +3266,42 @@ extension on Type {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateMedicalVocabularyResponse {
+  /// The language code for the text file used to update the custom vocabulary. US
+  /// English (en-US) is the only language supported in Amazon Transcribe Medical.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time the vocabulary was updated.
+  @_s.JsonKey(
+      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+  final DateTime lastModifiedTime;
+
+  /// The name of the updated vocabulary.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of the update to the vocabulary. When the
+  /// <code>VocabularyState</code> field is <code>READY</code> the vocabulary is
+  /// ready to be used in a <code>StartMedicalTranscriptionJob</code> request.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  UpdateMedicalVocabularyResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateMedicalVocabularyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

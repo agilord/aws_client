@@ -614,6 +614,33 @@ class EMR {
     return GetBlockPublicAccessConfigurationOutput.fromJson(jsonResponse.body);
   }
 
+  /// Fetches the attached managed scaling policy for an Amazon EMR cluster.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of the cluster for which the managed scaling policy will
+  /// be fetched.
+  Future<GetManagedScalingPolicyOutput> getManagedScalingPolicy({
+    @_s.required String clusterId,
+  }) async {
+    ArgumentError.checkNotNull(clusterId, 'clusterId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.GetManagedScalingPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+      },
+    );
+
+    return GetManagedScalingPolicyOutput.fromJson(jsonResponse.body);
+  }
+
   /// Provides information about the bootstrap actions associated with a
   /// cluster.
   ///
@@ -1083,6 +1110,13 @@ class EMR {
   /// an exception, and public access is allowed on this port. You can change
   /// this by updating <code>BlockPublicSecurityGroupRules</code> to remove the
   /// exception.
+  /// <note>
+  /// For accounts that created clusters in a Region before November 25, 2019,
+  /// block public access is disabled by default in that Region. To use this
+  /// feature, you must manually enable and configure it. For accounts that did
+  /// not create an EMR cluster in a Region before this date, block public
+  /// access is enabled by default in that Region.
+  /// </note>
   Future<void> putBlockPublicAccessConfiguration({
     @_s.required BlockPublicAccessConfiguration blockPublicAccessConfiguration,
   }) async {
@@ -1104,6 +1138,43 @@ class EMR {
     );
 
     return PutBlockPublicAccessConfigurationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The
+  /// managed scaling policy defines the limits for resources, such as EC2
+  /// instances that can be added or terminated from a cluster. The policy only
+  /// applies to the core and task nodes. The master node cannot be scaled after
+  /// initial configuration.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of an EMR cluster where the managed scaling policy is
+  /// attached.
+  ///
+  /// Parameter [managedScalingPolicy] :
+  /// Specifies the constraints for the managed scaling policy.
+  Future<void> putManagedScalingPolicy({
+    @_s.required String clusterId,
+    @_s.required ManagedScalingPolicy managedScalingPolicy,
+  }) async {
+    ArgumentError.checkNotNull(clusterId, 'clusterId');
+    ArgumentError.checkNotNull(managedScalingPolicy, 'managedScalingPolicy');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.PutManagedScalingPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+        'ManagedScalingPolicy': managedScalingPolicy,
+      },
+    );
+
+    return PutManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes an automatic scaling policy from a specified instance group within
@@ -1139,6 +1210,33 @@ class EMR {
     );
 
     return RemoveAutoScalingPolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Removes a managed scaling policy from a specified EMR cluster.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of the cluster from which the managed scaling policy will
+  /// be removed.
+  Future<void> removeManagedScalingPolicy({
+    @_s.required String clusterId,
+  }) async {
+    ArgumentError.checkNotNull(clusterId, 'clusterId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.RemoveManagedScalingPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+      },
+    );
+
+    return RemoveManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from an Amazon EMR resource. Tags make it easier to associate
@@ -1295,6 +1393,9 @@ class EMR {
   /// The location in Amazon S3 to write the log files of the job flow. If a
   /// value is not provided, logs are not created.
   ///
+  /// Parameter [managedScalingPolicy] :
+  /// The specified managed scaling policy for an Amazon EMR cluster.
+  ///
   /// Parameter [newSupportedProducts] :
   /// <note>
   /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and
@@ -1427,6 +1528,7 @@ class EMR {
     String jobFlowRole,
     KerberosAttributes kerberosAttributes,
     String logUri,
+    ManagedScalingPolicy managedScalingPolicy,
     List<SupportedProductConfig> newSupportedProducts,
     String releaseLabel,
     RepoUpgradeOnBoot repoUpgradeOnBoot,
@@ -1577,6 +1679,7 @@ class EMR {
         'JobFlowRole': jobFlowRole,
         'KerberosAttributes': kerberosAttributes,
         'LogUri': logUri,
+        'ManagedScalingPolicy': managedScalingPolicy,
         'NewSupportedProducts': newSupportedProducts,
         'ReleaseLabel': releaseLabel,
         'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
@@ -2676,6 +2779,65 @@ enum ComparisonOperator {
   lessThanOrEqual,
 }
 
+/// The EC2 unit limits for a managed scaling policy. The managed scaling
+/// activity of a cluster can not be above or below these limits. The limit only
+/// applies to the core and task nodes. The master node cannot be scaled after
+/// initial configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ComputeLimits {
+  /// The upper boundary of EC2 units. It is measured through VCPU cores or
+  /// instances for instance groups and measured through units for instance
+  /// fleets. Managed scaling activities are not allowed beyond this boundary. The
+  /// limit only applies to the core and task nodes. The master node cannot be
+  /// scaled after initial configuration.
+  @_s.JsonKey(name: 'MaximumCapacityUnits')
+  final int maximumCapacityUnits;
+
+  /// The lower boundary of EC2 units. It is measured through VCPU cores or
+  /// instances for instance groups and measured through units for instance
+  /// fleets. Managed scaling activities are not allowed beyond this boundary. The
+  /// limit only applies to the core and task nodes. The master node cannot be
+  /// scaled after initial configuration.
+  @_s.JsonKey(name: 'MinimumCapacityUnits')
+  final int minimumCapacityUnits;
+
+  /// The unit type used for specifying a managed scaling policy.
+  @_s.JsonKey(name: 'UnitType')
+  final ComputeLimitsUnitType unitType;
+
+  /// The upper boundary of on-demand EC2 units. It is measured through VCPU cores
+  /// or instances for instance groups and measured through units for instance
+  /// fleets. The on-demand units are not allowed to scale beyond this boundary.
+  /// The limit only applies to the core and task nodes. The master node cannot be
+  /// scaled after initial configuration.
+  @_s.JsonKey(name: 'MaximumOnDemandCapacityUnits')
+  final int maximumOnDemandCapacityUnits;
+
+  ComputeLimits({
+    @_s.required this.maximumCapacityUnits,
+    @_s.required this.minimumCapacityUnits,
+    @_s.required this.unitType,
+    this.maximumOnDemandCapacityUnits,
+  });
+  factory ComputeLimits.fromJson(Map<String, dynamic> json) =>
+      _$ComputeLimitsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ComputeLimitsToJson(this);
+}
+
+enum ComputeLimitsUnitType {
+  @_s.JsonValue('InstanceFleetUnits')
+  instanceFleetUnits,
+  @_s.JsonValue('Instances')
+  instances,
+  @_s.JsonValue('VCPU')
+  vcpu,
+}
+
 /// <note>
 /// Amazon EMR releases 4.x or later.
 /// </note>
@@ -3076,6 +3238,13 @@ class GetBlockPublicAccessConfigurationOutput {
   /// <code>BlockPublicAccessConfiguration</code>. By default, Port 22 (SSH) is an
   /// exception, and public access is allowed on this port. You can change this by
   /// updating the block public access configuration to remove the exception.
+  /// <note>
+  /// For accounts that created clusters in a Region before November 25, 2019,
+  /// block public access is disabled by default in that Region. To use this
+  /// feature, you must manually enable and configure it. For accounts that did
+  /// not create an EMR cluster in a Region before this date, block public access
+  /// is enabled by default in that Region.
+  /// </note>
   @_s.JsonKey(name: 'BlockPublicAccessConfiguration')
   final BlockPublicAccessConfiguration blockPublicAccessConfiguration;
 
@@ -3095,6 +3264,24 @@ class GetBlockPublicAccessConfigurationOutput {
   factory GetBlockPublicAccessConfigurationOutput.fromJson(
           Map<String, dynamic> json) =>
       _$GetBlockPublicAccessConfigurationOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetManagedScalingPolicyOutput {
+  /// Specifies the managed scaling policy that is attached to an Amazon EMR
+  /// cluster.
+  @_s.JsonKey(name: 'ManagedScalingPolicy')
+  final ManagedScalingPolicy managedScalingPolicy;
+
+  GetManagedScalingPolicyOutput({
+    this.managedScalingPolicy,
+  });
+  factory GetManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetManagedScalingPolicyOutputFromJson(json);
 }
 
 /// A job flow step consisting of a JAR file whose main function will be
@@ -5045,6 +5232,32 @@ class ListStepsOutput {
       _$ListStepsOutputFromJson(json);
 }
 
+/// Managed scaling policy for an Amazon EMR cluster. The policy specifies the
+/// limits for resources that can be added or terminated from a cluster. The
+/// policy only applies to the core and task nodes. The master node cannot be
+/// scaled after initial configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ManagedScalingPolicy {
+  /// The EC2 unit limits for a managed scaling policy. The managed scaling
+  /// activity of a cluster is not allowed to go above or below these limits. The
+  /// limit only applies to the core and task nodes. The master node cannot be
+  /// scaled after initial configuration.
+  @_s.JsonKey(name: 'ComputeLimits')
+  final ComputeLimits computeLimits;
+
+  ManagedScalingPolicy({
+    this.computeLimits,
+  });
+  factory ManagedScalingPolicy.fromJson(Map<String, dynamic> json) =>
+      _$ManagedScalingPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ManagedScalingPolicyToJson(this);
+}
+
 enum MarketType {
   @_s.JsonValue('ON_DEMAND')
   onDemand,
@@ -5212,10 +5425,33 @@ class PutBlockPublicAccessConfigurationOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutManagedScalingPolicyOutput {
+  PutManagedScalingPolicyOutput();
+  factory PutManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
+      _$PutManagedScalingPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class RemoveAutoScalingPolicyOutput {
   RemoveAutoScalingPolicyOutput();
   factory RemoveAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$RemoveAutoScalingPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RemoveManagedScalingPolicyOutput {
+  RemoveManagedScalingPolicyOutput();
+  factory RemoveManagedScalingPolicyOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$RemoveManagedScalingPolicyOutputFromJson(json);
 }
 
 /// This output indicates the result of removing tags from a resource.

@@ -1308,4 +1308,5 @@ const _$WebhookFilterTypeEnumMap = {
   WebhookFilterType.headRef: 'HEAD_REF',
   WebhookFilterType.actorAccountId: 'ACTOR_ACCOUNT_ID',
   WebhookFilterType.filePath: 'FILE_PATH',
+  WebhookFilterType.commitMessage: 'COMMIT_MESSAGE',
 };

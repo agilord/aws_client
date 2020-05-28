@@ -4792,6 +4792,8 @@ Map<String, dynamic> _$NestedFiltersToJson(NestedFilters instance) {
 
 NetworkConfig _$NetworkConfigFromJson(Map<String, dynamic> json) {
   return NetworkConfig(
+    enableInterContainerTrafficEncryption:
+        json['EnableInterContainerTrafficEncryption'] as bool,
     enableNetworkIsolation: json['EnableNetworkIsolation'] as bool,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -4808,6 +4810,8 @@ Map<String, dynamic> _$NetworkConfigToJson(NetworkConfig instance) {
     }
   }
 
+  writeNotNull('EnableInterContainerTrafficEncryption',
+      instance.enableInterContainerTrafficEncryption);
   writeNotNull('EnableNetworkIsolation', instance.enableNetworkIsolation);
   writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
   return val;
@@ -5644,9 +5648,9 @@ Map<String, dynamic> _$ResourceLimitsToJson(ResourceLimits instance) {
 
 ResourceSpec _$ResourceSpecFromJson(Map<String, dynamic> json) {
   return ResourceSpec(
-    environmentArn: json['EnvironmentArn'] as String,
     instanceType:
         _$enumDecodeNullable(_$AppInstanceTypeEnumMap, json['InstanceType']),
+    sageMakerImageArn: json['SageMakerImageArn'] as String,
   );
 }
 
@@ -5659,8 +5663,8 @@ Map<String, dynamic> _$ResourceSpecToJson(ResourceSpec instance) {
     }
   }
 
-  writeNotNull('EnvironmentArn', instance.environmentArn);
   writeNotNull('InstanceType', _$AppInstanceTypeEnumMap[instance.instanceType]);
+  writeNotNull('SageMakerImageArn', instance.sageMakerImageArn);
   return val;
 }
 

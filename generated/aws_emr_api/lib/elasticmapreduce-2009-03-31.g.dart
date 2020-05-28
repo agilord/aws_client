@@ -495,6 +495,39 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
   );
 }
 
+ComputeLimits _$ComputeLimitsFromJson(Map<String, dynamic> json) {
+  return ComputeLimits(
+    maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
+    minimumCapacityUnits: json['MinimumCapacityUnits'] as int,
+    unitType:
+        _$enumDecodeNullable(_$ComputeLimitsUnitTypeEnumMap, json['UnitType']),
+    maximumOnDemandCapacityUnits: json['MaximumOnDemandCapacityUnits'] as int,
+  );
+}
+
+Map<String, dynamic> _$ComputeLimitsToJson(ComputeLimits instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaximumCapacityUnits', instance.maximumCapacityUnits);
+  writeNotNull('MinimumCapacityUnits', instance.minimumCapacityUnits);
+  writeNotNull('UnitType', _$ComputeLimitsUnitTypeEnumMap[instance.unitType]);
+  writeNotNull(
+      'MaximumOnDemandCapacityUnits', instance.maximumOnDemandCapacityUnits);
+  return val;
+}
+
+const _$ComputeLimitsUnitTypeEnumMap = {
+  ComputeLimitsUnitType.instanceFleetUnits: 'InstanceFleetUnits',
+  ComputeLimitsUnitType.instances: 'Instances',
+  ComputeLimitsUnitType.vcpu: 'VCPU',
+};
+
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     classification: json['Classification'] as String,
@@ -675,6 +708,16 @@ GetBlockPublicAccessConfigurationOutput
             : BlockPublicAccessConfigurationMetadata.fromJson(
                 json['BlockPublicAccessConfigurationMetadata']
                     as Map<String, dynamic>),
+  );
+}
+
+GetManagedScalingPolicyOutput _$GetManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetManagedScalingPolicyOutput(
+    managedScalingPolicy: json['ManagedScalingPolicy'] == null
+        ? null
+        : ManagedScalingPolicy.fromJson(
+            json['ManagedScalingPolicy'] as Map<String, dynamic>),
   );
 }
 
@@ -1421,6 +1464,28 @@ ListStepsOutput _$ListStepsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+ManagedScalingPolicy _$ManagedScalingPolicyFromJson(Map<String, dynamic> json) {
+  return ManagedScalingPolicy(
+    computeLimits: json['ComputeLimits'] == null
+        ? null
+        : ComputeLimits.fromJson(json['ComputeLimits'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ManagedScalingPolicyToJson(
+    ManagedScalingPolicy instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComputeLimits', instance.computeLimits?.toJson());
+  return val;
+}
+
 MetricDimension _$MetricDimensionFromJson(Map<String, dynamic> json) {
   return MetricDimension(
     key: json['Key'] as String,
@@ -1510,9 +1575,19 @@ PutBlockPublicAccessConfigurationOutput
   return PutBlockPublicAccessConfigurationOutput();
 }
 
+PutManagedScalingPolicyOutput _$PutManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return PutManagedScalingPolicyOutput();
+}
+
 RemoveAutoScalingPolicyOutput _$RemoveAutoScalingPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return RemoveAutoScalingPolicyOutput();
+}
+
+RemoveManagedScalingPolicyOutput _$RemoveManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return RemoveManagedScalingPolicyOutput();
 }
 
 RemoveTagsOutput _$RemoveTagsOutputFromJson(Map<String, dynamic> json) {

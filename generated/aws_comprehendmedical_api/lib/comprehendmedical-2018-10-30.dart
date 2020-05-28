@@ -89,6 +89,53 @@ class ComprehendMedical {
     return DescribeEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the properties associated with an InferICD10CM job. Use this
+  /// operation to get the status of an inference job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier that Amazon Comprehend Medical generated for the job.
+  /// <code>The StartICD10CMInferenceJob</code> operation returns this
+  /// identifier in its response.
+  Future<DescribeICD10CMInferenceJobResponse> describeICD10CMInferenceJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.DescribeICD10CMInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return DescribeICD10CMInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets the properties associated with a protected health information (PHI)
   /// detection job. Use this operation to get the status of a detection job.
   ///
@@ -134,6 +181,52 @@ class ComprehendMedical {
     );
 
     return DescribePHIDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the properties associated with an InferRxNorm job. Use this operation
+  /// to get the status of an inference job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// StartRxNormInferenceJob operation returns this identifier in its response.
+  Future<DescribeRxNormInferenceJobResponse> describeRxNormInferenceJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.DescribeRxNormInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return DescribeRxNormInferenceJobResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DetectEntities</code> operation is deprecated. You should use
@@ -424,6 +517,60 @@ class ComprehendMedical {
     return ListEntitiesDetectionV2JobsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets a list of InferICD10CM jobs that you have submitted.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filter] :
+  /// Filters the jobs that are returned. You can filter jobs based on their
+  /// names, status, or the date and time that they were submitted. You can only
+  /// set one filter at a time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in each page. The default is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return.
+  Future<ListICD10CMInferenceJobsResponse> listICD10CMInferenceJobs({
+    ComprehendMedicalAsyncJobFilter filter,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.ListICD10CMInferenceJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Filter': filter,
+        'MaxResults': maxResults,
+        'NextToken': nextToken,
+      },
+    );
+
+    return ListICD10CMInferenceJobsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets a list of protected health information (PHI) detection jobs that you
   /// have submitted.
   ///
@@ -477,6 +624,60 @@ class ComprehendMedical {
     );
 
     return ListPHIDetectionJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets a list of InferRxNorm jobs that you have submitted.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filter] :
+  /// Filters the jobs that are returned. You can filter jobs based on their
+  /// names, status, or the date and time that they were submitted. You can only
+  /// set one filter at a time.
+  ///
+  /// Parameter [maxResults] :
+  /// Identifies the next page of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return.
+  Future<ListRxNormInferenceJobsResponse> listRxNormInferenceJobs({
+    ComprehendMedicalAsyncJobFilter filter,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.ListRxNormInferenceJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Filter': filter,
+        'MaxResults': maxResults,
+        'NextToken': nextToken,
+      },
+    );
+
+    return ListRxNormInferenceJobsResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts an asynchronous medical entity detection job for a collection of
@@ -598,6 +799,125 @@ class ComprehendMedical {
     return StartEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an asynchronous job to detect medical conditions and link them to
+  /// the ICD-10-CM ontology. Use the <code>DescribeICD10CMInferenceJob</code>
+  /// operation to track the status of a job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
+  /// Role-Based Permissions Required for Asynchronous Operations</a>.
+  ///
+  /// Parameter [inputDataConfig] :
+  /// Specifies the format and location of the input data for the job.
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents. All documents must be in the same
+  /// language.
+  ///
+  /// Parameter [outputDataConfig] :
+  /// Specifies where to send the output files.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend Medical generates one.
+  ///
+  /// Parameter [jobName] :
+  /// The identifier of the job.
+  ///
+  /// Parameter [kMSKey] :
+  /// An AWS Key Management Service key to encrypt your output files. If you do
+  /// not specify a key, the files are written in plain text.
+  Future<StartICD10CMInferenceJobResponse> startICD10CMInferenceJob({
+    @_s.required String dataAccessRoleArn,
+    @_s.required InputDataConfig inputDataConfig,
+    @_s.required LanguageCode languageCode,
+    @_s.required OutputDataConfig outputDataConfig,
+    String clientRequestToken,
+    String jobName,
+    String kMSKey,
+  }) async {
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    _s.validateStringLength(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-]+$''',
+    );
+    _s.validateStringLength(
+      'jobName',
+      jobName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'jobName',
+      jobName,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+    );
+    _s.validateStringLength(
+      'kMSKey',
+      kMSKey,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'kMSKey',
+      kMSKey,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StartICD10CMInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode?.toValue(),
+        'OutputDataConfig': outputDataConfig,
+        'ClientRequestToken': clientRequestToken,
+        'JobName': jobName,
+        'KMSKey': kMSKey,
+      },
+    );
+
+    return StartICD10CMInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts an asynchronous job to detect protected health information (PHI).
   /// Use the <code>DescribePHIDetectionJob</code> operation to track the status
   /// of a job.
@@ -717,6 +1037,125 @@ class ComprehendMedical {
     return StartPHIDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an asynchronous job to detect medication entities and link them to
+  /// the RxNorm ontology. Use the <code>DescribeRxNormInferenceJob</code>
+  /// operation to track the status of a job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
+  /// Role-Based Permissions Required for Asynchronous Operations</a>.
+  ///
+  /// Parameter [inputDataConfig] :
+  /// Specifies the format and location of the input data for the job.
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents. All documents must be in the same
+  /// language.
+  ///
+  /// Parameter [outputDataConfig] :
+  /// Specifies where to send the output files.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend Medical generates one.
+  ///
+  /// Parameter [jobName] :
+  /// The identifier of the job.
+  ///
+  /// Parameter [kMSKey] :
+  /// An AWS Key Management Service key to encrypt your output files. If you do
+  /// not specify a key, the files are written in plain text.
+  Future<StartRxNormInferenceJobResponse> startRxNormInferenceJob({
+    @_s.required String dataAccessRoleArn,
+    @_s.required InputDataConfig inputDataConfig,
+    @_s.required LanguageCode languageCode,
+    @_s.required OutputDataConfig outputDataConfig,
+    String clientRequestToken,
+    String jobName,
+    String kMSKey,
+  }) async {
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    _s.validateStringLength(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-]+$''',
+    );
+    _s.validateStringLength(
+      'jobName',
+      jobName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'jobName',
+      jobName,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+    );
+    _s.validateStringLength(
+      'kMSKey',
+      kMSKey,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'kMSKey',
+      kMSKey,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StartRxNormInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode?.toValue(),
+        'OutputDataConfig': outputDataConfig,
+        'ClientRequestToken': clientRequestToken,
+        'JobName': jobName,
+        'KMSKey': kMSKey,
+      },
+    );
+
+    return StartRxNormInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops a medical entities detection job in progress.
   ///
   /// May throw [InvalidRequestException].
@@ -760,6 +1199,49 @@ class ComprehendMedical {
     return StopEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Stops an InferICD10CM inference job in progress.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier of the job.
+  Future<StopICD10CMInferenceJobResponse> stopICD10CMInferenceJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StopICD10CMInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return StopICD10CMInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops a protected health information (PHI) detection job in progress.
   ///
   /// May throw [InvalidRequestException].
@@ -801,6 +1283,49 @@ class ComprehendMedical {
     );
 
     return StopPHIDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Stops an InferRxNorm inference job in progress.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier of the job.
+  Future<StopRxNormInferenceJobResponse> stopRxNormInferenceJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StopRxNormInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return StopRxNormInferenceJobResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -1049,6 +1574,24 @@ class DescribeEntitiesDetectionV2JobResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeICD10CMInferenceJobResponse {
+  /// An object that contains the properties associated with a detection job.
+  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
+  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+
+  DescribeICD10CMInferenceJobResponse({
+    this.comprehendMedicalAsyncJobProperties,
+  });
+  factory DescribeICD10CMInferenceJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeICD10CMInferenceJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribePHIDetectionJobResponse {
   /// An object that contains the properties associated with a detection job.
   @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
@@ -1059,6 +1602,24 @@ class DescribePHIDetectionJobResponse {
   });
   factory DescribePHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribePHIDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeRxNormInferenceJobResponse {
+  /// An object that contains the properties associated with a detection job.
+  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
+  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+
+  DescribeRxNormInferenceJobResponse({
+    this.comprehendMedicalAsyncJobProperties,
+  });
+  factory DescribeRxNormInferenceJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeRxNormInferenceJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1624,7 +2185,9 @@ class InferRxNormResponse {
       _$InferRxNormResponseFromJson(json);
 }
 
-/// The input properties for an entities detection job.
+/// The input properties for an entities detection job. This includes the name
+/// of the S3 bucket and the path to the files to be analyzed. See
+/// <a>batch-manifest</a> for more information.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1714,6 +2277,30 @@ class ListEntitiesDetectionV2JobsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListICD10CMInferenceJobsResponse {
+  /// A list containing the properties of each job that is returned.
+  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
+  final List<ComprehendMedicalAsyncJobProperties>
+      comprehendMedicalAsyncJobPropertiesList;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListICD10CMInferenceJobsResponse({
+    this.comprehendMedicalAsyncJobPropertiesList,
+    this.nextToken,
+  });
+  factory ListICD10CMInferenceJobsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListICD10CMInferenceJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListPHIDetectionJobsResponse {
   /// A list containing the properties of each job returned.
   @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
@@ -1730,6 +2317,29 @@ class ListPHIDetectionJobsResponse {
   });
   factory ListPHIDetectionJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPHIDetectionJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListRxNormInferenceJobsResponse {
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
+  final List<ComprehendMedicalAsyncJobProperties>
+      comprehendMedicalAsyncJobPropertiesList;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListRxNormInferenceJobsResponse({
+    this.comprehendMedicalAsyncJobPropertiesList,
+    this.nextToken,
+  });
+  factory ListRxNormInferenceJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListRxNormInferenceJobsResponseFromJson(json);
 }
 
 /// The output properties for a detection job.
@@ -2056,6 +2666,25 @@ class StartEntitiesDetectionV2JobResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartICD10CMInferenceJobResponse {
+  /// The identifier generated for the job. To get the status of a job, use this
+  /// identifier with the <code>StartICD10CMInferenceJob</code> operation.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StartICD10CMInferenceJobResponse({
+    this.jobId,
+  });
+  factory StartICD10CMInferenceJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartICD10CMInferenceJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartPHIDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribePHIDetectionJob</code> operation.
@@ -2067,6 +2696,23 @@ class StartPHIDetectionJobResponse {
   });
   factory StartPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
       _$StartPHIDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartRxNormInferenceJobResponse {
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StartRxNormInferenceJobResponse({
+    this.jobId,
+  });
+  factory StartRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartRxNormInferenceJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2092,6 +2738,24 @@ class StopEntitiesDetectionV2JobResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StopICD10CMInferenceJobResponse {
+  /// The identifier generated for the job. To get the status of job, use this
+  /// identifier with the <code>DescribeICD10CMInferenceJob</code> operation.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopICD10CMInferenceJobResponse({
+    this.jobId,
+  });
+  factory StopICD10CMInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopICD10CMInferenceJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StopPHIDetectionJobResponse {
   /// The identifier of the PHI detection job that was stopped.
   @_s.JsonKey(name: 'JobId')
@@ -2102,6 +2766,24 @@ class StopPHIDetectionJobResponse {
   });
   factory StopPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
       _$StopPHIDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StopRxNormInferenceJobResponse {
+  /// The identifier generated for the job. To get the status of job, use this
+  /// identifier with the <code>DescribeRxNormInferenceJob</code> operation.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopRxNormInferenceJobResponse({
+    this.jobId,
+  });
+  factory StopRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopRxNormInferenceJobResponseFromJson(json);
 }
 
 /// Provides contextual information about the extracted entity.

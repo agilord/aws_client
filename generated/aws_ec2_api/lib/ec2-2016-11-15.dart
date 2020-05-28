@@ -2573,8 +2573,6 @@ class EC2 {
   /// spaces. For the AWS CLI, use single quotation marks (' ') to surround the
   /// parameter value.
   ///
-  /// Only applicable to flow logs that are published to an Amazon S3 bucket.
-  ///
   /// Parameter [logGroupName] :
   /// The name of a new or existing CloudWatch Logs log group where Amazon EC2
   /// publishes your flow logs.
@@ -2824,7 +2822,10 @@ class EC2 {
   /// Creates a launch template. A launch template contains the parameters to
   /// launch an instance. When you launch an instance using <a>RunInstances</a>,
   /// you can specify a launch template instead of providing the launch
-  /// parameters in the request.
+  /// parameters in the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Launching
+  /// an instance from a launch template</a>in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [launchTemplateData] :
   /// The information for the launch template.
@@ -2891,6 +2892,11 @@ class EC2 {
   /// Launch template versions are numbered in the order in which they are
   /// created. You cannot specify, change, or replace the numbering of launch
   /// template versions.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#manage-launch-template-versions">Managing
+  /// launch template versions</a>in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
   ///
   /// Parameter [launchTemplateData] :
   /// The information for the launch template.
@@ -3772,6 +3778,9 @@ class EC2 {
   /// Regions that support Local Zones, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions">Available
   /// Regions</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  ///
+  /// To create a subnet in an Outpost, set this value to the Availability Zone
+  /// for the Outpost and specify the Outpost ARN.
   ///
   /// Parameter [availabilityZoneId] :
   /// The AZ ID or the Local Zone ID of the subnet.
@@ -14704,6 +14713,8 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
   /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// You must specify a VPC ID in the request.
+  ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
   Future<DisableVpcClassicLinkDnsSupportResult>
@@ -14805,7 +14816,7 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Disassociates a subnet from a route table.
+  /// Disassociates a subnet or gateway from a route table.
   ///
   /// After you perform this action, the subnet no longer uses the routes in the
   /// route table. Instead, it uses the routes in the VPC's main route table.
@@ -14815,7 +14826,7 @@ class EC2 {
   ///
   /// Parameter [associationId] :
   /// The association ID representing the current association between the route
-  /// table and subnet.
+  /// table and subnet or gateway.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -15108,6 +15119,8 @@ class EC2 {
   /// instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
   /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  ///
+  /// You must specify a VPC ID in the request.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
@@ -17597,12 +17610,29 @@ class EC2 {
   /// interface or instance only receives an IPv6 address if it's created using
   /// version <code>2016-11-15</code> or later of the Amazon EC2 API.
   ///
+  /// Parameter [customerOwnedIpv4Pool] :
+  /// The customer-owned IPv4 address pool associated with the subnet.
+  ///
+  /// You must set this value when you specify <code>true</code> for
+  /// <code>MapCustomerOwnedIpOnLaunch</code>.
+  ///
+  /// Parameter [mapCustomerOwnedIpOnLaunch] :
+  /// Specify <code>true</code> to indicate that network interfaces attached to
+  /// instances created in the specified subnet should be assigned a
+  /// customer-owned IPv4 address.
+  ///
+  /// When this value is <code>true</code>, you must specify the customer-owned
+  /// IP pool using <code>CustomerOwnedIpv4Pool</code>.
+  ///
   /// Parameter [mapPublicIpOnLaunch] :
-  /// Specify <code>true</code> to indicate that ENIs attached to instances
-  /// created in the specified subnet should be assigned a public IPv4 address.
+  /// Specify <code>true</code> to indicate that network interfaces attached to
+  /// instances created in the specified subnet should be assigned a public IPv4
+  /// address.
   Future<void> modifySubnetAttribute({
     @_s.required String subnetId,
     AttributeBooleanValue assignIpv6AddressOnCreation,
+    String customerOwnedIpv4Pool,
+    AttributeBooleanValue mapCustomerOwnedIpOnLaunch,
     AttributeBooleanValue mapPublicIpOnLaunch,
   }) async {
     ArgumentError.checkNotNull(subnetId, 'subnetId');
@@ -23419,8 +23449,14 @@ class CreateLaunchTemplateResult {
   /// Information about the launch template.
   final LaunchTemplate launchTemplate;
 
+  /// If the launch template contains parameters or parameter combinations that
+  /// are not valid, an error code and an error message are returned for each
+  /// issue that's found.
+  final ValidationWarning warning;
+
   CreateLaunchTemplateResult({
     this.launchTemplate,
+    this.warning,
   });
 }
 
@@ -23428,8 +23464,14 @@ class CreateLaunchTemplateVersionResult {
   /// Information about the launch template version.
   final LaunchTemplateVersion launchTemplateVersion;
 
+  /// If the new version of the launch template contains parameters or parameter
+  /// combinations that are not valid, an error code and an error message are
+  /// returned for each issue that's found.
+  final ValidationWarning warning;
+
   CreateLaunchTemplateVersionResult({
     this.launchTemplateVersion,
+    this.warning,
   });
 }
 
@@ -38086,11 +38128,19 @@ class Subnet {
   /// The IPv4 CIDR block assigned to the subnet.
   final String cidrBlock;
 
+  /// The customer-owned IPv4 address pool associated with the subnet.
+  final String customerOwnedIpv4Pool;
+
   /// Indicates whether this is the default subnet for the Availability Zone.
   final bool defaultForAz;
 
   /// Information about the IPv6 CIDR blocks associated with the subnet.
   final List<SubnetIpv6CidrBlockAssociation> ipv6CidrBlockAssociationSet;
+
+  /// Indicates whether a network interface created in this subnet (including a
+  /// network interface created by <a>RunInstances</a>) receives a customer-owned
+  /// IPv4 address.
+  final bool mapCustomerOwnedIpOnLaunch;
 
   /// Indicates whether instances launched in this subnet receive a public IPv4
   /// address.
@@ -38123,8 +38173,10 @@ class Subnet {
     this.availabilityZoneId,
     this.availableIpAddressCount,
     this.cidrBlock,
+    this.customerOwnedIpv4Pool,
     this.defaultForAz,
     this.ipv6CidrBlockAssociationSet,
+    this.mapCustomerOwnedIpOnLaunch,
     this.mapPublicIpOnLaunch,
     this.outpostArn,
     this.ownerId,
@@ -39830,6 +39882,40 @@ class VCpuInfo {
     this.defaultVCpus,
     this.validCores,
     this.validThreadsPerCore,
+  });
+}
+
+/// The error code and error message that is returned for a parameter or
+/// parameter combination that is not valid when a new launch template or new
+/// version of a launch template is created.
+class ValidationError {
+  /// The error code that indicates why the parameter or parameter combination is
+  /// not valid. For more information about error codes, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html">Error
+  /// Codes</a>.
+  final String code;
+
+  /// The error message that describes why the parameter or parameter combination
+  /// is not valid. For more information about error messages, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html">Error
+  /// Codes</a>.
+  final String message;
+
+  ValidationError({
+    this.code,
+    this.message,
+  });
+}
+
+/// The error codes and error messages that are returned for the parameters or
+/// parameter combinations that are not valid when a new launch template or new
+/// version of a launch template is created.
+class ValidationWarning {
+  /// The error codes and error messages.
+  final List<ValidationError> errors;
+
+  ValidationWarning({
+    this.errors,
   });
 }
 

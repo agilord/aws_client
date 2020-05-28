@@ -43,7 +43,7 @@ class S3Control {
   ///
   /// Parameter [vpcConfiguration] :
   /// If you include this field, Amazon S3 restricts access to this access point
-  /// to requests from the specified Virtual Private Cloud (VPC).
+  /// to requests from the specified virtual private cloud (VPC).
   Future<void> createAccessPoint({
     @_s.required String accountId,
     @_s.required String bucket,
@@ -57,6 +57,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -85,7 +91,30 @@ class S3Control {
     );
   }
 
-  /// Creates an Amazon S3 batch operations job.
+  /// You can use Amazon S3 Batch Operations to perform large-scale Batch
+  /// Operations on Amazon S3 objects. Amazon S3 Batch Operations can execute a
+  /// single operation or action on lists of Amazon S3 objects that you specify.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">Amazon
+  /// S3 Batch Operations</a> in the Amazon Simple Storage Service Developer
+  /// Guide.
+  ///
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DescribeJob</a>
+  /// </li>
+  /// <li>
+  /// <a>ListJobs</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobPriority</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -117,8 +146,8 @@ class S3Control {
   /// Configuration parameters for the optional job-completion report.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) for the Identity and Access Management
-  /// (IAM) Role that batch operations will use to execute this job's operation
+  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
+  /// (IAM) role that Batch Operations will use to execute this job's operation
   /// on each object in the manifest.
   ///
   /// Parameter [confirmationRequired] :
@@ -132,7 +161,8 @@ class S3Control {
   /// jobs.
   ///
   /// Parameter [tags] :
-  /// An optional set of tags to associate with the job when it is created.
+  /// A set of tags to associate with the Amazon S3 Batch Operations job. This
+  /// is an optional parameter.
   Future<CreateJobResult> createJob({
     @_s.required String accountId,
     @_s.required String clientRequestToken,
@@ -151,6 +181,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
@@ -178,6 +214,12 @@ class S3Control {
       roleArn,
       1,
       2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'roleArn',
+      roleArn,
+      r'''arn:[^:]+:iam::\d{12}:role/.*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -214,6 +256,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -253,6 +301,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -271,18 +325,36 @@ class S3Control {
     );
   }
 
-  /// Delete the tags on a Amazon S3 batch operations job, if any.
+  /// Removes the entire tag set from the specified Amazon S3 Batch Operations
+  /// job. To use this operation, you must have permission to perform the
+  /// <code>s3:DeleteJobTagging</code> action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Using
+  /// Job Tags</a> in the Amazon Simple Storage Service Developer Guide.
+  /// <p/>
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>GetJobTagging</a>
+  /// </li>
+  /// <li>
+  /// <a>PutJobTagging</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InternalServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The account ID for the Amazon Web Services account associated with the
-  /// Amazon S3 batch operations job you want to remove tags from.
+  /// The AWS account ID associated with the Amazon S3 Batch Operations job.
   ///
   /// Parameter [jobId] :
-  /// The ID for the job whose tags you want to delete.
+  /// The ID for the Amazon S3 Batch Operations job whose tags you want to
+  /// delete.
   Future<void> deleteJobTagging({
     @_s.required String accountId,
     @_s.required String jobId,
@@ -295,12 +367,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{};
@@ -330,6 +414,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
@@ -340,8 +430,28 @@ class S3Control {
     );
   }
 
-  /// Retrieves the configuration parameters and status for a batch operations
-  /// job.
+  /// Retrieves the configuration parameters and status for a Batch Operations
+  /// job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">Amazon
+  /// S3 Batch Operations</a> in the Amazon Simple Storage Service Developer
+  /// Guide.
+  /// <p/>
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>ListJobs</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobPriority</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [BadRequestException].
   /// May throw [TooManyRequestsException].
@@ -365,12 +475,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{};
@@ -402,6 +524,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -441,6 +569,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -486,6 +620,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -505,18 +645,36 @@ class S3Control {
     return GetAccessPointPolicyStatusResult.fromXml($result.body);
   }
 
-  /// Retrieve the tags on a Amazon S3 batch operations job.
+  /// Returns the tags on an Amazon S3 Batch Operations job. To use this
+  /// operation, you must have permission to perform the
+  /// <code>s3:GetJobTagging</code> action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Using
+  /// Job Tags</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// <p/>
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>PutJobTagging</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteJobTagging</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InternalServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The account ID for the Amazon Web Services account associated with the
-  /// Amazon S3 batch operations job you want to retrieve tags for.
+  /// The AWS account ID associated with the Amazon S3 Batch Operations job.
   ///
   /// Parameter [jobId] :
-  /// The ID for the job whose tags you want to retrieve.
+  /// The ID for the Amazon S3 Batch Operations job whose tags you want to
+  /// retrieve.
   Future<GetJobTaggingResult> getJobTagging({
     @_s.required String accountId,
     @_s.required String jobId,
@@ -529,12 +687,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{};
@@ -567,6 +737,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
@@ -580,10 +756,10 @@ class S3Control {
 
   /// Returns a list of the access points currently associated with the
   /// specified bucket. You can retrieve up to 1000 access points per call. If
-  /// the specified bucket has more than 1000 access points (or the number
-  /// specified in <code>maxResults</code>, whichever is less), then the
-  /// response will include a continuation token that you can use to list the
-  /// additional access points.
+  /// the specified bucket has more than 1,000 access points (or the number
+  /// specified in <code>maxResults</code>, whichever is less), the response
+  /// will include a continuation token that you can use to list the additional
+  /// access points.
   ///
   /// Parameter [accountId] :
   /// The AWS account ID for owner of the bucket whose access points you want to
@@ -616,6 +792,12 @@ class S3Control {
       accountId,
       0,
       64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -652,8 +834,29 @@ class S3Control {
     return ListAccessPointsResult.fromXml($result.body);
   }
 
-  /// Lists current jobs and jobs that have ended within the last 30 days for
-  /// the AWS account making the request.
+  /// Lists current Amazon S3 Batch Operations jobs and jobs that have ended
+  /// within the last 30 days for the AWS account making the request. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">Amazon
+  /// S3 Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// Related actions include:
+  /// <p/>
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeJob</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobPriority</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServiceException].
@@ -691,6 +894,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -702,6 +911,11 @@ class S3Control {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[A-Za-z0-9\+\:\/\=\?\#-_]+$''',
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
@@ -750,6 +964,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -769,7 +989,73 @@ class S3Control {
     );
   }
 
-  /// Replace the set of tags on a Amazon S3 batch operations job.
+  /// Set the supplied tag-set on an Amazon S3 Batch Operations job.
+  ///
+  /// A tag is a key-value pair. You can associate Amazon S3 Batch Operations
+  /// tags with any job by sending a PUT request against the tagging subresource
+  /// that is associated with the job. To modify the existing tag set, you can
+  /// either replace the existing tag set entirely, or make changes within the
+  /// existing tag set by retrieving the existing tag set using
+  /// <a>GetJobTagging</a>, modify that tag set, and use this API action to
+  /// replace the tag set with the one you have modified.. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Using
+  /// Job Tags</a> in the Amazon Simple Storage Service Developer Guide.
+  /// <p/> <note>
+  /// <ul>
+  /// <li>
+  /// If you send this request with an empty tag set, Amazon S3 deletes the
+  /// existing tag set on the Batch Operations job. If you use this method, you
+  /// will be charged for a Tier 1 Request (PUT). For more information, see <a
+  /// href="http://aws.amazon.com/s3/pricing/">Amazon S3 pricing</a>.
+  /// </li>
+  /// <li>
+  /// For deleting existing tags for your batch operations job,
+  /// <a>DeleteJobTagging</a> request is preferred because it achieves the same
+  /// result without incurring charges.
+  /// </li>
+  /// <li>
+  /// A few things to consider about using tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon S3 limits the maximum number of tags to 50 tags per job.
+  /// </li>
+  /// <li>
+  /// You can associate up to 50 tags with a job as long as they have unique tag
+  /// keys.
+  /// </li>
+  /// <li>
+  /// A tag key can be up to 128 Unicode characters in length, and tag values
+  /// can be up to 256 Unicode characters in length.
+  /// </li>
+  /// <li>
+  /// The key and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// For tagging-related restrictions related to characters and encodings, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
+  /// Tag Restrictions</a>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </note> <p/>
+  /// To use this operation, you must have permission to perform the
+  /// <code>s3:PutJobTagging</code> action.
+  ///
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>GetJobTagging</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteJobTagging</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InternalServiceException].
   /// May throw [TooManyRequestsException].
@@ -777,14 +1063,14 @@ class S3Control {
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [accountId] :
-  /// The account ID for the Amazon Web Services account associated with the
-  /// Amazon S3 batch operations job you want to replace tags on.
+  /// The AWS account ID associated with the Amazon S3 Batch Operations job.
   ///
   /// Parameter [jobId] :
-  /// The ID for the job whose tags you want to replace.
+  /// The ID for the Amazon S3 Batch Operations job whose tags you want to
+  /// replace.
   ///
   /// Parameter [tags] :
-  /// The set of tags to associate with the job.
+  /// The set of tags to associate with the Amazon S3 Batch Operations job.
   Future<void> putJobTagging({
     @_s.required String accountId,
     @_s.required String jobId,
@@ -798,12 +1084,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -839,6 +1137,12 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{};
@@ -853,7 +1157,28 @@ class S3Control {
     );
   }
 
-  /// Updates an existing job's priority.
+  /// Updates an existing Amazon S3 Batch Operations job's priority. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">Amazon
+  /// S3 Batch Operations</a> in the Amazon Simple Storage Service Developer
+  /// Guide.
+  /// <p/>
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>ListJobs</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeJob</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [BadRequestException].
   /// May throw [TooManyRequestsException].
@@ -881,12 +1206,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(priority, 'priority');
@@ -912,7 +1249,28 @@ class S3Control {
   }
 
   /// Updates the status for the specified job. Use this operation to confirm
-  /// that you want to run a job or to cancel an existing job.
+  /// that you want to run a job or to cancel an existing job. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">Amazon
+  /// S3 Batch Operations</a> in the Amazon Simple Storage Service Developer
+  /// Guide.
+  /// <p/>
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateJob</a>
+  /// </li>
+  /// <li>
+  /// <a>ListJobs</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeJob</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateJobStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [BadRequestException].
   /// May throw [TooManyRequestsException].
@@ -946,12 +1304,24 @@ class S3Control {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(requestedJobStatus, 'requestedJobStatus');
@@ -987,15 +1357,15 @@ class AccessPoint {
   /// The name of this access point.
   final String name;
 
-  /// Indicates whether this access point allows access from the public Internet.
+  /// Indicates whether this access point allows access from the public internet.
   /// If <code>VpcConfiguration</code> is specified for this access point, then
   /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
-  /// allow access from the public Internet. Otherwise, <code>NetworkOrigin</code>
+  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
   /// is <code>Internet</code>, and the access point allows access from the public
-  /// Internet, subject to the access point and bucket access policies.
+  /// internet, subject to the access point and bucket access policies.
   final NetworkOrigin networkOrigin;
 
-  /// The Virtual Private Cloud (VPC) configuration for this access point, if one
+  /// The virtual private cloud (VPC) configuration for this access point, if one
   /// exists.
   final VpcConfiguration vpcConfiguration;
 
@@ -1098,16 +1468,16 @@ class GetAccessPointResult {
   /// The name of the specified access point.
   final String name;
 
-  /// Indicates whether this access point allows access from the public Internet.
+  /// Indicates whether this access point allows access from the public internet.
   /// If <code>VpcConfiguration</code> is specified for this access point, then
   /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
-  /// allow access from the public Internet. Otherwise, <code>NetworkOrigin</code>
+  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
   /// is <code>Internet</code>, and the access point allows access from the public
-  /// Internet, subject to the access point and bucket access policies.
+  /// internet, subject to the access point and bucket access policies.
   final NetworkOrigin networkOrigin;
   final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
 
-  /// Contains the Virtual Private Cloud (VPC) configuration for the specified
+  /// Contains the virtual private cloud (VPC) configuration for the specified
   /// access point.
   final VpcConfiguration vpcConfiguration;
 
@@ -1137,7 +1507,7 @@ class GetAccessPointResult {
 }
 
 class GetJobTaggingResult {
-  /// The set of tags associated with the job.
+  /// The set of tags associated with the Amazon S3 Batch Operations job.
   final List<S3Tag> tags;
 
   GetJobTaggingResult({
@@ -1211,8 +1581,8 @@ class JobDescriptor {
   /// requested one in the <code>Create Job</code> request.
   final JobReport report;
 
-  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
-  /// Role assigned to execute the tasks for this job.
+  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
+  /// (IAM) role assigned to execute the tasks for this job.
   final String roleArn;
 
   /// The current status of the specified job.
@@ -1571,6 +1941,8 @@ class JobOperation {
   /// Directs the specified job to execute a PUT Copy object call on each object
   /// in the manifest.
   final S3CopyObjectOperation s3PutObjectCopy;
+  final S3SetObjectLegalHoldOperation s3PutObjectLegalHold;
+  final S3SetObjectRetentionOperation s3PutObjectRetention;
 
   /// Directs the specified job to execute a PUT Object tagging call on each
   /// object in the manifest.
@@ -1581,6 +1953,8 @@ class JobOperation {
     this.s3InitiateRestoreObject,
     this.s3PutObjectAcl,
     this.s3PutObjectCopy,
+    this.s3PutObjectLegalHold,
+    this.s3PutObjectRetention,
     this.s3PutObjectTagging,
   });
   factory JobOperation.fromXml(_s.XmlElement elem) {
@@ -1597,6 +1971,12 @@ class JobOperation {
       s3PutObjectCopy: _s
           .extractXmlChild(elem, 'S3PutObjectCopy')
           ?.let((e) => S3CopyObjectOperation.fromXml(e)),
+      s3PutObjectLegalHold: _s
+          .extractXmlChild(elem, 'S3PutObjectLegalHold')
+          ?.let((e) => S3SetObjectLegalHoldOperation.fromXml(e)),
+      s3PutObjectRetention: _s
+          .extractXmlChild(elem, 'S3PutObjectRetention')
+          ?.let((e) => S3SetObjectRetentionOperation.fromXml(e)),
       s3PutObjectTagging: _s
           .extractXmlChild(elem, 'S3PutObjectTagging')
           ?.let((e) => S3SetObjectTaggingOperation.fromXml(e)),
@@ -1609,6 +1989,8 @@ class JobOperation {
       s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
       s3PutObjectAcl.toXml('S3PutObjectAcl'),
       s3PutObjectCopy.toXml('S3PutObjectCopy'),
+      s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
+      s3PutObjectRetention.toXml('S3PutObjectRetention'),
       s3PutObjectTagging.toXml('S3PutObjectTagging'),
     ];
     return _s.XmlElement(
@@ -1952,6 +2334,8 @@ enum OperationName {
   s3PutObjectAcl,
   s3PutObjectTagging,
   s3InitiateRestoreObject,
+  s3PutObjectLegalHold,
+  s3PutObjectRetention,
 }
 
 extension on OperationName {
@@ -1967,6 +2351,10 @@ extension on OperationName {
         return 'S3PutObjectTagging';
       case OperationName.s3InitiateRestoreObject:
         return 'S3InitiateRestoreObject';
+      case OperationName.s3PutObjectLegalHold:
+        return 'S3PutObjectLegalHold';
+      case OperationName.s3PutObjectRetention:
+        return 'S3PutObjectRetention';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -1985,6 +2373,10 @@ extension on String {
         return OperationName.s3PutObjectTagging;
       case 'S3InitiateRestoreObject':
         return OperationName.s3InitiateRestoreObject;
+      case 'S3PutObjectLegalHold':
+        return OperationName.s3PutObjectLegalHold;
+      case 'S3PutObjectRetention':
+        return OperationName.s3PutObjectRetention;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2261,7 +2653,7 @@ extension on String {
 }
 
 /// Contains the configuration parameters for a PUT Copy object operation.
-/// Amazon S3 batch operations passes each value through to the underlying PUT
+/// Amazon S3 Batch Operations passes each value through to the underlying PUT
 /// Copy object API. For more information about the parameters for this
 /// operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">PUT
@@ -2285,13 +2677,15 @@ class S3CopyObjectOperation {
   /// <p/>
   final List<S3Tag> newObjectTagging;
 
-  /// <p/>
+  /// The Legal Hold status to be applied to all objects in the Batch Operations
+  /// job.
   final S3ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
 
-  /// <p/>
+  /// The Retention mode to be applied to all objects in the Batch Operations job.
   final S3ObjectLockMode objectLockMode;
 
-  /// <p/>
+  /// The date when the applied Object Retention configuration will expire on all
+  /// objects in the Batch Operations job.
   final DateTime objectLockRetainUntilDate;
 
   /// <p/>
@@ -2553,7 +2947,7 @@ extension on String {
 }
 
 /// Contains the configuration parameters for an Initiate Glacier Restore job.
-/// Amazon S3 batch operations passes each value through to the underlying POST
+/// Amazon S3 Batch Operations passes each value through to the underlying POST
 /// Object restore API. For more information about the parameters for this
 /// operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">Restoring
@@ -2620,6 +3014,35 @@ extension on String {
   }
 }
 
+/// <p/>
+class S3ObjectLockLegalHold {
+  /// The Legal Hold status to be applied to all objects in the Batch Operations
+  /// job.
+  final S3ObjectLockLegalHoldStatus status;
+
+  S3ObjectLockLegalHold({
+    @_s.required this.status,
+  });
+  factory S3ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
+    return S3ObjectLockLegalHold(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toS3ObjectLockLegalHoldStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status?.toValue()),
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      [],
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 enum S3ObjectLockLegalHoldStatus {
   off,
   on,
@@ -2673,6 +3096,35 @@ extension on String {
         return S3ObjectLockMode.compliance;
       case 'GOVERNANCE':
         return S3ObjectLockMode.governance;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum S3ObjectLockRetentionMode {
+  compliance,
+  governance,
+}
+
+extension on S3ObjectLockRetentionMode {
+  String toValue() {
+    switch (this) {
+      case S3ObjectLockRetentionMode.compliance:
+        return 'COMPLIANCE';
+      case S3ObjectLockRetentionMode.governance:
+        return 'GOVERNANCE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  S3ObjectLockRetentionMode toS3ObjectLockRetentionMode() {
+    switch (this) {
+      case 'COMPLIANCE':
+        return S3ObjectLockRetentionMode.compliance;
+      case 'GOVERNANCE':
+        return S3ObjectLockRetentionMode.governance;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2849,6 +3301,40 @@ extension on String {
   }
 }
 
+/// <p/>
+class S3Retention {
+  /// The Retention mode to be applied to all objects in the Batch Operations job.
+  final S3ObjectLockRetentionMode mode;
+
+  /// The date when the applied Object Retention will expire on all objects in the
+  /// Batch Operations job.
+  final DateTime retainUntilDate;
+
+  S3Retention({
+    this.mode,
+    this.retainUntilDate,
+  });
+  factory S3Retention.fromXml(_s.XmlElement elem) {
+    return S3Retention(
+      mode:
+          _s.extractXmlStringValue(elem, 'Mode')?.toS3ObjectLockRetentionMode(),
+      retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Mode', mode?.toValue()),
+      _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      [],
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 enum S3SSEAlgorithm {
   aes256,
   kms,
@@ -2879,7 +3365,7 @@ extension on String {
 }
 
 /// Contains the configuration parameters for a Set Object ACL operation. Amazon
-/// S3 batch operations passes each value through to the underlying PUT Object
+/// S3 Batch Operations passes each value through to the underlying PUT Object
 /// acl API. For more information about the parameters for this operation, see
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html">PUT
@@ -2911,8 +3397,85 @@ class S3SetObjectAclOperation {
   }
 }
 
+/// Contains the configuration parameters for a Set Object Legal Hold operation.
+/// Amazon S3 Batch Operations passes each value through to the underlying PUT
+/// Object Legal Hold API. For more information about the parameters for this
+/// operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.htmll#object-lock-legal-holds">PUT
+/// Object Legal Hold</a>.
+class S3SetObjectLegalHoldOperation {
+  /// The Legal Hold contains the status to be applied to all objects in the Batch
+  /// Operations job.
+  final S3ObjectLockLegalHold legalHold;
+
+  S3SetObjectLegalHoldOperation({
+    @_s.required this.legalHold,
+  });
+  factory S3SetObjectLegalHoldOperation.fromXml(_s.XmlElement elem) {
+    return S3SetObjectLegalHoldOperation(
+      legalHold: _s
+          .extractXmlChild(elem, 'LegalHold')
+          ?.let((e) => S3ObjectLockLegalHold.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName) {
+    final $children = <_s.XmlNode>[
+      legalHold.toXml('LegalHold'),
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      [],
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+/// Contains the configuration parameters for a Set Object Retention operation.
+/// Amazon S3 Batch Operations passes each value through to the underlying PUT
+/// Object Retention API. For more information about the parameters for this
+/// operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html#object-lock-retention-modes">PUT
+/// Object Retention</a>.
+class S3SetObjectRetentionOperation {
+  /// Amazon S3 object lock Retention contains the retention mode to be applied to
+  /// all objects in the Batch Operations job.
+  final S3Retention retention;
+
+  /// Indicates if the operation should be applied to objects in the Batch
+  /// Operations job even if they have Governance-type Object Lock in place.
+  final bool bypassGovernanceRetention;
+
+  S3SetObjectRetentionOperation({
+    @_s.required this.retention,
+    this.bypassGovernanceRetention,
+  });
+  factory S3SetObjectRetentionOperation.fromXml(_s.XmlElement elem) {
+    return S3SetObjectRetentionOperation(
+      retention: _s
+          .extractXmlChild(elem, 'Retention')
+          ?.let((e) => S3Retention.fromXml(e)),
+      bypassGovernanceRetention:
+          _s.extractXmlBoolValue(elem, 'BypassGovernanceRetention'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName) {
+    final $children = <_s.XmlNode>[
+      retention.toXml('Retention'),
+      _s.encodeXmlBoolValue(
+          'BypassGovernanceRetention', bypassGovernanceRetention),
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      [],
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// Contains the configuration parameters for a Set Object Tagging operation.
-/// Amazon S3 batch operations passes each value through to the underlying PUT
+/// Amazon S3 Batch Operations passes each value through to the underlying PUT
 /// Object tagging API. For more information about the parameters for this
 /// operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PUT
@@ -3069,7 +3632,7 @@ class UpdateJobStatusResult {
   }
 }
 
-/// The Virtual Private Cloud (VPC) configuration for an access point.
+/// The virtual private cloud (VPC) configuration for an access point.
 class VpcConfiguration {
   /// If this field is specified, this access point will only allow connections
   /// from the specified VPC ID.

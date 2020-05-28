@@ -364,6 +364,7 @@ Map<String, dynamic> _$ElasticsearchDestinationConfigurationToJson(
   writeNotNull('S3BackupMode',
       _$ElasticsearchS3BackupModeEnumMap[instance.s3BackupMode]);
   writeNotNull('TypeName', instance.typeName);
+  writeNotNull('VpcConfiguration', instance.vpcConfiguration?.toJson());
   return val;
 }
 
@@ -412,6 +413,10 @@ ElasticsearchDestinationDescription
         : S3DestinationDescription.fromJson(
             json['S3DestinationDescription'] as Map<String, dynamic>),
     typeName: json['TypeName'] as String,
+    vpcConfigurationDescription: json['VpcConfigurationDescription'] == null
+        ? null
+        : VpcConfigurationDescription.fromJson(
+            json['VpcConfigurationDescription'] as Map<String, dynamic>),
   );
 }
 
@@ -531,6 +536,7 @@ const _$CompressionFormatEnumMap = {
   CompressionFormat.gzip: 'GZIP',
   CompressionFormat.zip: 'ZIP',
   CompressionFormat.snappy: 'Snappy',
+  CompressionFormat.hadoopSnappy: 'HADOOP_SNAPPY',
 };
 
 const _$S3BackupModeEnumMap = {
@@ -624,6 +630,14 @@ const _$DeliveryStreamFailureTypeEnumMap = {
   DeliveryStreamFailureType.invalidKmsKey: 'INVALID_KMS_KEY',
   DeliveryStreamFailureType.kmsKeyNotFound: 'KMS_KEY_NOT_FOUND',
   DeliveryStreamFailureType.kmsOptInRequired: 'KMS_OPT_IN_REQUIRED',
+  DeliveryStreamFailureType.createEniFailed: 'CREATE_ENI_FAILED',
+  DeliveryStreamFailureType.deleteEniFailed: 'DELETE_ENI_FAILED',
+  DeliveryStreamFailureType.subnetNotFound: 'SUBNET_NOT_FOUND',
+  DeliveryStreamFailureType.securityGroupNotFound: 'SECURITY_GROUP_NOT_FOUND',
+  DeliveryStreamFailureType.eniAccessDenied: 'ENI_ACCESS_DENIED',
+  DeliveryStreamFailureType.subnetAccessDenied: 'SUBNET_ACCESS_DENIED',
+  DeliveryStreamFailureType.securityGroupAccessDenied:
+      'SECURITY_GROUP_ACCESS_DENIED',
   DeliveryStreamFailureType.unknownError: 'UNKNOWN_ERROR',
 };
 
@@ -1418,4 +1432,30 @@ UntagDeliveryStreamOutput _$UntagDeliveryStreamOutputFromJson(
 UpdateDestinationOutput _$UpdateDestinationOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateDestinationOutput();
+}
+
+Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  return val;
+}
+
+VpcConfigurationDescription _$VpcConfigurationDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return VpcConfigurationDescription(
+    roleARN: json['RoleARN'] as String,
+    securityGroupIds:
+        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
+    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    vpcId: json['VpcId'] as String,
+  );
 }

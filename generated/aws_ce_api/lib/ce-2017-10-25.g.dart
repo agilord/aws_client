@@ -564,6 +564,10 @@ GetReservationUtilizationResponse _$GetReservationUtilizationResponseFromJson(
 GetRightsizingRecommendationResponse
     _$GetRightsizingRecommendationResponseFromJson(Map<String, dynamic> json) {
   return GetRightsizingRecommendationResponse(
+    configuration: json['Configuration'] == null
+        ? null
+        : RightsizingRecommendationConfiguration.fromJson(
+            json['Configuration'] as Map<String, dynamic>),
     metadata: json['Metadata'] == null
         ? null
         : RightsizingRecommendationMetadata.fromJson(
@@ -1011,6 +1015,37 @@ RightsizingRecommendation _$RightsizingRecommendationFromJson(
 const _$RightsizingTypeEnumMap = {
   RightsizingType.terminate: 'TERMINATE',
   RightsizingType.modify: 'MODIFY',
+};
+
+RightsizingRecommendationConfiguration
+    _$RightsizingRecommendationConfigurationFromJson(
+        Map<String, dynamic> json) {
+  return RightsizingRecommendationConfiguration(
+    benefitsConsidered: json['BenefitsConsidered'] as bool,
+    recommendationTarget: _$enumDecodeNullable(
+        _$RecommendationTargetEnumMap, json['RecommendationTarget']),
+  );
+}
+
+Map<String, dynamic> _$RightsizingRecommendationConfigurationToJson(
+    RightsizingRecommendationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BenefitsConsidered', instance.benefitsConsidered);
+  writeNotNull('RecommendationTarget',
+      _$RecommendationTargetEnumMap[instance.recommendationTarget]);
+  return val;
+}
+
+const _$RecommendationTargetEnumMap = {
+  RecommendationTarget.sameInstanceFamily: 'SAME_INSTANCE_FAMILY',
+  RecommendationTarget.crossInstanceFamily: 'CROSS_INSTANCE_FAMILY',
 };
 
 RightsizingRecommendationMetadata _$RightsizingRecommendationMetadataFromJson(

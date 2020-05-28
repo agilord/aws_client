@@ -271,6 +271,13 @@ CreateSqlInjectionMatchSetResponse _$CreateSqlInjectionMatchSetResponseFromJson(
   );
 }
 
+CreateWebACLMigrationStackResponse _$CreateWebACLMigrationStackResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateWebACLMigrationStackResponse(
+    s3ObjectUrl: json['S3ObjectUrl'] as String,
+  );
+}
+
 CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
   return CreateWebACLResponse(
     changeToken: json['ChangeToken'] as String,

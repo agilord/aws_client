@@ -93,9 +93,13 @@ class CodeStarconnections {
   /// Parameter [providerType] :
   /// The name of the external provider where your third-party code repository
   /// is configured. Currently, the valid provider type is Bitbucket.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair to use when tagging the resource.
   Future<CreateConnectionOutput> createConnection({
     @_s.required String connectionName,
     @_s.required ProviderType providerType,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
     _s.validateStringLength(
@@ -120,6 +124,7 @@ class CodeStarconnections {
       payload: {
         'ConnectionName': connectionName,
         'ProviderType': providerType?.toValue(),
+        'Tags': tags,
       },
     );
 
@@ -236,19 +241,14 @@ class CodeStarconnections {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      50,
+      0,
+      5000,
     );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=\-\\/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -270,10 +270,139 @@ class CodeStarconnections {
 
     return ListConnectionsOutput.fromJson(jsonResponse.body);
   }
+
+  /// Gets the set of key-value pairs (metadata) that are used to manage the
+  /// resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource for which you want to get
+  /// information about tags, if any.
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    @_s.required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'com.amazonaws.codestar.connections.CodeStar_connections_20191201.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+
+    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Adds to or modifies the tags of the given resource. Tags are metadata that
+  /// can be used to manage a resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource to which you want to add or
+  /// update tags.
+  ///
+  /// Parameter [tags] :
+  /// The tags you want to modify or add to the resource.
+  Future<void> tagResource({
+    @_s.required String resourceArn,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'com.amazonaws.codestar.connections.CodeStar_connections_20191201.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
+    );
+
+    return TagResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Removes tags from an AWS resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource to remove tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of keys for the tags to be removed from the resource.
+  Future<void> untagResource({
+    @_s.required String resourceArn,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'com.amazonaws.codestar.connections.CodeStar_connections_20191201.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceOutput.fromJson(jsonResponse.body);
+  }
 }
 
-/// The configuration that allows a service such as CodePipeline to connect to a
-/// third-party code repository.
+/// The AWS::CodeStarConnections::Connection resource can be used to connect
+/// external source providers with services like AWS CodePipeline.
+///
+/// Note: A connection created through CloudFormation is in `PENDING` status by
+/// default. You can make its status `AVAILABLE` by editing the connection in
+/// the CodePipeline console.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -297,9 +426,9 @@ class Connection {
   @_s.JsonKey(name: 'ConnectionStatus')
   final ConnectionStatus connectionStatus;
 
-  /// The name of the external provider where your third-party code repository is
-  /// configured. For Bitbucket, this is the account ID of the owner of the
-  /// Bitbucket repository.
+  /// The identifier of the external provider where your third-party code
+  /// repository is configured. For Bitbucket, this is the account ID of the owner
+  /// of the Bitbucket repository.
   @_s.JsonKey(name: 'OwnerAccountId')
   final String ownerAccountId;
 
@@ -343,8 +472,13 @@ class CreateConnectionOutput {
   @_s.JsonKey(name: 'ConnectionArn')
   final String connectionArn;
 
+  /// Specifies the tags applied to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
   CreateConnectionOutput({
     @_s.required this.connectionArn,
+    this.tags,
   });
   factory CreateConnectionOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateConnectionOutputFromJson(json);
@@ -403,6 +537,23 @@ class ListConnectionsOutput {
       _$ListConnectionsOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceOutput {
+  /// A list of tag key and value pairs associated with the specified resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceOutput({
+    this.tags,
+  });
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceOutputFromJson(json);
+}
+
 enum ProviderType {
   @_s.JsonValue('Bitbucket')
   bitbucket,
@@ -416,6 +567,54 @@ extension on ProviderType {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// A tag is a key-value pair that is used to manage the resource.
+///
+/// This tag is available for use by AWS services that support tags.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// The tag's key.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// The tag's value.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceOutput {
+  TagResourceOutput();
+  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceOutput {
+  UntagResourceOutput();
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceOutputFromJson(json);
 }
 
 class LimitExceededException extends _s.GenericAwsException {

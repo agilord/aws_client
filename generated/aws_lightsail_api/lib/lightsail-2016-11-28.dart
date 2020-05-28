@@ -350,11 +350,11 @@ class Lightsail {
     return AttachStaticIpResult.fromJson(jsonResponse.body);
   }
 
-  /// Closes the public ports on a specific Amazon Lightsail instance.
+  /// Closes ports for a specific Amazon Lightsail instance.
   ///
-  /// The <code>close instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>CloseInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -367,11 +367,10 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance on which you're attempting to close the public
-  /// ports.
+  /// The name of the instance for which to close ports.
   ///
   /// Parameter [portInfo] :
-  /// Information about the public port you are trying to close.
+  /// An object to describe the ports to close for the specified instance.
   Future<CloseInstancePublicPortsResult> closeInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required PortInfo portInfo,
@@ -623,7 +622,7 @@ class Lightsail {
   /// maximum of 15 digits, and they are prefixed with the plus character (+)
   /// and the country code. For example, a U.S. phone number in E.164 format
   /// would be specified as +1XXX5550100. For more information, see <a
-  /// href="https://en.wikipedia.org/wiki/E.164">E.164</a> in Wikipedia.
+  /// href="https://en.wikipedia.org/wiki/E.164">E.164</a> on <i>Wikipedia</i>.
   ///
   /// Parameter [protocol] :
   /// The protocol of the contact method, such as <code>Email</code> or
@@ -1703,7 +1702,7 @@ class Lightsail {
     _s.validateNumRange(
       'instancePort',
       instancePort,
-      0,
+      -1,
       65535,
       isRequired: true,
     );
@@ -4156,7 +4155,7 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>CPUUtilization</code> </b> — The percentage of allocated compute
+  /// <b> <code>CPUUtilization</code> </b> - The percentage of allocated compute
   /// units that are currently in use on the instance. This metric identifies
   /// the processing power to run the applications on the instance. Tools in
   /// your operating system can show a lower percentage than Lightsail when the
@@ -4168,7 +4167,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Percent</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkIn</code> </b> — The number of bytes received on all
+  /// <b> <code>NetworkIn</code> </b> - The number of bytes received on all
   /// network interfaces by the instance. This metric identifies the volume of
   /// incoming network traffic to the instance. The number reported is the
   /// number of bytes received during the period. Because this metric is
@@ -4180,7 +4179,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkOut</code> </b> — The number of bytes sent out on all
+  /// <b> <code>NetworkOut</code> </b> - The number of bytes sent out on all
   /// network interfaces by the instance. This metric identifies the volume of
   /// outgoing network traffic from the instance. The number reported is the
   /// number of bytes sent during the period. Because this metric is reported in
@@ -4192,7 +4191,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed</code> </b> — Reports whether the instance
+  /// <b> <code>StatusCheckFailed</code> </b> - Reports whether the instance
   /// passed or failed both the instance status check and the system status
   /// check. This metric can be either 0 (passed) or 1 (failed). This metric
   /// data is available in 1-minute (60 seconds) granularity.
@@ -4202,7 +4201,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed_Instance</code> </b> — Reports whether the
+  /// <b> <code>StatusCheckFailed_Instance</code> </b> - Reports whether the
   /// instance passed or failed the instance status check. This metric can be
   /// either 0 (passed) or 1 (failed). This metric data is available in 1-minute
   /// (60 seconds) granularity.
@@ -4212,7 +4211,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed_System</code> </b> — Reports whether the
+  /// <b> <code>StatusCheckFailed_System</code> </b> - Reports whether the
   /// instance passed or failed the system status check. This metric can be
   /// either 0 (passed) or 1 (failed). This metric data is available in 1-minute
   /// (60 seconds) granularity.
@@ -4242,37 +4241,37 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
   ///
   /// Parameter [unit] :
   /// The unit for the metric data request. Valid units depend on the metric
-  /// data being required. For the valid units with each available metric, see
-  /// the <code>metricName</code> parameter.
+  /// data being requested. For the valid units to specify with each available
+  /// metric, see the <code>metricName</code> parameter.
   Future<GetInstanceMetricDataResult> getInstanceMetricData({
     @_s.required DateTime endTime,
     @_s.required String instanceName,
@@ -4326,8 +4325,9 @@ class Lightsail {
     return GetInstanceMetricDataResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns the port states for a specific virtual private server, or
-  /// <i>instance</i>.
+  /// Returns the firewall port states for a specific Amazon Lightsail instance,
+  /// the IP addresses allowed to connect to the instance through the ports, and
+  /// the protocol.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -4338,7 +4338,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance.
+  /// The name of the instance for which to return firewall port states.
   Future<GetInstancePortStatesResult> getInstancePortStates({
     @_s.required String instanceName,
   }) async {
@@ -4664,7 +4664,7 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> — The number of TLS
+  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> - The number of TLS
   /// connections initiated by the client that did not establish a session with
   /// the load balancer due to a TLS error generated by the load balancer.
   /// Possible causes include a mismatch of ciphers or protocols.
@@ -4674,7 +4674,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HealthyHostCount</code> </b> — The number of target instances
+  /// <b> <code>HealthyHostCount</code> </b> - The number of target instances
   /// that are considered healthy.
   ///
   /// <code>Statistics</code>: The most useful statistic are
@@ -4683,7 +4683,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> — The number of HTTP 2XX
+  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> - The number of HTTP 2XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4694,7 +4694,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> — The number of HTTP 3XX
+  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> - The number of HTTP 3XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4705,7 +4705,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> — The number of HTTP 4XX
+  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> - The number of HTTP 4XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4716,7 +4716,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> — The number of HTTP 5XX
+  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> - The number of HTTP 5XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4727,7 +4727,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> — The number of HTTP 4XX
+  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> - The number of HTTP 4XX
   /// client error codes that originated from the load balancer. Client errors
   /// are generated when requests are malformed or incomplete. These requests
   /// were not received by the target instance. This count does not include
@@ -4740,7 +4740,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> — The number of HTTP 5XX
+  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> - The number of HTTP 5XX
   /// server error codes that originated from the load balancer. This does not
   /// include any response codes generated by the target instance. This metric
   /// is reported if there are no healthy instances attached to the load
@@ -4754,7 +4754,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>InstanceResponseTime</code> </b> — The time elapsed, in seconds,
+  /// <b> <code>InstanceResponseTime</code> </b> - The time elapsed, in seconds,
   /// after the request leaves the load balancer until a response from the
   /// target instance is received.
   ///
@@ -4764,7 +4764,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Seconds</code>.
   /// </li>
   /// <li>
-  /// <b> <code>RejectedConnectionCount</code> </b> — The number of connections
+  /// <b> <code>RejectedConnectionCount</code> </b> - The number of connections
   /// that were rejected because the load balancer had reached its maximum
   /// number of connections.
   ///
@@ -4773,7 +4773,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>RequestCount</code> </b> — The number of requests processed over
+  /// <b> <code>RequestCount</code> </b> - The number of requests processed over
   /// IPv4. This count includes only the requests with a response generated by a
   /// target instance of the load balancer.
   ///
@@ -4784,7 +4784,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>UnhealthyHostCount</code> </b> — The number of target instances
+  /// <b> <code>UnhealthyHostCount</code> </b> - The number of target instances
   /// that are considered unhealthy.
   ///
   /// <code>Statistics</code>: The most useful statistic are
@@ -4807,29 +4807,29 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
@@ -5598,7 +5598,7 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>CPUUtilization</code> </b> — The percentage of CPU utilization
+  /// <b> <code>CPUUtilization</code> </b> - The percentage of CPU utilization
   /// currently in use on the database.
   ///
   /// <code>Statistics</code>: The most useful statistics are
@@ -5607,7 +5607,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Percent</code>.
   /// </li>
   /// <li>
-  /// <b> <code>DatabaseConnections</code> </b> — The number of database
+  /// <b> <code>DatabaseConnections</code> </b> - The number of database
   /// connections in use.
   ///
   /// <code>Statistics</code>: The most useful statistics are
@@ -5616,7 +5616,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>DiskQueueDepth</code> </b> — The number of outstanding IOs
+  /// <b> <code>DiskQueueDepth</code> </b> - The number of outstanding IOs
   /// (read/write requests) that are waiting to access the disk.
   ///
   /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
@@ -5624,7 +5624,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>FreeStorageSpace</code> </b> — The amount of available storage
+  /// <b> <code>FreeStorageSpace</code> </b> - The amount of available storage
   /// space.
   ///
   /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
@@ -5632,7 +5632,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkReceiveThroughput</code> </b> — The incoming (Receive)
+  /// <b> <code>NetworkReceiveThroughput</code> </b> - The incoming (Receive)
   /// network traffic on the database, including both customer database traffic
   /// and AWS traffic used for monitoring and replication.
   ///
@@ -5642,7 +5642,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes/Second</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkTransmitThroughput</code> </b> — The outgoing (Transmit)
+  /// <b> <code>NetworkTransmitThroughput</code> </b> - The outgoing (Transmit)
   /// network traffic on the database, including both customer database traffic
   /// and AWS traffic used for monitoring and replication.
   ///
@@ -5686,29 +5686,29 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
@@ -6097,11 +6097,13 @@ class Lightsail {
     return IsVpcPeeredResult.fromJson(jsonResponse.body);
   }
 
-  /// Adds public ports to an Amazon Lightsail instance.
+  /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP
+  /// addresses allowed to connect to the instance through the ports, and the
+  /// protocol.
   ///
-  /// The <code>open instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>OpenInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -6114,11 +6116,10 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance for which you want to open the public ports.
+  /// The name of the instance for which to open ports.
   ///
   /// Parameter [portInfo] :
-  /// An array of key-value pairs containing information about the port
-  /// mappings.
+  /// An object to describe the ports to open for the specified instance.
   Future<OpenInstancePublicPortsResult> openInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required PortInfo portInfo,
@@ -6298,15 +6299,15 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   /// When you specify a notification trigger, the <code>ALARM</code> state must
@@ -6336,21 +6337,21 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>breaching</code> — Assume the missing data is not within the
+  /// <code>breaching</code> - Assume the missing data is not within the
   /// threshold. Missing data counts towards the number of times the metric is
   /// not within the threshold.
   /// </li>
   /// <li>
-  /// <code>notBreaching</code> — Assume the missing data is within the
+  /// <code>notBreaching</code> - Assume the missing data is within the
   /// threshold. Missing data does not count towards the number of times the
   /// metric is not within the threshold.
   /// </li>
   /// <li>
-  /// <code>ignore</code> — Ignore the missing data. Maintains the current alarm
+  /// <code>ignore</code> - Ignore the missing data. Maintains the current alarm
   /// state.
   /// </li>
   /// <li>
-  /// <code>missing</code> — Missing data is treated as missing.
+  /// <code>missing</code> - Missing data is treated as missing.
   /// </li>
   /// </ul>
   /// If <code>treatMissingData</code> is not specified, the default behavior of
@@ -6414,12 +6415,17 @@ class Lightsail {
     return PutAlarmResult.fromJson(jsonResponse.body);
   }
 
-  /// Sets the specified open ports for an Amazon Lightsail instance, and closes
-  /// all ports for every protocol not included in the current request.
+  /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP
+  /// addresses allowed to connect to the instance through the ports, and the
+  /// protocol. This action also closes all currently open ports that are not
+  /// included in the request. Include all of the ports and the protocols you
+  /// want to open in your <code>PutInstancePublicPorts</code>request. Or use
+  /// the <code>OpenInstancePublicPorts</code> action to open ports without
+  /// closing currently open ports.
   ///
-  /// The <code>put instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>PutInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -6432,10 +6438,11 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The Lightsail instance name of the public port(s) you are setting.
+  /// The name of the instance for which to open ports.
   ///
   /// Parameter [portInfos] :
-  /// Specifies information about the public port(s).
+  /// An array of objects to describe the ports to open for the specified
+  /// instance.
   Future<PutInstancePublicPortsResult> putInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required List<PortInfo> portInfos,
@@ -6600,8 +6607,8 @@ class Lightsail {
     return ReleaseStaticIpResult.fromJson(jsonResponse.body);
   }
 
-  /// Sends a verification request to an email contact method to ensure it’s
-  /// owned by the requester. SMS contact methods don’t need to be verified.
+  /// Sends a verification request to an email contact method to ensure it's
+  /// owned by the requester. SMS contact methods don't need to be verified.
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
@@ -6973,15 +6980,15 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   Future<TestAlarmResult> testAlarm({
@@ -7623,15 +7630,15 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'state')
@@ -7643,29 +7650,29 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values, you
   /// can determine the full scope of a metric and how close the average use is to
   /// the Minimum and Maximum values. This comparison helps you to know when to
   /// increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for the
+  /// <code>SampleCount</code> - The count, or number, of data points used for the
   /// statistical calculation.
   /// </li>
   /// </ul>
@@ -7688,21 +7695,21 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>breaching</code> — Assume the missing data is not within the
+  /// <code>breaching</code> - Assume the missing data is not within the
   /// threshold. Missing data counts towards the number of times the metric is not
   /// within the threshold.
   /// </li>
   /// <li>
-  /// <code>notBreaching</code> — Assume the missing data is within the threshold.
+  /// <code>notBreaching</code> - Assume the missing data is within the threshold.
   /// Missing data does not count towards the number of times the metric is not
   /// within the threshold.
   /// </li>
   /// <li>
-  /// <code>ignore</code> — Ignore the missing data. Maintains the current alarm
+  /// <code>ignore</code> - Ignore the missing data. Maintains the current alarm
   /// state.
   /// </li>
   /// <li>
-  /// <code>missing</code> — Missing data is treated as missing.
+  /// <code>missing</code> - Missing data is treated as missing.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'treatMissingData')
@@ -7767,7 +7774,7 @@ extension on AlarmState {
     createToJson: false)
 class AllocateStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7786,7 +7793,7 @@ class AllocateStaticIpResult {
     createToJson: false)
 class AttachDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7805,7 +7812,7 @@ class AttachDiskResult {
     createToJson: false)
 class AttachInstancesToLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7825,7 +7832,7 @@ class AttachInstancesToLoadBalancerResult {
     createToJson: false)
 class AttachLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   ///
   /// These SSL/TLS certificates are only usable by Lightsail load balancers. You
@@ -7848,7 +7855,7 @@ class AttachLoadBalancerTlsCertificateResult {
     createToJson: false)
 class AttachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8194,9 +8201,9 @@ class Bundle {
     createFactory: true,
     createToJson: false)
 class CloseInstancePublicPortsResult {
-  /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
-  /// affected by the request.
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
 
@@ -8376,14 +8383,14 @@ class ContactMethod {
   ///
   /// <ul>
   /// <li>
-  /// <code>PendingVerification</code> — The contact method has not yet been
+  /// <code>PendingVerification</code> - The contact method has not yet been
   /// verified, and the verification has not yet expired.
   /// </li>
   /// <li>
-  /// <code>Valid</code> — The contact method has been verified.
+  /// <code>Valid</code> - The contact method has been verified.
   /// </li>
   /// <li>
-  /// <code>InValid</code> — An attempt was made to verify the contact method, but
+  /// <code>InValid</code> - An attempt was made to verify the contact method, but
   /// the verification has expired.
   /// </li>
   /// </ul>
@@ -8461,7 +8468,7 @@ extension on ContactProtocol {
     createToJson: false)
 class CopySnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8480,7 +8487,7 @@ class CopySnapshotResult {
     createToJson: false)
 class CreateCloudFormationStackResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8499,7 +8506,7 @@ class CreateCloudFormationStackResult {
     createToJson: false)
 class CreateContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8518,7 +8525,7 @@ class CreateContactMethodResult {
     createToJson: false)
 class CreateDiskFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8537,7 +8544,7 @@ class CreateDiskFromSnapshotResult {
     createToJson: false)
 class CreateDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8556,7 +8563,7 @@ class CreateDiskResult {
     createToJson: false)
 class CreateDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8575,7 +8582,7 @@ class CreateDiskSnapshotResult {
     createToJson: false)
 class CreateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8594,7 +8601,7 @@ class CreateDomainEntryResult {
     createToJson: false)
 class CreateDomainResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8613,7 +8620,7 @@ class CreateDomainResult {
     createToJson: false)
 class CreateInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8632,7 +8639,7 @@ class CreateInstanceSnapshotResult {
     createToJson: false)
 class CreateInstancesFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8652,7 +8659,7 @@ class CreateInstancesFromSnapshotResult {
     createToJson: false)
 class CreateInstancesResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8676,7 +8683,7 @@ class CreateKeyPairResult {
   final KeyPair keyPair;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8706,7 +8713,7 @@ class CreateKeyPairResult {
     createToJson: false)
 class CreateLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8725,7 +8732,7 @@ class CreateLoadBalancerResult {
     createToJson: false)
 class CreateLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8745,7 +8752,7 @@ class CreateLoadBalancerTlsCertificateResult {
     createToJson: false)
 class CreateRelationalDatabaseFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8765,7 +8772,7 @@ class CreateRelationalDatabaseFromSnapshotResult {
     createToJson: false)
 class CreateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8784,7 +8791,7 @@ class CreateRelationalDatabaseResult {
     createToJson: false)
 class CreateRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8804,7 +8811,7 @@ class CreateRelationalDatabaseSnapshotResult {
     createToJson: false)
 class DeleteAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8823,7 +8830,7 @@ class DeleteAlarmResult {
     createToJson: false)
 class DeleteAutoSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8842,7 +8849,7 @@ class DeleteAutoSnapshotResult {
     createToJson: false)
 class DeleteContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8861,7 +8868,7 @@ class DeleteContactMethodResult {
     createToJson: false)
 class DeleteDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8880,7 +8887,7 @@ class DeleteDiskResult {
     createToJson: false)
 class DeleteDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8899,7 +8906,7 @@ class DeleteDiskSnapshotResult {
     createToJson: false)
 class DeleteDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8918,7 +8925,7 @@ class DeleteDomainEntryResult {
     createToJson: false)
 class DeleteDomainResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8937,7 +8944,7 @@ class DeleteDomainResult {
     createToJson: false)
 class DeleteInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8956,7 +8963,7 @@ class DeleteInstanceResult {
     createToJson: false)
 class DeleteInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8975,7 +8982,7 @@ class DeleteInstanceSnapshotResult {
     createToJson: false)
 class DeleteKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8994,7 +9001,7 @@ class DeleteKeyPairResult {
     createToJson: false)
 class DeleteKnownHostKeysResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9013,7 +9020,7 @@ class DeleteKnownHostKeysResult {
     createToJson: false)
 class DeleteLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9032,7 +9039,7 @@ class DeleteLoadBalancerResult {
     createToJson: false)
 class DeleteLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9052,7 +9059,7 @@ class DeleteLoadBalancerTlsCertificateResult {
     createToJson: false)
 class DeleteRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9071,7 +9078,7 @@ class DeleteRelationalDatabaseResult {
     createToJson: false)
 class DeleteRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9114,7 +9121,7 @@ class DestinationInfo {
     createToJson: false)
 class DetachDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9133,7 +9140,7 @@ class DetachDiskResult {
     createToJson: false)
 class DetachInstancesFromLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9153,7 +9160,7 @@ class DetachInstancesFromLoadBalancerResult {
     createToJson: false)
 class DetachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9172,7 +9179,7 @@ class DetachStaticIpResult {
     createToJson: false)
 class DisableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9666,7 +9673,7 @@ class DownloadDefaultKeyPairResult {
     createToJson: false)
 class EnableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9800,7 +9807,7 @@ enum ExportSnapshotRecordSourceType {
     createToJson: false)
 class ExportSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -10213,7 +10220,8 @@ class GetInstanceMetricDataResult {
     createFactory: true,
     createToJson: false)
 class GetInstancePortStatesResult {
-  /// Information about the port states resulting from your request.
+  /// An array of objects that describe the firewall port states for the specified
+  /// instance.
   @_s.JsonKey(name: 'portStates')
   final List<InstancePortState> portStates;
 
@@ -10579,7 +10587,7 @@ class GetLoadBalancersResult {
     createToJson: false)
 class GetOperationResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -10617,7 +10625,7 @@ class GetOperationsForResourceResult {
   final String nextPageToken;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -10648,7 +10656,7 @@ class GetOperationsResult {
   final String nextPageToken;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -11127,7 +11135,7 @@ class HostKeyAttributes {
     createToJson: false)
 class ImportKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -11389,18 +11397,25 @@ class InstanceEntry {
   ///
   /// <ul>
   /// <li>
-  /// DEFAULT — Use the default firewall settings from the image.
+  /// <code>DEFAULT</code> - Use the default firewall settings from the Lightsail
+  /// instance blueprint.
   /// </li>
   /// <li>
-  /// INSTANCE — Use the firewall settings from the source Lightsail instance.
+  /// <code>INSTANCE</code> - Use the configured firewall settings from the source
+  /// Lightsail instance.
   /// </li>
   /// <li>
-  /// NONE — Default to Amazon EC2.
+  /// <code>NONE</code> - Use the default Amazon EC2 security group.
   /// </li>
   /// <li>
-  /// CLOSED — All ports closed.
+  /// <code>CLOSED</code> - All ports closed.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// If you configured <code>lightsail-connect</code> as a
+  /// <code>cidrListAliases</code> on your instance, or if you chose to allow the
+  /// Lightsail browser-based SSH or RDP clients to connect to your instance, that
+  /// configuration is not carried over to your new Amazon EC2 instance.
+  /// </note>
   @_s.JsonKey(name: 'portInfoSource')
   final PortInfoSourceType portInfoSource;
 
@@ -11668,7 +11683,7 @@ enum InstancePlatform {
   windows,
 }
 
-/// Describes information about the instance ports.
+/// Describes information about ports for an Amazon Lightsail instance.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11676,11 +11691,15 @@ enum InstancePlatform {
     createToJson: false)
 class InstancePortInfo {
   /// The access direction (<code>inbound</code> or <code>outbound</code>).
+  /// <note>
+  /// Lightsail currently supports only <code>inbound</code> access direction.
+  /// </note>
   @_s.JsonKey(name: 'accessDirection')
   final AccessDirection accessDirection;
 
-  /// The location from which access is allowed (e.g., <code>Anywhere
-  /// (0.0.0.0/0)</code>).
+  /// The location from which access is allowed. For example, <code>Anywhere
+  /// (0.0.0.0/0)</code>, or <code>Custom</code> if a specific IP address or range
+  /// of IP addresses is allowed.
   @_s.JsonKey(name: 'accessFrom')
   final String accessFrom;
 
@@ -11688,15 +11707,50 @@ class InstancePortInfo {
   @_s.JsonKey(name: 'accessType')
   final PortAccessType accessType;
 
-  /// The common name.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The common name of the port information.
   @_s.JsonKey(name: 'commonName')
   final String commonName;
 
-  /// The first port in the range.
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>8</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol being used. Can be one of the following.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -11709,7 +11763,7 @@ class InstancePortInfo {
   /// <code>all</code> - All transport layer protocol types. For more general
   /// information, see <a
   /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
-  /// Wikipedia.
+  /// <i>Wikipedia</i>.
   /// </li>
   /// <li>
   /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
@@ -11720,11 +11774,36 @@ class InstancePortInfo {
   /// emphasizes reduced latency over reliability. If you do require reliable data
   /// stream service, use TCP instead.
   /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached.
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
   /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>-1</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
@@ -11732,6 +11811,8 @@ class InstancePortInfo {
     this.accessDirection,
     this.accessFrom,
     this.accessType,
+    this.cidrListAliases,
+    this.cidrs,
     this.commonName,
     this.fromPort,
     this.protocol,
@@ -11741,18 +11822,54 @@ class InstancePortInfo {
       _$InstancePortInfoFromJson(json);
 }
 
-/// Describes the port state.
+/// Describes open ports on an instance, the IP addresses allowed to connect to
+/// the instance through the ports, and the protocol.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InstancePortState {
-  /// The first port in the range.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>8</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol being used. Can be one of the following.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -11765,7 +11882,7 @@ class InstancePortState {
   /// <code>all</code> - All transport layer protocol types. For more general
   /// information, see <a
   /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
-  /// Wikipedia.
+  /// <i>Wikipedia</i>.
   /// </li>
   /// <li>
   /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
@@ -11776,20 +11893,50 @@ class InstancePortState {
   /// emphasizes reduced latency over reliability. If you do require reliable data
   /// stream service, use TCP instead.
   /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached.
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
   /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
   /// Specifies whether the instance port is <code>open</code> or
   /// <code>closed</code>.
+  /// <note>
+  /// The port state for Lightsail instances is always <code>open</code>.
+  /// </note>
   @_s.JsonKey(name: 'state')
   final PortState state;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>-1</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
   InstancePortState({
+    this.cidrListAliases,
+    this.cidrs,
     this.fromPort,
     this.protocol,
     this.state,
@@ -13020,6 +13167,8 @@ enum NetworkProtocol {
   all,
   @_s.JsonValue('udp')
   udp,
+  @_s.JsonValue('icmp')
+  icmp,
 }
 
 @_s.JsonSerializable(
@@ -13029,7 +13178,7 @@ enum NetworkProtocol {
     createToJson: false)
 class OpenInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13295,7 +13444,7 @@ class PasswordData {
     createToJson: false)
 class PeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13372,27 +13521,125 @@ enum PortAccessType {
   private,
 }
 
-/// Describes information about the ports on your virtual private server (or
-/// <i>instance</i>).
+/// Describes ports to open on an instance, the IP addresses allowed to connect
+/// to the instance through the ports, and the protocol.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class PortInfo {
-  /// The first port in the range.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// To allow the IP address <code>192.0.2.44</code>, specify
+  /// <code>192.0.2.44</code> or <code>192.0.2.44/32</code>.
+  /// </li>
+  /// <li>
+  /// To allow the IP addresses <code>192.0.2.0</code> to
+  /// <code>192.0.2.255</code>, specify <code>192.0.2.0/24</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>8</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tcp</code> - Transmission Control Protocol (TCP) provides reliable,
+  /// ordered, and error-checked delivery of streamed data between applications
+  /// running on hosts communicating by an IP network. If you have an application
+  /// that doesn't require reliable data stream service, use UDP instead.
+  /// </li>
+  /// <li>
+  /// <code>all</code> - All transport layer protocol types. For more general
+  /// information, see <a
+  /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
+  /// <i>Wikipedia</i>.
+  /// </li>
+  /// <li>
+  /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
+  /// can send messages (or datagrams) to other hosts on an Internet Protocol (IP)
+  /// network. Prior communications are not required to set up transmission
+  /// channels or data paths. Applications that don't require reliable data stream
+  /// service can use UDP, which provides a connectionless datagram service that
+  /// emphasizes reduced latency over reliability. If you do require reliable data
+  /// stream service, use TCP instead.
+  /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached.
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - <code>-1</code> (to configure Ping)
+  /// <note>
+  /// Ping is the only communication supported through the ICMP protocol in
+  /// Lightsail. To configure ping, specify the <code>fromPort</code> parameter as
+  /// <code>8</code>, and the <code>toPort</code> parameter as <code>-1</code>.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
   PortInfo({
+    this.cidrListAliases,
+    this.cidrs,
     this.fromPort,
     this.protocol,
     this.toPort,
@@ -13425,7 +13672,7 @@ enum PortState {
     createToJson: false)
 class PutAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -13444,7 +13691,7 @@ class PutAlarmResult {
     createToJson: false)
 class PutInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13463,7 +13710,7 @@ class PutInstancePublicPortsResult {
     createToJson: false)
 class RebootInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -13482,7 +13729,7 @@ class RebootInstanceResult {
     createToJson: false)
 class RebootRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14196,7 +14443,7 @@ class RelationalDatabaseSnapshot {
     createToJson: false)
 class ReleaseStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14274,7 +14521,7 @@ enum ResourceType {
     createToJson: false)
 class SendContactMethodVerificationResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14294,7 +14541,7 @@ class SendContactMethodVerificationResult {
     createToJson: false)
 class StartInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14313,7 +14560,7 @@ class StartInstanceResult {
     createToJson: false)
 class StartRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14395,7 +14642,7 @@ class StaticIp {
     createToJson: false)
 class StopInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14414,7 +14661,7 @@ class StopInstanceResult {
     createToJson: false)
 class StopRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14468,7 +14715,7 @@ class Tag {
     createToJson: false)
 class TagResourceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14487,7 +14734,7 @@ class TagResourceResult {
     createToJson: false)
 class TestAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14533,7 +14780,7 @@ extension on TreatMissingData {
     createToJson: false)
 class UnpeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -14552,7 +14799,7 @@ class UnpeerVpcResult {
     createToJson: false)
 class UntagResourceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14571,7 +14818,7 @@ class UntagResourceResult {
     createToJson: false)
 class UpdateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14590,7 +14837,7 @@ class UpdateDomainEntryResult {
     createToJson: false)
 class UpdateLoadBalancerAttributeResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14610,7 +14857,7 @@ class UpdateLoadBalancerAttributeResult {
     createToJson: false)
 class UpdateRelationalDatabaseParametersResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14630,7 +14877,7 @@ class UpdateRelationalDatabaseParametersResult {
     createToJson: false)
 class UpdateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;

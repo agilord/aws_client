@@ -310,13 +310,14 @@ class SageMaker {
   }
 
   /// Creates a running App for the specified UserProfile. Supported Apps are
-  /// JupyterServer and KernelGateway. This operation is automatically invoked
-  /// by Amazon SageMaker Amazon SageMaker Studio (Studio) upon access to the
-  /// associated Studio Domain, and when new kernel configurations are selected
-  /// by the user. A user may have multiple Apps active simultaneously. Apps
-  /// will automatically terminate and be deleted when stopped from within
-  /// Studio, or when the DeleteApp API is manually called. UserProfiles are
-  /// limited to 5 concurrently running Apps at a time.
+  /// <code>JupyterServer</code>, <code>KernelGateway</code>, and
+  /// <code>TensorBoard</code>. This operation is automatically invoked by
+  /// Amazon SageMaker Studio upon access to the associated Studio Domain, and
+  /// when new kernel configurations are selected by the user. A user may have
+  /// multiple Apps active simultaneously. Apps will automatically terminate and
+  /// be deleted when stopped from within Studio, or when the DeleteApp API is
+  /// manually called. UserProfiles are limited to 5 concurrently running Apps
+  /// at a time.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -334,7 +335,8 @@ class SageMaker {
   /// The user profile name.
   ///
   /// Parameter [resourceSpec] :
-  /// The instance type and quantity.
+  /// The instance type and the Amazon Resource Name (ARN) of the SageMaker
+  /// image created on the instance.
   ///
   /// Parameter [tags] :
   /// Each tag consists of a key and an optional value. Tag keys must be unique
@@ -723,16 +725,15 @@ class SageMaker {
     return CreateCompilationJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a Domain for Amazon SageMaker Amazon SageMaker Studio (Studio),
-  /// which can be accessed by end-users in a web browser. A Domain has an
-  /// associated directory, list of authorized users, and a variety of security,
-  /// application, policies, and Amazon Virtual Private Cloud configurations. An
-  /// AWS account is limited to one Domain, per region. Users within a domain
-  /// can share notebook files and other artifacts with each other. When a
-  /// Domain is created, an Amazon Elastic File System (EFS) is also created for
-  /// use by all of the users within the Domain. Each user receives a private
-  /// home directory within the EFS for notebooks, Git repositories, and data
-  /// files.
+  /// Creates a Domain for Amazon SageMaker Studio, which can be accessed by
+  /// end-users in a web browser. A Domain has an associated directory, list of
+  /// authorized users, and a variety of security, application, policies, and
+  /// Amazon Virtual Private Cloud configurations. An AWS account is limited to
+  /// one Domain, per region. Users within a domain can share notebook files and
+  /// other artifacts with each other. When a Domain is created, an Amazon
+  /// Elastic File System (EFS) is also created for use by all of the users
+  /// within the Domain. Each user receives a private home directory within the
+  /// EFS for notebooks, Git repositories, and data files.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -754,7 +755,8 @@ class SageMaker {
   /// Private Cloud.
   ///
   /// Parameter [homeEfsFileSystemKmsKeyId] :
-  /// The AWS Key Management Service encryption key ID.
+  /// The AWS Key Management Service (KMS) encryption key ID. Encryption with a
+  /// customer master key (CMK) is not supported.
   ///
   /// Parameter [tags] :
   /// Each tag consists of a key and an optional value. Tag keys must be unique
@@ -2336,9 +2338,9 @@ class SageMaker {
 
   /// Creates a URL for a specified UserProfile in a Domain. When accessed in a
   /// web browser, the user will be automatically signed in to Amazon SageMaker
-  /// Amazon SageMaker Studio (Studio), and granted access to all of the Apps
-  /// and files associated with that Amazon Elastic File System (EFS). This
-  /// operation can only be called when AuthMode equals IAM.
+  /// Studio, and granted access to all of the Apps and files associated with
+  /// that Amazon Elastic File System (EFS). This operation can only be called
+  /// when AuthMode equals IAM.
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -3321,14 +3323,16 @@ class SageMaker {
     return CreateTrialComponentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new user profile. A user profile represents a single user within
-  /// a Domain, and is the main way to reference a "person" for the purposes of
+  /// Creates a user profile. A user profile represents a single user within a
+  /// Domain, and is the main way to reference a "person" for the purposes of
   /// sharing, reporting and other user-oriented features. This entity is
-  /// created during on-boarding. If an administrator invites a person by email
-  /// or imports them from SSO, a new UserProfile is automatically created. This
-  /// entity is the primary holder of settings for an individual user and has a
-  /// reference to the user's private Amazon Elastic File System (EFS) home
-  /// directory.
+  /// created during on-boarding to Amazon SageMaker Studio. If an administrator
+  /// invites a person by email or imports them from SSO, a UserProfile is
+  /// automatically created.
+  ///
+  /// This entity is the primary holder of settings for an individual user and,
+  /// through the domain, has a reference to the user's private Amazon Elastic
+  /// File System (EFS) home directory.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -3670,10 +3674,10 @@ class SageMaker {
     );
   }
 
-  /// Used to delete a domain. If you on-boarded with IAM mode, you will need to
-  /// delete your domain to on-board again using SSO. Use with caution. All of
-  /// the members of the domain will lose access to their EFS volume, including
-  /// data, notebooks, and other artifacts.
+  /// Used to delete a domain. Use with caution. If <code>RetentionPolicy</code>
+  /// is set to <code>Delete</code>, all of the members of the domain will lose
+  /// access to their EFS volume, including data, notebooks, and other
+  /// artifacts.
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceNotFound].
@@ -3682,9 +3686,9 @@ class SageMaker {
   /// The domain ID.
   ///
   /// Parameter [retentionPolicy] :
-  /// The retention policy for this domain, which specifies which resources will
-  /// be retained after the Domain is deleted. By default, all resources are
-  /// retained (not automatically deleted).
+  /// The retention policy for this domain, which specifies whether resources
+  /// will be retained after the Domain is deleted. By default, all resources
+  /// are retained (not automatically deleted).
   Future<void> deleteDomain({
     @_s.required String domainId,
     RetentionPolicy retentionPolicy,
@@ -8602,7 +8606,7 @@ class SageMaker {
   Future<RenderUiTemplateResponse> renderUiTemplate({
     @_s.required String roleArn,
     @_s.required RenderableTask task,
-    @_s.required UiTemplate uiTemplate,
+    UiTemplate uiTemplate,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -8619,7 +8623,6 @@ class SageMaker {
       isRequired: true,
     );
     ArgumentError.checkNotNull(task, 'task');
-    ArgumentError.checkNotNull(uiTemplate, 'uiTemplate');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.RenderUiTemplate'
@@ -13475,7 +13478,8 @@ class DescribeAppResponse {
       toJson: unixToJson)
   final DateTime lastUserActivityTimestamp;
 
-  /// The instance type and quantity.
+  /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image
+  /// created on the instance.
   @_s.JsonKey(name: 'ResourceSpec')
   final ResourceSpec resourceSpec;
 
@@ -15548,7 +15552,7 @@ class DescribeUserProfileResponse {
   @_s.JsonKey(name: 'FailureReason')
   final String failureReason;
 
-  /// The homa Amazon Elastic File System (EFS) Uid.
+  /// The home Amazon Elastic File System (EFS) Uid.
   @_s.JsonKey(name: 'HomeEfsFileSystemUid')
   final String homeEfsFileSystemUid;
 
@@ -18458,7 +18462,8 @@ enum JoinSource {
     createFactory: true,
     createToJson: true)
 class JupyterServerAppSettings {
-  /// The instance type and quantity.
+  /// The default instance type and the Amazon Resource Name (ARN) of the
+  /// SageMaker image created on the instance.
   @_s.JsonKey(name: 'DefaultResourceSpec')
   final ResourceSpec defaultResourceSpec;
 
@@ -18478,7 +18483,8 @@ class JupyterServerAppSettings {
     createFactory: true,
     createToJson: true)
 class KernelGatewayAppSettings {
-  /// The instance type and quantity.
+  /// The default instance type and the Amazon Resource Name (ARN) of the
+  /// SageMaker image created on the instance.
   @_s.JsonKey(name: 'DefaultResourceSpec')
   final ResourceSpec defaultResourceSpec;
 
@@ -20780,6 +20786,13 @@ class NestedFilters {
     createFactory: true,
     createToJson: true)
 class NetworkConfig {
+  /// Whether to encrypt all communications between distributed processing jobs.
+  /// Choose <code>True</code> to encrypt communications. Encryption provides
+  /// greater security for distributed processing jobs, but the processing might
+  /// take longer.
+  @_s.JsonKey(name: 'EnableInterContainerTrafficEncryption')
+  final bool enableInterContainerTrafficEncryption;
+
   /// Whether to allow inbound and outbound network calls to and from the
   /// containers used for the processing job.
   @_s.JsonKey(name: 'EnableNetworkIsolation')
@@ -20788,6 +20801,7 @@ class NetworkConfig {
   final VpcConfig vpcConfig;
 
   NetworkConfig({
+    this.enableInterContainerTrafficEncryption,
     this.enableNetworkIsolation,
     this.vpcConfig,
   });
@@ -22895,24 +22909,27 @@ class ResourceLimits {
   Map<String, dynamic> toJson() => _$ResourceLimitsToJson(this);
 }
 
-/// The instance type and quantity.
+/// The instance type and the Amazon Resource Name (ARN) of the SageMaker image
+/// created on the instance. The ARN is stored as metadata in Amazon SageMaker
+/// Studio notebooks.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ResourceSpec {
-  /// The Amazon Resource Name (ARN) of the environment.
-  @_s.JsonKey(name: 'EnvironmentArn')
-  final String environmentArn;
-
   /// The instance type.
   @_s.JsonKey(name: 'InstanceType')
   final AppInstanceType instanceType;
 
+  /// The Amazon Resource Name (ARN) of the SageMaker image created on the
+  /// instance.
+  @_s.JsonKey(name: 'SageMakerImageArn')
+  final String sageMakerImageArn;
+
   ResourceSpec({
-    this.environmentArn,
     this.instanceType,
+    this.sageMakerImageArn,
   });
   factory ResourceSpec.fromJson(Map<String, dynamic> json) =>
       _$ResourceSpecFromJson(json);
@@ -22947,14 +22964,18 @@ extension on ResourceType {
   }
 }
 
-/// The retention policy.
+/// The retention policy for data stored on an Amazon Elastic File System (EFS)
+/// volume.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class RetentionPolicy {
-  /// The home Amazon Elastic File System (EFS).
+  /// The default is <code>Retain</code>, which specifies to keep the data stored
+  /// on the EFS volume.
+  ///
+  /// Specify <code>Delete</code> to delete the data stored on the EFS volume.
   @_s.JsonKey(name: 'HomeEfsFileSystem')
   final RetentionType homeEfsFileSystem;
 
@@ -24000,7 +24021,8 @@ enum TargetDevice {
     createFactory: true,
     createToJson: true)
 class TensorBoardAppSettings {
-  /// The instance type and quantity.
+  /// The default instance type and the Amazon Resource Name (ARN) of the
+  /// SageMaker image created on the instance.
   @_s.JsonKey(name: 'DefaultResourceSpec')
   final ResourceSpec defaultResourceSpec;
 
@@ -25862,7 +25884,7 @@ class UiConfig {
   final String uiTemplateS3Uri;
 
   UiConfig({
-    @_s.required this.uiTemplateS3Uri,
+    this.uiTemplateS3Uri,
   });
   factory UiConfig.fromJson(Map<String, dynamic> json) =>
       _$UiConfigFromJson(json);

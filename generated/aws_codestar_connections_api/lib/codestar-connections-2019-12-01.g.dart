@@ -64,6 +64,9 @@ CreateConnectionOutput _$CreateConnectionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateConnectionOutput(
     connectionArn: json['ConnectionArn'] as String,
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -89,4 +92,42 @@ ListConnectionsOutput _$ListConnectionsOutputFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceOutput(
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
+  return TagResourceOutput();
+}
+
+UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
+  return UntagResourceOutput();
 }

@@ -57,6 +57,9 @@ part 'application-autoscaling-2016-02-06.g.dart';
 /// <li>
 /// AWS Lambda function provisioned concurrency
 /// </li>
+/// <li>
+/// Amazon Keyspaces for Apache Cassandra tables
+/// </li>
 /// </ul>
 /// <b>API Summary</b>
 ///
@@ -77,11 +80,12 @@ part 'application-autoscaling-2016-02-06.g.dart';
 /// </li>
 /// <li>
 /// Suspend and resume scaling - Temporarily suspend and later resume automatic
-/// scaling by calling the <a>RegisterScalableTarget</a> action for any
-/// Application Auto Scaling scalable target. You can suspend and resume,
-/// individually or in combination, scale-out activities triggered by a scaling
-/// policy, scale-in activities triggered by a scaling policy, and scheduled
-/// scaling.
+/// scaling by calling the <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_RegisterScalableTarget.html">RegisterScalableTarget</a>
+/// API action for any Application Auto Scaling scalable target. You can suspend
+/// and resume (individually or in combination) scale-out activities that are
+/// triggered by a scaling policy, scale-in activities that are triggered by a
+/// scaling policy, and scheduled scaling.
 /// </li>
 /// </ul>
 /// To learn more about Application Auto Scaling, including information about
@@ -117,9 +121,6 @@ class ApplicationAutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy">Delete
   /// a Target Tracking Scaling Policy</a> in the <i>Application Auto Scaling
   /// User Guide</i>.
-  ///
-  /// To create a scaling policy or update an existing one, see
-  /// <a>PutScalingPolicy</a>.
   ///
   /// May throw [ValidationException].
   /// May throw [ObjectNotFoundException].
@@ -193,6 +194,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -255,15 +261,20 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   Future<void> deleteScalingPolicy({
     @_s.required String policyName,
     @_s.required String resourceId,
@@ -397,6 +408,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -459,18 +475,23 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scheduledActionName] :
   /// The name of the scheduled action.
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   Future<void> deleteScheduledAction({
     @_s.required String resourceId,
     @_s.required ScalableDimension scalableDimension,
@@ -528,13 +549,13 @@ class ApplicationAutoScaling {
     return DeleteScheduledActionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deregisters an Application Auto Scaling scalable target.
-  ///
-  /// Deregistering a scalable target deletes the scaling policies that are
-  /// associated with it.
-  ///
-  /// To create a scalable target or update an existing one, see
-  /// <a>RegisterScalableTarget</a>.
+  /// Deregisters an Application Auto Scaling scalable target when you have
+  /// finished using it. To see which resources have been registered, use <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html">DescribeScalableTargets</a>.
+  /// <note>
+  /// Deregistering a scalable target deletes the scaling policies and the
+  /// scheduled actions that are associated with it.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ObjectNotFoundException].
@@ -605,6 +626,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -667,15 +693,20 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   Future<void> deregisterScalableTarget({
     @_s.required String resourceId,
     @_s.required ScalableDimension scalableDimension,
@@ -722,22 +753,15 @@ class ApplicationAutoScaling {
   /// You can filter the results using <code>ResourceIds</code> and
   /// <code>ScalableDimension</code>.
   ///
-  /// To create a scalable target or update an existing one, see
-  /// <a>RegisterScalableTarget</a>. If you are no longer using a scalable
-  /// target, you can deregister it using <a>DeregisterScalableTarget</a>.
-  ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable targets. This value can be between 1 and
@@ -818,6 +842,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -881,6 +910,14 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   Future<DescribeScalableTargetsResponse> describeScalableTargets({
     @_s.required ServiceNamespace serviceNamespace,
@@ -923,23 +960,15 @@ class ApplicationAutoScaling {
   /// You can filter the results using <code>ResourceId</code> and
   /// <code>ScalableDimension</code>.
   ///
-  /// Scaling activities are triggered by CloudWatch alarms that are associated
-  /// with scaling policies. To view the scaling policies for a service
-  /// namespace, see <a>DescribeScalingPolicies</a>. To create a scaling policy
-  /// or update an existing one, see <a>PutScalingPolicy</a>.
-  ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable targets. This value can be between 1 and
@@ -1020,6 +1049,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1083,6 +1117,14 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   Future<DescribeScalingActivitiesResponse> describeScalingActivities({
     @_s.required ServiceNamespace serviceNamespace,
@@ -1136,9 +1178,11 @@ class ApplicationAutoScaling {
   /// You can filter the results using <code>ResourceId</code>,
   /// <code>ScalableDimension</code>, and <code>PolicyNames</code>.
   ///
-  /// To create a scaling policy or update an existing one, see
-  /// <a>PutScalingPolicy</a>. If you are no longer using a scaling policy, you
-  /// can delete it using <a>DeleteScalingPolicy</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
+  /// Tracking Scaling Policies</a> and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
+  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [FailedResourceAccessException].
@@ -1147,12 +1191,9 @@ class ApplicationAutoScaling {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable targets. This value can be between 1 and
@@ -1236,6 +1277,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1299,6 +1345,14 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   Future<DescribeScalingPoliciesResponse> describeScalingPolicies({
     @_s.required ServiceNamespace serviceNamespace,
@@ -1355,9 +1409,9 @@ class ApplicationAutoScaling {
   /// <code>ScalableDimension</code>, and <code>ScheduledActionNames</code>
   /// parameters.
   ///
-  /// To create a scheduled action or update an existing one, see
-  /// <a>PutScheduledAction</a>. If you are no longer using a scheduled action,
-  /// you can delete it using <a>DeleteScheduledAction</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
+  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -1365,12 +1419,9 @@ class ApplicationAutoScaling {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scheduled action results. This value can be between
@@ -1451,6 +1502,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1514,6 +1570,14 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scheduledActionNames] :
@@ -1566,22 +1630,13 @@ class ApplicationAutoScaling {
     return DescribeScheduledActionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates a policy for an Application Auto Scaling scalable
-  /// target.
+  /// Creates or updates a scaling policy for an Application Auto Scaling
+  /// scalable target.
   ///
   /// Each scalable target is identified by a service namespace, resource ID,
   /// and scalable dimension. A scaling policy applies to the scalable target
   /// identified by those three attributes. You cannot create a scaling policy
-  /// until you have registered the resource as a scalable target using
-  /// <a>RegisterScalableTarget</a>.
-  ///
-  /// To update a policy, specify its policy name and the parameters that you
-  /// want to change. Any parameters that you don't specify are not changed by
-  /// this update request.
-  ///
-  /// You can view the scaling policies for a service namespace using
-  /// <a>DescribeScalingPolicies</a>. If you are no longer using a scaling
-  /// policy, you can delete it using <a>DeleteScalingPolicy</a>.
+  /// until you have registered the resource as a scalable target.
   ///
   /// Multiple scaling policies can be in force at the same time for the same
   /// scalable target. You can have one or more target tracking scaling
@@ -1594,9 +1649,16 @@ class ApplicationAutoScaling {
   /// is 10, Application Auto Scaling uses the policy with the highest
   /// calculated capacity (200% of 10 = 20) and scales out to 30.
   ///
-  /// Learn more about how to work with scaling policies in the <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
-  /// Auto Scaling User Guide</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
+  /// Tracking Scaling Policies</a> and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
+  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// <note>
+  /// If a scalable target is deregistered, the scalable target is no longer
+  /// available to execute scaling policies. Any scaling policies that were
+  /// specified for the scalable target are deleted.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -1672,6 +1734,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1734,15 +1801,20 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [policyType] :
   /// The policy type. This parameter is required if you are creating a scaling
@@ -1752,8 +1824,8 @@ class ApplicationAutoScaling {
   ///
   /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR
   ///
-  /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend, or
-  /// AWS Lambda
+  /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend,
+  /// Lambda, or Amazon Keyspaces for Apache Cassandra.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
@@ -1844,21 +1916,24 @@ class ApplicationAutoScaling {
   /// Each scalable target is identified by a service namespace, resource ID,
   /// and scalable dimension. A scheduled action applies to the scalable target
   /// identified by those three attributes. You cannot create a scheduled action
-  /// until you have registered the resource as a scalable target using
-  /// <a>RegisterScalableTarget</a>.
+  /// until you have registered the resource as a scalable target.
   ///
-  /// To update an action, specify its name and the parameters that you want to
+  /// When start and end times are specified with a recurring schedule using a
+  /// cron expression or rates, they form the boundaries of when the recurring
+  /// action starts and stops.
+  ///
+  /// To update a scheduled action, specify the parameters that you want to
   /// change. If you don't specify start and end times, the old values are
-  /// deleted. Any other parameters that you don't specify are not changed by
-  /// this update request.
+  /// deleted.
   ///
-  /// You can view the scheduled actions using <a>DescribeScheduledActions</a>.
-  /// If you are no longer using a scheduled action, you can delete it using
-  /// <a>DeleteScheduledAction</a>.
-  ///
-  /// Learn more about how to work with scheduled actions in the <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
-  /// Auto Scaling User Guide</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
+  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// <note>
+  /// If a scalable target is deregistered, the scalable target is no longer
+  /// available to run scheduled actions. Any scheduled actions that were
+  /// specified for the scalable target are deleted.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -1930,6 +2005,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1992,25 +2072,31 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scheduledActionName] :
-  /// The name of the scheduled action.
+  /// The name of the scheduled action. This name must be unique among all other
+  /// scheduled actions on the specified scalable target.
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [endTime] :
-  /// The date and time for the scheduled action to end.
+  /// The date and time for the recurring schedule to end.
   ///
   /// Parameter [scalableTargetAction] :
   /// The new minimum and maximum capacity. You can set both values or just one.
-  /// During the scheduled time, if the current capacity is below the minimum
+  /// At the scheduled time, if the current capacity is below the minimum
   /// capacity, Application Auto Scaling scales out to the minimum capacity. If
   /// the current capacity is above the maximum capacity, Application Auto
   /// Scaling scales in to the maximum capacity.
@@ -2030,8 +2116,7 @@ class ApplicationAutoScaling {
   /// Cron expressions - "<code>cron(<i>fields</i>)</code>"
   /// </li>
   /// </ul>
-  /// At expressions are useful for one-time schedules. Specify the time, in
-  /// UTC.
+  /// At expressions are useful for one-time schedules. Specify the time in UTC.
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i>
   /// is <code>minute</code> | <code>minutes</code> | <code>hour</code> |
@@ -2041,8 +2126,12 @@ class ApplicationAutoScaling {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
   /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
   ///
+  /// For examples of using these expressions, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
+  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  ///
   /// Parameter [startTime] :
-  /// The date and time for the scheduled action to start.
+  /// The date and time for this scheduled action to start.
   Future<void> putScheduledAction({
     @_s.required String resourceId,
     @_s.required ScalableDimension scalableDimension,
@@ -2119,28 +2208,29 @@ class ApplicationAutoScaling {
     return PutScheduledActionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Registers or updates a scalable target. A scalable target is a resource
-  /// that Application Auto Scaling can scale out and scale in. Scalable targets
-  /// are uniquely identified by the combination of resource ID, scalable
-  /// dimension, and namespace.
+  /// Registers or updates a scalable target.
+  ///
+  /// A scalable target is a resource that Application Auto Scaling can scale
+  /// out and scale in. Scalable targets are uniquely identified by the
+  /// combination of resource ID, scalable dimension, and namespace.
   ///
   /// When you register a new scalable target, you must specify values for
-  /// minimum and maximum capacity. Application Auto Scaling will not scale
-  /// capacity to values that are outside of this range.
-  ///
-  /// To update a scalable target, specify the parameter that you want to change
-  /// as well as the following parameters that identify the scalable target:
-  /// resource ID, scalable dimension, and namespace. Any parameters that you
-  /// don't specify are not changed by this update request.
+  /// minimum and maximum capacity. Application Auto Scaling scaling policies
+  /// will not scale capacity to values that are outside of this range.
   ///
   /// After you register a scalable target, you do not need to register it again
   /// to use other Application Auto Scaling operations. To see which resources
-  /// have been registered, use <a>DescribeScalableTargets</a>. You can also
-  /// view the scaling policies for a service namespace by using
-  /// <a>DescribeScalableTargets</a>.
+  /// have been registered, use <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html">DescribeScalableTargets</a>.
+  /// You can also view the scaling policies for a service namespace by using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html">DescribeScalableTargets</a>.
+  /// If you no longer need a scalable target, you can deregister it by using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DeregisterScalableTarget.html">DeregisterScalableTarget</a>.
   ///
-  /// If you no longer need a scalable target, you can deregister it by using
-  /// <a>DeregisterScalableTarget</a>.
+  /// To update a scalable target, specify the parameters that you want to
+  /// change. Include the parameters that identify the scalable target: resource
+  /// ID, scalable dimension, and namespace. Any parameters that you don't
+  /// specify are not changed by this update request.
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -2211,6 +2301,11 @@ class ApplicationAutoScaling {
   /// Example: <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2273,34 +2368,48 @@ class ApplicationAutoScaling {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own
-  /// application or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// The namespace of the AWS service that provides the resource. For a
+  /// resource provided by your own application or service, use
+  /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxCapacity] :
-  /// The maximum value to scale to in response to a scale-out event.
-  /// <code>MaxCapacity</code> is required to register a scalable target.
+  /// The maximum value that you plan to scale out to. When a scaling policy is
+  /// in effect, Application Auto Scaling can scale out (expand) as needed to
+  /// the maximum capacity limit in response to changing demand.
+  ///
+  /// This parameter is required if you are registering a scalable target.
   ///
   /// Parameter [minCapacity] :
-  /// The minimum value to scale to in response to a scale-in event.
-  /// <code>MinCapacity</code> is required to register a scalable target.
+  /// The minimum value that you plan to scale in to. When a scaling policy is
+  /// in effect, Application Auto Scaling can scale in (contract) as needed to
+  /// the minimum capacity limit in response to changing demand.
+  ///
+  /// This parameter is required if you are registering a scalable target. For
+  /// Lambda provisioned concurrency, the minimum value allowed is 0. For all
+  /// other resources, the minimum value allowed is 1.
   ///
   /// Parameter [roleARN] :
-  /// Application Auto Scaling creates a service-linked role that grants it
-  /// permissions to modify the scalable target on your behalf. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-service-linked-roles.html">Service-Linked
-  /// Roles for Application Auto Scaling</a>.
+  /// This parameter is required for services that do not support service-linked
+  /// roles (such as Amazon EMR), and it must specify the ARN of an IAM role
+  /// that allows Application Auto Scaling to modify the scalable target on your
+  /// behalf.
   ///
-  /// For Amazon EMR, this parameter is required, and it must specify the ARN of
-  /// an IAM role that allows Application Auto Scaling to modify the scalable
-  /// target on your behalf.
+  /// If the service supports service-linked roles, Application Auto Scaling
+  /// uses a service-linked role, which it creates if it does not yet exist. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles">Application
+  /// Auto Scaling IAM Roles</a>.
   ///
   /// Parameter [suspendedState] :
   /// An embedded object that contains attributes and attribute values that are
@@ -2427,6 +2536,11 @@ class Alarm {
 /// Represents a CloudWatch metric of your choosing for a target tracking
 /// scaling policy to use with Application Auto Scaling.
 ///
+/// For information about the available metrics for a service, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">AWS
+/// Services That Publish CloudWatch Metrics</a> in the <i>Amazon CloudWatch
+/// User Guide</i>.
+///
 /// To create your customized metric specification:
 ///
 /// <ul>
@@ -2442,7 +2556,7 @@ class Alarm {
 /// Choose a metric that changes proportionally with capacity. The value of the
 /// metric should increase or decrease in inverse proportion to the number of
 /// capacity units. That is, the value of the metric should decrease when
-/// capacity increases.
+/// capacity increases, and increase when capacity decreases.
 /// </li>
 /// </ul>
 /// For more information about CloudWatch, see <a
@@ -2694,6 +2808,10 @@ enum MetricType {
   comprehendInferenceUtilization,
   @_s.JsonValue('LambdaProvisionedConcurrencyUtilization')
   lambdaProvisionedConcurrencyUtilization,
+  @_s.JsonValue('CassandraReadCapacityUtilization')
+  cassandraReadCapacityUtilization,
+  @_s.JsonValue('CassandraWriteCapacityUtilization')
+  cassandraWriteCapacityUtilization,
 }
 
 enum PolicyType {
@@ -2717,6 +2835,14 @@ extension on PolicyType {
 
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Application Auto Scaling.
+///
+/// Only the AWS services that you're using send metrics to Amazon CloudWatch.
+/// To determine whether a desired metric already exists by looking up its
+/// namespace and dimension using the CloudWatch metrics dashboard in the
+/// console, follow the procedure in <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html">Building
+/// Dashboards with CloudWatch</a> in the <i>Application Auto Scaling User
+/// Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2831,6 +2957,10 @@ enum ScalableDimension {
   comprehendDocumentClassifierEndpointDesiredInferenceUnits,
   @_s.JsonValue('lambda:function:ProvisionedConcurrency')
   lambdaFunctionProvisionedConcurrency,
+  @_s.JsonValue('cassandra:table:ReadCapacityUnits')
+  cassandraTableReadCapacityUnits,
+  @_s.JsonValue('cassandra:table:WriteCapacityUnits')
+  cassandraTableWriteCapacityUnits,
 }
 
 extension on ScalableDimension {
@@ -2863,6 +2993,10 @@ extension on ScalableDimension {
         return 'comprehend:document-classifier-endpoint:DesiredInferenceUnits';
       case ScalableDimension.lambdaFunctionProvisionedConcurrency:
         return 'lambda:function:ProvisionedConcurrency';
+      case ScalableDimension.cassandraTableReadCapacityUnits:
+        return 'cassandra:table:ReadCapacityUnits';
+      case ScalableDimension.cassandraTableWriteCapacityUnits:
+        return 'cassandra:table:WriteCapacityUnits';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2948,6 +3082,11 @@ class ScalableTarget {
   /// <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
@@ -3015,15 +3154,20 @@ class ScalableTarget {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own application
-  /// or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The namespace of the AWS service that provides the resource, or a
+  /// <code>custom-resource</code>.
   @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
   @_s.JsonKey(name: 'SuspendedState')
@@ -3055,6 +3199,9 @@ class ScalableTargetAction {
   final int maxCapacity;
 
   /// The minimum capacity.
+  ///
+  /// For Lambda provisioned concurrency, the minimum value allowed is 0. For all
+  /// other resources, the minimum value allowed is 1.
   @_s.JsonKey(name: 'MinCapacity')
   final int minCapacity;
 
@@ -3149,6 +3296,11 @@ class ScalingActivity {
   /// <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
@@ -3211,15 +3363,20 @@ class ScalingActivity {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own application
-  /// or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The namespace of the AWS service that provides the resource, or a
+  /// <code>custom-resource</code>.
   @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
 
@@ -3359,6 +3516,11 @@ class ScalingPolicy {
   /// <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
@@ -3421,15 +3583,20 @@ class ScalingPolicy {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own application
-  /// or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The namespace of the AWS service that provides the resource, or a
+  /// <code>custom-resource</code>.
   @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
 
@@ -3534,6 +3701,11 @@ class ScheduledAction {
   /// <code>function:my-function:prod</code> or
   /// <code>function:my-function:1</code>.
   /// </li>
+  /// <li>
+  /// Amazon Keyspaces table - The resource type is <code>table</code> and the
+  /// unique identifier is the table name. Example:
+  /// <code>keyspace/mykeyspace/table/mytable</code>.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
@@ -3552,7 +3724,7 @@ class ScheduledAction {
   /// Cron expressions - "<code>cron(<i>fields</i>)</code>"
   /// </li>
   /// </ul>
-  /// At expressions are useful for one-time schedules. Specify the time, in UTC.
+  /// At expressions are useful for one-time schedules. Specify the time in UTC.
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i> is
   /// <code>minute</code> | <code>minutes</code> | <code>hour</code> |
@@ -3561,6 +3733,10 @@ class ScheduledAction {
   /// For more information about cron expressions, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
   /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  ///
+  /// For examples of using these expressions, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
+  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   @_s.JsonKey(name: 'Schedule')
   final String schedule;
 
@@ -3572,11 +3748,8 @@ class ScheduledAction {
   @_s.JsonKey(name: 'ScheduledActionName')
   final String scheduledActionName;
 
-  /// The namespace of the AWS service that provides the resource or
-  /// <code>custom-resource</code> for a resource provided by your own application
-  /// or service. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  /// The namespace of the AWS service that provides the resource, or a
+  /// <code>custom-resource</code>.
   @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
 
@@ -3642,12 +3815,20 @@ class ScheduledAction {
   /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
   /// concurrency for a Lambda function.
   /// </li>
+  /// <li>
+  /// <code>cassandra:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
+  /// <li>
+  /// <code>cassandra:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for an Amazon Keyspaces table.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
   /// The new minimum and maximum capacity. You can set both values or just one.
-  /// During the scheduled time, if the current capacity is below the minimum
+  /// At the scheduled time, if the current capacity is below the minimum
   /// capacity, Application Auto Scaling scales out to the minimum capacity. If
   /// the current capacity is above the maximum capacity, Application Auto Scaling
   /// scales in to the maximum capacity.
@@ -3695,6 +3876,8 @@ enum ServiceNamespace {
   comprehend,
   @_s.JsonValue('lambda')
   lambda,
+  @_s.JsonValue('cassandra')
+  cassandra,
 }
 
 extension on ServiceNamespace {
@@ -3720,12 +3903,15 @@ extension on ServiceNamespace {
         return 'comprehend';
       case ServiceNamespace.lambda:
         return 'lambda';
+      case ServiceNamespace.cassandra:
+        return 'cassandra';
     }
     throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Represents a step adjustment for a <a>StepScalingPolicyConfiguration</a>.
+/// Represents a step adjustment for a <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepScalingPolicyConfiguration.html">StepScalingPolicyConfiguration</a>.
 /// Describes an adjustment based on the difference between the value of the
 /// aggregated CloudWatch metric and the breach threshold that you've defined
 /// for the alarm.
@@ -3770,8 +3956,8 @@ extension on ServiceNamespace {
     createToJson: true)
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
-  /// positive value adds to the current scalable dimension while a negative
-  /// number removes from the current scalable dimension.
+  /// positive value adds to the current capacity while a negative number removes
+  /// from the current capacity.
   @_s.JsonKey(name: 'ScalingAdjustment')
   final int scalingAdjustment;
 
@@ -3814,9 +4000,12 @@ class StepAdjustment {
     createFactory: true,
     createToJson: true)
 class StepScalingPolicyConfiguration {
-  /// Specifies whether the <code>ScalingAdjustment</code> value in a
-  /// <a>StepAdjustment</a> is an absolute number or a percentage of the current
-  /// capacity.
+  /// Specifies whether the <code>ScalingAdjustment</code> value in a <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html">StepAdjustment</a>
+  /// is an absolute number or a percentage of the current capacity.
+  ///
+  /// <code>AdjustmentType</code> is required if you are adding a new step scaling
+  /// policy configuration.
   @_s.JsonKey(name: 'AdjustmentType')
   final AdjustmentType adjustmentType;
 
@@ -3825,7 +4014,7 @@ class StepScalingPolicyConfiguration {
   /// events.
   ///
   /// For scale-out policies, while the cooldown period is in effect, the capacity
-  /// that has been added by the previous scale-out event that initiated the
+  /// that has been added by the previous scale-out action that initiated the
   /// cooldown is calculated as part of the desired capacity for the next scale
   /// out. The intention is to continuously (but not excessively) scale out. For
   /// example, an alarm triggers a step scaling policy to scale out an Amazon ECS
@@ -3833,7 +4022,7 @@ class StepScalingPolicyConfiguration {
   /// cooldown period of 5 minutes starts. During the cooldown period, if the
   /// alarm triggers the same policy again but at a more aggressive step
   /// adjustment to scale out the service by 3 tasks, the 2 tasks that were added
-  /// in the previous scale-out event are considered part of that capacity and
+  /// in the previous scale-out action are considered part of that capacity and
   /// only 1 additional task is added to the desired count.
   ///
   /// For scale-in policies, the cooldown period is used to block subsequent
@@ -3842,6 +4031,52 @@ class StepScalingPolicyConfiguration {
   /// another alarm triggers a scale-out policy during the cooldown period after a
   /// scale-in, Application Auto Scaling scales out your scalable target
   /// immediately.
+  ///
+  /// Application Auto Scaling provides a default value of 300 for the following
+  /// scalable targets:
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// Spot Fleet requests
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleets
+  /// </li>
+  /// <li>
+  /// Aurora DB clusters
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Custom resources
+  /// </li>
+  /// </ul>
+  /// For all other scalable targets, the default value is 0:
+  ///
+  /// <ul>
+  /// <li>
+  /// DynamoDB tables
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary indexes
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoints
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon Keyspaces tables
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Cooldown')
   final int cooldown;
 
@@ -3851,22 +4086,23 @@ class StepScalingPolicyConfiguration {
   @_s.JsonKey(name: 'MetricAggregationType')
   final MetricAggregationType metricAggregationType;
 
-  /// The minimum number to adjust your scalable dimension as a result of a
-  /// scaling activity. If the adjustment type is
-  /// <code>PercentChangeInCapacity</code>, the scaling policy changes the
-  /// scalable dimension of the scalable target by this amount.
+  /// The minimum value to scale by when scaling by percentages. For example,
+  /// suppose that you create a step scaling policy to scale out an Amazon ECS
+  /// service by 25 percent and you specify a <code>MinAdjustmentMagnitude</code>
+  /// of 2. If the service has 4 tasks and the scaling policy is performed, 25
+  /// percent of 4 is 1. However, because you specified a
+  /// <code>MinAdjustmentMagnitude</code> of 2, Application Auto Scaling scales
+  /// out the service by 2 tasks.
   ///
-  /// For example, suppose that you create a step scaling policy to scale out an
-  /// Amazon ECS service by 25 percent and you specify a
-  /// <code>MinAdjustmentMagnitude</code> of 2. If the service has 4 tasks and the
-  /// scaling policy is performed, 25 percent of 4 is 1. However, because you
-  /// specified a <code>MinAdjustmentMagnitude</code> of 2, Application Auto
-  /// Scaling scales out the service by 2 tasks.
+  /// Valid only if the adjustment type is <code>PercentChangeInCapacity</code>.
   @_s.JsonKey(name: 'MinAdjustmentMagnitude')
   final int minAdjustmentMagnitude;
 
   /// A set of adjustments that enable you to scale based on the size of the alarm
   /// breach.
+  ///
+  /// At least one step adjustment is required if you are adding a new step
+  /// scaling policy configuration.
   @_s.JsonKey(name: 'StepAdjustments')
   final List<StepAdjustment> stepAdjustments;
 
@@ -3943,8 +4179,8 @@ class TargetTrackingScalingPolicyConfiguration {
   /// Indicates whether scale in by the target tracking scaling policy is
   /// disabled. If the value is <code>true</code>, scale in is disabled and the
   /// target tracking scaling policy won't remove capacity from the scalable
-  /// resource. Otherwise, scale in is enabled and the target tracking scaling
-  /// policy can remove capacity from the scalable resource. The default value is
+  /// target. Otherwise, scale in is enabled and the target tracking scaling
+  /// policy can remove capacity from the scalable target. The default value is
   /// <code>false</code>.
   @_s.JsonKey(name: 'DisableScaleIn')
   final bool disableScaleIn;
@@ -3962,6 +4198,52 @@ class TargetTrackingScalingPolicyConfiguration {
   /// application's availability. However, if another alarm triggers a scale-out
   /// policy during the cooldown period after a scale-in, Application Auto Scaling
   /// scales out your scalable target immediately.
+  ///
+  /// Application Auto Scaling provides a default value of 300 for the following
+  /// scalable targets:
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// Spot Fleet requests
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleets
+  /// </li>
+  /// <li>
+  /// Aurora DB clusters
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Custom resources
+  /// </li>
+  /// </ul>
+  /// For all other scalable targets, the default value is 0:
+  ///
+  /// <ul>
+  /// <li>
+  /// DynamoDB tables
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary indexes
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoints
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon Keyspaces tables
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'ScaleInCooldown')
   final int scaleInCooldown;
 
@@ -3969,9 +4251,55 @@ class TargetTrackingScalingPolicyConfiguration {
   /// another scale-out activity can start.
   ///
   /// While the cooldown period is in effect, the capacity that has been added by
-  /// the previous scale-out event that initiated the cooldown is calculated as
+  /// the previous scale-out action that initiated the cooldown is calculated as
   /// part of the desired capacity for the next scale out. The intention is to
   /// continuously (but not excessively) scale out.
+  ///
+  /// Application Auto Scaling provides a default value of 300 for the following
+  /// scalable targets:
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// Spot Fleet requests
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleets
+  /// </li>
+  /// <li>
+  /// Aurora DB clusters
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Custom resources
+  /// </li>
+  /// </ul>
+  /// For all other scalable targets, the default value is 0:
+  ///
+  /// <ul>
+  /// <li>
+  /// DynamoDB tables
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary indexes
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoints
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon Keyspaces tables
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'ScaleOutCooldown')
   final int scaleOutCooldown;
 
