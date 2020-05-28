@@ -1,3 +1,7 @@
+## 0.0.6
+
+- Added support for AttributeValues for the translator for the DocumentClient
+
 ## 0.0.5
 
 - Add missing return statement in type translator
