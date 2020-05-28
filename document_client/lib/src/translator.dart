@@ -5,6 +5,8 @@ import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 AttributeValue toAttributeValue(dynamic value) {
   if (value == null) {
     return AttributeValue(nullValue: true);
+  } else if (value is AttributeValue) {
+    return value;
   } else if (value is bool) {
     return AttributeValue(boolValue: value);
   } else if (value is String) {
