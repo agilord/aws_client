@@ -1,3 +1,7 @@
+## 0.0.5
+
+- Add missing return statement in type translator
+
 ## 0.0.4
 
 - Fix crashes because of null parameters
