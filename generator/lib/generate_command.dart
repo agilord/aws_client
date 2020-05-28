@@ -230,14 +230,15 @@ class GenerateCommand extends Command {
         printPercentageInPlace(latestPercentage,
             '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
 
-        // TODO: once in git, detect if there was no change, and skip when not needed
-        await _runPubGet(baseDir);
+        if (await _directoryHasChanges(baseDir)) {
+          await _runPubGet(baseDir);
 
-        // TODO: once in git, detect if there was no change, and skip when not needed
-        latestMessage = '- Running build_runner in $baseDir';
-        printPercentageInPlace(latestPercentage,
-            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
-        await _runBuildRunner(baseDir);
+          latestMessage = '- Running build_runner in $baseDir';
+          printPercentageInPlace(latestPercentage,
+              '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
+
+          await _runBuildRunner(baseDir);
+        }
       }
 
       timer.cancel();
@@ -288,6 +289,22 @@ class GenerateCommand extends Command {
       print(pr.stderr);
       throw Exception('build_runner failed at $baseDir');
     }
+  }
+
+  Future<bool> _directoryHasChanges(String dir) async {
+    final pr = await Process.run(
+      'git',
+      ['status', '.'],
+      workingDirectory: dir,
+    );
+
+    if (pr.exitCode != 0) {
+      print(pr.stdout);
+      print(pr.stderr);
+      throw Exception('git failed at $dir');
+    }
+
+    return !(pr.stdout as String).contains('working tree clean');
   }
 }
 
