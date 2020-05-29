@@ -242,7 +242,7 @@ class GenerateCommand extends Command {
             '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
 
         if (await _directoryHasChanges(baseDir)) {
-          await _runPubGet(baseDir);
+          await _runPubUpgrade(baseDir);
 
           latestMessage = '- Running build_runner in $baseDir';
           printPercentageInPlace(latestPercentage,
@@ -276,10 +276,10 @@ class GenerateCommand extends Command {
     printPretty(notGeneratedApis);
   }
 
-  Future<void> _runPubGet(String baseDir) async {
+  Future<void> _runPubUpgrade(String baseDir) async {
     final pr = await Process.run(
       'pub',
-      ['get', '--no-precompile'],
+      ['upgrade', '--no-precompile'],
       workingDirectory: baseDir,
     );
     if (pr.exitCode != 0) {
