@@ -54,6 +54,11 @@ class GenerateCommand extends Command {
       )
       ..addFlag('dev',
           help: 'Generates packages in dev mode with dependency overrides')
+      ..addMultiOption(
+        'packages',
+        abbr: 'p',
+        help: 'Override config file on which packages to generate',
+      )
       ..addOption(
         'config-file',
         help: 'Configuration file describing package generation.',
@@ -68,6 +73,12 @@ class GenerateCommand extends Command {
     config = Config.fromJson(json.decode(json.encode(loadYaml(
             File(argResults['config-file'] as String).readAsStringSync())))
         as Map<String, dynamic>);
+
+    final argPackages = argResults['packages'] as List<String>;
+
+    if (argPackages.isNotEmpty) {
+      config = config.copyWith(packages: argPackages);
+    }
 
     if (argResults['download'] == true) {
       await DownloadCommand(config).run();
@@ -261,7 +272,7 @@ class GenerateCommand extends Command {
       licenseFile.copySync('$baseDir/LICENSE.txt');
     }
 
-    print('APIs not generated:');
+    print('\nAPIs not generated:');
     printPretty(notGeneratedApis);
   }
 
