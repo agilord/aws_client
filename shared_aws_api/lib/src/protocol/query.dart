@@ -51,7 +51,7 @@ class QueryProtocol {
     final rq = _buildRequest(data, method, requestUri);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
-    final root = parse(body);
+    final root = XmlDocument.parse(body);
     var elem = root.rootElement;
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;

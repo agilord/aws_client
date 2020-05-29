@@ -55,7 +55,7 @@ class RestXmlProtocol {
     final rq = _buildRequest(method, requestUri, queryParams, payload);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
-    final root = parse(body);
+    final root = XmlDocument.parse(body);
     var elem = root.rootElement;
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
