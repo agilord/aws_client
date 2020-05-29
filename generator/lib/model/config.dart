@@ -13,6 +13,16 @@ class Config {
   Config(this.awsSdkJsReference, {this.protocols, this.packages});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
+
+  Config copyWith(
+          {String awsSdkJsReference,
+          Map<String, ProtocolConfig> protocols,
+          List<String> packages}) =>
+      Config(
+        awsSdkJsReference ?? this.awsSdkJsReference,
+        protocols: protocols ?? this.protocols,
+        packages: packages ?? this.packages,
+      );
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
