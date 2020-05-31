@@ -23,7 +23,8 @@ class GenerateCommand extends Command {
 
   @override
   String get description =>
-      'Generates the API from the downloaded API definitions.';
+      '''Downloads API models (optional) and generates Dart clients, specified 
+in the config file, from the downloaded models.''';
 
   Config config;
 
