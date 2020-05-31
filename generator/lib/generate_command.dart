@@ -36,7 +36,7 @@ class GenerateCommand extends Command {
       )
       ..addFlag(
         'build',
-        help: 'Runs pub get and build_runner on the generated code',
+        help: 'Gets dependencies and runs build_runner in generated packages',
         defaultsTo: true,
         negatable: true,
       )
@@ -52,8 +52,24 @@ class GenerateCommand extends Command {
         abbr: 'b',
         help: 'Automatically bump package versions on code changes',
       )
-      ..addFlag('dev',
-          help: 'Generates packages in dev mode with dependency overrides')
+      ..addFlag(
+        'dev',
+        help: 'Generates packages in dev mode with dependency overrides',
+      )
+      ..addFlag(
+        'upgrade-dep',
+        help:
+            'Whether pub should run "upgrade" instead of "get" in generated packages',
+        defaultsTo: true,
+        negatable: true,
+      )
+      ..addFlag(
+        'optimize-build',
+        help:
+            'Only run pub and build_runner in packages that have file changes according to git',
+        defaultsTo: true,
+        negatable: true,
+      )
       ..addMultiOption(
         'packages',
         abbr: 'p',
@@ -237,12 +253,14 @@ class GenerateCommand extends Command {
         latestPercentage = i * 100 ~/ touchedDirs.length + 1;
         final baseDir = touchedDirs.elementAt(i);
 
-        latestMessage = '- Running pub get in $baseDir';
-        printPercentageInPlace(latestPercentage,
-            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
+        if (!(argResults['optimize-build'] as bool) ||
+            await _directoryHasChanges(baseDir)) {
+          latestMessage = '- Running pub get in $baseDir';
+          printPercentageInPlace(latestPercentage,
+              '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
 
-        if (await _directoryHasChanges(baseDir)) {
-          await _runPubUpgrade(baseDir);
+          await _getDependencies(baseDir,
+              upgrade: argResults['upgrade-dep'] as bool);
 
           latestMessage = '- Running build_runner in $baseDir';
           printPercentageInPlace(latestPercentage,
@@ -276,10 +294,14 @@ class GenerateCommand extends Command {
     printPretty(notGeneratedApis);
   }
 
-  Future<void> _runPubUpgrade(String baseDir) async {
+  Future<void> _getDependencies(String baseDir, {bool upgrade = true}) async {
     final pr = await Process.run(
       'pub',
-      ['upgrade', '--no-precompile'],
+      [
+        if (upgrade) 'upgrade',
+        if (!upgrade) 'get',
+        '--no-precompile',
+      ],
       workingDirectory: baseDir,
     );
     if (pr.exitCode != 0) {
