@@ -146,8 +146,16 @@ class Shape {
     if (value != null && value.shapeClass.type.isBasicType()) {
       return false;
     }
-    return true;
+    return generateFromJson || generateToJson;
   }
+
+  bool get generateFromJson => isUsedInOutput && api.generateFromJson;
+
+  bool get generateToJson => isUsedInInput && api.generateJson;
+
+  bool get generateFromXml => api.generateFromXml && isUsedInOutput;
+
+  bool get generateToXml => api.generateToXml && isUsedInInput;
 
   Member get payloadMember =>
       _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
