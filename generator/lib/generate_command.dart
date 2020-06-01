@@ -288,7 +288,7 @@ in the config file, from the downloaded models.''';
         ..writeAsStringSync(ensureBuildTestContent);
 
       monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
-      licenseFile.copySync('$baseDir/LICENSE.txt');
+      licenseFile.copySync('$baseDir/LICENSE');
     }
 
     print('\nAPIs not generated:');
