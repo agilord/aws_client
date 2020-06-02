@@ -221,11 +221,11 @@ ${builder.constructor()}
       if (shape.deprecated) {
         writeln(r'@deprecated');
       }
-      if (shape.api.generateJson) {
+      if (shape.requiresJson) {
         writeln(
             '@_s.JsonSerializable(includeIfNull: false, explicitToJson: true, '
-            'createFactory: ${shape.isUsedInOutput && shape.api.generateFromJson},'
-            'createToJson: ${shape.isUsedInInput && shape.api.generateToJson})');
+            'createFactory: ${shape.generateFromJson},'
+            'createToJson: ${shape.generateToJson})');
       }
 
       final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';
@@ -239,7 +239,7 @@ ${builder.constructor()}
         final shapeClass = member.shapeClass;
         final valueEnum = shapeClass.enumeration;
 
-        if (shape.api.generateJson) {
+        if (shape.requiresJson) {
           var dateTimeConversion = '';
 
           if (member.dartType == 'Uint8List') {
@@ -276,12 +276,12 @@ ${builder.constructor()}
         write('\n  $name({${constructorMembers.join()}});');
       }
 
-      if (shape.api.generateFromJson && shape.isUsedInOutput) {
+      if (shape.generateFromJson) {
         writeln(
             '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
       }
 
-      if (shape.api.generateFromXml && shape.isUsedInOutput) {
+      if (shape.generateFromXml) {
         final lintComment = shape.hasNoBodyMembers
             ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
             : '';
@@ -330,11 +330,11 @@ ${builder.constructor()}
         writeln('  }');
       }
 
-      if (shape.api.generateToJson && shape.isUsedInInput) {
+      if (shape.generateToJson) {
         writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
       }
 
-      if (shape.api.generateToXml && shape.isUsedInInput) {
+      if (shape.generateToXml) {
         writeln('\n  _s.XmlElement toXml(String elemName) {');
         writeln('    final \$children = <_s.XmlNode>[');
         for (final member in shape.members) {

@@ -28,6 +28,7 @@ class QueryServiceBuilder extends ServiceBuilder {
         '      \'Version\': \'${api.metadata.apiVersion}\',');
     buf.writeln('    };');
     parameterShape?.members?.forEach((member) {
+      member.shapeClass.markUsed(true);
       var serializationSuffix = '';
       if (member.shapeClass.enumeration != null) {
         member.shapeClass.isTopLevelInputEnum = true;
