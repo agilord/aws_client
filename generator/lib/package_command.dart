@@ -144,7 +144,7 @@ class BumpVersionCommand extends Command {
             'version: $newVersion',
           )
           .replaceAll(
-            RegExp(r'shared_aws_api: \d\.\d\.\d(.)*'),
+            RegExp(r'shared_aws_api: \^*\d\.\d\.\d(.)*'),
             'shared_aws_api: $newSharedVersion',
           );
       pubspecFile.writeAsStringSync(newPubspecString);
