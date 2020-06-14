@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -12,10 +13,11 @@ import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
+import 'package:aws_client.generator/model_thin/api.dart' as thin;
 
 import '../utils/documentation_utils.dart';
 
-String buildService(Api api) {
+String buildService(Api api, thin.Api thinApi) {
   api.initReferences();
 
   ServiceBuilder builder;
@@ -48,13 +50,12 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
   show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822fromJson, rfc822toJson, iso8601fromJson, iso8601toJson, unixFromJson, unixToJson' : ''};
-
-export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 """);
   buf.writeln(builder.imports());
+  buf.writeln("export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;\n");
 
   final body = StringBuffer()
-    ..putMainClass(api, builder)
+    ..putMainClass(api, thinApi, builder)
     ..putShapes(api)
     ..putExceptions(api);
 
@@ -66,7 +67,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 }
 
 extension StringBufferStuff on StringBuffer {
-  void putMainClass(Api api, ServiceBuilder builder) {
+  void putMainClass(Api api, thin.Api thinApi, ServiceBuilder builder) {
     writeln('''
 ${dartdocComment(api.documentation)}
 class ${api.metadata.className} {

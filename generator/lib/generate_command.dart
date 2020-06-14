@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:aws_client.generator/builders/example_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client.generator/model_thin/api.dart' as thin;
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:version/version.dart';
@@ -34,6 +35,7 @@ in the config file, from the downloaded models.''';
         'download',
         abbr: 'd',
         help: 'Downloads the definitions first before generating',
+        defaultsTo: false,
       )
       ..addFlag(
         'build',
@@ -135,6 +137,7 @@ in the config file, from the downloaded models.''';
 
       try {
         final api = Api.fromJson(defJson);
+        final thinApi = thin.Api.fromJson(defJson);
         final protocolConfig = config.protocols[api.metadata.protocol];
         if (api.isRecognized &&
             (config.packages == null ||
@@ -154,9 +157,16 @@ in the config file, from the downloaded models.''';
           serviceFile.parent.createSync(recursive: true);
           exampleFile.createSync(recursive: true);
 
-          var serviceText = buildService(api);
+          var metaContents = '''const Map<String, dynamic> meta = ${jsonEncode(thinApi.toJson())};''';
+
+          var serviceText = buildService(api, thinApi);
           if (argResults['format'] == true) {
             serviceText = formatter.format(serviceText, uri: serviceFile.uri);
+            metaContents = formatter.format(metaContents);
+          }
+
+          if (api.usesQueryProtocol) {
+            File('$baseDir/lib/${api.fileBasename}.meta.dart')..writeAsStringSync(metaContents);
           }
 
           String pubspecYaml;

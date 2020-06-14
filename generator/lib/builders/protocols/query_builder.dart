@@ -10,13 +10,15 @@ class QueryServiceBuilder extends ServiceBuilder {
   @override
   String constructor() => '''
   final _s.QueryProtocol _protocol;
+  final _s.Api api;
 
   ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client,})
-  : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
+  : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,),
+  api = _s.Api.fromJson(meta);
   ''';
 
   @override
-  String imports() => '';
+  String imports() => "import '${api.fileBasename}.meta.dart';";
 
   @override
   String operationContent(Operation operation) {
@@ -45,7 +47,8 @@ class QueryServiceBuilder extends ServiceBuilder {
     final params = StringBuffer('\$request, '
         'method: \'${operation.http.method}\', '
         'requestUri: \'${operation.http.requestUri}\', '
-        'exceptionFnMap: _exceptionFns, ');
+        'exceptionFnMap: _exceptionFns, '
+    "shape: api.shapes['${operation.input.shape}'],");
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
     }

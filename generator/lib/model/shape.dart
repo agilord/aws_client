@@ -195,6 +195,7 @@ class Member {
   final List<String> enumeration;
   final String location;
   final String locationName;
+  // queryName is only defined in EC2
   final String queryName;
   @JsonKey(defaultValue: false)
   final bool idempotencyToken;
