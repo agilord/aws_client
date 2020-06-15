@@ -10,11 +10,11 @@ class QueryServiceBuilder extends ServiceBuilder {
   @override
   String constructor() => '''
   final _s.QueryProtocol _protocol;
-  final _s.Api api;
+  final Map<String, _s.Shape> shapes;
 
   ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client,})
   : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,),
-  api = _s.Api.fromJson(meta);
+  shapes = shapesJson.map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
   ''';
 
   @override
@@ -44,11 +44,14 @@ class QueryServiceBuilder extends ServiceBuilder {
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg$serializationSuffix);");
       }
     });
-    final params = StringBuffer('\$request, '
-        'method: \'${operation.http.method}\', '
-        'requestUri: \'${operation.http.requestUri}\', '
-        'exceptionFnMap: _exceptionFns, '
-    "shape: api.shapes['${operation.input.shape}'],");
+    final params = StringBuffer([
+      '\$request, ',
+      'method: \'${operation.http.method}\', ',
+      'requestUri: \'${operation.http.requestUri}\', ',
+      'exceptionFnMap: _exceptionFns, ',
+      if (operation.input?.shape != null)
+        "shape: shapes['${operation.input.shape}'],",
+    ].join());
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
     }

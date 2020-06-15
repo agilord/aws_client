@@ -23,9 +23,7 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(
           k, e == null ? null : Member.fromJson(e as Map<String, dynamic>)),
     ),
-  )..api = json['api'] == null
-      ? null
-      : Api.fromJson(json['api'] as Map<String, dynamic>);
+  );
 }
 
 Map<String, dynamic> _$ShapeToJson(Shape instance) {
@@ -43,7 +41,6 @@ Map<String, dynamic> _$ShapeToJson(Shape instance) {
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
   writeNotNull('flattened', instance.flattened);
-  writeNotNull('api', instance.api);
   return val;
 }
 

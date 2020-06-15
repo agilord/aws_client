@@ -16,16 +16,15 @@ void main() {
           final testCase = testSuite.cases[i];
           expect(
               canonical(flatQueryParams(
-              {
-                ...testCase.params,
-                'Action': testCase.given.name,
-                'Version': testSuite.metadata['apiVersion']
-              },
-              testSuite.shapes[testCase.given.input.shape],
-            )),
-            testCase.serialized?.body,
-            reason: '${testSuite.description} #$i'
-          );
+                {
+                  ...testCase.params,
+                  'Action': testCase.given.name,
+                  'Version': testSuite.metadata['apiVersion']
+                },
+                testSuite.shapes[testCase.given.input.shape],
+              )).split('&'),
+              unorderedEquals(testCase.serialized?.body?.split('&')),
+              reason: '${testSuite.description} #$i');
         }
       }
     });

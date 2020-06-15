@@ -15,11 +15,13 @@ class QueryProtocol {
   final String _endpointUrl;
   final AwsClientCredentials _credentials;
 
-  QueryProtocol._(this._client,
-      this._service,
-      this._region,
-      this._endpointUrl,
-      this._credentials,);
+  QueryProtocol._(
+    this._client,
+    this._service,
+    this._region,
+    this._endpointUrl,
+    this._credentials,
+  );
 
   factory QueryProtocol({
     Client client,
@@ -40,7 +42,8 @@ class QueryProtocol {
     return QueryProtocol._(client, service, region, endpointUrl, credentials);
   }
 
-  Future<XmlElement> send(Map<String, dynamic> data, {
+  Future<XmlElement> send(
+    Map<String, dynamic> data, {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
@@ -53,21 +56,10 @@ class QueryProtocol {
     final root = XmlDocument.parse(body);
     var elem = root.rootElement;
     if (elem.name.local == 'ErrorResponse') {
-      final error = elem
-          .findElements('Error')
-          .first;
-      final type = error
-          .findElements('Type')
-          .first
-          .text;
-      final code = error
-          .findElements('Code')
-          .first
-          .text;
-      final message = error
-          .findElements('Message')
-          .first
-          .text;
+      final error = elem.findElements('Error').first;
+      final type = error.findElements('Type').first.text;
+      final code = error.findElements('Code').first.text;
+      final message = error.findElements('Message').first.text;
       final fn = exceptionFnMap[code];
       final exception = fn != null
           ? fn(type, message)
@@ -75,17 +67,17 @@ class QueryProtocol {
       throw exception;
     }
     if (resultWrapper != null) {
-      elem = elem
-          .findElements(resultWrapper)
-          .first;
+      elem = elem.findElements(resultWrapper).first;
     }
     return elem;
   }
 
-  Request _buildRequest(Map<String, dynamic> data,
-      String method,
-      String requestUri,
-      Shape shape,) {
+  Request _buildRequest(
+    Map<String, dynamic> data,
+    String method,
+    String requestUri,
+    Shape shape,
+  ) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
     rq.body = canonical(flatQueryParams(data, shape));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -101,15 +93,25 @@ class QueryProtocol {
 }
 
 @visibleForTesting
-Map<String, String> flatQueryParams(dynamic data, Shape shape,) {
-  return Map.fromEntries(
-      _flatten([], data, shape));
+Map<String, String> flatQueryParams(
+  dynamic data,
+  Shape shape,
+) {
+  return Map.fromEntries(_flatten([], data, shape));
 }
 
-Iterable<MapEntry<String, String>> _flatten(List<String> prefixes,
-    dynamic data,
-    Shape shape,) sync* {
+Iterable<MapEntry<String, String>> _flatten(
+  List<String> prefixes,
+  dynamic data,
+  Shape shape,
+) sync* {
   if (data == null) {
+    return;
+  }
+
+  if (data is bool) {
+    final key = prefixes.join('.');
+    yield MapEntry(key, data.toString());
     return;
   }
 
@@ -168,7 +170,7 @@ Iterable<MapEntry<String, String>> _flatten(List<String> prefixes,
 String canonical(Map<String, String> data) {
   final list = data.entries
       .map((e) =>
-  '${Uri.encodeQueryComponent(e.key)}=${Uri.encodeQueryComponent(e.value)}')
+          '${Uri.encodeQueryComponent(e.key)}=${Uri.encodeQueryComponent(e.value)}')
       .toList();
   list.sort();
   return list.join('&');

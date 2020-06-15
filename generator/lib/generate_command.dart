@@ -157,16 +157,18 @@ in the config file, from the downloaded models.''';
           serviceFile.parent.createSync(recursive: true);
           exampleFile.createSync(recursive: true);
 
-          var metaContents = '''const Map<String, dynamic> meta = ${jsonEncode(thinApi.toJson())};''';
+          var metaContents =
+              '''const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
 
-          var serviceText = buildService(api, thinApi);
+          var serviceText = buildService(api);
           if (argResults['format'] == true) {
             serviceText = formatter.format(serviceText, uri: serviceFile.uri);
             metaContents = formatter.format(metaContents);
           }
 
           if (api.usesQueryProtocol) {
-            File('$baseDir/lib/${api.fileBasename}.meta.dart')..writeAsStringSync(metaContents);
+            File('$baseDir/lib/${api.fileBasename}.meta.dart')
+              ..writeAsStringSync(metaContents);
           }
 
           String pubspecYaml;
