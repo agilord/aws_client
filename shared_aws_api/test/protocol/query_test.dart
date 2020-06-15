@@ -16,15 +16,14 @@ void main() {
           final testCase = testSuite.cases[i];
           expect(
               canonical(flatQueryParams(
-                {
-                  ...testCase.params,
-                  'Action': testCase.given.name,
-                  'Version': testSuite.metadata['apiVersion']
-                },
-                testSuite.shapes[testCase.given.input.shape],
-              )).split('&'),
+                      testCase.params,
+                      testSuite.shapes[testCase.given.input.shape],
+                      testSuite.shapes,
+                      testSuite.metadata['apiVersion'],
+                      testCase.given.name))
+                  .split('&'),
               unorderedEquals(testCase.serialized?.body?.split('&')),
-              reason: '${testSuite.description} #$i');
+              reason: '${testSuite.description} case #$i');
         }
       }
     });

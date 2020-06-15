@@ -5,9 +5,11 @@ part 'descriptor.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Descriptor {
   final String shape;
+  final String locationName;
 
   Descriptor(
     this.shape,
+    this.locationName,
   );
 
   factory Descriptor.fromJson(Map<String, dynamic> json) =>

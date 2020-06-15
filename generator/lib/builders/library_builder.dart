@@ -409,7 +409,7 @@ String _xmlExtractorFn(
   final enumeration = parent?.enumeration?.isNotEmpty ?? false;
 
   if (type.isBasicType()) {
-    final dartType = type.getDartType();
+    final dartType = type.getDartType(api);
     return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
@@ -417,7 +417,7 @@ String _xmlExtractorFn(
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
-          '_s.extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
+          '_s.extractXml${_uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
@@ -460,14 +460,14 @@ String _toXmlFn(
   final enumeration = shapeRef?.enumeration?.isNotEmpty ?? false;
 
   if (type.isBasicType()) {
-    final dartType = type.getDartType();
+    final dartType = type.getDartType(api);
     return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '?.toValue()' : ''})';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
     String fn;
     if (memberShape.type.isBasicType()) {
-      final mdt = memberShape.type.getDartType();
+      final mdt = memberShape.type.getDartType(api);
       fn =
           '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
     } else {

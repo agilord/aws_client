@@ -1,3 +1,4 @@
+import 'api.dart';
 import 'shape.dart';
 
 String getListOrMapDartType(Shape shape) {
@@ -32,7 +33,7 @@ extension StringStuff on String {
 
   bool isMapOrList() => this == 'list' || this == 'map';
 
-  String getDartType() {
+  String getDartType(Api api) {
     switch (this) {
       case 'string':
         return 'String';
@@ -45,6 +46,7 @@ extension StringStuff on String {
       case 'long':
         return 'int';
       case 'blob':
+        if (api.usesQueryProtocol) return 'String';
         return 'Uint8List';
       case 'timestamp':
         return 'DateTime';

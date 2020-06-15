@@ -260,7 +260,7 @@ class Member {
     if (shapeClass.enumeration != null) {
       return shapeClass.className;
     } else if (type.isBasicType()) {
-      return type.getDartType();
+      return type.getDartType(api);
     } else if (type.isMapOrList()) {
       return getListOrMapDartType(shapeClass);
     }

@@ -23,6 +23,7 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(
           k, e == null ? null : Member.fromJson(e as Map<String, dynamic>)),
     ),
+    json['locationName'] as String,
   );
 }
 
@@ -40,6 +41,7 @@ Map<String, dynamic> _$ShapeToJson(Shape instance) {
   writeNotNull('member', instance.member);
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  writeNotNull('locationName', instance.locationName);
   writeNotNull('flattened', instance.flattened);
   return val;
 }

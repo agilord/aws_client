@@ -11,6 +11,7 @@ class Shape {
   final Descriptor member;
   final Descriptor key;
   final Descriptor value;
+  final String locationName;
   @JsonKey(defaultValue: false)
   final bool flattened;
 
@@ -21,6 +22,7 @@ class Shape {
     this.member,
     this.flattened,
     this.members,
+    this.locationName,
   );
 
   factory Shape.fromJson(Map<String, dynamic> json) => _$ShapeFromJson(json);

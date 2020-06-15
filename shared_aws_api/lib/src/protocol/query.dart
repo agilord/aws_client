@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_aws_api/src/model/shape.dart';
@@ -47,10 +49,14 @@ class QueryProtocol {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
-    @required Shape shape,
+    Shape shape,
+    @required Map<String, Shape> shapes,
+    @required String version,
+    @required String action,
     String resultWrapper,
   }) async {
-    final rq = _buildRequest(data, method, requestUri, shape);
+    final rq =
+        _buildRequest(data, method, requestUri, shape, shapes, version, action);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = XmlDocument.parse(body);
@@ -77,9 +83,12 @@ class QueryProtocol {
     String method,
     String requestUri,
     Shape shape,
+    Map<String, Shape> shapes,
+    String version,
+    String action,
   ) {
     final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
-    rq.body = canonical(flatQueryParams(data, shape));
+    rq.body = canonical(flatQueryParams(data, shape, shapes, version, action));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
@@ -96,14 +105,19 @@ class QueryProtocol {
 Map<String, String> flatQueryParams(
   dynamic data,
   Shape shape,
+  Map<String, Shape> shapes,
+  String version,
+  String action,
 ) {
-  return Map.fromEntries(_flatten([], data, shape));
+  return Map.fromEntries(_flatten([], data, shape, shapes))
+    ..addAll({'Action': action, 'Version': version});
 }
 
 Iterable<MapEntry<String, String>> _flatten(
   List<String> prefixes,
   dynamic data,
   Shape shape,
+  Map<String, Shape> shapes,
 ) sync* {
   if (data == null) {
     return;
@@ -117,7 +131,11 @@ Iterable<MapEntry<String, String>> _flatten(
 
   if (data is String) {
     final key = prefixes.join('.');
-    yield MapEntry(key, data);
+    if (shape.type == 'blob') {
+      yield MapEntry(key, base64.encode(utf8.encode(data)));
+    } else {
+      yield MapEntry(key, data);
+    }
     return;
   }
   if (data is int) {
@@ -131,9 +149,21 @@ Iterable<MapEntry<String, String>> _flatten(
       final key = prefixes.join('.');
       yield MapEntry(key, '');
     } else {
+      final member = shapes[shape.member?.shape];
+      final name = shape.member?.locationName ?? member.locationName;
+
+      if (shape.flattened && name != null) {
+        prefixes.removeLast();
+        prefixes.add(name);
+      }
+
       for (var i = 0; i < data.length; i++) {
-        final newPrefixes = [...prefixes, '${i + 1}'];
-        yield* _flatten(newPrefixes, data[i], shape);
+        final newPrefixes = [
+          ...prefixes,
+          if (!shape.flattened) name ?? 'member',
+          '${i + 1}',
+        ];
+        yield* _flatten(newPrefixes, data[i], member, shapes);
       }
     }
     return;
@@ -144,6 +174,27 @@ Iterable<MapEntry<String, String>> _flatten(
     data = data.toJson();
   }
 
+  if (data is Map && shape.type == 'structure') {
+    for (final entry in shape.members.entries) {
+      final member = entry.value;
+      final value = data[entry.key];
+      final name = shapes[entry.key]?.member?.locationName ?? entry.key;
+
+      if (value != null) {
+        yield* _flatten(
+          [
+            ...prefixes,
+            name,
+          ],
+          value,
+          shapes[member.shape],
+          shapes,
+        );
+      }
+    }
+    return;
+  }
+
   if (data is Map) {
     var flat = false;
     if (prefixes.isEmpty) flat = true;
@@ -152,11 +203,30 @@ Iterable<MapEntry<String, String>> _flatten(
     for (final e in data.entries) {
       final key = e.key;
       if (flat && key is String) {
-        yield* _flatten([...prefixes, key], e.value, shape);
+        yield* _flatten([...prefixes, key], e.value, shape, shapes);
       } else {
-        yield* _flatten([...prefixes, 'entry', '${i + 1}', 'key'], key, shape);
         yield* _flatten(
-            [...prefixes, 'entry', '${i + 1}', 'value'], e.value, shape);
+          [
+            ...prefixes,
+            if (!shape.flattened) 'entry',
+            '${i + 1}',
+            shape.key.locationName ?? 'key',
+          ],
+          key,
+          shapes[shape.key.shape],
+          shapes,
+        );
+        yield* _flatten(
+          [
+            ...prefixes,
+            if (!shape.flattened) 'entry',
+            '${i + 1}',
+            shape.value.locationName ?? 'value',
+          ],
+          e.value,
+          shapes[shape.value.shape],
+          shapes,
+        );
       }
       i++;
     }

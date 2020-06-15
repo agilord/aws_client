@@ -25,10 +25,7 @@ class QueryServiceBuilder extends ServiceBuilder {
     final parameterShape = api.shapes[operation.parameterType];
 
     final buf = StringBuffer();
-    buf.writeln('    final \$request = <String, dynamic>{\n'
-        '      \'Action\': \'${operation.name}\',\n'
-        '      \'Version\': \'${api.metadata.apiVersion}\',');
-    buf.writeln('    };');
+    buf.writeln('    final \$request = <String, dynamic>{};');
     parameterShape?.members?.forEach((member) {
       member.shapeClass.markUsed(true);
       var serializationSuffix = '';
@@ -46,11 +43,13 @@ class QueryServiceBuilder extends ServiceBuilder {
     });
     final params = StringBuffer([
       '\$request, ',
+      "action: '${operation.name}',",
+      "version: '${api.metadata.apiVersion}',",
       'method: \'${operation.http.method}\', ',
       'requestUri: \'${operation.http.requestUri}\', ',
       'exceptionFnMap: _exceptionFns, ',
       if (operation.input?.shape != null)
-        "shape: shapes['${operation.input.shape}'],",
+        "shape: shapes['${operation.input.shape}'], shapes: shapes,",
     ].join());
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output.resultWrapper}\',');

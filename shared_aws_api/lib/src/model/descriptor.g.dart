@@ -9,6 +9,7 @@ part of 'descriptor.dart';
 Descriptor _$DescriptorFromJson(Map<String, dynamic> json) {
   return Descriptor(
     json['shape'] as String,
+    json['locationName'] as String,
   );
 }
 
@@ -22,5 +23,6 @@ Map<String, dynamic> _$DescriptorToJson(Descriptor instance) {
   }
 
   writeNotNull('shape', instance.shape);
+  writeNotNull('locationName', instance.locationName);
   return val;
 }
