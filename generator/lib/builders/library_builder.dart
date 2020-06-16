@@ -248,7 +248,7 @@ ${builder.constructor()}
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
           } else if (member.dartType == 'DateTime') {
-            var timeStampFormat = 'unix';
+            var timeStampFormat = 'unixTimestamp';
 
             if (member.shapeClass.timestampFormat != null) {
               timeStampFormat = member.shapeClass.timestampFormat;
@@ -256,6 +256,18 @@ ${builder.constructor()}
               timeStampFormat = 'rfc822';
             } else if (member.location == 'querystring') {
               timeStampFormat = 'iso8601';
+            } else {
+              switch (member.api.metadata.protocol) {
+                case 'json':
+                case 'rest-json':
+                  timeStampFormat = 'unixTimestamp';
+                  break;
+                case 'rest-xml':
+                case 'query':
+                case 'ec2':
+                  timeStampFormat = 'iso8601';
+                  break;
+              }
             }
 
             dateTimeConversion =

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_aws_api/shared.dart';
 import 'package:test/test.dart';
 
@@ -10,7 +12,13 @@ void main() {
   group('flatQueryParams', () {
     test('run test suites', () {
       for (final s in testSuites) {
-        final testSuite = TestSuite.fromJson(s);
+        TestSuite testSuite;
+        try {
+          testSuite = TestSuite.fromJson(s);
+        } catch(e) {
+          printOnFailure('${jsonEncode(s)} has malformed JSON');
+          rethrow;
+        }
 
         for (var i = 0; i < testSuite.cases.length; i++) {
           final testCase = testSuite.cases[i];

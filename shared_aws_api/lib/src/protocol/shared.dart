@@ -16,7 +16,7 @@ DateTime iso8601fromJson(String date) => iso8601Formatter.parse(date);
 
 String iso8601toJson(DateTime date) => iso8601Formatter.format(date);
 
-DateTime unixFromJson(dynamic date) {
+DateTime unixTimestampFromJson(dynamic date) {
   if (date is String) {
     return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
   } else if (date is num) {
