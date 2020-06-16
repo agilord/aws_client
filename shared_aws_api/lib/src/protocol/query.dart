@@ -144,6 +144,29 @@ Iterable<MapEntry<String, String>> _flatten(
     return;
   }
 
+  if (data is DateTime) {
+    final key = prefixes.join('.');
+    var timeStampFormat = 'iso8601';
+    if (shape.timestampFormat != null) {
+      timeStampFormat = shape.timestampFormat;
+    }
+
+    String formattedDate;
+    switch (timeStampFormat) {
+      case 'iso8601':
+        formattedDate = iso8601toJson(data);
+        break;
+      case 'unixTimestamp':
+        formattedDate = unixTimestampToJson(data).toString();
+        break;
+      case 'rfc822':
+        formattedDate = rfc822toJson(data);
+        break;
+    }
+    yield MapEntry(key, formattedDate);
+    return;
+  }
+
   if (data is List) {
     if (data.isEmpty) {
       final key = prefixes.join('.');

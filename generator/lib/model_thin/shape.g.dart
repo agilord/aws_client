@@ -24,6 +24,7 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
           k, e == null ? null : Member.fromJson(e as Map<String, dynamic>)),
     ),
     json['locationName'] as String,
+    json['timestampFormat'] as String,
   );
 }
 
@@ -42,6 +43,7 @@ Map<String, dynamic> _$ShapeToJson(Shape instance) {
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
   writeNotNull('locationName', instance.locationName);
+  writeNotNull('timestampFormat', instance.timestampFormat);
   writeNotNull('flattened', instance.flattened);
   return val;
 }

@@ -15,7 +15,7 @@ void main() {
         TestSuite testSuite;
         try {
           testSuite = TestSuite.fromJson(s);
-        } catch(e) {
+        } catch (e) {
           printOnFailure('${jsonEncode(s)} has malformed JSON');
           rethrow;
         }
