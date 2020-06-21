@@ -97,7 +97,7 @@ in the config file, from the downloaded models.''';
       config = config.copyWith(packages: argPackages);
     }
 
-    if (argResults['download'] == true) {
+    if (argResults['download'] == true || !Directory('./apis').existsSync()) {
       await DownloadCommand(config).run();
     }
     await _generateClasses();
