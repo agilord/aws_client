@@ -10,23 +10,22 @@ class QueryServiceBuilder extends ServiceBuilder {
   @override
   String constructor() => '''
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client,})
-  : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,);
+  : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,),
+  shapes = shapesJson.map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
   ''';
 
   @override
-  String imports() => '';
+  String imports() => "import '${api.fileBasename}.meta.dart';";
 
   @override
   String operationContent(Operation operation) {
     final parameterShape = api.shapes[operation.parameterType];
 
     final buf = StringBuffer();
-    buf.writeln('    final \$request = <String, dynamic>{\n'
-        '      \'Action\': \'${operation.name}\',\n'
-        '      \'Version\': \'${api.metadata.apiVersion}\',');
-    buf.writeln('    };');
+    buf.writeln('    final \$request = <String, dynamic>{};');
     parameterShape?.members?.forEach((member) {
       member.shapeClass.markUsed(true);
       var serializationSuffix = '';
@@ -42,10 +41,16 @@ class QueryServiceBuilder extends ServiceBuilder {
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg$serializationSuffix);");
       }
     });
-    final params = StringBuffer('\$request, '
-        'method: \'${operation.http.method}\', '
-        'requestUri: \'${operation.http.requestUri}\', '
-        'exceptionFnMap: _exceptionFns, ');
+    final params = StringBuffer([
+      '\$request, ',
+      "action: '${operation.name}',",
+      "version: '${api.metadata.apiVersion}',",
+      'method: \'${operation.http.method}\', ',
+      'requestUri: \'${operation.http.requestUri}\', ',
+      'exceptionFnMap: _exceptionFns, ',
+      if (operation.input?.shape != null)
+        "shape: shapes['${operation.input.shape}'], shapes: shapes,",
+    ].join());
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
     }

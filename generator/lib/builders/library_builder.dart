@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -48,10 +49,10 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
   show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822fromJson, rfc822toJson, iso8601fromJson, iso8601toJson, unixFromJson, unixToJson' : ''};
-
-export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 """);
   buf.writeln(builder.imports());
+  buf.writeln(
+      "export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;\n");
 
   final body = StringBuffer()
     ..putMainClass(api, builder)
@@ -247,7 +248,7 @@ ${builder.constructor()}
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
           } else if (member.dartType == 'DateTime') {
-            var timeStampFormat = 'unix';
+            var timeStampFormat = 'unixTimestamp';
 
             if (member.shapeClass.timestampFormat != null) {
               timeStampFormat = member.shapeClass.timestampFormat;
@@ -255,6 +256,18 @@ ${builder.constructor()}
               timeStampFormat = 'rfc822';
             } else if (member.location == 'querystring') {
               timeStampFormat = 'iso8601';
+            } else {
+              switch (member.api.metadata.protocol) {
+                case 'json':
+                case 'rest-json':
+                  timeStampFormat = 'unixTimestamp';
+                  break;
+                case 'rest-xml':
+                case 'query':
+                case 'ec2':
+                  timeStampFormat = 'iso8601';
+                  break;
+              }
             }
 
             dateTimeConversion =
@@ -408,7 +421,7 @@ String _xmlExtractorFn(
   final enumeration = parent?.enumeration?.isNotEmpty ?? false;
 
   if (type.isBasicType()) {
-    final dartType = type.getDartType();
+    final dartType = type.getDartType(api);
     return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
@@ -416,7 +429,7 @@ String _xmlExtractorFn(
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
-          '_s.extractXml${_uppercaseName(memberShape.type.getDartType())}ListValues($elemVar, \'$memberElemName\')';
+          '_s.extractXml${_uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
@@ -459,14 +472,14 @@ String _toXmlFn(
   final enumeration = shapeRef?.enumeration?.isNotEmpty ?? false;
 
   if (type.isBasicType()) {
-    final dartType = type.getDartType();
+    final dartType = type.getDartType(api);
     return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '?.toValue()' : ''})';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
     String fn;
     if (memberShape.type.isBasicType()) {
-      final mdt = memberShape.type.getDartType();
+      final mdt = memberShape.type.getDartType(api);
       fn =
           '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
     } else {

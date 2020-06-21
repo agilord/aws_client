@@ -195,6 +195,7 @@ class Member {
   final List<String> enumeration;
   final String location;
   final String locationName;
+  // queryName is only defined in EC2
   final String queryName;
   @JsonKey(defaultValue: false)
   final bool idempotencyToken;
@@ -259,7 +260,7 @@ class Member {
     if (shapeClass.enumeration != null) {
       return shapeClass.className;
     } else if (type.isBasicType()) {
-      return type.getDartType();
+      return type.getDartType(api);
     } else if (type.isMapOrList()) {
       return getListOrMapDartType(shapeClass);
     }

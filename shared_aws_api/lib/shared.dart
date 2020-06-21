@@ -6,6 +6,7 @@ export 'package:xml/xml.dart'
     show XmlElement, XmlFindExtension, XmlName, XmlNode;
 
 export 'src/credentials.dart';
+export 'src/model/shape.dart';
 export 'src/protocol/ec2.dart';
 export 'src/protocol/json.dart';
 export 'src/protocol/query.dart';
