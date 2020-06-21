@@ -672,7 +672,7 @@ final testSuites = [
         },
         'serialized': {
           'uri': '/',
-          'headers': {},
+          'headers': <String, dynamic>{},
           'body':
               'Action=OperationName&Version=2014-01-01&FooEnum=foo&ListEnums.member.1=foo&ListEnums.member.2=&ListEnums.member.3=bar'
         }
@@ -686,7 +686,7 @@ final testSuites = [
         'params': {'FooEnum': 'foo'},
         'serialized': {
           'uri': '/',
-          'headers': {},
+          'headers': <String, dynamic>{},
           'body': 'Action=OperationName&Version=2014-01-01&FooEnum=foo'
         }
       },
@@ -696,10 +696,10 @@ final testSuites = [
           'http': {'method': 'POST'},
           'name': 'OperationName'
         },
-        'params': {},
+        'params': <String, dynamic>{},
         'serialized': {
           'uri': '/',
-          'headers': {},
+          'headers': <String, dynamic>{},
           'body': 'Action=OperationName&Version=2014-01-01'
         }
       }
