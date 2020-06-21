@@ -47,7 +47,6 @@
 - [AWS IoT Things Graph](https://pub.dev/packages/aws_iotthingsgraph_api)
 - [AWS Key Management Service](https://pub.dev/packages/aws_kms_api)
 - [AWS Lake Formation](https://pub.dev/packages/aws_lakeformation_api)
-- [AWS Lambda](https://pub.dev/packages/aws_lambda_api)
 - [AWS License Manager](https://pub.dev/packages/aws_license_manager_api)
 - [AWS Marketplace Commerce Analytics](https://pub.dev/packages/aws_marketplacecommerceanalytics_api)
 - [AWS Marketplace Entitlement Service](https://pub.dev/packages/aws_marketplace_entitlement_api)
@@ -93,7 +92,6 @@
 - [Amazon EC2 Container Registry](https://pub.dev/packages/aws_ecr_api)
 - [Amazon EC2 Container Service](https://pub.dev/packages/aws_ecs_api)
 - [Amazon ElastiCache](https://pub.dev/packages/aws_elasticache_api)
-- [Amazon Elastic Compute Cloud](https://pub.dev/packages/aws_ec2_api)
 - [Amazon Elastic MapReduce](https://pub.dev/packages/aws_emr_api)
 - [Amazon FSx](https://pub.dev/packages/aws_fsx_api)
 - [Amazon Forecast Query Service](https://pub.dev/packages/aws_forecastquery_api)
@@ -138,6 +136,101 @@
 - [Elastic Load Balancing](https://pub.dev/packages/aws_elbv2_api)
 - [Firewall Management Service](https://pub.dev/packages/aws_fms_api)
 - [Service Quotas](https://pub.dev/packages/aws_service_quotas_api)
+
+# TODO
+
+Implement remaining protocols and generate the services depending on those protocols:
+- EC2
+- rest-json:
+  - NO_PACKAGE_BASENAME: [iotsitewise-2019-12-02, macie2-2020-01-01, synthetics-2017-10-11, mobileanalytics-2014-06-05]
+  - accessanalyzer: [accessanalyzer-2019-11-01]
+  - amplify: [amplify-2017-07-25]
+  - apigateway: [apigateway-2015-07-09]
+  - apigatewaymanagementapi: [apigatewaymanagementapi-2018-11-29]
+  - apigatewayv2: [apigatewayv2-2018-11-29]
+  - appconfig: [appconfig-2019-10-09]
+  - appmesh: [appmesh-2018-10-01, appmesh-2019-01-25]
+  - appsync: [appsync-2017-07-25]
+  - backup: [backup-2018-11-15]
+  - batch: [batch-2016-08-10]
+  - chime: [chime-2018-05-01]
+  - clouddirectory: [clouddirectory-2016-05-10, clouddirectory-2017-01-11]
+  - cloudsearchdomain: [cloudsearchdomain-2013-01-01]
+  - codeguru-reviewer: [codeguru-reviewer-2019-09-19]
+  - codeguruprofiler: [codeguruprofiler-2019-07-18]
+  - codestar-notifications: [codestar-notifications-2019-10-15]
+  - cognito-sync: [cognito-sync-2014-06-30]
+  - connect: [connect-2017-08-08]
+  - connectparticipant: [connectparticipant-2018-09-07]
+  - dataexchange: [dataexchange-2017-07-25]
+  - detective: [detective-2018-10-26]
+  - dlm: [dlm-2018-01-12]
+  - ebs: [ebs-2019-11-02]
+  - efs: [elasticfilesystem-2015-02-01]
+  - eks: [eks-2017-11-01]
+  - elastic-inference: [elastic-inference-2017-07-25]
+  - elastictranscoder: [elastictranscoder-2012-09-25]
+  - es: [es-2015-01-01]
+  - glacier: [glacier-2012-06-01]
+  - greengrass: [greengrass-2017-06-07]
+  - groundstation: [groundstation-2019-05-23]
+  - guardduty: [guardduty-2017-11-28]
+  - imagebuilder: [imagebuilder-2019-12-02]
+  - iot: [iot-2015-05-28]
+  - iot-data: [iot-data-2015-05-28]
+  - iot-jobs-data: [iot-jobs-data-2017-09-29]
+  - iot1click-devices: [devices-2018-05-14]
+  - iot1click-projects: [iot1click-projects-2018-05-14]
+  - iotanalytics: [iotanalytics-2017-11-27]
+  - iotevents: [iotevents-2018-07-27]
+  - iotevents-data: [iotevents-data-2018-10-23]
+  - kafka: [kafka-2018-11-14]
+  - kinesis-video-archived-media: [kinesis-video-archived-media-2017-09-30]
+  - kinesis-video-media: [kinesis-video-media-2017-09-30]
+  - kinesis-video-signaling: [kinesis-video-signaling-2019-12-04]
+  - kinesisvideo: [kinesisvideo-2017-09-30]
+  - lambda [lambda-2014-11-11, lambda-2015-03-31]
+  - lex-models: [lex-models-2017-04-19]
+  - lex-runtime: [runtime.lex-2016-11-28]
+  - managedblockchain: [managedblockchain-2018-09-24]
+  - marketplace-catalog: [marketplace-catalog-2018-09-17]
+  - mediaconnect: [mediaconnect-2018-11-14]
+  - mediaconvert: [mediaconvert-2017-08-29]
+  - medialive: [medialive-2017-10-14]
+  - mediapackage: [mediapackage-2017-10-12]
+  - mediapackage-vod: [mediapackage-vod-2018-11-07]
+  - mediastore-data: [mediastore-data-2017-09-01]
+  - mediatailor: [mediatailor-2018-04-23]
+  - mobile: [mobile-2017-07-01]
+  - mq: [mq-2017-11-27]
+  - networkmanager: [networkmanager-2019-07-05]
+  - outposts: [outposts-2019-12-03]
+  - personalize-events: [personalize-events-2018-03-22]
+  - personalize-runtime: [personalize-runtime-2018-05-22]
+  - pinpoint: [pinpoint-2016-12-01]
+  - pinpoint-email: [pinpoint-email-2018-07-26]
+  - pinpoint-sms-voice: [pinpoint-sms-voice-2018-09-05]
+  - polly: [polly-2016-06-10]
+  - qldb: [qldb-2019-01-02]
+  - quicksight: [quicksight-2018-04-01]
+  - ram: [ram-2018-01-04]
+  - rds-data: [rds-data-2018-08-01]
+  - resource-groups: [resource-groups-2017-11-27]
+  - robomaker: [robomaker-2018-06-29]
+  - sagemaker-a2i-runtime: [sagemaker-a2i-runtime-2019-11-07]
+  - sagemaker-runtime: [runtime.sagemaker-2017-05-13]
+  - savingsplans: [savingsplans-2019-06-28]
+  - schemas: [schemas-2019-12-02]
+  - securityhub: [securityhub-2018-10-26]
+  - serverlessrepo: [serverlessrepo-2017-09-08]
+  - sesv2: [sesv2-2019-09-27]
+  - signer: [signer-2017-08-25]
+  - sso: [sso-2019-06-10]
+  - sso-oidc: [sso-oidc-2019-06-10]
+  - workdocs: [workdocs-2016-05-01]
+  - worklink: [worklink-2018-09-25]
+  - workmailmessageflow: [workmailmessageflow-2019-05-01]
+  - xray: [xray-2016-04-12]
 
 ## Maintenance
 
