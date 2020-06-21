@@ -8,7 +8,7 @@ import '../test_model.dart';
 import 'query_test_data.dart';
 
 void main() {
-  group('flatQueryParams', () {
+  group('query protocol', () {
     for (final s in testSuites) {
       TestSuite testSuite;
       try {

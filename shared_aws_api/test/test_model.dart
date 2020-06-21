@@ -37,21 +37,33 @@ class Case {
 class Given {
   final Descriptor input;
   final String name;
+  final Http http;
 
   Given(
     this.input,
     this.name,
+    this.http,
   );
 
   factory Given.fromJson(Map<String, dynamic> json) => _$GivenFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
+class Http {
+  final String method;
+
+  Http(this.method);
+
+  factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
 class Serialized {
   final String uri;
   final String body;
+  final Map<String, String> headers;
 
-  Serialized(this.uri, this.body);
+  Serialized(this.uri, this.body, this.headers);
 
   factory Serialized.fromJson(Map<String, dynamic> json) =>
       _$SerializedFromJson(json);

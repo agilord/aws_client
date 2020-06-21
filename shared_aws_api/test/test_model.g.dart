@@ -41,6 +41,15 @@ Given _$GivenFromJson(Map<String, dynamic> json) {
         ? null
         : Descriptor.fromJson(json['input'] as Map<String, dynamic>),
     json['name'] as String,
+    json['http'] == null
+        ? null
+        : Http.fromJson(json['http'] as Map<String, dynamic>),
+  );
+}
+
+Http _$HttpFromJson(Map<String, dynamic> json) {
+  return Http(
+    json['method'] as String,
   );
 }
 
@@ -48,5 +57,8 @@ Serialized _$SerializedFromJson(Map<String, dynamic> json) {
   return Serialized(
     json['uri'] as String,
     json['body'] as String,
+    (json['headers'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
