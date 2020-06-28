@@ -10,6 +10,792 @@ jobs:
       env: PKGS="aws_client"
       script: ./tool/travis.sh dartfmt dartanalyzer
     - stage: smoke_test
+      name: "SDK: stable; PKG: document_client; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="document_client"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_acm_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_acm_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_acm_pca_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_acm_pca_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_alexaforbusiness_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_alexaforbusiness_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_application_autoscaling_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_application_autoscaling_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_application_insights_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_application_insights_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_appstream_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_appstream_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_athena_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_athena_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_autoscaling_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_autoscaling_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_autoscaling_plans_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_autoscaling_plans_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_budgets_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_budgets_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ce_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ce_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloud9_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloud9_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudformation_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudformation_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudfront_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudfront_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudhsm_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudhsm_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudhsmv2_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudhsmv2_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudsearch_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudsearch_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudtrail_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudtrail_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cloudwatch_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudwatch_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_codebuild_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codebuild_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_codecommit_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codecommit_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_codepipeline_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codepipeline_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_codestar_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codestar_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_codestar_connections_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codestar_connections_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cognito_identity_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cognito_identity_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cognito_idp_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cognito_idp_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_comprehend_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_comprehend_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_comprehendmedical_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_comprehendmedical_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_compute_optimizer_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_compute_optimizer_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_configservice_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_configservice_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_cur_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cur_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_datapipeline_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_datapipeline_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_datasync_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_datasync_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_dax_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dax_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_deploy_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_deploy_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_devicefarm_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_devicefarm_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_directconnect_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_directconnect_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_discovery_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_discovery_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_dms_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dms_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_docdb_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_docdb_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ds_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ds_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_dynamodb_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dynamodb_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_dynamodbstreams_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dynamodbstreams_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ec2_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ec2_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ec2_instance_connect_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ec2_instance_connect_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ecr_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ecr_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ecs_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ecs_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_elasticache_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elasticache_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_elasticbeanstalk_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elasticbeanstalk_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_elb_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elb_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_elbv2_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elbv2_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_emr_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_emr_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_events_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_events_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_firehose_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_firehose_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_fms_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_fms_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_forecast_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_forecast_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_forecastquery_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_forecastquery_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_frauddetector_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_frauddetector_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_fsx_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_fsx_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_gamelift_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_gamelift_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_globalaccelerator_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_globalaccelerator_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_glue_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_glue_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_health_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_health_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_iam_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iam_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_importexport_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_importexport_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_inspector_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_inspector_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_iotsecuretunneling_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iotsecuretunneling_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_iotthingsgraph_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iotthingsgraph_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_kendra_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kendra_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_kinesis_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesis_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_kinesisanalytics_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesisanalytics_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_kinesisanalyticsv2_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesisanalyticsv2_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_kms_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kms_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_lakeformation_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lakeformation_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_lambda_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lambda_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_license_manager_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_license_manager_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_lightsail_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lightsail_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_logs_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_logs_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_machinelearning_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_machinelearning_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_macie_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_macie_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_marketplace_entitlement_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_marketplace_entitlement_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_marketplacecommerceanalytics_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_marketplacecommerceanalytics_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_mediastore_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mediastore_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_meteringmarketplace_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_meteringmarketplace_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_mgh_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mgh_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_migrationhub_config_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_migrationhub_config_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_mturk_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mturk_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_neptune_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_neptune_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_opsworks_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_opsworks_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_opsworks_cm_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_opsworks_cm_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_organizations_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_organizations_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_personalize_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_personalize_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_pi_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_pi_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_pricing_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_pricing_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_qldb_session_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_qldb_session_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_rds_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_rds_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_redshift_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_redshift_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_rekognition_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_rekognition_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_resourcegroupstaggingapi_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_resourcegroupstaggingapi_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_route53_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_route53domains_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53domains_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_route53resolver_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53resolver_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_s3_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_s3_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_s3control_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_s3control_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sagemaker_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sagemaker_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sdb_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sdb_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_secretsmanager_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_secretsmanager_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_service_quotas_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_service_quotas_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_servicecatalog_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_servicecatalog_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_servicediscovery_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_servicediscovery_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ses_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ses_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_shield_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_shield_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sms_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sms_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_snowball_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_snowball_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sns_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sns_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sqs_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sqs_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_ssm_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ssm_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_storagegateway_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_storagegateway_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_sts_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sts_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_support_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_support_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_swf_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_swf_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_textract_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_textract_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_transcribe_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_transcribe_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_transfer_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_transfer_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_translate_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_translate_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_waf_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_waf_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_waf_regional_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_waf_regional_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_wafv2_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_wafv2_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_workmail_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_workmail_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
+      name: "SDK: stable; PKG: generated/aws_workspaces_api; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_workspaces_api"
+      script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: smoke_test
       name: "SDK: stable; PKG: generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
       dart: stable
       os: linux
@@ -21,6 +807,792 @@ jobs:
       os: linux
       env: PKGS="shared_aws_api"
       script: ./tool/travis.sh dartfmt dartanalyzer
+    - stage: unit_test
+      name: "SDK: stable; PKG: document_client; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="document_client"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_acm_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_acm_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_acm_pca_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_acm_pca_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_alexaforbusiness_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_alexaforbusiness_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_application_autoscaling_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_application_autoscaling_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_application_insights_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_application_insights_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_appstream_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_appstream_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_athena_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_athena_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_autoscaling_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_autoscaling_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_autoscaling_plans_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_autoscaling_plans_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_budgets_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_budgets_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ce_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ce_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloud9_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloud9_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudformation_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudformation_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudfront_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudfront_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudhsm_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudhsm_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudhsmv2_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudhsmv2_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudsearch_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudsearch_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudtrail_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudtrail_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cloudwatch_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cloudwatch_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_codebuild_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codebuild_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_codecommit_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codecommit_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_codepipeline_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codepipeline_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_codestar_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codestar_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_codestar_connections_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_codestar_connections_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cognito_identity_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cognito_identity_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cognito_idp_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cognito_idp_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_comprehend_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_comprehend_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_comprehendmedical_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_comprehendmedical_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_compute_optimizer_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_compute_optimizer_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_configservice_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_configservice_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_cur_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_cur_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_datapipeline_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_datapipeline_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_datasync_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_datasync_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_dax_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dax_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_deploy_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_deploy_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_devicefarm_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_devicefarm_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_directconnect_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_directconnect_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_discovery_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_discovery_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_dms_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dms_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_docdb_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_docdb_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ds_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ds_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_dynamodb_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dynamodb_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_dynamodbstreams_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_dynamodbstreams_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ec2_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ec2_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ec2_instance_connect_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ec2_instance_connect_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ecr_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ecr_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ecs_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ecs_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_elasticache_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elasticache_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_elasticbeanstalk_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elasticbeanstalk_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_elb_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elb_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_elbv2_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_elbv2_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_emr_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_emr_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_events_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_events_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_firehose_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_firehose_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_fms_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_fms_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_forecast_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_forecast_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_forecastquery_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_forecastquery_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_frauddetector_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_frauddetector_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_fsx_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_fsx_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_gamelift_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_gamelift_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_globalaccelerator_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_globalaccelerator_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_glue_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_glue_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_health_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_health_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_iam_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iam_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_importexport_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_importexport_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_inspector_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_inspector_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_iotsecuretunneling_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iotsecuretunneling_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_iotthingsgraph_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_iotthingsgraph_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_kendra_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kendra_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_kinesis_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesis_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_kinesisanalytics_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesisanalytics_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_kinesisanalyticsv2_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kinesisanalyticsv2_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_kms_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_kms_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_lakeformation_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lakeformation_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_lambda_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lambda_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_license_manager_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_license_manager_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_lightsail_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_lightsail_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_logs_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_logs_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_machinelearning_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_machinelearning_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_macie_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_macie_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_marketplace_entitlement_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_marketplace_entitlement_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_marketplacecommerceanalytics_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_marketplacecommerceanalytics_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_mediastore_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mediastore_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_meteringmarketplace_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_meteringmarketplace_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_mgh_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mgh_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_migrationhub_config_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_migrationhub_config_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_mturk_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_mturk_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_neptune_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_neptune_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_opsworks_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_opsworks_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_opsworks_cm_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_opsworks_cm_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_organizations_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_organizations_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_personalize_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_personalize_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_pi_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_pi_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_pricing_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_pricing_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_qldb_session_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_qldb_session_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_rds_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_rds_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_redshift_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_redshift_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_rekognition_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_rekognition_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_resourcegroupstaggingapi_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_resourcegroupstaggingapi_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_route53_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_route53domains_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53domains_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_route53resolver_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_route53resolver_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_s3_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_s3_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_s3control_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_s3control_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sagemaker_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sagemaker_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sdb_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sdb_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_secretsmanager_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_secretsmanager_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_service_quotas_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_service_quotas_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_servicecatalog_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_servicecatalog_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_servicediscovery_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_servicediscovery_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ses_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ses_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_shield_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_shield_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sms_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sms_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_snowball_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_snowball_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sns_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sns_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sqs_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sqs_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_ssm_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_ssm_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_storagegateway_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_storagegateway_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_sts_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_sts_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_support_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_support_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_swf_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_swf_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_textract_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_textract_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_transcribe_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_transcribe_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_transfer_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_transfer_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_translate_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_translate_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_waf_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_waf_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_waf_regional_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_waf_regional_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_wafv2_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_wafv2_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_workmail_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_workmail_api"
+      script: ./tool/travis.sh test
+    - stage: unit_test
+      name: "SDK: stable; PKG: generated/aws_workspaces_api; TASKS: `pub run test -j 1 --run-skipped`"
+      dart: stable
+      os: linux
+      env: PKGS="generated/aws_workspaces_api"
+      script: ./tool/travis.sh test
     - stage: unit_test
       name: "SDK: stable; PKG: generator; TASKS: `pub run test -j 1 --run-skipped`"
       dart: stable
