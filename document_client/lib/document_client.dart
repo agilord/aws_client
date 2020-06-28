@@ -236,7 +236,7 @@ class DocumentClient {
       tableName: tableName,
       conditionExpression: conditionExpression,
       conditionalOperator: conditionalOperator,
-      expected: expected.map((key, value) => MapEntry(
+      expected: expected?.map((key, value) => MapEntry(
           key,
           ExpectedAttributeValue(
             attributeValueList:
