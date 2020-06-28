@@ -1,3 +1,7 @@
+## 0.0.7
+
+- Fix null value error for 'expected' parameter in 'put' method
+
 ## 0.0.6
 
 - Added support for AttributeValues for the translator for the DocumentClient
