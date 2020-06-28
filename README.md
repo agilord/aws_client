@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/agilord/aws_client.svg?branch=master)](https://travis-ci.com/agilord/aws_client)
 # High-level APIs for Amazon Web Services (AWS) in Dart
 
 - [Shared API utilities](https://github.com/agilord/aws_client/tree/master/shared_aws_api)
