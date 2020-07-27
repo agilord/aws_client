@@ -102,7 +102,6 @@ class RestXmlProtocol {
       throw UnimplementedError(
           'Not implemented payload type: ${payload.runtimeType}');
     }
-
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
       rq: rq,
