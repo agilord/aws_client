@@ -52,7 +52,7 @@ class RestXmlProtocol {
     dynamic payload,
     String resultWrapper,
   }) async {
-    final rq = _buildRequest(method, requestUri, queryParams, payload);
+    final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = XmlDocument.parse(body);
@@ -79,6 +79,7 @@ class RestXmlProtocol {
     String requestUri,
     Map<String, String> queryParams,
     dynamic payload,
+    Map<String,String> headers
   ) {
     queryParams ??= <String, String>{};
     final rq = Request(
@@ -87,6 +88,9 @@ class RestXmlProtocol {
         '$_endpointUrl$requestUri',
       ).replace(queryParameters: queryParams.isEmpty ? null : queryParams),
     );
+    if(headers !=null){
+      rq.headers.addAll(headers);
+    }
     if (payload is XmlElement) {
       rq.body = payload.toXmlString();
       rq.headers['Content-Type'] = 'application/xml';
@@ -98,6 +102,7 @@ class RestXmlProtocol {
       throw UnimplementedError(
           'Not implemented payload type: ${payload.runtimeType}');
     }
+
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
       rq: rq,
