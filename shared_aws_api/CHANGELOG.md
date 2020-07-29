@@ -1,3 +1,7 @@
+## 0.1.9
+
+- Fixed: sending headers with `RestXmlRequest`.
+
 ## 0.1.8
 
 - Fixed type conversion issue in `Uint8ListListConverter`.
