@@ -63,7 +63,9 @@ class RestXmlProtocol {
       final code = error.findElements('Code').first.text;
       final message = error.findElements('Message').first.text;
       final fn = exceptionFnMap[code];
-      final exception = fn != null ? fn(type, message) : GenericAwsException(type: type, code: code, message: message);
+      final exception = fn != null
+          ? fn(type, message)
+          : GenericAwsException(type: type, code: code, message: message);
       throw exception;
     }
     if (resultWrapper != null) {
@@ -72,7 +74,12 @@ class RestXmlProtocol {
     return RestXmlResponse(rs.headers, elem);
   }
 
-  Request _buildRequest(String method, String requestUri, Map<String, String> queryParams, dynamic payload, Map<String, String> headers) {
+  Request _buildRequest(
+      String method,
+      String requestUri,
+      Map<String, String> queryParams,
+      dynamic payload,
+      Map<String, String> headers) {
     queryParams ??= <String, String>{};
     final rq = Request(
       method,
@@ -91,7 +98,8 @@ class RestXmlProtocol {
     } else if (payload is Uint8List) {
       rq.bodyBytes = payload;
     } else if (payload != null) {
-      throw UnimplementedError('Not implemented payload type: ${payload.runtimeType}');
+      throw UnimplementedError(
+          'Not implemented payload type: ${payload.runtimeType}');
     }
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
