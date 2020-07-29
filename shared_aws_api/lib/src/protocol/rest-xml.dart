@@ -52,7 +52,7 @@ class RestXmlProtocol {
     dynamic payload,
     String resultWrapper,
   }) async {
-    final rq = _buildRequest(method, requestUri, queryParams, payload);
+    final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = XmlDocument.parse(body);
@@ -75,11 +75,11 @@ class RestXmlProtocol {
   }
 
   Request _buildRequest(
-    String method,
-    String requestUri,
-    Map<String, String> queryParams,
-    dynamic payload,
-  ) {
+      String method,
+      String requestUri,
+      Map<String, String> queryParams,
+      dynamic payload,
+      Map<String, String> headers) {
     queryParams ??= <String, String>{};
     final rq = Request(
       method,
@@ -87,6 +87,9 @@ class RestXmlProtocol {
         '$_endpointUrl$requestUri',
       ).replace(queryParameters: queryParams.isEmpty ? null : queryParams),
     );
+    if (headers != null) {
+      rq.headers.addAll(headers);
+    }
     if (payload is XmlElement) {
       rq.body = payload.toXmlString();
       rq.headers['Content-Type'] = 'application/xml';
