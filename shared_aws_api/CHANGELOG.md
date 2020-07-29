@@ -1,3 +1,8 @@
+## 0.2.0
+
+- Fixes and breaking changes in protocol clients.
+- Fixed: sending headers with `RestXmlRequest`.
+
 ## 0.1.8
 
 - Fixed type conversion issue in `Uint8ListListConverter`.
