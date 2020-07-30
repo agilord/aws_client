@@ -1678,7 +1678,9 @@ class QueryExecutionStatistics {
 class QueryExecutionStatus {
   /// The date and time that the query completed.
   @_s.JsonKey(
-      name: 'CompletionDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletionDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completionDateTime;
 
   /// The state of query execution. <code>QUEUED</code> indicates that the query
@@ -1697,7 +1699,9 @@ class QueryExecutionStatus {
 
   /// The date and time that the query was submitted.
   @_s.JsonKey(
-      name: 'SubmissionDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'SubmissionDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submissionDateTime;
 
   QueryExecutionStatus({
@@ -2073,7 +2077,10 @@ class WorkGroup {
   final WorkGroupConfiguration configuration;
 
   /// The date and time the workgroup was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The workgroup description.
@@ -2256,7 +2263,10 @@ extension on WorkGroupState {
     createToJson: false)
 class WorkGroupSummary {
   /// The workgroup creation date and time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The workgroup description.

@@ -56,8 +56,12 @@ ApprovalRule _$ApprovalRuleFromJson(Map<String, dynamic> json) {
     approvalRuleContent: json['approvalRuleContent'] as String,
     approvalRuleId: json['approvalRuleId'] as String,
     approvalRuleName: json['approvalRuleName'] as String,
-    creationDate: unixFromJson(json['creationDate']),
-    lastModifiedDate: unixFromJson(json['lastModifiedDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
+    lastModifiedDate: json['lastModifiedDate'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedDate'] as String),
     lastModifiedUser: json['lastModifiedUser'] as String,
     originApprovalRuleTemplate: json['originApprovalRuleTemplate'] == null
         ? null
@@ -97,8 +101,12 @@ ApprovalRuleTemplate _$ApprovalRuleTemplateFromJson(Map<String, dynamic> json) {
         json['approvalRuleTemplateDescription'] as String,
     approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
     approvalRuleTemplateName: json['approvalRuleTemplateName'] as String,
-    creationDate: unixFromJson(json['creationDate']),
-    lastModifiedDate: unixFromJson(json['lastModifiedDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
+    lastModifiedDate: json['lastModifiedDate'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedDate'] as String),
     lastModifiedUser: json['lastModifiedUser'] as String,
     ruleContentSha256: json['ruleContentSha256'] as String,
   );
@@ -252,10 +260,14 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
     clientRequestToken: json['clientRequestToken'] as String,
     commentId: json['commentId'] as String,
     content: json['content'] as String,
-    creationDate: unixFromJson(json['creationDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
     deleted: json['deleted'] as bool,
     inReplyTo: json['inReplyTo'] as String,
-    lastModifiedDate: unixFromJson(json['lastModifiedDate']),
+    lastModifiedDate: json['lastModifiedDate'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedDate'] as String),
   );
 }
 
@@ -1089,9 +1101,13 @@ PullRequest _$PullRequestFromJson(Map<String, dynamic> json) {
         ?.toList(),
     authorArn: json['authorArn'] as String,
     clientRequestToken: json['clientRequestToken'] as String,
-    creationDate: unixFromJson(json['creationDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
     description: json['description'] as String,
-    lastActivityDate: unixFromJson(json['lastActivityDate']),
+    lastActivityDate: json['lastActivityDate'] == null
+        ? null
+        : DateTime.parse(json['lastActivityDate'] as String),
     pullRequestId: json['pullRequestId'] as String,
     pullRequestStatus: _$enumDecodeNullable(
         _$PullRequestStatusEnumEnumMap, json['pullRequestStatus']),
@@ -1139,7 +1155,9 @@ PullRequestEvent _$PullRequestEventFromJson(Map<String, dynamic> json) {
             : ApprovalStateChangedEventMetadata.fromJson(
                 json['approvalStateChangedEventMetadata']
                     as Map<String, dynamic>),
-    eventDate: unixFromJson(json['eventDate']),
+    eventDate: json['eventDate'] == null
+        ? null
+        : DateTime.parse(json['eventDate'] as String),
     pullRequestCreatedEventMetadata: json['pullRequestCreatedEventMetadata'] ==
             null
         ? null
@@ -1295,9 +1313,13 @@ RepositoryMetadata _$RepositoryMetadataFromJson(Map<String, dynamic> json) {
     accountId: json['accountId'] as String,
     cloneUrlHttp: json['cloneUrlHttp'] as String,
     cloneUrlSsh: json['cloneUrlSsh'] as String,
-    creationDate: unixFromJson(json['creationDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
     defaultBranch: json['defaultBranch'] as String,
-    lastModifiedDate: unixFromJson(json['lastModifiedDate']),
+    lastModifiedDate: json['lastModifiedDate'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedDate'] as String),
     repositoryDescription: json['repositoryDescription'] as String,
     repositoryId: json['repositoryId'] as String,
     repositoryName: json['repositoryName'] as String,

@@ -1113,7 +1113,10 @@ class CertificateDetail {
 
   /// The time at which the certificate was requested. This value exists only when
   /// the certificate type is <code>AMAZON_ISSUED</code>.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The fully qualified domain name for the certificate, such as www.example.com
@@ -1142,7 +1145,10 @@ class CertificateDetail {
 
   /// The date and time at which the certificate was imported. This value exists
   /// only when the certificate type is <code>IMPORTED</code>.
-  @_s.JsonKey(name: 'ImportedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ImportedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime importedAt;
 
   /// A list of ARNs for the AWS resources that are using the certificate. A
@@ -1152,7 +1158,10 @@ class CertificateDetail {
 
   /// The time at which the certificate was issued. This value exists only when
   /// the certificate type is <code>AMAZON_ISSUED</code>.
-  @_s.JsonKey(name: 'IssuedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'IssuedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime issuedAt;
 
   /// The name of the certificate authority that issued and signed the
@@ -1172,11 +1181,17 @@ class CertificateDetail {
   final List<KeyUsage> keyUsages;
 
   /// The time after which the certificate is not valid.
-  @_s.JsonKey(name: 'NotAfter', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'NotAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime notAfter;
 
   /// The time before which the certificate is not valid.
-  @_s.JsonKey(name: 'NotBefore', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'NotBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime notBefore;
 
   /// Value that specifies whether to add the certificate to a transparency log.
@@ -1207,7 +1222,10 @@ class CertificateDetail {
 
   /// The time at which the certificate was revoked. This value exists only when
   /// the certificate status is <code>REVOKED</code>.
-  @_s.JsonKey(name: 'RevokedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'RevokedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime revokedAt;
 
   /// The serial number of the certificate.
@@ -1888,7 +1906,10 @@ class RenewalSummary {
   final RenewalStatus renewalStatus;
 
   /// The time at which the renewal summary was last updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   /// The reason that a renewal request was unsuccessful.

@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'sns-2010-03-31.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'sns-2010-03-31.g.dart';
 
 /// Amazon Simple Notification Service (Amazon SNS) is a web service that
 /// enables you to build distributed web-enabled applications. Applications can
@@ -24,17 +35,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// SNS Developer Guide</a>.
 class SNS {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   SNS({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'sns',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Adds a statement to a topic's access control policy, granting access for
   /// the specified AWS accounts to the specified actions.
@@ -70,19 +84,20 @@ class SNS {
     ArgumentError.checkNotNull(actionName, 'actionName');
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'AddPermission',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['AWSAccountId'] = awsAccountId;
     $request['ActionName'] = actionName;
     $request['Label'] = label;
     $request['TopicArn'] = topicArn;
     await _protocol.send(
       $request,
+      action: 'AddPermission',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddPermissionInput'],
+      shapes: shapes,
     );
   }
 
@@ -104,16 +119,17 @@ class SNS {
     @_s.required String phoneNumber,
   }) async {
     ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
-    final $request = <String, dynamic>{
-      'Action': 'CheckIfPhoneNumberIsOptedOut',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['phoneNumber'] = phoneNumber;
     final $result = await _protocol.send(
       $request,
+      action: 'CheckIfPhoneNumberIsOptedOut',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CheckIfPhoneNumberIsOptedOutInput'],
+      shapes: shapes,
       resultWrapper: 'CheckIfPhoneNumberIsOptedOutResult',
     );
     return CheckIfPhoneNumberIsOptedOutResponse.fromXml($result);
@@ -152,19 +168,20 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'ConfirmSubscription',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Token'] = token;
     $request['TopicArn'] = topicArn;
     authenticateOnUnsubscribe
         ?.also((arg) => $request['AuthenticateOnUnsubscribe'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ConfirmSubscription',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ConfirmSubscriptionInput'],
+      shapes: shapes,
       resultWrapper: 'ConfirmSubscriptionResult',
     );
     return ConfirmSubscriptionResponse.fromXml($result);
@@ -216,18 +233,19 @@ class SNS {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(platform, 'platform');
-    final $request = <String, dynamic>{
-      'Action': 'CreatePlatformApplication',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['Name'] = name;
     $request['Platform'] = platform;
     final $result = await _protocol.send(
       $request,
+      action: 'CreatePlatformApplication',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreatePlatformApplicationInput'],
+      shapes: shapes,
       resultWrapper: 'CreatePlatformApplicationResult',
     );
     return CreatePlatformApplicationResponse.fromXml($result);
@@ -286,19 +304,20 @@ class SNS {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
     ArgumentError.checkNotNull(token, 'token');
-    final $request = <String, dynamic>{
-      'Action': 'CreatePlatformEndpoint',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     $request['Token'] = token;
     attributes?.also((arg) => $request['Attributes'] = arg);
     customUserData?.also((arg) => $request['CustomUserData'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreatePlatformEndpoint',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreatePlatformEndpointInput'],
+      shapes: shapes,
       resultWrapper: 'CreatePlatformEndpointResult',
     );
     return CreateEndpointResponse.fromXml($result);
@@ -373,18 +392,19 @@ class SNS {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $request = <String, dynamic>{
-      'Action': 'CreateTopic',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Name'] = name;
     attributes?.also((arg) => $request['Attributes'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateTopic',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateTopicInput'],
+      shapes: shapes,
       resultWrapper: 'CreateTopicResult',
     );
     return CreateTopicResponse.fromXml($result);
@@ -408,16 +428,17 @@ class SNS {
     @_s.required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteEndpoint',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['EndpointArn'] = endpointArn;
     await _protocol.send(
       $request,
+      action: 'DeleteEndpoint',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEndpointInput'],
+      shapes: shapes,
     );
   }
 
@@ -437,16 +458,17 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
-    final $request = <String, dynamic>{
-      'Action': 'DeletePlatformApplication',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     await _protocol.send(
       $request,
+      action: 'DeletePlatformApplication',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeletePlatformApplicationInput'],
+      shapes: shapes,
     );
   }
 
@@ -469,16 +491,17 @@ class SNS {
     @_s.required String topicArn,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteTopic',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     await _protocol.send(
       $request,
+      action: 'DeleteTopic',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteTopicInput'],
+      shapes: shapes,
     );
   }
 
@@ -499,16 +522,17 @@ class SNS {
     @_s.required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    final $request = <String, dynamic>{
-      'Action': 'GetEndpointAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['EndpointArn'] = endpointArn;
     final $result = await _protocol.send(
       $request,
+      action: 'GetEndpointAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetEndpointAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'GetEndpointAttributesResult',
     );
     return GetEndpointAttributesResponse.fromXml($result);
@@ -533,16 +557,17 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
-    final $request = <String, dynamic>{
-      'Action': 'GetPlatformApplicationAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     final $result = await _protocol.send(
       $request,
+      action: 'GetPlatformApplicationAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetPlatformApplicationAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'GetPlatformApplicationAttributesResult',
     );
     return GetPlatformApplicationAttributesResponse.fromXml($result);
@@ -568,16 +593,17 @@ class SNS {
   Future<GetSMSAttributesResponse> getSMSAttributes({
     List<String> attributes,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'GetSMSAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     attributes?.also((arg) => $request['attributes'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetSMSAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetSMSAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'GetSMSAttributesResult',
     );
     return GetSMSAttributesResponse.fromXml($result);
@@ -596,16 +622,17 @@ class SNS {
     @_s.required String subscriptionArn,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
-    final $request = <String, dynamic>{
-      'Action': 'GetSubscriptionAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionArn'] = subscriptionArn;
     final $result = await _protocol.send(
       $request,
+      action: 'GetSubscriptionAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetSubscriptionAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'GetSubscriptionAttributesResult',
     );
     return GetSubscriptionAttributesResponse.fromXml($result);
@@ -626,16 +653,17 @@ class SNS {
     @_s.required String topicArn,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'GetTopicAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     final $result = await _protocol.send(
       $request,
+      action: 'GetTopicAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTopicAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'GetTopicAttributesResult',
     );
     return GetTopicAttributesResponse.fromXml($result);
@@ -674,17 +702,18 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
-    final $request = <String, dynamic>{
-      'Action': 'ListEndpointsByPlatformApplication',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListEndpointsByPlatformApplication',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListEndpointsByPlatformApplicationInput'],
+      shapes: shapes,
       resultWrapper: 'ListEndpointsByPlatformApplicationResult',
     );
     return ListEndpointsByPlatformApplicationResponse.fromXml($result);
@@ -713,16 +742,17 @@ class SNS {
   Future<ListPhoneNumbersOptedOutResponse> listPhoneNumbersOptedOut({
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListPhoneNumbersOptedOut',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['nextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListPhoneNumbersOptedOut',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListPhoneNumbersOptedOutInput'],
+      shapes: shapes,
       resultWrapper: 'ListPhoneNumbersOptedOutResult',
     );
     return ListPhoneNumbersOptedOutResponse.fromXml($result);
@@ -753,16 +783,17 @@ class SNS {
   Future<ListPlatformApplicationsResponse> listPlatformApplications({
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListPlatformApplications',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListPlatformApplications',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListPlatformApplicationsInput'],
+      shapes: shapes,
       resultWrapper: 'ListPlatformApplicationsResult',
     );
     return ListPlatformApplicationsResponse.fromXml($result);
@@ -785,16 +816,17 @@ class SNS {
   Future<ListSubscriptionsResponse> listSubscriptions({
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListSubscriptions',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListSubscriptions',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListSubscriptionsInput'],
+      shapes: shapes,
       resultWrapper: 'ListSubscriptionsResult',
     );
     return ListSubscriptionsResponse.fromXml($result);
@@ -824,17 +856,18 @@ class SNS {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'ListSubscriptionsByTopic',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListSubscriptionsByTopic',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListSubscriptionsByTopicInput'],
+      shapes: shapes,
       resultWrapper: 'ListSubscriptionsByTopicResult',
     );
     return ListSubscriptionsByTopicResponse.fromXml($result);
@@ -864,16 +897,17 @@ class SNS {
       1011,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListTagsForResource',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     final $result = await _protocol.send(
       $request,
+      action: 'ListTagsForResource',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTagsForResourceRequest'],
+      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return ListTagsForResourceResponse.fromXml($result);
@@ -895,16 +929,17 @@ class SNS {
   Future<ListTopicsResponse> listTopics({
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListTopics',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTopics',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTopicsInput'],
+      shapes: shapes,
       resultWrapper: 'ListTopicsResult',
     );
     return ListTopicsResponse.fromXml($result);
@@ -926,16 +961,17 @@ class SNS {
     @_s.required String phoneNumber,
   }) async {
     ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
-    final $request = <String, dynamic>{
-      'Action': 'OptInPhoneNumber',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['phoneNumber'] = phoneNumber;
     await _protocol.send(
       $request,
+      action: 'OptInPhoneNumber',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['OptInPhoneNumberInput'],
+      shapes: shapes,
       resultWrapper: 'OptInPhoneNumberResult',
     );
   }
@@ -1106,10 +1142,7 @@ class SNS {
     String topicArn,
   }) async {
     ArgumentError.checkNotNull(message, 'message');
-    final $request = <String, dynamic>{
-      'Action': 'Publish',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Message'] = message;
     messageAttributes?.also((arg) => $request['MessageAttributes'] = arg);
     messageStructure?.also((arg) => $request['MessageStructure'] = arg);
@@ -1119,9 +1152,13 @@ class SNS {
     topicArn?.also((arg) => $request['TopicArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'Publish',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PublishInput'],
+      shapes: shapes,
       resultWrapper: 'PublishResult',
     );
     return PublishResponse.fromXml($result);
@@ -1145,17 +1182,18 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'RemovePermission',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Label'] = label;
     $request['TopicArn'] = topicArn;
     await _protocol.send(
       $request,
+      action: 'RemovePermission',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemovePermissionInput'],
+      shapes: shapes,
     );
   }
 
@@ -1202,17 +1240,18 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    final $request = <String, dynamic>{
-      'Action': 'SetEndpointAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['EndpointArn'] = endpointArn;
     await _protocol.send(
       $request,
+      action: 'SetEndpointAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetEndpointAttributesInput'],
+      shapes: shapes,
     );
   }
 
@@ -1287,17 +1326,18 @@ class SNS {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
-    final $request = <String, dynamic>{
-      'Action': 'SetPlatformApplicationAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['PlatformApplicationArn'] = platformApplicationArn;
     await _protocol.send(
       $request,
+      action: 'SetPlatformApplicationAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetPlatformApplicationAttributesInput'],
+      shapes: shapes,
     );
   }
 
@@ -1414,16 +1454,17 @@ class SNS {
     @_s.required Map<String, String> attributes,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
-    final $request = <String, dynamic>{
-      'Action': 'SetSMSAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['attributes'] = attributes;
     await _protocol.send(
       $request,
+      action: 'SetSMSAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetSMSAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'SetSMSAttributesResult',
     );
   }
@@ -1481,18 +1522,19 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
-    final $request = <String, dynamic>{
-      'Action': 'SetSubscriptionAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['SubscriptionArn'] = subscriptionArn;
     attributeValue?.also((arg) => $request['AttributeValue'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetSubscriptionAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetSubscriptionAttributesInput'],
+      shapes: shapes,
     );
   }
 
@@ -1550,18 +1592,19 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'SetTopicAttributes',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['TopicArn'] = topicArn;
     attributeValue?.also((arg) => $request['AttributeValue'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetTopicAttributes',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetTopicAttributesInput'],
+      shapes: shapes,
     );
   }
 
@@ -1713,10 +1756,7 @@ class SNS {
   }) async {
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
-    final $request = <String, dynamic>{
-      'Action': 'Subscribe',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Protocol'] = protocol;
     $request['TopicArn'] = topicArn;
     attributes?.also((arg) => $request['Attributes'] = arg);
@@ -1725,9 +1765,13 @@ class SNS {
         ?.also((arg) => $request['ReturnSubscriptionArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'Subscribe',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SubscribeInput'],
+      shapes: shapes,
       resultWrapper: 'SubscribeResult',
     );
     return SubscribeResponse.fromXml($result);
@@ -1789,17 +1833,18 @@ class SNS {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'TagResource',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'TagResource',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['TagResourceRequest'],
+      shapes: shapes,
       resultWrapper: 'TagResourceResult',
     );
   }
@@ -1827,16 +1872,17 @@ class SNS {
     @_s.required String subscriptionArn,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
-    final $request = <String, dynamic>{
-      'Action': 'Unsubscribe',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionArn'] = subscriptionArn;
     await _protocol.send(
       $request,
+      action: 'Unsubscribe',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UnsubscribeInput'],
+      shapes: shapes,
     );
   }
 
@@ -1870,17 +1916,18 @@ class SNS {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'UntagResource',
-      'Version': '2010-03-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'UntagResource',
+      version: '2010-03-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagResourceRequest'],
+      shapes: shapes,
       resultWrapper: 'UntagResourceResult',
     );
   }
@@ -2428,21 +2475,29 @@ class ListTopicsResponse {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html">Using
 /// Amazon SNS Message Attributes</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MessageAttributeValue {
   /// Amazon SNS supports the following logical data types: String, String.Array,
   /// Number, and Binary. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html#SNSMessageAttributes.DataTypes">Message
   /// Attribute Data Types</a>.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Binary type attributes can store any binary data, for example, compressed
   /// data, encrypted data, or images.
-  final Uint8List binaryValue;
+  @_s.JsonKey(name: 'BinaryValue')
+  final String binaryValue;
 
   /// Strings are Unicode with UTF8 binary encoding. For a list of code values,
   /// see <a
   /// href="https://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
+  @_s.JsonKey(name: 'StringValue')
   final String stringValue;
 
   MessageAttributeValue({
@@ -2450,6 +2505,7 @@ class MessageAttributeValue {
     this.binaryValue,
     this.stringValue,
   });
+  Map<String, dynamic> toJson() => _$MessageAttributeValueToJson(this);
 }
 
 /// The response for the OptInPhoneNumber action.
@@ -2572,11 +2628,18 @@ class Subscription {
 }
 
 /// The list of tags to be added to the specified topic.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The required key portion of the tag.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional value portion of the tag.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -2589,6 +2652,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 class TagResourceResponse {

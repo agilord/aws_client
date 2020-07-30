@@ -11,7 +11,9 @@ ApplicationState _$ApplicationStateFromJson(Map<String, dynamic> json) {
     applicationId: json['ApplicationId'] as String,
     applicationStatus: _$enumDecodeNullable(
         _$ApplicationStatusEnumMap, json['ApplicationStatus']),
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
   );
 }
 
@@ -99,7 +101,9 @@ DescribeApplicationStateResult _$DescribeApplicationStateResultFromJson(
   return DescribeApplicationStateResult(
     applicationStatus: _$enumDecodeNullable(
         _$ApplicationStatusEnumMap, json['ApplicationStatus']),
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
   );
 }
 
@@ -221,7 +225,9 @@ MigrationTask _$MigrationTaskFromJson(Map<String, dynamic> json) {
     task: json['Task'] == null
         ? null
         : Task.fromJson(json['Task'] as Map<String, dynamic>),
-    updateDateTime: unixFromJson(json['UpdateDateTime']),
+    updateDateTime: json['UpdateDateTime'] == null
+        ? null
+        : DateTime.parse(json['UpdateDateTime'] as String),
   );
 }
 
@@ -232,7 +238,9 @@ MigrationTaskSummary _$MigrationTaskSummaryFromJson(Map<String, dynamic> json) {
     progressUpdateStream: json['ProgressUpdateStream'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
     statusDetail: json['StatusDetail'] as String,
-    updateDateTime: unixFromJson(json['UpdateDateTime']),
+    updateDateTime: json['UpdateDateTime'] == null
+        ? null
+        : DateTime.parse(json['UpdateDateTime'] as String),
   );
 }
 

@@ -685,7 +685,10 @@ class CustomizedScalingMetricSpecification {
     createToJson: false)
 class Datapoint {
   /// The time stamp for the data point in UTC format.
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   /// The value of the data point.
@@ -1357,7 +1360,10 @@ class ScalingPlan {
   final ScalingPlanStatusCode statusCode;
 
   /// The Unix time stamp when the scaling plan was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A simple message about the current status of the scaling plan.
@@ -1366,7 +1372,9 @@ class ScalingPlan {
 
   /// The Unix time stamp when the scaling plan entered the current status.
   @_s.JsonKey(
-      name: 'StatusStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'StatusStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime statusStartTime;
 
   ScalingPlan({

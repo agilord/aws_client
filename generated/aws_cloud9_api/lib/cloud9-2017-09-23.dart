@@ -1099,7 +1099,10 @@ class EnvironmentMember {
 
   /// The time, expressed in epoch time format, when the environment member last
   /// opened the environment.
-  @_s.JsonKey(name: 'lastAccess', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastAccess',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAccess;
 
   /// The type of environment member permissions associated with this environment

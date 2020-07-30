@@ -1112,7 +1112,10 @@ class AttackDetail {
   /// The time the attack ended, in Unix time in seconds. For more information see
   /// <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// List of mitigation actions taken for the attack.
@@ -1126,7 +1129,10 @@ class AttackDetail {
   /// The time the attack started, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// If applicable, additional detail about the resource being attacked, for
@@ -1237,7 +1243,10 @@ class AttackSummary {
   /// The end time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
@@ -1247,7 +1256,10 @@ class AttackSummary {
   /// The start time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   AttackSummary({
@@ -1797,7 +1809,10 @@ class Subscription {
   final AutoRenew autoRenew;
 
   /// The date and time your subscription will end.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Specifies how many protections of a given type you can create.
@@ -1807,7 +1822,10 @@ class Subscription {
   /// The start time of the subscription, in Unix time in seconds. For more
   /// information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The length, in seconds, of the AWS Shield Advanced subscription for the
@@ -1908,12 +1926,18 @@ class SummarizedCounter {
 class TimeRange {
   /// The start time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'FromInclusive', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'FromInclusive',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime fromInclusive;
 
   /// The end time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(name: 'ToExclusive', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ToExclusive',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime toExclusive;
 
   TimeRange({

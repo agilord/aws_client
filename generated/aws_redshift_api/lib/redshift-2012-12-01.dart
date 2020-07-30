@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'redshift-2012-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'redshift-2012-12-01.g.dart';
 
 /// This is an interface reference for Amazon Redshift. It contains
 /// documentation for one of the programming or command line interfaces you can
@@ -26,17 +37,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// the Amazon Redshift Management Interfaces</a>.
 class Redshift {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   Redshift({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'redshift',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to
   /// the configuration (term, payment type, or number of nodes) and no
@@ -65,17 +79,18 @@ class Redshift {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
     ArgumentError.checkNotNull(
         targetReservedNodeOfferingId, 'targetReservedNodeOfferingId');
-    final $request = <String, dynamic>{
-      'Action': 'AcceptReservedNodeExchange',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ReservedNodeId'] = reservedNodeId;
     $request['TargetReservedNodeOfferingId'] = targetReservedNodeOfferingId;
     final $result = await _protocol.send(
       $request,
+      action: 'AcceptReservedNodeExchange',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AcceptReservedNodeExchangeInputMessage'],
+      shapes: shapes,
       resultWrapper: 'AcceptReservedNodeExchangeResult',
     );
     return AcceptReservedNodeExchangeOutputMessage.fromXml($result);
@@ -135,10 +150,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'AuthorizeClusterSecurityGroupIngress',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
     eC2SecurityGroupName?.also((arg) => $request['EC2SecurityGroupName'] = arg);
@@ -146,9 +158,13 @@ class Redshift {
         ?.also((arg) => $request['EC2SecurityGroupOwnerId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AuthorizeClusterSecurityGroupIngress',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AuthorizeClusterSecurityGroupIngressMessage'],
+      shapes: shapes,
       resultWrapper: 'AuthorizeClusterSecurityGroupIngressResult',
     );
     return AuthorizeClusterSecurityGroupIngressResult.fromXml($result);
@@ -191,19 +207,20 @@ class Redshift {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'AuthorizeSnapshotAccess',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AuthorizeSnapshotAccess',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AuthorizeSnapshotAccessMessage'],
+      shapes: shapes,
       resultWrapper: 'AuthorizeSnapshotAccessResult',
     );
     return AuthorizeSnapshotAccessResult.fromXml($result);
@@ -219,16 +236,17 @@ class Redshift {
     @_s.required List<DeleteClusterSnapshotMessage> identifiers,
   }) async {
     ArgumentError.checkNotNull(identifiers, 'identifiers');
-    final $request = <String, dynamic>{
-      'Action': 'BatchDeleteClusterSnapshots',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identifiers'] = identifiers;
     final $result = await _protocol.send(
       $request,
+      action: 'BatchDeleteClusterSnapshots',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchDeleteClusterSnapshotsRequest'],
+      shapes: shapes,
       resultWrapper: 'BatchDeleteClusterSnapshotsResult',
     );
     return BatchDeleteClusterSnapshotsResult.fromXml($result);
@@ -263,19 +281,20 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         snapshotIdentifierList, 'snapshotIdentifierList');
-    final $request = <String, dynamic>{
-      'Action': 'BatchModifyClusterSnapshots',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnapshotIdentifierList'] = snapshotIdentifierList;
     force?.also((arg) => $request['Force'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'BatchModifyClusterSnapshots',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchModifyClusterSnapshotsMessage'],
+      shapes: shapes,
       resultWrapper: 'BatchModifyClusterSnapshotsResult',
     );
     return BatchModifyClusterSnapshotsOutputMessage.fromXml($result);
@@ -295,16 +314,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CancelResize',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'CancelResize',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CancelResizeMessage'],
+      shapes: shapes,
       resultWrapper: 'CancelResizeResult',
     );
     return ResizeProgressMessage.fromXml($result);
@@ -397,10 +417,7 @@ class Redshift {
         sourceSnapshotIdentifier, 'sourceSnapshotIdentifier');
     ArgumentError.checkNotNull(
         targetSnapshotIdentifier, 'targetSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceSnapshotIdentifier'] = sourceSnapshotIdentifier;
     $request['TargetSnapshotIdentifier'] = targetSnapshotIdentifier;
     manualSnapshotRetentionPeriod
@@ -409,9 +426,13 @@ class Redshift {
         ?.also((arg) => $request['SourceSnapshotClusterIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyClusterSnapshotResult',
     );
     return CopyClusterSnapshotResult.fromXml($result);
@@ -813,10 +834,7 @@ class Redshift {
     ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
     ArgumentError.checkNotNull(masterUsername, 'masterUsername');
     ArgumentError.checkNotNull(nodeType, 'nodeType');
-    final $request = <String, dynamic>{
-      'Action': 'CreateCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['MasterUserPassword'] = masterUserPassword;
     $request['MasterUsername'] = masterUsername;
@@ -858,9 +876,13 @@ class Redshift {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateClusterResult',
     );
     return CreateClusterResult.fromXml($result);
@@ -933,19 +955,20 @@ class Redshift {
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(parameterGroupFamily, 'parameterGroupFamily');
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateClusterParameterGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['ParameterGroupFamily'] = parameterGroupFamily;
     $request['ParameterGroupName'] = parameterGroupName;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateClusterParameterGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateClusterParameterGroupResult',
     );
     return CreateClusterParameterGroupResult.fromXml($result);
@@ -997,18 +1020,19 @@ class Redshift {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
     ArgumentError.checkNotNull(description, 'description');
-    final $request = <String, dynamic>{
-      'Action': 'CreateClusterSecurityGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     $request['Description'] = description;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateClusterSecurityGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateClusterSecurityGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateClusterSecurityGroupResult',
     );
     return CreateClusterSecurityGroupResult.fromXml($result);
@@ -1073,10 +1097,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     manualSnapshotRetentionPeriod
@@ -1084,9 +1105,13 @@ class Redshift {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateClusterSnapshotResult',
     );
     return CreateClusterSnapshotResult.fromXml($result);
@@ -1148,19 +1173,20 @@ class Redshift {
         clusterSubnetGroupName, 'clusterSubnetGroupName');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'CreateClusterSubnetGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
     $request['Description'] = description;
     $request['SubnetIds'] = subnetIds;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateClusterSubnetGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateClusterSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateClusterSubnetGroupResult',
     );
     return CreateClusterSubnetGroupResult.fromXml($result);
@@ -1280,10 +1306,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateEventSubscription',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -1294,9 +1317,13 @@ class Redshift {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateEventSubscription',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateEventSubscriptionResult',
     );
     return CreateEventSubscriptionResult.fromXml($result);
@@ -1332,17 +1359,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateHsmClientCertificate',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['HsmClientCertificateIdentifier'] = hsmClientCertificateIdentifier;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateHsmClientCertificate',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateHsmClientCertificateMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateHsmClientCertificateResult',
     );
     return CreateHsmClientCertificateResult.fromXml($result);
@@ -1405,10 +1433,7 @@ class Redshift {
     ArgumentError.checkNotNull(hsmPartitionPassword, 'hsmPartitionPassword');
     ArgumentError.checkNotNull(
         hsmServerPublicCertificate, 'hsmServerPublicCertificate');
-    final $request = <String, dynamic>{
-      'Action': 'CreateHsmConfiguration',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['HsmConfigurationIdentifier'] = hsmConfigurationIdentifier;
     $request['HsmIpAddress'] = hsmIpAddress;
@@ -1418,9 +1443,13 @@ class Redshift {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateHsmConfiguration',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateHsmConfigurationMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateHsmConfigurationResult',
     );
     return CreateHsmConfigurationResult.fromXml($result);
@@ -1486,10 +1515,7 @@ class Redshift {
     ArgumentError.checkNotNull(schedule, 'schedule');
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     ArgumentError.checkNotNull(targetAction, 'targetAction');
-    final $request = <String, dynamic>{
-      'Action': 'CreateScheduledAction',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['IamRole'] = iamRole;
     $request['Schedule'] = schedule;
     $request['ScheduledActionName'] = scheduledActionName;
@@ -1501,9 +1527,13 @@ class Redshift {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateScheduledAction',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateScheduledActionMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateScheduledActionResult',
     );
     return ScheduledAction.fromXml($result);
@@ -1562,18 +1592,19 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateSnapshotCopyGrant',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnapshotCopyGrantName'] = snapshotCopyGrantName;
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateSnapshotCopyGrant',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateSnapshotCopyGrantMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateSnapshotCopyGrantResult',
     );
     return CreateSnapshotCopyGrantResult.fromXml($result);
@@ -1615,10 +1646,7 @@ class Redshift {
     String scheduleIdentifier,
     List<Tag> tags,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'CreateSnapshotSchedule',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     dryRun?.also((arg) => $request['DryRun'] = arg);
     nextInvocations?.also((arg) => $request['NextInvocations'] = arg);
     scheduleDefinitions?.also((arg) => $request['ScheduleDefinitions'] = arg);
@@ -1627,9 +1655,13 @@ class Redshift {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateSnapshotSchedule',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateSnapshotScheduleMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateSnapshotScheduleResult',
     );
     return SnapshotSchedule.fromXml($result);
@@ -1665,17 +1697,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'CreateTags',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'CreateTags',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateTagsMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1772,10 +1805,7 @@ class Redshift {
     bool skipFinalClusterSnapshot,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     finalClusterSnapshotIdentifier
         ?.also((arg) => $request['FinalClusterSnapshotIdentifier'] = arg);
@@ -1785,9 +1815,13 @@ class Redshift {
         ?.also((arg) => $request['SkipFinalClusterSnapshot'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteClusterResult',
     );
     return DeleteClusterResult.fromXml($result);
@@ -1818,16 +1852,17 @@ class Redshift {
     @_s.required String parameterGroupName,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteClusterParameterGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteClusterParameterGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteClusterParameterGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1851,16 +1886,17 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteClusterSecurityGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteClusterSecurityGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteClusterSecurityGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1896,18 +1932,19 @@ class Redshift {
     String snapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteClusterSnapshotResult',
     );
     return DeleteClusterSnapshotResult.fromXml($result);
@@ -1926,16 +1963,17 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteClusterSubnetGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteClusterSubnetGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteClusterSubnetGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1951,16 +1989,17 @@ class Redshift {
     @_s.required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteEventSubscription',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     await _protocol.send(
       $request,
+      action: 'DeleteEventSubscription',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEventSubscriptionMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1976,16 +2015,17 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteHsmClientCertificate',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['HsmClientCertificateIdentifier'] = hsmClientCertificateIdentifier;
     await _protocol.send(
       $request,
+      action: 'DeleteHsmClientCertificate',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteHsmClientCertificateMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2001,16 +2041,17 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmConfigurationIdentifier, 'hsmConfigurationIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteHsmConfiguration',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['HsmConfigurationIdentifier'] = hsmConfigurationIdentifier;
     await _protocol.send(
       $request,
+      action: 'DeleteHsmConfiguration',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteHsmConfigurationMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2025,16 +2066,17 @@ class Redshift {
     @_s.required String scheduledActionName,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteScheduledAction',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ScheduledActionName'] = scheduledActionName;
     await _protocol.send(
       $request,
+      action: 'DeleteScheduledAction',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteScheduledActionMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2049,16 +2091,17 @@ class Redshift {
     @_s.required String snapshotCopyGrantName,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteSnapshotCopyGrant',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnapshotCopyGrantName'] = snapshotCopyGrantName;
     await _protocol.send(
       $request,
+      action: 'DeleteSnapshotCopyGrant',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteSnapshotCopyGrantMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2073,16 +2116,17 @@ class Redshift {
     @_s.required String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteSnapshotSchedule',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ScheduleIdentifier'] = scheduleIdentifier;
     await _protocol.send(
       $request,
+      action: 'DeleteSnapshotSchedule',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteSnapshotScheduleMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2105,17 +2149,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteTags',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'DeleteTags',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteTagsMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2126,16 +2171,17 @@ class Redshift {
   Future<AccountAttributeList> describeAccountAttributes({
     List<String> attributeNames,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAccountAttributes',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAccountAttributes',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAccountAttributesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeAccountAttributesResult',
     );
     return AccountAttributeList.fromXml($result);
@@ -2179,18 +2225,19 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterDbRevisions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterDbRevisions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterDbRevisionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterDbRevisionsResult',
     );
     return ClusterDbRevisionsMessage.fromXml($result);
@@ -2270,10 +2317,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterParameterGroups',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     parameterGroupName?.also((arg) => $request['ParameterGroupName'] = arg);
@@ -2281,9 +2325,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterParameterGroups',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterParameterGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterParameterGroupsResult',
     );
     return ClusterParameterGroupsMessage.fromXml($result);
@@ -2344,19 +2392,20 @@ class Redshift {
     String source,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterParameters',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     source?.also((arg) => $request['Source'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterParameters',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterParametersResult',
     );
     return ClusterParameterGroupDetails.fromXml($result);
@@ -2439,10 +2488,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterSecurityGroups',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterSecurityGroupName
         ?.also((arg) => $request['ClusterSecurityGroupName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2451,9 +2497,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterSecurityGroups',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterSecurityGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterSecurityGroupsResult',
     );
     return ClusterSecurityGroupMessage.fromXml($result);
@@ -2596,10 +2646,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterSnapshots',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterExists?.also((arg) => $request['ClusterExists'] = arg);
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
@@ -2614,9 +2661,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterSnapshots',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterSnapshotsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterSnapshotsResult',
     );
     return SnapshotMessage.fromXml($result);
@@ -2687,10 +2738,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterSubnetGroups',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterSubnetGroupName
         ?.also((arg) => $request['ClusterSubnetGroupName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2699,9 +2747,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterSubnetGroups',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterSubnetGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterSubnetGroupsResult',
     );
     return ClusterSubnetGroupMessage.fromXml($result);
@@ -2731,18 +2783,19 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterTracks',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterTracks',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterTracksMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterTracksResult',
     );
     return TrackListMessage.fromXml($result);
@@ -2803,10 +2856,7 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusterVersions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterParameterGroupFamily
         ?.also((arg) => $request['ClusterParameterGroupFamily'] = arg);
     clusterVersion?.also((arg) => $request['ClusterVersion'] = arg);
@@ -2814,9 +2864,13 @@ class Redshift {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusterVersions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClusterVersionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClusterVersionsResult',
     );
     return ClusterVersionsMessage.fromXml($result);
@@ -2895,10 +2949,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeClusters',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -2906,9 +2957,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeClusters',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeClustersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeClustersResult',
     );
     return ClustersMessage.fromXml($result);
@@ -2951,18 +3006,19 @@ class Redshift {
     int maxRecords,
   }) async {
     ArgumentError.checkNotNull(parameterGroupFamily, 'parameterGroupFamily');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDefaultClusterParameters',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ParameterGroupFamily'] = parameterGroupFamily;
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDefaultClusterParameters',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDefaultClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDefaultClusterParametersResult',
     );
     return DescribeDefaultClusterParametersResult.fromXml($result);
@@ -2983,16 +3039,17 @@ class Redshift {
   Future<EventCategoriesMessage> describeEventCategories({
     String sourceType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventCategories',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventCategories',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventCategoriesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventCategoriesResult',
     );
     return EventCategoriesMessage.fromXml($result);
@@ -3063,10 +3120,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventSubscriptions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     subscriptionName?.also((arg) => $request['SubscriptionName'] = arg);
@@ -3074,9 +3128,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventSubscriptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventSubscriptionsResult',
     );
     return EventSubscriptionsMessage.fromXml($result);
@@ -3194,10 +3252,7 @@ class Redshift {
     SourceType sourceType,
     DateTime startTime,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEvents',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3207,9 +3262,13 @@ class Redshift {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEvents',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
@@ -3282,10 +3341,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeHsmClientCertificates',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     hsmClientCertificateIdentifier
         ?.also((arg) => $request['HsmClientCertificateIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3294,9 +3350,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeHsmClientCertificates',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeHsmClientCertificatesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeHsmClientCertificatesResult',
     );
     return HsmClientCertificateMessage.fromXml($result);
@@ -3368,10 +3428,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeHsmConfigurations',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     hsmConfigurationIdentifier
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3380,9 +3437,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeHsmConfigurations',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeHsmConfigurationsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeHsmConfigurationsResult',
     );
     return HsmConfigurationMessage.fromXml($result);
@@ -3401,16 +3462,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoggingStatus',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoggingStatus',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoggingStatusMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoggingStatusResult',
     );
     return LoggingStatus.fromXml($result);
@@ -3477,10 +3539,7 @@ class Redshift {
     String snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(actionType, 'actionType');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeNodeConfigurationOptions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ActionType'] = actionType.toValue();
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3490,9 +3549,13 @@ class Redshift {
     snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeNodeConfigurationOptions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeNodeConfigurationOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeNodeConfigurationOptionsResult',
     );
     return NodeConfigurationOptionsMessage.fromXml($result);
@@ -3548,19 +3611,20 @@ class Redshift {
     int maxRecords,
     String nodeType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOrderableClusterOptions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterVersion?.also((arg) => $request['ClusterVersion'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nodeType?.also((arg) => $request['NodeType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOrderableClusterOptions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOrderableClusterOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOrderableClusterOptionsResult',
     );
     return OrderableClusterOptionsMessage.fromXml($result);
@@ -3609,19 +3673,20 @@ class Redshift {
     int maxRecords,
     String reservedNodeOfferingId,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReservedNodeOfferings',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     reservedNodeOfferingId
         ?.also((arg) => $request['ReservedNodeOfferingId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReservedNodeOfferings',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReservedNodeOfferingsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeReservedNodeOfferingsResult',
     );
     return ReservedNodeOfferingsMessage.fromXml($result);
@@ -3658,18 +3723,19 @@ class Redshift {
     int maxRecords,
     String reservedNodeId,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReservedNodes',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     reservedNodeId?.also((arg) => $request['ReservedNodeId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReservedNodes',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReservedNodesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeReservedNodesResult',
     );
     return ReservedNodesMessage.fromXml($result);
@@ -3697,16 +3763,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeResize',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeResize',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeResizeMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeResizeResult',
     );
     return ResizeProgressMessage.fromXml($result);
@@ -3766,10 +3833,7 @@ class Redshift {
     DateTime startTime,
     ScheduledActionTypeValues targetActionType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeScheduledActions',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     active?.also((arg) => $request['Active'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3781,9 +3845,13 @@ class Redshift {
         ?.also((arg) => $request['TargetActionType'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeScheduledActions',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeScheduledActionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeScheduledActionsResult',
     );
     return ScheduledActionsMessage.fromXml($result);
@@ -3849,10 +3917,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeSnapshotCopyGrants',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     snapshotCopyGrantName
@@ -3861,9 +3926,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeSnapshotCopyGrants',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeSnapshotCopyGrantsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeSnapshotCopyGrantsResult',
     );
     return SnapshotCopyGrantMessage.fromXml($result);
@@ -3907,10 +3976,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeSnapshotSchedules',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3919,9 +3985,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeSnapshotSchedules',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeSnapshotSchedulesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeSnapshotSchedulesResult',
     );
     return DescribeSnapshotSchedulesOutputMessage.fromXml($result);
@@ -3929,12 +3999,11 @@ class Redshift {
 
   /// Returns account level backups storage size and provisional storage.
   Future<CustomerStorageMessage> describeStorage() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStorage',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStorage',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3980,10 +4049,7 @@ class Redshift {
     int maxRecords,
     String tableRestoreRequestId,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTableRestoreStatus',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3991,9 +4057,13 @@ class Redshift {
         ?.also((arg) => $request['TableRestoreRequestId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTableRestoreStatus',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTableRestoreStatusMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeTableRestoreStatusResult',
     );
     return TableRestoreStatusMessage.fromXml($result);
@@ -4120,10 +4190,7 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTags',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     resourceName?.also((arg) => $request['ResourceName'] = arg);
@@ -4132,9 +4199,13 @@ class Redshift {
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTags',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTagsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeTagsResult',
     );
     return TaggedResourceListMessage.fromXml($result);
@@ -4153,16 +4224,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DisableLogging',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DisableLogging',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DisableLoggingMessage'],
+      shapes: shapes,
       resultWrapper: 'DisableLoggingResult',
     );
     return LoggingStatus.fromXml($result);
@@ -4191,16 +4263,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DisableSnapshotCopy',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DisableSnapshotCopy',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DisableSnapshotCopyMessage'],
+      shapes: shapes,
       resultWrapper: 'DisableSnapshotCopyResult',
     );
     return DisableSnapshotCopyResult.fromXml($result);
@@ -4274,18 +4347,19 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(bucketName, 'bucketName');
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'EnableLogging',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['BucketName'] = bucketName;
     $request['ClusterIdentifier'] = clusterIdentifier;
     s3KeyPrefix?.also((arg) => $request['S3KeyPrefix'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'EnableLogging',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['EnableLoggingMessage'],
+      shapes: shapes,
       resultWrapper: 'EnableLoggingResult',
     );
     return LoggingStatus.fromXml($result);
@@ -4347,10 +4421,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
-    final $request = <String, dynamic>{
-      'Action': 'EnableSnapshotCopy',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['DestinationRegion'] = destinationRegion;
     manualSnapshotRetentionPeriod
@@ -4360,9 +4431,13 @@ class Redshift {
         ?.also((arg) => $request['SnapshotCopyGrantName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'EnableSnapshotCopy',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['EnableSnapshotCopyMessage'],
+      shapes: shapes,
       resultWrapper: 'EnableSnapshotCopyResult',
     );
     return EnableSnapshotCopyResult.fromXml($result);
@@ -4524,10 +4599,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(dbUser, 'dbUser');
-    final $request = <String, dynamic>{
-      'Action': 'GetClusterCredentials',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['DbUser'] = dbUser;
     autoCreate?.also((arg) => $request['AutoCreate'] = arg);
@@ -4536,9 +4608,13 @@ class Redshift {
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetClusterCredentials',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetClusterCredentialsMessage'],
+      shapes: shapes,
       resultWrapper: 'GetClusterCredentialsResult',
     );
     return ClusterCredentials.fromXml($result);
@@ -4572,18 +4648,19 @@ class Redshift {
     int maxRecords,
   }) async {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
-    final $request = <String, dynamic>{
-      'Action': 'GetReservedNodeExchangeOfferings',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ReservedNodeId'] = reservedNodeId;
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetReservedNodeExchangeOfferings',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetReservedNodeExchangeOfferingsInputMessage'],
+      shapes: shapes,
       resultWrapper: 'GetReservedNodeExchangeOfferingsResult',
     );
     return GetReservedNodeExchangeOfferingsOutputMessage.fromXml($result);
@@ -4903,10 +4980,7 @@ class Redshift {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     allowVersionUpgrade?.also((arg) => $request['AllowVersionUpgrade'] = arg);
     automatedSnapshotRetentionPeriod
@@ -4938,9 +5012,13 @@ class Redshift {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterResult',
     );
     return ModifyClusterResult.fromXml($result);
@@ -4968,17 +5046,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(revisionTarget, 'revisionTarget');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterDbRevision',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['RevisionTarget'] = revisionTarget;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterDbRevision',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterDbRevisionMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterDbRevisionResult',
     );
     return ModifyClusterDbRevisionResult.fromXml($result);
@@ -5011,18 +5090,19 @@ class Redshift {
     List<String> removeIamRoles,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterIamRoles',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     addIamRoles?.also((arg) => $request['AddIamRoles'] = arg);
     removeIamRoles?.also((arg) => $request['RemoveIamRoles'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterIamRoles',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterIamRolesMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterIamRolesResult',
     );
     return ModifyClusterIamRolesResult.fromXml($result);
@@ -5062,10 +5142,7 @@ class Redshift {
     DateTime deferMaintenanceStartTime,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterMaintenance',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     deferMaintenance?.also((arg) => $request['DeferMaintenance'] = arg);
     deferMaintenanceDuration
@@ -5078,9 +5155,13 @@ class Redshift {
         ?.also((arg) => $request['DeferMaintenanceStartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterMaintenance',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterMaintenanceMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterMaintenanceResult',
     );
     return ModifyClusterMaintenanceResult.fromXml($result);
@@ -5115,17 +5196,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterParameterGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     $request['Parameters'] = parameters;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterParameterGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterParameterGroupResult',
     );
     return ClusterParameterGroupNameMessage.fromXml($result);
@@ -5161,19 +5243,20 @@ class Redshift {
     int manualSnapshotRetentionPeriod,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     force?.also((arg) => $request['Force'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterSnapshotResult',
     );
     return ModifyClusterSnapshotResult.fromXml($result);
@@ -5202,18 +5285,19 @@ class Redshift {
     String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterSnapshotSchedule',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     disassociateSchedule?.also((arg) => $request['DisassociateSchedule'] = arg);
     scheduleIdentifier?.also((arg) => $request['ScheduleIdentifier'] = arg);
     await _protocol.send(
       $request,
+      action: 'ModifyClusterSnapshotSchedule',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterSnapshotScheduleMessage'],
+      shapes: shapes,
     );
   }
 
@@ -5245,18 +5329,19 @@ class Redshift {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyClusterSubnetGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     description?.also((arg) => $request['Description'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyClusterSubnetGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyClusterSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyClusterSubnetGroupResult',
     );
     return ModifyClusterSubnetGroupResult.fromXml($result);
@@ -5327,10 +5412,7 @@ class Redshift {
     String sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyEventSubscription',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -5340,9 +5422,13 @@ class Redshift {
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyEventSubscription',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyEventSubscriptionResult',
     );
     return ModifyEventSubscriptionResult.fromXml($result);
@@ -5397,10 +5483,7 @@ class Redshift {
     ScheduledActionType targetAction,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyScheduledAction',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ScheduledActionName'] = scheduledActionName;
     enable?.also((arg) => $request['Enable'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
@@ -5412,9 +5495,13 @@ class Redshift {
     targetAction?.also((arg) => $request['TargetAction'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyScheduledAction',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyScheduledActionMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyScheduledActionResult',
     );
     return ScheduledAction.fromXml($result);
@@ -5478,18 +5565,19 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(retentionPeriod, 'retentionPeriod');
-    final $request = <String, dynamic>{
-      'Action': 'ModifySnapshotCopyRetentionPeriod',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['RetentionPeriod'] = retentionPeriod;
     manual?.also((arg) => $request['Manual'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifySnapshotCopyRetentionPeriod',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifySnapshotCopyRetentionPeriodMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifySnapshotCopyRetentionPeriodResult',
     );
     return ModifySnapshotCopyRetentionPeriodResult.fromXml($result);
@@ -5514,17 +5602,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(scheduleDefinitions, 'scheduleDefinitions');
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifySnapshotSchedule',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ScheduleDefinitions'] = scheduleDefinitions;
     $request['ScheduleIdentifier'] = scheduleIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifySnapshotSchedule',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifySnapshotScheduleMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifySnapshotScheduleResult',
     );
     return SnapshotSchedule.fromXml($result);
@@ -5541,16 +5630,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'PauseCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'PauseCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PauseClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'PauseClusterResult',
     );
     return PauseClusterResult.fromXml($result);
@@ -5585,17 +5675,18 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         reservedNodeOfferingId, 'reservedNodeOfferingId');
-    final $request = <String, dynamic>{
-      'Action': 'PurchaseReservedNodeOffering',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ReservedNodeOfferingId'] = reservedNodeOfferingId;
     nodeCount?.also((arg) => $request['NodeCount'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'PurchaseReservedNodeOffering',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PurchaseReservedNodeOfferingMessage'],
+      shapes: shapes,
       resultWrapper: 'PurchaseReservedNodeOfferingResult',
     );
     return PurchaseReservedNodeOfferingResult.fromXml($result);
@@ -5620,16 +5711,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RebootCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'RebootCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RebootClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'RebootClusterResult',
     );
     return RebootClusterResult.fromXml($result);
@@ -5664,18 +5756,19 @@ class Redshift {
     bool resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ResetClusterParameterGroup',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
     resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResetClusterParameterGroup',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResetClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ResetClusterParameterGroupResult',
     );
     return ClusterParameterGroupNameMessage.fromXml($result);
@@ -5753,10 +5846,7 @@ class Redshift {
     int numberOfNodes,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ResizeCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     classic?.also((arg) => $request['Classic'] = arg);
     clusterType?.also((arg) => $request['ClusterType'] = arg);
@@ -5764,9 +5854,13 @@ class Redshift {
     numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResizeCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResizeClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'ResizeClusterResult',
     );
     return ResizeClusterResult.fromXml($result);
@@ -6055,10 +6149,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreFromClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     additionalInfo?.also((arg) => $request['AdditionalInfo'] = arg);
@@ -6097,9 +6188,13 @@ class Redshift {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreFromClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreFromClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreFromClusterSnapshotResult',
     );
     return RestoreFromClusterSnapshotResult.fromXml($result);
@@ -6171,10 +6266,7 @@ class Redshift {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     ArgumentError.checkNotNull(sourceDatabaseName, 'sourceDatabaseName');
     ArgumentError.checkNotNull(sourceTableName, 'sourceTableName');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreTableFromClusterSnapshot',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['NewTableName'] = newTableName;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -6185,9 +6277,13 @@ class Redshift {
     targetSchemaName?.also((arg) => $request['TargetSchemaName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreTableFromClusterSnapshot',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreTableFromClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreTableFromClusterSnapshotResult',
     );
     return RestoreTableFromClusterSnapshotResult.fromXml($result);
@@ -6204,16 +6300,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ResumeCluster',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'ResumeCluster',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResumeClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'ResumeClusterResult',
     );
     return ResumeClusterResult.fromXml($result);
@@ -6263,10 +6360,7 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'RevokeClusterSecurityGroupIngress',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
     eC2SecurityGroupName?.also((arg) => $request['EC2SecurityGroupName'] = arg);
@@ -6274,9 +6368,13 @@ class Redshift {
         ?.also((arg) => $request['EC2SecurityGroupOwnerId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RevokeClusterSecurityGroupIngress',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RevokeClusterSecurityGroupIngressMessage'],
+      shapes: shapes,
       resultWrapper: 'RevokeClusterSecurityGroupIngressResult',
     );
     return RevokeClusterSecurityGroupIngressResult.fromXml($result);
@@ -6315,19 +6413,20 @@ class Redshift {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RevokeSnapshotAccess',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RevokeSnapshotAccess',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RevokeSnapshotAccessMessage'],
+      shapes: shapes,
       resultWrapper: 'RevokeSnapshotAccessResult',
     );
     return RevokeSnapshotAccessResult.fromXml($result);
@@ -6349,16 +6448,17 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RotateEncryptionKey',
-      'Version': '2012-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'RotateEncryptionKey',
+      version: '2012-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RotateEncryptionKeyMessage'],
+      shapes: shapes,
       resultWrapper: 'RotateEncryptionKeyResult',
     );
     return RotateEncryptionKeyResult.fromXml($result);
@@ -6445,8 +6545,11 @@ class AccountWithRestoreAccess {
 }
 
 enum ActionType {
+  @_s.JsonValue('restore-cluster')
   restoreCluster,
+  @_s.JsonValue('recommend-node-config')
   recommendNodeConfig,
+  @_s.JsonValue('resize-cluster')
   resizeCluster,
 }
 
@@ -8016,12 +8119,18 @@ class DeleteClusterResult {
 }
 
 /// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeleteClusterSnapshotMessage {
   /// The unique identifier of the manual snapshot to be deleted.
   ///
   /// Constraints: Must be the name of an existing snapshot that is in the
   /// <code>available</code>, <code>failed</code>, or <code>cancelled</code>
   /// state.
+  @_s.JsonKey(name: 'SnapshotIdentifier')
   final String snapshotIdentifier;
 
   /// The unique identifier of the cluster the snapshot was created from. This
@@ -8029,12 +8138,14 @@ class DeleteClusterSnapshotMessage {
   /// resource element that specifies anything other than * for the cluster name.
   ///
   /// Constraints: Must be the name of valid cluster.
+  @_s.JsonKey(name: 'SnapshotClusterIdentifier')
   final String snapshotClusterIdentifier;
 
   DeleteClusterSnapshotMessage({
     @_s.required this.snapshotIdentifier,
     this.snapshotClusterIdentifier,
   });
+  Map<String, dynamic> toJson() => _$DeleteClusterSnapshotMessageToJson(this);
 }
 
 class DeleteClusterSnapshotResult {
@@ -8778,7 +8889,9 @@ class MaintenanceTrack {
 }
 
 enum Mode {
+  @_s.JsonValue('standard')
   standard,
+  @_s.JsonValue('high-performance')
   highPerformance,
 }
 
@@ -8940,20 +9053,28 @@ class NodeConfigurationOption {
 }
 
 /// A set of elements to filter the returned node configurations.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class NodeConfigurationOptionsFilter {
   /// The name of the element to filter.
+  @_s.JsonKey(name: 'Name')
   final NodeConfigurationOptionsFilterName name;
 
   /// The filter operator. If filter Name is NodeType only the 'in' operator is
   /// supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and
   /// 'ge'. Provide two values to evaluate for 'between'. Provide a list of values
   /// for 'in'.
+  @_s.JsonKey(name: 'Operator')
   final OperatorType operator;
 
   /// List of values. Compare Name using Operator to Values. If filter Name is
   /// NumberOfNodes, then values can range from 0 to 200. If filter Name is
   /// EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For
   /// example, filter NumberOfNodes (name) GT (operator) 3 (values).
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   NodeConfigurationOptionsFilter({
@@ -8961,12 +9082,17 @@ class NodeConfigurationOptionsFilter {
     this.operator,
     this.values,
   });
+  Map<String, dynamic> toJson() => _$NodeConfigurationOptionsFilterToJson(this);
 }
 
 enum NodeConfigurationOptionsFilterName {
+  @_s.JsonValue('NodeType')
   nodeType,
+  @_s.JsonValue('NumberOfNodes')
   numberOfNodes,
+  @_s.JsonValue('EstimatedDiskUtilizationPercent')
   estimatedDiskUtilizationPercent,
+  @_s.JsonValue('Mode')
   mode,
 }
 
@@ -9017,12 +9143,19 @@ class NodeConfigurationOptionsMessage {
 }
 
 enum OperatorType {
+  @_s.JsonValue('eq')
   eq,
+  @_s.JsonValue('lt')
   lt,
+  @_s.JsonValue('gt')
   gt,
+  @_s.JsonValue('le')
   le,
+  @_s.JsonValue('ge')
   ge,
+  @_s.JsonValue('in')
   $in,
+  @_s.JsonValue('between')
   between,
 }
 
@@ -9114,8 +9247,14 @@ class OrderableClusterOptionsMessage {
 }
 
 /// Describes a parameter in a cluster parameter group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Parameter {
   /// The valid range of values for the parameter.
+  @_s.JsonKey(name: 'AllowedValues')
   final String allowedValues;
 
   /// Specifies how to apply the WLM configuration parameter. Some properties can
@@ -9125,28 +9264,36 @@ class Parameter {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
   /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
+  @_s.JsonKey(name: 'ApplyType')
   final ParameterApplyType applyType;
 
   /// The data type of the parameter.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// A description of the parameter.
+  @_s.JsonKey(name: 'Description')
   final String description;
 
   /// If <code>true</code>, the parameter can be modified. Some parameters have
   /// security or operational implications that prevent them from being changed.
+  @_s.JsonKey(name: 'IsModifiable')
   final bool isModifiable;
 
   /// The earliest engine version to which the parameter can apply.
+  @_s.JsonKey(name: 'MinimumEngineVersion')
   final String minimumEngineVersion;
 
   /// The name of the parameter.
+  @_s.JsonKey(name: 'ParameterName')
   final String parameterName;
 
   /// The value of the parameter.
+  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   /// The source of the parameter value, such as "engine-default" or "user".
+  @_s.JsonKey(name: 'Source')
   final String source;
 
   Parameter({
@@ -9175,10 +9322,14 @@ class Parameter {
       source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 }
 
 enum ParameterApplyType {
+  @_s.JsonValue('static')
   static,
+  @_s.JsonValue('dynamic')
   dynamic,
 }
 
@@ -9194,8 +9345,14 @@ extension on String {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class PauseClusterMessage {
   /// The identifier of the cluster to be paused.
+  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   PauseClusterMessage({
@@ -9206,6 +9363,8 @@ class PauseClusterMessage {
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$PauseClusterMessageToJson(this);
 }
 
 class PauseClusterResult {
@@ -9531,7 +9690,9 @@ class ReservedNodeOffering {
 }
 
 enum ReservedNodeOfferingType {
+  @_s.JsonValue('Regular')
   regular,
+  @_s.JsonValue('Upgradable')
   upgradable,
 }
 
@@ -9606,23 +9767,33 @@ class ReservedNodesMessage {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ResizeClusterMessage {
   /// The unique identifier for the cluster to resize.
+  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   /// A boolean value indicating whether the resize operation is using the classic
   /// resize process. If you don't provide this parameter or set the value to
   /// <code>false</code>, the resize type is elastic.
+  @_s.JsonKey(name: 'Classic')
   final bool classic;
 
   /// The new cluster type for the specified cluster.
+  @_s.JsonKey(name: 'ClusterType')
   final String clusterType;
 
   /// The new node type for the nodes you are adding. If not specified, the
   /// cluster's current node type is used.
+  @_s.JsonKey(name: 'NodeType')
   final String nodeType;
 
   /// The new number of nodes for the cluster.
+  @_s.JsonKey(name: 'NumberOfNodes')
   final int numberOfNodes;
 
   ResizeClusterMessage({
@@ -9641,6 +9812,8 @@ class ResizeClusterMessage {
       numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ResizeClusterMessageToJson(this);
 }
 
 class ResizeClusterResult {
@@ -9894,8 +10067,14 @@ class RestoreTableFromClusterSnapshotResult {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ResumeClusterMessage {
   /// The identifier of the cluster to be resumed.
+  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   ResumeClusterMessage({
@@ -9906,6 +10085,8 @@ class ResumeClusterMessage {
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ResumeClusterMessageToJson(this);
 }
 
 class ResumeClusterResult {
@@ -9994,8 +10175,11 @@ class RotateEncryptionKeyResult {
 }
 
 enum ScheduleState {
+  @_s.JsonValue('MODIFYING')
   modifying,
+  @_s.JsonValue('ACTIVE')
   active,
+  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -10100,22 +10284,32 @@ class ScheduledAction {
 }
 
 /// A set of elements to filter the returned scheduled actions.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ScheduledActionFilter {
   /// The type of element to filter.
+  @_s.JsonKey(name: 'Name')
   final ScheduledActionFilterName name;
 
   /// List of values. Compare if the value (of type defined by <code>Name</code>)
   /// equals an item in the list of scheduled actions.
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   ScheduledActionFilter({
     @_s.required this.name,
     @_s.required this.values,
   });
+  Map<String, dynamic> toJson() => _$ScheduledActionFilterToJson(this);
 }
 
 enum ScheduledActionFilterName {
+  @_s.JsonValue('cluster-identifier')
   clusterIdentifier,
+  @_s.JsonValue('iam-role')
   iamRole,
 }
 
@@ -10132,7 +10326,9 @@ extension on String {
 }
 
 enum ScheduledActionState {
+  @_s.JsonValue('ACTIVE')
   active,
+  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -10150,14 +10346,22 @@ extension on String {
 
 /// The action type that specifies an Amazon Redshift API operation that is
 /// supported by the Amazon Redshift scheduler.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ScheduledActionType {
   /// An action that runs a <code>PauseCluster</code> API operation.
+  @_s.JsonKey(name: 'PauseCluster')
   final PauseClusterMessage pauseCluster;
 
   /// An action that runs a <code>ResizeCluster</code> API operation.
+  @_s.JsonKey(name: 'ResizeCluster')
   final ResizeClusterMessage resizeCluster;
 
   /// An action that runs a <code>ResumeCluster</code> API operation.
+  @_s.JsonKey(name: 'ResumeCluster')
   final ResumeClusterMessage resumeCluster;
 
   ScheduledActionType({
@@ -10178,11 +10382,16 @@ class ScheduledActionType {
           ?.let((e) => ResumeClusterMessage.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ScheduledActionTypeToJson(this);
 }
 
 enum ScheduledActionTypeValues {
+  @_s.JsonValue('ResizeCluster')
   resizeCluster,
+  @_s.JsonValue('PauseCluster')
   pauseCluster,
+  @_s.JsonValue('ResumeCluster')
   resumeCluster,
 }
 
@@ -10476,8 +10685,11 @@ class Snapshot {
 }
 
 enum SnapshotAttributeToSortBy {
+  @_s.JsonValue('SOURCE_TYPE')
   sourceType,
+  @_s.JsonValue('TOTAL_SIZE')
   totalSize,
+  @_s.JsonValue('CREATE_TIME')
   createTime,
 }
 
@@ -10679,21 +10891,31 @@ class SnapshotSchedule {
 }
 
 /// Describes a sorting entity
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SnapshotSortingEntity {
   /// The category for sorting the snapshots.
+  @_s.JsonKey(name: 'Attribute')
   final SnapshotAttributeToSortBy attribute;
 
   /// The order for listing the attributes.
+  @_s.JsonKey(name: 'SortOrder')
   final SortByOrder sortOrder;
 
   SnapshotSortingEntity({
     @_s.required this.attribute,
     this.sortOrder,
   });
+  Map<String, dynamic> toJson() => _$SnapshotSortingEntityToJson(this);
 }
 
 enum SortByOrder {
+  @_s.JsonValue('ASC')
   asc,
+  @_s.JsonValue('DESC')
   desc,
 }
 
@@ -10710,10 +10932,15 @@ extension on String {
 }
 
 enum SourceType {
+  @_s.JsonValue('cluster')
   cluster,
+  @_s.JsonValue('cluster-parameter-group')
   clusterParameterGroup,
+  @_s.JsonValue('cluster-security-group')
   clusterSecurityGroup,
+  @_s.JsonValue('cluster-snapshot')
   clusterSnapshot,
+  @_s.JsonValue('scheduled-action')
   scheduledAction,
 }
 
@@ -10926,10 +11153,15 @@ class TableRestoreStatusMessage {
 }
 
 enum TableRestoreStatusType {
+  @_s.JsonValue('PENDING')
   pending,
+  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+  @_s.JsonValue('SUCCEEDED')
   succeeded,
+  @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('CANCELED')
   canceled,
 }
 
@@ -10952,11 +11184,18 @@ extension on String {
 }
 
 /// A tag consisting of a name/value pair for a resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The key, or name, for the resource tag.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for the resource tag.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -10969,6 +11208,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// A tag and its associated resource.

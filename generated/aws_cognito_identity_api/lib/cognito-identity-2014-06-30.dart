@@ -1718,7 +1718,10 @@ class Credentials {
   final String accessKeyId;
 
   /// The date at which these credentials will expire.
-  @_s.JsonKey(name: 'Expiration', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Expiration',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expiration;
 
   /// The Secret Access Key portion of the credentials
@@ -1899,7 +1902,10 @@ class GetOpenIdTokenResponse {
     createToJson: false)
 class IdentityDescription {
   /// Date on which the identity was created.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// A unique identifier in the format REGION:GUID.
@@ -1908,7 +1914,9 @@ class IdentityDescription {
 
   /// Date on which the identity was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
   /// The provider names.

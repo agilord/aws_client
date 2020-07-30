@@ -121,7 +121,9 @@ ConfigurationTag _$ConfigurationTagFromJson(Map<String, dynamic> json) {
     configurationType: _$enumDecodeNullable(
         _$ConfigurationItemTypeEnumMap, json['configurationType']),
     key: json['key'] as String,
-    timeOfCreation: unixFromJson(json['timeOfCreation']),
+    timeOfCreation: json['timeOfCreation'] == null
+        ? null
+        : DateTime.parse(json['timeOfCreation'] as String),
     value: json['value'] as String,
   );
 }
@@ -143,11 +145,15 @@ ContinuousExportDescription _$ContinuousExportDescriptionFromJson(
         (json['schemaStorageConfig'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    startTime: unixFromJson(json['startTime']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
     status:
         _$enumDecodeNullable(_$ContinuousExportStatusEnumMap, json['status']),
     statusDetail: json['statusDetail'] as String,
-    stopTime: unixFromJson(json['stopTime']),
+    stopTime: json['stopTime'] == null
+        ? null
+        : DateTime.parse(json['stopTime'] as String),
   );
 }
 
@@ -319,14 +325,20 @@ Map<String, dynamic> _$ExportFilterToJson(ExportFilter instance) {
 ExportInfo _$ExportInfoFromJson(Map<String, dynamic> json) {
   return ExportInfo(
     exportId: json['exportId'] as String,
-    exportRequestTime: unixFromJson(json['exportRequestTime']),
+    exportRequestTime: json['exportRequestTime'] == null
+        ? null
+        : DateTime.parse(json['exportRequestTime'] as String),
     exportStatus:
         _$enumDecodeNullable(_$ExportStatusEnumMap, json['exportStatus']),
     statusMessage: json['statusMessage'] as String,
     configurationsDownloadUrl: json['configurationsDownloadUrl'] as String,
     isTruncated: json['isTruncated'] as bool,
-    requestedEndTime: unixFromJson(json['requestedEndTime']),
-    requestedStartTime: unixFromJson(json['requestedStartTime']),
+    requestedEndTime: json['requestedEndTime'] == null
+        ? null
+        : DateTime.parse(json['requestedEndTime'] as String),
+    requestedStartTime: json['requestedStartTime'] == null
+        ? null
+        : DateTime.parse(json['requestedStartTime'] as String),
   );
 }
 
@@ -375,9 +387,15 @@ ImportTask _$ImportTaskFromJson(Map<String, dynamic> json) {
     applicationImportSuccess: json['applicationImportSuccess'] as int,
     clientRequestToken: json['clientRequestToken'] as String,
     errorsAndFailedEntriesZip: json['errorsAndFailedEntriesZip'] as String,
-    importCompletionTime: unixFromJson(json['importCompletionTime']),
-    importDeletedTime: unixFromJson(json['importDeletedTime']),
-    importRequestTime: unixFromJson(json['importRequestTime']),
+    importCompletionTime: json['importCompletionTime'] == null
+        ? null
+        : DateTime.parse(json['importCompletionTime'] as String),
+    importDeletedTime: json['importDeletedTime'] == null
+        ? null
+        : DateTime.parse(json['importDeletedTime'] as String),
+    importRequestTime: json['importRequestTime'] == null
+        ? null
+        : DateTime.parse(json['importRequestTime'] as String),
     importTaskId: json['importTaskId'] as String,
     importUrl: json['importUrl'] as String,
     name: json['name'] as String,
@@ -488,7 +506,9 @@ StartContinuousExportResponse _$StartContinuousExportResponseFromJson(
         (json['schemaStorageConfig'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    startTime: unixFromJson(json['startTime']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
   );
 }
 
@@ -522,8 +542,12 @@ StartImportTaskResponse _$StartImportTaskResponseFromJson(
 StopContinuousExportResponse _$StopContinuousExportResponseFromJson(
     Map<String, dynamic> json) {
   return StopContinuousExportResponse(
-    startTime: unixFromJson(json['startTime']),
-    stopTime: unixFromJson(json['stopTime']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
+    stopTime: json['stopTime'] == null
+        ? null
+        : DateTime.parse(json['stopTime'] as String),
   );
 }
 

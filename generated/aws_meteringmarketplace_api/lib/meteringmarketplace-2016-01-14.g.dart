@@ -29,8 +29,9 @@ MeterUsageResult _$MeterUsageResultFromJson(Map<String, dynamic> json) {
 
 RegisterUsageResult _$RegisterUsageResultFromJson(Map<String, dynamic> json) {
   return RegisterUsageResult(
-    publicKeyRotationTimestamp:
-        unixFromJson(json['PublicKeyRotationTimestamp']),
+    publicKeyRotationTimestamp: json['PublicKeyRotationTimestamp'] == null
+        ? null
+        : DateTime.parse(json['PublicKeyRotationTimestamp'] as String),
     signature: json['Signature'] as String,
   );
 }
@@ -47,7 +48,9 @@ UsageRecord _$UsageRecordFromJson(Map<String, dynamic> json) {
   return UsageRecord(
     customerIdentifier: json['CustomerIdentifier'] as String,
     dimension: json['Dimension'] as String,
-    timestamp: unixFromJson(json['Timestamp']),
+    timestamp: json['Timestamp'] == null
+        ? null
+        : DateTime.parse(json['Timestamp'] as String),
     quantity: json['Quantity'] as int,
   );
 }
@@ -63,7 +66,7 @@ Map<String, dynamic> _$UsageRecordToJson(UsageRecord instance) {
 
   writeNotNull('CustomerIdentifier', instance.customerIdentifier);
   writeNotNull('Dimension', instance.dimension);
-  writeNotNull('Timestamp', unixToJson(instance.timestamp));
+  writeNotNull('Timestamp', instance.timestamp?.toIso8601String());
   writeNotNull('Quantity', instance.quantity);
   return val;
 }

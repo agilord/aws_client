@@ -9,26 +9,40 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'elasticbeanstalk-2010-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'elasticbeanstalk-2010-12-01.g.dart';
 
 /// AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage
 /// scalable, fault-tolerant applications running on the Amazon Web Services
 /// cloud.
 class ElasticBeanstalk {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   ElasticBeanstalk({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'elasticbeanstalk',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Cancels in-progress environment configuration update or application
   /// version deployment.
@@ -52,17 +66,18 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'AbortEnvironmentUpdate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     await _protocol.send(
       $request,
+      action: 'AbortEnvironmentUpdate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AbortEnvironmentUpdateMessage'],
+      shapes: shapes,
     );
   }
 
@@ -88,18 +103,19 @@ class ElasticBeanstalk {
     String environmentName,
   }) async {
     ArgumentError.checkNotNull(actionId, 'actionId');
-    final $request = <String, dynamic>{
-      'Action': 'ApplyEnvironmentManagedAction',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ActionId'] = actionId;
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ApplyEnvironmentManagedAction',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ApplyEnvironmentManagedActionRequest'],
+      shapes: shapes,
       resultWrapper: 'ApplyEnvironmentManagedActionResult',
     );
     return ApplyEnvironmentManagedActionResult.fromXml($result);
@@ -120,16 +136,17 @@ class ElasticBeanstalk {
       63,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CheckDNSAvailability',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['CNAMEPrefix'] = cNAMEPrefix;
     final $result = await _protocol.send(
       $request,
+      action: 'CheckDNSAvailability',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CheckDNSAvailabilityMessage'],
+      shapes: shapes,
       resultWrapper: 'CheckDNSAvailabilityResult',
     );
     return CheckDNSAvailabilityResultMessage.fromXml($result);
@@ -180,18 +197,19 @@ class ElasticBeanstalk {
       1,
       19,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ComposeEnvironments',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     groupName?.also((arg) => $request['GroupName'] = arg);
     versionLabels?.also((arg) => $request['VersionLabels'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ComposeEnvironments',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ComposeEnvironmentsMessage'],
+      shapes: shapes,
       resultWrapper: 'ComposeEnvironmentsResult',
     );
     return EnvironmentDescriptionsMessage.fromXml($result);
@@ -237,10 +255,7 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateApplication',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     description?.also((arg) => $request['Description'] = arg);
     resourceLifecycleConfig
@@ -248,9 +263,13 @@ class ElasticBeanstalk {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateApplication',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateApplicationMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateApplicationResult',
     );
     return ApplicationDescriptionMessage.fromXml($result);
@@ -374,10 +393,7 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateApplicationVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['VersionLabel'] = versionLabel;
     autoCreateApplication
@@ -391,9 +407,13 @@ class ElasticBeanstalk {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateApplicationVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateApplicationVersionMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateApplicationVersionResult',
     );
     return ApplicationVersionDescriptionMessage.fromXml($result);
@@ -532,10 +552,7 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateConfigurationTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['TemplateName'] = templateName;
     description?.also((arg) => $request['Description'] = arg);
@@ -547,9 +564,13 @@ class ElasticBeanstalk {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateConfigurationTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateConfigurationTemplateMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateConfigurationTemplateResult',
     );
     return ConfigurationSettingsDescription.fromXml($result);
@@ -707,10 +728,7 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateEnvironment',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     cNAMEPrefix?.also((arg) => $request['CNAMEPrefix'] = arg);
     description?.also((arg) => $request['Description'] = arg);
@@ -726,9 +744,13 @@ class ElasticBeanstalk {
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateEnvironment',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateEnvironmentMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateEnvironmentResult',
     );
     return EnvironmentDescription.fromXml($result);
@@ -779,10 +801,7 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreatePlatformVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['PlatformDefinitionBundle'] = platformDefinitionBundle;
     $request['PlatformName'] = platformName;
     $request['PlatformVersion'] = platformVersion;
@@ -791,9 +810,13 @@ class ElasticBeanstalk {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreatePlatformVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreatePlatformVersionRequest'],
+      shapes: shapes,
       resultWrapper: 'CreatePlatformVersionResult',
     );
     return CreatePlatformVersionResult.fromXml($result);
@@ -810,12 +833,11 @@ class ElasticBeanstalk {
   /// May throw [S3SubscriptionRequiredException].
   /// May throw [InsufficientPrivilegesException].
   Future<CreateStorageLocationResultMessage> createStorageLocation() async {
-    final $request = <String, dynamic>{
-      'Action': 'CreateStorageLocation',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'CreateStorageLocation',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -851,17 +873,18 @@ class ElasticBeanstalk {
       100,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteApplication',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     terminateEnvByForce?.also((arg) => $request['TerminateEnvByForce'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteApplication',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteApplicationMessage'],
+      shapes: shapes,
     );
   }
 
@@ -907,18 +930,19 @@ class ElasticBeanstalk {
       100,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteApplicationVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['VersionLabel'] = versionLabel;
     deleteSourceBundle?.also((arg) => $request['DeleteSourceBundle'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteApplicationVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteApplicationVersionMessage'],
+      shapes: shapes,
     );
   }
 
@@ -957,17 +981,18 @@ class ElasticBeanstalk {
       100,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteConfigurationTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['TemplateName'] = templateName;
     await _protocol.send(
       $request,
+      action: 'DeleteConfigurationTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteConfigurationTemplateMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1006,17 +1031,18 @@ class ElasticBeanstalk {
       40,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteEnvironmentConfiguration',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['EnvironmentName'] = environmentName;
     await _protocol.send(
       $request,
+      action: 'DeleteEnvironmentConfiguration',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEnvironmentConfigurationMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1032,16 +1058,17 @@ class ElasticBeanstalk {
   Future<DeletePlatformVersionResult> deletePlatformVersion({
     String platformArn,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DeletePlatformVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeletePlatformVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeletePlatformVersionRequest'],
+      shapes: shapes,
       resultWrapper: 'DeletePlatformVersionResult',
     );
     return DeletePlatformVersionResult.fromXml($result);
@@ -1054,12 +1081,11 @@ class ElasticBeanstalk {
   ///
   /// May throw [InsufficientPrivilegesException].
   Future<DescribeAccountAttributesResult> describeAccountAttributes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAccountAttributes',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAccountAttributes',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1108,19 +1134,20 @@ class ElasticBeanstalk {
       1,
       1000,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeApplicationVersions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     versionLabels?.also((arg) => $request['VersionLabels'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeApplicationVersions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeApplicationVersionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeApplicationVersionsResult',
     );
     return ApplicationVersionDescriptionsMessage.fromXml($result);
@@ -1134,16 +1161,17 @@ class ElasticBeanstalk {
   Future<ApplicationDescriptionsMessage> describeApplications({
     List<String> applicationNames,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeApplications',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationNames?.also((arg) => $request['ApplicationNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeApplications',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeApplicationsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeApplicationsResult',
     );
     return ApplicationDescriptionsMessage.fromXml($result);
@@ -1205,10 +1233,7 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeConfigurationOptions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     options?.also((arg) => $request['Options'] = arg);
@@ -1217,9 +1242,13 @@ class ElasticBeanstalk {
     templateName?.also((arg) => $request['TemplateName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeConfigurationOptions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeConfigurationOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeConfigurationOptionsResult',
     );
     return ConfigurationOptionsDescription.fromXml($result);
@@ -1290,18 +1319,19 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeConfigurationSettings',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     templateName?.also((arg) => $request['TemplateName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeConfigurationSettings',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeConfigurationSettingsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeConfigurationSettingsResult',
     );
     return ConfigurationSettingsDescriptions.fromXml($result);
@@ -1339,18 +1369,19 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEnvironmentHealth',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEnvironmentHealth',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEnvironmentHealthRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeEnvironmentHealthResult',
     );
     return DescribeEnvironmentHealthResult.fromXml($result);
@@ -1384,19 +1415,20 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEnvironmentManagedActionHistory',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEnvironmentManagedActionHistory',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEnvironmentManagedActionHistoryRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeEnvironmentManagedActionHistoryResult',
     );
     return DescribeEnvironmentManagedActionHistoryResult.fromXml($result);
@@ -1420,18 +1452,19 @@ class ElasticBeanstalk {
     String environmentName,
     ActionStatus status,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEnvironmentManagedActions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     status?.also((arg) => $request['Status'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEnvironmentManagedActions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEnvironmentManagedActionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeEnvironmentManagedActionsResult',
     );
     return DescribeEnvironmentManagedActionsResult.fromXml($result);
@@ -1464,17 +1497,18 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEnvironmentResources',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEnvironmentResources',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEnvironmentResourcesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEnvironmentResourcesResult',
     );
     return EnvironmentResourceDescriptionsMessage.fromXml($result);
@@ -1551,10 +1585,7 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEnvironments',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     environmentIds?.also((arg) => $request['EnvironmentIds'] = arg);
     environmentNames?.also((arg) => $request['EnvironmentNames'] = arg);
@@ -1566,9 +1597,13 @@ class ElasticBeanstalk {
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEnvironments',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEnvironmentsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEnvironmentsResult',
     );
     return EnvironmentDescriptionsMessage.fromXml($result);
@@ -1673,10 +1708,7 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEvents',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
@@ -1691,9 +1723,13 @@ class ElasticBeanstalk {
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEvents',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventDescriptionsMessage.fromXml($result);
@@ -1738,19 +1774,20 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeInstancesHealth',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeInstancesHealth',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeInstancesHealthRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeInstancesHealthResult',
     );
     return DescribeInstancesHealthResult.fromXml($result);
@@ -1773,16 +1810,17 @@ class ElasticBeanstalk {
   Future<DescribePlatformVersionResult> describePlatformVersion({
     String platformArn,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribePlatformVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribePlatformVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribePlatformVersionRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribePlatformVersionResult',
     );
     return DescribePlatformVersionResult.fromXml($result);
@@ -1792,12 +1830,11 @@ class ElasticBeanstalk {
   /// version first and then in reverse chronological order.
   Future<ListAvailableSolutionStacksResultMessage>
       listAvailableSolutionStacks() async {
-    final $request = <String, dynamic>{
-      'Action': 'ListAvailableSolutionStacks',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'ListAvailableSolutionStacks',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1896,18 +1933,19 @@ class ElasticBeanstalk {
       1,
       1152921504606846976,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListPlatformBranches',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListPlatformBranches',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListPlatformBranchesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListPlatformBranchesResult',
     );
     return ListPlatformBranchesResult.fromXml($result);
@@ -1951,18 +1989,19 @@ class ElasticBeanstalk {
       1,
       1152921504606846976,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListPlatformVersions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListPlatformVersions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListPlatformVersionsRequest'],
+      shapes: shapes,
       resultWrapper: 'ListPlatformVersionsResult',
     );
     return ListPlatformVersionsResult.fromXml($result);
@@ -1989,16 +2028,17 @@ class ElasticBeanstalk {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $request = <String, dynamic>{
-      'Action': 'ListTagsForResource',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     final $result = await _protocol.send(
       $request,
+      action: 'ListTagsForResource',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTagsForResourceMessage'],
+      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return ResourceTagsDescriptionMessage.fromXml($result);
@@ -2033,17 +2073,18 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RebuildEnvironment',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     await _protocol.send(
       $request,
+      action: 'RebuildEnvironment',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RebuildEnvironmentMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2103,18 +2144,19 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RequestEnvironmentInfo',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['InfoType'] = infoType.toValue();
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     await _protocol.send(
       $request,
+      action: 'RequestEnvironmentInfo',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RequestEnvironmentInfoMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2144,17 +2186,18 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RestartAppServer',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     await _protocol.send(
       $request,
+      action: 'RestartAppServer',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestartAppServerMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2203,18 +2246,19 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RetrieveEnvironmentInfo',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['InfoType'] = infoType.toValue();
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RetrieveEnvironmentInfo',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RetrieveEnvironmentInfoMessage'],
+      shapes: shapes,
       resultWrapper: 'RetrieveEnvironmentInfoResult',
     );
     return RetrieveEnvironmentInfoResultMessage.fromXml($result);
@@ -2273,10 +2317,7 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SwapEnvironmentCNAMEs',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     destinationEnvironmentId
         ?.also((arg) => $request['DestinationEnvironmentId'] = arg);
     destinationEnvironmentName
@@ -2286,9 +2327,13 @@ class ElasticBeanstalk {
         ?.also((arg) => $request['SourceEnvironmentName'] = arg);
     await _protocol.send(
       $request,
+      action: 'SwapEnvironmentCNAMEs',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SwapEnvironmentCNAMEsMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2347,19 +2392,20 @@ class ElasticBeanstalk {
       4,
       40,
     );
-    final $request = <String, dynamic>{
-      'Action': 'TerminateEnvironment',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     forceTerminate?.also((arg) => $request['ForceTerminate'] = arg);
     terminateResources?.also((arg) => $request['TerminateResources'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'TerminateEnvironment',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['TerminateEnvironmentMessage'],
+      shapes: shapes,
       resultWrapper: 'TerminateEnvironmentResult',
     );
     return EnvironmentDescription.fromXml($result);
@@ -2400,17 +2446,18 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateApplication',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     description?.also((arg) => $request['Description'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateApplication',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateApplicationMessage'],
+      shapes: shapes,
       resultWrapper: 'UpdateApplicationResult',
     );
     return ApplicationDescriptionMessage.fromXml($result);
@@ -2440,17 +2487,18 @@ class ElasticBeanstalk {
     );
     ArgumentError.checkNotNull(
         resourceLifecycleConfig, 'resourceLifecycleConfig');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateApplicationResourceLifecycle',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['ResourceLifecycleConfig'] = resourceLifecycleConfig;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateApplicationResourceLifecycle',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateApplicationResourceLifecycleMessage'],
+      shapes: shapes,
       resultWrapper: 'UpdateApplicationResourceLifecycleResult',
     );
     return ApplicationResourceLifecycleDescriptionMessage.fromXml($result);
@@ -2505,18 +2553,19 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateApplicationVersion',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['VersionLabel'] = versionLabel;
     description?.also((arg) => $request['Description'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateApplicationVersion',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateApplicationVersionMessage'],
+      shapes: shapes,
       resultWrapper: 'UpdateApplicationVersionResult',
     );
     return ApplicationVersionDescriptionMessage.fromXml($result);
@@ -2596,10 +2645,7 @@ class ElasticBeanstalk {
       0,
       200,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateConfigurationTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['TemplateName'] = templateName;
     description?.also((arg) => $request['Description'] = arg);
@@ -2607,9 +2653,13 @@ class ElasticBeanstalk {
     optionsToRemove?.also((arg) => $request['OptionsToRemove'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateConfigurationTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateConfigurationTemplateMessage'],
+      shapes: shapes,
       resultWrapper: 'UpdateConfigurationTemplateResult',
     );
     return ConfigurationSettingsDescription.fromXml($result);
@@ -2748,10 +2798,7 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateEnvironment',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
@@ -2766,9 +2813,13 @@ class ElasticBeanstalk {
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateEnvironment',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateEnvironmentMessage'],
+      shapes: shapes,
       resultWrapper: 'UpdateEnvironmentResult',
     );
     return EnvironmentDescription.fromXml($result);
@@ -2823,18 +2874,19 @@ class ElasticBeanstalk {
     List<String> tagsToRemove,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateTagsForResource',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     tagsToAdd?.also((arg) => $request['TagsToAdd'] = arg);
     tagsToRemove?.also((arg) => $request['TagsToRemove'] = arg);
     await _protocol.send(
       $request,
+      action: 'UpdateTagsForResource',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateTagsForResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2891,19 +2943,20 @@ class ElasticBeanstalk {
       1,
       100,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ValidateConfigurationSettings',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplicationName'] = applicationName;
     $request['OptionSettings'] = optionSettings;
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     templateName?.also((arg) => $request['TemplateName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ValidateConfigurationSettings',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ValidateConfigurationSettingsMessage'],
+      shapes: shapes,
       resultWrapper: 'ValidateConfigurationSettingsResult',
     );
     return ConfigurationSettingsValidationMessages.fromXml($result);
@@ -2911,8 +2964,11 @@ class ElasticBeanstalk {
 }
 
 enum ActionHistoryStatus {
+  @_s.JsonValue('Completed')
   completed,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -2931,9 +2987,13 @@ extension on String {
 }
 
 enum ActionStatus {
+  @_s.JsonValue('Scheduled')
   scheduled,
+  @_s.JsonValue('Pending')
   pending,
+  @_s.JsonValue('Running')
   running,
+  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -2970,8 +3030,11 @@ extension on String {
 }
 
 enum ActionType {
+  @_s.JsonValue('InstanceRefresh')
   instanceRefresh,
+  @_s.JsonValue('PlatformUpdate')
   platformUpdate,
+  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -3125,6 +3188,11 @@ class ApplicationMetrics {
 /// that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The
 /// version lifecycle configuration defines lifecycle settings for application
 /// versions.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ApplicationResourceLifecycleConfig {
   /// The ARN of an IAM service role that Elastic Beanstalk has permission to
   /// assume.
@@ -3137,9 +3205,11 @@ class ApplicationResourceLifecycleConfig {
   /// the application, and you don't need to specify it again in subsequent
   /// <code>UpdateApplicationResourceLifecycle</code> calls. You can, however,
   /// specify it in subsequent calls to change the Service Role to another value.
+  @_s.JsonKey(name: 'ServiceRole')
   final String serviceRole;
 
   /// Defines lifecycle settings for application versions.
+  @_s.JsonKey(name: 'VersionLifecycleConfig')
   final ApplicationVersionLifecycleConfig versionLifecycleConfig;
 
   ApplicationResourceLifecycleConfig({
@@ -3154,6 +3224,9 @@ class ApplicationResourceLifecycleConfig {
           ?.let((e) => ApplicationVersionLifecycleConfig.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      _$ApplicationResourceLifecycleConfigToJson(this);
 }
 
 class ApplicationResourceLifecycleDescriptionMessage {
@@ -3325,13 +3398,20 @@ class ApplicationVersionDescriptionsMessage {
 /// When Elastic Beanstalk deletes an application version from its database, you
 /// can no longer deploy that version to an environment. The source bundle
 /// remains in S3 unless you configure the rule to delete it.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ApplicationVersionLifecycleConfig {
   /// Specify a max age rule to restrict the length of time that application
   /// versions are retained for an application.
+  @_s.JsonKey(name: 'MaxAgeRule')
   final MaxAgeRule maxAgeRule;
 
   /// Specify a max count rule to restrict the number of application versions that
   /// are retained for an application.
+  @_s.JsonKey(name: 'MaxCountRule')
   final MaxCountRule maxCountRule;
 
   ApplicationVersionLifecycleConfig({
@@ -3348,13 +3428,21 @@ class ApplicationVersionLifecycleConfig {
           ?.let((e) => MaxCountRule.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      _$ApplicationVersionLifecycleConfigToJson(this);
 }
 
 enum ApplicationVersionStatus {
+  @_s.JsonValue('Processed')
   processed,
+  @_s.JsonValue('Unprocessed')
   unprocessed,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('Processing')
   processing,
+  @_s.JsonValue('Building')
   building,
 }
 
@@ -3422,13 +3510,20 @@ class AutoScalingGroup {
 }
 
 /// Settings for an AWS CodeBuild build.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class BuildConfiguration {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that enables AWS CodeBuild to interact with dependent AWS
   /// services on behalf of the AWS account.
+  @_s.JsonKey(name: 'CodeBuildServiceRole')
   final String codeBuildServiceRole;
 
   /// The ID of the Docker image to use for this build project.
+  @_s.JsonKey(name: 'Image')
   final String image;
 
   /// The name of the artifact of the CodeBuild build. If provided, Elastic
@@ -3437,6 +3532,7 @@ class BuildConfiguration {
   /// If not provided, Elastic Beanstalk stores the build artifact in the S3
   /// location
   /// <i>S3-bucket</i>/resources/<i>application-name</i>/codebuild/codebuild-<i>version-label</i>.zip.
+  @_s.JsonKey(name: 'ArtifactName')
   final String artifactName;
 
   /// Information about the compute resources the build project will use.
@@ -3455,11 +3551,13 @@ class BuildConfiguration {
   /// builds</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'ComputeType')
   final ComputeType computeType;
 
   /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
   /// until timing out any related build that does not get marked as completed.
   /// The default is 60 minutes.
+  @_s.JsonKey(name: 'TimeoutInMinutes')
   final int timeoutInMinutes;
 
   BuildConfiguration({
@@ -3469,6 +3567,7 @@ class BuildConfiguration {
     this.computeType,
     this.timeoutInMinutes,
   });
+  Map<String, dynamic> toJson() => _$BuildConfigurationToJson(this);
 }
 
 /// The builder used to build the custom platform.
@@ -3588,8 +3687,11 @@ class CheckDNSAvailabilityResultMessage {
 }
 
 enum ComputeType {
+  @_s.JsonValue('BUILD_GENERAL1_SMALL')
   buildGeneral1Small,
+  @_s.JsonValue('BUILD_GENERAL1_MEDIUM')
   buildGeneral1Medium,
+  @_s.JsonValue('BUILD_GENERAL1_LARGE')
   buildGeneral1Large,
 }
 
@@ -3608,8 +3710,11 @@ extension on String {
 }
 
 enum ConfigurationDeploymentStatus {
+  @_s.JsonValue('deployed')
   deployed,
+  @_s.JsonValue('pending')
   pending,
+  @_s.JsonValue('failed')
   failed,
 }
 
@@ -3762,18 +3867,27 @@ class ConfigurationOptionDescription {
 /// <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
 /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ConfigurationOptionSetting {
   /// A unique namespace that identifies the option's associated AWS resource.
+  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The name of the configuration option.
+  @_s.JsonKey(name: 'OptionName')
   final String optionName;
 
   /// A unique resource name for the option setting. Use it for a time–based
   /// scaling configuration option.
+  @_s.JsonKey(name: 'ResourceName')
   final String resourceName;
 
   /// The current value for the configuration option.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   ConfigurationOptionSetting({
@@ -3790,10 +3904,14 @@ class ConfigurationOptionSetting {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ConfigurationOptionSettingToJson(this);
 }
 
 enum ConfigurationOptionValueType {
+  @_s.JsonValue('Scalar')
   scalar,
+  @_s.JsonValue('List')
   list,
 }
 
@@ -4461,9 +4579,13 @@ class EnvironmentDescriptionsMessage {
 }
 
 enum EnvironmentHealth {
+  @_s.JsonValue('Green')
   green,
+  @_s.JsonValue('Yellow')
   yellow,
+  @_s.JsonValue('Red')
   red,
+  @_s.JsonValue('Grey')
   grey,
 }
 
@@ -4484,13 +4606,21 @@ extension on String {
 }
 
 enum EnvironmentHealthAttribute {
+  @_s.JsonValue('Status')
   status,
+  @_s.JsonValue('Color')
   color,
+  @_s.JsonValue('Causes')
   causes,
+  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
+  @_s.JsonValue('InstancesHealth')
   instancesHealth,
+  @_s.JsonValue('All')
   all,
+  @_s.JsonValue('HealthStatus')
   healthStatus,
+  @_s.JsonValue('RefreshedAt')
   refreshedAt,
 }
 
@@ -4519,14 +4649,23 @@ extension on String {
 }
 
 enum EnvironmentHealthStatus {
+  @_s.JsonValue('NoData')
   noData,
+  @_s.JsonValue('Unknown')
   unknown,
+  @_s.JsonValue('Pending')
   pending,
+  @_s.JsonValue('Ok')
   ok,
+  @_s.JsonValue('Info')
   info,
+  @_s.JsonValue('Warning')
   warning,
+  @_s.JsonValue('Degraded')
   degraded,
+  @_s.JsonValue('Severe')
   severe,
+  @_s.JsonValue('Suspended')
   suspended,
 }
 
@@ -4592,7 +4731,9 @@ class EnvironmentInfoDescription {
 }
 
 enum EnvironmentInfoType {
+  @_s.JsonValue('tail')
   tail,
+  @_s.JsonValue('bundle')
   bundle,
 }
 
@@ -4754,10 +4895,15 @@ class EnvironmentResourcesDescription {
 }
 
 enum EnvironmentStatus {
+  @_s.JsonValue('Launching')
   launching,
+  @_s.JsonValue('Updating')
   updating,
+  @_s.JsonValue('Ready')
   ready,
+  @_s.JsonValue('Terminating')
   terminating,
+  @_s.JsonValue('Terminated')
   terminated,
 }
 
@@ -4780,6 +4926,11 @@ extension on String {
 }
 
 /// Describes the properties of an environment tier
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class EnvironmentTier {
   /// The name of this environment tier.
   ///
@@ -4793,6 +4944,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>Worker</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The type of this environment tier.
@@ -4807,6 +4959,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>SQS/HTTP</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// The version of this environment tier. When you don't set a value to it,
@@ -4815,6 +4968,7 @@ class EnvironmentTier {
   /// This member is deprecated. Any specific version that you set may become out
   /// of date. We recommend leaving it unspecified.
   /// </note>
+  @_s.JsonKey(name: 'Version')
   final String version;
 
   EnvironmentTier({
@@ -4829,6 +4983,8 @@ class EnvironmentTier {
       version: _s.extractXmlStringValue(elem, 'Version'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$EnvironmentTierToJson(this);
 }
 
 /// Describes an event.
@@ -4912,11 +5068,17 @@ class EventDescriptionsMessage {
 }
 
 enum EventSeverity {
+  @_s.JsonValue('TRACE')
   trace,
+  @_s.JsonValue('DEBUG')
   debug,
+  @_s.JsonValue('INFO')
   info,
+  @_s.JsonValue('WARN')
   warn,
+  @_s.JsonValue('ERROR')
   error,
+  @_s.JsonValue('FATAL')
   fatal,
 }
 
@@ -4961,12 +5123,19 @@ extension on String {
 }
 
 enum FailureType {
+  @_s.JsonValue('UpdateCancelled')
   updateCancelled,
+  @_s.JsonValue('CancellationFailed')
   cancellationFailed,
+  @_s.JsonValue('RollbackFailed')
   rollbackFailed,
+  @_s.JsonValue('RollbackSuccessful')
   rollbackSuccessful,
+  @_s.JsonValue('InternalFailure')
   internalFailure,
+  @_s.JsonValue('InvalidEnvironmentState')
   invalidEnvironmentState,
+  @_s.JsonValue('PermissionsError')
   permissionsError,
 }
 
@@ -5068,16 +5237,27 @@ class InstanceHealthSummary {
 }
 
 enum InstancesHealthAttribute {
+  @_s.JsonValue('HealthStatus')
   healthStatus,
+  @_s.JsonValue('Color')
   color,
+  @_s.JsonValue('Causes')
   causes,
+  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
+  @_s.JsonValue('RefreshedAt')
   refreshedAt,
+  @_s.JsonValue('LaunchedAt')
   launchedAt,
+  @_s.JsonValue('System')
   system,
+  @_s.JsonValue('Deployment')
   deployment,
+  @_s.JsonValue('AvailabilityZone')
   availabilityZone,
+  @_s.JsonValue('InstanceType')
   instanceType,
+  @_s.JsonValue('All')
   all,
 }
 
@@ -5431,16 +5611,24 @@ class ManagedActionHistoryItem {
 
 /// A lifecycle rule that deletes application versions after the specified
 /// number of days.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MaxAgeRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
+  @_s.JsonKey(name: 'DeleteSourceFromS3')
   final bool deleteSourceFromS3;
 
   /// Specify the number of days to retain an application versions.
+  @_s.JsonKey(name: 'MaxAgeInDays')
   final int maxAgeInDays;
 
   MaxAgeRule({
@@ -5455,20 +5643,30 @@ class MaxAgeRule {
       maxAgeInDays: _s.extractXmlIntValue(elem, 'MaxAgeInDays'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$MaxAgeRuleToJson(this);
 }
 
 /// A lifecycle rule that deletes the oldest application version when the
 /// maximum count is exceeded.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MaxCountRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
+  @_s.JsonKey(name: 'DeleteSourceFromS3')
   final bool deleteSourceFromS3;
 
   /// Specify the maximum number of application versions to retain.
+  @_s.JsonKey(name: 'MaxCount')
   final int maxCount;
 
   MaxCountRule({
@@ -5483,6 +5681,8 @@ class MaxCountRule {
       maxCount: _s.extractXmlIntValue(elem, 'MaxCount'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$MaxCountRuleToJson(this);
 }
 
 /// A regular expression representing a restriction on a string configuration
@@ -5508,14 +5708,22 @@ class OptionRestrictionRegex {
 }
 
 /// A specification identifying an individual configuration option.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class OptionSpecification {
   /// A unique namespace identifying the option's associated AWS resource.
+  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The name of the configuration option.
+  @_s.JsonKey(name: 'OptionName')
   final String optionName;
 
   /// A unique resource name for a time-based scaling configuration option.
+  @_s.JsonKey(name: 'ResourceName')
   final String resourceName;
 
   OptionSpecification({
@@ -5523,6 +5731,7 @@ class OptionSpecification {
     this.optionName,
     this.resourceName,
   });
+  Map<String, dynamic> toJson() => _$OptionSpecificationToJson(this);
 }
 
 /// Summary information about a platform branch.
@@ -5719,6 +5928,11 @@ class PlatformDescription {
 /// Describes criteria to restrict the results when listing platform versions.
 ///
 /// The filter is evaluated as follows: <code>Type Operator Values[1]</code>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class PlatformFilter {
   /// The operator to apply to the <code>Type</code> with each of the
   /// <code>Values</code>.
@@ -5726,6 +5940,7 @@ class PlatformFilter {
   /// Valid values: <code>=</code> | <code>!=</code> | <code>&lt;</code> |
   /// <code>&lt;=</code> | <code>&gt;</code> | <code>&gt;=</code> |
   /// <code>contains</code> | <code>begins_with</code> | <code>ends_with</code>
+  @_s.JsonKey(name: 'Operator')
   final String operator;
 
   /// The platform version attribute to which the filter values are applied.
@@ -5735,6 +5950,7 @@ class PlatformFilter {
   /// <code>PlatformLifecycleState</code> | <code>PlatformOwner</code> |
   /// <code>SupportedTier</code> | <code>SupportedAddon</code> |
   /// <code>ProgrammingLanguageName</code> | <code>OperatingSystemName</code>
+  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// The list of values applied to the filtering platform version attribute. Only
@@ -5759,6 +5975,7 @@ class PlatformFilter {
   /// <code>Monitoring/Healthd</code> | <code>WorkerDaemon/SQSD</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   PlatformFilter({
@@ -5766,6 +5983,7 @@ class PlatformFilter {
     this.type,
     this.values,
   });
+  Map<String, dynamic> toJson() => _$PlatformFilterToJson(this);
 }
 
 /// A framework supported by the platform.
@@ -5809,10 +6027,15 @@ class PlatformProgrammingLanguage {
 }
 
 enum PlatformStatus {
+  @_s.JsonValue('Creating')
   creating,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('Ready')
   ready,
+  @_s.JsonValue('Deleting')
   deleting,
+  @_s.JsonValue('Deleted')
   deleted,
 }
 
@@ -6046,11 +6269,18 @@ class RetrieveEnvironmentInfoResultMessage {
 }
 
 /// The bucket and key of an item stored in Amazon S3.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class S3Location {
   /// The Amazon S3 bucket where the data is located.
+  @_s.JsonKey(name: 'S3Bucket')
   final String s3Bucket;
 
   /// The Amazon S3 key where the data is located.
+  @_s.JsonKey(name: 'S3Key')
   final String s3Key;
 
   S3Location({
@@ -6063,6 +6293,8 @@ class S3Location {
       s3Key: _s.extractXmlStringValue(elem, 'S3Key'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
 }
 
 /// Describes criteria to restrict a list of results.
@@ -6078,18 +6310,26 @@ class S3Location {
 /// The valid values for attributes of <code>SearchFilter</code> depend on the
 /// API action. For valid values, see the reference page for the API action
 /// you're calling that takes a <code>SearchFilter</code> parameter.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SearchFilter {
   /// The result attribute to which the filter values are applied. Valid values
   /// vary by API action.
+  @_s.JsonKey(name: 'Attribute')
   final String attribute;
 
   /// The operator to apply to the <code>Attribute</code> with each of the
   /// <code>Values</code>. Valid values vary by <code>Attribute</code>.
+  @_s.JsonKey(name: 'Operator')
   final String operator;
 
   /// The list of values applied to the <code>Attribute</code> and
   /// <code>Operator</code> attributes. Number of values and valid values vary by
   /// <code>Attribute</code>.
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   SearchFilter({
@@ -6097,6 +6337,7 @@ class SearchFilter {
     this.operator,
     this.values,
   });
+  Map<String, dynamic> toJson() => _$SearchFilterToJson(this);
 }
 
 /// Detailed health information about an Amazon EC2 instance in your Elastic
@@ -6197,6 +6438,11 @@ class SolutionStackDescription {
 }
 
 /// Location of the source code for an application version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceBuildInformation {
   /// The location of the source code, as a formatted string, depending on the
   /// value of <code>SourceRepository</code>
@@ -6213,6 +6459,7 @@ class SourceBuildInformation {
   /// <code>my-s3-bucket/Folders/my-source-file</code>.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'SourceLocation')
   final String sourceLocation;
 
   /// Location where the repository is stored.
@@ -6225,6 +6472,7 @@ class SourceBuildInformation {
   /// <code>S3</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'SourceRepository')
   final SourceRepository sourceRepository;
 
   /// The type of repository.
@@ -6237,6 +6485,7 @@ class SourceBuildInformation {
   /// <code>Zip</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'SourceType')
   final SourceType sourceType;
 
   SourceBuildInformation({
@@ -6253,24 +6502,36 @@ class SourceBuildInformation {
       sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SourceBuildInformationToJson(this);
 }
 
 /// A specification for an environment configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceConfiguration {
   /// The name of the application associated with the configuration.
+  @_s.JsonKey(name: 'ApplicationName')
   final String applicationName;
 
   /// The name of the configuration template.
+  @_s.JsonKey(name: 'TemplateName')
   final String templateName;
 
   SourceConfiguration({
     this.applicationName,
     this.templateName,
   });
+  Map<String, dynamic> toJson() => _$SourceConfigurationToJson(this);
 }
 
 enum SourceRepository {
+  @_s.JsonValue('CodeCommit')
   codeCommit,
+  @_s.JsonValue('S3')
   s3,
 }
 
@@ -6287,7 +6548,9 @@ extension on String {
 }
 
 enum SourceType {
+  @_s.JsonValue('Git')
   git,
+  @_s.JsonValue('Zip')
   zip,
 }
 
@@ -6368,11 +6631,18 @@ class SystemStatus {
 }
 
 /// Describes a tag applied to a resource in an environment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The key of the tag.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -6385,6 +6655,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// Describes a trigger.
@@ -6445,7 +6717,9 @@ class ValidationMessage {
 }
 
 enum ValidationSeverity {
+  @_s.JsonValue('error')
   error,
+  @_s.JsonValue('warning')
   warning,
 }
 

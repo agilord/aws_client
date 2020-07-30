@@ -135,7 +135,9 @@ class Entitlement {
   /// renew or cancel their contract. Customers who are opting to renew their
   /// contract will still have entitlements with an expiration date.
   @_s.JsonKey(
-      name: 'ExpirationDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ExpirationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expirationDate;
 
   /// The product code for which the given entitlement applies. Product codes are

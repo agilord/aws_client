@@ -1478,7 +1478,9 @@ class CreateUserProfileResult {
 
   /// The date the user profile was created, in timestamp format.
   @_s.JsonKey(
-      name: 'createdTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'createdTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The name that is displayed as the friendly name for the user in AWS
@@ -1493,7 +1495,9 @@ class CreateUserProfileResult {
 
   /// The date the user profile was last modified, in timestamp format.
   @_s.JsonKey(
-      name: 'lastModifiedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastModifiedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
   /// The SSH public key associated with the user in AWS CodeStar. This is the
@@ -1572,7 +1576,9 @@ class DescribeProjectResult {
 
   /// The date and time the project was created, in timestamp format.
   @_s.JsonKey(
-      name: 'createdTimeStamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'createdTimeStamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimeStamp;
 
   /// The description of the project, if any.
@@ -1624,13 +1630,17 @@ class DescribeUserProfileResult {
   /// The date and time when the user profile was created in AWS CodeStar, in
   /// timestamp format.
   @_s.JsonKey(
-      name: 'createdTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'createdTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The date and time when the user profile was last modified, in timestamp
   /// format.
   @_s.JsonKey(
-      name: 'lastModifiedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastModifiedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
   /// The Amazon Resource Name (ARN) of the user.
@@ -2106,7 +2116,9 @@ class UpdateUserProfileResult {
 
   /// The date the user profile was created, in timestamp format.
   @_s.JsonKey(
-      name: 'createdTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'createdTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The name that is displayed as the friendly name for the user in AWS
@@ -2121,7 +2133,9 @@ class UpdateUserProfileResult {
 
   /// The date the user profile was last modified, in timestamp format.
   @_s.JsonKey(
-      name: 'lastModifiedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastModifiedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
   /// The SSH public key associated with the user in AWS CodeStar. This is the

@@ -2115,7 +2115,10 @@ class AccountModification {
   final DedicatedTenancyModificationStateEnum modificationState;
 
   /// The timestamp when the modification of the BYOL configuration was started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   AccountModification({
@@ -3201,7 +3204,10 @@ class SelfservicePermissions {
     createToJson: false)
 class Snapshot {
   /// The time when the snapshot was created.
-  @_s.JsonKey(name: 'SnapshotTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'SnapshotTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime snapshotTime;
 
   Snapshot({
@@ -3585,7 +3591,9 @@ class WorkspaceBundle {
 
   /// The last time that the bundle was updated.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   /// The name of the bundle.
@@ -3635,15 +3643,15 @@ class WorkspaceConnectionStatus {
   /// The timestamp of the connection status check.
   @_s.JsonKey(
       name: 'ConnectionStateCheckTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime connectionStateCheckTimestamp;
 
   /// The timestamp of the last known user connection.
   @_s.JsonKey(
       name: 'LastKnownUserConnectionTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastKnownUserConnectionTimestamp;
 
   /// The identifier of the WorkSpace.

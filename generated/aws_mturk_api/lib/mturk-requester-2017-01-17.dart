@@ -2914,7 +2914,10 @@ class ApproveAssignmentResponse {
     createToJson: false)
 class Assignment {
   /// The date and time the Worker accepted the assignment.
-  @_s.JsonKey(name: 'AcceptTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'AcceptTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime acceptTime;
 
   /// The Worker's answers submitted for the HIT contained in a
@@ -2928,7 +2931,10 @@ class Assignment {
   /// results, ApprovalTime is the date and time the Requester approved the
   /// results. This value is omitted from the assignment if the Requester has not
   /// yet approved the results.
-  @_s.JsonKey(name: 'ApprovalTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ApprovalTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime approvalTime;
 
   /// A unique identifier for the assignment.
@@ -2946,13 +2952,18 @@ class Assignment {
   /// Requester in the HIT. This value is omitted from the assignment if the
   /// Worker has not yet submitted results.
   @_s.JsonKey(
-      name: 'AutoApprovalTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AutoApprovalTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime autoApprovalTime;
 
   /// The date and time of the deadline for the assignment. This value is derived
   /// from the deadline specification for the HIT and the date and time the Worker
   /// accepted the HIT.
-  @_s.JsonKey(name: 'Deadline', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Deadline',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deadline;
 
   /// The ID of the HIT.
@@ -2962,7 +2973,10 @@ class Assignment {
   /// If the Worker has submitted results and the Requester has rejected the
   /// results, RejectionTime is the date and time the Requester rejected the
   /// results.
-  @_s.JsonKey(name: 'RejectionTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'RejectionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime rejectionTime;
 
   /// The feedback string included with the call to the ApproveAssignment
@@ -2974,7 +2988,10 @@ class Assignment {
   /// If the Worker has submitted results, SubmitTime is the date and time the
   /// assignment was submitted. This value is omitted from the assignment if the
   /// Worker has not yet submitted results.
-  @_s.JsonKey(name: 'SubmitTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'SubmitTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submitTime;
 
   /// The ID of the Worker who accepted the HIT.
@@ -3034,7 +3051,10 @@ class BonusPayment {
   final String bonusAmount;
 
   /// The date and time of when the bonus was granted.
-  @_s.JsonKey(name: 'GrantTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'GrantTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime grantTime;
 
   /// The Reason text given when the bonus was granted, if any.
@@ -3412,7 +3432,10 @@ class HIT {
   final int autoApprovalDelayInSeconds;
 
   /// The date and time the HIT was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A general description of the HIT.
@@ -3420,7 +3443,10 @@ class HIT {
   final String description;
 
   /// The date and time the HIT expires.
-  @_s.JsonKey(name: 'Expiration', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Expiration',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expiration;
 
   /// The ID of the HIT Group of this HIT.
@@ -4084,7 +4110,10 @@ class Qualification {
   /// Worker's Qualification was revoked, and then re-granted based on a new
   /// Qualification request, GrantTime is the date and time of the last call to
   /// the AcceptQualificationRequest operation.
-  @_s.JsonKey(name: 'GrantTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'GrantTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime grantTime;
 
   /// The value (score) of the Qualification, if the Qualification has an integer
@@ -4147,7 +4176,10 @@ class QualificationRequest {
   /// is either the time the Worker submitted answers for a Qualification test, or
   /// the time the Worker requested the Qualification if the Qualification type
   /// does not have a test.
-  @_s.JsonKey(name: 'SubmitTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'SubmitTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submitTime;
 
   /// The contents of the Qualification test that was presented to the Worker, if
@@ -4313,7 +4345,10 @@ class QualificationType {
   final int autoGrantedValue;
 
   /// The date and time the Qualification type was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A long description for the Qualification type.
@@ -4474,7 +4509,10 @@ class ReviewActionDetail {
   final String actionName;
 
   /// The date when the action was completed.
-  @_s.JsonKey(name: 'CompleteTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompleteTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completeTime;
 
   /// Present only when the Results have a FAILED Status.

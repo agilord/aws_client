@@ -10,7 +10,9 @@ CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
   return CertificateDetail(
     certificateArn: json['CertificateArn'] as String,
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    createdAt: unixFromJson(json['CreatedAt']),
+    createdAt: json['CreatedAt'] == null
+        ? null
+        : DateTime.parse(json['CreatedAt'] as String),
     domainName: json['DomainName'] as String,
     domainValidationOptions: (json['DomainValidationOptions'] as List)
         ?.map((e) => e == null
@@ -24,9 +26,13 @@ CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
         ?.toList(),
     failureReason:
         _$enumDecodeNullable(_$FailureReasonEnumMap, json['FailureReason']),
-    importedAt: unixFromJson(json['ImportedAt']),
+    importedAt: json['ImportedAt'] == null
+        ? null
+        : DateTime.parse(json['ImportedAt'] as String),
     inUseBy: (json['InUseBy'] as List)?.map((e) => e as String)?.toList(),
-    issuedAt: unixFromJson(json['IssuedAt']),
+    issuedAt: json['IssuedAt'] == null
+        ? null
+        : DateTime.parse(json['IssuedAt'] as String),
     issuer: json['Issuer'] as String,
     keyAlgorithm:
         _$enumDecodeNullable(_$KeyAlgorithmEnumMap, json['KeyAlgorithm']),
@@ -34,8 +40,12 @@ CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : KeyUsage.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    notAfter: unixFromJson(json['NotAfter']),
-    notBefore: unixFromJson(json['NotBefore']),
+    notAfter: json['NotAfter'] == null
+        ? null
+        : DateTime.parse(json['NotAfter'] as String),
+    notBefore: json['NotBefore'] == null
+        ? null
+        : DateTime.parse(json['NotBefore'] as String),
     options: json['Options'] == null
         ? null
         : CertificateOptions.fromJson(json['Options'] as Map<String, dynamic>),
@@ -47,7 +57,9 @@ CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
             json['RenewalSummary'] as Map<String, dynamic>),
     revocationReason: _$enumDecodeNullable(
         _$RevocationReasonEnumMap, json['RevocationReason']),
-    revokedAt: unixFromJson(json['RevokedAt']),
+    revokedAt: json['RevokedAt'] == null
+        ? null
+        : DateTime.parse(json['RevokedAt'] as String),
     serial: json['Serial'] as String,
     signatureAlgorithm: json['SignatureAlgorithm'] as String,
     status: _$enumDecodeNullable(_$CertificateStatusEnumMap, json['Status']),
@@ -356,7 +368,9 @@ RenewalSummary _$RenewalSummaryFromJson(Map<String, dynamic> json) {
         ?.toList(),
     renewalStatus:
         _$enumDecodeNullable(_$RenewalStatusEnumMap, json['RenewalStatus']),
-    updatedAt: unixFromJson(json['UpdatedAt']),
+    updatedAt: json['UpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['UpdatedAt'] as String),
     renewalStatusReason: _$enumDecodeNullable(
         _$FailureReasonEnumMap, json['RenewalStatusReason']),
   );

@@ -17,7 +17,9 @@ ActiveDirectoryBackupAttributes _$ActiveDirectoryBackupAttributesFromJson(
 Backup _$BackupFromJson(Map<String, dynamic> json) {
   return Backup(
     backupId: json['BackupId'] as String,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     fileSystem: json['FileSystem'] == null
         ? null
         : FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
@@ -249,13 +251,17 @@ DataRepositoryConfiguration _$DataRepositoryConfigurationFromJson(
 
 DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
   return DataRepositoryTask(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     fileSystemId: json['FileSystemId'] as String,
     lifecycle: _$enumDecodeNullable(
         _$DataRepositoryTaskLifecycleEnumMap, json['Lifecycle']),
     taskId: json['TaskId'] as String,
     type: _$enumDecodeNullable(_$DataRepositoryTaskTypeEnumMap, json['Type']),
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     failureDetails: json['FailureDetails'] == null
         ? null
         : DataRepositoryTaskFailureDetails.fromJson(
@@ -265,7 +271,9 @@ DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
         ? null
         : CompletionReport.fromJson(json['Report'] as Map<String, dynamic>),
     resourceARN: json['ResourceARN'] as String,
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     status: json['Status'] == null
         ? null
         : DataRepositoryTaskStatus.fromJson(
@@ -311,7 +319,9 @@ DataRepositoryTaskStatus _$DataRepositoryTaskStatusFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryTaskStatus(
     failedCount: json['FailedCount'] as int,
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
     succeededCount: json['SucceededCount'] as int,
     totalCount: json['TotalCount'] as int,
   );
@@ -409,7 +419,9 @@ DescribeFileSystemsResponse _$DescribeFileSystemsResponseFromJson(
 
 FileSystem _$FileSystemFromJson(Map<String, dynamic> json) {
   return FileSystem(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     dNSName: json['DNSName'] as String,
     failureDetails: json['FailureDetails'] == null
         ? null

@@ -1964,7 +1964,10 @@ class BatchPutDocumentResponseFailedDocument {
     createToJson: true)
 class ClickFeedback {
   /// The Unix timestamp of the data and time that the result was clicked.
-  @_s.JsonKey(name: 'ClickTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ClickTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime clickTime;
 
   /// The unique identifier of the search result that was clicked.
@@ -2188,7 +2191,10 @@ enum DataSourceStatus {
     createToJson: false)
 class DataSourceSummary {
   /// The UNIX datetime that the data source was created.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The unique identifier for the data source.
@@ -2209,7 +2215,10 @@ class DataSourceSummary {
   final DataSourceType type;
 
   /// The UNIX datetime that the data source was lasted updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   DataSourceSummary({
@@ -2238,7 +2247,10 @@ class DataSourceSyncJob {
   final String dataSourceErrorCode;
 
   /// The UNIX datetime that the synchronization job was completed.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// If the <code>Status</code> field is set to <code>FAILED</code>, the
@@ -2258,7 +2270,10 @@ class DataSourceSyncJob {
   final String executionId;
 
   /// The UNIX datetime that the synchronization job was started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The execution status of the synchronization job. When the
@@ -2463,7 +2478,10 @@ class DescribeDataSourceResponse {
   final DataSourceConfiguration configuration;
 
   /// The Unix timestamp of when the data source was created.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The description of the data source.
@@ -2509,7 +2527,10 @@ class DescribeDataSourceResponse {
   final DataSourceType type;
 
   /// The Unix timestamp of when the data source was last updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   DescribeDataSourceResponse({
@@ -2537,7 +2558,10 @@ class DescribeDataSourceResponse {
     createToJson: false)
 class DescribeFaqResponse {
   /// The date and time that the FAQ was created.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The description of the FAQ that you provided when it was created.
@@ -2574,7 +2598,10 @@ class DescribeFaqResponse {
   final FaqStatus status;
 
   /// The date and time that the FAQ was last updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   DescribeFaqResponse({
@@ -2600,7 +2627,10 @@ class DescribeFaqResponse {
     createToJson: false)
 class DescribeIndexResponse {
   /// The Unix datetime that the index was created.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The description of the index.
@@ -2648,7 +2678,10 @@ class DescribeIndexResponse {
   final IndexStatus status;
 
   /// The Unix datetime that the index was last updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   DescribeIndexResponse({
@@ -2756,7 +2789,10 @@ class DocumentAttribute {
     createToJson: true)
 class DocumentAttributeValue {
   /// A date value expressed as seconds from the Unix epoch.
-  @_s.JsonKey(name: 'DateValue', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DateValue',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime dateValue;
 
   /// A long integer value.
@@ -2969,7 +3005,10 @@ enum FaqStatus {
     createToJson: false)
 class FaqSummary {
   /// The UNIX datetime that the FAQ was added to the index.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The unique identifier of the FAQ.
@@ -2986,7 +3025,10 @@ class FaqSummary {
   final FaqStatus status;
 
   /// The UNIX datetime that the FAQ was last updated.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   FaqSummary({
@@ -3038,7 +3080,10 @@ class Highlight {
     createToJson: false)
 class IndexConfigurationSummary {
   /// The Unix timestamp when the index was created.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The current status of the index. When the status is <code>ACTIVE</code>, the
@@ -3048,7 +3093,10 @@ class IndexConfigurationSummary {
 
   /// The Unix timestamp when the index was last updated by the
   /// <code>UpdateIndex</code> operation.
-  @_s.JsonKey(name: 'UpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   /// A unique identifier for the index. Use this to identify the index when you
@@ -3779,11 +3827,17 @@ class TextWithHighlights {
     createToJson: true)
 class TimeRange {
   /// The UNIX datetime of the end of the time range.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The UNIX datetime of the beginning of the time range.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   TimeRange({

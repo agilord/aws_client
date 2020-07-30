@@ -34,7 +34,9 @@ Map<String, dynamic> _$CognitoIdentityProviderToJson(
 Credentials _$CredentialsFromJson(Map<String, dynamic> json) {
   return Credentials(
     accessKeyId: json['AccessKeyId'] as String,
-    expiration: unixFromJson(json['Expiration']),
+    expiration: json['Expiration'] == null
+        ? null
+        : DateTime.parse(json['Expiration'] as String),
     secretKey: json['SecretKey'] as String,
     sessionToken: json['SessionToken'] as String,
   );
@@ -100,9 +102,13 @@ GetOpenIdTokenResponse _$GetOpenIdTokenResponseFromJson(
 
 IdentityDescription _$IdentityDescriptionFromJson(Map<String, dynamic> json) {
   return IdentityDescription(
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     identityId: json['IdentityId'] as String,
-    lastModifiedDate: unixFromJson(json['LastModifiedDate']),
+    lastModifiedDate: json['LastModifiedDate'] == null
+        ? null
+        : DateTime.parse(json['LastModifiedDate'] as String),
     logins: (json['Logins'] as List)?.map((e) => e as String)?.toList(),
   );
 }

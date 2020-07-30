@@ -1580,7 +1580,10 @@ class Endpoint {
     createToJson: false)
 class Event {
   /// The date and time when the event occurred.
-  @_s.JsonKey(name: 'Date', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Date',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime date;
 
   /// A user-defined message associated with the event.
@@ -1677,7 +1680,9 @@ class Node {
 
   /// The date and time (in UNIX epoch format) when the node was launched.
   @_s.JsonKey(
-      name: 'NodeCreateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'NodeCreateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime nodeCreateTime;
 
   /// A system-generated identifier for the node.

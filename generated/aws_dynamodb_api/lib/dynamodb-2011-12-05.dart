@@ -1401,10 +1401,14 @@ class ProvisionedThroughput {
     createToJson: false)
 class ProvisionedThroughputDescription {
   @_s.JsonKey(
-      name: 'LastDecreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastDecreaseDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastDecreaseDateTime;
   @_s.JsonKey(
-      name: 'LastIncreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastIncreaseDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastIncreaseDateTime;
   @_s.JsonKey(name: 'NumberOfDecreasesToday')
   final int numberOfDecreasesToday;
@@ -1604,7 +1608,9 @@ class ScanOutput {
     createToJson: false)
 class TableDescription {
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
   @_s.JsonKey(name: 'ItemCount')
   final int itemCount;

@@ -201,7 +201,9 @@ CreateTestGridProjectResult _$CreateTestGridProjectResultFromJson(
 CreateTestGridUrlResult _$CreateTestGridUrlResultFromJson(
     Map<String, dynamic> json) {
   return CreateTestGridUrlResult(
-    expires: unixFromJson(json['expires']),
+    expires: json['expires'] == null
+        ? null
+        : DateTime.parse(json['expires'] as String),
     url: json['url'] as String,
   );
 }
@@ -738,7 +740,9 @@ Job _$JobFromJson(Map<String, dynamic> json) {
     counters: json['counters'] == null
         ? null
         : Counters.fromJson(json['counters'] as Map<String, dynamic>),
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     device: json['device'] == null
         ? null
         : Device.fromJson(json['device'] as Map<String, dynamic>),
@@ -749,9 +753,13 @@ Job _$JobFromJson(Map<String, dynamic> json) {
     message: json['message'] as String,
     name: json['name'] as String,
     result: _$enumDecodeNullable(_$ExecutionResultEnumMap, json['result']),
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     status: _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['status']),
-    stopped: unixFromJson(json['stopped']),
+    stopped: json['stopped'] == null
+        ? null
+        : DateTime.parse(json['stopped'] as String),
     type: _$enumDecodeNullable(_$TestTypeEnumMap, json['type']),
     videoCapture: json['videoCapture'] as bool,
     videoEndpoint: json['videoEndpoint'] as String,
@@ -1152,7 +1160,9 @@ OfferingPromotion _$OfferingPromotionFromJson(Map<String, dynamic> json) {
 
 OfferingStatus _$OfferingStatusFromJson(Map<String, dynamic> json) {
   return OfferingStatus(
-    effectiveOn: unixFromJson(json['effectiveOn']),
+    effectiveOn: json['effectiveOn'] == null
+        ? null
+        : DateTime.parse(json['effectiveOn'] as String),
     offering: json['offering'] == null
         ? null
         : Offering.fromJson(json['offering'] as Map<String, dynamic>),
@@ -1172,7 +1182,9 @@ OfferingTransaction _$OfferingTransactionFromJson(Map<String, dynamic> json) {
     cost: json['cost'] == null
         ? null
         : MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>),
-    createdOn: unixFromJson(json['createdOn']),
+    createdOn: json['createdOn'] == null
+        ? null
+        : DateTime.parse(json['createdOn'] as String),
     offeringPromotionId: json['offeringPromotionId'] as String,
     offeringStatus: json['offeringStatus'] == null
         ? null
@@ -1214,7 +1226,9 @@ ProblemDetail _$ProblemDetailFromJson(Map<String, dynamic> json) {
 Project _$ProjectFromJson(Map<String, dynamic> json) {
   return Project(
     arn: json['arn'] as String,
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int,
     name: json['name'] as String,
   );
@@ -1275,7 +1289,9 @@ RemoteAccessSession _$RemoteAccessSessionFromJson(Map<String, dynamic> json) {
     billingMethod:
         _$enumDecodeNullable(_$BillingMethodEnumMap, json['billingMethod']),
     clientId: json['clientId'] as String,
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     device: json['device'] == null
         ? null
         : Device.fromJson(json['device'] as Map<String, dynamic>),
@@ -1295,9 +1311,13 @@ RemoteAccessSession _$RemoteAccessSessionFromJson(Map<String, dynamic> json) {
     remoteRecordEnabled: json['remoteRecordEnabled'] as bool,
     result: _$enumDecodeNullable(_$ExecutionResultEnumMap, json['result']),
     skipAppResign: json['skipAppResign'] as bool,
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     status: _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['status']),
-    stopped: unixFromJson(json['stopped']),
+    stopped: json['stopped'] == null
+        ? null
+        : DateTime.parse(json['stopped'] as String),
   );
 }
 
@@ -1357,7 +1377,9 @@ Run _$RunFromJson(Map<String, dynamic> json) {
     counters: json['counters'] == null
         ? null
         : Counters.fromJson(json['counters'] as Map<String, dynamic>),
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     customerArtifactPaths: json['customerArtifactPaths'] == null
         ? null
         : CustomerArtifactPaths.fromJson(
@@ -1392,9 +1414,13 @@ Run _$RunFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ExecutionResultCodeEnumMap, json['resultCode']),
     seed: json['seed'] as int,
     skipAppResign: json['skipAppResign'] as bool,
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     status: _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['status']),
-    stopped: unixFromJson(json['stopped']),
+    stopped: json['stopped'] == null
+        ? null
+        : DateTime.parse(json['stopped'] as String),
     testSpecArn: json['testSpecArn'] as String,
     totalJobs: json['totalJobs'] as int,
     type: _$enumDecodeNullable(_$TestTypeEnumMap, json['type']),
@@ -1515,16 +1541,22 @@ Suite _$SuiteFromJson(Map<String, dynamic> json) {
     counters: json['counters'] == null
         ? null
         : Counters.fromJson(json['counters'] as Map<String, dynamic>),
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     deviceMinutes: json['deviceMinutes'] == null
         ? null
         : DeviceMinutes.fromJson(json['deviceMinutes'] as Map<String, dynamic>),
     message: json['message'] as String,
     name: json['name'] as String,
     result: _$enumDecodeNullable(_$ExecutionResultEnumMap, json['result']),
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     status: _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['status']),
-    stopped: unixFromJson(json['stopped']),
+    stopped: json['stopped'] == null
+        ? null
+        : DateTime.parse(json['stopped'] as String),
     type: _$enumDecodeNullable(_$TestTypeEnumMap, json['type']),
   );
 }
@@ -1560,16 +1592,22 @@ Test _$TestFromJson(Map<String, dynamic> json) {
     counters: json['counters'] == null
         ? null
         : Counters.fromJson(json['counters'] as Map<String, dynamic>),
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     deviceMinutes: json['deviceMinutes'] == null
         ? null
         : DeviceMinutes.fromJson(json['deviceMinutes'] as Map<String, dynamic>),
     message: json['message'] as String,
     name: json['name'] as String,
     result: _$enumDecodeNullable(_$ExecutionResultEnumMap, json['result']),
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     status: _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['status']),
-    stopped: unixFromJson(json['stopped']),
+    stopped: json['stopped'] == null
+        ? null
+        : DateTime.parse(json['stopped'] as String),
     type: _$enumDecodeNullable(_$TestTypeEnumMap, json['type']),
   );
 }
@@ -1577,7 +1615,9 @@ Test _$TestFromJson(Map<String, dynamic> json) {
 TestGridProject _$TestGridProjectFromJson(Map<String, dynamic> json) {
   return TestGridProject(
     arn: json['arn'] as String,
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     description: json['description'] as String,
     name: json['name'] as String,
   );
@@ -1587,8 +1627,11 @@ TestGridSession _$TestGridSessionFromJson(Map<String, dynamic> json) {
   return TestGridSession(
     arn: json['arn'] as String,
     billingMinutes: (json['billingMinutes'] as num)?.toDouble(),
-    created: unixFromJson(json['created']),
-    ended: unixFromJson(json['ended']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
+    ended:
+        json['ended'] == null ? null : DateTime.parse(json['ended'] as String),
     seleniumProperties: json['seleniumProperties'] as String,
     status:
         _$enumDecodeNullable(_$TestGridSessionStatusEnumMap, json['status']),
@@ -1607,7 +1650,9 @@ TestGridSessionAction _$TestGridSessionActionFromJson(
     action: json['action'] as String,
     duration: json['duration'] as int,
     requestMethod: json['requestMethod'] as String,
-    started: unixFromJson(json['started']),
+    started: json['started'] == null
+        ? null
+        : DateTime.parse(json['started'] as String),
     statusCode: json['statusCode'] as String,
   );
 }
@@ -1730,7 +1775,9 @@ Upload _$UploadFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     category: _$enumDecodeNullable(_$UploadCategoryEnumMap, json['category']),
     contentType: json['contentType'] as String,
-    created: unixFromJson(json['created']),
+    created: json['created'] == null
+        ? null
+        : DateTime.parse(json['created'] as String),
     message: json['message'] as String,
     metadata: json['metadata'] as String,
     name: json['name'] as String,

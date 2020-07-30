@@ -145,7 +145,9 @@ const _$EnvironmentLifecycleStatusEnumMap = {
 EnvironmentMember _$EnvironmentMemberFromJson(Map<String, dynamic> json) {
   return EnvironmentMember(
     environmentId: json['environmentId'] as String,
-    lastAccess: unixFromJson(json['lastAccess']),
+    lastAccess: json['lastAccess'] == null
+        ? null
+        : DateTime.parse(json['lastAccess'] as String),
     permissions:
         _$enumDecodeNullable(_$PermissionsEnumMap, json['permissions']),
     userArn: json['userArn'] as String,

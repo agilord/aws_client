@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'sts-2011-06-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'sts-2011-06-15.g.dart';
 
 /// The AWS Security Token Service (STS) is a web service that enables you to
 /// request temporary, limited-privilege credentials for AWS Identity and Access
@@ -22,17 +33,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// Security Credentials</a>.
 class STS {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   STS({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'sts',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Returns a set of temporary security credentials that you can use to access
   /// AWS resources that you might not normally have access to. These temporary
@@ -467,10 +481,7 @@ class STS {
       tokenCode,
       r'''[\d]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'AssumeRole',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['RoleArn'] = roleArn;
     $request['RoleSessionName'] = roleSessionName;
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
@@ -483,9 +494,13 @@ class STS {
     transitiveTagKeys?.also((arg) => $request['TransitiveTagKeys'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AssumeRole',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AssumeRoleRequest'],
+      shapes: shapes,
       resultWrapper: 'AssumeRoleResult',
     );
     return AssumeRoleResponse.fromXml($result);
@@ -805,10 +820,7 @@ class STS {
       policy,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'AssumeRoleWithSAML',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['PrincipalArn'] = principalArn;
     $request['RoleArn'] = roleArn;
     $request['SAMLAssertion'] = sAMLAssertion;
@@ -817,9 +829,13 @@ class STS {
     policyArns?.also((arg) => $request['PolicyArns'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AssumeRoleWithSAML',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AssumeRoleWithSAMLRequest'],
+      shapes: shapes,
       resultWrapper: 'AssumeRoleWithSAMLResult',
     );
     return AssumeRoleWithSAMLResponse.fromXml($result);
@@ -1188,10 +1204,7 @@ class STS {
       4,
       2048,
     );
-    final $request = <String, dynamic>{
-      'Action': 'AssumeRoleWithWebIdentity',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['RoleArn'] = roleArn;
     $request['RoleSessionName'] = roleSessionName;
     $request['WebIdentityToken'] = webIdentityToken;
@@ -1201,9 +1214,13 @@ class STS {
     providerId?.also((arg) => $request['ProviderId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AssumeRoleWithWebIdentity',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AssumeRoleWithWebIdentityRequest'],
+      shapes: shapes,
       resultWrapper: 'AssumeRoleWithWebIdentityResult',
     );
     return AssumeRoleWithWebIdentityResponse.fromXml($result);
@@ -1267,16 +1284,17 @@ class STS {
       10240,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DecodeAuthorizationMessage',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['EncodedMessage'] = encodedMessage;
     final $result = await _protocol.send(
       $request,
+      action: 'DecodeAuthorizationMessage',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DecodeAuthorizationMessageRequest'],
+      shapes: shapes,
       resultWrapper: 'DecodeAuthorizationMessageResult',
     );
     return DecodeAuthorizationMessageResponse.fromXml($result);
@@ -1332,16 +1350,17 @@ class STS {
       r'''[\w]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'GetAccessKeyInfo',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     final $result = await _protocol.send(
       $request,
+      action: 'GetAccessKeyInfo',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetAccessKeyInfoRequest'],
+      shapes: shapes,
       resultWrapper: 'GetAccessKeyInfoResult',
     );
     return GetAccessKeyInfoResponse.fromXml($result);
@@ -1361,15 +1380,16 @@ class STS {
   /// User Guide</i>.
   /// </note>
   Future<GetCallerIdentityResponse> getCallerIdentity() async {
-    final $request = <String, dynamic>{
-      'Action': 'GetCallerIdentity',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'GetCallerIdentity',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetCallerIdentityRequest'],
+      shapes: shapes,
       resultWrapper: 'GetCallerIdentityResult',
     );
     return GetCallerIdentityResponse.fromXml($result);
@@ -1661,10 +1681,7 @@ class STS {
       policy,
       r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'GetFederationToken',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     $request['Name'] = name;
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
     policy?.also((arg) => $request['Policy'] = arg);
@@ -1672,9 +1689,13 @@ class STS {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetFederationToken',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetFederationTokenRequest'],
+      shapes: shapes,
       resultWrapper: 'GetFederationTokenResult',
     );
     return GetFederationTokenResponse.fromXml($result);
@@ -1812,18 +1833,19 @@ class STS {
       tokenCode,
       r'''[\d]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'GetSessionToken',
-      'Version': '2011-06-15',
-    };
+    final $request = <String, dynamic>{};
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
     serialNumber?.also((arg) => $request['SerialNumber'] = arg);
     tokenCode?.also((arg) => $request['TokenCode'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetSessionToken',
+      version: '2011-06-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetSessionTokenRequest'],
+      shapes: shapes,
       resultWrapper: 'GetSessionTokenResult',
     );
     return GetSessionTokenResponse.fromXml($result);
@@ -2240,17 +2262,24 @@ class GetSessionTokenResponse {
 
 /// A reference to the IAM managed policy that is passed as a session policy for
 /// a role session or a federated user session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class PolicyDescriptorType {
   /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session
   /// policy for the role. For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
+  @_s.JsonKey(name: 'arn')
   final String arn;
 
   PolicyDescriptorType({
     this.arn,
   });
+  Map<String, dynamic> toJson() => _$PolicyDescriptorTypeToJson(this);
 }
 
 /// You can pass custom key-value pair attributes when you assume a role or
@@ -2258,6 +2287,11 @@ class PolicyDescriptorType {
 /// tags to control access to resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html">Tagging
 /// AWS STS Sessions</a> in the <i>IAM User Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The key for a session tag.
   ///
@@ -2265,6 +2299,7 @@ class Tag {
   /// exceed 128 characters. For these and additional limits, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length">IAM
   /// and STS Character Limits</a> in the <i>IAM User Guide</i>.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for a session tag.
@@ -2273,12 +2308,14 @@ class Tag {
   /// exceed 256 characters. For these and additional limits, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length">IAM
   /// and STS Character Limits</a> in the <i>IAM User Guide</i>.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
     @_s.required this.key,
     @_s.required this.value,
   });
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 class ExpiredTokenException extends _s.GenericAwsException {

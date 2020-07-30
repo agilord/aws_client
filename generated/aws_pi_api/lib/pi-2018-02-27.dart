@@ -353,7 +353,10 @@ class PI {
     createToJson: false)
 class DataPoint {
   /// The time, in epoch format, associated with a particular <code>Value</code>.
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   /// The actual value associated with a particular <code>Timestamp</code>.
@@ -379,7 +382,9 @@ class DescribeDimensionKeysResponse {
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
   @_s.JsonKey(
-      name: 'AlignedEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AlignedEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime alignedEndTime;
 
   /// The start time for the returned dimension keys, after alignment to a
@@ -387,7 +392,9 @@ class DescribeDimensionKeysResponse {
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
   @_s.JsonKey(
-      name: 'AlignedStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AlignedStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime alignedStartTime;
 
   /// The dimension keys that were requested.
@@ -559,7 +566,9 @@ class GetResourceMetricsResponse {
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
   @_s.JsonKey(
-      name: 'AlignedEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AlignedEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime alignedEndTime;
 
   /// The start time for the returned metrics, after alignment to a granular
@@ -567,7 +576,9 @@ class GetResourceMetricsResponse {
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
   @_s.JsonKey(
-      name: 'AlignedStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AlignedStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime alignedStartTime;
 
   /// An immutable, AWS Region-unique identifier for a data source. Performance

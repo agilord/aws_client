@@ -2745,7 +2745,10 @@ class Namespace {
   /// Coordinated Universal Time (UTC). The value of <code>CreateDate</code> is
   /// accurate to milliseconds. For example, the value <code>1516925490.087</code>
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// A unique string that identifies the request and that allows failed requests
@@ -2886,7 +2889,10 @@ class NamespaceSummary {
   final String arn;
 
   /// The date and time that the namespace was created.
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// A description for the namespace.
@@ -2948,7 +2954,10 @@ class Operation {
   /// is accurate to milliseconds. For example, the value
   /// <code>1516925490.087</code> represents Friday, January 26, 2018 12:11:30.087
   /// AM.
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// The code associated with <code>ErrorMessage</code>. Values for
@@ -3038,7 +3047,10 @@ class Operation {
   /// (UTC). The value of <code>UpdateDate</code> is accurate to milliseconds. For
   /// example, the value <code>1516925490.087</code> represents Friday, January
   /// 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(name: 'UpdateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updateDate;
 
   Operation({
@@ -3289,7 +3301,10 @@ class Service {
   /// Coordinated Universal Time (UTC). The value of <code>CreateDate</code> is
   /// accurate to milliseconds. For example, the value <code>1516925490.087</code>
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// A unique string that identifies the request and that allows failed requests
@@ -3454,7 +3469,10 @@ class ServiceSummary {
   final String arn;
 
   /// The date and time that the service was created.
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// The description that you specify when you create the service.

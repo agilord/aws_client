@@ -881,17 +881,24 @@ class Backup {
   final String clusterId;
 
   /// The date and time when the backup was copied from a source backup.
-  @_s.JsonKey(name: 'CopyTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CopyTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime copyTimestamp;
 
   /// The date and time when the backup was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// The date and time when the backup will be permanently deleted.
   @_s.JsonKey(
-      name: 'DeleteTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'DeleteTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deleteTimestamp;
 
   /// The identifier (ID) of the source backup from which the new backup was
@@ -1003,7 +1010,9 @@ class Cluster {
 
   /// The date and time when the cluster was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// The type of HSM that the cluster contains.
@@ -1255,7 +1264,9 @@ class DescribeClustersResponse {
 class DestinationBackup {
   /// The date and time when both the source backup was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// The identifier (ID) of the source backup from which the new backup was

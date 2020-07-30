@@ -18,7 +18,9 @@ AccountModification _$AccountModificationFromJson(Map<String, dynamic> json) {
     modificationState: _$enumDecodeNullable(
         _$DedicatedTenancyModificationStateEnumEnumMap,
         json['ModificationState']),
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
   );
 }
 
@@ -566,7 +568,9 @@ Map<String, dynamic> _$SelfservicePermissionsToJson(
 
 Snapshot _$SnapshotFromJson(Map<String, dynamic> json) {
   return Snapshot(
-    snapshotTime: unixFromJson(json['SnapshotTime']),
+    snapshotTime: json['SnapshotTime'] == null
+        ? null
+        : DateTime.parse(json['SnapshotTime'] as String),
   );
 }
 
@@ -780,7 +784,9 @@ WorkspaceBundle _$WorkspaceBundleFromJson(Map<String, dynamic> json) {
         : ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>),
     description: json['Description'] as String,
     imageId: json['ImageId'] as String,
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
     name: json['Name'] as String,
     owner: json['Owner'] as String,
     rootStorage: json['RootStorage'] == null
@@ -797,10 +803,14 @@ WorkspaceConnectionStatus _$WorkspaceConnectionStatusFromJson(
   return WorkspaceConnectionStatus(
     connectionState:
         _$enumDecodeNullable(_$ConnectionStateEnumMap, json['ConnectionState']),
-    connectionStateCheckTimestamp:
-        unixFromJson(json['ConnectionStateCheckTimestamp']),
+    connectionStateCheckTimestamp: json['ConnectionStateCheckTimestamp'] == null
+        ? null
+        : DateTime.parse(json['ConnectionStateCheckTimestamp'] as String),
     lastKnownUserConnectionTimestamp:
-        unixFromJson(json['LastKnownUserConnectionTimestamp']),
+        json['LastKnownUserConnectionTimestamp'] == null
+            ? null
+            : DateTime.parse(
+                json['LastKnownUserConnectionTimestamp'] as String),
     workspaceId: json['WorkspaceId'] as String,
   );
 }

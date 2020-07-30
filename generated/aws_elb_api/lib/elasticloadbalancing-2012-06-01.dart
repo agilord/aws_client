@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'elasticloadbalancing-2012-06-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'elasticloadbalancing-2012-06-01.g.dart';
 
 /// A load balancer can distribute incoming traffic across your EC2 instances.
 /// This enables you to increase the availability of your application. The load
@@ -23,17 +34,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// from the load balancer to the instances.
 class ElasticLoadBalancing {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   ElasticLoadBalancing({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'elasticloadbalancing',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Adds the specified tags to the specified load balancer. Each load balancer
   /// can have a maximum of 10 tags.
@@ -61,17 +75,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'AddTags',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'AddTags',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddTagsInput'],
+      shapes: shapes,
       resultWrapper: 'AddTagsResult',
     );
   }
@@ -102,17 +117,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(securityGroups, 'securityGroups');
-    final $request = <String, dynamic>{
-      'Action': 'ApplySecurityGroupsToLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['SecurityGroups'] = securityGroups;
     final $result = await _protocol.send(
       $request,
+      action: 'ApplySecurityGroupsToLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ApplySecurityGroupsToLoadBalancerInput'],
+      shapes: shapes,
       resultWrapper: 'ApplySecurityGroupsToLoadBalancerResult',
     );
     return ApplySecurityGroupsToLoadBalancerOutput.fromXml($result);
@@ -144,17 +160,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(subnets, 'subnets');
-    final $request = <String, dynamic>{
-      'Action': 'AttachLoadBalancerToSubnets',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['Subnets'] = subnets;
     final $result = await _protocol.send(
       $request,
+      action: 'AttachLoadBalancerToSubnets',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AttachLoadBalancerToSubnetsInput'],
+      shapes: shapes,
       resultWrapper: 'AttachLoadBalancerToSubnetsResult',
     );
     return AttachLoadBalancerToSubnetsOutput.fromXml($result);
@@ -181,17 +198,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(healthCheck, 'healthCheck');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'ConfigureHealthCheck',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['HealthCheck'] = healthCheck;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'ConfigureHealthCheck',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ConfigureHealthCheckInput'],
+      shapes: shapes,
       resultWrapper: 'ConfigureHealthCheckResult',
     );
     return ConfigureHealthCheckOutput.fromXml($result);
@@ -238,18 +256,19 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(cookieName, 'cookieName');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateAppCookieStickinessPolicy',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['CookieName'] = cookieName;
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
     await _protocol.send(
       $request,
+      action: 'CreateAppCookieStickinessPolicy',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateAppCookieStickinessPolicyInput'],
+      shapes: shapes,
       resultWrapper: 'CreateAppCookieStickinessPolicyResult',
     );
   }
@@ -300,19 +319,20 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateLBCookieStickinessPolicy',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
     cookieExpirationPeriod
         ?.also((arg) => $request['CookieExpirationPeriod'] = arg);
     await _protocol.send(
       $request,
+      action: 'CreateLBCookieStickinessPolicy',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateLBCookieStickinessPolicyInput'],
+      shapes: shapes,
       resultWrapper: 'CreateLBCookieStickinessPolicyResult',
     );
   }
@@ -409,10 +429,7 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(listeners, 'listeners');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Listeners'] = listeners;
     $request['LoadBalancerName'] = loadBalancerName;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
@@ -422,9 +439,13 @@ class ElasticLoadBalancing {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateAccessPointInput'],
+      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerResult',
     );
     return CreateAccessPointOutput.fromXml($result);
@@ -457,17 +478,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(listeners, 'listeners');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateLoadBalancerListeners',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Listeners'] = listeners;
     $request['LoadBalancerName'] = loadBalancerName;
     await _protocol.send(
       $request,
+      action: 'CreateLoadBalancerListeners',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateLoadBalancerListenerInput'],
+      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerListenersResult',
     );
   }
@@ -507,19 +529,20 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
     ArgumentError.checkNotNull(policyTypeName, 'policyTypeName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateLoadBalancerPolicy',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
     $request['PolicyTypeName'] = policyTypeName;
     policyAttributes?.also((arg) => $request['PolicyAttributes'] = arg);
     await _protocol.send(
       $request,
+      action: 'CreateLoadBalancerPolicy',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateLoadBalancerPolicyInput'],
+      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerPolicyResult',
     );
   }
@@ -541,16 +564,17 @@ class ElasticLoadBalancing {
     @_s.required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     await _protocol.send(
       $request,
+      action: 'DeleteLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteAccessPointInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerResult',
     );
   }
@@ -570,17 +594,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPorts, 'loadBalancerPorts');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteLoadBalancerListeners',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPorts'] = loadBalancerPorts;
     await _protocol.send(
       $request,
+      action: 'DeleteLoadBalancerListeners',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteLoadBalancerListenerInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerListenersResult',
     );
   }
@@ -602,17 +627,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteLoadBalancerPolicy',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
     await _protocol.send(
       $request,
+      action: 'DeleteLoadBalancerPolicy',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteLoadBalancerPolicyInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerPolicyResult',
     );
   }
@@ -643,17 +669,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(instances, 'instances');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'DeregisterInstancesFromLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Instances'] = instances;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeregisterInstancesFromLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeregisterEndPointsInput'],
+      shapes: shapes,
       resultWrapper: 'DeregisterInstancesFromLoadBalancerResult',
     );
     return DeregisterEndPointsOutput.fromXml($result);
@@ -683,17 +710,18 @@ class ElasticLoadBalancing {
       1,
       400,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAccountLimits',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     pageSize?.also((arg) => $request['PageSize'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAccountLimits',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAccountLimitsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsOutput.fromXml($result);
@@ -719,17 +747,18 @@ class ElasticLoadBalancing {
     List<Instance> instances,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeInstanceHealth',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     instances?.also((arg) => $request['Instances'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeInstanceHealth',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEndPointStateInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeInstanceHealthResult',
     );
     return DescribeEndPointStateOutput.fromXml($result);
@@ -746,16 +775,17 @@ class ElasticLoadBalancing {
     @_s.required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancerAttributes',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancerAttributes',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoadBalancerAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerAttributesResult',
     );
     return DescribeLoadBalancerAttributesOutput.fromXml($result);
@@ -783,17 +813,18 @@ class ElasticLoadBalancing {
     String loadBalancerName,
     List<String> policyNames,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancerPolicies',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     loadBalancerName?.also((arg) => $request['LoadBalancerName'] = arg);
     policyNames?.also((arg) => $request['PolicyNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancerPolicies',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoadBalancerPoliciesInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerPoliciesResult',
     );
     return DescribeLoadBalancerPoliciesOutput.fromXml($result);
@@ -821,16 +852,17 @@ class ElasticLoadBalancing {
       describeLoadBalancerPolicyTypes({
     List<String> policyTypeNames,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancerPolicyTypes',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     policyTypeNames?.also((arg) => $request['PolicyTypeNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancerPolicyTypes',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoadBalancerPolicyTypesInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerPolicyTypesResult',
     );
     return DescribeLoadBalancerPolicyTypesOutput.fromXml($result);
@@ -863,18 +895,19 @@ class ElasticLoadBalancing {
       1,
       400,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancers',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     loadBalancerNames?.also((arg) => $request['LoadBalancerNames'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     pageSize?.also((arg) => $request['PageSize'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancers',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAccessPointsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancersResult',
     );
     return DescribeAccessPointsOutput.fromXml($result);
@@ -890,16 +923,17 @@ class ElasticLoadBalancing {
     @_s.required List<String> loadBalancerNames,
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTags',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTags',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTagsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeTagsResult',
     );
     return DescribeTagsOutput.fromXml($result);
@@ -927,17 +961,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(subnets, 'subnets');
-    final $request = <String, dynamic>{
-      'Action': 'DetachLoadBalancerFromSubnets',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['Subnets'] = subnets;
     final $result = await _protocol.send(
       $request,
+      action: 'DetachLoadBalancerFromSubnets',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetachLoadBalancerFromSubnetsInput'],
+      shapes: shapes,
       resultWrapper: 'DetachLoadBalancerFromSubnetsResult',
     );
     return DetachLoadBalancerFromSubnetsOutput.fromXml($result);
@@ -976,17 +1011,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'DisableAvailabilityZonesForLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AvailabilityZones'] = availabilityZones;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'DisableAvailabilityZonesForLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveAvailabilityZonesInput'],
+      shapes: shapes,
       resultWrapper: 'DisableAvailabilityZonesForLoadBalancerResult',
     );
     return RemoveAvailabilityZonesOutput.fromXml($result);
@@ -1018,17 +1054,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'EnableAvailabilityZonesForLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AvailabilityZones'] = availabilityZones;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'EnableAvailabilityZonesForLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddAvailabilityZonesInput'],
+      shapes: shapes,
       resultWrapper: 'EnableAvailabilityZonesForLoadBalancerResult',
     );
     return AddAvailabilityZonesOutput.fromXml($result);
@@ -1085,17 +1122,18 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(
         loadBalancerAttributes, 'loadBalancerAttributes');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyLoadBalancerAttributes',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerAttributes'] = loadBalancerAttributes;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyLoadBalancerAttributes',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyLoadBalancerAttributesInput'],
+      shapes: shapes,
       resultWrapper: 'ModifyLoadBalancerAttributesResult',
     );
     return ModifyLoadBalancerAttributesOutput.fromXml($result);
@@ -1143,17 +1181,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(instances, 'instances');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    final $request = <String, dynamic>{
-      'Action': 'RegisterInstancesWithLoadBalancer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Instances'] = instances;
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
       $request,
+      action: 'RegisterInstancesWithLoadBalancer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RegisterEndPointsInput'],
+      shapes: shapes,
       resultWrapper: 'RegisterInstancesWithLoadBalancerResult',
     );
     return RegisterEndPointsOutput.fromXml($result);
@@ -1175,17 +1214,18 @@ class ElasticLoadBalancing {
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveTags',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'RemoveTags',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveTagsInput'],
+      shapes: shapes,
       resultWrapper: 'RemoveTagsResult',
     );
   }
@@ -1221,18 +1261,19 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
     ArgumentError.checkNotNull(sSLCertificateId, 'sSLCertificateId');
-    final $request = <String, dynamic>{
-      'Action': 'SetLoadBalancerListenerSSLCertificate',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPort'] = loadBalancerPort;
     $request['SSLCertificateId'] = sSLCertificateId;
     await _protocol.send(
       $request,
+      action: 'SetLoadBalancerListenerSSLCertificate',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetLoadBalancerListenerSSLCertificateInput'],
+      shapes: shapes,
       resultWrapper: 'SetLoadBalancerListenerSSLCertificateResult',
     );
   }
@@ -1280,18 +1321,19 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(instancePort, 'instancePort');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyNames, 'policyNames');
-    final $request = <String, dynamic>{
-      'Action': 'SetLoadBalancerPoliciesForBackendServer',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['InstancePort'] = instancePort;
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyNames'] = policyNames;
     await _protocol.send(
       $request,
+      action: 'SetLoadBalancerPoliciesForBackendServer',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetLoadBalancerPoliciesForBackendServerInput'],
+      shapes: shapes,
       resultWrapper: 'SetLoadBalancerPoliciesForBackendServerResult',
     );
   }
@@ -1333,40 +1375,50 @@ class ElasticLoadBalancing {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
     ArgumentError.checkNotNull(policyNames, 'policyNames');
-    final $request = <String, dynamic>{
-      'Action': 'SetLoadBalancerPoliciesOfListener',
-      'Version': '2012-06-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPort'] = loadBalancerPort;
     $request['PolicyNames'] = policyNames;
     await _protocol.send(
       $request,
+      action: 'SetLoadBalancerPoliciesOfListener',
+      version: '2012-06-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetLoadBalancerPoliciesOfListenerInput'],
+      shapes: shapes,
       resultWrapper: 'SetLoadBalancerPoliciesOfListenerResult',
     );
   }
 }
 
 /// Information about the <code>AccessLog</code> attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class AccessLog {
   /// Specifies whether access logs are enabled for the load balancer.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The interval for publishing the access logs. You can specify an interval of
   /// either 5 minutes or 60 minutes.
   ///
   /// Default: 60 minutes
+  @_s.JsonKey(name: 'EmitInterval')
   final int emitInterval;
 
   /// The name of the Amazon S3 bucket where the access logs are stored.
+  @_s.JsonKey(name: 'S3BucketName')
   final String s3BucketName;
 
   /// The logical hierarchy you created for your Amazon S3 bucket, for example
   /// <code>my-bucket-prefix/prod</code>. If the prefix is not provided, the log
   /// is placed at the root level of the bucket.
+  @_s.JsonKey(name: 'S3BucketPrefix')
   final String s3BucketPrefix;
 
   AccessLog({
@@ -1383,6 +1435,8 @@ class AccessLog {
       s3BucketPrefix: _s.extractXmlStringValue(elem, 'S3BucketPrefix'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$AccessLogToJson(this);
 }
 
 /// Contains the output of EnableAvailabilityZonesForLoadBalancer.
@@ -1412,11 +1466,18 @@ class AddTagsOutput {
 }
 
 /// This data type is reserved.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class AdditionalAttribute {
   /// This parameter is reserved.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// This parameter is reserved.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   AdditionalAttribute({
@@ -1429,6 +1490,8 @@ class AdditionalAttribute {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$AdditionalAttributeToJson(this);
 }
 
 /// Information about a policy for application-controlled session stickiness.
@@ -1525,12 +1588,19 @@ class ConfigureHealthCheckOutput {
 }
 
 /// Information about the <code>ConnectionDraining</code> attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ConnectionDraining {
   /// Specifies whether connection draining is enabled for the load balancer.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The maximum time, in seconds, to keep the existing connections open before
   /// deregistering the instances.
+  @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
   ConnectionDraining({
@@ -1543,12 +1613,20 @@ class ConnectionDraining {
       timeout: _s.extractXmlIntValue(elem, 'Timeout'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ConnectionDrainingToJson(this);
 }
 
 /// Information about the <code>ConnectionSettings</code> attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ConnectionSettings {
   /// The time, in seconds, that the connection is allowed to be idle (no data has
   /// been sent over the connection) before it is closed by the load balancer.
+  @_s.JsonKey(name: 'IdleTimeout')
   final int idleTimeout;
 
   ConnectionSettings({
@@ -1559,6 +1637,8 @@ class ConnectionSettings {
       idleTimeout: _s.extractXmlIntValue(elem, 'IdleTimeout'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ConnectionSettingsToJson(this);
 }
 
 /// Contains the output for CreateLoadBalancer.
@@ -1617,9 +1697,15 @@ class CreateLoadBalancerPolicyOutput {
 }
 
 /// Information about the <code>CrossZoneLoadBalancing</code> attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CrossZoneLoadBalancing {
   /// Specifies whether cross-zone load balancing is enabled for the load
   /// balancer.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   CrossZoneLoadBalancing({
@@ -1630,6 +1716,8 @@ class CrossZoneLoadBalancing {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$CrossZoneLoadBalancingToJson(this);
 }
 
 /// Contains the output of DeleteLoadBalancer.
@@ -1839,13 +1927,20 @@ class DetachLoadBalancerFromSubnetsOutput {
 }
 
 /// Information about a health check.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class HealthCheck {
   /// The number of consecutive health checks successes required before moving the
   /// instance to the <code>Healthy</code> state.
+  @_s.JsonKey(name: 'HealthyThreshold')
   final int healthyThreshold;
 
   /// The approximate interval, in seconds, between health checks of an individual
   /// instance.
+  @_s.JsonKey(name: 'Interval')
   final int interval;
 
   /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL.
@@ -1866,16 +1961,19 @@ class HealthCheck {
   ///
   /// The total length of the HTTP ping target must be 1024 16-bit Unicode
   /// characters or less.
+  @_s.JsonKey(name: 'Target')
   final String target;
 
   /// The amount of time, in seconds, during which no response means a failed
   /// health check.
   ///
   /// This value must be less than the <code>Interval</code> value.
+  @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
   /// The number of consecutive health check failures required before moving the
   /// instance to the <code>Unhealthy</code> state.
+  @_s.JsonKey(name: 'UnhealthyThreshold')
   final int unhealthyThreshold;
 
   HealthCheck({
@@ -1894,11 +1992,19 @@ class HealthCheck {
       unhealthyThreshold: _s.extractXmlIntValue(elem, 'UnhealthyThreshold'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$HealthCheckToJson(this);
 }
 
 /// The ID of an EC2 instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Instance {
   /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
   Instance({
@@ -1909,6 +2015,8 @@ class Instance {
       instanceId: _s.extractXmlStringValue(elem, 'InstanceId'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$InstanceToJson(this);
 }
 
 /// Information about the state of an EC2 instance.
@@ -2054,17 +2162,25 @@ class Limit {
 /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
 /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
 /// Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Listener {
   /// The port on which the instance is listening.
+  @_s.JsonKey(name: 'InstancePort')
   final int instancePort;
 
   /// The port on which the load balancer is listening. On EC2-VPC, you can
   /// specify any port from the range 1-65535. On EC2-Classic, you can specify any
   /// port from the following list: 25, 80, 443, 465, 587, 1024-65535.
+  @_s.JsonKey(name: 'LoadBalancerPort')
   final int loadBalancerPort;
 
   /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP,
   /// or SSL.
+  @_s.JsonKey(name: 'Protocol')
   final String protocol;
 
   /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or
@@ -2080,9 +2196,11 @@ class Listener {
   /// If there is another listener with the same <code>InstancePort</code> whose
   /// <code>InstanceProtocol</code> is HTTP or TCP, the listener's
   /// <code>InstanceProtocol</code> must be HTTP or TCP.
+  @_s.JsonKey(name: 'InstanceProtocol')
   final String instanceProtocol;
 
   /// The Amazon Resource Name (ARN) of the server certificate.
+  @_s.JsonKey(name: 'SSLCertificateId')
   final String sSLCertificateId;
 
   Listener({
@@ -2101,6 +2219,8 @@ class Listener {
       sSLCertificateId: _s.extractXmlStringValue(elem, 'SSLCertificateId'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ListenerToJson(this);
 }
 
 /// The policies enabled for a listener.
@@ -2127,6 +2247,11 @@ class ListenerDescription {
 }
 
 /// The attributes for a load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LoadBalancerAttributes {
   /// If enabled, the load balancer captures detailed information of all requests
   /// and delivers the information to the Amazon S3 bucket that you specify.
@@ -2134,9 +2259,11 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html">Enable
   /// Access Logs</a> in the <i>Classic Load Balancers Guide</i>.
+  @_s.JsonKey(name: 'AccessLog')
   final AccessLog accessLog;
 
   /// This parameter is reserved.
+  @_s.JsonKey(name: 'AdditionalAttributes')
   final List<AdditionalAttribute> additionalAttributes;
 
   /// If enabled, the load balancer allows existing requests to complete before
@@ -2146,6 +2273,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Configure
   /// Connection Draining</a> in the <i>Classic Load Balancers Guide</i>.
+  @_s.JsonKey(name: 'ConnectionDraining')
   final ConnectionDraining connectionDraining;
 
   /// If enabled, the load balancer allows the connections to remain idle (no data
@@ -2156,6 +2284,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Configure
   /// Idle Connection Timeout</a> in the <i>Classic Load Balancers Guide</i>.
+  @_s.JsonKey(name: 'ConnectionSettings')
   final ConnectionSettings connectionSettings;
 
   /// If enabled, the load balancer routes the request traffic evenly across all
@@ -2164,6 +2293,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Configure
   /// Cross-Zone Load Balancing</a> in the <i>Classic Load Balancers Guide</i>.
+  @_s.JsonKey(name: 'CrossZoneLoadBalancing')
   final CrossZoneLoadBalancing crossZoneLoadBalancing;
 
   LoadBalancerAttributes({
@@ -2195,6 +2325,8 @@ class LoadBalancerAttributes {
           ?.let((e) => CrossZoneLoadBalancing.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LoadBalancerAttributesToJson(this);
 }
 
 /// Information about a load balancer.
@@ -2386,17 +2518,25 @@ class Policies {
 }
 
 /// Information about a policy attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class PolicyAttribute {
   /// The name of the attribute.
+  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The value of the attribute.
+  @_s.JsonKey(name: 'AttributeValue')
   final String attributeValue;
 
   PolicyAttribute({
     this.attributeName,
     this.attributeValue,
   });
+  Map<String, dynamic> toJson() => _$PolicyAttributeToJson(this);
 }
 
 /// Information about a policy attribute.
@@ -2628,11 +2768,18 @@ class SourceSecurityGroup {
 }
 
 /// Information about a tag.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The key of the tag.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -2645,6 +2792,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// The tags associated with a load balancer.
@@ -2669,13 +2818,20 @@ class TagDescription {
 }
 
 /// The key of a tag.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class TagKeyOnly {
   /// The name of the key.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   TagKeyOnly({
     this.key,
   });
+  Map<String, dynamic> toJson() => _$TagKeyOnlyToJson(this);
 }
 
 class AccessPointNotFoundException extends _s.GenericAwsException {

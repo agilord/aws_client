@@ -1131,7 +1131,10 @@ class TerminologyProperties {
 
   /// The time at which the custom terminology was created, based on the
   /// timestamp.
-  @_s.JsonKey(name: 'CreatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The description of the custom terminology properties.
@@ -1144,7 +1147,10 @@ class TerminologyProperties {
 
   /// The time at which the custom terminology was last update, based on the
   /// timestamp.
-  @_s.JsonKey(name: 'LastUpdatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
   /// The name of the custom terminology.
@@ -1205,14 +1211,18 @@ class TextTranslationJobFilter {
   /// processing and returns only the jobs submitted after the specified time.
   /// Jobs are returned in descending order, newest to oldest.
   @_s.JsonKey(
-      name: 'SubmittedAfterTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'SubmittedAfterTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submittedAfterTime;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing and returns only the jobs submitted before the specified time.
   /// Jobs are returned in ascending order, oldest to newest.
   @_s.JsonKey(
-      name: 'SubmittedBeforeTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'SubmittedBeforeTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submittedBeforeTime;
 
   TextTranslationJobFilter({
@@ -1238,7 +1248,10 @@ class TextTranslationJobProperties {
   final String dataAccessRoleArn;
 
   /// The time at which the translation job ended.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input configuration properties that were specified when the job was
@@ -1279,7 +1292,10 @@ class TextTranslationJobProperties {
   final String sourceLanguageCode;
 
   /// The time at which the translation job was submitted.
-  @_s.JsonKey(name: 'SubmittedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'SubmittedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime submittedTime;
 
   /// The language code of the language of the target text. The language must be a

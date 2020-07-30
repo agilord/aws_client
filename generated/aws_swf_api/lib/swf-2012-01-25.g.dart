@@ -200,9 +200,13 @@ ActivityTypeInfo _$ActivityTypeInfoFromJson(Map<String, dynamic> json) {
     activityType: json['activityType'] == null
         ? null
         : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-    creationDate: unixFromJson(json['creationDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
     status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
-    deprecationDate: unixFromJson(json['deprecationDate']),
+    deprecationDate: json['deprecationDate'] == null
+        ? null
+        : DateTime.parse(json['deprecationDate'] as String),
     description: json['description'] as String,
   );
 }
@@ -669,8 +673,8 @@ Map<String, dynamic> _$ExecutionTimeFilterToJson(ExecutionTimeFilter instance) {
     }
   }
 
-  writeNotNull('oldestDate', unixToJson(instance.oldestDate));
-  writeNotNull('latestDate', unixToJson(instance.latestDate));
+  writeNotNull('oldestDate', instance.oldestDate?.toIso8601String());
+  writeNotNull('latestDate', instance.latestDate?.toIso8601String());
   return val;
 }
 
@@ -742,7 +746,9 @@ History _$HistoryFromJson(Map<String, dynamic> json) {
 HistoryEvent _$HistoryEventFromJson(Map<String, dynamic> json) {
   return HistoryEvent(
     eventId: json['eventId'] as int,
-    eventTimestamp: unixFromJson(json['eventTimestamp']),
+    eventTimestamp: json['eventTimestamp'] == null
+        ? null
+        : DateTime.parse(json['eventTimestamp'] as String),
     eventType: _$enumDecodeNullable(_$EventTypeEnumMap, json['eventType']),
     activityTaskCancelRequestedEventAttributes:
         json['activityTaskCancelRequestedEventAttributes'] == null
@@ -1830,8 +1836,9 @@ WorkflowExecutionDetail _$WorkflowExecutionDetailFromJson(
         ? null
         : WorkflowExecutionOpenCounts.fromJson(
             json['openCounts'] as Map<String, dynamic>),
-    latestActivityTaskTimestamp:
-        unixFromJson(json['latestActivityTaskTimestamp']),
+    latestActivityTaskTimestamp: json['latestActivityTaskTimestamp'] == null
+        ? null
+        : DateTime.parse(json['latestActivityTaskTimestamp'] as String),
     latestExecutionContext: json['latestExecutionContext'] as String,
   );
 }
@@ -1868,14 +1875,18 @@ WorkflowExecutionInfo _$WorkflowExecutionInfoFromJson(
         : WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
     executionStatus:
         _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['executionStatus']),
-    startTimestamp: unixFromJson(json['startTimestamp']),
+    startTimestamp: json['startTimestamp'] == null
+        ? null
+        : DateTime.parse(json['startTimestamp'] as String),
     workflowType: json['workflowType'] == null
         ? null
         : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
     cancelRequested: json['cancelRequested'] as bool,
     closeStatus:
         _$enumDecodeNullable(_$CloseStatusEnumMap, json['closeStatus']),
-    closeTimestamp: unixFromJson(json['closeTimestamp']),
+    closeTimestamp: json['closeTimestamp'] == null
+        ? null
+        : DateTime.parse(json['closeTimestamp'] as String),
     parent: json['parent'] == null
         ? null
         : WorkflowExecution.fromJson(json['parent'] as Map<String, dynamic>),
@@ -2049,12 +2060,16 @@ Map<String, dynamic> _$WorkflowTypeFilterToJson(WorkflowTypeFilter instance) {
 
 WorkflowTypeInfo _$WorkflowTypeInfoFromJson(Map<String, dynamic> json) {
   return WorkflowTypeInfo(
-    creationDate: unixFromJson(json['creationDate']),
+    creationDate: json['creationDate'] == null
+        ? null
+        : DateTime.parse(json['creationDate'] as String),
     status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
     workflowType: json['workflowType'] == null
         ? null
         : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    deprecationDate: unixFromJson(json['deprecationDate']),
+    deprecationDate: json['deprecationDate'] == null
+        ? null
+        : DateTime.parse(json['deprecationDate'] as String),
     description: json['description'] as String,
   );
 }

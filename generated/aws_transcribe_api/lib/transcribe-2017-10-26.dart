@@ -1481,7 +1481,9 @@ class CreateVocabularyFilterResponse {
 
   /// The date and time that the vocabulary filter was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary filter.
@@ -1514,7 +1516,9 @@ class CreateVocabularyResponse {
 
   /// The date and time that the vocabulary was created.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary.
@@ -1591,7 +1595,9 @@ class GetVocabularyFilterResponse {
 
   /// The date and time that the contents of the vocabulary filter were updated.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary filter.
@@ -1630,7 +1636,9 @@ class GetVocabularyResponse {
 
   /// The date and time that the vocabulary was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary to return.
@@ -2049,11 +2057,16 @@ class MedicalTranscript {
 class MedicalTranscriptionJob {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
-      name: 'CompletionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// A timestamp that shows when the job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>,
@@ -2151,7 +2164,10 @@ class MedicalTranscriptionJob {
   final Specialty specialty;
 
   /// A timestamp that shows when the job started processing.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// An object that contains the <code>MedicalTranscript</code>. The
@@ -2199,11 +2215,16 @@ class MedicalTranscriptionJob {
 class MedicalTranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
-      name: 'CompletionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// A timestamp that shows when the medical transcription job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, a
@@ -2232,7 +2253,10 @@ class MedicalTranscriptionJobSummary {
   final Specialty specialty;
 
   /// A timestamp that shows when the job began processing.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the medical transcription job.
@@ -2530,7 +2554,9 @@ class Transcript {
 class TranscriptionJob {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
-      name: 'CompletionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// An object that describes content redaction settings for the transcription
@@ -2539,7 +2565,10 @@ class TranscriptionJob {
   final ContentRedaction contentRedaction;
 
   /// A timestamp that shows when the job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>,
@@ -2619,7 +2648,10 @@ class TranscriptionJob {
   final Settings settings;
 
   /// A timestamp that shows with the job was started processing.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// An object that describes the output of the transcription job.
@@ -2690,7 +2722,9 @@ extension on TranscriptionJobStatus {
 class TranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
-      name: 'CompletionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// The content redaction settings of the transcription job.
@@ -2698,7 +2732,10 @@ class TranscriptionJobSummary {
   final ContentRedaction contentRedaction;
 
   /// A timestamp that shows when the job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, a
@@ -2725,7 +2762,10 @@ class TranscriptionJobSummary {
   final OutputLocationType outputLocationType;
 
   /// A timestamp that shows when the job started processing.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The name of the transcription job.
@@ -2784,7 +2824,9 @@ class UpdateVocabularyFilterResponse {
 
   /// The date and time that the vocabulary filter was updated.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the updated vocabulary filter.
@@ -2812,7 +2854,9 @@ class UpdateVocabularyResponse {
 
   /// The date and time that the vocabulary was updated.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary that was updated.
@@ -2849,7 +2893,9 @@ class VocabularyFilterInfo {
 
   /// The date and time that the vocabulary was last updated.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary filter. The name must be unique in the account
@@ -2886,7 +2932,9 @@ class VocabularyInfo {
 
   /// The date and time that the vocabulary was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the vocabulary.

@@ -3036,7 +3036,10 @@ class Connection {
   final String lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @_s.JsonKey(name: 'loaIssueTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'loaIssueTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime loaIssueTime;
 
   /// The location of the connection.
@@ -3964,7 +3967,10 @@ class Interconnect {
   final String lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @_s.JsonKey(name: 'loaIssueTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'loaIssueTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime loaIssueTime;
 
   /// The location of the connection.

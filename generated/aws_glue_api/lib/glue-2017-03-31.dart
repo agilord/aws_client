@@ -8894,7 +8894,10 @@ class CatalogImportStatus {
   final bool importCompleted;
 
   /// The time that the migration was started.
-  @_s.JsonKey(name: 'ImportTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ImportTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime importTime;
 
   /// The name of the person who initiated the migration.
@@ -9339,7 +9342,10 @@ class Connection {
   final ConnectionType connectionType;
 
   /// The time that this connection definition was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The description of the connection.
@@ -9352,7 +9358,9 @@ class Connection {
 
   /// The last time that this connection definition was updated.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   /// A list of criteria that can be used in selecting this connection.
@@ -9571,7 +9579,10 @@ class ConnectionsList {
     createToJson: false)
 class Crawl {
   /// The date and time on which the crawl completed.
-  @_s.JsonKey(name: 'CompletedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompletedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedOn;
 
   /// The error message associated with the crawl.
@@ -9587,7 +9598,10 @@ class Crawl {
   final String logStream;
 
   /// The date and time on which the crawl started.
-  @_s.JsonKey(name: 'StartedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedOn;
 
   /// The state of the crawler.
@@ -9648,7 +9662,10 @@ class Crawler {
   final String crawlerSecurityConfiguration;
 
   /// The time that the crawler was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the database in which the crawler's output is stored.
@@ -9665,7 +9682,10 @@ class Crawler {
   final LastCrawlInfo lastCrawl;
 
   /// The time that the crawler was last updated.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The name of the crawler.
@@ -9968,7 +9988,9 @@ class CreateDevEndpointResponse {
 
   /// The point in time at which this <code>DevEndpoint</code> was created.
   @_s.JsonKey(
-      name: 'CreatedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreatedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The name assigned to the new <code>DevEndpoint</code>.
@@ -10205,7 +10227,9 @@ class CreateScriptResponse {
 class CreateSecurityConfigurationResponse {
   /// The time at which the new security configuration was created.
   @_s.JsonKey(
-      name: 'CreatedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreatedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The name assigned to the new security configuration.
@@ -10330,7 +10354,10 @@ class CsvClassifier {
   final CsvHeaderOption containsHeader;
 
   /// The time that this classifier was registered.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A custom symbol to denote what separates each column entry in the row.
@@ -10347,7 +10374,10 @@ class CsvClassifier {
   final List<String> header;
 
   /// The time that this classifier was last updated.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// A custom symbol to denote what combines content into a single column value.
@@ -10451,7 +10481,10 @@ class Database {
   final List<PrincipalPermissions> createTableDefaultPermissions;
 
   /// The time at which the metadata database was created in the catalog.
-  @_s.JsonKey(name: 'CreateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTime;
 
   /// A description of the database.
@@ -10754,7 +10787,9 @@ class DevEndpoint {
 
   /// The point in time at which this DevEndpoint was created.
   @_s.JsonKey(
-      name: 'CreatedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreatedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
   /// The name of the <code>DevEndpoint</code>.
@@ -10806,7 +10841,9 @@ class DevEndpoint {
 
   /// The point in time at which this <code>DevEndpoint</code> was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
   /// The status of the last update.
@@ -11767,7 +11804,10 @@ class GetJobsResponse {
     createToJson: false)
 class GetMLTaskRunResponse {
   /// The date and time when this task run was completed.
-  @_s.JsonKey(name: 'CompletedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompletedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedOn;
 
   /// The error strings that are associated with the task run.
@@ -11780,7 +11820,9 @@ class GetMLTaskRunResponse {
 
   /// The date and time when this task run was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The names of the log groups that are associated with the task run.
@@ -11792,7 +11834,10 @@ class GetMLTaskRunResponse {
   final TaskRunProperties properties;
 
   /// The date and time when this task run started.
-  @_s.JsonKey(name: 'StartedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedOn;
 
   /// The status for this task run.
@@ -11852,7 +11897,10 @@ class GetMLTaskRunsResponse {
     createToJson: false)
 class GetMLTransformResponse {
   /// The date and time when the transform was created.
-  @_s.JsonKey(name: 'CreatedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdOn;
 
   /// A description of the transform.
@@ -11882,7 +11930,9 @@ class GetMLTransformResponse {
 
   /// The date and time when the transform was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The number of AWS Glue data processing units (DPUs) that are allocated to
@@ -12095,7 +12145,10 @@ class GetPlanResponse {
     createToJson: false)
 class GetResourcePolicyResponse {
   /// The date and time at which the policy was created.
-  @_s.JsonKey(name: 'CreateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTime;
 
   /// Contains the hash value associated with this policy.
@@ -12107,7 +12160,10 @@ class GetResourcePolicyResponse {
   final String policyInJson;
 
   /// The date and time at which the policy was last updated.
-  @_s.JsonKey(name: 'UpdateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updateTime;
 
   GetResourcePolicyResponse({
@@ -12471,7 +12527,10 @@ class GrokClassifier {
   final String name;
 
   /// The time that this classifier was registered.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Optional custom grok patterns defined by this classifier. For more
@@ -12482,7 +12541,10 @@ class GrokClassifier {
   final String customPatterns;
 
   /// The time that this classifier was last updated.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The version of this classifier.
@@ -12597,7 +12659,10 @@ class Job {
   final ConnectionsList connections;
 
   /// The time and date that this job definition was created.
-  @_s.JsonKey(name: 'CreatedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdOn;
 
   /// The default arguments for this job, specified as name-value pairs.
@@ -12641,7 +12706,9 @@ class Job {
 
   /// The last point in time when this job definition was modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// This field is reserved for future use.
@@ -12936,7 +13003,10 @@ class JobRun {
   final int attempt;
 
   /// The date and time that this job run completed.
-  @_s.JsonKey(name: 'CompletedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompletedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedOn;
 
   /// An error message associated with this job run.
@@ -12974,7 +13044,9 @@ class JobRun {
 
   /// The last time that this job run was modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The name of the log group for secure logging that can be server-side
@@ -13043,7 +13115,10 @@ class JobRun {
   final String securityConfiguration;
 
   /// The date and time at which this job run was started.
-  @_s.JsonKey(name: 'StartedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedOn;
 
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
@@ -13316,11 +13391,17 @@ class JsonClassifier {
   final String name;
 
   /// The time that this classifier was registered.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The time that this classifier was last updated.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The version of this classifier.
@@ -13401,7 +13482,10 @@ class LastCrawlInfo {
   final String messagePrefix;
 
   /// The time at which the crawl started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Status of the last crawl.
@@ -13618,7 +13702,10 @@ enum LogicalOperator {
 class MLTransform {
   /// A timestamp. The time and date that this machine learning transform was
   /// created.
-  @_s.JsonKey(name: 'CreatedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdOn;
 
   /// A user-defined, long-form description text for the machine learning
@@ -13654,7 +13741,9 @@ class MLTransform {
   /// A timestamp. The last point in time when this machine learning transform was
   /// modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The number of AWS Glue data processing units (DPUs) that are allocated to
@@ -13971,7 +14060,10 @@ class Order {
     createToJson: false)
 class Partition {
   /// The time at which the partition was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the catalog database in which to create the partition.
@@ -13980,12 +14072,16 @@ class Partition {
 
   /// The last time at which the partition was accessed.
   @_s.JsonKey(
-      name: 'LastAccessTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAccessTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAccessTime;
 
   /// The last time at which column statistics were computed for this partition.
   @_s.JsonKey(
-      name: 'LastAnalyzedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAnalyzedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAnalyzedTime;
 
   /// These key-value pairs define partition parameters.
@@ -14051,12 +14147,16 @@ class PartitionError {
 class PartitionInput {
   /// The last time at which the partition was accessed.
   @_s.JsonKey(
-      name: 'LastAccessTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAccessTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAccessTime;
 
   /// The last time at which column statistics were computed for this partition.
   @_s.JsonKey(
-      name: 'LastAnalyzedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAnalyzedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAnalyzedTime;
 
   /// These key-value pairs define partition parameters.
@@ -14551,7 +14651,9 @@ class SearchTablesResponse {
 class SecurityConfiguration {
   /// The time at which this security configuration was created.
   @_s.JsonKey(
-      name: 'CreatedTimeStamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreatedTimeStamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTimeStamp;
 
   /// The encryption configuration associated with this security configuration.
@@ -14973,7 +15075,10 @@ class Table {
   final String name;
 
   /// The time when the table definition was created in the Data Catalog.
-  @_s.JsonKey(name: 'CreateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTime;
 
   /// The person or entity who created the table.
@@ -14996,12 +15101,16 @@ class Table {
   /// The last time that the table was accessed. This is usually taken from HDFS,
   /// and might not be reliable.
   @_s.JsonKey(
-      name: 'LastAccessTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAccessTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAccessTime;
 
   /// The last time that column statistics were computed for this table.
   @_s.JsonKey(
-      name: 'LastAnalyzedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAnalyzedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAnalyzedTime;
 
   /// The owner of the table.
@@ -15038,7 +15147,10 @@ class Table {
   final String tableType;
 
   /// The last time that the table was updated.
-  @_s.JsonKey(name: 'UpdateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updateTime;
 
   /// If the table is a view, the expanded text of the view; otherwise
@@ -15115,12 +15227,16 @@ class TableInput {
 
   /// The last time that the table was accessed.
   @_s.JsonKey(
-      name: 'LastAccessTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAccessTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAccessTime;
 
   /// The last time that column statistics were computed for this table.
   @_s.JsonKey(
-      name: 'LastAnalyzedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastAnalyzedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastAnalyzedTime;
 
   /// The table owner.
@@ -15256,7 +15372,10 @@ class TagResourceResponse {
     createToJson: false)
 class TaskRun {
   /// The last point in time that the requested task run was completed.
-  @_s.JsonKey(name: 'CompletedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompletedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedOn;
 
   /// The list of error strings associated with this task run.
@@ -15269,7 +15388,9 @@ class TaskRun {
 
   /// The last point in time that the requested task run was updated.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The names of the log group for secure logging, associated with this task
@@ -15282,7 +15403,10 @@ class TaskRun {
   final TaskRunProperties properties;
 
   /// The date and time that this task run started.
-  @_s.JsonKey(name: 'StartedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedOn;
 
   /// The current status of the requested task run.
@@ -15322,11 +15446,17 @@ class TaskRun {
     createToJson: true)
 class TaskRunFilterCriteria {
   /// Filter on task runs started after this date.
-  @_s.JsonKey(name: 'StartedAfter', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedAfter;
 
   /// Filter on task runs started before this date.
-  @_s.JsonKey(name: 'StartedBefore', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedBefore;
 
   /// The current status of the task run.
@@ -15457,11 +15587,17 @@ enum TaskType {
     createToJson: true)
 class TransformFilterCriteria {
   /// The time and date after which the transforms were created.
-  @_s.JsonKey(name: 'CreatedAfter', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAfter;
 
   /// The time and date before which the transforms were created.
-  @_s.JsonKey(name: 'CreatedBefore', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdBefore;
 
   /// This value determines which version of AWS Glue this machine learning
@@ -15475,12 +15611,16 @@ class TransformFilterCriteria {
 
   /// Filter on transforms last modified after this date.
   @_s.JsonKey(
-      name: 'LastModifiedAfter', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedAfter;
 
   /// Filter on transforms last modified before this date.
   @_s.JsonKey(
-      name: 'LastModifiedBefore', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedBefore;
 
   /// A unique transform name that is used to filter the machine learning
@@ -16105,7 +16245,10 @@ class UserDefinedFunction {
   final String className;
 
   /// The time at which the function was created.
-  @_s.JsonKey(name: 'CreateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTime;
 
   /// The name of the function.
@@ -16205,7 +16348,10 @@ extension on WorkerType {
     createToJson: false)
 class Workflow {
   /// The date and time when the workflow was created.
-  @_s.JsonKey(name: 'CreatedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdOn;
 
   /// A collection of properties to be used as part of each execution of the
@@ -16224,7 +16370,9 @@ class Workflow {
 
   /// The date and time when the workflow was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The information about the last execution of the workflow.
@@ -16284,7 +16432,10 @@ class WorkflowGraph {
     createToJson: false)
 class WorkflowRun {
   /// The date and time when the workflow run completed.
-  @_s.JsonKey(name: 'CompletedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CompletedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedOn;
 
   /// The graph representing all the AWS Glue components that belong to the
@@ -16297,7 +16448,10 @@ class WorkflowRun {
   final String name;
 
   /// The date and time when the workflow run was started.
-  @_s.JsonKey(name: 'StartedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedOn;
 
   /// The statistics of the run.
@@ -16396,11 +16550,17 @@ class XMLClassifier {
   final String name;
 
   /// The time that this classifier was registered.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The time that this classifier was last updated.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The XML tag designating the element that contains each record in an XML

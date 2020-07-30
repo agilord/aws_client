@@ -2609,8 +2609,8 @@ class Consumer {
   /// <p/>
   @_s.JsonKey(
       name: 'ConsumerCreationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
@@ -2653,8 +2653,8 @@ class ConsumerDescription {
   /// <p/>
   @_s.JsonKey(
       name: 'ConsumerCreationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
@@ -3523,8 +3523,8 @@ class Record {
   /// The approximate time that the record was inserted into the stream.
   @_s.JsonKey(
       name: 'ApproximateArrivalTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime approximateArrivalTimestamp;
 
   /// The encryption type used on the record. This parameter can be one of the
@@ -3748,8 +3748,8 @@ class StreamDescription {
   /// The approximate time that the stream was created.
   @_s.JsonKey(
       name: 'StreamCreationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.
@@ -3870,8 +3870,8 @@ class StreamDescriptionSummary {
   /// The approximate time that the stream was created.
   @_s.JsonKey(
       name: 'StreamCreationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.

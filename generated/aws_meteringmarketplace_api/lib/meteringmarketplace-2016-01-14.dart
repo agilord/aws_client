@@ -396,8 +396,8 @@ class RegisterUsageResult {
   /// (Optional) Only included when public key version has expired
   @_s.JsonKey(
       name: 'PublicKeyRotationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime publicKeyRotationTimestamp;
 
   /// JWT Token
@@ -466,7 +466,10 @@ class UsageRecord {
   ///
   /// Your application can meter usage for up to one hour in the past. Make sure
   /// the timestamp value is not before the start of the software usage.
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   /// The quantity of usage consumed by the customer for the given dimension and

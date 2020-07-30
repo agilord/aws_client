@@ -1311,7 +1311,10 @@ class AppSummary {
   final String appId;
 
   /// Time of creation of this application.
-  @_s.JsonKey(name: 'creationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'creationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Description of the application.
@@ -1319,12 +1322,17 @@ class AppSummary {
   final String description;
 
   /// Timestamp of the application's creation.
-  @_s.JsonKey(name: 'lastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// Timestamp of the application's most recent successful replication.
   @_s.JsonKey(
-      name: 'latestReplicationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'latestReplicationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestReplicationTime;
 
   /// Details about the latest launch of the application.
@@ -1401,7 +1409,10 @@ class AppSummary {
     createToJson: false)
 class Connector {
   /// The time the connector was associated.
-  @_s.JsonKey(name: 'associatedOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'associatedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime associatedOn;
 
   /// The capabilities of the connector.
@@ -1778,7 +1789,9 @@ class GetReplicationRunsResponse {
 class GetServersResponse {
   /// The time when the server was last modified.
   @_s.JsonKey(
-      name: 'lastModifiedOn', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastModifiedOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
   /// The token required to retrieve the next set of results. This value is null
@@ -1835,7 +1848,9 @@ class LaunchAppResponse {
 class LaunchDetails {
   /// Latest time this application was launched successfully.
   @_s.JsonKey(
-      name: 'latestLaunchTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'latestLaunchTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestLaunchTime;
 
   /// Identifier of the latest stack launched for this application.
@@ -1994,8 +2009,8 @@ class ReplicationJob {
   /// The start time of the next replication run.
   @_s.JsonKey(
       name: 'nextReplicationRunStartTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime nextReplicationRunStartTime;
 
   /// Number of recent AMIs to keep in the customer's account for a replication
@@ -2021,7 +2036,9 @@ class ReplicationJob {
 
   /// The seed replication time.
   @_s.JsonKey(
-      name: 'seedReplicationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'seedReplicationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime seedReplicationTime;
 
   /// The identifier of the server.
@@ -2099,7 +2116,10 @@ class ReplicationRun {
   final String amiId;
 
   /// The completion time of the last replication run.
-  @_s.JsonKey(name: 'completedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'completedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedTime;
 
   /// The description of the replication run.
@@ -2139,7 +2159,9 @@ class ReplicationRun {
 
   /// The start time of the next replication run.
   @_s.JsonKey(
-      name: 'scheduledStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'scheduledStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime scheduledStartTime;
 
   /// Details of the current stage of the replication run.
@@ -2526,7 +2548,10 @@ class ServerReplicationParameters {
   final bool runOnce;
 
   /// Seed time for creating a replication job for the server.
-  @_s.JsonKey(name: 'seedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'seedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime seedTime;
 
   ServerReplicationParameters({

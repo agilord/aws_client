@@ -62,12 +62,16 @@ AggregateEvaluationResult _$AggregateEvaluationResultFromJson(
     awsRegion: json['AwsRegion'] as String,
     complianceType:
         _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
-    configRuleInvokedTime: unixFromJson(json['ConfigRuleInvokedTime']),
+    configRuleInvokedTime: json['ConfigRuleInvokedTime'] == null
+        ? null
+        : DateTime.parse(json['ConfigRuleInvokedTime'] as String),
     evaluationResultIdentifier: json['EvaluationResultIdentifier'] == null
         ? null
         : EvaluationResultIdentifier.fromJson(
             json['EvaluationResultIdentifier'] as Map<String, dynamic>),
-    resultRecordedTime: unixFromJson(json['ResultRecordedTime']),
+    resultRecordedTime: json['ResultRecordedTime'] == null
+        ? null
+        : DateTime.parse(json['ResultRecordedTime'] as String),
   );
 }
 
@@ -258,7 +262,9 @@ AggregatedSourceStatus _$AggregatedSourceStatusFromJson(
     lastErrorMessage: json['LastErrorMessage'] as String,
     lastUpdateStatus: _$enumDecodeNullable(
         _$AggregatedSourceStatusTypeEnumMap, json['LastUpdateStatus']),
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
     sourceId: json['SourceId'] as String,
     sourceType:
         _$enumDecodeNullable(_$AggregatedSourceTypeEnumMap, json['SourceType']),
@@ -282,7 +288,9 @@ AggregationAuthorization _$AggregationAuthorizationFromJson(
     aggregationAuthorizationArn: json['AggregationAuthorizationArn'] as String,
     authorizedAccountId: json['AuthorizedAccountId'] as String,
     authorizedAwsRegion: json['AuthorizedAwsRegion'] as String,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
   );
 }
 
@@ -294,12 +302,15 @@ BaseConfigurationItem _$BaseConfigurationItemFromJson(
     availabilityZone: json['availabilityZone'] as String,
     awsRegion: json['awsRegion'] as String,
     configuration: json['configuration'] as String,
-    configurationItemCaptureTime:
-        unixFromJson(json['configurationItemCaptureTime']),
+    configurationItemCaptureTime: json['configurationItemCaptureTime'] == null
+        ? null
+        : DateTime.parse(json['configurationItemCaptureTime'] as String),
     configurationItemStatus: _$enumDecodeNullable(
         _$ConfigurationItemStatusEnumMap, json['configurationItemStatus']),
     configurationStateId: json['configurationStateId'] as String,
-    resourceCreationTime: unixFromJson(json['resourceCreationTime']),
+    resourceCreationTime: json['resourceCreationTime'] == null
+        ? null
+        : DateTime.parse(json['resourceCreationTime'] as String),
     resourceId: json['resourceId'] as String,
     resourceName: json['resourceName'] as String,
     resourceType:
@@ -395,8 +406,9 @@ ComplianceContributorCount _$ComplianceContributorCountFromJson(
 
 ComplianceSummary _$ComplianceSummaryFromJson(Map<String, dynamic> json) {
   return ComplianceSummary(
-    complianceSummaryTimestamp:
-        unixFromJson(json['ComplianceSummaryTimestamp']),
+    complianceSummaryTimestamp: json['ComplianceSummaryTimestamp'] == null
+        ? null
+        : DateTime.parse(json['ComplianceSummaryTimestamp'] as String),
     compliantResourceCount: json['CompliantResourceCount'] == null
         ? null
         : ComplianceContributorCount.fromJson(
@@ -422,13 +434,19 @@ ComplianceSummaryByResourceType _$ComplianceSummaryByResourceTypeFromJson(
 ConfigExportDeliveryInfo _$ConfigExportDeliveryInfoFromJson(
     Map<String, dynamic> json) {
   return ConfigExportDeliveryInfo(
-    lastAttemptTime: unixFromJson(json['lastAttemptTime']),
+    lastAttemptTime: json['lastAttemptTime'] == null
+        ? null
+        : DateTime.parse(json['lastAttemptTime'] as String),
     lastErrorCode: json['lastErrorCode'] as String,
     lastErrorMessage: json['lastErrorMessage'] as String,
     lastStatus:
         _$enumDecodeNullable(_$DeliveryStatusEnumMap, json['lastStatus']),
-    lastSuccessfulTime: unixFromJson(json['lastSuccessfulTime']),
-    nextDeliveryTime: unixFromJson(json['nextDeliveryTime']),
+    lastSuccessfulTime: json['lastSuccessfulTime'] == null
+        ? null
+        : DateTime.parse(json['lastSuccessfulTime'] as String),
+    nextDeliveryTime: json['nextDeliveryTime'] == null
+        ? null
+        : DateTime.parse(json['nextDeliveryTime'] as String),
   );
 }
 
@@ -537,17 +555,27 @@ ConfigRuleEvaluationStatus _$ConfigRuleEvaluationStatusFromJson(
     configRuleArn: json['ConfigRuleArn'] as String,
     configRuleId: json['ConfigRuleId'] as String,
     configRuleName: json['ConfigRuleName'] as String,
-    firstActivatedTime: unixFromJson(json['FirstActivatedTime']),
+    firstActivatedTime: json['FirstActivatedTime'] == null
+        ? null
+        : DateTime.parse(json['FirstActivatedTime'] as String),
     firstEvaluationStarted: json['FirstEvaluationStarted'] as bool,
-    lastDeactivatedTime: unixFromJson(json['LastDeactivatedTime']),
+    lastDeactivatedTime: json['LastDeactivatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastDeactivatedTime'] as String),
     lastErrorCode: json['LastErrorCode'] as String,
     lastErrorMessage: json['LastErrorMessage'] as String,
-    lastFailedEvaluationTime: unixFromJson(json['LastFailedEvaluationTime']),
-    lastFailedInvocationTime: unixFromJson(json['LastFailedInvocationTime']),
-    lastSuccessfulEvaluationTime:
-        unixFromJson(json['LastSuccessfulEvaluationTime']),
-    lastSuccessfulInvocationTime:
-        unixFromJson(json['LastSuccessfulInvocationTime']),
+    lastFailedEvaluationTime: json['LastFailedEvaluationTime'] == null
+        ? null
+        : DateTime.parse(json['LastFailedEvaluationTime'] as String),
+    lastFailedInvocationTime: json['LastFailedInvocationTime'] == null
+        ? null
+        : DateTime.parse(json['LastFailedInvocationTime'] as String),
+    lastSuccessfulEvaluationTime: json['LastSuccessfulEvaluationTime'] == null
+        ? null
+        : DateTime.parse(json['LastSuccessfulEvaluationTime'] as String),
+    lastSuccessfulInvocationTime: json['LastSuccessfulInvocationTime'] == null
+        ? null
+        : DateTime.parse(json['LastSuccessfulInvocationTime'] as String),
   );
 }
 
@@ -581,7 +609,9 @@ ConfigStreamDeliveryInfo _$ConfigStreamDeliveryInfoFromJson(
     lastErrorMessage: json['lastErrorMessage'] as String,
     lastStatus:
         _$enumDecodeNullable(_$DeliveryStatusEnumMap, json['lastStatus']),
-    lastStatusChangeTime: unixFromJson(json['lastStatusChangeTime']),
+    lastStatusChangeTime: json['lastStatusChangeTime'] == null
+        ? null
+        : DateTime.parse(json['lastStatusChangeTime'] as String),
   );
 }
 
@@ -595,8 +625,12 @@ ConfigurationAggregator _$ConfigurationAggregatorFromJson(
         ?.toList(),
     configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String,
     configurationAggregatorName: json['ConfigurationAggregatorName'] as String,
-    creationTime: unixFromJson(json['CreationTime']),
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
     organizationAggregationSource: json['OrganizationAggregationSource'] == null
         ? null
         : OrganizationAggregationSource.fromJson(
@@ -611,8 +645,9 @@ ConfigurationItem _$ConfigurationItemFromJson(Map<String, dynamic> json) {
     availabilityZone: json['availabilityZone'] as String,
     awsRegion: json['awsRegion'] as String,
     configuration: json['configuration'] as String,
-    configurationItemCaptureTime:
-        unixFromJson(json['configurationItemCaptureTime']),
+    configurationItemCaptureTime: json['configurationItemCaptureTime'] == null
+        ? null
+        : DateTime.parse(json['configurationItemCaptureTime'] as String),
     configurationItemMD5Hash: json['configurationItemMD5Hash'] as String,
     configurationItemStatus: _$enumDecodeNullable(
         _$ConfigurationItemStatusEnumMap, json['configurationItemStatus']),
@@ -623,7 +658,9 @@ ConfigurationItem _$ConfigurationItemFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Relationship.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    resourceCreationTime: unixFromJson(json['resourceCreationTime']),
+    resourceCreationTime: json['resourceCreationTime'] == null
+        ? null
+        : DateTime.parse(json['resourceCreationTime'] as String),
     resourceId: json['resourceId'] as String,
     resourceName: json['resourceName'] as String,
     resourceType:
@@ -672,11 +709,17 @@ ConfigurationRecorderStatus _$ConfigurationRecorderStatusFromJson(
   return ConfigurationRecorderStatus(
     lastErrorCode: json['lastErrorCode'] as String,
     lastErrorMessage: json['lastErrorMessage'] as String,
-    lastStartTime: unixFromJson(json['lastStartTime']),
+    lastStartTime: json['lastStartTime'] == null
+        ? null
+        : DateTime.parse(json['lastStartTime'] as String),
     lastStatus:
         _$enumDecodeNullable(_$RecorderStatusEnumMap, json['lastStatus']),
-    lastStatusChangeTime: unixFromJson(json['lastStatusChangeTime']),
-    lastStopTime: unixFromJson(json['lastStopTime']),
+    lastStatusChangeTime: json['lastStatusChangeTime'] == null
+        ? null
+        : DateTime.parse(json['lastStatusChangeTime'] as String),
+    lastStopTime: json['lastStopTime'] == null
+        ? null
+        : DateTime.parse(json['lastStopTime'] as String),
     name: json['name'] as String,
     recording: json['recording'] as bool,
   );
@@ -734,7 +777,9 @@ ConformancePackDetail _$ConformancePackDetailFromJson(
         ?.toList(),
     createdBy: json['CreatedBy'] as String,
     deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String,
-    lastUpdateRequestedTime: unixFromJson(json['LastUpdateRequestedTime']),
+    lastUpdateRequestedTime: json['LastUpdateRequestedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateRequestedTime'] as String),
   );
 }
 
@@ -761,12 +806,16 @@ ConformancePackEvaluationResult _$ConformancePackEvaluationResultFromJson(
   return ConformancePackEvaluationResult(
     complianceType: _$enumDecodeNullable(
         _$ConformancePackComplianceTypeEnumMap, json['ComplianceType']),
-    configRuleInvokedTime: unixFromJson(json['ConfigRuleInvokedTime']),
+    configRuleInvokedTime: json['ConfigRuleInvokedTime'] == null
+        ? null
+        : DateTime.parse(json['ConfigRuleInvokedTime'] as String),
     evaluationResultIdentifier: json['EvaluationResultIdentifier'] == null
         ? null
         : EvaluationResultIdentifier.fromJson(
             json['EvaluationResultIdentifier'] as Map<String, dynamic>),
-    resultRecordedTime: unixFromJson(json['ResultRecordedTime']),
+    resultRecordedTime: json['ResultRecordedTime'] == null
+        ? null
+        : DateTime.parse(json['ResultRecordedTime'] as String),
     annotation: json['Annotation'] as String,
   );
 }
@@ -811,10 +860,14 @@ ConformancePackStatusDetail _$ConformancePackStatusDetailFromJson(
     conformancePackName: json['ConformancePackName'] as String,
     conformancePackState: _$enumDecodeNullable(
         _$ConformancePackStateEnumMap, json['ConformancePackState']),
-    lastUpdateRequestedTime: unixFromJson(json['LastUpdateRequestedTime']),
+    lastUpdateRequestedTime: json['LastUpdateRequestedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateRequestedTime'] as String),
     stackArn: json['StackArn'] as String,
     conformancePackStatusReason: json['ConformancePackStatusReason'] as String,
-    lastUpdateCompletedTime: unixFromJson(json['LastUpdateCompletedTime']),
+    lastUpdateCompletedTime: json['LastUpdateCompletedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateCompletedTime'] as String),
   );
 }
 
@@ -1221,7 +1274,9 @@ Evaluation _$EvaluationFromJson(Map<String, dynamic> json) {
     complianceResourceType: json['ComplianceResourceType'] as String,
     complianceType:
         _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
-    orderingTimestamp: unixFromJson(json['OrderingTimestamp']),
+    orderingTimestamp: json['OrderingTimestamp'] == null
+        ? null
+        : DateTime.parse(json['OrderingTimestamp'] as String),
     annotation: json['Annotation'] as String,
   );
 }
@@ -1239,7 +1294,8 @@ Map<String, dynamic> _$EvaluationToJson(Evaluation instance) {
   writeNotNull('ComplianceResourceType', instance.complianceResourceType);
   writeNotNull(
       'ComplianceType', _$ComplianceTypeEnumMap[instance.complianceType]);
-  writeNotNull('OrderingTimestamp', unixToJson(instance.orderingTimestamp));
+  writeNotNull(
+      'OrderingTimestamp', instance.orderingTimestamp?.toIso8601String());
   writeNotNull('Annotation', instance.annotation);
   return val;
 }
@@ -1249,12 +1305,16 @@ EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
     annotation: json['Annotation'] as String,
     complianceType:
         _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
-    configRuleInvokedTime: unixFromJson(json['ConfigRuleInvokedTime']),
+    configRuleInvokedTime: json['ConfigRuleInvokedTime'] == null
+        ? null
+        : DateTime.parse(json['ConfigRuleInvokedTime'] as String),
     evaluationResultIdentifier: json['EvaluationResultIdentifier'] == null
         ? null
         : EvaluationResultIdentifier.fromJson(
             json['EvaluationResultIdentifier'] as Map<String, dynamic>),
-    resultRecordedTime: unixFromJson(json['ResultRecordedTime']),
+    resultRecordedTime: json['ResultRecordedTime'] == null
+        ? null
+        : DateTime.parse(json['ResultRecordedTime'] as String),
     resultToken: json['ResultToken'] as String,
   );
 }
@@ -1266,7 +1326,9 @@ EvaluationResultIdentifier _$EvaluationResultIdentifierFromJson(
         ? null
         : EvaluationResultQualifier.fromJson(
             json['EvaluationResultQualifier'] as Map<String, dynamic>),
-    orderingTimestamp: unixFromJson(json['OrderingTimestamp']),
+    orderingTimestamp: json['OrderingTimestamp'] == null
+        ? null
+        : DateTime.parse(json['OrderingTimestamp'] as String),
   );
 }
 
@@ -1582,7 +1644,9 @@ MemberAccountStatus _$MemberAccountStatusFromJson(Map<String, dynamic> json) {
         _$MemberAccountRuleStatusEnumMap, json['MemberAccountRuleStatus']),
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
   );
 }
 
@@ -1630,7 +1694,9 @@ OrganizationConfigRule _$OrganizationConfigRuleFromJson(
     organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
     excludedAccounts:
         (json['ExcludedAccounts'] as List)?.map((e) => e as String)?.toList(),
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
     organizationCustomRuleMetadata:
         json['OrganizationCustomRuleMetadata'] == null
             ? null
@@ -1652,7 +1718,9 @@ OrganizationConfigRuleStatus _$OrganizationConfigRuleStatusFromJson(
         _$OrganizationRuleStatusEnumMap, json['OrganizationRuleStatus']),
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
   );
 }
 
@@ -1672,7 +1740,9 @@ OrganizationConformancePack _$OrganizationConformancePackFromJson(
     Map<String, dynamic> json) {
   return OrganizationConformancePack(
     deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
     organizationConformancePackArn:
         json['OrganizationConformancePackArn'] as String,
     organizationConformancePackName:
@@ -1699,7 +1769,9 @@ OrganizationConformancePackDetailedStatus
         _$OrganizationResourceDetailedStatusEnumMap, json['Status']),
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
   );
 }
 
@@ -1724,7 +1796,9 @@ OrganizationConformancePackStatus _$OrganizationConformancePackStatusFromJson(
         _$OrganizationResourceStatusEnumMap, json['Status']),
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
   );
 }
 
@@ -2040,7 +2114,9 @@ RemediationException _$RemediationExceptionFromJson(Map<String, dynamic> json) {
     configRuleName: json['ConfigRuleName'] as String,
     resourceId: json['ResourceId'] as String,
     resourceType: json['ResourceType'] as String,
-    expirationTime: unixFromJson(json['ExpirationTime']),
+    expirationTime: json['ExpirationTime'] == null
+        ? null
+        : DateTime.parse(json['ExpirationTime'] as String),
     message: json['Message'] as String,
   );
 }
@@ -2071,8 +2147,12 @@ Map<String, dynamic> _$RemediationExceptionResourceKeyToJson(
 RemediationExecutionStatus _$RemediationExecutionStatusFromJson(
     Map<String, dynamic> json) {
   return RemediationExecutionStatus(
-    invocationTime: unixFromJson(json['InvocationTime']),
-    lastUpdatedTime: unixFromJson(json['LastUpdatedTime']),
+    invocationTime: json['InvocationTime'] == null
+        ? null
+        : DateTime.parse(json['InvocationTime'] as String),
+    lastUpdatedTime: json['LastUpdatedTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedTime'] as String),
     resourceKey: json['ResourceKey'] == null
         ? null
         : ResourceKey.fromJson(json['ResourceKey'] as Map<String, dynamic>),
@@ -2098,10 +2178,14 @@ RemediationExecutionStep _$RemediationExecutionStepFromJson(
   return RemediationExecutionStep(
     errorMessage: json['ErrorMessage'] as String,
     name: json['Name'] as String,
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     state: _$enumDecodeNullable(
         _$RemediationExecutionStepStateEnumMap, json['State']),
-    stopTime: unixFromJson(json['StopTime']),
+    stopTime: json['StopTime'] == null
+        ? null
+        : DateTime.parse(json['StopTime'] as String),
   );
 }
 
@@ -2180,7 +2264,9 @@ Map<String, dynamic> _$ResourceFiltersToJson(ResourceFilters instance) {
 
 ResourceIdentifier _$ResourceIdentifierFromJson(Map<String, dynamic> json) {
   return ResourceIdentifier(
-    resourceDeletionTime: unixFromJson(json['resourceDeletionTime']),
+    resourceDeletionTime: json['resourceDeletionTime'] == null
+        ? null
+        : DateTime.parse(json['resourceDeletionTime'] as String),
     resourceId: json['resourceId'] as String,
     resourceName: json['resourceName'] as String,
     resourceType:

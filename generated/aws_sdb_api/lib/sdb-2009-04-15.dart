@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'sdb-2009-04-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'sdb-2009-04-15.g.dart';
 
 /// Amazon SimpleDB is a web service providing the core database functions of
 /// data indexing and querying in the cloud. By offloading the time and effort
@@ -32,17 +43,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// for more information.
 class SimpleDB {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   SimpleDB({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'sdb',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Performs multiple DeleteAttributes operations in a single call, which
   /// reduces round trips and latencies. This enables Amazon SimpleDB to
@@ -83,17 +97,18 @@ class SimpleDB {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(items, 'items');
-    final $request = <String, dynamic>{
-      'Action': 'BatchDeleteAttributes',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Items'] = items;
     await _protocol.send(
       $request,
+      action: 'BatchDeleteAttributes',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchDeleteAttributesRequest'],
+      shapes: shapes,
     );
   }
 
@@ -172,17 +187,18 @@ class SimpleDB {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(items, 'items');
-    final $request = <String, dynamic>{
-      'Action': 'BatchPutAttributes',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Items'] = items;
     await _protocol.send(
       $request,
+      action: 'BatchPutAttributes',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchPutAttributesRequest'],
+      shapes: shapes,
     );
   }
 
@@ -210,16 +226,17 @@ class SimpleDB {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDomain',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     await _protocol.send(
       $request,
+      action: 'CreateDomain',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDomainRequest'],
+      shapes: shapes,
     );
   }
 
@@ -267,19 +284,20 @@ class SimpleDB {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(itemName, 'itemName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteAttributes',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['ItemName'] = itemName;
     attributes?.also((arg) => $request['Attributes'] = arg);
     expected?.also((arg) => $request['Expected'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteAttributes',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteAttributesRequest'],
+      shapes: shapes,
     );
   }
 
@@ -299,16 +317,17 @@ class SimpleDB {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDomain',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     await _protocol.send(
       $request,
+      action: 'DeleteDomain',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDomainRequest'],
+      shapes: shapes,
     );
   }
 
@@ -325,16 +344,17 @@ class SimpleDB {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $request = <String, dynamic>{
-      'Action': 'DomainMetadata',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DomainMetadata',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DomainMetadataRequest'],
+      shapes: shapes,
       resultWrapper: 'DomainMetadataResult',
     );
     return DomainMetadataResult.fromXml($result);
@@ -377,19 +397,20 @@ class SimpleDB {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(itemName, 'itemName');
-    final $request = <String, dynamic>{
-      'Action': 'GetAttributes',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['ItemName'] = itemName;
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     consistentRead?.also((arg) => $request['ConsistentRead'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetAttributes',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetAttributesResult',
     );
     return GetAttributesResult.fromXml($result);
@@ -418,17 +439,18 @@ class SimpleDB {
     int maxNumberOfDomains,
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListDomains',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     maxNumberOfDomains?.also((arg) => $request['MaxNumberOfDomains'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListDomains',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListDomainsRequest'],
+      shapes: shapes,
       resultWrapper: 'ListDomainsResult',
     );
     return ListDomainsResult.fromXml($result);
@@ -507,19 +529,20 @@ class SimpleDB {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(itemName, 'itemName');
-    final $request = <String, dynamic>{
-      'Action': 'PutAttributes',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['DomainName'] = domainName;
     $request['ItemName'] = itemName;
     expected?.also((arg) => $request['Expected'] = arg);
     await _protocol.send(
       $request,
+      action: 'PutAttributes',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutAttributesRequest'],
+      shapes: shapes,
     );
   }
 
@@ -566,18 +589,19 @@ class SimpleDB {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(selectExpression, 'selectExpression');
-    final $request = <String, dynamic>{
-      'Action': 'Select',
-      'Version': '2009-04-15',
-    };
+    final $request = <String, dynamic>{};
     $request['SelectExpression'] = selectExpression;
     consistentRead?.also((arg) => $request['ConsistentRead'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'Select',
+      version: '2009-04-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SelectRequest'],
+      shapes: shapes,
       resultWrapper: 'SelectResult',
     );
     return SelectResult.fromXml($result);
@@ -631,27 +655,43 @@ class AttributeDoesNotExist implements _s.AwsException {
 }
 
 ///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeletableAttribute {
   /// The name of the attribute.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the attribute.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   DeletableAttribute({
     @_s.required this.name,
     this.value,
   });
+  Map<String, dynamic> toJson() => _$DeletableAttributeToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeletableItem {
+  @_s.JsonKey(name: 'Name')
   final String name;
+  @_s.JsonKey(name: 'Attributes')
   final List<DeletableAttribute> attributes;
 
   DeletableItem({
     @_s.required this.name,
     this.attributes,
   });
+  Map<String, dynamic> toJson() => _$DeletableItemToJson(this);
 }
 
 class DomainMetadataResult {
@@ -963,15 +1003,23 @@ class NumberSubmittedItemsExceeded implements _s.AwsException {
 }
 
 ///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReplaceableAttribute {
   /// The name of the replaceable attribute.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the replaceable attribute.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   /// A flag specifying whether or not to replace the attribute/value pair or to
   /// add a new attribute/value pair. The default setting is <code>false</code>.
+  @_s.JsonKey(name: 'Replace')
   final bool replace;
 
   ReplaceableAttribute({
@@ -979,20 +1027,29 @@ class ReplaceableAttribute {
     @_s.required this.value,
     this.replace,
   });
+  Map<String, dynamic> toJson() => _$ReplaceableAttributeToJson(this);
 }
 
 ///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReplaceableItem {
   /// The list of attributes for a replaceable item.
+  @_s.JsonKey(name: 'Attributes')
   final List<ReplaceableAttribute> attributes;
 
   /// The name of the replaceable item.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   ReplaceableItem({
     @_s.required this.attributes,
     @_s.required this.name,
   });
+  Map<String, dynamic> toJson() => _$ReplaceableItemToJson(this);
 }
 
 /// A timeout occurred when attempting to query the specified domain with
@@ -1049,19 +1106,27 @@ class TooManyRequestedAttributes implements _s.AwsException {
 /// condition is specified for a request, the data will only be updated if the
 /// condition is satisfied. For example, if an attribute with a specific name
 /// and value exists, or if a specific attribute doesn't exist.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class UpdateCondition {
   /// A value specifying whether or not the specified attribute must exist with
   /// the specified value in order for the update condition to be satisfied.
   /// Specify <code>true</code> if the attribute must exist for the update
   /// condition to be satisfied. Specify <code>false</code> if the attribute
   /// should not exist in order for the update condition to be satisfied.
+  @_s.JsonKey(name: 'Exists')
   final bool exists;
 
   /// The name of the attribute involved in the condition.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of an attribute. This value can only be specified when the
   /// <code>Exists</code> parameter is equal to <code>true</code>.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   UpdateCondition({
@@ -1069,6 +1134,7 @@ class UpdateCondition {
     this.name,
     this.value,
   });
+  Map<String, dynamic> toJson() => _$UpdateConditionToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

@@ -10431,7 +10431,10 @@ class AlgorithmSummary {
   final AlgorithmStatus algorithmStatus;
 
   /// A timestamp that shows when the algorithm was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A brief description of the algorithm.
@@ -10880,7 +10883,10 @@ class AppDetails {
   final AppType appType;
 
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The domain ID.
@@ -11124,12 +11130,17 @@ class AutoMLCandidate {
   final List<AutoMLCandidateStep> candidateSteps;
 
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The objective status.
@@ -11137,7 +11148,10 @@ class AutoMLCandidate {
   final ObjectiveStatus objectiveStatus;
 
   /// The end time.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The failure reason.
@@ -11467,16 +11481,24 @@ class AutoMLJobSummary {
   final AutoMLJobStatus autoMLJobStatus;
 
   /// When the job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// When the job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The end time.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The failure reason.
@@ -12064,12 +12086,17 @@ class CodeRepositorySummary {
   final String codeRepositoryName;
 
   /// The date and time that the Git repository was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The date and time that the Git repository was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Configuration details for the Git repository, including the URL where it is
@@ -12211,22 +12238,31 @@ class CompilationJobSummary {
   final TargetDevice compilationTargetDevice;
 
   /// The time when the model compilation job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The time when the model compilation job completed.
   @_s.JsonKey(
-      name: 'CompilationEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompilationEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime compilationEndTime;
 
   /// The time when the model compilation job started.
   @_s.JsonKey(
-      name: 'CompilationStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompilationStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime compilationStartTime;
 
   /// The time when the model compilation job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   CompilationJobSummary({
@@ -13201,7 +13237,9 @@ class DebugRuleConfiguration {
 class DebugRuleEvaluationStatus {
   /// Timestamp when the rule evaluation status was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the rule configuration
@@ -13342,7 +13380,9 @@ class DeployedImage {
   /// The date and time when the image path for the model resolved to the
   /// <code>ResolvedImage</code>
   @_s.JsonKey(
-      name: 'ResolutionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ResolutionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime resolutionTime;
 
   /// The specific digest path of the image hosted in this
@@ -13386,7 +13426,10 @@ class DescribeAlgorithmOutput {
   final AlgorithmStatusDetails algorithmStatusDetails;
 
   /// A timestamp specifying when the algorithm was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Details about training jobs run by this algorithm.
@@ -13450,7 +13493,10 @@ class DescribeAppResponse {
   final AppType appType;
 
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The domain ID.
@@ -13464,15 +13510,15 @@ class DescribeAppResponse {
   /// The timestamp of the last health check.
   @_s.JsonKey(
       name: 'LastHealthCheckTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastHealthCheckTimestamp;
 
   /// The timestamp of the last user's activity.
   @_s.JsonKey(
       name: 'LastUserActivityTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUserActivityTimestamp;
 
   /// The instance type and quantity.
@@ -13527,7 +13573,10 @@ class DescribeAutoMLJobResponse {
   final AutoMLJobStatus autoMLJobStatus;
 
   /// Returns the job's creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Returns the job's input data config.
@@ -13536,7 +13585,9 @@ class DescribeAutoMLJobResponse {
 
   /// Returns the job's last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Returns the job's output data config.
@@ -13566,7 +13617,10 @@ class DescribeAutoMLJobResponse {
   final AutoMLCandidate bestCandidate;
 
   /// Returns the job's end time.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Returns the job's FailureReason.
@@ -13626,12 +13680,17 @@ class DescribeCodeRepositoryOutput {
   final String codeRepositoryName;
 
   /// The date and time that the repository was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The date and time that the repository was last changed.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Configuration details about the repository, including the URL where the
@@ -13672,7 +13731,10 @@ class DescribeCompilationJobResponse {
   final CompilationJobStatus compilationJobStatus;
 
   /// The time that the model compilation job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// If a model compilation job failed, the reason it failed.
@@ -13687,7 +13749,9 @@ class DescribeCompilationJobResponse {
 
   /// The time that the status of the model compilation job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Information about the location in Amazon S3 that has been configured for
@@ -13715,7 +13779,9 @@ class DescribeCompilationJobResponse {
   /// finished uploading. For a failed job, this is when Amazon SageMaker detected
   /// that the job failed.
   @_s.JsonKey(
-      name: 'CompilationEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompilationEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime compilationEndTime;
 
   /// The time when the model compilation job started the
@@ -13727,7 +13793,9 @@ class DescribeCompilationJobResponse {
   /// because it takes time to download the compilation job, which depends on the
   /// size of the compilation job container.
   @_s.JsonKey(
-      name: 'CompilationStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompilationStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime compilationStartTime;
 
   DescribeCompilationJobResponse({
@@ -13760,7 +13828,10 @@ class DescribeDomainResponse {
   final AuthMode authMode;
 
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Settings which are applied to all UserProfile in this domain, if settings
@@ -13794,7 +13865,9 @@ class DescribeDomainResponse {
 
   /// The last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The SSO managed application instance ID.
@@ -13845,7 +13918,10 @@ class DescribeDomainResponse {
     createToJson: false)
 class DescribeEndpointConfigOutput {
   /// A timestamp that shows when the endpoint configuration was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the endpoint configuration.
@@ -13887,7 +13963,10 @@ class DescribeEndpointConfigOutput {
     createToJson: false)
 class DescribeEndpointOutput {
   /// A timestamp that shows when the endpoint was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the endpoint.
@@ -13950,7 +14029,9 @@ class DescribeEndpointOutput {
 
   /// A timestamp that shows when the endpoint was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
   @_s.JsonKey(name: 'DataCaptureConfig')
   final DataCaptureConfigSummary dataCaptureConfig;
@@ -13991,7 +14072,10 @@ class DescribeExperimentResponse {
   final UserContext createdBy;
 
   /// When the experiment was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The description of the experiment.
@@ -14017,7 +14101,9 @@ class DescribeExperimentResponse {
 
   /// When the experiment was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The ARN of the source and, optionally, the type.
@@ -14046,7 +14132,10 @@ class DescribeExperimentResponse {
     createToJson: false)
 class DescribeFlowDefinitionResponse {
   /// The timestamp when the flow definition was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the flow defintion.
@@ -14112,7 +14201,10 @@ class DescribeFlowDefinitionResponse {
     createToJson: false)
 class DescribeHumanTaskUiResponse {
   /// The timestamp when the human task user interface was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the human task user interface.
@@ -14142,7 +14234,10 @@ class DescribeHumanTaskUiResponse {
     createToJson: false)
 class DescribeHyperParameterTuningJobResponse {
   /// The date and time that the tuning job started.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the tuning job.
@@ -14186,13 +14281,15 @@ class DescribeHyperParameterTuningJobResponse {
   /// The date and time that the tuning job ended.
   @_s.JsonKey(
       name: 'HyperParameterTuningEndTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime hyperParameterTuningEndTime;
 
   /// The date and time that the status of the tuning job was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// If the hyperparameter tuning job is an warm start tuning job with a
@@ -14248,7 +14345,10 @@ class DescribeHyperParameterTuningJobResponse {
     createToJson: false)
 class DescribeLabelingJobResponse {
   /// The date and time that the labeling job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Configuration information required for human workers to complete a labeling
@@ -14286,7 +14386,9 @@ class DescribeLabelingJobResponse {
 
   /// The date and time that the labeling job was last updated.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The location of the job's output data and the AWS Key Management Service key
@@ -14403,7 +14505,10 @@ class DescribeLabelingJobResponse {
     createToJson: false)
 class DescribeModelOutput {
   /// A timestamp that shows when the model was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the IAM role that you specified for the
@@ -14462,7 +14567,10 @@ class DescribeModelOutput {
     createToJson: false)
 class DescribeModelPackageOutput {
   /// A timestamp specifying when the model package was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the model package.
@@ -14526,12 +14634,17 @@ class DescribeModelPackageOutput {
     createToJson: false)
 class DescribeMonitoringScheduleResponse {
   /// The time at which the monitoring job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The time at which the monitoring job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -14587,12 +14700,17 @@ class DescribeMonitoringScheduleResponse {
     createToJson: false)
 class DescribeNotebookInstanceLifecycleConfigOutput {
   /// A timestamp that tells when the lifecycle configuration was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A timestamp that tells when the lifecycle configuration was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the lifecycle configuration.
@@ -14653,7 +14771,10 @@ class DescribeNotebookInstanceOutput {
 
   /// A timestamp. Use this parameter to return the time when the notebook
   /// instance was created
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Git repository associated with the notebook instance as its default code
@@ -14695,7 +14816,9 @@ class DescribeNotebookInstanceOutput {
   /// A timestamp. Use this parameter to retrieve the time when the notebook
   /// instance was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The network interface IDs that Amazon SageMaker created at the time of
@@ -14792,7 +14915,10 @@ class DescribeProcessingJobResponse {
   final AppSpecification appSpecification;
 
   /// The time at which the processing job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the processing job.
@@ -14838,7 +14964,9 @@ class DescribeProcessingJobResponse {
 
   /// The time at which the processing job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The ARN of a monitoring schedule for an endpoint associated with this
@@ -14852,7 +14980,9 @@ class DescribeProcessingJobResponse {
 
   /// The time at which the processing job completed.
   @_s.JsonKey(
-      name: 'ProcessingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ProcessingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime processingEndTime;
 
   /// The inputs for a processing job.
@@ -14865,7 +14995,9 @@ class DescribeProcessingJobResponse {
 
   /// The time at which the processing job started.
   @_s.JsonKey(
-      name: 'ProcessingStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ProcessingStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime processingStartTime;
 
   /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
@@ -14938,7 +15070,10 @@ class DescribeTrainingJobResponse {
   final AlgorithmSpecification algorithmSpecification;
 
   /// A timestamp that indicates when the training job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Information about the Amazon S3 location that is configured for storing
@@ -15150,7 +15285,9 @@ class DescribeTrainingJobResponse {
   /// A timestamp that indicates when the status of the training job was last
   /// modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The S3 path where model artifacts that you configured when creating the job
@@ -15176,7 +15313,9 @@ class DescribeTrainingJobResponse {
   /// stopped jobs, this is the time after model artifacts are uploaded. For
   /// failed jobs, this is the time when Amazon SageMaker detects a job failure.
   @_s.JsonKey(
-      name: 'TrainingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
   /// Indicates the time when the training job starts on training instances. You
@@ -15185,7 +15324,9 @@ class DescribeTrainingJobResponse {
   /// later than this time. The difference is due to the time it takes to download
   /// the training data and to the size of the training container.
   @_s.JsonKey(
-      name: 'TrainingStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingStartTime;
 
   /// The training time in seconds.
@@ -15251,7 +15392,10 @@ class DescribeTrainingJobResponse {
     createToJson: false)
 class DescribeTransformJobResponse {
   /// A timestamp that shows when the transform Job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the model used in the transform job.
@@ -15330,7 +15474,9 @@ class DescribeTransformJobResponse {
   /// failed. You are billed for the time interval between this time and the value
   /// of <code>TransformStartTime</code>.
   @_s.JsonKey(
-      name: 'TransformEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TransformEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime transformEndTime;
 
   /// Identifies the Amazon S3 location where you want Amazon SageMaker to save
@@ -15342,7 +15488,9 @@ class DescribeTransformJobResponse {
   /// the time interval between this time and the value of
   /// <code>TransformEndTime</code>.
   @_s.JsonKey(
-      name: 'TransformStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TransformStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime transformStartTime;
 
   DescribeTransformJobResponse({
@@ -15381,7 +15529,10 @@ class DescribeTrialComponentResponse {
   final UserContext createdBy;
 
   /// When the component was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the component as displayed. If <code>DisplayName</code> isn't
@@ -15390,7 +15541,10 @@ class DescribeTrialComponentResponse {
   final String displayName;
 
   /// When the component ended.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input artifacts of the component.
@@ -15403,7 +15557,9 @@ class DescribeTrialComponentResponse {
 
   /// When the component was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The metrics for the component.
@@ -15423,7 +15579,10 @@ class DescribeTrialComponentResponse {
   final TrialComponentSource source;
 
   /// When the component started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the component. States include:
@@ -15482,7 +15641,10 @@ class DescribeTrialResponse {
   final UserContext createdBy;
 
   /// When the trial was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the trial as displayed. If <code>DisplayName</code> isn't
@@ -15500,7 +15662,9 @@ class DescribeTrialResponse {
 
   /// When the trial was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
@@ -15537,7 +15701,10 @@ class DescribeTrialResponse {
     createToJson: false)
 class DescribeUserProfileResponse {
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The domain ID.
@@ -15554,7 +15721,9 @@ class DescribeUserProfileResponse {
 
   /// The last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The SSO user identifier.
@@ -15738,7 +15907,10 @@ class DisassociateTrialComponentResponse {
     createToJson: false)
 class DomainDetails {
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The domain's Amazon Resource Name (ARN).
@@ -15755,7 +15927,9 @@ class DomainDetails {
 
   /// The last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The status.
@@ -15817,7 +15991,10 @@ extension on EndpointConfigSortKey {
     createToJson: false)
 class EndpointConfigSummary {
   /// A timestamp that shows when the endpoint configuration was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the endpoint configuration.
@@ -15952,7 +16129,10 @@ extension on EndpointStatus {
     createToJson: false)
 class EndpointSummary {
   /// A timestamp that shows when the endpoint was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the endpoint.
@@ -16013,7 +16193,9 @@ class EndpointSummary {
 
   /// A timestamp that shows when the endpoint was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   EndpointSummary({
@@ -16077,7 +16259,10 @@ class Experiment {
   final UserContext createdBy;
 
   /// When the experiment was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The description of the experiment.
@@ -16101,7 +16286,9 @@ class Experiment {
 
   /// When the experiment was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
   @_s.JsonKey(name: 'Source')
   final ExperimentSource source;
@@ -16190,7 +16377,10 @@ class ExperimentSource {
     createToJson: false)
 class ExperimentSummary {
   /// When the experiment was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the experiment as displayed. If <code>DisplayName</code> isn't
@@ -16210,7 +16400,9 @@ class ExperimentSummary {
 
   /// When the experiment was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   ExperimentSummary({
@@ -16489,7 +16681,10 @@ enum FlowDefinitionStatus {
     createToJson: false)
 class FlowDefinitionSummary {
   /// The timestamp when SageMaker created the flow definition.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the flow definition.
@@ -17292,7 +17487,10 @@ class HumanTaskConfig {
     createToJson: false)
 class HumanTaskUiSummary {
   /// A timestamp when SageMaker created the human task user interface.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the human task user interface.
@@ -17565,7 +17763,10 @@ class HyperParameterTrainingJobDefinition {
     createToJson: false)
 class HyperParameterTrainingJobSummary {
   /// The date and time that the training job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the training job.
@@ -17625,7 +17826,9 @@ class HyperParameterTrainingJobSummary {
   /// stopped jobs, this is the time after model artifacts are uploaded. For
   /// failed jobs, this is the time when Amazon SageMaker detects a job failure.
   @_s.JsonKey(
-      name: 'TrainingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
   /// The training job definition name.
@@ -17634,7 +17837,9 @@ class HyperParameterTrainingJobSummary {
 
   /// The date and time that the training job started.
   @_s.JsonKey(
-      name: 'TrainingStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingStartTime;
 
   /// The HyperParameter tuning job that launched the training job.
@@ -17836,7 +18041,10 @@ enum HyperParameterTuningJobStrategyType {
     createToJson: false)
 class HyperParameterTuningJobSummary {
   /// The date and time that the tuning job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the tuning job.
@@ -17871,13 +18079,15 @@ class HyperParameterTuningJobSummary {
   /// The date and time that the tuning job ended.
   @_s.JsonKey(
       name: 'HyperParameterTuningEndTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime hyperParameterTuningEndTime;
 
   /// The date and time that the tuning job was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The <a>ResourceLimits</a> object that specifies the maximum number of
@@ -18667,7 +18877,10 @@ class LabelingJobDataSource {
     createToJson: false)
 class LabelingJobForWorkteamSummary {
   /// The date and time that the labeling job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A unique identifier for a labeling job. You can use this to refer to a
@@ -18923,7 +19136,10 @@ class LabelingJobStoppingConditions {
     createToJson: false)
 class LabelingJobSummary {
   /// The date and time that the job was created (timestamp).
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Counts showing the progress of the labeling job.
@@ -18945,7 +19161,9 @@ class LabelingJobSummary {
 
   /// The date and time that the job was last modified (timestamp).
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of a Lambda function. The function is run
@@ -19843,7 +20061,10 @@ class MetricData {
   final String metricName;
 
   /// The date and time that the algorithm emitted the metric.
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   /// The value of the metric.
@@ -20057,7 +20278,10 @@ class ModelPackageStatusItem {
     createToJson: false)
 class ModelPackageSummary {
   /// A timestamp that shows when the model package was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the model package.
@@ -20174,7 +20398,10 @@ extension on ModelSortKey {
     createToJson: false)
 class ModelSummary {
   /// A timestamp that indicates when the model was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the model.
@@ -20358,12 +20585,17 @@ extension on MonitoringExecutionSortKey {
     createToJson: false)
 class MonitoringExecutionSummary {
   /// The time at which the monitoring job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A timestamp that indicates the last time the monitoring job was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The status of the monitoring job.
@@ -20375,7 +20607,10 @@ class MonitoringExecutionSummary {
   final String monitoringScheduleName;
 
   /// The time the monitoring job was scheduled.
-  @_s.JsonKey(name: 'ScheduledTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ScheduledTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime scheduledTime;
 
   /// The name of teh endpoint used to run the monitoring job.
@@ -20649,12 +20884,17 @@ extension on MonitoringScheduleSortKey {
     createToJson: false)
 class MonitoringScheduleSummary {
   /// The creation time of the monitoring schedule.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The last time the monitoring schedule was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -20870,12 +21110,17 @@ class NotebookInstanceLifecycleConfigSummary {
   final String notebookInstanceLifecycleConfigName;
 
   /// A timestamp that tells when the lifecycle configuration was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A timestamp that tells when the lifecycle configuration was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   NotebookInstanceLifecycleConfigSummary({
@@ -21036,7 +21281,10 @@ class NotebookInstanceSummary {
   final List<String> additionalCodeRepositories;
 
   /// A timestamp that shows when the notebook instance was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Git repository associated with the notebook instance as its default code
@@ -21057,7 +21305,9 @@ class NotebookInstanceSummary {
 
   /// A timestamp that shows when the notebook instance was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of a notebook instance lifecycle configuration associated with this
@@ -21631,7 +21881,10 @@ class ProcessingJob {
   final String autoMLJobArn;
 
   /// The time the processing job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Sets the environment variables in the Docker container.
@@ -21652,7 +21905,9 @@ class ProcessingJob {
 
   /// The time the processing job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The ARN of a monitoring schedule for an endpoint associated with this
@@ -21664,7 +21919,9 @@ class ProcessingJob {
 
   /// The time that the processing job ended.
   @_s.JsonKey(
-      name: 'ProcessingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ProcessingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime processingEndTime;
 
   /// For each input, data is downloaded from S3 into the processing container
@@ -21691,7 +21948,9 @@ class ProcessingJob {
 
   /// The time that the processing job started.
   @_s.JsonKey(
-      name: 'ProcessingStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ProcessingStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime processingStartTime;
 
   /// The ARN of the role used to create the processing job.
@@ -21778,7 +22037,10 @@ extension on ProcessingJobStatus {
     createToJson: false)
 class ProcessingJobSummary {
   /// The time at which the processing job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the processing job..
@@ -21805,12 +22067,16 @@ class ProcessingJobSummary {
 
   /// A timestamp that indicates the last time the processing job was modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The time at which the processing job completed.
   @_s.JsonKey(
-      name: 'ProcessingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ProcessingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime processingEndTime;
 
   ProcessingJobSummary({
@@ -23418,7 +23684,10 @@ enum SecondaryStatus {
 class SecondaryStatusTransition {
   /// A timestamp that shows when the training job transitioned to the current
   /// secondary status state.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Contains a secondary status information from a training job.
@@ -23487,7 +23756,10 @@ class SecondaryStatusTransition {
   /// A timestamp that shows when the training job transitioned out of this
   /// secondary status state into another secondary status state or when the
   /// training job has ended.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// A detailed description of the progress within a secondary status.
@@ -24147,7 +24419,10 @@ class TrainingJob {
   final CheckpointConfig checkpointConfig;
 
   /// A timestamp that indicates when the training job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
   @_s.JsonKey(name: 'DebugHookConfig')
   final DebugHookConfig debugHookConfig;
@@ -24209,7 +24484,9 @@ class TrainingJob {
   /// A timestamp that indicates when the status of the training job was last
   /// modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Information about the Amazon S3 location that is configured for storing
@@ -24331,7 +24608,9 @@ class TrainingJob {
   /// stopped jobs, this is the time after model artifacts are uploaded. For
   /// failed jobs, this is the time when Amazon SageMaker detects a job failure.
   @_s.JsonKey(
-      name: 'TrainingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
   /// The Amazon Resource Name (ARN) of the training job.
@@ -24375,7 +24654,9 @@ class TrainingJob {
   /// later than this time. The difference is due to the time it takes to download
   /// the training data and to the size of the training container.
   @_s.JsonKey(
-      name: 'TrainingStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingStartTime;
 
   /// The training time in seconds.
@@ -24615,7 +24896,10 @@ class TrainingJobStatusCounters {
     createToJson: false)
 class TrainingJobSummary {
   /// A timestamp that shows when the training job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the training job.
@@ -24632,14 +24916,18 @@ class TrainingJobSummary {
 
   /// Timestamp when the training job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// A timestamp that shows when the training job ended. This field is set only
   /// if the training job has one of the terminal statuses
   /// (<code>Completed</code>, <code>Failed</code>, or <code>Stopped</code>).
   @_s.JsonKey(
-      name: 'TrainingEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
   TrainingJobSummary({
@@ -24966,7 +25254,10 @@ extension on TransformJobStatus {
     createToJson: false)
 class TransformJobSummary {
   /// A timestamp that shows when the transform Job was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the transform job.
@@ -24987,7 +25278,9 @@ class TransformJobSummary {
 
   /// Indicates when the transform job was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// Indicates when the transform job ends on compute instances. For successful
@@ -24995,7 +25288,9 @@ class TransformJobSummary {
   /// uploaded. For failed jobs, this is when Amazon SageMaker detected that the
   /// job failed.
   @_s.JsonKey(
-      name: 'TransformEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TransformEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime transformEndTime;
 
   TransformJobSummary({
@@ -25240,7 +25535,10 @@ class Trial {
   final UserContext createdBy;
 
   /// When the trial was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the trial as displayed. If <code>DisplayName</code> isn't
@@ -25256,7 +25554,9 @@ class Trial {
 
   /// Who last modified the trial.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
   @_s.JsonKey(name: 'Source')
   final TrialSource source;
@@ -25306,7 +25606,10 @@ class TrialComponent {
   final UserContext createdBy;
 
   /// When the component was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the component as displayed. If <code>DisplayName</code> isn't
@@ -25315,7 +25618,10 @@ class TrialComponent {
   final String displayName;
 
   /// When the component ended.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input artifacts of the component.
@@ -25326,7 +25632,9 @@ class TrialComponent {
 
   /// When the component was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The metrics for the component.
@@ -25356,7 +25664,10 @@ class TrialComponent {
   final TrialComponentSourceDetail sourceDetail;
 
   /// When the component started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
   @_s.JsonKey(name: 'Status')
   final TrialComponentStatus status;
@@ -25474,7 +25785,10 @@ class TrialComponentMetricSummary {
   final double stdDev;
 
   /// When the metric was last updated.
-  @_s.JsonKey(name: 'TimeStamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'TimeStamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timeStamp;
 
   TrialComponentMetricSummary({
@@ -25546,7 +25860,10 @@ class TrialComponentSimpleSummary {
   final UserContext createdBy;
 
   /// When the component was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the trial component.
@@ -25662,7 +25979,10 @@ class TrialComponentSummary {
   final UserContext createdBy;
 
   /// When the component was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the component as displayed. If <code>DisplayName</code> isn't
@@ -25671,7 +25991,10 @@ class TrialComponentSummary {
   final String displayName;
 
   /// When the component ended.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Who last modified the component.
@@ -25680,11 +26003,16 @@ class TrialComponentSummary {
 
   /// When the component was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// When the component started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the component. States include:
@@ -25763,7 +26091,10 @@ class TrialSource {
     createToJson: false)
 class TrialSummary {
   /// When the trial was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the trial as displayed. If <code>DisplayName</code> isn't
@@ -25773,7 +26104,9 @@ class TrialSummary {
 
   /// When the trial was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the trial.
@@ -26165,7 +26498,10 @@ class UserContext {
     createToJson: false)
 class UserProfileDetails {
   /// The creation time.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The domain ID.
@@ -26174,7 +26510,9 @@ class UserProfileDetails {
 
   /// The last modified time.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The status.
@@ -26383,7 +26721,9 @@ class Workforce {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">CIDRs</a>)
   /// to a private workforce's allow list.
   @_s.JsonKey(
-      name: 'LastUpdatedDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedDate;
 
   /// A list of one to four IP address ranges (<a
@@ -26426,12 +26766,17 @@ class Workteam {
   final String workteamName;
 
   /// The date and time that the work team was created (timestamp).
-  @_s.JsonKey(name: 'CreateDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreateDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createDate;
 
   /// The date and time that the work team was last updated (timestamp).
   @_s.JsonKey(
-      name: 'LastUpdatedDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedDate;
 
   /// Configures SNS notifications of available or expiring work items for work

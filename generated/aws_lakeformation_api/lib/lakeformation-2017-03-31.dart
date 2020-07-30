@@ -1377,7 +1377,10 @@ class Resource {
     createToJson: false)
 class ResourceInfo {
   /// The date and time the resource was last modified.
-  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The Amazon Resource Name (ARN) of the resource.

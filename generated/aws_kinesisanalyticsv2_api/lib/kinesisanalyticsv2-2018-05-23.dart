@@ -2438,12 +2438,16 @@ class ApplicationDetail {
 
   /// The current timestamp when the application was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// The current timestamp when the application was last updated.
   @_s.JsonKey(
-      name: 'LastUpdateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 
   /// Specifies the IAM role that the application uses to access external
@@ -5434,8 +5438,8 @@ class SnapshotDetails {
   /// The timestamp of the application snapshot.
   @_s.JsonKey(
       name: 'SnapshotCreationTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime snapshotCreationTimestamp;
 
   SnapshotDetails({

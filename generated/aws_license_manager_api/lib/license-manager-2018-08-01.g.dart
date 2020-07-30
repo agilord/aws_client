@@ -9,7 +9,9 @@ part of 'license-manager-2018-08-01.dart';
 AutomatedDiscoveryInformation _$AutomatedDiscoveryInformationFromJson(
     Map<String, dynamic> json) {
   return AutomatedDiscoveryInformation(
-    lastRunTime: unixFromJson(json['LastRunTime']),
+    lastRunTime: json['LastRunTime'] == null
+        ? null
+        : DateTime.parse(json['LastRunTime'] as String),
   );
 }
 
@@ -215,7 +217,9 @@ LicenseConfiguration _$LicenseConfigurationFromJson(Map<String, dynamic> json) {
 LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationAssociation(
-    associationTime: unixFromJson(json['AssociationTime']),
+    associationTime: json['AssociationTime'] == null
+        ? null
+        : DateTime.parse(json['AssociationTime'] as String),
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
     resourceType:
@@ -226,7 +230,9 @@ LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
 LicenseConfigurationUsage _$LicenseConfigurationUsageFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationUsage(
-    associationTime: unixFromJson(json['AssociationTime']),
+    associationTime: json['AssociationTime'] == null
+        ? null
+        : DateTime.parse(json['AssociationTime'] as String),
     consumedLicenses: json['ConsumedLicenses'] as int,
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
@@ -240,7 +246,9 @@ LicenseOperationFailure _$LicenseOperationFailureFromJson(
     Map<String, dynamic> json) {
   return LicenseOperationFailure(
     errorMessage: json['ErrorMessage'] as String,
-    failureTime: unixFromJson(json['FailureTime']),
+    failureTime: json['FailureTime'] == null
+        ? null
+        : DateTime.parse(json['FailureTime'] as String),
     metadataList: (json['MetadataList'] as List)
         ?.map((e) =>
             e == null ? null : Metadata.fromJson(e as Map<String, dynamic>))

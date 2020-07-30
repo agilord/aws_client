@@ -78,7 +78,9 @@ ApplicationInfo _$ApplicationInfoFromJson(Map<String, dynamic> json) {
     applicationName: json['applicationName'] as String,
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
-    createTime: unixFromJson(json['createTime']),
+    createTime: json['createTime'] == null
+        ? null
+        : DateTime.parse(json['createTime'] as String),
     gitHubAccountName: json['gitHubAccountName'] as String,
     linkedToGitHub: json['linkedToGitHub'] as bool,
   );
@@ -349,7 +351,9 @@ DeploymentConfigInfo _$DeploymentConfigInfoFromJson(Map<String, dynamic> json) {
   return DeploymentConfigInfo(
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
-    createTime: unixFromJson(json['createTime']),
+    createTime: json['createTime'] == null
+        ? null
+        : DateTime.parse(json['createTime'] as String),
     deploymentConfigId: json['deploymentConfigId'] as String,
     deploymentConfigName: json['deploymentConfigName'] as String,
     minimumHealthyHosts: json['minimumHealthyHosts'] == null
@@ -453,10 +457,14 @@ DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
             : BlueGreenDeploymentConfiguration.fromJson(
                 json['blueGreenDeploymentConfiguration']
                     as Map<String, dynamic>),
-    completeTime: unixFromJson(json['completeTime']),
+    completeTime: json['completeTime'] == null
+        ? null
+        : DateTime.parse(json['completeTime'] as String),
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
-    createTime: unixFromJson(json['createTime']),
+    createTime: json['createTime'] == null
+        ? null
+        : DateTime.parse(json['createTime'] as String),
     creator: _$enumDecodeNullable(_$DeploymentCreatorEnumMap, json['creator']),
     deploymentConfigName: json['deploymentConfigName'] as String,
     deploymentGroupName: json['deploymentGroupName'] as String,
@@ -497,7 +505,9 @@ DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
     rollbackInfo: json['rollbackInfo'] == null
         ? null
         : RollbackInfo.fromJson(json['rollbackInfo'] as Map<String, dynamic>),
-    startTime: unixFromJson(json['startTime']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
     status: _$enumDecodeNullable(_$DeploymentStatusEnumMap, json['status']),
     targetInstances: json['targetInstances'] == null
         ? null
@@ -729,7 +739,9 @@ Map<String, dynamic> _$ECSServiceToJson(ECSService instance) {
 ECSTarget _$ECSTargetFromJson(Map<String, dynamic> json) {
   return ECSTarget(
     deploymentId: json['deploymentId'] as String,
-    lastUpdatedAt: unixFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt: json['lastUpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['lastUpdatedAt'] as String),
     lifecycleEvents: (json['lifecycleEvents'] as List)
         ?.map((e) => e == null
             ? null
@@ -845,9 +857,15 @@ GenericRevisionInfo _$GenericRevisionInfoFromJson(Map<String, dynamic> json) {
     deploymentGroups:
         (json['deploymentGroups'] as List)?.map((e) => e as String)?.toList(),
     description: json['description'] as String,
-    firstUsedTime: unixFromJson(json['firstUsedTime']),
-    lastUsedTime: unixFromJson(json['lastUsedTime']),
-    registerTime: unixFromJson(json['registerTime']),
+    firstUsedTime: json['firstUsedTime'] == null
+        ? null
+        : DateTime.parse(json['firstUsedTime'] as String),
+    lastUsedTime: json['lastUsedTime'] == null
+        ? null
+        : DateTime.parse(json['lastUsedTime'] as String),
+    registerTime: json['registerTime'] == null
+        ? null
+        : DateTime.parse(json['registerTime'] as String),
   );
 }
 
@@ -982,12 +1000,16 @@ const _$GreenFleetProvisioningActionEnumMap = {
 
 InstanceInfo _$InstanceInfoFromJson(Map<String, dynamic> json) {
   return InstanceInfo(
-    deregisterTime: unixFromJson(json['deregisterTime']),
+    deregisterTime: json['deregisterTime'] == null
+        ? null
+        : DateTime.parse(json['deregisterTime'] as String),
     iamSessionArn: json['iamSessionArn'] as String,
     iamUserArn: json['iamUserArn'] as String,
     instanceArn: json['instanceArn'] as String,
     instanceName: json['instanceName'] as String,
-    registerTime: unixFromJson(json['registerTime']),
+    registerTime: json['registerTime'] == null
+        ? null
+        : DateTime.parse(json['registerTime'] as String),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -1000,7 +1022,9 @@ InstanceSummary _$InstanceSummaryFromJson(Map<String, dynamic> json) {
     instanceId: json['instanceId'] as String,
     instanceType:
         _$enumDecodeNullable(_$InstanceTypeEnumMap, json['instanceType']),
-    lastUpdatedAt: unixFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt: json['lastUpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['lastUpdatedAt'] as String),
     lifecycleEvents: (json['lifecycleEvents'] as List)
         ?.map((e) => e == null
             ? null
@@ -1030,7 +1054,9 @@ InstanceTarget _$InstanceTargetFromJson(Map<String, dynamic> json) {
     deploymentId: json['deploymentId'] as String,
     instanceLabel:
         _$enumDecodeNullable(_$TargetLabelEnumMap, json['instanceLabel']),
-    lastUpdatedAt: unixFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt: json['lastUpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['lastUpdatedAt'] as String),
     lifecycleEvents: (json['lifecycleEvents'] as List)
         ?.map((e) => e == null
             ? null
@@ -1059,7 +1085,9 @@ LambdaTarget _$LambdaTargetFromJson(Map<String, dynamic> json) {
         ? null
         : LambdaFunctionInfo.fromJson(
             json['lambdaFunctionInfo'] as Map<String, dynamic>),
-    lastUpdatedAt: unixFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt: json['lastUpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['lastUpdatedAt'] as String),
     lifecycleEvents: (json['lifecycleEvents'] as List)
         ?.map((e) => e == null
             ? null
@@ -1073,9 +1101,13 @@ LambdaTarget _$LambdaTargetFromJson(Map<String, dynamic> json) {
 
 LastDeploymentInfo _$LastDeploymentInfoFromJson(Map<String, dynamic> json) {
   return LastDeploymentInfo(
-    createTime: unixFromJson(json['createTime']),
+    createTime: json['createTime'] == null
+        ? null
+        : DateTime.parse(json['createTime'] as String),
     deploymentId: json['deploymentId'] as String,
-    endTime: unixFromJson(json['endTime']),
+    endTime: json['endTime'] == null
+        ? null
+        : DateTime.parse(json['endTime'] as String),
     status: _$enumDecodeNullable(_$DeploymentStatusEnumMap, json['status']),
   );
 }
@@ -1085,9 +1117,13 @@ LifecycleEvent _$LifecycleEventFromJson(Map<String, dynamic> json) {
     diagnostics: json['diagnostics'] == null
         ? null
         : Diagnostics.fromJson(json['diagnostics'] as Map<String, dynamic>),
-    endTime: unixFromJson(json['endTime']),
+    endTime: json['endTime'] == null
+        ? null
+        : DateTime.parse(json['endTime'] as String),
     lifecycleEventName: json['lifecycleEventName'] as String,
-    startTime: unixFromJson(json['startTime']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
     status: _$enumDecodeNullable(_$LifecycleEventStatusEnumMap, json['status']),
   );
 }
@@ -1621,8 +1657,8 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
     }
   }
 
-  writeNotNull('end', unixToJson(instance.end));
-  writeNotNull('start', unixToJson(instance.start));
+  writeNotNull('end', instance.end?.toIso8601String());
+  writeNotNull('start', instance.start?.toIso8601String());
   return val;
 }
 

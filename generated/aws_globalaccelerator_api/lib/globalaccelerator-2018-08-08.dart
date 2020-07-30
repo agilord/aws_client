@@ -1645,7 +1645,10 @@ class Accelerator {
   final String acceleratorArn;
 
   /// The date and time that the accelerator was created.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The Domain Name System (DNS) name that Global Accelerator creates that
@@ -1682,7 +1685,9 @@ class Accelerator {
 
   /// The date and time that the accelerator was last modified.
   @_s.JsonKey(
-      name: 'LastModifiedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastModifiedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
   /// The name of the accelerator. The name must contain only alphanumeric
@@ -1886,7 +1891,10 @@ class ByoipCidrEvent {
 
   /// A timestamp when you make a status change for an IP address range that you
   /// bring to AWS Global Accelerator through bring your own IP address (BYOIP).
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   ByoipCidrEvent({

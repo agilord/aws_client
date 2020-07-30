@@ -18,18 +18,30 @@ ApproveAssignmentResponse _$ApproveAssignmentResponseFromJson(
 
 Assignment _$AssignmentFromJson(Map<String, dynamic> json) {
   return Assignment(
-    acceptTime: unixFromJson(json['AcceptTime']),
+    acceptTime: json['AcceptTime'] == null
+        ? null
+        : DateTime.parse(json['AcceptTime'] as String),
     answer: json['Answer'] as String,
-    approvalTime: unixFromJson(json['ApprovalTime']),
+    approvalTime: json['ApprovalTime'] == null
+        ? null
+        : DateTime.parse(json['ApprovalTime'] as String),
     assignmentId: json['AssignmentId'] as String,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    autoApprovalTime: unixFromJson(json['AutoApprovalTime']),
-    deadline: unixFromJson(json['Deadline']),
+    autoApprovalTime: json['AutoApprovalTime'] == null
+        ? null
+        : DateTime.parse(json['AutoApprovalTime'] as String),
+    deadline: json['Deadline'] == null
+        ? null
+        : DateTime.parse(json['Deadline'] as String),
     hITId: json['HITId'] as String,
-    rejectionTime: unixFromJson(json['RejectionTime']),
+    rejectionTime: json['RejectionTime'] == null
+        ? null
+        : DateTime.parse(json['RejectionTime'] as String),
     requesterFeedback: json['RequesterFeedback'] as String,
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     workerId: json['WorkerId'] as String,
   );
 }
@@ -82,7 +94,9 @@ BonusPayment _$BonusPaymentFromJson(Map<String, dynamic> json) {
   return BonusPayment(
     assignmentId: json['AssignmentId'] as String,
     bonusAmount: json['BonusAmount'] as String,
-    grantTime: unixFromJson(json['GrantTime']),
+    grantTime: json['GrantTime'] == null
+        ? null
+        : DateTime.parse(json['GrantTime'] as String),
     reason: json['Reason'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -211,9 +225,13 @@ HIT _$HITFromJson(Map<String, dynamic> json) {
   return HIT(
     assignmentDurationInSeconds: json['AssignmentDurationInSeconds'] as int,
     autoApprovalDelayInSeconds: json['AutoApprovalDelayInSeconds'] as int,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     description: json['Description'] as String,
-    expiration: unixFromJson(json['Expiration']),
+    expiration: json['Expiration'] == null
+        ? null
+        : DateTime.parse(json['Expiration'] as String),
     hITGroupId: json['HITGroupId'] as String,
     hITId: json['HITId'] as String,
     hITLayoutId: json['HITLayoutId'] as String,
@@ -520,7 +538,9 @@ Map<String, dynamic> _$PolicyParameterToJson(PolicyParameter instance) {
 
 Qualification _$QualificationFromJson(Map<String, dynamic> json) {
   return Qualification(
-    grantTime: unixFromJson(json['GrantTime']),
+    grantTime: json['GrantTime'] == null
+        ? null
+        : DateTime.parse(json['GrantTime'] as String),
     integerValue: json['IntegerValue'] as int,
     localeValue: json['LocaleValue'] == null
         ? null
@@ -541,7 +561,9 @@ QualificationRequest _$QualificationRequestFromJson(Map<String, dynamic> json) {
     answer: json['Answer'] as String,
     qualificationRequestId: json['QualificationRequestId'] as String,
     qualificationTypeId: json['QualificationTypeId'] as String,
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     test: json['Test'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -609,7 +631,9 @@ QualificationType _$QualificationTypeFromJson(Map<String, dynamic> json) {
     answerKey: json['AnswerKey'] as String,
     autoGranted: json['AutoGranted'] as bool,
     autoGrantedValue: json['AutoGrantedValue'] as int,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     description: json['Description'] as String,
     isRequestable: json['IsRequestable'] as bool,
     keywords: json['Keywords'] as String,
@@ -649,7 +673,9 @@ ReviewActionDetail _$ReviewActionDetailFromJson(Map<String, dynamic> json) {
   return ReviewActionDetail(
     actionId: json['ActionId'] as String,
     actionName: json['ActionName'] as String,
-    completeTime: unixFromJson(json['CompleteTime']),
+    completeTime: json['CompleteTime'] == null
+        ? null
+        : DateTime.parse(json['CompleteTime'] as String),
     errorCode: json['ErrorCode'] as String,
     result: json['Result'] as String,
     status: _$enumDecodeNullable(_$ReviewActionStatusEnumMap, json['Status']),

@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'cloudsearch-2011-02-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'cloudsearch-2011-02-01.g.dart';
 
 /// You use the configuration service to create, configure, and manage search
 /// domains. Configuration service requests are submitted using the AWS Query
@@ -19,17 +30,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// GET or POST with a query parameter named Action.
 class CloudSearch {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   CloudSearch({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'cloudsearch',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Creates a new search domain.
   ///
@@ -53,16 +67,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateDomain',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDomain',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDomainRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateDomainResult',
     );
     return CreateDomainResponse.fromXml($result);
@@ -97,17 +112,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(indexField, 'indexField');
-    final $request = <String, dynamic>{
-      'Action': 'DefineIndexField',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['IndexField'] = indexField;
     final $result = await _protocol.send(
       $request,
+      action: 'DefineIndexField',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DefineIndexFieldRequest'],
+      shapes: shapes,
       resultWrapper: 'DefineIndexFieldResult',
     );
     return DefineIndexFieldResponse.fromXml($result);
@@ -142,17 +158,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(rankExpression, 'rankExpression');
-    final $request = <String, dynamic>{
-      'Action': 'DefineRankExpression',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['RankExpression'] = rankExpression;
     final $result = await _protocol.send(
       $request,
+      action: 'DefineRankExpression',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DefineRankExpressionRequest'],
+      shapes: shapes,
       resultWrapper: 'DefineRankExpressionResult',
     );
     return DefineRankExpressionResponse.fromXml($result);
@@ -179,16 +196,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDomain',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDomain',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDomainRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteDomainResult',
     );
     return DeleteDomainResponse.fromXml($result);
@@ -232,17 +250,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteIndexField',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['IndexFieldName'] = indexFieldName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteIndexField',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteIndexFieldRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteIndexFieldResult',
     );
     return DeleteIndexFieldResponse.fromXml($result);
@@ -289,17 +308,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteRankExpression',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['RankName'] = rankName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteRankExpression',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteRankExpressionRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteRankExpressionResult',
     );
     return DeleteRankExpressionResponse.fromXml($result);
@@ -339,16 +359,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAvailabilityOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAvailabilityOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAvailabilityOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeAvailabilityOptionsResult',
     );
     return DescribeAvailabilityOptionsResponse.fromXml($result);
@@ -376,16 +397,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDefaultSearchField',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDefaultSearchField',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDefaultSearchFieldRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeDefaultSearchFieldResult',
     );
     return DescribeDefaultSearchFieldResponse.fromXml($result);
@@ -402,16 +424,17 @@ class CloudSearch {
   Future<DescribeDomainsResponse> describeDomains({
     List<String> domainNames,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDomains',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     domainNames?.also((arg) => $request['DomainNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDomains',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDomainsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeDomainsResult',
     );
     return DescribeDomainsResponse.fromXml($result);
@@ -445,17 +468,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeIndexFields',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     fieldNames?.also((arg) => $request['FieldNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeIndexFields',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeIndexFieldsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeIndexFieldsResult',
     );
     return DescribeIndexFieldsResponse.fromXml($result);
@@ -490,17 +514,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeRankExpressions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     rankNames?.also((arg) => $request['RankNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeRankExpressions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeRankExpressionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeRankExpressionsResult',
     );
     return DescribeRankExpressionsResponse.fromXml($result);
@@ -529,16 +554,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeServiceAccessPolicies',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeServiceAccessPolicies',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeServiceAccessPoliciesRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeServiceAccessPoliciesResult',
     );
     return DescribeServiceAccessPoliciesResponse.fromXml($result);
@@ -566,16 +592,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStemmingOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStemmingOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStemmingOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeStemmingOptionsResult',
     );
     return DescribeStemmingOptionsResponse.fromXml($result);
@@ -603,16 +630,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStopwordOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStopwordOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStopwordOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeStopwordOptionsResult',
     );
     return DescribeStopwordOptionsResponse.fromXml($result);
@@ -640,16 +668,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeSynonymOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeSynonymOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeSynonymOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeSynonymOptionsResult',
     );
     return DescribeSynonymOptionsResponse.fromXml($result);
@@ -681,16 +710,17 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'IndexDocuments',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'IndexDocuments',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['IndexDocumentsRequest'],
+      shapes: shapes,
       resultWrapper: 'IndexDocumentsResult',
     );
     return IndexDocumentsResponse.fromXml($result);
@@ -736,17 +766,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(multiAZ, 'multiAZ');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateAvailabilityOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['MultiAZ'] = multiAZ;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateAvailabilityOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateAvailabilityOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateAvailabilityOptionsResult',
     );
     return UpdateAvailabilityOptionsResponse.fromXml($result);
@@ -788,17 +819,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateDefaultSearchField',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DefaultSearchField'] = defaultSearchField;
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateDefaultSearchField',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateDefaultSearchFieldRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateDefaultSearchFieldResult',
     );
     return UpdateDefaultSearchFieldResponse.fromXml($result);
@@ -831,17 +863,18 @@ class CloudSearch {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateServiceAccessPolicies',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AccessPolicies'] = accessPolicies;
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateServiceAccessPolicies',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateServiceAccessPoliciesRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateServiceAccessPoliciesResult',
     );
     return UpdateServiceAccessPoliciesResponse.fromXml($result);
@@ -875,17 +908,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stems, 'stems');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateStemmingOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Stems'] = stems;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateStemmingOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateStemmingOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateStemmingOptionsResult',
     );
     return UpdateStemmingOptionsResponse.fromXml($result);
@@ -919,17 +953,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stopwords, 'stopwords');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateStopwordOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Stopwords'] = stopwords;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateStopwordOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateStopwordOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateStopwordOptionsResult',
     );
     return UpdateStopwordOptionsResponse.fromXml($result);
@@ -964,17 +999,18 @@ class CloudSearch {
       isRequired: true,
     );
     ArgumentError.checkNotNull(synonyms, 'synonyms');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateSynonymOptions',
-      'Version': '2011-02-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Synonyms'] = synonyms;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateSynonymOptions',
+      version: '2011-02-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateSynonymOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateSynonymOptionsResult',
     );
     return UpdateSynonymOptionsResponse.fromXml($result);
@@ -1435,21 +1471,29 @@ class IndexDocumentsResponse {
 /// its data. The <code>IndexFieldType</code> indicates which of the options
 /// will be present. It is invalid to specify options for a type other than the
 /// <code>IndexFieldType</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class IndexField {
   /// The name of a field in the search index. Field names must begin with a
   /// letter and can contain the following characters: a-z (lowercase), 0-9, and _
   /// (underscore). Uppercase letters and hyphens are not allowed. The names
   /// "body", "docid", and "text_relevance" are reserved and cannot be specified
   /// as field or rank expression names.
+  @_s.JsonKey(name: 'IndexFieldName')
   final String indexFieldName;
 
   /// The type of field. Based on this type, exactly one of the
   /// <a>UIntOptions</a>, <a>LiteralOptions</a> or <a>TextOptions</a> must be
   /// present.
+  @_s.JsonKey(name: 'IndexFieldType')
   final IndexFieldType indexFieldType;
 
   /// Options for literal field. Present if <code>IndexFieldType</code> specifies
   /// the field is of type literal.
+  @_s.JsonKey(name: 'LiteralOptions')
   final LiteralOptions literalOptions;
 
   /// An optional list of source attributes that provide data for this index
@@ -1458,14 +1502,17 @@ class IndexField {
   /// attributes are specified, an optional data transformation can be applied to
   /// the source data when populating the index field. You can configure a maximum
   /// of 20 sources for an <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceAttributes')
   final List<SourceAttribute> sourceAttributes;
 
   /// Options for text field. Present if <code>IndexFieldType</code> specifies the
   /// field is of type text.
+  @_s.JsonKey(name: 'TextOptions')
   final TextOptions textOptions;
 
   /// Options for an unsigned integer field. Present if
   /// <code>IndexFieldType</code> specifies the field is of type unsigned integer.
+  @_s.JsonKey(name: 'UIntOptions')
   final UIntOptions uIntOptions;
 
   IndexField({
@@ -1497,6 +1544,8 @@ class IndexField {
           ?.let((e) => UIntOptions.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$IndexFieldToJson(this);
 }
 
 /// The value of an <code>IndexField</code> and its current status.
@@ -1522,8 +1571,11 @@ class IndexFieldStatus {
 
 /// The type of <code>IndexField</code>.
 enum IndexFieldType {
+  @_s.JsonValue('uint')
   uint,
+  @_s.JsonValue('literal')
   literal,
+  @_s.JsonValue('text')
   text,
 }
 
@@ -1574,18 +1626,27 @@ class LimitExceededException implements _s.AwsException {
 }
 
 /// Options that define a literal field in the search index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LiteralOptions {
   /// The default value for a literal field. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final String defaultValue;
 
   /// Specifies whether facets are enabled for this field. Default: False.
+  @_s.JsonKey(name: 'FacetEnabled')
   final bool facetEnabled;
 
   /// Specifies whether values of this field can be returned in search results and
   /// used for ranking. Default: False.
+  @_s.JsonKey(name: 'ResultEnabled')
   final bool resultEnabled;
 
   /// Specifies whether search is enabled for this field. Default: False.
+  @_s.JsonKey(name: 'SearchEnabled')
   final bool searchEnabled;
 
   LiteralOptions({
@@ -1602,10 +1663,17 @@ class LiteralOptions {
       searchEnabled: _s.extractXmlBoolValue(elem, 'SearchEnabled'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LiteralOptionsToJson(this);
 }
 
 /// A named expression that can be evaluated at search time and used for ranking
 /// or thresholding in a search query.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class NamedRankExpression {
   /// The expression to evaluate for ranking or thresholding while processing a
   /// search request. The <code>RankExpression</code> syntax is based on
@@ -1647,6 +1715,7 @@ class NamedRankExpression {
   ///
   /// For more information about using rank expressions to customize ranking, see
   /// the Amazon CloudSearch Developer Guide.
+  @_s.JsonKey(name: 'RankExpression')
   final String rankExpression;
 
   /// The name of a rank expression. Rank expression names must begin with a
@@ -1654,6 +1723,7 @@ class NamedRankExpression {
   /// (underscore). Uppercase letters and hyphens are not allowed. The names
   /// "body", "docid", and "text_relevance" are reserved and cannot be specified
   /// as field or rank expression names.
+  @_s.JsonKey(name: 'RankName')
   final String rankName;
 
   NamedRankExpression({
@@ -1666,12 +1736,17 @@ class NamedRankExpression {
       rankName: _s.extractXmlStringValue(elem, 'RankName'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$NamedRankExpressionToJson(this);
 }
 
 /// The state of processing a change to an option.
 enum OptionState {
+  @_s.JsonValue('RequiresIndexDocuments')
   requiresIndexDocuments,
+  @_s.JsonValue('Processing')
   processing,
+  @_s.JsonValue('Active')
   active,
 }
 
@@ -1794,21 +1869,30 @@ class ServiceEndpoint {
 /// transformation can be applied to the source data when populating the index
 /// field. By default, the value of the source attribute is copied to the index
 /// field.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceAttribute {
   /// Identifies the transformation to apply when copying data from a source
   /// attribute.
+  @_s.JsonKey(name: 'SourceDataFunction')
   final SourceDataFunction sourceDataFunction;
 
   /// Copies data from a source document attribute to an <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceDataCopy')
   final SourceData sourceDataCopy;
 
   /// Maps source document attribute values to new values when populating the
   /// <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceDataMap')
   final SourceDataMap sourceDataMap;
 
   /// Trims common title words from a source document attribute when populating an
   /// <code>IndexField</code>. This can be used to create an
   /// <code>IndexField</code> you can use for sorting.
+  @_s.JsonKey(name: 'SourceDataTrimTitle')
   final SourceDataTrimTitle sourceDataTrimTitle;
 
   SourceAttribute({
@@ -1833,17 +1917,26 @@ class SourceAttribute {
           ?.let((e) => SourceDataTrimTitle.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SourceAttributeToJson(this);
 }
 
 /// The source attribute name and an optional default value to use if a document
 /// doesn't have an attribute of that name.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceData {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final String defaultValue;
 
   SourceData({
@@ -1856,11 +1949,16 @@ class SourceData {
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SourceDataToJson(this);
 }
 
 enum SourceDataFunction {
+  @_s.JsonValue('Copy')
   copy,
+  @_s.JsonValue('TrimTitle')
   trimTitle,
+  @_s.JsonValue('Map')
   map,
 }
 
@@ -1880,16 +1978,24 @@ extension on String {
 
 /// Specifies how to map source attribute values to custom values when
 /// populating an <code>IndexField</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceDataMap {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// A map that translates source field values to custom values.
+  @_s.JsonKey(name: 'Cases')
   final Map<String, String> cases;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final String defaultValue;
 
   SourceDataMap({
@@ -1911,21 +2017,32 @@ class SourceDataMap {
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SourceDataMapToJson(this);
 }
 
 /// Specifies how to trim common words from the beginning of a field to enable
 /// title sorting by that field.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SourceDataTrimTitle {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
+  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final String defaultValue;
+  @_s.JsonKey(name: 'Language')
   final String language;
 
   /// The separator that follows the text to trim.
+  @_s.JsonKey(name: 'Separator')
   final String separator;
 
   SourceDataTrimTitle({
@@ -1942,6 +2059,8 @@ class SourceDataTrimTitle {
       separator: _s.extractXmlStringValue(elem, 'Separator'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SourceDataTrimTitleToJson(this);
 }
 
 /// The stemming options configured for this search domain and the current
@@ -2005,15 +2124,23 @@ class SynonymOptionsStatus {
 }
 
 /// Options that define a text field in the search index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class TextOptions {
   /// The default value for a text field. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final String defaultValue;
 
   /// Specifies whether facets are enabled for this field. Default: False.
+  @_s.JsonKey(name: 'FacetEnabled')
   final bool facetEnabled;
 
   /// Specifies whether values of this field can be returned in search results and
   /// used for ranking. Default: False.
+  @_s.JsonKey(name: 'ResultEnabled')
   final bool resultEnabled;
 
   /// The text processor to apply to this field. Optional. Possible values:
@@ -2023,6 +2150,7 @@ class TextOptions {
   /// field.</li>
   /// </ul>
   /// Default: none
+  @_s.JsonKey(name: 'TextProcessor')
   final String textProcessor;
 
   TextOptions({
@@ -2039,11 +2167,19 @@ class TextOptions {
       textProcessor: _s.extractXmlStringValue(elem, 'TextProcessor'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TextOptionsToJson(this);
 }
 
 /// Options that define a <code>uint</code> field in the search index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class UIntOptions {
   /// The default value for an unsigned integer field. Optional.
+  @_s.JsonKey(name: 'DefaultValue')
   final int defaultValue;
 
   UIntOptions({
@@ -2054,6 +2190,8 @@ class UIntOptions {
       defaultValue: _s.extractXmlIntValue(elem, 'DefaultValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$UIntOptionsToJson(this);
 }
 
 /// The result of a <code>UpdateAvailabilityOptions</code> request. Contains the

@@ -244,12 +244,16 @@ TerminologyProperties _$TerminologyPropertiesFromJson(
     Map<String, dynamic> json) {
   return TerminologyProperties(
     arn: json['Arn'] as String,
-    createdAt: unixFromJson(json['CreatedAt']),
+    createdAt: json['CreatedAt'] == null
+        ? null
+        : DateTime.parse(json['CreatedAt'] as String),
     description: json['Description'] as String,
     encryptionKey: json['EncryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
-    lastUpdatedAt: unixFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt: json['LastUpdatedAt'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedAt'] as String),
     name: json['Name'] as String,
     sizeBytes: json['SizeBytes'] as int,
     sourceLanguageCode: json['SourceLanguageCode'] as String,
@@ -272,8 +276,10 @@ Map<String, dynamic> _$TextTranslationJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmittedAfterTime', unixToJson(instance.submittedAfterTime));
-  writeNotNull('SubmittedBeforeTime', unixToJson(instance.submittedBeforeTime));
+  writeNotNull(
+      'SubmittedAfterTime', instance.submittedAfterTime?.toIso8601String());
+  writeNotNull(
+      'SubmittedBeforeTime', instance.submittedBeforeTime?.toIso8601String());
   return val;
 }
 
@@ -281,7 +287,9 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TextTranslationJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -298,7 +306,9 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     sourceLanguageCode: json['SourceLanguageCode'] as String,
-    submittedTime: unixFromJson(json['SubmittedTime']),
+    submittedTime: json['SubmittedTime'] == null
+        ? null
+        : DateTime.parse(json['SubmittedTime'] as String),
     targetLanguageCodes: (json['TargetLanguageCodes'] as List)
         ?.map((e) => e as String)
         ?.toList(),

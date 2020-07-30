@@ -412,7 +412,9 @@ Map<String, dynamic> _$ResourceToJson(Resource instance) {
 
 ResourceInfo _$ResourceInfoFromJson(Map<String, dynamic> json) {
   return ResourceInfo(
-    lastModified: unixFromJson(json['LastModified']),
+    lastModified: json['LastModified'] == null
+        ? null
+        : DateTime.parse(json['LastModified'] as String),
     resourceArn: json['ResourceArn'] as String,
     roleArn: json['RoleArn'] as String,
   );

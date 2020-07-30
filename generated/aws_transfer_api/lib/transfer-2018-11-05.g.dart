@@ -286,7 +286,9 @@ ListedUser _$ListedUserFromJson(Map<String, dynamic> json) {
 
 SshPublicKey _$SshPublicKeyFromJson(Map<String, dynamic> json) {
   return SshPublicKey(
-    dateImported: unixFromJson(json['DateImported']),
+    dateImported: json['DateImported'] == null
+        ? null
+        : DateTime.parse(json['DateImported'] as String),
     sshPublicKeyBody: json['SshPublicKeyBody'] as String,
     sshPublicKeyId: json['SshPublicKeyId'] as String,
   );

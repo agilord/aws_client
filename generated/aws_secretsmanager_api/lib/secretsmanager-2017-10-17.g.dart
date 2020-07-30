@@ -34,7 +34,9 @@ DeleteResourcePolicyResponse _$DeleteResourcePolicyResponseFromJson(
 DeleteSecretResponse _$DeleteSecretResponseFromJson(Map<String, dynamic> json) {
   return DeleteSecretResponse(
     arn: json['ARN'] as String,
-    deletionDate: unixFromJson(json['DeletionDate']),
+    deletionDate: json['DeletionDate'] == null
+        ? null
+        : DateTime.parse(json['DeletionDate'] as String),
     name: json['Name'] as String,
   );
 }
@@ -43,12 +45,20 @@ DescribeSecretResponse _$DescribeSecretResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSecretResponse(
     arn: json['ARN'] as String,
-    deletedDate: unixFromJson(json['DeletedDate']),
+    deletedDate: json['DeletedDate'] == null
+        ? null
+        : DateTime.parse(json['DeletedDate'] as String),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
-    lastAccessedDate: unixFromJson(json['LastAccessedDate']),
-    lastChangedDate: unixFromJson(json['LastChangedDate']),
-    lastRotatedDate: unixFromJson(json['LastRotatedDate']),
+    lastAccessedDate: json['LastAccessedDate'] == null
+        ? null
+        : DateTime.parse(json['LastAccessedDate'] as String),
+    lastChangedDate: json['LastChangedDate'] == null
+        ? null
+        : DateTime.parse(json['LastChangedDate'] as String),
+    lastRotatedDate: json['LastRotatedDate'] == null
+        ? null
+        : DateTime.parse(json['LastRotatedDate'] as String),
     name: json['Name'] as String,
     owningService: json['OwningService'] as String,
     rotationEnabled: json['RotationEnabled'] as bool,
@@ -87,7 +97,9 @@ GetSecretValueResponse _$GetSecretValueResponseFromJson(
     Map<String, dynamic> json) {
   return GetSecretValueResponse(
     arn: json['ARN'] as String,
-    createdDate: unixFromJson(json['CreatedDate']),
+    createdDate: json['CreatedDate'] == null
+        ? null
+        : DateTime.parse(json['CreatedDate'] as String),
     name: json['Name'] as String,
     secretBinary:
         const Uint8ListConverter().fromJson(json['SecretBinary'] as String),
@@ -180,12 +192,20 @@ Map<String, dynamic> _$RotationRulesTypeToJson(RotationRulesType instance) {
 SecretListEntry _$SecretListEntryFromJson(Map<String, dynamic> json) {
   return SecretListEntry(
     arn: json['ARN'] as String,
-    deletedDate: unixFromJson(json['DeletedDate']),
+    deletedDate: json['DeletedDate'] == null
+        ? null
+        : DateTime.parse(json['DeletedDate'] as String),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
-    lastAccessedDate: unixFromJson(json['LastAccessedDate']),
-    lastChangedDate: unixFromJson(json['LastChangedDate']),
-    lastRotatedDate: unixFromJson(json['LastRotatedDate']),
+    lastAccessedDate: json['LastAccessedDate'] == null
+        ? null
+        : DateTime.parse(json['LastAccessedDate'] as String),
+    lastChangedDate: json['LastChangedDate'] == null
+        ? null
+        : DateTime.parse(json['LastChangedDate'] as String),
+    lastRotatedDate: json['LastRotatedDate'] == null
+        ? null
+        : DateTime.parse(json['LastRotatedDate'] as String),
     name: json['Name'] as String,
     owningService: json['OwningService'] as String,
     rotationEnabled: json['RotationEnabled'] as bool,
@@ -207,8 +227,12 @@ SecretListEntry _$SecretListEntryFromJson(Map<String, dynamic> json) {
 SecretVersionsListEntry _$SecretVersionsListEntryFromJson(
     Map<String, dynamic> json) {
   return SecretVersionsListEntry(
-    createdDate: unixFromJson(json['CreatedDate']),
-    lastAccessedDate: unixFromJson(json['LastAccessedDate']),
+    createdDate: json['CreatedDate'] == null
+        ? null
+        : DateTime.parse(json['CreatedDate'] as String),
+    lastAccessedDate: json['LastAccessedDate'] == null
+        ? null
+        : DateTime.parse(json['LastAccessedDate'] as String),
     versionId: json['VersionId'] as String,
     versionStages:
         (json['VersionStages'] as List)?.map((e) => e as String)?.toList(),

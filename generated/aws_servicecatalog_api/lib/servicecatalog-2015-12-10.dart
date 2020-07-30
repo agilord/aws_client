@@ -9394,7 +9394,10 @@ class PortfolioDetail {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The description of the portfolio.
@@ -9552,7 +9555,10 @@ class ProductViewAggregationValue {
     createToJson: false)
 class ProductViewDetail {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The ARN of the product.
@@ -9734,7 +9740,10 @@ class ProvisionedProductAttribute {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The identifier of the provisioned product.
@@ -9857,7 +9866,10 @@ class ProvisionedProductDetail {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The identifier of the provisioned product.
@@ -9956,7 +9968,10 @@ class ProvisionedProductDetail {
     createToJson: false)
 class ProvisionedProductPlanDetails {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// Passed to CloudFormation. The SNS topic ARNs to which to publish
@@ -10016,7 +10031,10 @@ class ProvisionedProductPlanDetails {
   final List<Tag> tags;
 
   /// The time when the plan was last updated.
-  @_s.JsonKey(name: 'UpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedTime;
 
   ProvisionedProductPlanDetails({
@@ -10140,7 +10158,10 @@ enum ProvisionedProductViewFilterBy {
     createToJson: false)
 class ProvisioningArtifact {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10184,7 +10205,10 @@ class ProvisioningArtifactDetail {
   final bool active;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10408,7 +10432,10 @@ enum ProvisioningArtifactPropertyName {
     createToJson: false)
 class ProvisioningArtifactSummary {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10618,7 +10645,10 @@ class ProvisioningPreferences {
     createToJson: false)
 class RecordDetail {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The path identifier.
@@ -10701,7 +10731,10 @@ class RecordDetail {
   final RecordStatus status;
 
   /// The time when the record was last updated.
-  @_s.JsonKey(name: 'UpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'UpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedTime;
 
   RecordDetail({
@@ -10947,7 +10980,10 @@ class ResourceDetail {
   final String arn;
 
   /// The creation time of the resource.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The description of the resource.
