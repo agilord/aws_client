@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'autoscaling-2011-01-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'autoscaling-2011-01-01.g.dart';
 
 /// Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2
 /// instances based on user-defined scaling policies, scheduled actions, and
@@ -19,17 +30,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// and Elastic Load Balancing.
 class AutoScaling {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   AutoScaling({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'autoscaling',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Attaches one or more EC2 instances to the specified Auto Scaling group.
   ///
@@ -74,17 +88,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'AttachInstances',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
     await _protocol.send(
       $request,
+      action: 'AttachInstances',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AttachInstancesQuery'],
+      shapes: shapes,
     );
   }
 
@@ -130,17 +145,18 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
-    final $request = <String, dynamic>{
-      'Action': 'AttachLoadBalancerTargetGroups',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TargetGroupARNs'] = targetGroupARNs;
     await _protocol.send(
       $request,
+      action: 'AttachLoadBalancerTargetGroups',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AttachLoadBalancerTargetGroupsType'],
+      shapes: shapes,
       resultWrapper: 'AttachLoadBalancerTargetGroupsResult',
     );
   }
@@ -187,17 +203,18 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
-    final $request = <String, dynamic>{
-      'Action': 'AttachLoadBalancers',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LoadBalancerNames'] = loadBalancerNames;
     await _protocol.send(
       $request,
+      action: 'AttachLoadBalancers',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AttachLoadBalancersType'],
+      shapes: shapes,
       resultWrapper: 'AttachLoadBalancersResult',
     );
   }
@@ -232,17 +249,18 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(scheduledActionNames, 'scheduledActionNames');
-    final $request = <String, dynamic>{
-      'Action': 'BatchDeleteScheduledAction',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionNames'] = scheduledActionNames;
     final $result = await _protocol.send(
       $request,
+      action: 'BatchDeleteScheduledAction',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchDeleteScheduledActionType'],
+      shapes: shapes,
       resultWrapper: 'BatchDeleteScheduledActionResult',
     );
     return BatchDeleteScheduledActionAnswer.fromXml($result);
@@ -283,17 +301,18 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(
         scheduledUpdateGroupActions, 'scheduledUpdateGroupActions');
-    final $request = <String, dynamic>{
-      'Action': 'BatchPutScheduledUpdateGroupAction',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledUpdateGroupActions'] = scheduledUpdateGroupActions;
     final $result = await _protocol.send(
       $request,
+      action: 'BatchPutScheduledUpdateGroupAction',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['BatchPutScheduledUpdateGroupActionType'],
+      shapes: shapes,
       resultWrapper: 'BatchPutScheduledUpdateGroupActionResult',
     );
     return BatchPutScheduledUpdateGroupActionAnswer.fromXml($result);
@@ -405,10 +424,7 @@ class AutoScaling {
       36,
       36,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CompleteLifecycleAction',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleActionResult'] = lifecycleActionResult;
     $request['LifecycleHookName'] = lifecycleHookName;
@@ -416,9 +432,13 @@ class AutoScaling {
     lifecycleActionToken?.also((arg) => $request['LifecycleActionToken'] = arg);
     await _protocol.send(
       $request,
+      action: 'CompleteLifecycleAction',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CompleteLifecycleActionType'],
+      shapes: shapes,
       resultWrapper: 'CompleteLifecycleActionResult',
     );
   }
@@ -747,10 +767,7 @@ class AutoScaling {
       vPCZoneIdentifier,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateAutoScalingGroup',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['MaxSize'] = maxSize;
     $request['MinSize'] = minSize;
@@ -779,9 +796,13 @@ class AutoScaling {
     vPCZoneIdentifier?.also((arg) => $request['VPCZoneIdentifier'] = arg);
     await _protocol.send(
       $request,
+      action: 'CreateAutoScalingGroup',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateAutoScalingGroupType'],
+      shapes: shapes,
     );
   }
 
@@ -1147,10 +1168,7 @@ class AutoScaling {
       userData,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateLaunchConfiguration',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LaunchConfigurationName'] = launchConfigurationName;
     associatePublicIpAddress
         ?.also((arg) => $request['AssociatePublicIpAddress'] = arg);
@@ -1173,9 +1191,13 @@ class AutoScaling {
     userData?.also((arg) => $request['UserData'] = arg);
     await _protocol.send(
       $request,
+      action: 'CreateLaunchConfiguration',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateLaunchConfigurationType'],
+      shapes: shapes,
     );
   }
 
@@ -1201,16 +1223,17 @@ class AutoScaling {
     @_s.required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'CreateOrUpdateTags',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'CreateOrUpdateTags',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateOrUpdateTagsType'],
+      shapes: shapes,
     );
   }
 
@@ -1262,17 +1285,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteAutoScalingGroup',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     forceDelete?.also((arg) => $request['ForceDelete'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteAutoScalingGroup',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteAutoScalingGroupType'],
+      shapes: shapes,
     );
   }
 
@@ -1305,16 +1329,17 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteLaunchConfiguration',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['LaunchConfigurationName'] = launchConfigurationName;
     await _protocol.send(
       $request,
+      action: 'DeleteLaunchConfiguration',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['LaunchConfigurationNameType'],
+      shapes: shapes,
     );
   }
 
@@ -1363,17 +1388,18 @@ class AutoScaling {
       r'''[A-Za-z0-9\-_\/]+''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteLifecycleHook',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
     await _protocol.send(
       $request,
+      action: 'DeleteLifecycleHook',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteLifecycleHookType'],
+      shapes: shapes,
       resultWrapper: 'DeleteLifecycleHookResult',
     );
   }
@@ -1420,17 +1446,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteNotificationConfiguration',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TopicARN'] = topicARN;
     await _protocol.send(
       $request,
+      action: 'DeleteNotificationConfiguration',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteNotificationConfigurationType'],
+      shapes: shapes,
     );
   }
 
@@ -1481,17 +1508,18 @@ class AutoScaling {
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeletePolicy',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeletePolicy',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeletePolicyType'],
+      shapes: shapes,
     );
   }
 
@@ -1536,17 +1564,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteScheduledAction',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionName'] = scheduledActionName;
     await _protocol.send(
       $request,
+      action: 'DeleteScheduledAction',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteScheduledActionType'],
+      shapes: shapes,
     );
   }
 
@@ -1561,16 +1590,17 @@ class AutoScaling {
     @_s.required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteTags',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'DeleteTags',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteTagsType'],
+      shapes: shapes,
     );
   }
 
@@ -1584,12 +1614,11 @@ class AutoScaling {
   ///
   /// May throw [ResourceContentionFault].
   Future<DescribeAccountLimitsAnswer> describeAccountLimits() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAccountLimits',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAccountLimits',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1603,12 +1632,11 @@ class AutoScaling {
   ///
   /// May throw [ResourceContentionFault].
   Future<DescribeAdjustmentTypesAnswer> describeAdjustmentTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAdjustmentTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAdjustmentTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1647,19 +1675,20 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAutoScalingGroups',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     autoScalingGroupNames
         ?.also((arg) => $request['AutoScalingGroupNames'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAutoScalingGroups',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AutoScalingGroupNamesType'],
+      shapes: shapes,
       resultWrapper: 'DescribeAutoScalingGroupsResult',
     );
     return AutoScalingGroupsType.fromXml($result);
@@ -1692,18 +1721,19 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAutoScalingInstances',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAutoScalingInstances',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAutoScalingInstancesType'],
+      shapes: shapes,
       resultWrapper: 'DescribeAutoScalingInstancesResult',
     );
     return AutoScalingInstancesType.fromXml($result);
@@ -1715,12 +1745,11 @@ class AutoScaling {
   /// May throw [ResourceContentionFault].
   Future<DescribeAutoScalingNotificationTypesAnswer>
       describeAutoScalingNotificationTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAutoScalingNotificationTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAutoScalingNotificationTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1755,19 +1784,20 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLaunchConfigurations',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     launchConfigurationNames
         ?.also((arg) => $request['LaunchConfigurationNames'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLaunchConfigurations',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['LaunchConfigurationNamesType'],
+      shapes: shapes,
       resultWrapper: 'DescribeLaunchConfigurationsResult',
     );
     return LaunchConfigurationsType.fromXml($result);
@@ -1788,12 +1818,11 @@ class AutoScaling {
   ///
   /// May throw [ResourceContentionFault].
   Future<DescribeLifecycleHookTypesAnswer> describeLifecycleHookTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLifecycleHookTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLifecycleHookTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1830,17 +1859,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLifecycleHooks',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     lifecycleHookNames?.also((arg) => $request['LifecycleHookNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLifecycleHooks',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLifecycleHooksType'],
+      shapes: shapes,
       resultWrapper: 'DescribeLifecycleHooksResult',
     );
     return DescribeLifecycleHooksAnswer.fromXml($result);
@@ -1885,18 +1915,19 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancerTargetGroups',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancerTargetGroups',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoadBalancerTargetGroupsRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerTargetGroupsResult',
     );
     return DescribeLoadBalancerTargetGroupsResponse.fromXml($result);
@@ -1944,18 +1975,19 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeLoadBalancers',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeLoadBalancers',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeLoadBalancersRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancersResult',
     );
     return DescribeLoadBalancersResponse.fromXml($result);
@@ -1970,12 +2002,11 @@ class AutoScaling {
   /// May throw [ResourceContentionFault].
   Future<DescribeMetricCollectionTypesAnswer>
       describeMetricCollectionTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeMetricCollectionTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeMetricCollectionTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2011,19 +2042,20 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeNotificationConfigurations',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     autoScalingGroupNames
         ?.also((arg) => $request['AutoScalingGroupNames'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeNotificationConfigurations',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeNotificationConfigurationsType'],
+      shapes: shapes,
       resultWrapper: 'DescribeNotificationConfigurationsResult',
     );
     return DescribeNotificationConfigurationsAnswer.fromXml($result);
@@ -2078,10 +2110,7 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribePolicies',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -2089,9 +2118,13 @@ class AutoScaling {
     policyTypes?.also((arg) => $request['PolicyTypes'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribePolicies',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribePoliciesType'],
+      shapes: shapes,
       resultWrapper: 'DescribePoliciesResult',
     );
     return PoliciesType.fromXml($result);
@@ -2142,19 +2175,20 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeScalingActivities',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     activityIds?.also((arg) => $request['ActivityIds'] = arg);
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeScalingActivities',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeScalingActivitiesType'],
+      shapes: shapes,
       resultWrapper: 'DescribeScalingActivitiesResult',
     );
     return ActivitiesType.fromXml($result);
@@ -2165,12 +2199,11 @@ class AutoScaling {
   ///
   /// May throw [ResourceContentionFault].
   Future<ProcessesType> describeScalingProcessTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeScalingProcessTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeScalingProcessTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2233,10 +2266,7 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeScheduledActions',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -2245,9 +2275,13 @@ class AutoScaling {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeScheduledActions',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeScheduledActionsType'],
+      shapes: shapes,
       resultWrapper: 'DescribeScheduledActionsResult',
     );
     return ScheduledActionsType.fromXml($result);
@@ -2289,18 +2323,19 @@ class AutoScaling {
       nextToken,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTags',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTags',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTagsType'],
+      shapes: shapes,
       resultWrapper: 'DescribeTagsResult',
     );
     return TagsType.fromXml($result);
@@ -2316,12 +2351,11 @@ class AutoScaling {
   /// May throw [ResourceContentionFault].
   Future<DescribeTerminationPolicyTypesAnswer>
       describeTerminationPolicyTypes() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTerminationPolicyTypes',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTerminationPolicyTypes',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2380,18 +2414,19 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
-    final $request = <String, dynamic>{
-      'Action': 'DetachInstances',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DetachInstances',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetachInstancesQuery'],
+      shapes: shapes,
       resultWrapper: 'DetachInstancesResult',
     );
     return DetachInstancesAnswer.fromXml($result);
@@ -2426,17 +2461,18 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
-    final $request = <String, dynamic>{
-      'Action': 'DetachLoadBalancerTargetGroups',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TargetGroupARNs'] = targetGroupARNs;
     await _protocol.send(
       $request,
+      action: 'DetachLoadBalancerTargetGroups',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetachLoadBalancerTargetGroupsType'],
+      shapes: shapes,
       resultWrapper: 'DetachLoadBalancerTargetGroupsResult',
     );
   }
@@ -2479,17 +2515,18 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
-    final $request = <String, dynamic>{
-      'Action': 'DetachLoadBalancers',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LoadBalancerNames'] = loadBalancerNames;
     await _protocol.send(
       $request,
+      action: 'DetachLoadBalancers',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetachLoadBalancersType'],
+      shapes: shapes,
       resultWrapper: 'DetachLoadBalancersResult',
     );
   }
@@ -2549,17 +2586,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DisableMetricsCollection',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     metrics?.also((arg) => $request['Metrics'] = arg);
     await _protocol.send(
       $request,
+      action: 'DisableMetricsCollection',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DisableMetricsCollectionQuery'],
+      shapes: shapes,
     );
   }
 
@@ -2641,18 +2679,19 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'EnableMetricsCollection',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['Granularity'] = granularity;
     metrics?.also((arg) => $request['Metrics'] = arg);
     await _protocol.send(
       $request,
+      action: 'EnableMetricsCollection',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['EnableMetricsCollectionQuery'],
+      shapes: shapes,
     );
   }
 
@@ -2704,18 +2743,19 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
-    final $request = <String, dynamic>{
-      'Action': 'EnterStandby',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'EnterStandby',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['EnterStandbyQuery'],
+      shapes: shapes,
       resultWrapper: 'EnterStandbyResult',
     );
     return EnterStandbyAnswer.fromXml($result);
@@ -2793,10 +2833,7 @@ class AutoScaling {
       autoScalingGroupName,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'ExecutePolicy',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     breachThreshold?.also((arg) => $request['BreachThreshold'] = arg);
@@ -2804,9 +2841,13 @@ class AutoScaling {
     metricValue?.also((arg) => $request['MetricValue'] = arg);
     await _protocol.send(
       $request,
+      action: 'ExecutePolicy',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ExecutePolicyType'],
+      shapes: shapes,
     );
   }
 
@@ -2845,17 +2886,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ExitStandby',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ExitStandby',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ExitStandbyQuery'],
+      shapes: shapes,
       resultWrapper: 'ExitStandbyResult',
     );
     return ExitStandbyAnswer.fromXml($result);
@@ -3041,10 +3083,7 @@ class AutoScaling {
       roleARN,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'PutLifecycleHook',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
     defaultResult?.also((arg) => $request['DefaultResult'] = arg);
@@ -3056,9 +3095,13 @@ class AutoScaling {
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     await _protocol.send(
       $request,
+      action: 'PutLifecycleHook',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutLifecycleHookType'],
+      shapes: shapes,
       resultWrapper: 'PutLifecycleHookResult',
     );
   }
@@ -3123,18 +3166,19 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'PutNotificationConfiguration',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['NotificationTypes'] = notificationTypes;
     $request['TopicARN'] = topicARN;
     await _protocol.send(
       $request,
+      action: 'PutNotificationConfiguration',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutNotificationConfigurationType'],
+      shapes: shapes,
     );
   }
 
@@ -3332,10 +3376,7 @@ class AutoScaling {
       policyType,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'PutScalingPolicy',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['PolicyName'] = policyName;
     adjustmentType?.also((arg) => $request['AdjustmentType'] = arg);
@@ -3355,9 +3396,13 @@ class AutoScaling {
         ?.also((arg) => $request['TargetTrackingConfiguration'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'PutScalingPolicy',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutScalingPolicyType'],
+      shapes: shapes,
       resultWrapper: 'PutScalingPolicyResult',
     );
     return PolicyARNType.fromXml($result);
@@ -3470,10 +3515,7 @@ class AutoScaling {
       recurrence,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'PutScheduledUpdateGroupAction',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionName'] = scheduledActionName;
     desiredCapacity?.also((arg) => $request['DesiredCapacity'] = arg);
@@ -3485,9 +3527,13 @@ class AutoScaling {
     time?.also((arg) => $request['Time'] = arg);
     await _protocol.send(
       $request,
+      action: 'PutScheduledUpdateGroupAction',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutScheduledUpdateGroupActionType'],
+      shapes: shapes,
     );
   }
 
@@ -3591,19 +3637,20 @@ class AutoScaling {
       36,
       36,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RecordLifecycleActionHeartbeat',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
     instanceId?.also((arg) => $request['InstanceId'] = arg);
     lifecycleActionToken?.also((arg) => $request['LifecycleActionToken'] = arg);
     await _protocol.send(
       $request,
+      action: 'RecordLifecycleActionHeartbeat',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RecordLifecycleActionHeartbeatType'],
+      shapes: shapes,
       resultWrapper: 'RecordLifecycleActionHeartbeatResult',
     );
   }
@@ -3670,17 +3717,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ResumeProcesses',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     scalingProcesses?.also((arg) => $request['ScalingProcesses'] = arg);
     await _protocol.send(
       $request,
+      action: 'ResumeProcesses',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ScalingProcessQuery'],
+      shapes: shapes,
     );
   }
 
@@ -3726,18 +3774,19 @@ class AutoScaling {
       isRequired: true,
     );
     ArgumentError.checkNotNull(desiredCapacity, 'desiredCapacity');
-    final $request = <String, dynamic>{
-      'Action': 'SetDesiredCapacity',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['DesiredCapacity'] = desiredCapacity;
     honorCooldown?.also((arg) => $request['HonorCooldown'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetDesiredCapacity',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetDesiredCapacityType'],
+      shapes: shapes,
     );
   }
 
@@ -3800,19 +3849,20 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SetInstanceHealth',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['HealthStatus'] = healthStatus;
     $request['InstanceId'] = instanceId;
     shouldRespectGracePeriod
         ?.also((arg) => $request['ShouldRespectGracePeriod'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetInstanceHealth',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetInstanceHealthQuery'],
+      shapes: shapes,
     );
   }
 
@@ -3856,18 +3906,19 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     ArgumentError.checkNotNull(protectedFromScaleIn, 'protectedFromScaleIn');
-    final $request = <String, dynamic>{
-      'Action': 'SetInstanceProtection',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['InstanceIds'] = instanceIds;
     $request['ProtectedFromScaleIn'] = protectedFromScaleIn;
     await _protocol.send(
       $request,
+      action: 'SetInstanceProtection',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetInstanceProtectionQuery'],
+      shapes: shapes,
       resultWrapper: 'SetInstanceProtectionResult',
     );
   }
@@ -3940,17 +3991,18 @@ class AutoScaling {
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SuspendProcesses',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     scalingProcesses?.also((arg) => $request['ScalingProcesses'] = arg);
     await _protocol.send(
       $request,
+      action: 'SuspendProcesses',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ScalingProcessQuery'],
+      shapes: shapes,
     );
   }
 
@@ -4001,17 +4053,18 @@ class AutoScaling {
     );
     ArgumentError.checkNotNull(
         shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
-    final $request = <String, dynamic>{
-      'Action': 'TerminateInstanceInAutoScalingGroup',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['InstanceId'] = instanceId;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
     final $result = await _protocol.send(
       $request,
+      action: 'TerminateInstanceInAutoScalingGroup',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['TerminateInstanceInAutoScalingGroupType'],
+      shapes: shapes,
       resultWrapper: 'TerminateInstanceInAutoScalingGroupResult',
     );
     return ActivityType.fromXml($result);
@@ -4283,10 +4336,7 @@ class AutoScaling {
       vPCZoneIdentifier,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateAutoScalingGroup',
-      'Version': '2011-01-01',
-    };
+    final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
     defaultCooldown?.also((arg) => $request['DefaultCooldown'] = arg);
@@ -4309,9 +4359,13 @@ class AutoScaling {
     vPCZoneIdentifier?.also((arg) => $request['VPCZoneIdentifier'] = arg);
     await _protocol.send(
       $request,
+      action: 'UpdateAutoScalingGroup',
+      version: '2011-01-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateAutoScalingGroupType'],
+      shapes: shapes,
     );
   }
 }
@@ -4823,15 +4877,22 @@ class BatchPutScheduledUpdateGroupActionAnswer {
 }
 
 /// Describes a block device mapping.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class BlockDeviceMapping {
   /// The device name exposed to the EC2 instance (for example,
   /// <code>/dev/sdh</code> or <code>xvdh</code>). For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device
   /// Naming on Linux Instances</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
+  @_s.JsonKey(name: 'DeviceName')
   final String deviceName;
 
   /// The information about the Amazon EBS volume.
+  @_s.JsonKey(name: 'Ebs')
   final Ebs ebs;
 
   /// Suppresses a device mapping.
@@ -4839,9 +4900,11 @@ class BlockDeviceMapping {
   /// If this parameter is true for the root device, the instance might fail the
   /// EC2 health check. In that case, Amazon EC2 Auto Scaling launches a
   /// replacement instance.
+  @_s.JsonKey(name: 'NoDevice')
   final bool noDevice;
 
   /// The name of the virtual device (for example, <code>ephemeral0</code>).
+  @_s.JsonKey(name: 'VirtualName')
   final String virtualName;
 
   BlockDeviceMapping({
@@ -4858,6 +4921,8 @@ class BlockDeviceMapping {
       virtualName: _s.extractXmlStringValue(elem, 'VirtualName'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$BlockDeviceMappingToJson(this);
 }
 
 class CompleteLifecycleActionAnswer {
@@ -4893,23 +4958,33 @@ class CompleteLifecycleActionAnswer {
 /// For more information about CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CustomizedMetricSpecification {
   /// The name of the metric.
+  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// The namespace of the metric.
+  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The statistic of the metric.
+  @_s.JsonKey(name: 'Statistic')
   final MetricStatistic statistic;
 
   /// The dimensions of the metric.
   ///
   /// Conditional: If you published your metric with dimensions, you must specify
   /// the same dimensions in your scaling policy.
+  @_s.JsonKey(name: 'Dimensions')
   final List<MetricDimension> dimensions;
 
   /// The unit of the metric.
+  @_s.JsonKey(name: 'Unit')
   final String unit;
 
   CustomizedMetricSpecification({
@@ -4932,6 +5007,8 @@ class CustomizedMetricSpecification {
       unit: _s.extractXmlStringValue(elem, 'Unit'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$CustomizedMetricSpecificationToJson(this);
 }
 
 class DeleteLifecycleHookAnswer {
@@ -5212,9 +5289,15 @@ class DetachLoadBalancersResultType {
 
 /// Describes an Amazon EBS volume. Used in combination with
 /// <a>BlockDeviceMapping</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Ebs {
   /// Indicates whether the volume is deleted on instance termination. For Amazon
   /// EC2 Auto Scaling, the default value is <code>true</code>.
+  @_s.JsonKey(name: 'DeleteOnTermination')
   final bool deleteOnTermination;
 
   /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can
@@ -5247,6 +5330,7 @@ class Ebs {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/key-policy-requirements-EBS-encryption.html">Required
   /// CMK Key Policy for Use with Encrypted Volumes</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
+  @_s.JsonKey(name: 'Encrypted')
   final bool encrypted;
 
   /// The number of I/O operations per second (IOPS) to provision for the volume.
@@ -5259,6 +5343,7 @@ class Ebs {
   /// Conditional: This parameter is required when the volume type is
   /// <code>io1</code>. (Not used with <code>standard</code>, <code>gp2</code>,
   /// <code>st1</code>, or <code>sc1</code> volumes.)
+  @_s.JsonKey(name: 'Iops')
   final int iops;
 
   /// The snapshot ID of the volume to use.
@@ -5267,6 +5352,7 @@ class Ebs {
   /// specify both <code>SnapshotId</code> and <code>VolumeSize</code>,
   /// <code>VolumeSize</code> must be equal or greater than the size of the
   /// snapshot.
+  @_s.JsonKey(name: 'SnapshotId')
   final String snapshotId;
 
   /// The volume size, in Gibibytes (GiB).
@@ -5281,6 +5367,7 @@ class Ebs {
   /// <note>
   /// At least one of VolumeSize or SnapshotId is required.
   /// </note>
+  @_s.JsonKey(name: 'VolumeSize')
   final int volumeSize;
 
   /// The volume type, which can be <code>standard</code> for Magnetic,
@@ -5293,6 +5380,7 @@ class Ebs {
   ///
   /// Valid Values: <code>standard</code> | <code>io1</code> | <code>gp2</code> |
   /// <code>st1</code> | <code>sc1</code>
+  @_s.JsonKey(name: 'VolumeType')
   final String volumeType;
 
   Ebs({
@@ -5313,6 +5401,8 @@ class Ebs {
       volumeType: _s.extractXmlStringValue(elem, 'VolumeType'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$EbsToJson(this);
 }
 
 /// Describes an enabled metric.
@@ -5423,19 +5513,27 @@ class FailedScheduledUpdateGroupActionRequest {
 }
 
 /// Describes a filter.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Filter {
   /// The name of the filter. The valid values are:
   /// <code>"auto-scaling-group"</code>, <code>"key"</code>, <code>"value"</code>,
   /// and <code>"propagate-at-launch"</code>.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the filter.
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
     this.name,
     this.values,
   });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
 }
 
 /// Describes an EC2 instance.
@@ -5508,9 +5606,15 @@ class Instance {
 
 /// Describes whether detailed monitoring is enabled for the Auto Scaling
 /// instances.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class InstanceMonitoring {
   /// If <code>true</code>, detailed monitoring is enabled. Otherwise, basic
   /// monitoring is enabled.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   InstanceMonitoring({
@@ -5521,6 +5625,8 @@ class InstanceMonitoring {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$InstanceMonitoringToJson(this);
 }
 
 /// Describes an instances distribution for an Auto Scaling group with
@@ -5539,6 +5645,11 @@ class InstanceMonitoring {
 /// When scale out occurs, Amazon EC2 Auto Scaling launches instances based on
 /// the new settings. When scale in occurs, Amazon EC2 Auto Scaling terminates
 /// instances according to the group's termination policies.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class InstancesDistribution {
   /// Indicates how to allocate instance types to fulfill On-Demand capacity.
   ///
@@ -5549,6 +5660,7 @@ class InstancesDistribution {
   /// all your On-Demand capacity cannot be fulfilled using your highest priority
   /// instance, then the Auto Scaling groups launches the remaining capacity using
   /// the second priority instance type, and so on.
+  @_s.JsonKey(name: 'OnDemandAllocationStrategy')
   final String onDemandAllocationStrategy;
 
   /// The minimum amount of the Auto Scaling group's capacity that must be
@@ -5564,6 +5676,7 @@ class InstancesDistribution {
   /// When replacing instances, Amazon EC2 Auto Scaling launches new instances
   /// before terminating the old ones.
   /// </note>
+  @_s.JsonKey(name: 'OnDemandBaseCapacity')
   final int onDemandBaseCapacity;
 
   /// Controls the percentages of On-Demand Instances and Spot Instances for your
@@ -5578,6 +5691,7 @@ class InstancesDistribution {
   /// launches new instances before terminating the old ones.
   /// </note>
   /// Valid Range: Minimum value of 0. Maximum value of 100.
+  @_s.JsonKey(name: 'OnDemandPercentageAboveBaseCapacity')
   final int onDemandPercentageAboveBaseCapacity;
 
   /// Indicates how to allocate instances across Spot Instance pools.
@@ -5595,6 +5709,7 @@ class InstancesDistribution {
   /// <code>capacity-optimized</code>.
   ///
   /// Valid values: <code>lowest-price</code> | <code>capacity-optimized</code>
+  @_s.JsonKey(name: 'SpotAllocationStrategy')
   final String spotAllocationStrategy;
 
   /// The number of Spot Instance pools across which to allocate your Spot
@@ -5604,6 +5719,7 @@ class InstancesDistribution {
   /// Used only when the Spot allocation strategy is <code>lowest-price</code>.
   ///
   /// Valid Range: Minimum value of 1. Maximum value of 20.
+  @_s.JsonKey(name: 'SpotInstancePools')
   final int spotInstancePools;
 
   /// The maximum price per unit hour that you are willing to pay for a Spot
@@ -5612,6 +5728,7 @@ class InstancesDistribution {
   ///
   /// To remove a value that you previously set, include the parameter but leave
   /// the value blank.
+  @_s.JsonKey(name: 'SpotMaxPrice')
   final String spotMaxPrice;
 
   InstancesDistribution({
@@ -5635,6 +5752,8 @@ class InstancesDistribution {
       spotMaxPrice: _s.extractXmlStringValue(elem, 'SpotMaxPrice'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$InstancesDistributionToJson(this);
 }
 
 /// Describes a launch configuration.
@@ -5875,14 +5994,21 @@ class LaunchConfigurationsType {
 /// launches instances to match the new settings. When scale in occurs, Amazon
 /// EC2 Auto Scaling terminates instances according to the group's termination
 /// policies.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LaunchTemplate {
   /// The launch template to use. You must specify either the launch template ID
   /// or launch template name in the request.
+  @_s.JsonKey(name: 'LaunchTemplateSpecification')
   final LaunchTemplateSpecification launchTemplateSpecification;
 
   /// An optional setting. Any parameters that you specify override the same
   /// parameters in the launch template. Currently, the only supported override is
   /// instance type. You can specify between 1 and 20 instance types.
+  @_s.JsonKey(name: 'Overrides')
   final List<LaunchTemplateOverrides> overrides;
 
   LaunchTemplate({
@@ -5900,15 +6026,23 @@ class LaunchTemplate {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LaunchTemplateToJson(this);
 }
 
 /// Describes an override for a launch template.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LaunchTemplateOverrides {
   /// The instance type.
   ///
   /// For information about available instance types, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes">Available
   /// Instance Types</a> in the <i>Amazon Elastic Compute Cloud User Guide.</i>
+  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
   /// The number of capacity units, which gives the instance type a proportional
@@ -5923,6 +6057,7 @@ class LaunchTemplateOverrides {
   /// User Guide</i>.
   ///
   /// Valid Range: Minimum value of 1. Maximum value of 999.
+  @_s.JsonKey(name: 'WeightedCapacity')
   final String weightedCapacity;
 
   LaunchTemplateOverrides({
@@ -5935,6 +6070,8 @@ class LaunchTemplateOverrides {
       weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LaunchTemplateOverridesToJson(this);
 }
 
 /// Describes a launch template and the launch template version.
@@ -5944,13 +6081,20 @@ class LaunchTemplateOverrides {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html">Creating
 /// a Launch Template for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto
 /// Scaling User Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LaunchTemplateSpecification {
   /// The ID of the launch template. You must specify either a template ID or a
   /// template name.
+  @_s.JsonKey(name: 'LaunchTemplateId')
   final String launchTemplateId;
 
   /// The name of the launch template. You must specify either a template name or
   /// a template ID.
+  @_s.JsonKey(name: 'LaunchTemplateName')
   final String launchTemplateName;
 
   /// The version number, <code>$Latest</code>, or <code>$Default</code>. If the
@@ -5959,6 +6103,7 @@ class LaunchTemplateSpecification {
   /// <code>$Default</code>, Amazon EC2 Auto Scaling selects the default version
   /// of the launch template when launching instances. The default value is
   /// <code>$Default</code>.
+  @_s.JsonKey(name: 'Version')
   final String version;
 
   LaunchTemplateSpecification({
@@ -5973,6 +6118,8 @@ class LaunchTemplateSpecification {
       version: _s.extractXmlStringValue(elem, 'Version'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
 }
 
 /// Describes a lifecycle hook, which tells Amazon EC2 Auto Scaling that you
@@ -6099,8 +6246,14 @@ class LifecycleHook {
 /// create new lifecycle hooks using <a>PutLifecycleHook</a>. If you are no
 /// longer using a lifecycle hook, you can delete it using
 /// <a>DeleteLifecycleHook</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LifecycleHookSpecification {
   /// The name of the lifecycle hook.
+  @_s.JsonKey(name: 'LifecycleHookName')
   final String lifecycleHookName;
 
   /// The state of the EC2 instance to which you want to attach the lifecycle
@@ -6114,12 +6267,14 @@ class LifecycleHookSpecification {
   /// autoscaling:EC2_INSTANCE_TERMINATING
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'LifecycleTransition')
   final String lifecycleTransition;
 
   /// Defines the action the Auto Scaling group should take when the lifecycle
   /// hook timeout elapses or if an unexpected failure occurs. The valid values
   /// are <code>CONTINUE</code> and <code>ABANDON</code>. The default value is
   /// <code>ABANDON</code>.
+  @_s.JsonKey(name: 'DefaultResult')
   final String defaultResult;
 
   /// The maximum time, in seconds, that can elapse before the lifecycle hook
@@ -6129,20 +6284,24 @@ class LifecycleHookSpecification {
   /// that you specified in the <code>DefaultResult</code> parameter. You can
   /// prevent the lifecycle hook from timing out by calling
   /// <a>RecordLifecycleActionHeartbeat</a>.
+  @_s.JsonKey(name: 'HeartbeatTimeout')
   final int heartbeatTimeout;
 
   /// Additional information that you want to include any time Amazon EC2 Auto
   /// Scaling sends a message to the notification target.
+  @_s.JsonKey(name: 'NotificationMetadata')
   final String notificationMetadata;
 
   /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to
   /// when an instance is in the transition state for the lifecycle hook. The
   /// notification target can be either an SQS queue or an SNS topic.
+  @_s.JsonKey(name: 'NotificationTargetARN')
   final String notificationTargetARN;
 
   /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
   /// specified notification target, for example, an Amazon SNS topic or an Amazon
   /// SQS queue.
+  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   LifecycleHookSpecification({
@@ -6154,21 +6313,35 @@ class LifecycleHookSpecification {
     this.notificationTargetARN,
     this.roleARN,
   });
+  Map<String, dynamic> toJson() => _$LifecycleHookSpecificationToJson(this);
 }
 
 enum LifecycleState {
+  @_s.JsonValue('Pending')
   pending,
+  @_s.JsonValue('Pending:Wait')
   pendingWait,
+  @_s.JsonValue('Pending:Proceed')
   pendingProceed,
+  @_s.JsonValue('Quarantined')
   quarantined,
+  @_s.JsonValue('InService')
   inService,
+  @_s.JsonValue('Terminating')
   terminating,
+  @_s.JsonValue('Terminating:Wait')
   terminatingWait,
+  @_s.JsonValue('Terminating:Proceed')
   terminatingProceed,
+  @_s.JsonValue('Terminated')
   terminated,
+  @_s.JsonValue('Detaching')
   detaching,
+  @_s.JsonValue('Detached')
   detached,
+  @_s.JsonValue('EnteringStandby')
   enteringStandby,
+  @_s.JsonValue('Standby')
   standby,
 }
 
@@ -6359,11 +6532,18 @@ class MetricCollectionType {
 }
 
 /// Describes the dimension of a metric.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MetricDimension {
   /// The name of the dimension.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   MetricDimension({
@@ -6376,6 +6556,8 @@ class MetricDimension {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$MetricDimensionToJson(this);
 }
 
 /// Describes a granularity of a metric.
@@ -6394,10 +6576,15 @@ class MetricGranularityType {
 }
 
 enum MetricStatistic {
+  @_s.JsonValue('Average')
   average,
+  @_s.JsonValue('Minimum')
   minimum,
+  @_s.JsonValue('Maximum')
   maximum,
+  @_s.JsonValue('SampleCount')
   sampleCount,
+  @_s.JsonValue('Sum')
   sum,
 }
 
@@ -6420,9 +6607,13 @@ extension on String {
 }
 
 enum MetricType {
+  @_s.JsonValue('ASGAverageCPUUtilization')
   aSGAverageCPUUtilization,
+  @_s.JsonValue('ASGAverageNetworkIn')
   aSGAverageNetworkIn,
+  @_s.JsonValue('ASGAverageNetworkOut')
   aSGAverageNetworkOut,
+  @_s.JsonValue('ALBRequestCountPerTarget')
   aLBRequestCountPerTarget,
 }
 
@@ -6455,16 +6646,23 @@ extension on String {
 /// <code>MixedInstancesPolicy</code> as the top-level parameter instead of a
 /// launch configuration or template. For more information, see
 /// <a>CreateAutoScalingGroup</a> and <a>UpdateAutoScalingGroup</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MixedInstancesPolicy {
   /// The instances distribution to use.
   ///
   /// If you leave this parameter unspecified, the value for each parameter in
   /// <code>InstancesDistribution</code> uses a default value.
+  @_s.JsonKey(name: 'InstancesDistribution')
   final InstancesDistribution instancesDistribution;
 
   /// The launch template and instance types (overrides).
   ///
   /// This parameter must be specified when creating a mixed instances policy.
+  @_s.JsonKey(name: 'LaunchTemplate')
   final LaunchTemplate launchTemplate;
 
   MixedInstancesPolicy({
@@ -6481,6 +6679,8 @@ class MixedInstancesPolicy {
           ?.let((e) => LaunchTemplate.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$MixedInstancesPolicyToJson(this);
 }
 
 /// Describes a notification.
@@ -6577,6 +6777,11 @@ class PolicyARNType {
 
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Amazon EC2 Auto Scaling.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class PredefinedMetricSpecification {
   /// The metric type. The following predefined metrics are available:
   ///
@@ -6598,6 +6803,7 @@ class PredefinedMetricSpecification {
   /// target in an Application Load Balancer target group.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'PredefinedMetricType')
   final MetricType predefinedMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
@@ -6619,6 +6825,7 @@ class PredefinedMetricSpecification {
   /// the final portion of the target group ARN.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'ResourceLabel')
   final String resourceLabel;
 
   PredefinedMetricSpecification({
@@ -6633,6 +6840,8 @@ class PredefinedMetricSpecification {
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$PredefinedMetricSpecificationToJson(this);
 }
 
 /// Describes a process type.
@@ -6717,17 +6926,29 @@ class RecordLifecycleActionHeartbeatAnswer {
 }
 
 enum ScalingActivityStatusCode {
+  @_s.JsonValue('PendingSpotBidPlacement')
   pendingSpotBidPlacement,
+  @_s.JsonValue('WaitingForSpotInstanceRequestId')
   waitingForSpotInstanceRequestId,
+  @_s.JsonValue('WaitingForSpotInstanceId')
   waitingForSpotInstanceId,
+  @_s.JsonValue('WaitingForInstanceId')
   waitingForInstanceId,
+  @_s.JsonValue('PreInService')
   preInService,
+  @_s.JsonValue('InProgress')
   inProgress,
+  @_s.JsonValue('WaitingForELBConnectionDraining')
   waitingForELBConnectionDraining,
+  @_s.JsonValue('MidLifecycleAction')
   midLifecycleAction,
+  @_s.JsonValue('WaitingForInstanceWarmup')
   waitingForInstanceWarmup,
+  @_s.JsonValue('Successful')
   successful,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('Cancelled')
   cancelled,
 }
 
@@ -6976,21 +7197,31 @@ class ScheduledUpdateGroupAction {
 ///
 /// When updating a scheduled scaling action, all optional parameters are left
 /// unchanged if not specified.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ScheduledUpdateGroupActionRequest {
   /// The name of the scaling action.
+  @_s.JsonKey(name: 'ScheduledActionName')
   final String scheduledActionName;
 
   /// The number of EC2 instances that should be running in the group.
+  @_s.JsonKey(name: 'DesiredCapacity')
   final int desiredCapacity;
 
   /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
   /// does not perform the action after this time.
+  @_s.JsonKey(name: 'EndTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
   final DateTime endTime;
 
   /// The maximum number of instances in the Auto Scaling group.
+  @_s.JsonKey(name: 'MaxSize')
   final int maxSize;
 
   /// The minimum number of instances in the Auto Scaling group.
+  @_s.JsonKey(name: 'MinSize')
   final int minSize;
 
   /// The recurring schedule for the action, in Unix cron syntax format. This
@@ -7002,6 +7233,7 @@ class ScheduledUpdateGroupActionRequest {
   /// When <code>StartTime</code> and <code>EndTime</code> are specified with
   /// <code>Recurrence</code>, they form the boundaries of when the recurring
   /// action starts and stops.
+  @_s.JsonKey(name: 'Recurrence')
   final String recurrence;
 
   /// The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in
@@ -7014,6 +7246,8 @@ class ScheduledUpdateGroupActionRequest {
   ///
   /// If you try to schedule the action in the past, Amazon EC2 Auto Scaling
   /// returns an error message.
+  @_s.JsonKey(
+      name: 'StartTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
   final DateTime startTime;
 
   ScheduledUpdateGroupActionRequest({
@@ -7025,6 +7259,8 @@ class ScheduledUpdateGroupActionRequest {
     this.recurrence,
     this.startTime,
   });
+  Map<String, dynamic> toJson() =>
+      _$ScheduledUpdateGroupActionRequestToJson(this);
 }
 
 class SetInstanceProtectionAnswer {
@@ -7073,10 +7309,16 @@ class SetInstanceProtectionAnswer {
 /// The upper and lower bound can't be null in the same step adjustment.
 /// </li>
 /// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
   /// from the current capacity.
+  @_s.JsonKey(name: 'ScalingAdjustment')
   final int scalingAdjustment;
 
   /// The lower bound for the difference between the alarm threshold and the
@@ -7085,6 +7327,7 @@ class StepAdjustment {
   /// threshold plus the lower bound). Otherwise, it is exclusive (the metric must
   /// be greater than the threshold plus the lower bound). A null value indicates
   /// negative infinity.
+  @_s.JsonKey(name: 'MetricIntervalLowerBound')
   final double metricIntervalLowerBound;
 
   /// The upper bound for the difference between the alarm threshold and the
@@ -7095,6 +7338,7 @@ class StepAdjustment {
   /// positive infinity.
   ///
   /// The upper bound must be greater than the lower bound.
+  @_s.JsonKey(name: 'MetricIntervalUpperBound')
   final double metricIntervalUpperBound;
 
   StepAdjustment({
@@ -7111,6 +7355,8 @@ class StepAdjustment {
           _s.extractXmlDoubleValue(elem, 'MetricIntervalUpperBound'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$StepAdjustmentToJson(this);
 }
 
 /// Describes an automatic scaling process that has been suspended. For more
@@ -7135,22 +7381,32 @@ class SuspendedProcess {
 }
 
 /// Describes a tag for an Auto Scaling group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The tag key.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Determines whether the tag is added to new instances as they are launched in
   /// the group.
+  @_s.JsonKey(name: 'PropagateAtLaunch')
   final bool propagateAtLaunch;
 
   /// The name of the group.
+  @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
   /// The type of resource. The only supported value is
   /// <code>auto-scaling-group</code>.
+  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   /// The tag value.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -7160,6 +7416,7 @@ class Tag {
     this.resourceType,
     this.value,
   });
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// Describes a tag for an Auto Scaling group.
@@ -7226,12 +7483,19 @@ class TagsType {
 
 /// Represents a target tracking scaling policy configuration to use with Amazon
 /// EC2 Auto Scaling.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class TargetTrackingConfiguration {
   /// The target value for the metric.
+  @_s.JsonKey(name: 'TargetValue')
   final double targetValue;
 
   /// A customized metric. You must specify either a predefined metric or a
   /// customized metric.
+  @_s.JsonKey(name: 'CustomizedMetricSpecification')
   final CustomizedMetricSpecification customizedMetricSpecification;
 
   /// Indicates whether scaling in by the target tracking scaling policy is
@@ -7239,10 +7503,12 @@ class TargetTrackingConfiguration {
   /// doesn't remove instances from the Auto Scaling group. Otherwise, the target
   /// tracking scaling policy can remove instances from the Auto Scaling group.
   /// The default is <code>false</code>.
+  @_s.JsonKey(name: 'DisableScaleIn')
   final bool disableScaleIn;
 
   /// A predefined metric. You must specify either a predefined metric or a
   /// customized metric.
+  @_s.JsonKey(name: 'PredefinedMetricSpecification')
   final PredefinedMetricSpecification predefinedMetricSpecification;
 
   TargetTrackingConfiguration({
@@ -7263,6 +7529,8 @@ class TargetTrackingConfiguration {
           ?.let((e) => PredefinedMetricSpecification.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TargetTrackingConfigurationToJson(this);
 }
 
 class AlreadyExistsFault extends _s.GenericAwsException {

@@ -1451,7 +1451,10 @@ class PolicyComplianceDetail {
 
   /// A timestamp that indicates when the returned information should be
   /// considered out of date.
-  @_s.JsonKey(name: 'ExpiredAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ExpiredAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expiredAt;
 
   /// Details about problems with dependent services, such as AWS WAF or AWS
@@ -1513,7 +1516,10 @@ class PolicyComplianceStatus {
   final Map<String, String> issueInfoMap;
 
   /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The member account ID.

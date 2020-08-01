@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'email-2010-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'email-2010-12-01.g.dart';
 
 /// This document contains reference information for the <a
 /// href="https://aws.amazon.com/ses/">Amazon Simple Email Service</a> (Amazon
@@ -28,17 +39,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// </note>
 class SES {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   SES({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'email',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Creates a receipt rule set by cloning an existing one. All receipt rules
   /// and configurations are copied to the new receipt rule set and are
@@ -78,17 +92,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(originalRuleSetName, 'originalRuleSetName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'CloneReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['OriginalRuleSetName'] = originalRuleSetName;
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'CloneReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CloneReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'CloneReceiptRuleSetResult',
     );
   }
@@ -112,16 +127,17 @@ class SES {
     @_s.required ConfigurationSet configurationSet,
   }) async {
     ArgumentError.checkNotNull(configurationSet, 'configurationSet');
-    final $request = <String, dynamic>{
-      'Action': 'CreateConfigurationSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSet'] = configurationSet;
     await _protocol.send(
       $request,
+      action: 'CreateConfigurationSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateConfigurationSetRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetResult',
     );
   }
@@ -160,17 +176,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
-    final $request = <String, dynamic>{
-      'Action': 'CreateConfigurationSetEventDestination',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestination'] = eventDestination;
     await _protocol.send(
       $request,
+      action: 'CreateConfigurationSetEventDestination',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateConfigurationSetEventDestinationRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetEventDestinationResult',
     );
   }
@@ -198,17 +215,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
-    final $request = <String, dynamic>{
-      'Action': 'CreateConfigurationSetTrackingOptions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['TrackingOptions'] = trackingOptions;
     await _protocol.send(
       $request,
+      action: 'CreateConfigurationSetTrackingOptions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateConfigurationSetTrackingOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetTrackingOptionsResult',
     );
   }
@@ -265,10 +283,7 @@ class SES {
     ArgumentError.checkNotNull(templateContent, 'templateContent');
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(templateSubject, 'templateSubject');
-    final $request = <String, dynamic>{
-      'Action': 'CreateCustomVerificationEmailTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['FailureRedirectionURL'] = failureRedirectionURL;
     $request['FromEmailAddress'] = fromEmailAddress;
     $request['SuccessRedirectionURL'] = successRedirectionURL;
@@ -277,9 +292,13 @@ class SES {
     $request['TemplateSubject'] = templateSubject;
     await _protocol.send(
       $request,
+      action: 'CreateCustomVerificationEmailTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateCustomVerificationEmailTemplateRequest'],
+      shapes: shapes,
     );
   }
 
@@ -302,16 +321,17 @@ class SES {
     @_s.required ReceiptFilter filter,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
-    final $request = <String, dynamic>{
-      'Action': 'CreateReceiptFilter',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Filter'] = filter;
     await _protocol.send(
       $request,
+      action: 'CreateReceiptFilter',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateReceiptFilterRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateReceiptFilterResult',
     );
   }
@@ -350,18 +370,19 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateReceiptRule',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Rule'] = rule;
     $request['RuleSetName'] = ruleSetName;
     after?.also((arg) => $request['After'] = arg);
     await _protocol.send(
       $request,
+      action: 'CreateReceiptRule',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateReceiptRuleRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateReceiptRuleResult',
     );
   }
@@ -396,16 +417,17 @@ class SES {
     @_s.required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'CreateReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateReceiptRuleSetResult',
     );
   }
@@ -429,16 +451,17 @@ class SES {
     @_s.required Template template,
   }) async {
     ArgumentError.checkNotNull(template, 'template');
-    final $request = <String, dynamic>{
-      'Action': 'CreateTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Template'] = template;
     await _protocol.send(
       $request,
+      action: 'CreateTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateTemplateResult',
     );
   }
@@ -459,16 +482,17 @@ class SES {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteConfigurationSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     await _protocol.send(
       $request,
+      action: 'DeleteConfigurationSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteConfigurationSetRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetResult',
     );
   }
@@ -497,17 +521,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteConfigurationSetEventDestination',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestinationName'] = eventDestinationName;
     await _protocol.send(
       $request,
+      action: 'DeleteConfigurationSetEventDestination',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteConfigurationSetEventDestinationRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetEventDestinationResult',
     );
   }
@@ -537,16 +562,17 @@ class SES {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteConfigurationSetTrackingOptions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     await _protocol.send(
       $request,
+      action: 'DeleteConfigurationSetTrackingOptions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteConfigurationSetTrackingOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetTrackingOptionsResult',
     );
   }
@@ -567,16 +593,17 @@ class SES {
     @_s.required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteCustomVerificationEmailTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     await _protocol.send(
       $request,
+      action: 'DeleteCustomVerificationEmailTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteCustomVerificationEmailTemplateRequest'],
+      shapes: shapes,
     );
   }
 
@@ -592,16 +619,17 @@ class SES {
     @_s.required String identity,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteIdentity',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     await _protocol.send(
       $request,
+      action: 'DeleteIdentity',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteIdentityRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteIdentityResult',
     );
   }
@@ -645,17 +673,18 @@ class SES {
       64,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteIdentityPolicy',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['PolicyName'] = policyName;
     await _protocol.send(
       $request,
+      action: 'DeleteIdentityPolicy',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteIdentityPolicyRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteIdentityPolicyResult',
     );
   }
@@ -674,16 +703,17 @@ class SES {
     @_s.required String filterName,
   }) async {
     ArgumentError.checkNotNull(filterName, 'filterName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteReceiptFilter',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['FilterName'] = filterName;
     await _protocol.send(
       $request,
+      action: 'DeleteReceiptFilter',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteReceiptFilterRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteReceiptFilterResult',
     );
   }
@@ -709,17 +739,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteReceiptRule',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'DeleteReceiptRule',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteReceiptRuleRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteReceiptRuleResult',
     );
   }
@@ -743,16 +774,17 @@ class SES {
     @_s.required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'DeleteReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteReceiptRuleSetResult',
     );
   }
@@ -767,16 +799,17 @@ class SES {
     @_s.required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     await _protocol.send(
       $request,
+      action: 'DeleteTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteTemplateResult',
     );
   }
@@ -790,16 +823,17 @@ class SES {
     @_s.required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteVerifiedEmailAddress',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(
       $request,
+      action: 'DeleteVerifiedEmailAddress',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteVerifiedEmailAddressRequest'],
+      shapes: shapes,
     );
   }
 
@@ -813,15 +847,16 @@ class SES {
   /// You can execute this operation no more than once per second.
   Future<DescribeActiveReceiptRuleSetResponse>
       describeActiveReceiptRuleSet() async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeActiveReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeActiveReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeActiveReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeActiveReceiptRuleSetResult',
     );
     return DescribeActiveReceiptRuleSetResponse.fromXml($result);
@@ -846,18 +881,19 @@ class SES {
     List<String> configurationSetAttributeNames,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeConfigurationSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     configurationSetAttributeNames
         ?.also((arg) => $request['ConfigurationSetAttributeNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeConfigurationSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeConfigurationSetRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeConfigurationSetResult',
     );
     return DescribeConfigurationSetResponse.fromXml($result);
@@ -885,17 +921,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReceiptRule',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReceiptRule',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReceiptRuleRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeReceiptRuleResult',
     );
     return DescribeReceiptRuleResponse.fromXml($result);
@@ -917,16 +954,17 @@ class SES {
     @_s.required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'DescribeReceiptRuleSetResult',
     );
     return DescribeReceiptRuleSetResponse.fromXml($result);
@@ -937,12 +975,11 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetAccountSendingEnabledResponse> getAccountSendingEnabled() async {
-    final $request = <String, dynamic>{
-      'Action': 'GetAccountSendingEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'GetAccountSendingEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -971,16 +1008,17 @@ class SES {
     @_s.required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'GetCustomVerificationEmailTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     final $result = await _protocol.send(
       $request,
+      action: 'GetCustomVerificationEmailTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetCustomVerificationEmailTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'GetCustomVerificationEmailTemplateResult',
     );
     return GetCustomVerificationEmailTemplateResponse.fromXml($result);
@@ -1023,16 +1061,17 @@ class SES {
     @_s.required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
-    final $request = <String, dynamic>{
-      'Action': 'GetIdentityDkimAttributes',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
       $request,
+      action: 'GetIdentityDkimAttributes',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetIdentityDkimAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetIdentityDkimAttributesResult',
     );
     return GetIdentityDkimAttributesResponse.fromXml($result);
@@ -1051,16 +1090,17 @@ class SES {
     @_s.required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
-    final $request = <String, dynamic>{
-      'Action': 'GetIdentityMailFromDomainAttributes',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
       $request,
+      action: 'GetIdentityMailFromDomainAttributes',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetIdentityMailFromDomainAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetIdentityMailFromDomainAttributesResult',
     );
     return GetIdentityMailFromDomainAttributesResponse.fromXml($result);
@@ -1086,16 +1126,17 @@ class SES {
     @_s.required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
-    final $request = <String, dynamic>{
-      'Action': 'GetIdentityNotificationAttributes',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
       $request,
+      action: 'GetIdentityNotificationAttributes',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetIdentityNotificationAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetIdentityNotificationAttributesResult',
     );
     return GetIdentityNotificationAttributesResponse.fromXml($result);
@@ -1136,17 +1177,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(policyNames, 'policyNames');
-    final $request = <String, dynamic>{
-      'Action': 'GetIdentityPolicies',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['PolicyNames'] = policyNames;
     final $result = await _protocol.send(
       $request,
+      action: 'GetIdentityPolicies',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetIdentityPoliciesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetIdentityPoliciesResult',
     );
     return GetIdentityPoliciesResponse.fromXml($result);
@@ -1183,16 +1225,17 @@ class SES {
     @_s.required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
-    final $request = <String, dynamic>{
-      'Action': 'GetIdentityVerificationAttributes',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
       $request,
+      action: 'GetIdentityVerificationAttributes',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetIdentityVerificationAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetIdentityVerificationAttributesResult',
     );
     return GetIdentityVerificationAttributesResponse.fromXml($result);
@@ -1202,12 +1245,11 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetSendQuotaResponse> getSendQuota() async {
-    final $request = <String, dynamic>{
-      'Action': 'GetSendQuota',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'GetSendQuota',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1223,12 +1265,11 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetSendStatisticsResponse> getSendStatistics() async {
-    final $request = <String, dynamic>{
-      'Action': 'GetSendStatistics',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'GetSendStatistics',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1250,16 +1291,17 @@ class SES {
     @_s.required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'GetTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     final $result = await _protocol.send(
       $request,
+      action: 'GetTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'GetTemplateResult',
     );
     return GetTemplateResponse.fromXml($result);
@@ -1291,17 +1333,18 @@ class SES {
     int maxItems,
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListConfigurationSets',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListConfigurationSets',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListConfigurationSetsRequest'],
+      shapes: shapes,
       resultWrapper: 'ListConfigurationSetsResult',
     );
     return ListConfigurationSetsResponse.fromXml($result);
@@ -1337,17 +1380,18 @@ class SES {
       1,
       50,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListCustomVerificationEmailTemplates',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListCustomVerificationEmailTemplates',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListCustomVerificationEmailTemplatesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListCustomVerificationEmailTemplatesResult',
     );
     return ListCustomVerificationEmailTemplatesResponse.fromXml($result);
@@ -1375,18 +1419,19 @@ class SES {
     int maxItems,
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListIdentities',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     identityType?.also((arg) => $request['IdentityType'] = arg.toValue());
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListIdentities',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListIdentitiesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListIdentitiesResult',
     );
     return ListIdentitiesResponse.fromXml($result);
@@ -1420,16 +1465,17 @@ class SES {
     @_s.required String identity,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
-    final $request = <String, dynamic>{
-      'Action': 'ListIdentityPolicies',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     final $result = await _protocol.send(
       $request,
+      action: 'ListIdentityPolicies',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListIdentityPoliciesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListIdentityPoliciesResult',
     );
     return ListIdentityPoliciesResponse.fromXml($result);
@@ -1444,15 +1490,16 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<ListReceiptFiltersResponse> listReceiptFilters() async {
-    final $request = <String, dynamic>{
-      'Action': 'ListReceiptFilters',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'ListReceiptFilters',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListReceiptFiltersRequest'],
+      shapes: shapes,
       resultWrapper: 'ListReceiptFiltersResult',
     );
     return ListReceiptFiltersResponse.fromXml($result);
@@ -1476,16 +1523,17 @@ class SES {
   Future<ListReceiptRuleSetsResponse> listReceiptRuleSets({
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListReceiptRuleSets',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListReceiptRuleSets',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListReceiptRuleSetsRequest'],
+      shapes: shapes,
       resultWrapper: 'ListReceiptRuleSetsResult',
     );
     return ListReceiptRuleSetsResponse.fromXml($result);
@@ -1509,17 +1557,18 @@ class SES {
     int maxItems,
     String nextToken,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListTemplates',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTemplates',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTemplatesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListTemplatesResult',
     );
     return ListTemplatesResponse.fromXml($result);
@@ -1529,12 +1578,11 @@ class SES {
   /// email addresses and domains associated with your account.
   Future<ListVerifiedEmailAddressesResponse>
       listVerifiedEmailAddresses() async {
-    final $request = <String, dynamic>{
-      'Action': 'ListVerifiedEmailAddresses',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     final $result = await _protocol.send(
       $request,
+      action: 'ListVerifiedEmailAddresses',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1560,17 +1608,18 @@ class SES {
     DeliveryOptions deliveryOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $request = <String, dynamic>{
-      'Action': 'PutConfigurationSetDeliveryOptions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     deliveryOptions?.also((arg) => $request['DeliveryOptions'] = arg);
     await _protocol.send(
       $request,
+      action: 'PutConfigurationSetDeliveryOptions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutConfigurationSetDeliveryOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'PutConfigurationSetDeliveryOptionsResult',
     );
   }
@@ -1634,18 +1683,19 @@ class SES {
       64,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'PutIdentityPolicy',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['Policy'] = policy;
     $request['PolicyName'] = policyName;
     await _protocol.send(
       $request,
+      action: 'PutIdentityPolicy',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PutIdentityPolicyRequest'],
+      shapes: shapes,
       resultWrapper: 'PutIdentityPolicyResult',
     );
   }
@@ -1677,17 +1727,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'ReorderReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleNames'] = ruleNames;
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'ReorderReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ReorderReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'ReorderReceiptRuleSetResult',
     );
   }
@@ -1748,10 +1799,7 @@ class SES {
     ArgumentError.checkNotNull(
         bouncedRecipientInfoList, 'bouncedRecipientInfoList');
     ArgumentError.checkNotNull(originalMessageId, 'originalMessageId');
-    final $request = <String, dynamic>{
-      'Action': 'SendBounce',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['BounceSender'] = bounceSender;
     $request['BouncedRecipientInfoList'] = bouncedRecipientInfoList;
     $request['OriginalMessageId'] = originalMessageId;
@@ -1760,9 +1808,13 @@ class SES {
     messageDsn?.also((arg) => $request['MessageDsn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendBounce',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendBounceRequest'],
+      shapes: shapes,
       resultWrapper: 'SendBounceResult',
     );
     return SendBounceResponse.fromXml($result);
@@ -1952,10 +2004,7 @@ class SES {
       0,
       262144,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SendBulkTemplatedEmail',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Destinations'] = destinations;
     $request['Source'] = source;
     $request['Template'] = template;
@@ -1969,9 +2018,13 @@ class SES {
     templateArn?.also((arg) => $request['TemplateArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendBulkTemplatedEmail',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendBulkTemplatedEmailRequest'],
+      shapes: shapes,
       resultWrapper: 'SendBulkTemplatedEmailResult',
     );
     return SendBulkTemplatedEmailResponse.fromXml($result);
@@ -2013,18 +2066,19 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'SendCustomVerificationEmail',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     $request['TemplateName'] = templateName;
     configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendCustomVerificationEmail',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendCustomVerificationEmailRequest'],
+      shapes: shapes,
       resultWrapper: 'SendCustomVerificationEmailResult',
     );
     return SendCustomVerificationEmailResponse.fromXml($result);
@@ -2192,10 +2246,7 @@ class SES {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(message, 'message');
     ArgumentError.checkNotNull(source, 'source');
-    final $request = <String, dynamic>{
-      'Action': 'SendEmail',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Destination'] = destination;
     $request['Message'] = message;
     $request['Source'] = source;
@@ -2207,9 +2258,13 @@ class SES {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendEmail',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendEmailRequest'],
+      shapes: shapes,
       resultWrapper: 'SendEmailResult',
     );
     return SendEmailResponse.fromXml($result);
@@ -2485,10 +2540,7 @@ class SES {
     List<MessageTag> tags,
   }) async {
     ArgumentError.checkNotNull(rawMessage, 'rawMessage');
-    final $request = <String, dynamic>{
-      'Action': 'SendRawEmail',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RawMessage'] = rawMessage;
     configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
     destinations?.also((arg) => $request['Destinations'] = arg);
@@ -2499,9 +2551,13 @@ class SES {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendRawEmail',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendRawEmailRequest'],
+      shapes: shapes,
       resultWrapper: 'SendRawEmailResult',
     );
     return SendRawEmailResponse.fromXml($result);
@@ -2698,10 +2754,7 @@ class SES {
       262144,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SendTemplatedEmail',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Destination'] = destination;
     $request['Source'] = source;
     $request['Template'] = template;
@@ -2715,9 +2768,13 @@ class SES {
     templateArn?.also((arg) => $request['TemplateArn'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendTemplatedEmail',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendTemplatedEmailRequest'],
+      shapes: shapes,
       resultWrapper: 'SendTemplatedEmailResult',
     );
     return SendTemplatedEmailResponse.fromXml($result);
@@ -2742,16 +2799,17 @@ class SES {
   Future<void> setActiveReceiptRuleSet({
     String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'SetActiveReceiptRuleSet',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     ruleSetName?.also((arg) => $request['RuleSetName'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetActiveReceiptRuleSet',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetActiveReceiptRuleSetRequest'],
+      shapes: shapes,
       resultWrapper: 'SetActiveReceiptRuleSetResult',
     );
   }
@@ -2789,17 +2847,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(dkimEnabled, 'dkimEnabled');
     ArgumentError.checkNotNull(identity, 'identity');
-    final $request = <String, dynamic>{
-      'Action': 'SetIdentityDkimEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['DkimEnabled'] = dkimEnabled;
     $request['Identity'] = identity;
     await _protocol.send(
       $request,
+      action: 'SetIdentityDkimEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetIdentityDkimEnabledRequest'],
+      shapes: shapes,
       resultWrapper: 'SetIdentityDkimEnabledResult',
     );
   }
@@ -2838,17 +2897,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(forwardingEnabled, 'forwardingEnabled');
     ArgumentError.checkNotNull(identity, 'identity');
-    final $request = <String, dynamic>{
-      'Action': 'SetIdentityFeedbackForwardingEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ForwardingEnabled'] = forwardingEnabled;
     $request['Identity'] = identity;
     await _protocol.send(
       $request,
+      action: 'SetIdentityFeedbackForwardingEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetIdentityFeedbackForwardingEnabledRequest'],
+      shapes: shapes,
       resultWrapper: 'SetIdentityFeedbackForwardingEnabledResult',
     );
   }
@@ -2888,18 +2948,19 @@ class SES {
     ArgumentError.checkNotNull(enabled, 'enabled');
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(notificationType, 'notificationType');
-    final $request = <String, dynamic>{
-      'Action': 'SetIdentityHeadersInNotificationsEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Enabled'] = enabled;
     $request['Identity'] = identity;
     $request['NotificationType'] = notificationType.toValue();
     await _protocol.send(
       $request,
+      action: 'SetIdentityHeadersInNotificationsEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetIdentityHeadersInNotificationsEnabledRequest'],
+      shapes: shapes,
       resultWrapper: 'SetIdentityHeadersInNotificationsEnabledResult',
     );
   }
@@ -2946,19 +3007,20 @@ class SES {
     String mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
-    final $request = <String, dynamic>{
-      'Action': 'SetIdentityMailFromDomain',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     behaviorOnMXFailure
         ?.also((arg) => $request['BehaviorOnMXFailure'] = arg.toValue());
     mailFromDomain?.also((arg) => $request['MailFromDomain'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetIdentityMailFromDomain',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetIdentityMailFromDomainRequest'],
+      shapes: shapes,
       resultWrapper: 'SetIdentityMailFromDomainResult',
     );
   }
@@ -3003,18 +3065,19 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(notificationType, 'notificationType');
-    final $request = <String, dynamic>{
-      'Action': 'SetIdentityNotificationTopic',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['NotificationType'] = notificationType.toValue();
     snsTopic?.also((arg) => $request['SnsTopic'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetIdentityNotificationTopic',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetIdentityNotificationTopicRequest'],
+      shapes: shapes,
       resultWrapper: 'SetIdentityNotificationTopicResult',
     );
   }
@@ -3047,18 +3110,19 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'SetReceiptRulePosition',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
     after?.also((arg) => $request['After'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetReceiptRulePosition',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetReceiptRulePositionRequest'],
+      shapes: shapes,
       resultWrapper: 'SetReceiptRulePositionResult',
     );
   }
@@ -3092,17 +3156,18 @@ class SES {
       isRequired: true,
     );
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'TestRenderTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateData'] = templateData;
     $request['TemplateName'] = templateName;
     final $result = await _protocol.send(
       $request,
+      action: 'TestRenderTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['TestRenderTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'TestRenderTemplateResult',
     );
     return TestRenderTemplateResponse.fromXml($result);
@@ -3122,16 +3187,17 @@ class SES {
   Future<void> updateAccountSendingEnabled({
     bool enabled,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'UpdateAccountSendingEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     enabled?.also((arg) => $request['Enabled'] = arg);
     await _protocol.send(
       $request,
+      action: 'UpdateAccountSendingEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateAccountSendingEnabledRequest'],
+      shapes: shapes,
     );
   }
 
@@ -3169,17 +3235,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateConfigurationSetEventDestination',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestination'] = eventDestination;
     await _protocol.send(
       $request,
+      action: 'UpdateConfigurationSetEventDestination',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateConfigurationSetEventDestinationRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateConfigurationSetEventDestinationResult',
     );
   }
@@ -3207,17 +3274,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(enabled, 'enabled');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateConfigurationSetReputationMetricsEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['Enabled'] = enabled;
     await _protocol.send(
       $request,
+      action: 'UpdateConfigurationSetReputationMetricsEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateConfigurationSetReputationMetricsEnabledRequest'],
+      shapes: shapes,
     );
   }
 
@@ -3244,17 +3312,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(enabled, 'enabled');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateConfigurationSetSendingEnabled',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['Enabled'] = enabled;
     await _protocol.send(
       $request,
+      action: 'UpdateConfigurationSetSendingEnabled',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateConfigurationSetSendingEnabledRequest'],
+      shapes: shapes,
     );
   }
 
@@ -3281,17 +3350,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateConfigurationSetTrackingOptions',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['TrackingOptions'] = trackingOptions;
     await _protocol.send(
       $request,
+      action: 'UpdateConfigurationSetTrackingOptions',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateConfigurationSetTrackingOptionsRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateConfigurationSetTrackingOptionsResult',
     );
   }
@@ -3343,10 +3413,7 @@ class SES {
     String templateSubject,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateCustomVerificationEmailTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     failureRedirectionURL
         ?.also((arg) => $request['FailureRedirectionURL'] = arg);
@@ -3357,9 +3424,13 @@ class SES {
     templateSubject?.also((arg) => $request['TemplateSubject'] = arg);
     await _protocol.send(
       $request,
+      action: 'UpdateCustomVerificationEmailTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateCustomVerificationEmailTemplateRequest'],
+      shapes: shapes,
     );
   }
 
@@ -3389,17 +3460,18 @@ class SES {
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateReceiptRule',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Rule'] = rule;
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
       $request,
+      action: 'UpdateReceiptRule',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateReceiptRuleRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateReceiptRuleResult',
     );
   }
@@ -3418,16 +3490,17 @@ class SES {
     @_s.required Template template,
   }) async {
     ArgumentError.checkNotNull(template, 'template');
-    final $request = <String, dynamic>{
-      'Action': 'UpdateTemplate',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Template'] = template;
     await _protocol.send(
       $request,
+      action: 'UpdateTemplate',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateTemplateRequest'],
+      shapes: shapes,
       resultWrapper: 'UpdateTemplateResult',
     );
   }
@@ -3480,16 +3553,17 @@ class SES {
     @_s.required String domain,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    final $request = <String, dynamic>{
-      'Action': 'VerifyDomainDkim',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Domain'] = domain;
     final $result = await _protocol.send(
       $request,
+      action: 'VerifyDomainDkim',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['VerifyDomainDkimRequest'],
+      shapes: shapes,
       resultWrapper: 'VerifyDomainDkimResult',
     );
     return VerifyDomainDkimResponse.fromXml($result);
@@ -3509,16 +3583,17 @@ class SES {
     @_s.required String domain,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    final $request = <String, dynamic>{
-      'Action': 'VerifyDomainIdentity',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['Domain'] = domain;
     final $result = await _protocol.send(
       $request,
+      action: 'VerifyDomainIdentity',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['VerifyDomainIdentityRequest'],
+      shapes: shapes,
       resultWrapper: 'VerifyDomainIdentityResult',
     );
     return VerifyDomainIdentityResponse.fromXml($result);
@@ -3533,16 +3608,17 @@ class SES {
     @_s.required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    final $request = <String, dynamic>{
-      'Action': 'VerifyEmailAddress',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(
       $request,
+      action: 'VerifyEmailAddress',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['VerifyEmailAddressRequest'],
+      shapes: shapes,
     );
   }
 
@@ -3559,16 +3635,17 @@ class SES {
     @_s.required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    final $request = <String, dynamic>{
-      'Action': 'VerifyEmailIdentity',
-      'Version': '2010-12-01',
-    };
+    final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(
       $request,
+      action: 'VerifyEmailIdentity',
+      version: '2010-12-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['VerifyEmailIdentityRequest'],
+      shapes: shapes,
       resultWrapper: 'VerifyEmailIdentityResult',
     );
   }
@@ -3580,14 +3657,21 @@ class SES {
 /// For information about adding a header using a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class AddHeaderAction {
   /// The name of the header to add. Must be between 1 and 50 characters,
   /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
   /// only.
+  @_s.JsonKey(name: 'HeaderName')
   final String headerName;
 
   /// Must be less than 2048 characters, and must not contain newline characters
   /// ("\r" or "\n").
+  @_s.JsonKey(name: 'HeaderValue')
   final String headerValue;
 
   AddHeaderAction({
@@ -3600,10 +3684,14 @@ class AddHeaderAction {
       headerValue: _s.extractXmlStringValue(elem, 'HeaderValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$AddHeaderActionToJson(this);
 }
 
 enum BehaviorOnMXFailure {
+  @_s.JsonValue('UseDefaultValue')
   useDefaultValue,
+  @_s.JsonValue('RejectMessage')
   rejectMessage,
 }
 
@@ -3634,20 +3722,28 @@ extension on String {
 /// Represents the body of the message. You can specify text, HTML, or both. If
 /// you use both, then the message should display correctly in the widest
 /// variety of email clients.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Body {
   /// The content of the message, in HTML format. Use this for email clients that
   /// can process HTML. You can include clickable links, formatted text, and much
   /// more in an HTML message.
+  @_s.JsonKey(name: 'Html')
   final Content html;
 
   /// The content of the message, in text format. Use this for text-based email
   /// clients, or clients on high-latency networks (such as mobile devices).
+  @_s.JsonKey(name: 'Text')
   final Content text;
 
   Body({
     this.html,
     this.text,
   });
+  Map<String, dynamic> toJson() => _$BodyToJson(this);
 }
 
 /// When included in a receipt rule, this action rejects the received email by
@@ -3658,20 +3754,29 @@ class Body {
 /// email, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class BounceAction {
   /// Human-readable text to include in the bounce message.
+  @_s.JsonKey(name: 'Message')
   final String message;
 
   /// The email address of the sender of the bounced email. This is the address
   /// from which the bounce message will be sent.
+  @_s.JsonKey(name: 'Sender')
   final String sender;
 
   /// The SMTP reply code, as defined by <a
   /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
+  @_s.JsonKey(name: 'SmtpReplyCode')
   final String smtpReplyCode;
 
   /// The SMTP enhanced status code, as defined by <a
   /// href="https://tools.ietf.org/html/rfc3463">RFC 3463</a>.
+  @_s.JsonKey(name: 'StatusCode')
   final String statusCode;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -3680,6 +3785,7 @@ class BounceAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   BounceAction({
@@ -3698,14 +3804,22 @@ class BounceAction {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$BounceActionToJson(this);
 }
 
 enum BounceType {
+  @_s.JsonValue('DoesNotExist')
   doesNotExist,
+  @_s.JsonValue('MessageTooLarge')
   messageTooLarge,
+  @_s.JsonValue('ExceededQuota')
   exceededQuota,
+  @_s.JsonValue('ContentRejected')
   contentRejected,
+  @_s.JsonValue('Undefined')
   undefined,
+  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
 }
 
@@ -3735,12 +3849,19 @@ extension on String {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class BouncedRecipientInfo {
   /// The email address of the recipient of the bounced email.
+  @_s.JsonKey(name: 'Recipient')
   final String recipient;
 
   /// The reason for the bounce. You must provide either this parameter or
   /// <code>RecipientDsnFields</code>.
+  @_s.JsonKey(name: 'BounceType')
   final BounceType bounceType;
 
   /// This parameter is used only for sending authorization. It is the ARN of the
@@ -3749,11 +3870,13 @@ class BouncedRecipientInfo {
   /// more information about sending authorization, see the <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
+  @_s.JsonKey(name: 'RecipientArn')
   final String recipientArn;
 
   /// Recipient-related DSN fields, most of which would normally be filled in
   /// automatically when provided with a <code>BounceType</code>. You must provide
   /// either this parameter or <code>BounceType</code>.
+  @_s.JsonKey(name: 'RecipientDsnFields')
   final RecipientDsnFields recipientDsnFields;
 
   BouncedRecipientInfo({
@@ -3762,22 +3885,31 @@ class BouncedRecipientInfo {
     this.recipientArn,
     this.recipientDsnFields,
   });
+  Map<String, dynamic> toJson() => _$BouncedRecipientInfoToJson(this);
 }
 
 /// An array that contains one or more Destinations, as well as the tags and
 /// replacement data associated with each of those Destinations.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class BulkEmailDestination {
+  @_s.JsonKey(name: 'Destination')
   final Destination destination;
 
   /// A list of tags, in the form of name/value pairs, to apply to an email that
   /// you send using <code>SendBulkTemplatedEmail</code>. Tags correspond to
   /// characteristics of the email that you define, so that you can publish email
   /// sending events.
+  @_s.JsonKey(name: 'ReplacementTags')
   final List<MessageTag> replacementTags;
 
   /// A list of replacement values to apply to the template. This parameter is a
   /// JSON object, typically consisting of key-value pairs in which the keys
   /// correspond to replacement tags in the email template.
+  @_s.JsonKey(name: 'ReplacementTemplateData')
   final String replacementTemplateData;
 
   BulkEmailDestination({
@@ -3785,6 +3917,7 @@ class BulkEmailDestination {
     this.replacementTags,
     this.replacementTemplateData,
   });
+  Map<String, dynamic> toJson() => _$BulkEmailDestinationToJson(this);
 }
 
 /// An object that contains the response from the
@@ -3880,19 +4013,33 @@ class BulkEmailDestinationStatus {
 }
 
 enum BulkEmailStatus {
+  @_s.JsonValue('Success')
   success,
+  @_s.JsonValue('MessageRejected')
   messageRejected,
+  @_s.JsonValue('MailFromDomainNotVerified')
   mailFromDomainNotVerified,
+  @_s.JsonValue('ConfigurationSetDoesNotExist')
   configurationSetDoesNotExist,
+  @_s.JsonValue('TemplateDoesNotExist')
   templateDoesNotExist,
+  @_s.JsonValue('AccountSuspended')
   accountSuspended,
+  @_s.JsonValue('AccountThrottled')
   accountThrottled,
+  @_s.JsonValue('AccountDailyQuotaExceeded')
   accountDailyQuotaExceeded,
+  @_s.JsonValue('InvalidSendingPoolName')
   invalidSendingPoolName,
+  @_s.JsonValue('AccountSendingPaused')
   accountSendingPaused,
+  @_s.JsonValue('ConfigurationSetSendingPaused')
   configurationSetSendingPaused,
+  @_s.JsonValue('InvalidParameterValue')
   invalidParameterValue,
+  @_s.JsonValue('TransientFailure')
   transientFailure,
+  @_s.JsonValue('Failed')
   failed,
 }
 
@@ -3950,9 +4097,15 @@ class CloneReceiptRuleSetResponse {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CloudWatchDestination {
   /// A list of dimensions upon which to categorize your emails when you publish
   /// email sending events to Amazon CloudWatch.
+  @_s.JsonKey(name: 'DimensionConfigurations')
   final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
 
   CloudWatchDestination({
@@ -3968,6 +4121,8 @@ class CloudWatchDestination {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() => _$CloudWatchDestinationToJson(this);
 }
 
 /// Contains the dimension configuration to use when you publish email sending
@@ -3977,6 +4132,11 @@ class CloudWatchDestination {
 /// see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you do not provide the value of the dimension when you send an email. The
@@ -3991,6 +4151,7 @@ class CloudWatchDimensionConfiguration {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'DefaultDimensionValue')
   final String defaultDimensionValue;
 
   /// The name of an Amazon CloudWatch dimension associated with an email sending
@@ -4005,6 +4166,7 @@ class CloudWatchDimensionConfiguration {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'DimensionName')
   final String dimensionName;
 
   /// The place where Amazon SES finds the value of a dimension to publish to
@@ -4013,6 +4175,7 @@ class CloudWatchDimensionConfiguration {
   /// the <code>SendEmail</code>/<code>SendRawEmail</code> API, choose
   /// <code>messageTag</code>. If you want Amazon SES to use your own email
   /// headers, choose <code>emailHeader</code>.
+  @_s.JsonKey(name: 'DimensionValueSource')
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
@@ -4030,6 +4193,9 @@ class CloudWatchDimensionConfiguration {
           ?.toDimensionValueSource(),
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      _$CloudWatchDimensionConfigurationToJson(this);
 }
 
 /// The name of the configuration set.
@@ -4041,6 +4207,11 @@ class CloudWatchDimensionConfiguration {
 /// Amazon SES Configuration Sets</a> in the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/">Amazon SES
 /// Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ConfigurationSet {
   /// The name of the configuration set. The name must meet the following
   /// requirements:
@@ -4054,6 +4225,7 @@ class ConfigurationSet {
   /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   ConfigurationSet({
@@ -4064,12 +4236,18 @@ class ConfigurationSet {
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ConfigurationSetToJson(this);
 }
 
 enum ConfigurationSetAttribute {
+  @_s.JsonValue('eventDestinations')
   eventDestinations,
+  @_s.JsonValue('trackingOptions')
   trackingOptions,
+  @_s.JsonValue('deliveryOptions')
   deliveryOptions,
+  @_s.JsonValue('reputationOptions')
   reputationOptions,
 }
 
@@ -4094,17 +4272,25 @@ extension on String {
 /// By default, the text must be 7-bit ASCII, due to the constraints of the SMTP
 /// protocol. If the text must contain any other characters, then you must also
 /// specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Content {
   /// The textual data of the content.
+  @_s.JsonKey(name: 'Data')
   final String data;
 
   /// The character set of the content.
+  @_s.JsonKey(name: 'Charset')
   final String charset;
 
   Content({
     @_s.required this.data,
     this.charset,
   });
+  Map<String, dynamic> toJson() => _$ContentToJson(this);
 }
 
 /// An empty element returned on a successful request.
@@ -4177,9 +4363,13 @@ class CreateTemplateResponse {
 }
 
 enum CustomMailFromStatus {
+  @_s.JsonValue('Pending')
   pending,
+  @_s.JsonValue('Success')
   success,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
 }
 
@@ -4329,12 +4519,18 @@ class DeleteTemplateResponse {
 
 /// Specifies whether messages that use the configuration set are required to
 /// use Transport Layer Security (TLS).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeliveryOptions {
   /// Specifies whether messages that use the configuration set are required to
   /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
   /// messages are only delivered if a TLS connection can be established. If the
   /// value is <code>Optional</code>, messages can be delivered in plain text if a
   /// TLS connection can't be established.
+  @_s.JsonKey(name: 'TlsPolicy')
   final TlsPolicy tlsPolicy;
 
   DeliveryOptions({
@@ -4345,6 +4541,8 @@ class DeliveryOptions {
       tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
     );
   }
+
+  Map<String, dynamic> toJson() => _$DeliveryOptionsToJson(this);
 }
 
 /// Represents the metadata and receipt rules for the receipt rule set that is
@@ -4483,14 +4681,22 @@ class DescribeReceiptRuleSetResponse {
 /// as described in <a
 /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
 /// </note>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Destination {
   /// The recipients to place on the BCC: line of the message.
+  @_s.JsonKey(name: 'BccAddresses')
   final List<String> bccAddresses;
 
   /// The recipients to place on the CC: line of the message.
+  @_s.JsonKey(name: 'CcAddresses')
   final List<String> ccAddresses;
 
   /// The recipients to place on the To: line of the message.
+  @_s.JsonKey(name: 'ToAddresses')
   final List<String> toAddresses;
 
   Destination({
@@ -4498,11 +4704,15 @@ class Destination {
     this.ccAddresses,
     this.toAddresses,
   });
+  Map<String, dynamic> toJson() => _$DestinationToJson(this);
 }
 
 enum DimensionValueSource {
+  @_s.JsonValue('messageTag')
   messageTag,
+  @_s.JsonValue('emailHeader')
   emailHeader,
+  @_s.JsonValue('linkTag')
   linkTag,
 }
 
@@ -4521,10 +4731,15 @@ extension on String {
 }
 
 enum DsnAction {
+  @_s.JsonValue('failed')
   failed,
+  @_s.JsonValue('delayed')
   delayed,
+  @_s.JsonValue('delivered')
   delivered,
+  @_s.JsonValue('relayed')
   relayed,
+  @_s.JsonValue('expanded')
   expanded,
 }
 
@@ -4559,8 +4774,14 @@ extension on String {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class EventDestination {
   /// The type of email sending events to publish to the event destination.
+  @_s.JsonKey(name: 'MatchingEventTypes')
   final List<String> matchingEventTypes;
 
   /// The name of the event destination. The name must:
@@ -4574,24 +4795,29 @@ class EventDestination {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An object that contains the names, default values, and sources of the
   /// dimensions associated with an Amazon CloudWatch event destination.
+  @_s.JsonKey(name: 'CloudWatchDestination')
   final CloudWatchDestination cloudWatchDestination;
 
   /// Sets whether Amazon SES publishes events to this destination when you send
   /// an email with the associated configuration set. Set to <code>true</code> to
   /// enable publishing to this destination; set to <code>false</code> to prevent
   /// publishing to this destination. The default value is <code>false</code>.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// An object that contains the delivery stream ARN and the IAM role ARN
   /// associated with an Amazon Kinesis Firehose event destination.
+  @_s.JsonKey(name: 'KinesisFirehoseDestination')
   final KinesisFirehoseDestination kinesisFirehoseDestination;
 
   /// An object that contains the topic ARN associated with an Amazon Simple
   /// Notification Service (Amazon SNS) event destination.
+  @_s.JsonKey(name: 'SNSDestination')
   final SNSDestination sNSDestination;
 
   EventDestination({
@@ -4619,16 +4845,26 @@ class EventDestination {
           ?.let((e) => SNSDestination.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$EventDestinationToJson(this);
 }
 
 enum EventType {
+  @_s.JsonValue('send')
   send,
+  @_s.JsonValue('reject')
   reject,
+  @_s.JsonValue('bounce')
   bounce,
+  @_s.JsonValue('complaint')
   complaint,
+  @_s.JsonValue('delivery')
   delivery,
+  @_s.JsonValue('open')
   open,
+  @_s.JsonValue('click')
   click,
+  @_s.JsonValue('renderingFailure')
   renderingFailure,
 }
 
@@ -4662,20 +4898,28 @@ extension on String {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ExtensionField {
   /// The name of the header to add. Must be between 1 and 50 characters,
   /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
   /// only.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the header to add. Must be less than 2048 characters, and must
   /// not contain newline characters ("\r" or "\n").
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   ExtensionField({
     @_s.required this.name,
     @_s.required this.value,
   });
+  Map<String, dynamic> toJson() => _$ExtensionFieldToJson(this);
 }
 
 /// Represents a request to return the email sending status for your Amazon SES
@@ -5089,7 +5333,9 @@ class IdentityNotificationAttributes {
 }
 
 enum IdentityType {
+  @_s.JsonValue('EmailAddress')
   emailAddress,
+  @_s.JsonValue('Domain')
   domain,
 }
 
@@ -5142,7 +5388,9 @@ class IdentityVerificationAttributes {
 }
 
 enum InvocationType {
+  @_s.JsonValue('Event')
   event,
+  @_s.JsonValue('RequestResponse')
   requestResponse,
 }
 
@@ -5166,13 +5414,20 @@ extension on String {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class KinesisFirehoseDestination {
   /// The ARN of the Amazon Kinesis Firehose stream that email sending events
   /// should be published to.
+  @_s.JsonKey(name: 'DeliveryStreamARN')
   final String deliveryStreamARN;
 
   /// The ARN of the IAM role under which Amazon SES publishes email sending
   /// events to the Amazon Kinesis Firehose stream.
+  @_s.JsonKey(name: 'IAMRoleARN')
   final String iAMRoleARN;
 
   KinesisFirehoseDestination({
@@ -5185,6 +5440,8 @@ class KinesisFirehoseDestination {
       iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$KinesisFirehoseDestinationToJson(this);
 }
 
 /// When included in a receipt rule, this action calls an AWS Lambda function
@@ -5200,6 +5457,11 @@ class KinesisFirehoseDestination {
 /// For information about using AWS Lambda actions in receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-lambda.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LambdaAction {
   /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an
   /// AWS Lambda function ARN is
@@ -5207,6 +5469,7 @@ class LambdaAction {
   /// more information about AWS Lambda, see the <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'FunctionArn')
   final String functionArn;
 
   /// The invocation type of the AWS Lambda function. An invocation type of
@@ -5223,6 +5486,7 @@ class LambdaAction {
   /// <code>RequestResponse</code> only when you want to make a mail flow
   /// decision, such as whether to stop the receipt rule or the receipt rule set.
   /// </important>
+  @_s.JsonKey(name: 'InvocationType')
   final InvocationType invocationType;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -5231,6 +5495,7 @@ class LambdaAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   LambdaAction({
@@ -5246,6 +5511,8 @@ class LambdaAction {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LambdaActionToJson(this);
 }
 
 /// A list of configuration sets associated with your AWS account. Configuration
@@ -5441,18 +5708,26 @@ class ListVerifiedEmailAddressesResponse {
 }
 
 /// Represents the message to be sent, composed of a subject and a body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Message {
   /// The message body.
+  @_s.JsonKey(name: 'Body')
   final Body body;
 
   /// The subject of the message: A short summary of the content, which will
   /// appear in the recipient's inbox.
+  @_s.JsonKey(name: 'Subject')
   final Content subject;
 
   Message({
     @_s.required this.body,
     @_s.required this.subject,
   });
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
 }
 
 /// Message-related information to include in the Delivery Status Notification
@@ -5461,18 +5736,27 @@ class Message {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MessageDsn {
   /// The reporting MTA that attempted to deliver the message, formatted as
   /// specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
   /// (<code>mta-name-type; mta-name</code>). The default value is <code>dns;
   /// inbound-smtp.[region].amazonaws.com</code>.
+  @_s.JsonKey(name: 'ReportingMta')
   final String reportingMta;
 
   /// When the message was received by the reporting mail transfer agent (MTA), in
   /// <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
+  @_s.JsonKey(
+      name: 'ArrivalDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
   final DateTime arrivalDate;
 
   /// Additional X-headers to include in the DSN.
+  @_s.JsonKey(name: 'ExtensionFields')
   final List<ExtensionField> extensionFields;
 
   MessageDsn({
@@ -5480,6 +5764,7 @@ class MessageDsn {
     this.arrivalDate,
     this.extensionFields,
   });
+  Map<String, dynamic> toJson() => _$MessageDsnToJson(this);
 }
 
 /// Contains the name and value of a tag that you can provide to
@@ -5490,6 +5775,11 @@ class MessageDsn {
 /// the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MessageTag {
   /// The name of the tag. The name must:
   ///
@@ -5502,6 +5792,7 @@ class MessageTag {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the tag. The value must:
@@ -5515,17 +5806,22 @@ class MessageTag {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   MessageTag({
     @_s.required this.name,
     @_s.required this.value,
   });
+  Map<String, dynamic> toJson() => _$MessageTagToJson(this);
 }
 
 enum NotificationType {
+  @_s.JsonValue('Bounce')
   bounce,
+  @_s.JsonValue('Complaint')
   complaint,
+  @_s.JsonValue('Delivery')
   delivery,
 }
 
@@ -5579,6 +5875,11 @@ class PutIdentityPolicyResponse {
 }
 
 /// Represents the raw data of the message.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class RawMessage {
   /// The raw data of the message. This data needs to base64-encoded if you are
   /// accessing Amazon SES directly through the HTTPS interface. If you are
@@ -5600,11 +5901,13 @@ class RawMessage {
   /// For more information, go to the <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html">Amazon
   /// SES Developer Guide</a>.
-  final Uint8List data;
+  @_s.JsonKey(name: 'Data')
+  final String data;
 
   RawMessage({
     @_s.required this.data,
   });
+  Map<String, dynamic> toJson() => _$RawMessageToJson(this);
 }
 
 /// An action that Amazon SES can take when it receives an email on behalf of
@@ -5614,32 +5917,44 @@ class RawMessage {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReceiptAction {
   /// Adds a header to the received email.
+  @_s.JsonKey(name: 'AddHeaderAction')
   final AddHeaderAction addHeaderAction;
 
   /// Rejects the received email by returning a bounce response to the sender and,
   /// optionally, publishes a notification to Amazon Simple Notification Service
   /// (Amazon SNS).
+  @_s.JsonKey(name: 'BounceAction')
   final BounceAction bounceAction;
 
   /// Calls an AWS Lambda function, and optionally, publishes a notification to
   /// Amazon SNS.
+  @_s.JsonKey(name: 'LambdaAction')
   final LambdaAction lambdaAction;
 
   /// Saves the received message to an Amazon Simple Storage Service (Amazon S3)
   /// bucket and, optionally, publishes a notification to Amazon SNS.
+  @_s.JsonKey(name: 'S3Action')
   final S3Action s3Action;
 
   /// Publishes the email content within a notification to Amazon SNS.
+  @_s.JsonKey(name: 'SNSAction')
   final SNSAction sNSAction;
 
   /// Terminates the evaluation of the receipt rule set and optionally publishes a
   /// notification to Amazon SNS.
+  @_s.JsonKey(name: 'StopAction')
   final StopAction stopAction;
 
   /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon
   /// Amazon SNS.
+  @_s.JsonKey(name: 'WorkmailAction')
   final WorkmailAction workmailAction;
 
   ReceiptAction({
@@ -5675,6 +5990,8 @@ class ReceiptAction {
           ?.let((e) => WorkmailAction.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ReceiptActionToJson(this);
 }
 
 /// A receipt IP address filter enables you to specify whether to accept or
@@ -5683,9 +6000,15 @@ class ReceiptAction {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReceiptFilter {
   /// A structure that provides the IP addresses to block or allow, and whether to
   /// block or allow incoming mail from them.
+  @_s.JsonKey(name: 'IpFilter')
   final ReceiptIpFilter ipFilter;
 
   /// The name of the IP address filter. The name must:
@@ -5702,6 +6025,7 @@ class ReceiptFilter {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   ReceiptFilter({
@@ -5716,10 +6040,14 @@ class ReceiptFilter {
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ReceiptFilterToJson(this);
 }
 
 enum ReceiptFilterPolicy {
+  @_s.JsonValue('Block')
   block,
+  @_s.JsonValue('Allow')
   allow,
 }
 
@@ -5741,16 +6069,23 @@ extension on String {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReceiptIpFilter {
   /// A single IP address or a range of IP addresses that you want to block or
   /// allow, specified in Classless Inter-Domain Routing (CIDR) notation. An
   /// example of a single email address is 10.0.0.1. An example of a range of IP
   /// addresses is 10.0.0.1/24. For more information about CIDR notation, see <a
   /// href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
+  @_s.JsonKey(name: 'Cidr')
   final String cidr;
 
   /// Indicates whether to block or allow incoming mail from the specified IP
   /// addresses.
+  @_s.JsonKey(name: 'Policy')
   final ReceiptFilterPolicy policy;
 
   ReceiptIpFilter({
@@ -5763,6 +6098,8 @@ class ReceiptIpFilter {
       policy: _s.extractXmlStringValue(elem, 'Policy')?.toReceiptFilterPolicy(),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ReceiptIpFilterToJson(this);
 }
 
 /// Receipt rules enable you to specify which actions Amazon SES should take
@@ -5777,6 +6114,11 @@ class ReceiptIpFilter {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ReceiptRule {
   /// The name of the receipt rule. The name must:
   ///
@@ -5792,29 +6134,35 @@ class ReceiptRule {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An ordered list of actions to perform on messages that match at least one of
   /// the recipient email addresses or domains specified in the receipt rule.
+  @_s.JsonKey(name: 'Actions')
   final List<ReceiptAction> actions;
 
   /// If <code>true</code>, the receipt rule is active. The default value is
   /// <code>false</code>.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The recipient domains and email addresses that the receipt rule applies to.
   /// If this field is not specified, this rule will match all recipients under
   /// all verified domains.
+  @_s.JsonKey(name: 'Recipients')
   final List<String> recipients;
 
   /// If <code>true</code>, then messages that this receipt rule applies to are
   /// scanned for spam and viruses. The default value is <code>false</code>.
+  @_s.JsonKey(name: 'ScanEnabled')
   final bool scanEnabled;
 
   /// Specifies whether Amazon SES should require that incoming email is delivered
   /// over a connection encrypted with Transport Layer Security (TLS). If this
   /// parameter is set to <code>Require</code>, Amazon SES will bounce emails that
   /// are not received over TLS. The default is <code>Optional</code>.
+  @_s.JsonKey(name: 'TlsPolicy')
   final TlsPolicy tlsPolicy;
 
   ReceiptRule({
@@ -5840,6 +6188,8 @@ class ReceiptRule {
       tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ReceiptRuleToJson(this);
 }
 
 /// Information about a receipt rule set.
@@ -5889,22 +6239,31 @@ class ReceiptRuleSetMetadata {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class RecipientDsnFields {
   /// The action performed by the reporting mail transfer agent (MTA) as a result
   /// of its attempt to deliver the message to the recipient address. This is
   /// required by <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
+  @_s.JsonKey(name: 'Action')
   final DsnAction action;
 
   /// The status code that indicates what went wrong. This is required by <a
   /// href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
+  @_s.JsonKey(name: 'Status')
   final String status;
 
   /// An extended explanation of what went wrong; this is usually an SMTP
   /// response. See <a href="https://tools.ietf.org/html/rfc3463">RFC 3463</a> for
   /// the correct formatting of this parameter.
+  @_s.JsonKey(name: 'DiagnosticCode')
   final String diagnosticCode;
 
   /// Additional X-headers to include in the DSN.
+  @_s.JsonKey(name: 'ExtensionFields')
   final List<ExtensionField> extensionFields;
 
   /// The email address that the message was ultimately delivered to. This
@@ -5919,16 +6278,20 @@ class RecipientDsnFields {
   /// 822;</code>, as described in <a
   /// href="https://tools.ietf.org/html/rfc3798">RFC 3798</a>.
   /// </note>
+  @_s.JsonKey(name: 'FinalRecipient')
   final String finalRecipient;
 
   /// The time the final delivery attempt was made, in <a
   /// href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
+  @_s.JsonKey(
+      name: 'LastAttemptDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
   final DateTime lastAttemptDate;
 
   /// The MTA to which the remote MTA attempted to deliver the message, formatted
   /// as specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
   /// (<code>mta-name-type; mta-name</code>). This parameter typically applies
   /// only to propagating synchronous bounces.
+  @_s.JsonKey(name: 'RemoteMta')
   final String remoteMta;
 
   RecipientDsnFields({
@@ -5940,6 +6303,7 @@ class RecipientDsnFields {
     this.lastAttemptDate,
     this.remoteMta,
   });
+  Map<String, dynamic> toJson() => _$RecipientDsnFieldsToJson(this);
 }
 
 /// An empty element returned on a successful request.
@@ -6015,8 +6379,14 @@ class ReputationOptions {
 /// <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-s3.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class S3Action {
   /// The name of the Amazon S3 bucket that incoming email will be saved to.
+  @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
   /// The customer master key that Amazon SES should use to encrypt your emails
@@ -6061,11 +6431,13 @@ class S3Action {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
   /// S3 Developer Guide</a>.
   /// </important>
+  @_s.JsonKey(name: 'KmsKeyArn')
   final String kmsKeyArn;
 
   /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a
   /// directory name that enables you to store similar data under the same
   /// directory in a bucket.
+  @_s.JsonKey(name: 'ObjectKeyPrefix')
   final String objectKeyPrefix;
 
   /// The ARN of the Amazon SNS topic to notify when the message is saved to the
@@ -6074,6 +6446,7 @@ class S3Action {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   S3Action({
@@ -6090,6 +6463,8 @@ class S3Action {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$S3ActionToJson(this);
 }
 
 /// When included in a receipt rule, this action publishes a notification to
@@ -6114,6 +6489,11 @@ class S3Action {
 /// notification, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-sns.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SNSAction {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example
   /// of an Amazon SNS topic ARN is
@@ -6121,12 +6501,14 @@ class SNSAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   /// The encoding to use for the email within the Amazon SNS notification. UTF-8
   /// is easier to use, but may not preserve all special characters when a message
   /// was encoded with a different encoding format. Base64 preserves all special
   /// characters. The default value is UTF-8.
+  @_s.JsonKey(name: 'Encoding')
   final SNSActionEncoding encoding;
 
   SNSAction({
@@ -6140,10 +6522,14 @@ class SNSAction {
           _s.extractXmlStringValue(elem, 'Encoding')?.toSNSActionEncoding(),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SNSActionToJson(this);
 }
 
 enum SNSActionEncoding {
+  @_s.JsonValue('UTF-8')
   utf_8,
+  @_s.JsonValue('Base64')
   base64,
 }
 
@@ -6167,6 +6553,11 @@ extension on String {
 /// about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SNSDestination {
   /// The ARN of the Amazon SNS topic that email sending events will be published
   /// to. An example of an Amazon SNS topic ARN is
@@ -6174,6 +6565,7 @@ class SNSDestination {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicARN')
   final String topicARN;
 
   SNSDestination({
@@ -6184,6 +6576,8 @@ class SNSDestination {
       topicARN: _s.extractXmlStringValue(elem, 'TopicARN'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$SNSDestinationToJson(this);
 }
 
 /// Represents a unique message ID.
@@ -6395,9 +6789,15 @@ class SetReceiptRulePositionResponse {
 /// For information about setting a stop action in a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-stop.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class StopAction {
   /// The scope of the StopAction. The only acceptable value is
   /// <code>RuleSet</code>.
+  @_s.JsonKey(name: 'Scope')
   final StopScope scope;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -6406,6 +6806,7 @@ class StopAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   StopAction({
@@ -6418,9 +6819,12 @@ class StopAction {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$StopActionToJson(this);
 }
 
 enum StopScope {
+  @_s.JsonValue('RuleSet')
   ruleSet,
 }
 
@@ -6436,20 +6840,29 @@ extension on String {
 
 /// The content of the email, composed of a subject line, an HTML part, and a
 /// text-only part.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Template {
   /// The name of the template. You will refer to this name when you send email
   /// using the <code>SendTemplatedEmail</code> or
   /// <code>SendBulkTemplatedEmail</code> operations.
+  @_s.JsonKey(name: 'TemplateName')
   final String templateName;
 
   /// The HTML body of the email.
+  @_s.JsonKey(name: 'HtmlPart')
   final String htmlPart;
 
   /// The subject line of the email.
+  @_s.JsonKey(name: 'SubjectPart')
   final String subjectPart;
 
   /// The email body that will be visible to recipients whose email clients do not
   /// display HTML.
+  @_s.JsonKey(name: 'TextPart')
   final String textPart;
 
   Template({
@@ -6466,6 +6879,8 @@ class Template {
       textPart: _s.extractXmlStringValue(elem, 'TextPart'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TemplateToJson(this);
 }
 
 /// Contains information about an email template.
@@ -6504,7 +6919,9 @@ class TestRenderTemplateResponse {
 }
 
 enum TlsPolicy {
+  @_s.JsonValue('Require')
   require,
+  @_s.JsonValue('Optional')
   optional,
 }
 
@@ -6528,9 +6945,15 @@ extension on String {
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Configuring
 /// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
 /// Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class TrackingOptions {
   /// The custom subdomain that will be used to redirect email recipients to the
   /// Amazon SES event tracking domain.
+  @_s.JsonKey(name: 'CustomRedirectDomain')
   final String customRedirectDomain;
 
   TrackingOptions({
@@ -6542,6 +6965,8 @@ class TrackingOptions {
           _s.extractXmlStringValue(elem, 'CustomRedirectDomain'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TrackingOptionsToJson(this);
 }
 
 /// An empty element returned on a successful request.
@@ -6584,10 +7009,15 @@ class UpdateTemplateResponse {
 }
 
 enum VerificationStatus {
+  @_s.JsonValue('Pending')
   pending,
+  @_s.JsonValue('Success')
   success,
+  @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
+  @_s.JsonValue('NotStarted')
   notStarted,
 }
 
@@ -6683,6 +7113,11 @@ class VerifyEmailIdentityResponse {
 /// For information using a receipt rule to call Amazon WorkMail, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-workmail.html">Amazon
 /// SES Developer Guide</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class WorkmailAction {
   /// The ARN of the Amazon WorkMail organization. An example of an Amazon
   /// WorkMail organization ARN is
@@ -6690,6 +7125,7 @@ class WorkmailAction {
   /// For information about Amazon WorkMail organizations, see the <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html">Amazon
   /// WorkMail Administrator Guide</a>.
+  @_s.JsonKey(name: 'OrganizationArn')
   final String organizationArn;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -6698,6 +7134,7 @@ class WorkmailAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
+  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   WorkmailAction({
@@ -6710,6 +7147,8 @@ class WorkmailAction {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$WorkmailActionToJson(this);
 }
 
 class AccountSendingPausedException extends _s.GenericAwsException {

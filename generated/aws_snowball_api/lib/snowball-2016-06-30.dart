@@ -1547,7 +1547,10 @@ class ClusterListEntry {
   final ClusterState clusterState;
 
   /// The creation date for this cluster.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// Defines an optional description of the cluster, for example
@@ -1585,7 +1588,10 @@ class ClusterMetadata {
   final ClusterState clusterState;
 
   /// The creation date for this cluster.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The optional description of the cluster.
@@ -2062,7 +2068,10 @@ class INDTaxDocuments {
     createToJson: false)
 class JobListEntry {
   /// The creation date for this job.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The optional description of this specific job, for example <code>Important
@@ -2176,7 +2185,10 @@ class JobMetadata {
   final String clusterId;
 
   /// The creation date for this job.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// A value that defines the real-time status of a Snowball's data transfer

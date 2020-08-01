@@ -334,7 +334,10 @@ class HomeRegionControl {
   /// A timestamp representing the time when the customer called
   /// <code>CreateHomeregionControl</code> and set the home region for the
   /// account.
-  @_s.JsonKey(name: 'RequestedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'RequestedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime requestedTime;
 
   /// The target parameter specifies the identifier to which the home region is

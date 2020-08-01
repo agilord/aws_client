@@ -2081,7 +2081,9 @@ class BlockPublicAccessConfigurationMetadata {
 
   /// The date and time that the configuration was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   BlockPublicAccessConfigurationMetadata({
@@ -2617,15 +2619,23 @@ class ClusterSummary {
 class ClusterTimeline {
   /// The creation date and time of the cluster.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time when the cluster was terminated.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// The date and time when the cluster was ready to execute steps.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   ClusterTimeline({
@@ -2724,7 +2734,9 @@ class Configuration {
 class CreateSecurityConfigurationOutput {
   /// The date and time the security configuration was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The name of the security configuration.
@@ -2796,7 +2808,9 @@ class DescribeJobFlowsOutput {
 class DescribeSecurityConfigurationOutput {
   /// The date and time the security configuration was created
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The name of the security configuration.
@@ -3653,15 +3667,23 @@ class InstanceFleetStatus {
 class InstanceFleetTimeline {
   /// The time and date the instance fleet was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The time and date the instance fleet terminated.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// The time and date the instance fleet was ready to run jobs.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   InstanceFleetTimeline({
@@ -3892,7 +3914,9 @@ class InstanceGroupConfig {
 class InstanceGroupDetail {
   /// The date/time the instance group was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// Target number of instances to run in the instance group.
@@ -3929,7 +3953,10 @@ class InstanceGroupDetail {
   final String bidPrice;
 
   /// The date/time the instance group was terminated.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// Unique identifier for the instance group.
@@ -3945,11 +3972,17 @@ class InstanceGroupDetail {
   final String name;
 
   /// The date/time the instance group was available to the cluster.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   /// The date/time the instance group was started.
-  @_s.JsonKey(name: 'StartDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startDateTime;
 
   InstanceGroupDetail({
@@ -4106,15 +4139,23 @@ class InstanceGroupStatus {
 class InstanceGroupTimeline {
   /// The creation date and time of the instance group.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time when the instance group terminated.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// The date and time when the instance group became ready to perform tasks.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   InstanceGroupTimeline({
@@ -4263,15 +4304,23 @@ class InstanceStatus {
 class InstanceTimeline {
   /// The creation date and time of the instance.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time when the instance was terminated.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// The date and time when the instance was ready to perform tasks.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   InstanceTimeline({
@@ -4550,7 +4599,9 @@ enum JobFlowExecutionState {
 class JobFlowExecutionStatusDetail {
   /// The creation date and time of the job flow.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The state of the job flow.
@@ -4558,7 +4609,10 @@ class JobFlowExecutionStatusDetail {
   final JobFlowExecutionState state;
 
   /// The completion date and time of the job flow.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// Description of the job flow last changed state.
@@ -4567,11 +4621,17 @@ class JobFlowExecutionStatusDetail {
 
   /// The date and time when the job flow was ready to start running bootstrap
   /// actions.
-  @_s.JsonKey(name: 'ReadyDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ReadyDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime readyDateTime;
 
   /// The start date and time of the job flow.
-  @_s.JsonKey(name: 'StartDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startDateTime;
 
   JobFlowExecutionStatusDetail({
@@ -5447,7 +5507,9 @@ class ScriptBootstrapActionConfig {
 class SecurityConfigurationSummary {
   /// The date and time the security configuration was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The name of the security configuration.
@@ -5758,7 +5820,9 @@ enum StepExecutionState {
 class StepExecutionStatusDetail {
   /// The creation date and time of the step.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The state of the step.
@@ -5766,7 +5830,10 @@ class StepExecutionStatusDetail {
   final StepExecutionState state;
 
   /// The completion date and time of the step.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// A description of the step's current state.
@@ -5774,7 +5841,10 @@ class StepExecutionStatusDetail {
   final String lastStateChangeReason;
 
   /// The start date and time of the step.
-  @_s.JsonKey(name: 'StartDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startDateTime;
 
   StepExecutionStatusDetail({
@@ -5918,15 +5988,23 @@ class StepSummary {
 class StepTimeline {
   /// The date and time when the cluster step was created.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time when the cluster step execution completed or failed.
-  @_s.JsonKey(name: 'EndDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
   /// The date and time when the cluster step execution started.
-  @_s.JsonKey(name: 'StartDateTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startDateTime;
 
   StepTimeline({

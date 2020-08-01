@@ -34,13 +34,17 @@ AttackDetail _$AttackDetailFromJson(Map<String, dynamic> json) {
             ? null
             : AttackProperty.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     mitigations: (json['Mitigations'] as List)
         ?.map((e) =>
             e == null ? null : Mitigation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     resourceArn: json['ResourceArn'] as String,
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     subResources: (json['SubResources'] as List)
         ?.map((e) => e == null
             ? null
@@ -128,9 +132,13 @@ AttackSummary _$AttackSummaryFromJson(Map<String, dynamic> json) {
             ? null
             : AttackVectorDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     resourceArn: json['ResourceArn'] as String,
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
   );
 }
 
@@ -335,12 +343,16 @@ const _$SubResourceTypeEnumMap = {
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   return Subscription(
     autoRenew: _$enumDecodeNullable(_$AutoRenewEnumMap, json['AutoRenew']),
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     limits: (json['Limits'] as List)
         ?.map(
             (e) => e == null ? null : Limit.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int,
   );
 }
@@ -382,8 +394,8 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
     }
   }
 
-  writeNotNull('FromInclusive', unixToJson(instance.fromInclusive));
-  writeNotNull('ToExclusive', unixToJson(instance.toExclusive));
+  writeNotNull('FromInclusive', instance.fromInclusive?.toIso8601String());
+  writeNotNull('ToExclusive', instance.toExclusive?.toIso8601String());
   return val;
 }
 

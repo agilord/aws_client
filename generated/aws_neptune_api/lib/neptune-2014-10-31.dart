@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'neptune-2014-10-31.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'neptune-2014-10-31.g.dart';
 
 /// Amazon Neptune is a fast, reliable, fully-managed graph database service
 /// that makes it easy to build and run applications that work with highly
@@ -26,17 +37,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// security.
 class Neptune {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   Neptune({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'rds',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Associates an Identity and Access Management (IAM) role from an Neptune DB
   /// cluster.
@@ -59,17 +73,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final $request = <String, dynamic>{
-      'Action': 'AddRoleToDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
     await _protocol.send(
       $request,
+      action: 'AddRoleToDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddRoleToDBClusterMessage'],
+      shapes: shapes,
     );
   }
 
@@ -112,17 +127,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'AddSourceIdentifierToSubscription',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'AddSourceIdentifierToSubscription',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddSourceIdentifierToSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'AddSourceIdentifierToSubscriptionResult',
     );
     return AddSourceIdentifierToSubscriptionResult.fromXml($result);
@@ -151,17 +167,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'AddTagsToResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'AddTagsToResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddTagsToResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -209,18 +226,19 @@ class Neptune {
     ArgumentError.checkNotNull(applyAction, 'applyAction');
     ArgumentError.checkNotNull(optInType, 'optInType');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ApplyPendingMaintenanceAction',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplyAction'] = applyAction;
     $request['OptInType'] = optInType;
     $request['ResourceIdentifier'] = resourceIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'ApplyPendingMaintenanceAction',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ApplyPendingMaintenanceActionMessage'],
+      shapes: shapes,
       resultWrapper: 'ApplyPendingMaintenanceActionResult',
     );
     return ApplyPendingMaintenanceActionResult.fromXml($result);
@@ -294,10 +312,7 @@ class Neptune {
         'targetDBClusterParameterGroupDescription');
     ArgumentError.checkNotNull(targetDBClusterParameterGroupIdentifier,
         'targetDBClusterParameterGroupIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBClusterParameterGroupIdentifier'] =
         sourceDBClusterParameterGroupIdentifier;
     $request['TargetDBClusterParameterGroupDescription'] =
@@ -307,9 +322,13 @@ class Neptune {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBClusterParameterGroupResult',
     );
     return CopyDBClusterParameterGroupResult.fromXml($result);
@@ -408,10 +427,7 @@ class Neptune {
         sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
     ArgumentError.checkNotNull(
         targetDBClusterSnapshotIdentifier, 'targetDBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBClusterSnapshotIdentifier'] =
         sourceDBClusterSnapshotIdentifier;
     $request['TargetDBClusterSnapshotIdentifier'] =
@@ -422,9 +438,13 @@ class Neptune {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBClusterSnapshotResult',
     );
     return CopyDBClusterSnapshotResult.fromXml($result);
@@ -492,10 +512,7 @@ class Neptune {
         targetDBParameterGroupDescription, 'targetDBParameterGroupDescription');
     ArgumentError.checkNotNull(
         targetDBParameterGroupIdentifier, 'targetDBParameterGroupIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBParameterGroupIdentifier'] =
         sourceDBParameterGroupIdentifier;
     $request['TargetDBParameterGroupDescription'] =
@@ -505,9 +522,13 @@ class Neptune {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBParameterGroupResult',
     );
     return CopyDBParameterGroupResult.fromXml($result);
@@ -783,10 +804,7 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
@@ -820,9 +838,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterResult',
     );
     return CreateDBClusterResult.fromXml($result);
@@ -895,19 +917,20 @@ class Neptune {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
     ArgumentError.checkNotNull(description, 'description');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['Description'] = description;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterParameterGroupResult',
     );
     return CreateDBClusterParameterGroupResult.fromXml($result);
@@ -963,18 +986,19 @@ class Neptune {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterSnapshotResult',
     );
     return CreateDBClusterSnapshotResult.fromXml($result);
@@ -1344,10 +1368,7 @@ class Neptune {
     ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['Engine'] = engine;
@@ -1402,9 +1423,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBInstanceResult',
     );
     return CreateDBInstanceResult.fromXml($result);
@@ -1477,19 +1502,20 @@ class Neptune {
         dBParameterGroupFamily, 'dBParameterGroupFamily');
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(description, 'description');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Description'] = description;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBParameterGroupResult',
     );
     return CreateDBParameterGroupResult.fromXml($result);
@@ -1531,19 +1557,20 @@ class Neptune {
         dBSubnetGroupDescription, 'dBSubnetGroupDescription');
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBSubnetGroupResult',
     );
     return CreateDBSubnetGroupResult.fromXml($result);
@@ -1652,10 +1679,7 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateEventSubscription',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -1665,9 +1689,13 @@ class Neptune {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateEventSubscription',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateEventSubscriptionResult',
     );
     return CreateEventSubscriptionResult.fromXml($result);
@@ -1737,19 +1765,20 @@ class Neptune {
     bool skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     finalDBSnapshotIdentifier
         ?.also((arg) => $request['FinalDBSnapshotIdentifier'] = arg);
     skipFinalSnapshot?.also((arg) => $request['SkipFinalSnapshot'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBClusterResult',
     );
     return DeleteDBClusterResult.fromXml($result);
@@ -1782,16 +1811,17 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterParameterGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1815,16 +1845,17 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBClusterSnapshotResult',
     );
     return DeleteDBClusterSnapshotResult.fromXml($result);
@@ -1913,19 +1944,20 @@ class Neptune {
     bool skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     finalDBSnapshotIdentifier
         ?.also((arg) => $request['FinalDBSnapshotIdentifier'] = arg);
     skipFinalSnapshot?.also((arg) => $request['SkipFinalSnapshot'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBInstanceResult',
     );
     return DeleteDBInstanceResult.fromXml($result);
@@ -1957,16 +1989,17 @@ class Neptune {
     @_s.required String dBParameterGroupName,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBParameterGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1995,16 +2028,17 @@ class Neptune {
     @_s.required String dBSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBSubnetGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2019,16 +2053,17 @@ class Neptune {
     @_s.required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteEventSubscription',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteEventSubscription',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteEventSubscriptionResult',
     );
     return DeleteEventSubscriptionResult.fromXml($result);
@@ -2076,10 +2111,7 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterParameterGroups',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterParameterGroupName
         ?.also((arg) => $request['DBClusterParameterGroupName'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -2087,9 +2119,13 @@ class Neptune {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterParameterGroups',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterParameterGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterParameterGroupsResult',
     );
     return DBClusterParameterGroupsMessage.fromXml($result);
@@ -2144,10 +2180,7 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2155,9 +2188,13 @@ class Neptune {
     source?.also((arg) => $request['Source'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterParametersResult',
     );
     return DBClusterParameterGroupDetails.fromXml($result);
@@ -2188,16 +2225,17 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterSnapshotAttributes',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterSnapshotAttributes',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterSnapshotAttributesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterSnapshotAttributesResult',
     );
     return DescribeDBClusterSnapshotAttributesResult.fromXml($result);
@@ -2320,10 +2358,7 @@ class Neptune {
     int maxRecords,
     String snapshotType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterSnapshots',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     dBClusterSnapshotIdentifier
         ?.also((arg) => $request['DBClusterSnapshotIdentifier'] = arg);
@@ -2335,9 +2370,13 @@ class Neptune {
     snapshotType?.also((arg) => $request['SnapshotType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterSnapshots',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterSnapshotsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterSnapshotsResult',
     );
     return DBClusterSnapshotMessage.fromXml($result);
@@ -2406,19 +2445,20 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClustersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClustersResult',
     );
     return DBClusterMessage.fromXml($result);
@@ -2488,10 +2528,7 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBEngineVersions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBParameterGroupFamily
         ?.also((arg) => $request['DBParameterGroupFamily'] = arg);
     defaultOnly?.also((arg) => $request['DefaultOnly'] = arg);
@@ -2506,9 +2543,13 @@ class Neptune {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBEngineVersions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBEngineVersionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBEngineVersionsResult',
     );
     return DBEngineVersionMessage.fromXml($result);
@@ -2577,19 +2618,20 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBInstances',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBInstances',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBInstancesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBInstancesResult',
     );
     return DBInstanceMessage.fromXml($result);
@@ -2636,19 +2678,20 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBParameterGroups',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBParameterGroupName?.also((arg) => $request['DBParameterGroupName'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBParameterGroups',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBParameterGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBParameterGroupsResult',
     );
     return DBParameterGroupsMessage.fromXml($result);
@@ -2702,10 +2745,7 @@ class Neptune {
     String source,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2713,9 +2753,13 @@ class Neptune {
     source?.also((arg) => $request['Source'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBParametersResult',
     );
     return DBParameterGroupDetails.fromXml($result);
@@ -2758,19 +2802,20 @@ class Neptune {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBSubnetGroups',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBSubnetGroups',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBSubnetGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBSubnetGroupsResult',
     );
     return DBSubnetGroupMessage.fromXml($result);
@@ -2810,19 +2855,20 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEngineDefaultClusterParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEngineDefaultClusterParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEngineDefaultClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEngineDefaultClusterParametersResult',
     );
     return DescribeEngineDefaultClusterParametersResult.fromXml($result);
@@ -2861,19 +2907,20 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEngineDefaultParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEngineDefaultParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEngineDefaultParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEngineDefaultParametersResult',
     );
     return DescribeEngineDefaultParametersResult.fromXml($result);
@@ -2894,17 +2941,18 @@ class Neptune {
     List<Filter> filters,
     String sourceType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventCategories',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventCategories',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventCategoriesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventCategoriesResult',
     );
     return EventCategoriesMessage.fromXml($result);
@@ -2946,19 +2994,20 @@ class Neptune {
     int maxRecords,
     String subscriptionName,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventSubscriptions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     subscriptionName?.also((arg) => $request['SubscriptionName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventSubscriptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventSubscriptionsResult',
     );
     return EventSubscriptionsMessage.fromXml($result);
@@ -3057,10 +3106,7 @@ class Neptune {
     SourceType sourceType,
     DateTime startTime,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEvents',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -3072,9 +3118,13 @@ class Neptune {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEvents',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
@@ -3130,10 +3180,7 @@ class Neptune {
     bool vpc,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOrderableDBInstanceOptions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
@@ -3144,9 +3191,13 @@ class Neptune {
     vpc?.also((arg) => $request['Vpc'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOrderableDBInstanceOptions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOrderableDBInstanceOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOrderableDBInstanceOptionsResult',
     );
     return OrderableDBInstanceOptionsMessage.fromXml($result);
@@ -3200,19 +3251,20 @@ class Neptune {
     int maxRecords,
     String resourceIdentifier,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribePendingMaintenanceActions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     resourceIdentifier?.also((arg) => $request['ResourceIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribePendingMaintenanceActions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribePendingMaintenanceActionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribePendingMaintenanceActionsResult',
     );
     return PendingMaintenanceActionsMessage.fromXml($result);
@@ -3232,16 +3284,17 @@ class Neptune {
     @_s.required String dBInstanceIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeValidDBInstanceModifications',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeValidDBInstanceModifications',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeValidDBInstanceModificationsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeValidDBInstanceModificationsResult',
     );
     return DescribeValidDBInstanceModificationsResult.fromXml($result);
@@ -3285,18 +3338,19 @@ class Neptune {
     String dBClusterIdentifier,
     String targetDBInstanceIdentifier,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'FailoverDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     targetDBInstanceIdentifier
         ?.also((arg) => $request['TargetDBInstanceIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'FailoverDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['FailoverDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'FailoverDBClusterResult',
     );
     return FailoverDBClusterResult.fromXml($result);
@@ -3321,17 +3375,18 @@ class Neptune {
     List<Filter> filters,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
-    final $request = <String, dynamic>{
-      'Action': 'ListTagsForResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     filters?.also((arg) => $request['Filters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTagsForResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTagsForResourceMessage'],
+      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -3515,10 +3570,7 @@ class Neptune {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     backupRetentionPeriod
@@ -3543,9 +3595,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterResult',
     );
     return ModifyDBClusterResult.fromXml($result);
@@ -3589,17 +3645,18 @@ class Neptune {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['Parameters'] = parameters;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterParameterGroupResult',
     );
     return DBClusterParameterGroupNameMessage.fromXml($result);
@@ -3670,19 +3727,20 @@ class Neptune {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBClusterSnapshotAttribute',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     valuesToAdd?.also((arg) => $request['ValuesToAdd'] = arg);
     valuesToRemove?.also((arg) => $request['ValuesToRemove'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBClusterSnapshotAttribute',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterSnapshotAttributeMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterSnapshotAttributeResult',
     );
     return ModifyDBClusterSnapshotAttributeResult.fromXml($result);
@@ -4057,10 +4115,7 @@ class Neptune {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     allocatedStorage?.also((arg) => $request['AllocatedStorage'] = arg);
     allowMajorVersionUpgrade
@@ -4112,9 +4167,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBInstanceResult',
     );
     return ModifyDBInstanceResult.fromXml($result);
@@ -4175,17 +4234,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Parameters'] = parameters;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBParameterGroupResult',
     );
     return DBParameterGroupNameMessage.fromXml($result);
@@ -4221,19 +4281,20 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     dBSubnetGroupDescription
         ?.also((arg) => $request['DBSubnetGroupDescription'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBSubnetGroupResult',
     );
     return ModifyDBSubnetGroupResult.fromXml($result);
@@ -4287,10 +4348,7 @@ class Neptune {
     String sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyEventSubscription',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -4298,9 +4356,13 @@ class Neptune {
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyEventSubscription',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyEventSubscriptionResult',
     );
     return ModifyEventSubscriptionResult.fromXml($result);
@@ -4317,16 +4379,17 @@ class Neptune {
     @_s.required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'PromoteReadReplicaDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'PromoteReadReplicaDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PromoteReadReplicaDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'PromoteReadReplicaDBClusterResult',
     );
     return PromoteReadReplicaDBClusterResult.fromXml($result);
@@ -4367,17 +4430,18 @@ class Neptune {
     bool forceFailover,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RebootDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RebootDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RebootDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'RebootDBInstanceResult',
     );
     return RebootDBInstanceResult.fromXml($result);
@@ -4403,17 +4467,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveRoleFromDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
     await _protocol.send(
       $request,
+      action: 'RemoveRoleFromDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveRoleFromDBClusterMessage'],
+      shapes: shapes,
     );
   }
 
@@ -4438,17 +4503,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveSourceIdentifierFromSubscription',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'RemoveSourceIdentifierFromSubscription',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveSourceIdentifierFromSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'RemoveSourceIdentifierFromSubscriptionResult',
     );
     return RemoveSourceIdentifierFromSubscriptionResult.fromXml($result);
@@ -4475,17 +4541,18 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveTagsFromResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'RemoveTagsFromResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveTagsFromResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -4525,18 +4592,19 @@ class Neptune {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ResetDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
     resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResetDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResetDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ResetDBClusterParameterGroupResult',
     );
     return DBClusterParameterGroupNameMessage.fromXml($result);
@@ -4586,18 +4654,19 @@ class Neptune {
     bool resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ResetDBParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
     resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResetDBParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResetDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ResetDBParameterGroupResult',
     );
     return DBParameterGroupNameMessage.fromXml($result);
@@ -4782,10 +4851,7 @@ class Neptune {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBClusterFromSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -4807,9 +4873,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBClusterFromSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBClusterFromSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBClusterFromSnapshotResult',
     );
     return RestoreDBClusterFromSnapshotResult.fromXml($result);
@@ -5030,10 +5100,7 @@ class Neptune {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
         sourceDBClusterIdentifier, 'sourceDBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBClusterToPointInTime',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['SourceDBClusterIdentifier'] = sourceDBClusterIdentifier;
     dBClusterParameterGroupName
@@ -5055,9 +5122,13 @@ class Neptune {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBClusterToPointInTime',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBClusterToPointInTimeMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBClusterToPointInTimeResult',
     );
     return RestoreDBClusterToPointInTimeResult.fromXml($result);
@@ -5077,16 +5148,17 @@ class Neptune {
     @_s.required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'StartDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'StartDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['StartDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'StartDBClusterResult',
     );
     return StartDBClusterResult.fromXml($result);
@@ -5110,16 +5182,17 @@ class Neptune {
     @_s.required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'StopDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'StopDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['StopDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'StopDBClusterResult',
     );
     return StopDBClusterResult.fromXml($result);
@@ -5142,7 +5215,9 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
+  @_s.JsonValue('immediate')
   immediate,
+  @_s.JsonValue('pending-reboot')
   pendingReboot,
 }
 
@@ -5214,17 +5289,26 @@ class CharacterSet {
 ///
 /// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
 /// determine which logs will be exported (or not exported) to CloudWatch Logs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
+  @_s.JsonKey(name: 'DisableLogTypes')
   final List<String> disableLogTypes;
 
   /// The list of log types to enable.
+  @_s.JsonKey(name: 'EnableLogTypes')
   final List<String> enableLogTypes;
 
   CloudwatchLogsExportConfiguration({
     this.disableLogTypes,
     this.enableLogTypes,
   });
+  Map<String, dynamic> toJson() =>
+      _$CloudwatchLogsExportConfigurationToJson(this);
 }
 
 class CopyDBClusterParameterGroupResult {
@@ -7352,17 +7436,25 @@ class FailoverDBClusterResult {
 }
 
 /// This type is not currently supported.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Filter {
   /// This parameter is not currently supported.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// This parameter is not currently supported.
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
     @_s.required this.name,
     @_s.required this.values,
   });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
 }
 
 class ModifyDBClusterResult {
@@ -7615,37 +7707,52 @@ class OrderableDBInstanceOptionsMessage {
 }
 
 /// Specifies a parameter.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Parameter {
   /// Specifies the valid range of values for the parameter.
+  @_s.JsonKey(name: 'AllowedValues')
   final String allowedValues;
 
   /// Indicates when to apply parameter updates.
+  @_s.JsonKey(name: 'ApplyMethod')
   final ApplyMethod applyMethod;
 
   /// Specifies the engine specific parameters type.
+  @_s.JsonKey(name: 'ApplyType')
   final String applyType;
 
   /// Specifies the valid data type for the parameter.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Provides a description of the parameter.
+  @_s.JsonKey(name: 'Description')
   final String description;
 
   /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
   /// parameter can be modified. Some parameters have security or operational
   /// implications that prevent them from being changed.
+  @_s.JsonKey(name: 'IsModifiable')
   final bool isModifiable;
 
   /// The earliest engine version to which the parameter can apply.
+  @_s.JsonKey(name: 'MinimumEngineVersion')
   final String minimumEngineVersion;
 
   /// Specifies the name of the parameter.
+  @_s.JsonKey(name: 'ParameterName')
   final String parameterName;
 
   /// Specifies the value of the parameter.
+  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   /// Indicates the source of the parameter value.
+  @_s.JsonKey(name: 'Source')
   final String source;
 
   Parameter({
@@ -7676,6 +7783,8 @@ class Parameter {
       source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 }
 
 /// A list of the log types whose configuration is still pending. In other
@@ -8012,11 +8121,17 @@ class RestoreDBClusterToPointInTimeResult {
 }
 
 enum SourceType {
+  @_s.JsonValue('db-instance')
   dbInstance,
+  @_s.JsonValue('db-parameter-group')
   dbParameterGroup,
+  @_s.JsonValue('db-security-group')
   dbSecurityGroup,
+  @_s.JsonValue('db-snapshot')
   dbSnapshot,
+  @_s.JsonValue('db-cluster')
   dbCluster,
+  @_s.JsonValue('db-cluster-snapshot')
   dbClusterSnapshot,
 }
 
@@ -8122,12 +8237,18 @@ class Subnet {
 
 /// Metadata assigned to an Amazon Neptune resource consisting of a key-value
 /// pair.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with "aws:" or "rds:".
   /// The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
@@ -8135,6 +8256,7 @@ class Tag {
   /// "rds:". The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -8147,6 +8269,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 class TagListMessage {

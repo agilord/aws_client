@@ -9,23 +9,37 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'rds-2013-01-10.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'rds-2013-01-10.g.dart';
 
 class RDS {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   RDS({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'rds',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   ///
   /// May throw [SubscriptionNotFoundFault].
@@ -37,17 +51,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'AddSourceIdentifierToSubscription',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'AddSourceIdentifierToSubscription',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddSourceIdentifierToSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'AddSourceIdentifierToSubscriptionResult',
     );
     return AddSourceIdentifierToSubscriptionResult.fromXml($result);
@@ -62,17 +77,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'AddTagsToResource',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'AddTagsToResource',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddTagsToResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -90,10 +106,7 @@ class RDS {
     String eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'AuthorizeDBSecurityGroupIngress',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
     eC2SecurityGroupId?.also((arg) => $request['EC2SecurityGroupId'] = arg);
@@ -102,9 +115,13 @@ class RDS {
         ?.also((arg) => $request['EC2SecurityGroupOwnerId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'AuthorizeDBSecurityGroupIngress',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AuthorizeDBSecurityGroupIngressMessage'],
+      shapes: shapes,
       resultWrapper: 'AuthorizeDBSecurityGroupIngressResult',
     );
     return AuthorizeDBSecurityGroupIngressResult.fromXml($result);
@@ -123,17 +140,18 @@ class RDS {
         sourceDBSnapshotIdentifier, 'sourceDBSnapshotIdentifier');
     ArgumentError.checkNotNull(
         targetDBSnapshotIdentifier, 'targetDBSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBSnapshot',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBSnapshotIdentifier'] = sourceDBSnapshotIdentifier;
     $request['TargetDBSnapshotIdentifier'] = targetDBSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBSnapshot',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBSnapshotResult',
     );
     return CopyDBSnapshotResult.fromXml($result);
@@ -184,10 +202,7 @@ class RDS {
     ArgumentError.checkNotNull(engine, 'engine');
     ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
     ArgumentError.checkNotNull(masterUsername, 'masterUsername');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBInstance',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['AllocatedStorage'] = allocatedStorage;
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
@@ -218,9 +233,13 @@ class RDS {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBInstance',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBInstanceResult',
     );
     return CreateDBInstanceResult.fromXml($result);
@@ -255,10 +274,7 @@ class RDS {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(
         sourceDBInstanceIdentifier, 'sourceDBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBInstanceReadReplica',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['SourceDBInstanceIdentifier'] = sourceDBInstanceIdentifier;
     autoMinorVersionUpgrade
@@ -271,9 +287,13 @@ class RDS {
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBInstanceReadReplica',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBInstanceReadReplicaMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBInstanceReadReplicaResult',
     );
     return CreateDBInstanceReadReplicaResult.fromXml($result);
@@ -291,18 +311,19 @@ class RDS {
         dBParameterGroupFamily, 'dBParameterGroupFamily');
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(description, 'description');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBParameterGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Description'] = description;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBParameterGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBParameterGroupResult',
     );
     return CreateDBParameterGroupResult.fromXml($result);
@@ -319,17 +340,18 @@ class RDS {
     ArgumentError.checkNotNull(
         dBSecurityGroupDescription, 'dBSecurityGroupDescription');
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBSecurityGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSecurityGroupDescription'] = dBSecurityGroupDescription;
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBSecurityGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBSecurityGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBSecurityGroupResult',
     );
     return CreateDBSecurityGroupResult.fromXml($result);
@@ -346,17 +368,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBSnapshot',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBSnapshot',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBSnapshotResult',
     );
     return CreateDBSnapshotResult.fromXml($result);
@@ -377,18 +400,19 @@ class RDS {
         dBSubnetGroupDescription, 'dBSubnetGroupDescription');
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBSubnetGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBSubnetGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBSubnetGroupResult',
     );
     return CreateDBSubnetGroupResult.fromXml($result);
@@ -412,10 +436,7 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateEventSubscription',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -424,9 +445,13 @@ class RDS {
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateEventSubscription',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateEventSubscriptionResult',
     );
     return CreateEventSubscriptionResult.fromXml($result);
@@ -446,19 +471,20 @@ class RDS {
     ArgumentError.checkNotNull(
         optionGroupDescription, 'optionGroupDescription');
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateOptionGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['EngineName'] = engineName;
     $request['MajorEngineVersion'] = majorEngineVersion;
     $request['OptionGroupDescription'] = optionGroupDescription;
     $request['OptionGroupName'] = optionGroupName;
     final $result = await _protocol.send(
       $request,
+      action: 'CreateOptionGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateOptionGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateOptionGroupResult',
     );
     return CreateOptionGroupResult.fromXml($result);
@@ -475,19 +501,20 @@ class RDS {
     bool skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBInstance',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     finalDBSnapshotIdentifier
         ?.also((arg) => $request['FinalDBSnapshotIdentifier'] = arg);
     skipFinalSnapshot?.also((arg) => $request['SkipFinalSnapshot'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBInstance',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBInstanceResult',
     );
     return DeleteDBInstanceResult.fromXml($result);
@@ -500,16 +527,17 @@ class RDS {
     @_s.required String dBParameterGroupName,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBParameterGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBParameterGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBParameterGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -520,16 +548,17 @@ class RDS {
     @_s.required String dBSecurityGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBSecurityGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBSecurityGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBSecurityGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -540,16 +569,17 @@ class RDS {
     @_s.required String dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBSnapshot',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBSnapshot',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBSnapshotResult',
     );
     return DeleteDBSnapshotResult.fromXml($result);
@@ -563,16 +593,17 @@ class RDS {
     @_s.required String dBSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBSubnetGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBSubnetGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBSubnetGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -583,16 +614,17 @@ class RDS {
     @_s.required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteEventSubscription',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteEventSubscription',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteEventSubscriptionResult',
     );
     return DeleteEventSubscriptionResult.fromXml($result);
@@ -605,16 +637,17 @@ class RDS {
     @_s.required String optionGroupName,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteOptionGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['OptionGroupName'] = optionGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteOptionGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteOptionGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -627,10 +660,7 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBEngineVersions',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBParameterGroupFamily
         ?.also((arg) => $request['DBParameterGroupFamily'] = arg);
     defaultOnly?.also((arg) => $request['DefaultOnly'] = arg);
@@ -642,9 +672,13 @@ class RDS {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBEngineVersions',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBEngineVersionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBEngineVersionsResult',
     );
     return DBEngineVersionMessage.fromXml($result);
@@ -657,18 +691,19 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBInstances',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBInstances',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBInstancesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBInstancesResult',
     );
     return DBInstanceMessage.fromXml($result);
@@ -681,18 +716,19 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBParameterGroups',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBParameterGroupName?.also((arg) => $request['DBParameterGroupName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBParameterGroups',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBParameterGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBParameterGroupsResult',
     );
     return DBParameterGroupsMessage.fromXml($result);
@@ -707,19 +743,20 @@ class RDS {
     String source,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBParameters',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     source?.also((arg) => $request['Source'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBParameters',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBParametersResult',
     );
     return DBParameterGroupDetails.fromXml($result);
@@ -732,18 +769,19 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBSecurityGroups',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBSecurityGroupName?.also((arg) => $request['DBSecurityGroupName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBSecurityGroups',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBSecurityGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBSecurityGroupsResult',
     );
     return DBSecurityGroupMessage.fromXml($result);
@@ -758,10 +796,7 @@ class RDS {
     int maxRecords,
     String snapshotType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBSnapshots',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
     dBSnapshotIdentifier?.also((arg) => $request['DBSnapshotIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -769,9 +804,13 @@ class RDS {
     snapshotType?.also((arg) => $request['SnapshotType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBSnapshots',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBSnapshotsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBSnapshotsResult',
     );
     return DBSnapshotMessage.fromXml($result);
@@ -784,18 +823,19 @@ class RDS {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBSubnetGroups',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBSubnetGroups',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBSubnetGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBSubnetGroupsResult',
     );
     return DBSubnetGroupMessage.fromXml($result);
@@ -809,18 +849,19 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEngineDefaultParameters',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEngineDefaultParameters',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEngineDefaultParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEngineDefaultParametersResult',
     );
     return DescribeEngineDefaultParametersResult.fromXml($result);
@@ -829,16 +870,17 @@ class RDS {
   Future<EventCategoriesMessage> describeEventCategories({
     String sourceType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventCategories',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventCategories',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventCategoriesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventCategoriesResult',
     );
     return EventCategoriesMessage.fromXml($result);
@@ -851,18 +893,19 @@ class RDS {
     int maxRecords,
     String subscriptionName,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventSubscriptions',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     subscriptionName?.also((arg) => $request['SubscriptionName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventSubscriptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventSubscriptionsResult',
     );
     return EventSubscriptionsMessage.fromXml($result);
@@ -878,10 +921,7 @@ class RDS {
     SourceType sourceType,
     DateTime startTime,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEvents',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -892,9 +932,13 @@ class RDS {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEvents',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
@@ -907,19 +951,20 @@ class RDS {
     int maxRecords,
   }) async {
     ArgumentError.checkNotNull(engineName, 'engineName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOptionGroupOptions',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['EngineName'] = engineName;
     majorEngineVersion?.also((arg) => $request['MajorEngineVersion'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOptionGroupOptions',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOptionGroupOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOptionGroupOptionsResult',
     );
     return OptionGroupOptionsMessage.fromXml($result);
@@ -934,10 +979,7 @@ class RDS {
     int maxRecords,
     String optionGroupName,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOptionGroups',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     engineName?.also((arg) => $request['EngineName'] = arg);
     majorEngineVersion?.also((arg) => $request['MajorEngineVersion'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -945,9 +987,13 @@ class RDS {
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOptionGroups',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOptionGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOptionGroupsResult',
     );
     return OptionGroups.fromXml($result);
@@ -963,10 +1009,7 @@ class RDS {
     bool vpc,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOrderableDBInstanceOptions',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
@@ -976,9 +1019,13 @@ class RDS {
     vpc?.also((arg) => $request['Vpc'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOrderableDBInstanceOptions',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOrderableDBInstanceOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOrderableDBInstanceOptionsResult',
     );
     return OrderableDBInstanceOptionsMessage.fromXml($result);
@@ -997,10 +1044,7 @@ class RDS {
     String reservedDBInstanceId,
     String reservedDBInstancesOfferingId,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReservedDBInstances',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     duration?.also((arg) => $request['Duration'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -1013,9 +1057,13 @@ class RDS {
         ?.also((arg) => $request['ReservedDBInstancesOfferingId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReservedDBInstances',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReservedDBInstancesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeReservedDBInstancesResult',
     );
     return ReservedDBInstanceMessage.fromXml($result);
@@ -1034,10 +1082,7 @@ class RDS {
     String productDescription,
     String reservedDBInstancesOfferingId,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeReservedDBInstancesOfferings',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     duration?.also((arg) => $request['Duration'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -1049,9 +1094,13 @@ class RDS {
         ?.also((arg) => $request['ReservedDBInstancesOfferingId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeReservedDBInstancesOfferings',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeReservedDBInstancesOfferingsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeReservedDBInstancesOfferingsResult',
     );
     return ReservedDBInstancesOfferingMessage.fromXml($result);
@@ -1064,16 +1113,17 @@ class RDS {
     @_s.required String resourceName,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
-    final $request = <String, dynamic>{
-      'Action': 'ListTagsForResource',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     final $result = await _protocol.send(
       $request,
+      action: 'ListTagsForResource',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTagsForResourceMessage'],
+      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -1113,10 +1163,7 @@ class RDS {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBInstance',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     allocatedStorage?.also((arg) => $request['AllocatedStorage'] = arg);
     allowMajorVersionUpgrade
@@ -1143,9 +1190,13 @@ class RDS {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBInstance',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBInstanceResult',
     );
     return ModifyDBInstanceResult.fromXml($result);
@@ -1160,17 +1211,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBParameterGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Parameters'] = parameters;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBParameterGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBParameterGroupResult',
     );
     return DBParameterGroupNameMessage.fromXml($result);
@@ -1189,19 +1241,20 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBSubnetGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     dBSubnetGroupDescription
         ?.also((arg) => $request['DBSubnetGroupDescription'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBSubnetGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBSubnetGroupResult',
     );
     return ModifyDBSubnetGroupResult.fromXml($result);
@@ -1222,10 +1275,7 @@ class RDS {
     String sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyEventSubscription',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -1233,9 +1283,13 @@ class RDS {
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyEventSubscription',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyEventSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyEventSubscriptionResult',
     );
     return ModifyEventSubscriptionResult.fromXml($result);
@@ -1251,19 +1305,20 @@ class RDS {
     List<String> optionsToRemove,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyOptionGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['OptionGroupName'] = optionGroupName;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     optionsToInclude?.also((arg) => $request['OptionsToInclude'] = arg);
     optionsToRemove?.also((arg) => $request['OptionsToRemove'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyOptionGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyOptionGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyOptionGroupResult',
     );
     return ModifyOptionGroupResult.fromXml($result);
@@ -1278,10 +1333,7 @@ class RDS {
     String preferredBackupWindow,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'PromoteReadReplica',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     backupRetentionPeriod
         ?.also((arg) => $request['BackupRetentionPeriod'] = arg);
@@ -1289,9 +1341,13 @@ class RDS {
         ?.also((arg) => $request['PreferredBackupWindow'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'PromoteReadReplica',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PromoteReadReplicaMessage'],
+      shapes: shapes,
       resultWrapper: 'PromoteReadReplicaResult',
     );
     return PromoteReadReplicaResult.fromXml($result);
@@ -1309,18 +1365,19 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(
         reservedDBInstancesOfferingId, 'reservedDBInstancesOfferingId');
-    final $request = <String, dynamic>{
-      'Action': 'PurchaseReservedDBInstancesOffering',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['ReservedDBInstancesOfferingId'] = reservedDBInstancesOfferingId;
     dBInstanceCount?.also((arg) => $request['DBInstanceCount'] = arg);
     reservedDBInstanceId?.also((arg) => $request['ReservedDBInstanceId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'PurchaseReservedDBInstancesOffering',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PurchaseReservedDBInstancesOfferingMessage'],
+      shapes: shapes,
       resultWrapper: 'PurchaseReservedDBInstancesOfferingResult',
     );
     return PurchaseReservedDBInstancesOfferingResult.fromXml($result);
@@ -1334,17 +1391,18 @@ class RDS {
     bool forceFailover,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RebootDBInstance',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RebootDBInstance',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RebootDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'RebootDBInstanceResult',
     );
     return RebootDBInstanceResult.fromXml($result);
@@ -1360,17 +1418,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveSourceIdentifierFromSubscription',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
       $request,
+      action: 'RemoveSourceIdentifierFromSubscription',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveSourceIdentifierFromSubscriptionMessage'],
+      shapes: shapes,
       resultWrapper: 'RemoveSourceIdentifierFromSubscriptionResult',
     );
     return RemoveSourceIdentifierFromSubscriptionResult.fromXml($result);
@@ -1385,17 +1444,18 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveTagsFromResource',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'RemoveTagsFromResource',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveTagsFromResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1408,18 +1468,19 @@ class RDS {
     bool resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ResetDBParameterGroup',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
     resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResetDBParameterGroup',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResetDBParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ResetDBParameterGroupResult',
     );
     return DBParameterGroupNameMessage.fromXml($result);
@@ -1458,10 +1519,7 @@ class RDS {
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBInstanceFromDBSnapshot',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     autoMinorVersionUpgrade
@@ -1479,9 +1537,13 @@ class RDS {
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBInstanceFromDBSnapshot',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBInstanceFromDBSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBInstanceFromDBSnapshotResult',
     );
     return RestoreDBInstanceFromDBSnapshotResult.fromXml($result);
@@ -1524,10 +1586,7 @@ class RDS {
         sourceDBInstanceIdentifier, 'sourceDBInstanceIdentifier');
     ArgumentError.checkNotNull(
         targetDBInstanceIdentifier, 'targetDBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBInstanceToPointInTime',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBInstanceIdentifier'] = sourceDBInstanceIdentifier;
     $request['TargetDBInstanceIdentifier'] = targetDBInstanceIdentifier;
     autoMinorVersionUpgrade
@@ -1548,9 +1607,13 @@ class RDS {
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBInstanceToPointInTime',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBInstanceToPointInTimeMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBInstanceToPointInTimeResult',
     );
     return RestoreDBInstanceToPointInTimeResult.fromXml($result);
@@ -1568,10 +1631,7 @@ class RDS {
     String eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'RevokeDBSecurityGroupIngress',
-      'Version': '2013-01-10',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
     eC2SecurityGroupId?.also((arg) => $request['EC2SecurityGroupId'] = arg);
@@ -1580,9 +1640,13 @@ class RDS {
         ?.also((arg) => $request['EC2SecurityGroupOwnerId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RevokeDBSecurityGroupIngress',
+      version: '2013-01-10',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RevokeDBSecurityGroupIngressMessage'],
+      shapes: shapes,
       resultWrapper: 'RevokeDBSecurityGroupIngressResult',
     );
     return RevokeDBSecurityGroupIngressResult.fromXml($result);
@@ -1605,7 +1669,9 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
+  @_s.JsonValue('immediate')
   immediate,
+  @_s.JsonValue('pending-reboot')
   pendingReboot,
 }
 
@@ -2685,10 +2751,19 @@ class Option {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class OptionConfiguration {
+  @_s.JsonKey(name: 'OptionName')
   final String optionName;
+  @_s.JsonKey(name: 'DBSecurityGroupMemberships')
   final List<String> dBSecurityGroupMemberships;
+  @_s.JsonKey(name: 'Port')
   final int port;
+  @_s.JsonKey(name: 'VpcSecurityGroupMemberships')
   final List<String> vpcSecurityGroupMemberships;
 
   OptionConfiguration({
@@ -2697,6 +2772,7 @@ class OptionConfiguration {
     this.port,
     this.vpcSecurityGroupMemberships,
   });
+  Map<String, dynamic> toJson() => _$OptionConfigurationToJson(this);
 }
 
 class OptionGroup {
@@ -2885,16 +2961,31 @@ class OrderableDBInstanceOptionsMessage {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Parameter {
+  @_s.JsonKey(name: 'AllowedValues')
   final String allowedValues;
+  @_s.JsonKey(name: 'ApplyMethod')
   final ApplyMethod applyMethod;
+  @_s.JsonKey(name: 'ApplyType')
   final String applyType;
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
+  @_s.JsonKey(name: 'Description')
   final String description;
+  @_s.JsonKey(name: 'IsModifiable')
   final bool isModifiable;
+  @_s.JsonKey(name: 'MinimumEngineVersion')
   final String minimumEngineVersion;
+  @_s.JsonKey(name: 'ParameterName')
   final String parameterName;
+  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
+  @_s.JsonKey(name: 'Source')
   final String source;
 
   Parameter({
@@ -2925,6 +3016,8 @@ class Parameter {
       source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 }
 
 class PendingModifiedValues {
@@ -3236,9 +3329,13 @@ class RevokeDBSecurityGroupIngressResult {
 }
 
 enum SourceType {
+  @_s.JsonValue('db-instance')
   dbInstance,
+  @_s.JsonValue('db-parameter-group')
   dbParameterGroup,
+  @_s.JsonValue('db-security-group')
   dbSecurityGroup,
+  @_s.JsonValue('db-snapshot')
   dbSnapshot,
 }
 
@@ -3295,8 +3392,15 @@ class Subnet {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
+  @_s.JsonKey(name: 'Key')
   final String key;
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -3309,6 +3413,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 class TagListMessage {

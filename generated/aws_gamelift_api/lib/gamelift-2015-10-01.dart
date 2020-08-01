@@ -10906,7 +10906,10 @@ class Alias {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A human-readable description of an alias.
@@ -10916,7 +10919,9 @@ class Alias {
   /// The time that this data object was last modified. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   /// A descriptive label that is associated with an alias. Alias names do not
@@ -11093,7 +11098,10 @@ class Build {
 
   /// Time stamp indicating when this data object was created. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A descriptive label that is associated with a build. Build names do not need
@@ -12643,7 +12651,10 @@ class Event {
 
   /// Time stamp indicating when this event occurred. Format is a number expressed
   /// in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'EventTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EventTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime eventTime;
 
   /// Additional information related to the event.
@@ -12791,7 +12802,10 @@ class FleetAttributes {
 
   /// Time stamp indicating when this data object was created. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Human-readable description of the fleet.
@@ -12950,7 +12964,9 @@ class FleetAttributes {
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
   @_s.JsonKey(
-      name: 'TerminationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TerminationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
   FleetAttributes({
@@ -13240,7 +13256,10 @@ class GameServer {
   /// <a>ClaimGameServer</a> request. Format is a number expressed in Unix time as
   /// milliseconds (for example "1469498468.057"). This value is used to calculate
   /// when the game server's claim status.
-  @_s.JsonKey(name: 'LastClaimTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastClaimTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastClaimTime;
 
   /// Time stamp indicating the last time the game server was updated with health
@@ -13249,14 +13268,18 @@ class GameServer {
   /// game server registration, this property is only changed when a game server
   /// update specifies a health check value.
   @_s.JsonKey(
-      name: 'LastHealthCheckTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastHealthCheckTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastHealthCheckTime;
 
   /// Time stamp indicating when the game server resource was created with a
   /// <a>RegisterGameServer</a> request. Format is a number expressed in Unix time
   /// as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
-      name: 'RegistrationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'RegistrationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime registrationTime;
 
   /// Indicates whether the game server is currently available for new games or is
@@ -13345,7 +13368,10 @@ class GameServerGroup {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A generated unique ID for the game server group.
@@ -13375,7 +13401,9 @@ class GameServerGroup {
 
   /// A time stamp indicating when this game server group was last updated.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   /// The Amazon Resource Name (<a
@@ -13720,7 +13748,10 @@ extension on GameServerUtilizationStatus {
 class GameSession {
   /// Time stamp indicating when this data object was created. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A unique identifier for a player. This ID is used to enforce a resource
@@ -13840,7 +13871,9 @@ class GameSession {
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
   @_s.JsonKey(
-      name: 'TerminationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TerminationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
   GameSession({
@@ -14012,7 +14045,10 @@ class GameSessionPlacement {
 
   /// Time stamp indicating when this request was completed, canceled, or timed
   /// out.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Set of custom properties for a game session, formatted as key:value pairs.
@@ -14110,7 +14146,10 @@ class GameSessionPlacement {
   /// Time stamp indicating when this request was placed in the queue. Format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Current status of the game session placement request.
@@ -14374,7 +14413,10 @@ class GetInstanceAccessOutput {
 class Instance {
   /// Time stamp indicating when this data object was created. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// DNS identifier assigned to the instance that is running the game session.
@@ -14895,7 +14937,10 @@ class MatchmakingConfiguration {
   /// The time stamp indicating when this data object was created. The format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Information to attach to all events related to the matchmaking
@@ -15058,7 +15103,10 @@ class MatchmakingRuleSet {
   /// The time stamp indicating when this data object was created. The format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Amazon Resource Name (<a
@@ -15109,7 +15157,10 @@ class MatchmakingTicket {
   /// Time stamp indicating when this matchmaking request stopped being processed
   /// due to success, failure, or cancellation. Format is a number expressed in
   /// Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Average amount of time (in seconds) that players are currently waiting for a
@@ -15134,7 +15185,10 @@ class MatchmakingTicket {
   /// Time stamp indicating when this matchmaking request was received. Format is
   /// a number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Current status of the matchmaking request.
@@ -15520,7 +15574,10 @@ class PlayerLatencyPolicy {
 class PlayerSession {
   /// Time stamp indicating when this data object was created. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// DNS identifier assigned to the instance that is running the game session.
@@ -15613,7 +15670,9 @@ class PlayerSession {
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
   @_s.JsonKey(
-      name: 'TerminationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TerminationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
   PlayerSession({
@@ -16351,7 +16410,10 @@ class Script {
   /// A time stamp indicating when this data object was created. The format is a
   /// number expressed in Unix time as milliseconds (for example
   /// "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// A descriptive label that is associated with a script. Script names do not
@@ -17059,14 +17121,19 @@ class ValidateMatchmakingRuleSetOutput {
 class VpcPeeringAuthorization {
   /// Time stamp indicating when this authorization was issued. Format is a number
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// Time stamp indicating when this authorization expires (24 hours after
   /// issuance). Format is a number expressed in Unix time as milliseconds (for
   /// example "1469498468.057").
   @_s.JsonKey(
-      name: 'ExpirationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ExpirationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expirationTime;
 
   /// A unique identifier for the AWS account that you use to manage your Amazon

@@ -5449,7 +5449,10 @@ class Audio {
     createToJson: false)
 class BusinessReport {
   /// The time of report delivery.
-  @_s.JsonKey(name: 'DeliveryTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DeliveryTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deliveryTime;
 
   /// The download link where a user can download the report.
@@ -6480,7 +6483,10 @@ class Device {
     createToJson: false)
 class DeviceData {
   /// The time (in epoch) when the device data was created.
-  @_s.JsonKey(name: 'CreatedTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The ARN of a device.
@@ -6558,7 +6564,10 @@ class DeviceData {
     createToJson: false)
 class DeviceEvent {
   /// The time (in epoch) when the event occurred.
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   /// The type of device event.
@@ -6611,8 +6620,8 @@ class DeviceNetworkProfileInfo {
   /// The time (in epoch) when the certificate expires.
   @_s.JsonKey(
       name: 'CertificateExpirationTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime certificateExpirationTime;
 
   /// The ARN of the network profile associated with a device.
@@ -6711,8 +6720,8 @@ class DeviceStatusInfo {
   /// The time (in epoch) when the device connection status changed.
   @_s.JsonKey(
       name: 'ConnectionStatusUpdatedTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime connectionStatusUpdatedTime;
 
   /// One or more device status detail descriptions.

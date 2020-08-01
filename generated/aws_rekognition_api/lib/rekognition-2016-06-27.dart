@@ -4820,7 +4820,9 @@ class DescribeCollectionResponse {
   /// the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time
   /// (UTC), Thursday, 1 January 1970.
   @_s.JsonKey(
-      name: 'CreationTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
   /// The number of faces that are indexed into the collection. To index faces
@@ -4906,7 +4908,9 @@ class DescribeProjectsResponse {
 class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
   @_s.JsonKey(
-      name: 'CreationTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
   /// Kinesis video stream that provides the source streaming video.
@@ -4917,7 +4921,9 @@ class DescribeStreamProcessorResponse {
   /// example, when the stream processor moves from a running state to a failed
   /// state, or when the user starts or stops the stream processor.
   @_s.JsonKey(
-      name: 'LastUpdateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 
   /// Name of the stream processor.
@@ -6929,7 +6935,9 @@ class Pose {
 class ProjectDescription {
   /// The Unix timestamp for the date and time that the project was created.
   @_s.JsonKey(
-      name: 'CreationTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
   /// The Amazon Resource Name (ARN) of the project.
@@ -6973,7 +6981,9 @@ class ProjectVersionDescription {
 
   /// The Unix datetime for the date and time that training started.
   @_s.JsonKey(
-      name: 'CreationTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
   /// The training results. <code>EvaluationResult</code> is only returned if
@@ -7012,7 +7022,9 @@ class ProjectVersionDescription {
 
   /// The Unix date and time that training of the model ended.
   @_s.JsonKey(
-      name: 'TrainingEndTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TrainingEndTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime trainingEndTimestamp;
 
   ProjectVersionDescription({

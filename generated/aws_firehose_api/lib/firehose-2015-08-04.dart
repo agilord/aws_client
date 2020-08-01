@@ -1454,7 +1454,9 @@ class DeliveryStreamDescription {
 
   /// The date and time that the delivery stream was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// Indicates the server-side encryption (SSE) status for the delivery stream.
@@ -1471,7 +1473,9 @@ class DeliveryStreamDescription {
 
   /// The date and time that the delivery stream was last updated.
   @_s.JsonKey(
-      name: 'LastUpdateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 
   /// If the <code>DeliveryStreamType</code> parameter is
@@ -2580,8 +2584,8 @@ class KinesisStreamSourceDescription {
   /// starting with this timestamp.
   @_s.JsonKey(
       name: 'DeliveryStartTimestamp',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deliveryStartTimestamp;
 
   /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more

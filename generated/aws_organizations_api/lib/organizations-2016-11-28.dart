@@ -4177,7 +4177,9 @@ class Account {
 
   /// The date the account became a part of the organization.
   @_s.JsonKey(
-      name: 'JoinedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'JoinedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime joinedTimestamp;
 
   /// The friendly name of the account.
@@ -4378,7 +4380,9 @@ class CreateAccountStatus {
 
   /// The date and time that the account was created and the request completed.
   @_s.JsonKey(
-      name: 'CompletedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CompletedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime completedTimestamp;
 
   /// If the request failed, a description of the reason for the failure.
@@ -4430,7 +4434,9 @@ class CreateAccountStatus {
 
   /// The date and time that the request was made for the account creation.
   @_s.JsonKey(
-      name: 'RequestedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'RequestedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime requestedTimestamp;
 
   /// The status of the request.
@@ -4550,7 +4556,9 @@ class DelegatedAdministrator {
 
   /// The date when the account was made a delegated administrator.
   @_s.JsonKey(
-      name: 'DelegationEnabledDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'DelegationEnabledDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime delegationEnabledDate;
 
   /// The email address that is associated with the delegated administrator's AWS
@@ -4570,7 +4578,9 @@ class DelegatedAdministrator {
   /// The date when the delegated administrator's account became a part of the
   /// organization.
   @_s.JsonKey(
-      name: 'JoinedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'JoinedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime joinedTimestamp;
 
   /// The friendly name of the delegated administrator's account.
@@ -4605,7 +4615,9 @@ class DelegatedAdministrator {
 class DelegatedService {
   /// The date that the account became a delegated administrator for this service.
   @_s.JsonKey(
-      name: 'DelegationEnabledDate', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'DelegationEnabledDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime delegationEnabledDate;
 
   /// The name of a service that can request an operation for the specified
@@ -4772,7 +4784,9 @@ class DisablePolicyTypeResponse {
 class EffectivePolicy {
   /// The time of the last update to this policy.
   @_s.JsonKey(
-      name: 'LastUpdatedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTimestamp;
 
   /// The text content of the policy.
@@ -4858,7 +4872,10 @@ class EnablePolicyTypeResponse {
 class EnabledServicePrincipal {
   /// The date that the service principal was enabled for integration with AWS
   /// Organizations.
-  @_s.JsonKey(name: 'DateEnabled', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DateEnabled',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime dateEnabled;
 
   /// The name of the service principal. This is typically in the form of a URL,
@@ -4930,7 +4947,9 @@ class Handshake {
   /// handshake request fails to respond before the specified date and time, the
   /// handshake becomes inactive and is no longer valid.
   @_s.JsonKey(
-      name: 'ExpirationTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ExpirationTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expirationTimestamp;
 
   /// The unique identifier (ID) of a handshake. The originating account creates
@@ -4948,7 +4967,9 @@ class Handshake {
 
   /// The date and time that the handshake request was made.
   @_s.JsonKey(
-      name: 'RequestedTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'RequestedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime requestedTimestamp;
 
   /// Additional information that is needed to process the handshake.

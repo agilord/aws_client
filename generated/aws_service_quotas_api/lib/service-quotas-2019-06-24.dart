@@ -1802,7 +1802,10 @@ class RequestedServiceQuotaChange {
 
   /// The date and time when the service quota increase request was received and
   /// the case Id was created.
-  @_s.JsonKey(name: 'Created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// New increased value for the service quota.
@@ -1819,7 +1822,10 @@ class RequestedServiceQuotaChange {
 
   /// The date and time of the most recent change in the service quota increase
   /// request.
-  @_s.JsonKey(name: 'LastUpdated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastUpdated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
   /// The Amazon Resource Name (ARN) of the service quota.

@@ -442,8 +442,9 @@ Map<String, dynamic> _$DocumentClassificationJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -461,7 +462,9 @@ DocumentClassificationJobProperties
   return DocumentClassificationJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
     documentClassifierArn: json['DocumentClassifierArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -474,7 +477,9 @@ DocumentClassificationJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -493,8 +498,9 @@ Map<String, dynamic> _$DocumentClassifierFilterToJson(
   }
 
   writeNotNull('Status', _$ModelStatusEnumMap[instance.status]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -563,7 +569,9 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
             json['ClassifierMetadata'] as Map<String, dynamic>),
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
     documentClassifierArn: json['DocumentClassifierArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : DocumentClassifierInputDataConfig.fromJson(
@@ -577,9 +585,15 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
         : DocumentClassifierOutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ModelStatusEnumMap, json['Status']),
-    submitTime: unixFromJson(json['SubmitTime']),
-    trainingEndTime: unixFromJson(json['TrainingEndTime']),
-    trainingStartTime: unixFromJson(json['TrainingStartTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
+    trainingEndTime: json['TrainingEndTime'] == null
+        ? null
+        : DateTime.parse(json['TrainingEndTime'] as String),
+    trainingStartTime: json['TrainingStartTime'] == null
+        ? null
+        : DateTime.parse(json['TrainingStartTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -633,8 +647,9 @@ Map<String, dynamic> _$DominantLanguageDetectionJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -643,7 +658,9 @@ DominantLanguageDetectionJobProperties
         Map<String, dynamic> json) {
   return DominantLanguageDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -656,7 +673,9 @@ DominantLanguageDetectionJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -673,8 +692,10 @@ Map<String, dynamic> _$EndpointFilterToJson(EndpointFilter instance) {
     }
   }
 
-  writeNotNull('CreationTimeAfter', unixToJson(instance.creationTimeAfter));
-  writeNotNull('CreationTimeBefore', unixToJson(instance.creationTimeBefore));
+  writeNotNull(
+      'CreationTimeAfter', instance.creationTimeAfter?.toIso8601String());
+  writeNotNull(
+      'CreationTimeBefore', instance.creationTimeBefore?.toIso8601String());
   writeNotNull('ModelArn', instance.modelArn);
   writeNotNull('Status', _$EndpointStatusEnumMap[instance.status]);
   return val;
@@ -690,11 +711,15 @@ const _$EndpointStatusEnumMap = {
 
 EndpointProperties _$EndpointPropertiesFromJson(Map<String, dynamic> json) {
   return EndpointProperties(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     currentInferenceUnits: json['CurrentInferenceUnits'] as int,
     desiredInferenceUnits: json['DesiredInferenceUnits'] as int,
     endpointArn: json['EndpointArn'] as String,
-    lastModifiedTime: unixFromJson(json['LastModifiedTime']),
+    lastModifiedTime: json['LastModifiedTime'] == null
+        ? null
+        : DateTime.parse(json['LastModifiedTime'] as String),
     message: json['Message'] as String,
     modelArn: json['ModelArn'] as String,
     status: _$enumDecodeNullable(_$EndpointStatusEnumMap, json['Status']),
@@ -713,8 +738,9 @@ Map<String, dynamic> _$EntitiesDetectionJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -722,7 +748,9 @@ EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntitiesDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     entityRecognizerArn: json['EntityRecognizerArn'] as String,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -738,7 +766,9 @@ EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -851,8 +881,9 @@ Map<String, dynamic> _$EntityRecognizerFilterToJson(
   }
 
   writeNotNull('Status', _$ModelStatusEnumMap[instance.status]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -932,7 +963,9 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     entityRecognizerArn: json['EntityRecognizerArn'] as String,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -946,9 +979,15 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
         : EntityRecognizerMetadata.fromJson(
             json['RecognizerMetadata'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ModelStatusEnumMap, json['Status']),
-    submitTime: unixFromJson(json['SubmitTime']),
-    trainingEndTime: unixFromJson(json['TrainingEndTime']),
-    trainingStartTime: unixFromJson(json['TrainingStartTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
+    trainingEndTime: json['TrainingEndTime'] == null
+        ? null
+        : DateTime.parse(json['TrainingEndTime'] as String),
+    trainingStartTime: json['TrainingStartTime'] == null
+        ? null
+        : DateTime.parse(json['TrainingStartTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1032,8 +1071,9 @@ Map<String, dynamic> _$KeyPhrasesDetectionJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -1041,7 +1081,9 @@ KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return KeyPhrasesDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1056,7 +1098,9 @@ KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1258,8 +1302,9 @@ Map<String, dynamic> _$SentimentDetectionJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -1267,7 +1312,9 @@ SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return SentimentDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1282,7 +1329,9 @@ SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1443,8 +1492,9 @@ Map<String, dynamic> _$TopicsDetectionJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull('SubmitTimeAfter', unixToJson(instance.submitTimeAfter));
-  writeNotNull('SubmitTimeBefore', unixToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter', instance.submitTimeAfter?.toIso8601String());
+  writeNotNull(
+      'SubmitTimeBefore', instance.submitTimeBefore?.toIso8601String());
   return val;
 }
 
@@ -1452,7 +1502,9 @@ TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TopicsDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixFromJson(json['EndTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1466,7 +1518,9 @@ TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixFromJson(json['SubmitTime']),
+    submitTime: json['SubmitTime'] == null
+        ? null
+        : DateTime.parse(json['SubmitTime'] as String),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null

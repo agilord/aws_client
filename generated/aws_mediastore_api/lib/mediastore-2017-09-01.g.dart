@@ -10,7 +10,9 @@ Container _$ContainerFromJson(Map<String, dynamic> json) {
   return Container(
     arn: json['ARN'] as String,
     accessLoggingEnabled: json['AccessLoggingEnabled'] as bool,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     endpoint: json['Endpoint'] as String,
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$ContainerStatusEnumMap, json['Status']),

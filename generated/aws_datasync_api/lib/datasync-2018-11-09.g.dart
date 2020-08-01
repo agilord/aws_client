@@ -120,10 +120,14 @@ DescribeAgentResponse _$DescribeAgentResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAgentResponse(
     agentArn: json['AgentArn'] as String,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     endpointType:
         _$enumDecodeNullable(_$EndpointTypeEnumMap, json['EndpointType']),
-    lastConnectionTime: unixFromJson(json['LastConnectionTime']),
+    lastConnectionTime: json['LastConnectionTime'] == null
+        ? null
+        : DateTime.parse(json['LastConnectionTime'] as String),
     name: json['Name'] as String,
     privateLinkConfig: json['PrivateLinkConfig'] == null
         ? null
@@ -142,7 +146,9 @@ const _$EndpointTypeEnumMap = {
 DescribeLocationEfsResponse _$DescribeLocationEfsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationEfsResponse(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     ec2Config: json['Ec2Config'] == null
         ? null
         : Ec2Config.fromJson(json['Ec2Config'] as Map<String, dynamic>),
@@ -154,7 +160,9 @@ DescribeLocationEfsResponse _$DescribeLocationEfsResponseFromJson(
 DescribeLocationFsxWindowsResponse _$DescribeLocationFsxWindowsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationFsxWindowsResponse(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     domain: json['Domain'] as String,
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
@@ -167,7 +175,9 @@ DescribeLocationFsxWindowsResponse _$DescribeLocationFsxWindowsResponseFromJson(
 DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationNfsResponse(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
     mountOptions: json['MountOptions'] == null
@@ -183,7 +193,9 @@ DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
 DescribeLocationS3Response _$DescribeLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationS3Response(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
     s3Config: json['S3Config'] == null
@@ -207,7 +219,9 @@ DescribeLocationSmbResponse _$DescribeLocationSmbResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationSmbResponse(
     agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     domain: json['Domain'] as String,
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
@@ -242,7 +256,9 @@ DescribeTaskExecutionResponse _$DescribeTaskExecutionResponseFromJson(
         ? null
         : TaskExecutionResultDetail.fromJson(
             json['Result'] as Map<String, dynamic>),
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     status: _$enumDecodeNullable(_$TaskExecutionStatusEnumMap, json['Status']),
     taskExecutionArn: json['TaskExecutionArn'] as String,
   );
@@ -261,7 +277,9 @@ const _$TaskExecutionStatusEnumMap = {
 DescribeTaskResponse _$DescribeTaskResponseFromJson(Map<String, dynamic> json) {
   return DescribeTaskResponse(
     cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String,
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     currentTaskExecutionArn: json['CurrentTaskExecutionArn'] as String,
     destinationLocationArn: json['DestinationLocationArn'] as String,
     destinationNetworkInterfaceArns:

@@ -56,7 +56,9 @@ CustomKeyStoresListEntry _$CustomKeyStoresListEntryFromJson(
         _$ConnectionErrorCodeTypeEnumMap, json['ConnectionErrorCode']),
     connectionState: _$enumDecodeNullable(
         _$ConnectionStateTypeEnumMap, json['ConnectionState']),
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     customKeyStoreId: json['CustomKeyStoreId'] as String,
     customKeyStoreName: json['CustomKeyStoreName'] as String,
     trustAnchorCertificate: json['TrustAnchorCertificate'] as String,
@@ -255,7 +257,9 @@ GetParametersForImportResponse _$GetParametersForImportResponseFromJson(
     importToken:
         const Uint8ListConverter().fromJson(json['ImportToken'] as String),
     keyId: json['KeyId'] as String,
-    parametersValidTo: unixFromJson(json['ParametersValidTo']),
+    parametersValidTo: json['ParametersValidTo'] == null
+        ? null
+        : DateTime.parse(json['ParametersValidTo'] as String),
     publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
   );
 }
@@ -324,7 +328,9 @@ GrantListEntry _$GrantListEntryFromJson(Map<String, dynamic> json) {
         ? null
         : GrantConstraints.fromJson(
             json['Constraints'] as Map<String, dynamic>),
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     grantId: json['GrantId'] as String,
     granteePrincipal: json['GranteePrincipal'] as String,
     issuingAccount: json['IssuingAccount'] as String,
@@ -353,11 +359,15 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
     awsAccountId: json['AWSAccountId'] as String,
     arn: json['Arn'] as String,
     cloudHsmClusterId: json['CloudHsmClusterId'] as String,
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     customKeyStoreId: json['CustomKeyStoreId'] as String,
     customerMasterKeySpec: _$enumDecodeNullable(
         _$CustomerMasterKeySpecEnumMap, json['CustomerMasterKeySpec']),
-    deletionDate: unixFromJson(json['DeletionDate']),
+    deletionDate: json['DeletionDate'] == null
+        ? null
+        : DateTime.parse(json['DeletionDate'] as String),
     description: json['Description'] as String,
     enabled: json['Enabled'] as bool,
     encryptionAlgorithms: (json['EncryptionAlgorithms'] as List)
@@ -372,7 +382,9 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
     origin: _$enumDecodeNullable(_$OriginTypeEnumMap, json['Origin']),
     signingAlgorithms:
         (json['SigningAlgorithms'] as List)?.map((e) => e as String)?.toList(),
-    validTo: unixFromJson(json['ValidTo']),
+    validTo: json['ValidTo'] == null
+        ? null
+        : DateTime.parse(json['ValidTo'] as String),
   );
 }
 
@@ -473,7 +485,9 @@ ReEncryptResponse _$ReEncryptResponseFromJson(Map<String, dynamic> json) {
 ScheduleKeyDeletionResponse _$ScheduleKeyDeletionResponseFromJson(
     Map<String, dynamic> json) {
   return ScheduleKeyDeletionResponse(
-    deletionDate: unixFromJson(json['DeletionDate']),
+    deletionDate: json['DeletionDate'] == null
+        ? null
+        : DateTime.parse(json['DeletionDate'] as String),
     keyId: json['KeyId'] as String,
   );
 }

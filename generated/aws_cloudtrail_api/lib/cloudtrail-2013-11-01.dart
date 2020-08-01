@@ -1630,7 +1630,10 @@ class Event {
   final String eventSource;
 
   /// The date and time of the event returned.
-  @_s.JsonKey(name: 'EventTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EventTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime eventTime;
 
   /// Information about whether the event is a write event or a read event.
@@ -1828,8 +1831,8 @@ class GetTrailStatusResponse {
   /// CloudWatch Logs.
   @_s.JsonKey(
       name: 'LatestCloudWatchLogsDeliveryTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestCloudWatchLogsDeliveryTime;
 
   /// This field is no longer in use.
@@ -1857,7 +1860,9 @@ class GetTrailStatusResponse {
   /// Specifies the date and time that CloudTrail last delivered log files to an
   /// account's Amazon S3 bucket.
   @_s.JsonKey(
-      name: 'LatestDeliveryTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LatestDeliveryTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestDeliveryTime;
 
   /// Displays any Amazon S3 error that CloudTrail encountered when attempting to
@@ -1878,8 +1883,8 @@ class GetTrailStatusResponse {
   /// an account's Amazon S3 bucket.
   @_s.JsonKey(
       name: 'LatestDigestDeliveryTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestDigestDeliveryTime;
 
   /// This field is no longer in use.
@@ -1901,20 +1906,24 @@ class GetTrailStatusResponse {
   /// CloudTrail has written a new log file to an account's Amazon S3 bucket.
   @_s.JsonKey(
       name: 'LatestNotificationTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestNotificationTime;
 
   /// Specifies the most recent date and time when CloudTrail started recording
   /// API calls for an AWS account.
   @_s.JsonKey(
-      name: 'StartLoggingTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'StartLoggingTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startLoggingTime;
 
   /// Specifies the most recent date and time when CloudTrail stopped recording
   /// API calls for an AWS account.
   @_s.JsonKey(
-      name: 'StopLoggingTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'StopLoggingTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopLoggingTime;
 
   /// This field is no longer in use.
@@ -2137,12 +2146,16 @@ class PublicKey {
 
   /// The ending time of validity of the public key.
   @_s.JsonKey(
-      name: 'ValidityEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ValidityEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime validityEndTime;
 
   /// The starting time of validity of the public key.
   @_s.JsonKey(
-      name: 'ValidityStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ValidityStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime validityStartTime;
 
   /// The DER encoded public key value in PKCS#1 format.

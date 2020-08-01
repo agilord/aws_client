@@ -4675,7 +4675,10 @@ class EventSourceMappingConfiguration {
 
   /// The date that the event source mapping was last updated, or its state
   /// changed.
-  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The result of the last AWS Lambda invocation of your Lambda function.
@@ -5002,7 +5005,10 @@ class FunctionEventInvokeConfig {
   final String functionArn;
 
   /// The date and time that the configuration was last updated.
-  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The maximum age of a request that Lambda sends to a function for processing.

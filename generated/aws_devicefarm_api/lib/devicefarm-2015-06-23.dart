@@ -5593,7 +5593,10 @@ class CreateTestGridProjectResult {
 class CreateTestGridUrlResult {
   /// The number of seconds the URL from <a>CreateTestGridUrlResult$url</a> stays
   /// active.
-  @_s.JsonKey(name: 'expires', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'expires',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expires;
 
   /// A signed URL, expiring in <a>CreateTestGridUrlRequest$expiresInSeconds</a>
@@ -7098,7 +7101,10 @@ class Job {
   final Counters counters;
 
   /// When the job was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The device (phone or tablet).
@@ -7152,7 +7158,10 @@ class Job {
   final ExecutionResult result;
 
   /// The job's start time.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// The job's status.
@@ -7192,7 +7201,10 @@ class Job {
   final ExecutionStatus status;
 
   /// The job's stop time.
-  @_s.JsonKey(name: 'stopped', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopped',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopped;
 
   /// The job's type.
@@ -8111,7 +8123,10 @@ class OfferingPromotion {
     createToJson: false)
 class OfferingStatus {
   /// The date on which the offering is effective.
-  @_s.JsonKey(name: 'effectiveOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'effectiveOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime effectiveOn;
 
   /// Represents the metadata of an offering status.
@@ -8148,7 +8163,10 @@ class OfferingTransaction {
   final MonetaryAmount cost;
 
   /// The date on which an offering transaction was created.
-  @_s.JsonKey(name: 'createdOn', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdOn',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdOn;
 
   /// The ID that corresponds to a device offering promotion.
@@ -8298,7 +8316,10 @@ class Project {
   final String arn;
 
   /// When the project was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The default number of minutes (at the project level) a test run executes
@@ -8430,7 +8451,10 @@ class RemoteAccessSession {
   final String clientId;
 
   /// The date and time the remote access session was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The device (phone or tablet) used in the remote access session.
@@ -8555,7 +8579,10 @@ class RemoteAccessSession {
   final bool skipAppResign;
 
   /// The date and time the remote access session was started.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// The status of the remote access session. Can be any of the following:
@@ -8593,7 +8620,10 @@ class RemoteAccessSession {
   final ExecutionStatus status;
 
   /// The date and time the remote access session was stopped.
-  @_s.JsonKey(name: 'stopped', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopped',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopped;
 
   RemoteAccessSession({
@@ -8824,7 +8854,10 @@ class Run {
   final Counters counters;
 
   /// When the run was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// Output <code>CustomerArtifactPaths</code> object for the test run.
@@ -8949,7 +8982,10 @@ class Run {
   final bool skipAppResign;
 
   /// The run's start time.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// The run's status.
@@ -8989,7 +9025,10 @@ class Run {
   final ExecutionStatus status;
 
   /// The run's stop time.
-  @_s.JsonKey(name: 'stopped', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopped',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopped;
 
   /// The ARN of the YAML-formatted test specification for the run.
@@ -9618,7 +9657,10 @@ class Suite {
   final Counters counters;
 
   /// When the suite was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// Represents the total (metered or unmetered) minutes used by the test suite.
@@ -9664,7 +9706,10 @@ class Suite {
   final ExecutionResult result;
 
   /// The suite's start time.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// The suite's status.
@@ -9704,7 +9749,10 @@ class Suite {
   final ExecutionStatus status;
 
   /// The suite's stop time.
-  @_s.JsonKey(name: 'stopped', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopped',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopped;
 
   /// The suite's type.
@@ -9845,7 +9893,10 @@ class Test {
   final Counters counters;
 
   /// When the test was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// Represents the total (metered or unmetered) minutes used by the test.
@@ -9891,7 +9942,10 @@ class Test {
   final ExecutionResult result;
 
   /// The test's start time.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// The test's status.
@@ -9931,7 +9985,10 @@ class Test {
   final ExecutionStatus status;
 
   /// The test's stop time.
-  @_s.JsonKey(name: 'stopped', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopped',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopped;
 
   /// The test's type.
@@ -10029,7 +10086,10 @@ class TestGridProject {
   final String arn;
 
   /// When the project was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// A human-readable description for the project.
@@ -10067,11 +10127,17 @@ class TestGridSession {
   final double billingMinutes;
 
   /// The time that the session was started.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The time the session ended.
-  @_s.JsonKey(name: 'ended', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ended',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime ended;
 
   /// A JSON object of options and parameters passed to the Selenium WebDriver.
@@ -10114,7 +10180,10 @@ class TestGridSessionAction {
   final String requestMethod;
 
   /// The time that the session invoked the action.
-  @_s.JsonKey(name: 'started', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'started',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime started;
 
   /// HTTP status code returned to the browser when the action was taken.
@@ -10536,7 +10605,10 @@ class Upload {
   final String contentType;
 
   /// When the upload was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// A message about the upload's result.

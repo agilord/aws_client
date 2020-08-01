@@ -1533,7 +1533,9 @@ class ConfigurationTag {
   /// The time the configuration tag was created in Coordinated Universal Time
   /// (UTC).
   @_s.JsonKey(
-      name: 'timeOfCreation', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'timeOfCreation',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timeOfCreation;
 
   /// A value on which to filter. For example <i>key = serverType</i> and <i>value
@@ -1584,7 +1586,10 @@ class ContinuousExportDescription {
   final Map<String, String> schemaStorageConfig;
 
   /// The timestamp representing when the continuous export was started.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Describes the status of the export. Can be one of the following values:
@@ -1676,7 +1681,10 @@ class ContinuousExportDescription {
   final String statusDetail;
 
   /// The timestamp that represents when this continuous export was stopped.
-  @_s.JsonKey(name: 'stopTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopTime;
 
   ContinuousExportDescription({
@@ -2113,7 +2121,9 @@ class ExportInfo {
 
   /// The time that the data export was initiated.
   @_s.JsonKey(
-      name: 'exportRequestTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'exportRequestTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime exportRequestTime;
 
   /// The status of the data export job.
@@ -2140,14 +2150,18 @@ class ExportInfo {
   /// If no <code>endTime</code> was requested, this result does not appear in
   /// <code>ExportInfo</code>.
   @_s.JsonKey(
-      name: 'requestedEndTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'requestedEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime requestedEndTime;
 
   /// The value of <code>startTime</code> parameter in the
   /// <code>StartExportTask</code> request. If no <code>startTime</code> was
   /// requested, this result does not appear in <code>ExportInfo</code>.
   @_s.JsonKey(
-      name: 'requestedStartTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'requestedStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime requestedStartTime;
 
   ExportInfo({
@@ -2324,19 +2338,25 @@ class ImportTask {
   /// The time that the import task request finished, presented in the Unix time
   /// stamp format.
   @_s.JsonKey(
-      name: 'importCompletionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'importCompletionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime importCompletionTime;
 
   /// The time that the import task request was deleted, presented in the Unix
   /// time stamp format.
   @_s.JsonKey(
-      name: 'importDeletedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'importDeletedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime importDeletedTime;
 
   /// The time that the import task request was made, presented in the Unix time
   /// stamp format.
   @_s.JsonKey(
-      name: 'importRequestTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'importRequestTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime importRequestTime;
 
   /// The unique ID for a specific import task. These IDs aren't globally unique,
@@ -2579,7 +2599,10 @@ class StartContinuousExportResponse {
   final Map<String, String> schemaStorageConfig;
 
   /// The timestamp representing when the continuous export was started.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   StartContinuousExportResponse({
@@ -2658,11 +2681,17 @@ class StartImportTaskResponse {
 class StopContinuousExportResponse {
   /// Timestamp that represents when this continuous export started collecting
   /// data.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Timestamp that represents when this continuous export was stopped.
-  @_s.JsonKey(name: 'stopTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stopTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stopTime;
 
   StopContinuousExportResponse({

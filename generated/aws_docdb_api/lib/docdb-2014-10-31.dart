@@ -9,24 +9,38 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'docdb-2014-10-31.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'docdb-2014-10-31.g.dart';
 
 /// Amazon DocumentDB API documentation
 class DocDB {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   DocDB({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'rds',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Adds metadata tags to an Amazon DocumentDB resource. You can use these
   /// tags with cost allocation reporting to track costs that are associated
@@ -50,17 +64,18 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'AddTagsToResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'AddTagsToResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddTagsToResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -107,18 +122,19 @@ class DocDB {
     ArgumentError.checkNotNull(applyAction, 'applyAction');
     ArgumentError.checkNotNull(optInType, 'optInType');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ApplyPendingMaintenanceAction',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ApplyAction'] = applyAction;
     $request['OptInType'] = optInType;
     $request['ResourceIdentifier'] = resourceIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'ApplyPendingMaintenanceAction',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ApplyPendingMaintenanceActionMessage'],
+      shapes: shapes,
       resultWrapper: 'ApplyPendingMaintenanceActionResult',
     );
     return ApplyPendingMaintenanceActionResult.fromXml($result);
@@ -190,10 +206,7 @@ class DocDB {
         'targetDBClusterParameterGroupDescription');
     ArgumentError.checkNotNull(targetDBClusterParameterGroupIdentifier,
         'targetDBClusterParameterGroupIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBClusterParameterGroupIdentifier'] =
         sourceDBClusterParameterGroupIdentifier;
     $request['TargetDBClusterParameterGroupDescription'] =
@@ -203,9 +216,13 @@ class DocDB {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBClusterParameterGroupResult',
     );
     return CopyDBClusterParameterGroupResult.fromXml($result);
@@ -351,10 +368,7 @@ class DocDB {
         sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
     ArgumentError.checkNotNull(
         targetDBClusterSnapshotIdentifier, 'targetDBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CopyDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['SourceDBClusterSnapshotIdentifier'] =
         sourceDBClusterSnapshotIdentifier;
     $request['TargetDBClusterSnapshotIdentifier'] =
@@ -365,9 +379,13 @@ class DocDB {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CopyDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CopyDBClusterSnapshotResult',
     );
     return CopyDBClusterSnapshotResult.fromXml($result);
@@ -586,10 +604,7 @@ class DocDB {
     ArgumentError.checkNotNull(engine, 'engine');
     ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
     ArgumentError.checkNotNull(masterUsername, 'masterUsername');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
     $request['MasterUserPassword'] = masterUserPassword;
@@ -615,9 +630,13 @@ class DocDB {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterResult',
     );
     return CreateDBClusterResult.fromXml($result);
@@ -682,19 +701,20 @@ class DocDB {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
     ArgumentError.checkNotNull(description, 'description');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['Description'] = description;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterParameterGroupResult',
     );
     return CreateDBClusterParameterGroupResult.fromXml($result);
@@ -750,18 +770,19 @@ class DocDB {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBClusterSnapshotResult',
     );
     return CreateDBClusterSnapshotResult.fromXml($result);
@@ -874,10 +895,7 @@ class DocDB {
     ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
@@ -891,9 +909,13 @@ class DocDB {
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBInstanceResult',
     );
     return CreateDBInstanceResult.fromXml($result);
@@ -934,19 +956,20 @@ class DocDB {
         dBSubnetGroupDescription, 'dBSubnetGroupDescription');
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'CreateDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'CreateDBSubnetGroupResult',
     );
     return CreateDBSubnetGroupResult.fromXml($result);
@@ -1013,19 +1036,20 @@ class DocDB {
     bool skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     finalDBSnapshotIdentifier
         ?.also((arg) => $request['FinalDBSnapshotIdentifier'] = arg);
     skipFinalSnapshot?.also((arg) => $request['SkipFinalSnapshot'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBClusterResult',
     );
     return DeleteDBClusterResult.fromXml($result);
@@ -1058,16 +1082,17 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterParameterGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1091,16 +1116,17 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBClusterSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBClusterSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBClusterSnapshotResult',
     );
     return DeleteDBClusterSnapshotResult.fromXml($result);
@@ -1129,16 +1155,17 @@ class DocDB {
     @_s.required String dBInstanceIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'DeleteDBInstanceResult',
     );
     return DeleteDBInstanceResult.fromXml($result);
@@ -1169,16 +1196,17 @@ class DocDB {
     @_s.required String dBSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
       $request,
+      action: 'DeleteDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBSubnetGroupMessage'],
+      shapes: shapes,
     );
   }
 
@@ -1234,10 +1262,7 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeCertificates',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     certificateIdentifier
         ?.also((arg) => $request['CertificateIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -1245,9 +1270,13 @@ class DocDB {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeCertificates',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeCertificatesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeCertificatesResult',
     );
     return CertificateMessage.fromXml($result);
@@ -1294,10 +1323,7 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterParameterGroups',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterParameterGroupName
         ?.also((arg) => $request['DBClusterParameterGroupName'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -1305,9 +1331,13 @@ class DocDB {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterParameterGroups',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterParameterGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterParameterGroupsResult',
     );
     return DBClusterParameterGroupsMessage.fromXml($result);
@@ -1362,10 +1392,7 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -1373,9 +1400,13 @@ class DocDB {
     source?.also((arg) => $request['Source'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterParametersResult',
     );
     return DBClusterParameterGroupDetails.fromXml($result);
@@ -1402,16 +1433,17 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterSnapshotAttributes',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterSnapshotAttributes',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterSnapshotAttributesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterSnapshotAttributesResult',
     );
     return DescribeDBClusterSnapshotAttributesResult.fromXml($result);
@@ -1528,10 +1560,7 @@ class DocDB {
     int maxRecords,
     String snapshotType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusterSnapshots',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     dBClusterSnapshotIdentifier
         ?.also((arg) => $request['DBClusterSnapshotIdentifier'] = arg);
@@ -1543,9 +1572,13 @@ class DocDB {
     snapshotType?.also((arg) => $request['SnapshotType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusterSnapshots',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterSnapshotsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClusterSnapshotsResult',
     );
     return DBClusterSnapshotMessage.fromXml($result);
@@ -1606,19 +1639,20 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBClusters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBClusters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClustersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBClustersResult',
     );
     return DBClusterMessage.fromXml($result);
@@ -1688,10 +1722,7 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBEngineVersions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBParameterGroupFamily
         ?.also((arg) => $request['DBParameterGroupFamily'] = arg);
     defaultOnly?.also((arg) => $request['DefaultOnly'] = arg);
@@ -1706,9 +1737,13 @@ class DocDB {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBEngineVersions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBEngineVersionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBEngineVersionsResult',
     );
     return DBEngineVersionMessage.fromXml($result);
@@ -1772,19 +1807,20 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBInstances',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBInstances',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBInstancesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBInstancesResult',
     );
     return DBInstanceMessage.fromXml($result);
@@ -1822,19 +1858,20 @@ class DocDB {
     String marker,
     int maxRecords,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeDBSubnetGroups',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeDBSubnetGroups',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBSubnetGroupsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeDBSubnetGroupsResult',
     );
     return DBSubnetGroupMessage.fromXml($result);
@@ -1873,19 +1910,20 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEngineDefaultClusterParameters',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEngineDefaultClusterParameters',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEngineDefaultClusterParametersMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEngineDefaultClusterParametersResult',
     );
     return DescribeEngineDefaultClusterParametersResult.fromXml($result);
@@ -1906,17 +1944,18 @@ class DocDB {
     List<Filter> filters,
     String sourceType,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEventCategories',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEventCategories',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventCategoriesMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventCategoriesResult',
     );
     return EventCategoriesMessage.fromXml($result);
@@ -2013,10 +2052,7 @@ class DocDB {
     SourceType sourceType,
     DateTime startTime,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeEvents',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
     endTime?.also((arg) => $request['EndTime'] = arg);
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
@@ -2028,9 +2064,13 @@ class DocDB {
     startTime?.also((arg) => $request['StartTime'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeEvents',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
@@ -2085,10 +2125,7 @@ class DocDB {
     bool vpc,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeOrderableDBInstanceOptions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
@@ -2099,9 +2136,13 @@ class DocDB {
     vpc?.also((arg) => $request['Vpc'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeOrderableDBInstanceOptions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOrderableDBInstanceOptionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribeOrderableDBInstanceOptionsResult',
     );
     return OrderableDBInstanceOptionsMessage.fromXml($result);
@@ -2154,19 +2195,20 @@ class DocDB {
     int maxRecords,
     String resourceIdentifier,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribePendingMaintenanceActions',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     resourceIdentifier?.also((arg) => $request['ResourceIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribePendingMaintenanceActions',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribePendingMaintenanceActionsMessage'],
+      shapes: shapes,
       resultWrapper: 'DescribePendingMaintenanceActionsResult',
     );
     return PendingMaintenanceActionsMessage.fromXml($result);
@@ -2207,18 +2249,19 @@ class DocDB {
     String dBClusterIdentifier,
     String targetDBInstanceIdentifier,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'FailoverDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
     targetDBInstanceIdentifier
         ?.also((arg) => $request['TargetDBInstanceIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'FailoverDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['FailoverDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'FailoverDBClusterResult',
     );
     return FailoverDBClusterResult.fromXml($result);
@@ -2241,17 +2284,18 @@ class DocDB {
     List<Filter> filters,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
-    final $request = <String, dynamic>{
-      'Action': 'ListTagsForResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     filters?.also((arg) => $request['Filters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTagsForResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTagsForResourceMessage'],
+      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -2428,10 +2472,7 @@ class DocDB {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     backupRetentionPeriod
@@ -2453,9 +2494,13 @@ class DocDB {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterResult',
     );
     return ModifyDBClusterResult.fromXml($result);
@@ -2495,17 +2540,18 @@ class DocDB {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['Parameters'] = parameters;
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterParameterGroupResult',
     );
     return DBClusterParameterGroupNameMessage.fromXml($result);
@@ -2572,19 +2618,20 @@ class DocDB {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBClusterSnapshotAttribute',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     valuesToAdd?.also((arg) => $request['ValuesToAdd'] = arg);
     valuesToRemove?.also((arg) => $request['ValuesToRemove'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBClusterSnapshotAttribute',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterSnapshotAttributeMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBClusterSnapshotAttributeResult',
     );
     return ModifyDBClusterSnapshotAttributeResult.fromXml($result);
@@ -2715,10 +2762,7 @@ class DocDB {
     int promotionTier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     autoMinorVersionUpgrade
@@ -2733,9 +2777,13 @@ class DocDB {
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBInstanceResult',
     );
     return ModifyDBInstanceResult.fromXml($result);
@@ -2771,19 +2819,20 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $request = <String, dynamic>{
-      'Action': 'ModifyDBSubnetGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
     dBSubnetGroupDescription
         ?.also((arg) => $request['DBSubnetGroupDescription'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ModifyDBSubnetGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBSubnetGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ModifyDBSubnetGroupResult',
     );
     return ModifyDBSubnetGroupResult.fromXml($result);
@@ -2823,17 +2872,18 @@ class DocDB {
     bool forceFailover,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RebootDBInstance',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RebootDBInstance',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RebootDBInstanceMessage'],
+      shapes: shapes,
       resultWrapper: 'RebootDBInstanceResult',
     );
     return RebootDBInstanceResult.fromXml($result);
@@ -2857,17 +2907,18 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'RemoveTagsFromResource',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'RemoveTagsFromResource',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveTagsFromResourceMessage'],
+      shapes: shapes,
     );
   }
 
@@ -2905,18 +2956,19 @@ class DocDB {
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    final $request = <String, dynamic>{
-      'Action': 'ResetDBClusterParameterGroup',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
     resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ResetDBClusterParameterGroup',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ResetDBClusterParameterGroupMessage'],
+      shapes: shapes,
       resultWrapper: 'ResetDBClusterParameterGroupResult',
     );
     return DBClusterParameterGroupNameMessage.fromXml($result);
@@ -3070,10 +3122,7 @@ class DocDB {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBClusterFromSnapshot',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -3089,9 +3138,13 @@ class DocDB {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBClusterFromSnapshot',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBClusterFromSnapshotMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBClusterFromSnapshotResult',
     );
     return RestoreDBClusterFromSnapshotResult.fromXml($result);
@@ -3261,10 +3314,7 @@ class DocDB {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
         sourceDBClusterIdentifier, 'sourceDBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'RestoreDBClusterToPointInTime',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['SourceDBClusterIdentifier'] = sourceDBClusterIdentifier;
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
@@ -3280,9 +3330,13 @@ class DocDB {
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'RestoreDBClusterToPointInTime',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RestoreDBClusterToPointInTimeMessage'],
+      shapes: shapes,
       resultWrapper: 'RestoreDBClusterToPointInTimeResult',
     );
     return RestoreDBClusterToPointInTimeResult.fromXml($result);
@@ -3304,16 +3358,17 @@ class DocDB {
     @_s.required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'StartDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'StartDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['StartDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'StartDBClusterResult',
     );
     return StartDBClusterResult.fromXml($result);
@@ -3336,16 +3391,17 @@ class DocDB {
     @_s.required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    final $request = <String, dynamic>{
-      'Action': 'StopDBCluster',
-      'Version': '2014-10-31',
-    };
+    final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
       $request,
+      action: 'StopDBCluster',
+      version: '2014-10-31',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['StopDBClusterMessage'],
+      shapes: shapes,
       resultWrapper: 'StopDBClusterResult',
     );
     return StopDBClusterResult.fromXml($result);
@@ -3353,7 +3409,9 @@ class DocDB {
 }
 
 enum ApplyMethod {
+  @_s.JsonValue('immediate')
   immediate,
+  @_s.JsonValue('pending-reboot')
   pendingReboot,
 }
 
@@ -3482,17 +3540,26 @@ class CertificateMessage {
 /// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
 /// determine which logs are exported (or not exported) to CloudWatch Logs. The
 /// values within these arrays depend on the engine that is being used.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
+  @_s.JsonKey(name: 'DisableLogTypes')
   final List<String> disableLogTypes;
 
   /// The list of log types to enable.
+  @_s.JsonKey(name: 'EnableLogTypes')
   final List<String> enableLogTypes;
 
   CloudwatchLogsExportConfiguration({
     this.disableLogTypes,
     this.enableLogTypes,
   });
+  Map<String, dynamic> toJson() =>
+      _$CloudwatchLogsExportConfigurationToJson(this);
 }
 
 class CopyDBClusterParameterGroupResult {
@@ -4884,17 +4951,25 @@ class FailoverDBClusterResult {
 /// criteria, such as IDs.
 ///
 /// Wildcards are not supported in filters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Filter {
   /// The name of the filter. Filter names are case sensitive.
+  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// One or more filter values. Filter values are case sensitive.
+  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
     @_s.required this.name,
     @_s.required this.values,
   });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
 }
 
 class ModifyDBClusterResult {
@@ -5029,37 +5104,52 @@ class OrderableDBInstanceOptionsMessage {
 }
 
 /// Detailed information about an individual parameter.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Parameter {
   /// Specifies the valid range of values for the parameter.
+  @_s.JsonKey(name: 'AllowedValues')
   final String allowedValues;
 
   /// Indicates when to apply parameter updates.
+  @_s.JsonKey(name: 'ApplyMethod')
   final ApplyMethod applyMethod;
 
   /// Specifies the engine-specific parameters type.
+  @_s.JsonKey(name: 'ApplyType')
   final String applyType;
 
   /// Specifies the valid data type for the parameter.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Provides a description of the parameter.
+  @_s.JsonKey(name: 'Description')
   final String description;
 
   /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
   /// parameter can be modified. Some parameters have security or operational
   /// implications that prevent them from being changed.
+  @_s.JsonKey(name: 'IsModifiable')
   final bool isModifiable;
 
   /// The earliest engine version to which the parameter can apply.
+  @_s.JsonKey(name: 'MinimumEngineVersion')
   final String minimumEngineVersion;
 
   /// Specifies the name of the parameter.
+  @_s.JsonKey(name: 'ParameterName')
   final String parameterName;
 
   /// Specifies the value of the parameter.
+  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   /// Indicates the source of the parameter value.
+  @_s.JsonKey(name: 'Source')
   final String source;
 
   Parameter({
@@ -5090,6 +5180,8 @@ class Parameter {
       source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 }
 
 /// A list of the log types whose configuration is still pending. These log
@@ -5363,11 +5455,17 @@ class RestoreDBClusterToPointInTimeResult {
 }
 
 enum SourceType {
+  @_s.JsonValue('db-instance')
   dbInstance,
+  @_s.JsonValue('db-parameter-group')
   dbParameterGroup,
+  @_s.JsonValue('db-security-group')
   dbSecurityGroup,
+  @_s.JsonValue('db-snapshot')
   dbSnapshot,
+  @_s.JsonValue('db-cluster')
   dbCluster,
+  @_s.JsonValue('db-cluster-snapshot')
   dbClusterSnapshot,
 }
 
@@ -5470,17 +5568,24 @@ class Subnet {
 
 /// Metadata assigned to an Amazon DocumentDB resource consisting of a key-value
 /// pair.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// The required name of the tag. The string value can be from 1 to 128 Unicode
   /// characters in length and can't be prefixed with "aws:" or "rds:". The string
   /// can contain only the set of Unicode letters, digits, white space, '_', '.',
   /// '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional value of the tag. The string value can be from 1 to 256 Unicode
   /// characters in length and can't be prefixed with "aws:" or "rds:". The string
   /// can contain only the set of Unicode letters, digits, white space, '_', '.',
   /// '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -5493,6 +5598,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// Represents the output of <a>ListTagsForResource</a>.

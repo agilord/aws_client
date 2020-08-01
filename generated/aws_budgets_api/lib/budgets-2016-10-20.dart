@@ -1296,7 +1296,9 @@ class Budget {
 
   /// The last time that you updated this budget.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   /// A map containing multiple <code>BudgetLimit</code>, including current or
@@ -2023,7 +2025,8 @@ class TimePeriod {
   /// After the end date, AWS deletes the budget and all associated notifications
   /// and subscribers. You can change your end date with the
   /// <code>UpdateBudget</code> operation.
-  @_s.JsonKey(name: 'End', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'End', fromJson: unixTimestampFromJson, toJson: unixTimestampToJson)
   final DateTime end;
 
   /// The start date for a budget. If you created your budget and didn't specify a
@@ -2036,7 +2039,10 @@ class TimePeriod {
   /// Management console and the API.
   ///
   /// You can change your start date with the <code>UpdateBudget</code> operation.
-  @_s.JsonKey(name: 'Start', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Start',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime start;
 
   TimePeriod({

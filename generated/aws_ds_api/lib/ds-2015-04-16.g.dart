@@ -55,8 +55,12 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateId: json['CertificateId'] as String,
     commonName: json['CommonName'] as String,
-    expiryDateTime: unixFromJson(json['ExpiryDateTime']),
-    registeredDateTime: unixFromJson(json['RegisteredDateTime']),
+    expiryDateTime: json['ExpiryDateTime'] == null
+        ? null
+        : DateTime.parse(json['ExpiryDateTime'] as String),
+    registeredDateTime: json['RegisteredDateTime'] == null
+        ? null
+        : DateTime.parse(json['RegisteredDateTime'] as String),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
     stateReason: json['StateReason'] as String,
   );
@@ -107,7 +111,9 @@ CertificateInfo _$CertificateInfoFromJson(Map<String, dynamic> json) {
   return CertificateInfo(
     certificateId: json['CertificateId'] as String,
     commonName: json['CommonName'] as String,
-    expiryDateTime: unixFromJson(json['ExpiryDateTime']),
+    expiryDateTime: json['ExpiryDateTime'] == null
+        ? null
+        : DateTime.parse(json['ExpiryDateTime'] as String),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
   );
 }
@@ -376,7 +382,9 @@ DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
     directoryId: json['DirectoryId'] as String,
     dnsIpAddrs: (json['DnsIpAddrs'] as List)?.map((e) => e as String)?.toList(),
     edition: _$enumDecodeNullable(_$DirectoryEditionEnumMap, json['Edition']),
-    launchTime: unixFromJson(json['LaunchTime']),
+    launchTime: json['LaunchTime'] == null
+        ? null
+        : DateTime.parse(json['LaunchTime'] as String),
     name: json['Name'] as String,
     ownerDirectoryDescription: json['OwnerDirectoryDescription'] == null
         ? null
@@ -397,7 +405,9 @@ DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
     size: _$enumDecodeNullable(_$DirectorySizeEnumMap, json['Size']),
     ssoEnabled: json['SsoEnabled'] as bool,
     stage: _$enumDecodeNullable(_$DirectoryStageEnumMap, json['Stage']),
-    stageLastUpdatedDateTime: unixFromJson(json['StageLastUpdatedDateTime']),
+    stageLastUpdatedDateTime: json['StageLastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['StageLastUpdatedDateTime'] as String),
     stageReason: json['StageReason'] as String,
     type: _$enumDecodeNullable(_$DirectoryTypeEnumMap, json['Type']),
     vpcSettings: json['VpcSettings'] == null
@@ -525,10 +535,14 @@ DomainController _$DomainControllerFromJson(Map<String, dynamic> json) {
     directoryId: json['DirectoryId'] as String,
     dnsIpAddr: json['DnsIpAddr'] as String,
     domainControllerId: json['DomainControllerId'] as String,
-    launchTime: unixFromJson(json['LaunchTime']),
+    launchTime: json['LaunchTime'] == null
+        ? null
+        : DateTime.parse(json['LaunchTime'] as String),
     status:
         _$enumDecodeNullable(_$DomainControllerStatusEnumMap, json['Status']),
-    statusLastUpdatedDateTime: unixFromJson(json['StatusLastUpdatedDateTime']),
+    statusLastUpdatedDateTime: json['StatusLastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['StatusLastUpdatedDateTime'] as String),
     statusReason: json['StatusReason'] as String,
     subnetId: json['SubnetId'] as String,
     vpcId: json['VpcId'] as String,
@@ -559,7 +573,9 @@ EnableSsoResult _$EnableSsoResultFromJson(Map<String, dynamic> json) {
 
 EventTopic _$EventTopicFromJson(Map<String, dynamic> json) {
   return EventTopic(
-    createdDateTime: unixFromJson(json['CreatedDateTime']),
+    createdDateTime: json['CreatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedDateTime'] as String),
     directoryId: json['DirectoryId'] as String,
     status: _$enumDecodeNullable(_$TopicStatusEnumMap, json['Status']),
     topicArn: json['TopicArn'] as String,
@@ -610,7 +626,9 @@ Map<String, dynamic> _$IpRouteToJson(IpRoute instance) {
 
 IpRouteInfo _$IpRouteInfoFromJson(Map<String, dynamic> json) {
   return IpRouteInfo(
-    addedDateTime: unixFromJson(json['AddedDateTime']),
+    addedDateTime: json['AddedDateTime'] == null
+        ? null
+        : DateTime.parse(json['AddedDateTime'] as String),
     cidrIp: json['CidrIp'] as String,
     description: json['Description'] as String,
     directoryId: json['DirectoryId'] as String,
@@ -634,7 +652,9 @@ LDAPSSettingInfo _$LDAPSSettingInfoFromJson(Map<String, dynamic> json) {
     lDAPSStatus:
         _$enumDecodeNullable(_$LDAPSStatusEnumMap, json['LDAPSStatus']),
     lDAPSStatusReason: json['LDAPSStatusReason'] as String,
-    lastUpdatedDateTime: unixFromJson(json['LastUpdatedDateTime']),
+    lastUpdatedDateTime: json['LastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedDateTime'] as String),
   );
 }
 
@@ -705,8 +725,9 @@ LogSubscription _$LogSubscriptionFromJson(Map<String, dynamic> json) {
   return LogSubscription(
     directoryId: json['DirectoryId'] as String,
     logGroupName: json['LogGroupName'] as String,
-    subscriptionCreatedDateTime:
-        unixFromJson(json['SubscriptionCreatedDateTime']),
+    subscriptionCreatedDateTime: json['SubscriptionCreatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['SubscriptionCreatedDateTime'] as String),
   );
 }
 
@@ -814,12 +835,16 @@ SchemaExtensionInfo _$SchemaExtensionInfoFromJson(Map<String, dynamic> json) {
   return SchemaExtensionInfo(
     description: json['Description'] as String,
     directoryId: json['DirectoryId'] as String,
-    endDateTime: unixFromJson(json['EndDateTime']),
+    endDateTime: json['EndDateTime'] == null
+        ? null
+        : DateTime.parse(json['EndDateTime'] as String),
     schemaExtensionId: json['SchemaExtensionId'] as String,
     schemaExtensionStatus: _$enumDecodeNullable(
         _$SchemaExtensionStatusEnumMap, json['SchemaExtensionStatus']),
     schemaExtensionStatusReason: json['SchemaExtensionStatusReason'] as String,
-    startDateTime: unixFromJson(json['StartDateTime']),
+    startDateTime: json['StartDateTime'] == null
+        ? null
+        : DateTime.parse(json['StartDateTime'] as String),
   );
 }
 
@@ -861,8 +886,12 @@ const _$TargetTypeEnumMap = {
 
 SharedDirectory _$SharedDirectoryFromJson(Map<String, dynamic> json) {
   return SharedDirectory(
-    createdDateTime: unixFromJson(json['CreatedDateTime']),
-    lastUpdatedDateTime: unixFromJson(json['LastUpdatedDateTime']),
+    createdDateTime: json['CreatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedDateTime'] as String),
+    lastUpdatedDateTime: json['LastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedDateTime'] as String),
     ownerAccountId: json['OwnerAccountId'] as String,
     ownerDirectoryId: json['OwnerDirectoryId'] as String,
     shareMethod:
@@ -880,7 +909,9 @@ Snapshot _$SnapshotFromJson(Map<String, dynamic> json) {
     directoryId: json['DirectoryId'] as String,
     name: json['Name'] as String,
     snapshotId: json['SnapshotId'] as String,
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
     status: _$enumDecodeNullable(_$SnapshotStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$SnapshotTypeEnumMap, json['Type']),
   );
@@ -935,13 +966,19 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
 Trust _$TrustFromJson(Map<String, dynamic> json) {
   return Trust(
-    createdDateTime: unixFromJson(json['CreatedDateTime']),
+    createdDateTime: json['CreatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedDateTime'] as String),
     directoryId: json['DirectoryId'] as String,
-    lastUpdatedDateTime: unixFromJson(json['LastUpdatedDateTime']),
+    lastUpdatedDateTime: json['LastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdatedDateTime'] as String),
     remoteDomainName: json['RemoteDomainName'] as String,
     selectiveAuth:
         _$enumDecodeNullable(_$SelectiveAuthEnumMap, json['SelectiveAuth']),
-    stateLastUpdatedDateTime: unixFromJson(json['StateLastUpdatedDateTime']),
+    stateLastUpdatedDateTime: json['StateLastUpdatedDateTime'] == null
+        ? null
+        : DateTime.parse(json['StateLastUpdatedDateTime'] as String),
     trustDirection:
         _$enumDecodeNullable(_$TrustDirectionEnumMap, json['TrustDirection']),
     trustId: json['TrustId'] as String,

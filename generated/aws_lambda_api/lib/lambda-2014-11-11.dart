@@ -718,7 +718,10 @@ class EventSourceConfiguration {
   final bool isActive;
 
   /// The UTC time string indicating the last time the event mapping was updated.
-  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The map (key-value pairs) defining the configuration for AWS Lambda to use
@@ -814,7 +817,10 @@ class FunctionConfiguration {
   final String handler;
 
   /// The timestamp of the last time you updated the function.
-  @_s.JsonKey(name: 'LastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The memory size, in MB, you configured for the function. Must be a multiple

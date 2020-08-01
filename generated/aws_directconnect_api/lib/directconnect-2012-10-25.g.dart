@@ -180,7 +180,9 @@ Connection _$ConnectionFromJson(Map<String, dynamic> json) {
         _$HasLogicalRedundancyEnumMap, json['hasLogicalRedundancy']),
     jumboFrameCapable: json['jumboFrameCapable'] as bool,
     lagId: json['lagId'] as String,
-    loaIssueTime: unixFromJson(json['loaIssueTime']),
+    loaIssueTime: json['loaIssueTime'] == null
+        ? null
+        : DateTime.parse(json['loaIssueTime'] as String),
     location: json['location'] as String,
     ownerAccount: json['ownerAccount'] as String,
     partnerName: json['partnerName'] as String,
@@ -551,7 +553,9 @@ Interconnect _$InterconnectFromJson(Map<String, dynamic> json) {
         _$InterconnectStateEnumMap, json['interconnectState']),
     jumboFrameCapable: json['jumboFrameCapable'] as bool,
     lagId: json['lagId'] as String,
-    loaIssueTime: unixFromJson(json['loaIssueTime']),
+    loaIssueTime: json['loaIssueTime'] == null
+        ? null
+        : DateTime.parse(json['loaIssueTime'] as String),
     location: json['location'] as String,
     providerName: json['providerName'] as String,
     region: json['region'] as String,

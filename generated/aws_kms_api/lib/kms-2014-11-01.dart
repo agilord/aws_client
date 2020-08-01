@@ -5871,7 +5871,10 @@ class CustomKeyStoresListEntry {
   final ConnectionStateType connectionState;
 
   /// The date and time when the custom key store was created.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// A unique identifier for the custom key store.
@@ -6414,7 +6417,9 @@ class GetParametersForImportResponse {
   /// and you must send another <code>GetParametersForImport</code> request to get
   /// new ones.
   @_s.JsonKey(
-      name: 'ParametersValidTo', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ParametersValidTo',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime parametersValidTo;
 
   /// The public key to use to encrypt the key material before importing it with
@@ -6588,7 +6593,10 @@ class GrantListEntry {
   final GrantConstraints constraints;
 
   /// The date and time when the grant was created.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The unique identifier for the grant.
@@ -6744,7 +6752,10 @@ class KeyMetadata {
   final String cloudHsmClusterId;
 
   /// The date and time when the CMK was created.
-  @_s.JsonKey(name: 'CreationDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// A unique identifier for the <a
@@ -6760,7 +6771,10 @@ class KeyMetadata {
 
   /// The date and time after which AWS KMS deletes the CMK. This value is present
   /// only when <code>KeyState</code> is <code>PendingDeletion</code>.
-  @_s.JsonKey(name: 'DeletionDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DeletionDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
   /// The description of the CMK.
@@ -6828,7 +6842,10 @@ class KeyMetadata {
   /// value is present only for CMKs whose <code>Origin</code> is
   /// <code>EXTERNAL</code> and whose <code>ExpirationModel</code> is
   /// <code>KEY_MATERIAL_EXPIRES</code>, otherwise this value is omitted.
-  @_s.JsonKey(name: 'ValidTo', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'ValidTo',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime validTo;
 
   KeyMetadata({
@@ -7138,7 +7155,10 @@ class ReEncryptResponse {
     createToJson: false)
 class ScheduleKeyDeletionResponse {
   /// The date and time after which AWS KMS deletes the customer master key (CMK).
-  @_s.JsonKey(name: 'DeletionDate', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DeletionDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
   /// The unique identifier of the customer master key (CMK) for which deletion is

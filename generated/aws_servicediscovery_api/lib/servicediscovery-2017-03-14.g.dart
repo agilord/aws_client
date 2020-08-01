@@ -365,7 +365,9 @@ ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
 Namespace _$NamespaceFromJson(Map<String, dynamic> json) {
   return Namespace(
     arn: json['Arn'] as String,
-    createDate: unixFromJson(json['CreateDate']),
+    createDate: json['CreateDate'] == null
+        ? null
+        : DateTime.parse(json['CreateDate'] as String),
     creatorRequestId: json['CreatorRequestId'] as String,
     description: json['Description'] as String,
     id: json['Id'] as String,
@@ -425,7 +427,9 @@ NamespaceProperties _$NamespacePropertiesFromJson(Map<String, dynamic> json) {
 NamespaceSummary _$NamespaceSummaryFromJson(Map<String, dynamic> json) {
   return NamespaceSummary(
     arn: json['Arn'] as String,
-    createDate: unixFromJson(json['CreateDate']),
+    createDate: json['CreateDate'] == null
+        ? null
+        : DateTime.parse(json['CreateDate'] as String),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
@@ -440,7 +444,9 @@ NamespaceSummary _$NamespaceSummaryFromJson(Map<String, dynamic> json) {
 
 Operation _$OperationFromJson(Map<String, dynamic> json) {
   return Operation(
-    createDate: unixFromJson(json['CreateDate']),
+    createDate: json['CreateDate'] == null
+        ? null
+        : DateTime.parse(json['CreateDate'] as String),
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
     id: json['Id'] as String,
@@ -449,7 +455,9 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
-    updateDate: unixFromJson(json['UpdateDate']),
+    updateDate: json['UpdateDate'] == null
+        ? null
+        : DateTime.parse(json['UpdateDate'] as String),
   );
 }
 
@@ -508,7 +516,9 @@ RegisterInstanceResponse _$RegisterInstanceResponseFromJson(
 Service _$ServiceFromJson(Map<String, dynamic> json) {
   return Service(
     arn: json['Arn'] as String,
-    createDate: unixFromJson(json['CreateDate']),
+    createDate: json['CreateDate'] == null
+        ? null
+        : DateTime.parse(json['CreateDate'] as String),
     creatorRequestId: json['CreatorRequestId'] as String,
     description: json['Description'] as String,
     dnsConfig: json['DnsConfig'] == null
@@ -566,7 +576,9 @@ const _$ServiceFilterNameEnumMap = {
 ServiceSummary _$ServiceSummaryFromJson(Map<String, dynamic> json) {
   return ServiceSummary(
     arn: json['Arn'] as String,
-    createDate: unixFromJson(json['CreateDate']),
+    createDate: json['CreateDate'] == null
+        ? null
+        : DateTime.parse(json['CreateDate'] as String),
     description: json['Description'] as String,
     dnsConfig: json['DnsConfig'] == null
         ? null

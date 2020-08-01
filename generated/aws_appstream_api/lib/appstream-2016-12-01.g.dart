@@ -187,7 +187,9 @@ CreateImageBuilderResult _$CreateImageBuilderResultFromJson(
 CreateImageBuilderStreamingURLResult
     _$CreateImageBuilderStreamingURLResultFromJson(Map<String, dynamic> json) {
   return CreateImageBuilderStreamingURLResult(
-    expires: unixFromJson(json['Expires']),
+    expires: json['Expires'] == null
+        ? null
+        : DateTime.parse(json['Expires'] as String),
     streamingURL: json['StreamingURL'] as String,
   );
 }
@@ -203,7 +205,9 @@ CreateStackResult _$CreateStackResultFromJson(Map<String, dynamic> json) {
 CreateStreamingURLResult _$CreateStreamingURLResultFromJson(
     Map<String, dynamic> json) {
   return CreateStreamingURLResult(
-    expires: unixFromJson(json['Expires']),
+    expires: json['Expires'] == null
+        ? null
+        : DateTime.parse(json['Expires'] as String),
     streamingURL: json['StreamingURL'] as String,
   );
 }
@@ -384,7 +388,9 @@ DescribeUsersResult _$DescribeUsersResultFromJson(Map<String, dynamic> json) {
 DirectoryConfig _$DirectoryConfigFromJson(Map<String, dynamic> json) {
   return DirectoryConfig(
     directoryName: json['DirectoryName'] as String,
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     organizationalUnitDistinguishedNames:
         (json['OrganizationalUnitDistinguishedNames'] as List)
             ?.map((e) => e as String)
@@ -446,7 +452,9 @@ Fleet _$FleetFromJson(Map<String, dynamic> json) {
     instanceType: json['InstanceType'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$FleetStateEnumMap, json['State']),
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     description: json['Description'] as String,
     disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int,
     displayName: json['DisplayName'] as String,
@@ -547,7 +555,9 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
     appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
     arn: json['Arn'] as String,
     baseImageArn: json['BaseImageArn'] as String,
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     imageBuilderName: json['ImageBuilderName'] as String,
@@ -557,8 +567,9 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
         : ImagePermissions.fromJson(
             json['ImagePermissions'] as Map<String, dynamic>),
     platform: _$enumDecodeNullable(_$PlatformTypeEnumMap, json['Platform']),
-    publicBaseImageReleasedDate:
-        unixFromJson(json['PublicBaseImageReleasedDate']),
+    publicBaseImageReleasedDate: json['PublicBaseImageReleasedDate'] == null
+        ? null
+        : DateTime.parse(json['PublicBaseImageReleasedDate'] as String),
     state: _$enumDecodeNullable(_$ImageStateEnumMap, json['State']),
     stateChangeReason: json['StateChangeReason'] == null
         ? null
@@ -599,7 +610,9 @@ ImageBuilder _$ImageBuilderFromJson(Map<String, dynamic> json) {
         ?.toList(),
     appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
     arn: json['Arn'] as String,
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     domainJoinInfo: json['DomainJoinInfo'] == null
@@ -746,7 +759,9 @@ ResourceError _$ResourceErrorFromJson(Map<String, dynamic> json) {
   return ResourceError(
     errorCode: _$enumDecodeNullable(_$FleetErrorCodeEnumMap, json['ErrorCode']),
     errorMessage: json['ErrorMessage'] as String,
-    errorTimestamp: unixFromJson(json['ErrorTimestamp']),
+    errorTimestamp: json['ErrorTimestamp'] == null
+        ? null
+        : DateTime.parse(json['ErrorTimestamp'] as String),
   );
 }
 
@@ -784,12 +799,16 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
         _$AuthenticationTypeEnumMap, json['AuthenticationType']),
     connectionState: _$enumDecodeNullable(
         _$SessionConnectionStateEnumMap, json['ConnectionState']),
-    maxExpirationTime: unixFromJson(json['MaxExpirationTime']),
+    maxExpirationTime: json['MaxExpirationTime'] == null
+        ? null
+        : DateTime.parse(json['MaxExpirationTime'] as String),
     networkAccessConfiguration: json['NetworkAccessConfiguration'] == null
         ? null
         : NetworkAccessConfiguration.fromJson(
             json['NetworkAccessConfiguration'] as Map<String, dynamic>),
-    startTime: unixFromJson(json['StartTime']),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
   );
 }
 
@@ -834,7 +853,9 @@ Stack _$StackFromJson(Map<String, dynamic> json) {
         : ApplicationSettingsResponse.fromJson(
             json['ApplicationSettings'] as Map<String, dynamic>),
     arn: json['Arn'] as String,
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     embedHostDomains:
@@ -969,7 +990,9 @@ UpdateStackResult _$UpdateStackResultFromJson(Map<String, dynamic> json) {
 UsageReportSubscription _$UsageReportSubscriptionFromJson(
     Map<String, dynamic> json) {
   return UsageReportSubscription(
-    lastGeneratedReportDate: unixFromJson(json['LastGeneratedReportDate']),
+    lastGeneratedReportDate: json['LastGeneratedReportDate'] == null
+        ? null
+        : DateTime.parse(json['LastGeneratedReportDate'] as String),
     s3BucketName: json['S3BucketName'] as String,
     schedule:
         _$enumDecodeNullable(_$UsageReportScheduleEnumMap, json['Schedule']),
@@ -987,7 +1010,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
     authenticationType: _$enumDecodeNullable(
         _$AuthenticationTypeEnumMap, json['AuthenticationType']),
     arn: json['Arn'] as String,
-    createdTime: unixFromJson(json['CreatedTime']),
+    createdTime: json['CreatedTime'] == null
+        ? null
+        : DateTime.parse(json['CreatedTime'] as String),
     enabled: json['Enabled'] as bool,
     firstName: json['FirstName'] as String,
     lastName: json['LastName'] as String,

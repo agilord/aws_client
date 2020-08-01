@@ -871,7 +871,10 @@ class LicenseManager {
     createToJson: false)
 class AutomatedDiscoveryInformation {
   /// Time that automated discovery last ran.
-  @_s.JsonKey(name: 'LastRunTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'LastRunTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastRunTime;
 
   AutomatedDiscoveryInformation({
@@ -1230,7 +1233,9 @@ class LicenseConfiguration {
 class LicenseConfigurationAssociation {
   /// Time when the license configuration was associated with the resource.
   @_s.JsonKey(
-      name: 'AssociationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AssociationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime associationTime;
 
   /// Amazon Resource Name (ARN) of the resource.
@@ -1285,7 +1290,9 @@ class LicenseConfigurationUsage {
   /// Time when the license configuration was initially associated with the
   /// resource.
   @_s.JsonKey(
-      name: 'AssociationTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'AssociationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime associationTime;
 
   /// Number of licenses consumed by the resource.
@@ -1359,7 +1366,10 @@ class LicenseOperationFailure {
   final String errorMessage;
 
   /// Failure time.
-  @_s.JsonKey(name: 'FailureTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'FailureTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime failureTime;
 
   /// Reserved.

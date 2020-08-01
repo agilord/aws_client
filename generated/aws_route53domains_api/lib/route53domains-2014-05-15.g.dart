@@ -8,7 +8,9 @@ part of 'route53domains-2014-05-15.dart';
 
 BillingRecord _$BillingRecordFromJson(Map<String, dynamic> json) {
   return BillingRecord(
-    billDate: unixFromJson(json['BillDate']),
+    billDate: json['BillDate'] == null
+        ? null
+        : DateTime.parse(json['BillDate'] as String),
     domainName: json['DomainName'] as String,
     invoiceId: json['InvoiceId'] as String,
     operation: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Operation']),
@@ -421,7 +423,9 @@ DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
   return DomainSummary(
     domainName: json['DomainName'] as String,
     autoRenew: json['AutoRenew'] as bool,
-    expiry: unixFromJson(json['Expiry']),
+    expiry: json['Expiry'] == null
+        ? null
+        : DateTime.parse(json['Expiry'] as String),
     transferLock: json['TransferLock'] as bool,
   );
 }
@@ -544,9 +548,13 @@ GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     abuseContactPhone: json['AbuseContactPhone'] as String,
     adminPrivacy: json['AdminPrivacy'] as bool,
     autoRenew: json['AutoRenew'] as bool,
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     dnsSec: json['DnsSec'] as String,
-    expirationDate: unixFromJson(json['ExpirationDate']),
+    expirationDate: json['ExpirationDate'] == null
+        ? null
+        : DateTime.parse(json['ExpirationDate'] as String),
     registrantPrivacy: json['RegistrantPrivacy'] as bool,
     registrarName: json['RegistrarName'] as String,
     registrarUrl: json['RegistrarUrl'] as String,
@@ -554,7 +562,9 @@ GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     reseller: json['Reseller'] as String,
     statusList: (json['StatusList'] as List)?.map((e) => e as String)?.toList(),
     techPrivacy: json['TechPrivacy'] as bool,
-    updatedDate: unixFromJson(json['UpdatedDate']),
+    updatedDate: json['UpdatedDate'] == null
+        ? null
+        : DateTime.parse(json['UpdatedDate'] as String),
     whoIsServer: json['WhoIsServer'] as String,
   );
 }
@@ -577,7 +587,9 @@ GetOperationDetailResponse _$GetOperationDetailResponseFromJson(
     message: json['Message'] as String,
     operationId: json['OperationId'] as String,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
-    submittedDate: unixFromJson(json['SubmittedDate']),
+    submittedDate: json['SubmittedDate'] == null
+        ? null
+        : DateTime.parse(json['SubmittedDate'] as String),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
   );
 }
@@ -660,7 +672,9 @@ OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   return OperationSummary(
     operationId: json['OperationId'] as String,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
-    submittedDate: unixFromJson(json['SubmittedDate']),
+    submittedDate: json['SubmittedDate'] == null
+        ? null
+        : DateTime.parse(json['SubmittedDate'] as String),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
   );
 }

@@ -2547,7 +2547,10 @@ class Build {
   final String encryptionKey;
 
   /// When the build process ended, expressed in Unix time format.
-  @_s.JsonKey(name: 'endTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Information about the build environment for this build.
@@ -2686,7 +2689,10 @@ class Build {
   final String sourceVersion;
 
   /// When the build process started, expressed in Unix time format.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// How long, in minutes, for AWS CodeBuild to wait before timing out this build
@@ -2838,7 +2844,10 @@ class BuildPhase {
   final int durationInSeconds;
 
   /// When the build phase ended, expressed in Unix time format.
-  @_s.JsonKey(name: 'endTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The current status of the build phase. Valid values include:
@@ -2919,7 +2928,10 @@ class BuildPhase {
   final BuildPhaseType phaseType;
 
   /// When the build phase started, expressed in Unix time format.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   BuildPhase({
@@ -3956,7 +3968,10 @@ class Project {
   final ProjectCache cache;
 
   /// When the build project was created, expressed in Unix time format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// A description that makes the build project easy to identify.
@@ -3989,7 +4004,10 @@ class Project {
 
   /// When the build project's settings were last modified, expressed in Unix time
   /// format.
-  @_s.JsonKey(name: 'lastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// Information about logs for the build project. A project can create logs in
@@ -5036,7 +5054,10 @@ class Report {
   final String arn;
 
   /// The date and time this report run occurred.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The ARN of the build run that generated this report.
@@ -5045,7 +5066,10 @@ class Report {
 
   /// The date and time a report expires. A report expires 30 days after it is
   /// created. An expired report is not available to view in CodeBuild.
-  @_s.JsonKey(name: 'expired', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'expired',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expired;
 
   /// Information about where the raw data used to generate this report was
@@ -5170,7 +5194,10 @@ class ReportGroup {
   final String arn;
 
   /// The date and time this <code>ReportGroup</code> was created.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// Information about the destination where the raw data of this
@@ -5179,7 +5206,10 @@ class ReportGroup {
   final ReportExportConfig exportConfig;
 
   /// The date and time this <code>ReportGroup</code> was last modified.
-  @_s.JsonKey(name: 'lastModified', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastModified',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// The name of a <code>ReportGroup</code>.
@@ -5615,7 +5645,10 @@ class TestCase {
 
   /// The date and time a test case expires. A test case expires 30 days after it
   /// is created. An expired test case is not available to view in CodeBuild.
-  @_s.JsonKey(name: 'expired', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'expired',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expired;
 
   /// A message associated with a test case. For example, an error message or
@@ -5826,7 +5859,9 @@ class Webhook {
   /// A timestamp that indicates the last time a repository's secret token was
   /// modified.
   @_s.JsonKey(
-      name: 'lastModifiedSecret', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastModifiedSecret',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastModifiedSecret;
 
   /// The AWS CodeBuild endpoint where webhook events are sent.

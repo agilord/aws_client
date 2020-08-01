@@ -2261,7 +2261,10 @@ class ListedUser {
     createToJson: false)
 class SshPublicKey {
   /// The date that the public key was added to the user account.
-  @_s.JsonKey(name: 'DateImported', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'DateImported',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime dateImported;
 
   /// The content of the SSH public key as specified by the

@@ -303,10 +303,14 @@ QueryExecutionStatistics _$QueryExecutionStatisticsFromJson(
 
 QueryExecutionStatus _$QueryExecutionStatusFromJson(Map<String, dynamic> json) {
   return QueryExecutionStatus(
-    completionDateTime: unixFromJson(json['CompletionDateTime']),
+    completionDateTime: json['CompletionDateTime'] == null
+        ? null
+        : DateTime.parse(json['CompletionDateTime'] as String),
     state: _$enumDecodeNullable(_$QueryExecutionStateEnumMap, json['State']),
     stateChangeReason: json['StateChangeReason'] as String,
-    submissionDateTime: unixFromJson(json['SubmissionDateTime']),
+    submissionDateTime: json['SubmissionDateTime'] == null
+        ? null
+        : DateTime.parse(json['SubmissionDateTime'] as String),
   );
 }
 
@@ -463,7 +467,9 @@ WorkGroup _$WorkGroupFromJson(Map<String, dynamic> json) {
         ? null
         : WorkGroupConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     description: json['Description'] as String,
     state: _$enumDecodeNullable(_$WorkGroupStateEnumMap, json['State']),
   );
@@ -537,7 +543,9 @@ Map<String, dynamic> _$WorkGroupConfigurationUpdatesToJson(
 
 WorkGroupSummary _$WorkGroupSummaryFromJson(Map<String, dynamic> json) {
   return WorkGroupSummary(
-    creationTime: unixFromJson(json['CreationTime']),
+    creationTime: json['CreationTime'] == null
+        ? null
+        : DateTime.parse(json['CreationTime'] as String),
     description: json['Description'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$WorkGroupStateEnumMap, json['State']),

@@ -1186,7 +1186,10 @@ class Container {
   final bool accessLoggingEnabled;
 
   /// Unix timestamp.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The DNS endpoint of the container. Use the endpoint to identify the specific

@@ -5025,7 +5025,9 @@ class ArchivalSummary {
   /// The date and time when table archival was initiated by DynamoDB, in UNIX
   /// epoch time format.
   @_s.JsonKey(
-      name: 'ArchivalDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'ArchivalDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime archivalDateTime;
 
   /// The reason DynamoDB archived the table. Currently, the only possible value
@@ -5596,8 +5598,8 @@ class BackupDetails {
   /// backup.
   @_s.JsonKey(
       name: 'BackupCreationDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime backupCreationDateTime;
 
   /// Name of the requested backup.
@@ -5634,7 +5636,9 @@ class BackupDetails {
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
   @_s.JsonKey(
-      name: 'BackupExpiryDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'BackupExpiryDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime backupExpiryDateTime;
 
   /// Size of the backup in bytes.
@@ -5677,15 +5681,17 @@ class BackupSummary {
   /// Time at which the backup was created.
   @_s.JsonKey(
       name: 'BackupCreationDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime backupCreationDateTime;
 
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
   @_s.JsonKey(
-      name: 'BackupExpiryDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'BackupExpiryDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime backupExpiryDateTime;
 
   /// Name of the specified backup.
@@ -6007,8 +6013,8 @@ class BillingModeSummary {
   /// read/write capacity mode.
   @_s.JsonKey(
       name: 'LastUpdateToPayPerRequestDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateToPayPerRequestDateTime;
 
   BillingModeSummary({
@@ -6965,7 +6971,9 @@ class DescribeContributorInsightsOutput {
 
   /// Timestamp of the last time the status was changed.
   @_s.JsonKey(
-      name: 'LastUpdateDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdateDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateDateTime;
 
   /// The name of the table being described.
@@ -7884,7 +7892,9 @@ class GlobalTable {
 class GlobalTableDescription {
   /// The creation time of the global table.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The unique identifier of the global table.
@@ -8530,16 +8540,16 @@ class PointInTimeRecoveryDescription {
   /// restore your table to any point in time during the last 35 days.
   @_s.JsonKey(
       name: 'EarliestRestorableDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime earliestRestorableDateTime;
 
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
   @_s.JsonKey(
       name: 'LatestRestorableDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime latestRestorableDateTime;
 
   /// The current state of point in time recovery:
@@ -8709,13 +8719,17 @@ class ProvisionedThroughputDescription {
   /// The date and time of the last provisioned throughput decrease for this
   /// table.
   @_s.JsonKey(
-      name: 'LastDecreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastDecreaseDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastDecreaseDateTime;
 
   /// The date and time of the last provisioned throughput increase for this
   /// table.
   @_s.JsonKey(
-      name: 'LastIncreaseDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastIncreaseDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastIncreaseDateTime;
 
   /// The number of provisioned throughput decreases for this table during this
@@ -9587,7 +9601,9 @@ class ReplicationGroupUpdate {
 class RestoreSummary {
   /// Point in time or source backup time.
   @_s.JsonKey(
-      name: 'RestoreDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'RestoreDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime restoreDateTime;
 
   /// Indicates if a restore is in progress or not.
@@ -9765,8 +9781,8 @@ class SSEDescription {
   /// KMS key remains inaccessible for more than seven days from this date.
   @_s.JsonKey(
       name: 'InaccessibleEncryptionDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime inaccessibleEncryptionDateTime;
 
   /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
@@ -9997,7 +10013,9 @@ class SourceTableDetails {
 
   /// Time when the source table was created.
   @_s.JsonKey(
-      name: 'TableCreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'TableCreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime tableCreationDateTime;
 
   /// Unique identifier for the table for which the backup was created.
@@ -10232,7 +10250,9 @@ class TableDescription {
   /// The date and time when the table was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
   @_s.JsonKey(
-      name: 'CreationDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreationDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The global secondary indexes, if any, on the table. Each index is scoped to

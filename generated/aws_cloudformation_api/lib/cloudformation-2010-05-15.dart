@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'cloudformation-2010-05-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'cloudformation-2010-05-15.g.dart';
 
 /// AWS CloudFormation allows you to create and manage AWS infrastructure
 /// deployments predictably and repeatedly. You can use AWS CloudFormation to
@@ -22,17 +33,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// infrastructure.
 class CloudFormation {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   CloudFormation({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'cloudformation',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Cancels an update on the specified stack. If the call completes
   /// successfully, the stack rolls back the update and reverts to the previous
@@ -68,17 +82,18 @@ class CloudFormation {
       clientRequestToken,
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'CancelUpdateStack',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     await _protocol.send(
       $request,
+      action: 'CancelUpdateStack',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CancelUpdateStackInput'],
+      shapes: shapes,
     );
   }
 
@@ -211,19 +226,20 @@ class CloudFormation {
       20,
       2048,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ContinueUpdateRollback',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     resourcesToSkip?.also((arg) => $request['ResourcesToSkip'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     await _protocol.send(
       $request,
+      action: 'ContinueUpdateRollback',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ContinueUpdateRollbackInput'],
+      shapes: shapes,
       resultWrapper: 'ContinueUpdateRollbackResult',
     );
   }
@@ -554,10 +570,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateChangeSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     $request['StackName'] = stackName;
     capabilities?.also((arg) => $request['Capabilities'] = arg);
@@ -577,9 +590,13 @@ class CloudFormation {
     usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateChangeSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateChangeSetInput'],
+      shapes: shapes,
       resultWrapper: 'CreateChangeSetResult',
     );
     return CreateChangeSetOutput.fromXml($result);
@@ -922,10 +939,7 @@ class CloudFormation {
       1,
       1152921504606846976,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateStack',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     capabilities?.also((arg) => $request['Capabilities'] = arg);
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
@@ -947,9 +961,13 @@ class CloudFormation {
     timeoutInMinutes?.also((arg) => $request['TimeoutInMinutes'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateStack',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateStackInput'],
+      shapes: shapes,
       resultWrapper: 'CreateStackResult',
     );
     return CreateStackOutput.fromXml($result);
@@ -1073,10 +1091,7 @@ class CloudFormation {
       operationId,
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateStackInstances',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['Regions'] = regions;
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
@@ -1086,9 +1101,13 @@ class CloudFormation {
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateStackInstances',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateStackInstancesInput'],
+      shapes: shapes,
       resultWrapper: 'CreateStackInstancesResult',
     );
     return CreateStackInstancesOutput.fromXml($result);
@@ -1361,10 +1380,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'CreateStackSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     administrationRoleARN
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
@@ -1380,9 +1396,13 @@ class CloudFormation {
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateStackSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateStackSetInput'],
+      shapes: shapes,
       resultWrapper: 'CreateStackSetResult',
     );
     return CreateStackSetOutput.fromXml($result);
@@ -1432,17 +1452,18 @@ class CloudFormation {
       stackName,
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteChangeSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     stackName?.also((arg) => $request['StackName'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteChangeSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteChangeSetInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteChangeSetResult',
     );
   }
@@ -1520,19 +1541,20 @@ class CloudFormation {
       20,
       2048,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteStack',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     retainResources?.also((arg) => $request['RetainResources'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeleteStack',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteStackInput'],
+      shapes: shapes,
     );
   }
 
@@ -1613,10 +1635,7 @@ class CloudFormation {
       operationId,
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeleteStackInstances',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['Regions'] = regions;
     $request['RetainStacks'] = retainStacks;
     $request['StackSetName'] = stackSetName;
@@ -1626,9 +1645,13 @@ class CloudFormation {
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteStackInstances',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteStackInstancesInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteStackInstancesResult',
     );
     return DeleteStackInstancesOutput.fromXml($result);
@@ -1648,16 +1671,17 @@ class CloudFormation {
     @_s.required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteStackSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     await _protocol.send(
       $request,
+      action: 'DeleteStackSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteStackSetInput'],
+      shapes: shapes,
       resultWrapper: 'DeleteStackSetResult',
     );
   }
@@ -1740,19 +1764,20 @@ class CloudFormation {
       versionId,
       r'''[A-Za-z0-9-]+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DeregisterType',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
     type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     await _protocol.send(
       $request,
+      action: 'DeregisterType',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeregisterTypeInput'],
+      shapes: shapes,
       resultWrapper: 'DeregisterTypeResult',
     );
   }
@@ -1775,16 +1800,17 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeAccountLimits',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeAccountLimits',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeAccountLimitsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsOutput.fromXml($result);
@@ -1845,18 +1871,19 @@ class CloudFormation {
       stackName,
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeChangeSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeChangeSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeChangeSetInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeChangeSetResult',
     );
     return DescribeChangeSetOutput.fromXml($result);
@@ -1897,16 +1924,17 @@ class CloudFormation {
       36,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackDriftDetectionStatus',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackDriftDetectionId'] = stackDriftDetectionId;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackDriftDetectionStatus',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackDriftDetectionStatusInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackDriftDetectionStatusResult',
     );
     return DescribeStackDriftDetectionStatusOutput.fromXml($result);
@@ -1950,17 +1978,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackEvents',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackEvents',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackEventsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackEventsResult',
     );
     return DescribeStackEventsOutput.fromXml($result);
@@ -2004,18 +2033,19 @@ class CloudFormation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackInstance',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackInstanceAccount'] = stackInstanceAccount;
     $request['StackInstanceRegion'] = stackInstanceRegion;
     $request['StackSetName'] = stackSetName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackInstance',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackInstanceInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackInstanceResult',
     );
     return DescribeStackInstanceOutput.fromXml($result);
@@ -2051,17 +2081,18 @@ class CloudFormation {
   }) async {
     ArgumentError.checkNotNull(logicalResourceId, 'logicalResourceId');
     ArgumentError.checkNotNull(stackName, 'stackName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackResource',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['LogicalResourceId'] = logicalResourceId;
     $request['StackName'] = stackName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackResource',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackResourceInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackResourceResult',
     );
     return DescribeStackResourceOutput.fromXml($result);
@@ -2150,10 +2181,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackResourceDrifts',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -2161,9 +2189,13 @@ class CloudFormation {
         ?.also((arg) => $request['StackResourceDriftStatusFilters'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackResourceDrifts',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackResourceDriftsInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackResourceDriftsResult',
     );
     return DescribeStackResourceDriftsOutput.fromXml($result);
@@ -2237,18 +2269,19 @@ class CloudFormation {
     String physicalResourceId,
     String stackName,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackResources',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     logicalResourceId?.also((arg) => $request['LogicalResourceId'] = arg);
     physicalResourceId?.also((arg) => $request['PhysicalResourceId'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackResources',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackResourcesInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackResourcesResult',
     );
     return DescribeStackResourcesOutput.fromXml($result);
@@ -2264,16 +2297,17 @@ class CloudFormation {
     @_s.required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackSetInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackSetResult',
     );
     return DescribeStackSetOutput.fromXml($result);
@@ -2308,17 +2342,18 @@ class CloudFormation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStackSetOperation',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['OperationId'] = operationId;
     $request['StackSetName'] = stackSetName;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStackSetOperation',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStackSetOperationInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStackSetOperationResult',
     );
     return DescribeStackSetOperationOutput.fromXml($result);
@@ -2359,17 +2394,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeStacks',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeStacks',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeStacksInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeStacksResult',
     );
     return DescribeStacksOutput.fromXml($result);
@@ -2451,19 +2487,20 @@ class CloudFormation {
       versionId,
       r'''[A-Za-z0-9-]+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeType',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
     type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeType',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTypeInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeTypeResult',
     );
     return DescribeTypeOutput.fromXml($result);
@@ -2503,16 +2540,17 @@ class CloudFormation {
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DescribeTypeRegistration',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['RegistrationToken'] = registrationToken;
     final $result = await _protocol.send(
       $request,
+      action: 'DescribeTypeRegistration',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTypeRegistrationInput'],
+      shapes: shapes,
       resultWrapper: 'DescribeTypeRegistrationResult',
     );
     return DescribeTypeRegistrationOutput.fromXml($result);
@@ -2573,17 +2611,18 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DetectStackDrift',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     logicalResourceIds?.also((arg) => $request['LogicalResourceIds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DetectStackDrift',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetectStackDriftInput'],
+      shapes: shapes,
       resultWrapper: 'DetectStackDriftResult',
     );
     return DetectStackDriftOutput.fromXml($result);
@@ -2632,17 +2671,18 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'DetectStackResourceDrift',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['LogicalResourceId'] = logicalResourceId;
     $request['StackName'] = stackName;
     final $result = await _protocol.send(
       $request,
+      action: 'DetectStackResourceDrift',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetectStackResourceDriftInput'],
+      shapes: shapes,
       resultWrapper: 'DetectStackResourceDriftResult',
     );
     return DetectStackResourceDriftOutput.fromXml($result);
@@ -2726,18 +2766,19 @@ class CloudFormation {
       operationId,
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'DetectStackSetDrift',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     operationId?.also((arg) => $request['OperationId'] = arg);
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'DetectStackSetDrift',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DetectStackSetDriftInput'],
+      shapes: shapes,
       resultWrapper: 'DetectStackSetDriftResult',
     );
     return DetectStackSetDriftOutput.fromXml($result);
@@ -2787,18 +2828,19 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'EstimateTemplateCost',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     parameters?.also((arg) => $request['Parameters'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'EstimateTemplateCost',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['EstimateTemplateCostInput'],
+      shapes: shapes,
       resultWrapper: 'EstimateTemplateCostResult',
     );
     return EstimateTemplateCostOutput.fromXml($result);
@@ -2878,18 +2920,19 @@ class CloudFormation {
       stackName,
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'ExecuteChangeSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     await _protocol.send(
       $request,
+      action: 'ExecuteChangeSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ExecuteChangeSetInput'],
+      shapes: shapes,
       resultWrapper: 'ExecuteChangeSetResult',
     );
   }
@@ -2904,16 +2947,17 @@ class CloudFormation {
     @_s.required String stackName,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
-    final $request = <String, dynamic>{
-      'Action': 'GetStackPolicy',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     final $result = await _protocol.send(
       $request,
+      action: 'GetStackPolicy',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetStackPolicyInput'],
+      shapes: shapes,
       resultWrapper: 'GetStackPolicyResult',
     );
     return GetStackPolicyOutput.fromXml($result);
@@ -2976,18 +3020,19 @@ class CloudFormation {
       changeSetName,
       r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'GetTemplate',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     changeSetName?.also((arg) => $request['ChangeSetName'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     templateStage?.also((arg) => $request['TemplateStage'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'GetTemplate',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTemplateInput'],
+      shapes: shapes,
       resultWrapper: 'GetTemplateResult',
     );
     return GetTemplateOutput.fromXml($result);
@@ -3080,19 +3125,20 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'GetTemplateSummary',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     stackName?.also((arg) => $request['StackName'] = arg);
     stackSetName?.also((arg) => $request['StackSetName'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetTemplateSummary',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTemplateSummaryInput'],
+      shapes: shapes,
       resultWrapper: 'GetTemplateSummaryResult',
     );
     return GetTemplateSummaryOutput.fromXml($result);
@@ -3133,17 +3179,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListChangeSets',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListChangeSets',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListChangeSetsInput'],
+      shapes: shapes,
       resultWrapper: 'ListChangeSetsResult',
     );
     return ListChangeSetsOutput.fromXml($result);
@@ -3172,16 +3219,17 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListExports',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListExports',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListExportsInput'],
+      shapes: shapes,
       resultWrapper: 'ListExportsResult',
     );
     return ListExportsOutput.fromXml($result);
@@ -3215,17 +3263,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListImports',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['ExportName'] = exportName;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListImports',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListImportsInput'],
+      shapes: shapes,
       resultWrapper: 'ListImportsResult',
     );
     return ListImportsOutput.fromXml($result);
@@ -3290,10 +3339,7 @@ class CloudFormation {
       stackInstanceRegion,
       r'''^[a-zA-Z0-9-]{1,128}$''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStackInstances',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -3301,9 +3347,13 @@ class CloudFormation {
     stackInstanceRegion?.also((arg) => $request['StackInstanceRegion'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListStackInstances',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackInstancesInput'],
+      shapes: shapes,
       resultWrapper: 'ListStackInstancesResult',
     );
     return ListStackInstancesOutput.fromXml($result);
@@ -3343,17 +3393,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStackResources',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListStackResources',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackResourcesInput'],
+      shapes: shapes,
       resultWrapper: 'ListStackResourcesResult',
     );
     return ListStackResourcesOutput.fromXml($result);
@@ -3418,19 +3469,20 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStackSetOperationResults',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['OperationId'] = operationId;
     $request['StackSetName'] = stackSetName;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListStackSetOperationResults',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackSetOperationResultsInput'],
+      shapes: shapes,
       resultWrapper: 'ListStackSetOperationResultsResult',
     );
     return ListStackSetOperationResultsOutput.fromXml($result);
@@ -3476,18 +3528,19 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStackSetOperations',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListStackSetOperations',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackSetOperationsInput'],
+      shapes: shapes,
       resultWrapper: 'ListStackSetOperationsResult',
     );
     return ListStackSetOperationsOutput.fromXml($result);
@@ -3531,18 +3584,19 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStackSets',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     status?.also((arg) => $request['Status'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'ListStackSets',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackSetsInput'],
+      shapes: shapes,
       resultWrapper: 'ListStackSetsResult',
     );
     return ListStackSetsOutput.fromXml($result);
@@ -3573,17 +3627,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListStacks',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackStatusFilter?.also((arg) => $request['StackStatusFilter'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListStacks',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStacksInput'],
+      shapes: shapes,
       resultWrapper: 'ListStacksResult',
     );
     return ListStacksOutput.fromXml($result);
@@ -3673,10 +3728,7 @@ class CloudFormation {
       typeName,
       r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListTypeRegistrations',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     registrationStatusFilter
@@ -3686,9 +3738,13 @@ class CloudFormation {
     typeName?.also((arg) => $request['TypeName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTypeRegistrations',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTypeRegistrationsInput'],
+      shapes: shapes,
       resultWrapper: 'ListTypeRegistrationsResult',
     );
     return ListTypeRegistrationsOutput.fromXml($result);
@@ -3793,10 +3849,7 @@ class CloudFormation {
       typeName,
       r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListTypeVersions',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
     deprecatedStatus
         ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
@@ -3806,9 +3859,13 @@ class CloudFormation {
     typeName?.also((arg) => $request['TypeName'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListTypeVersions',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTypeVersionsInput'],
+      shapes: shapes,
       resultWrapper: 'ListTypeVersionsResult',
     );
     return ListTypeVersionsOutput.fromXml($result);
@@ -3910,10 +3967,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ListTypes',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     deprecatedStatus
         ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -3923,9 +3977,13 @@ class CloudFormation {
     visibility?.also((arg) => $request['Visibility'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'ListTypes',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListTypesInput'],
+      shapes: shapes,
       resultWrapper: 'ListTypesResult',
     );
     return ListTypesOutput.fromXml($result);
@@ -4015,10 +4073,7 @@ class CloudFormation {
       0,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'RecordHandlerProgress',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['BearerToken'] = bearerToken;
     $request['OperationStatus'] = operationStatus.toValue();
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
@@ -4029,9 +4084,13 @@ class CloudFormation {
     statusMessage?.also((arg) => $request['StatusMessage'] = arg);
     await _protocol.send(
       $request,
+      action: 'RecordHandlerProgress',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RecordHandlerProgressInput'],
+      shapes: shapes,
       resultWrapper: 'RecordHandlerProgressResult',
     );
   }
@@ -4191,10 +4250,7 @@ class CloudFormation {
       executionRoleArn,
       r'''arn:.+:iam::[0-9]{12}:role/.+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'RegisterType',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['SchemaHandlerPackage'] = schemaHandlerPackage;
     $request['TypeName'] = typeName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
@@ -4203,9 +4259,13 @@ class CloudFormation {
     type?.also((arg) => $request['Type'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
+      action: 'RegisterType',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RegisterTypeInput'],
+      shapes: shapes,
       resultWrapper: 'RegisterTypeResult',
     );
     return RegisterTypeOutput.fromXml($result);
@@ -4246,18 +4306,19 @@ class CloudFormation {
       1,
       1350,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SetStackPolicy',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     stackPolicyBody?.also((arg) => $request['StackPolicyBody'] = arg);
     stackPolicyURL?.also((arg) => $request['StackPolicyURL'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetStackPolicy',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetStackPolicyInput'],
+      shapes: shapes,
     );
   }
 
@@ -4329,19 +4390,20 @@ class CloudFormation {
       versionId,
       r'''[A-Za-z0-9-]+''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'SetTypeDefaultVersion',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
     type?.also((arg) => $request['Type'] = arg.toValue());
     typeName?.also((arg) => $request['TypeName'] = arg);
     versionId?.also((arg) => $request['VersionId'] = arg);
     await _protocol.send(
       $request,
+      action: 'SetTypeDefaultVersion',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetTypeDefaultVersionInput'],
+      shapes: shapes,
       resultWrapper: 'SetTypeDefaultVersionResult',
     );
   }
@@ -4402,19 +4464,20 @@ class CloudFormation {
       64,
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'SignalResource',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['LogicalResourceId'] = logicalResourceId;
     $request['StackName'] = stackName;
     $request['Status'] = status.toValue();
     $request['UniqueId'] = uniqueId;
     await _protocol.send(
       $request,
+      action: 'SignalResource',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SignalResourceInput'],
+      shapes: shapes,
     );
   }
 
@@ -4450,17 +4513,18 @@ class CloudFormation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    final $request = <String, dynamic>{
-      'Action': 'StopStackSetOperation',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['OperationId'] = operationId;
     $request['StackSetName'] = stackSetName;
     await _protocol.send(
       $request,
+      action: 'StopStackSetOperation',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['StopStackSetOperationInput'],
+      shapes: shapes,
       resultWrapper: 'StopStackSetOperationResult',
     );
   }
@@ -4809,10 +4873,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateStack',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     capabilities?.also((arg) => $request['Capabilities'] = arg);
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
@@ -4834,9 +4895,13 @@ class CloudFormation {
     usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateStack',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateStackInput'],
+      shapes: shapes,
       resultWrapper: 'UpdateStackResult',
     );
     return UpdateStackOutput.fromXml($result);
@@ -4992,10 +5057,7 @@ class CloudFormation {
       operationId,
       r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateStackInstances',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['Regions'] = regions;
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
@@ -5005,9 +5067,13 @@ class CloudFormation {
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateStackInstances',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateStackInstancesInput'],
+      shapes: shapes,
       resultWrapper: 'UpdateStackInstancesResult',
     );
     return UpdateStackInstancesOutput.fromXml($result);
@@ -5399,10 +5465,7 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateStackSet',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
     administrationRoleARN
@@ -5423,9 +5486,13 @@ class CloudFormation {
     usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateStackSet',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateStackSetInput'],
+      shapes: shapes,
       resultWrapper: 'UpdateStackSetResult',
     );
     return UpdateStackSetOutput.fromXml($result);
@@ -5469,17 +5536,18 @@ class CloudFormation {
       r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
-    final $request = <String, dynamic>{
-      'Action': 'UpdateTerminationProtection',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     $request['EnableTerminationProtection'] = enableTerminationProtection;
     $request['StackName'] = stackName;
     final $result = await _protocol.send(
       $request,
+      action: 'UpdateTerminationProtection',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateTerminationProtectionInput'],
+      shapes: shapes,
       resultWrapper: 'UpdateTerminationProtectionResult',
     );
     return UpdateTerminationProtectionOutput.fromXml($result);
@@ -5526,17 +5594,18 @@ class CloudFormation {
       1,
       1024,
     );
-    final $request = <String, dynamic>{
-      'Action': 'ValidateTemplate',
-      'Version': '2010-05-15',
-    };
+    final $request = <String, dynamic>{};
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ValidateTemplate',
+      version: '2010-05-15',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ValidateTemplateInput'],
+      shapes: shapes,
       resultWrapper: 'ValidateTemplateResult',
     );
     return ValidateTemplateOutput.fromXml($result);
@@ -5617,8 +5686,11 @@ class AccountGateResult {
 }
 
 enum AccountGateStatus {
+  @_s.JsonValue('SUCCEEDED')
   succeeded,
+  @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('SKIPPED')
   skipped,
 }
 
@@ -5680,18 +5752,25 @@ class AccountLimit {
 /// [<code>Service-managed</code> permissions] Describes whether StackSets
 /// automatically deploys to AWS Organizations accounts that are added to a
 /// target organization or organizational unit (OU).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class AutoDeployment {
   /// If set to <code>true</code>, StackSets automatically deploys additional
   /// stack instances to AWS Organizations accounts that are added to a target
   /// organization or organizational unit (OU) in the specified Regions. If an
   /// account is removed from a target organization or OU, StackSets deletes stack
   /// instances from the account in the specified Regions.
+  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// If set to <code>true</code>, stack resources are retained when an account is
   /// removed from a target organization or OU. If set to <code>false</code>,
   /// stack resources are deleted. Specify only if <code>Enabled</code> is set to
   /// <code>True</code>.
+  @_s.JsonKey(name: 'RetainStacksOnAccountRemoval')
   final bool retainStacksOnAccountRemoval;
 
   AutoDeployment({
@@ -5705,11 +5784,16 @@ class AutoDeployment {
           _s.extractXmlBoolValue(elem, 'RetainStacksOnAccountRemoval'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$AutoDeploymentToJson(this);
 }
 
 enum Capability {
+  @_s.JsonValue('CAPABILITY_IAM')
   capabilityIam,
+  @_s.JsonValue('CAPABILITY_NAMED_IAM')
   capabilityNamedIam,
+  @_s.JsonValue('CAPABILITY_AUTO_EXPAND')
   capabilityAutoExpand,
 }
 
@@ -5753,9 +5837,13 @@ class Change {
 }
 
 enum ChangeAction {
+  @_s.JsonValue('Add')
   add,
+  @_s.JsonValue('Modify')
   modify,
+  @_s.JsonValue('Remove')
   remove,
+  @_s.JsonValue('Import')
   import,
 }
 
@@ -5776,10 +5864,15 @@ extension on String {
 }
 
 enum ChangeSetStatus {
+  @_s.JsonValue('CREATE_PENDING')
   createPending,
+  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
+  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
+  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
+  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -5868,8 +5961,11 @@ class ChangeSetSummary {
 }
 
 enum ChangeSetType {
+  @_s.JsonValue('CREATE')
   create,
+  @_s.JsonValue('UPDATE')
   update,
+  @_s.JsonValue('IMPORT')
   import,
 }
 
@@ -5902,10 +5998,15 @@ extension on String {
 }
 
 enum ChangeSource {
+  @_s.JsonValue('ResourceReference')
   resourceReference,
+  @_s.JsonValue('ParameterReference')
   parameterReference,
+  @_s.JsonValue('ResourceAttribute')
   resourceAttribute,
+  @_s.JsonValue('DirectModification')
   directModification,
+  @_s.JsonValue('Automatic')
   automatic,
 }
 
@@ -5928,6 +6029,7 @@ extension on String {
 }
 
 enum ChangeType {
+  @_s.JsonValue('Resource')
   resource,
 }
 
@@ -6055,13 +6157,20 @@ class DeleteStackSetOutput {
 /// For update operations, you can specify either <code>Accounts</code> or
 /// <code>OrganizationalUnitIds</code>. For create and delete operations,
 /// specify <code>OrganizationalUnitIds</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeploymentTargets {
   /// The names of one or more AWS accounts for which you want to deploy stack set
   /// updates.
+  @_s.JsonKey(name: 'Accounts')
   final List<String> accounts;
 
   /// The organization root ID or organizational unit (OU) IDs to which StackSets
   /// deploys.
+  @_s.JsonKey(name: 'OrganizationalUnitIds')
   final List<String> organizationalUnitIds;
 
   DeploymentTargets({
@@ -6079,10 +6188,14 @@ class DeploymentTargets {
               _s.extractXmlStringListValues(elem, 'OrganizationalUnitIds')),
     );
   }
+
+  Map<String, dynamic> toJson() => _$DeploymentTargetsToJson(this);
 }
 
 enum DeprecatedStatus {
+  @_s.JsonValue('LIVE')
   live,
+  @_s.JsonValue('DEPRECATED')
   deprecated,
 }
 
@@ -6794,8 +6907,11 @@ class DetectStackSetDriftOutput {
 }
 
 enum DifferenceType {
+  @_s.JsonValue('ADD')
   add,
+  @_s.JsonValue('REMOVE')
   remove,
+  @_s.JsonValue('NOT_EQUAL')
   notEqual,
 }
 
@@ -6830,7 +6946,9 @@ class EstimateTemplateCostOutput {
 }
 
 enum EvaluationType {
+  @_s.JsonValue('Static')
   static,
+  @_s.JsonValue('Dynamic')
   dynamic,
 }
 
@@ -6857,11 +6975,17 @@ class ExecuteChangeSetOutput {
 }
 
 enum ExecutionStatus {
+  @_s.JsonValue('UNAVAILABLE')
   unavailable,
+  @_s.JsonValue('AVAILABLE')
   available,
+  @_s.JsonValue('EXECUTE_IN_PROGRESS')
   executeInProgress,
+  @_s.JsonValue('EXECUTE_COMPLETE')
   executeComplete,
+  @_s.JsonValue('EXECUTE_FAILED')
   executeFailed,
+  @_s.JsonValue('OBSOLETE')
   obsolete,
 }
 
@@ -7051,19 +7175,33 @@ class GetTemplateSummaryOutput {
 }
 
 enum HandlerErrorCode {
+  @_s.JsonValue('NotUpdatable')
   notUpdatable,
+  @_s.JsonValue('InvalidRequest')
   invalidRequest,
+  @_s.JsonValue('AccessDenied')
   accessDenied,
+  @_s.JsonValue('InvalidCredentials')
   invalidCredentials,
+  @_s.JsonValue('AlreadyExists')
   alreadyExists,
+  @_s.JsonValue('NotFound')
   notFound,
+  @_s.JsonValue('ResourceConflict')
   resourceConflict,
+  @_s.JsonValue('Throttling')
   throttling,
+  @_s.JsonValue('ServiceLimitExceeded')
   serviceLimitExceeded,
+  @_s.JsonValue('NotStabilized')
   notStabilized,
+  @_s.JsonValue('GeneralServiceException')
   generalServiceException,
+  @_s.JsonValue('ServiceInternalError')
   serviceInternalError,
+  @_s.JsonValue('NetworkFailure')
   networkFailure,
+  @_s.JsonValue('InternalFailure')
   internalFailure,
 }
 
@@ -7457,13 +7595,20 @@ class ListTypesOutput {
 }
 
 /// Contains logging configuration information for a type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class LoggingConfig {
   /// The Amazon CloudWatch log group to which CloudFormation sends error logging
   /// information when invoking the type's handlers.
+  @_s.JsonKey(name: 'LogGroupName')
   final String logGroupName;
 
   /// The ARN of the role that CloudFormation should assume when sending log
   /// entries to CloudWatch logs.
+  @_s.JsonKey(name: 'LogRoleArn')
   final String logRoleArn;
 
   LoggingConfig({
@@ -7476,11 +7621,16 @@ class LoggingConfig {
       logRoleArn: _s.extractXmlStringValue(elem, 'LogRoleArn'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$LoggingConfigToJson(this);
 }
 
 enum OnFailure {
+  @_s.JsonValue('DO_NOTHING')
   doNothing,
+  @_s.JsonValue('ROLLBACK')
   rollback,
+  @_s.JsonValue('DELETE')
   delete,
 }
 
@@ -7513,9 +7663,13 @@ extension on String {
 }
 
 enum OperationStatus {
+  @_s.JsonValue('PENDING')
   pending,
+  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+  @_s.JsonValue('SUCCESS')
   success,
+  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -7582,24 +7736,33 @@ class Output {
 }
 
 /// The Parameter data type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Parameter {
   /// The key associated with the parameter. If you don't specify a key and value
   /// for a particular parameter, AWS CloudFormation uses the default value that
   /// is specified in your template.
+  @_s.JsonKey(name: 'ParameterKey')
   final String parameterKey;
 
   /// The input value associated with the parameter.
+  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   /// Read-only. The value that corresponds to a Systems Manager parameter key.
   /// This field is returned only for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types">
   /// <code>SSM</code> parameter types</a> in the template.
+  @_s.JsonKey(name: 'ResolvedValue')
   final String resolvedValue;
 
   /// During a stack update, use the existing parameter value that the stack is
   /// using for a given parameter key. If you specify <code>true</code>, do not
   /// specify a parameter value.
+  @_s.JsonKey(name: 'UsePreviousValue')
   final bool usePreviousValue;
 
   Parameter({
@@ -7616,6 +7779,8 @@ class Parameter {
       usePreviousValue: _s.extractXmlBoolValue(elem, 'UsePreviousValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 }
 
 /// A set of criteria that AWS CloudFormation uses to validate parameter values.
@@ -7681,7 +7846,9 @@ class ParameterDeclaration {
 }
 
 enum PermissionModels {
+  @_s.JsonValue('SERVICE_MANAGED')
   serviceManaged,
+  @_s.JsonValue('SELF_MANAGED')
   selfManaged,
 }
 
@@ -7788,8 +7955,11 @@ class PropertyDifference {
 }
 
 enum ProvisioningType {
+  @_s.JsonValue('NON_PROVISIONABLE')
   nonProvisionable,
+  @_s.JsonValue('IMMUTABLE')
   immutable,
+  @_s.JsonValue('FULLY_MUTABLE')
   fullyMutable,
 }
 
@@ -7849,8 +8019,11 @@ class RegisterTypeOutput {
 }
 
 enum RegistrationStatus {
+  @_s.JsonValue('COMPLETE')
   complete,
+  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -7883,6 +8056,7 @@ extension on String {
 }
 
 enum RegistryType {
+  @_s.JsonValue('RESOURCE')
   resource,
 }
 
@@ -7907,8 +8081,11 @@ extension on String {
 }
 
 enum Replacement {
+  @_s.JsonValue('True')
   $true,
+  @_s.JsonValue('False')
   $false,
+  @_s.JsonValue('Conditional')
   conditional,
 }
 
@@ -7927,8 +8104,11 @@ extension on String {
 }
 
 enum RequiresRecreation {
+  @_s.JsonValue('Never')
   never,
+  @_s.JsonValue('Conditionally')
   conditionally,
+  @_s.JsonValue('Always')
   always,
 }
 
@@ -7947,11 +8127,17 @@ extension on String {
 }
 
 enum ResourceAttribute {
+  @_s.JsonValue('Properties')
   properties,
+  @_s.JsonValue('Metadata')
   metadata,
+  @_s.JsonValue('CreationPolicy')
   creationPolicy,
+  @_s.JsonValue('UpdatePolicy')
   updatePolicy,
+  @_s.JsonValue('DeletionPolicy')
   deletionPolicy,
+  @_s.JsonValue('Tags')
   tags,
 }
 
@@ -8178,7 +8364,9 @@ class ResourceIdentifierSummary {
 }
 
 enum ResourceSignalStatus {
+  @_s.JsonValue('SUCCESS')
   success,
+  @_s.JsonValue('FAILURE')
   failure,
 }
 
@@ -8207,21 +8395,37 @@ extension on String {
 }
 
 enum ResourceStatus {
+  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
+  @_s.JsonValue('CREATE_FAILED')
   createFailed,
+  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
+  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
+  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
+  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
+  @_s.JsonValue('DELETE_SKIPPED')
   deleteSkipped,
+  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
+  @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
+  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
+  @_s.JsonValue('IMPORT_FAILED')
   importFailed,
+  @_s.JsonValue('IMPORT_COMPLETE')
   importComplete,
+  @_s.JsonValue('IMPORT_IN_PROGRESS')
   importInProgress,
+  @_s.JsonValue('IMPORT_ROLLBACK_IN_PROGRESS')
   importRollbackInProgress,
+  @_s.JsonValue('IMPORT_ROLLBACK_FAILED')
   importRollbackFailed,
+  @_s.JsonValue('IMPORT_ROLLBACK_COMPLETE')
   importRollbackComplete,
 }
 
@@ -8304,18 +8508,26 @@ class ResourceTargetDefinition {
 }
 
 /// Describes the target resource of an import operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ResourceToImport {
   /// The logical ID of the target resource as specified in the template.
+  @_s.JsonKey(name: 'LogicalResourceId')
   final String logicalResourceId;
 
   /// A key-value pair that identifies the target resource. The key is an
   /// identifier property (for example, <code>BucketName</code> for
   /// <code>AWS::S3::Bucket</code> resources) and the value is the actual property
   /// value (for example, <code>MyS3Bucket</code>).
+  @_s.JsonKey(name: 'ResourceIdentifier')
   final Map<String, String> resourceIdentifier;
 
   /// The type of resource to import into your stack, such as
   /// <code>AWS::S3::Bucket</code>.
+  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   ResourceToImport({
@@ -8323,6 +8535,7 @@ class ResourceToImport {
     @_s.required this.resourceIdentifier,
     @_s.required this.resourceType,
   });
+  Map<String, dynamic> toJson() => _$ResourceToImportToJson(this);
 }
 
 /// Structure containing the rollback triggers for AWS CloudFormation to monitor
@@ -8335,6 +8548,11 @@ class ResourceToImport {
 /// you've specified. For more information, see <a
 /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html">Monitor
 /// and Roll Back Stack Operations</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class RollbackConfiguration {
   /// The amount of time, in minutes, during which CloudFormation should monitor
   /// all the rollback triggers after the stack creation or update operation
@@ -8354,6 +8572,7 @@ class RollbackConfiguration {
   /// specified rollback triggers during stack creation and update operations.
   /// Then, for update operations, it begins disposing of old resources
   /// immediately once the operation completes.
+  @_s.JsonKey(name: 'MonitoringTimeInMinutes')
   final int monitoringTimeInMinutes;
 
   /// The triggers to monitor during stack creation or update actions.
@@ -8383,6 +8602,7 @@ class RollbackConfiguration {
   /// </ul>
   /// If a specified trigger is missing, the entire stack operation fails and is
   /// rolled back.
+  @_s.JsonKey(name: 'RollbackTriggers')
   final List<RollbackTrigger> rollbackTriggers;
 
   RollbackConfiguration({
@@ -8400,22 +8620,31 @@ class RollbackConfiguration {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() => _$RollbackConfigurationToJson(this);
 }
 
 /// A rollback trigger AWS CloudFormation monitors during creation and updating
 /// of stacks. If any of the alarms you specify goes to ALARM state during the
 /// stack operation or within the specified monitoring period afterwards,
 /// CloudFormation rolls back the entire stack operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class RollbackTrigger {
   /// The Amazon Resource Name (ARN) of the rollback trigger.
   ///
   /// If a specified trigger is missing, the entire stack operation fails and is
   /// rolled back.
+  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The resource type of the rollback trigger. Currently, <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html">AWS::CloudWatch::Alarm</a>
   /// is the only supported resource type.
+  @_s.JsonKey(name: 'Type')
   final String type;
 
   RollbackTrigger({
@@ -8428,6 +8657,8 @@ class RollbackTrigger {
       type: _s.extractXmlStringValue(elem, 'Type'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$RollbackTriggerToJson(this);
 }
 
 class SetTypeDefaultVersionOutput {
@@ -8611,8 +8842,11 @@ class Stack {
 }
 
 enum StackDriftDetectionStatus {
+  @_s.JsonValue('DETECTION_IN_PROGRESS')
   detectionInProgress,
+  @_s.JsonValue('DETECTION_FAILED')
   detectionFailed,
+  @_s.JsonValue('DETECTION_COMPLETE')
   detectionComplete,
 }
 
@@ -8725,9 +8959,13 @@ class StackDriftInformationSummary {
 }
 
 enum StackDriftStatus {
+  @_s.JsonValue('DRIFTED')
   drifted,
+  @_s.JsonValue('IN_SYNC')
   inSync,
+  @_s.JsonValue('UNKNOWN')
   unknown,
+  @_s.JsonValue('NOT_CHECKED')
   notChecked,
 }
 
@@ -8963,8 +9201,11 @@ class StackInstance {
 }
 
 enum StackInstanceStatus {
+  @_s.JsonValue('CURRENT')
   current,
+  @_s.JsonValue('OUTDATED')
   outdated,
+  @_s.JsonValue('INOPERABLE')
   inoperable,
 }
 
@@ -9478,9 +9719,13 @@ class StackResourceDriftInformationSummary {
 }
 
 enum StackResourceDriftStatus {
+  @_s.JsonValue('IN_SYNC')
   inSync,
+  @_s.JsonValue('MODIFIED')
   modified,
+  @_s.JsonValue('DELETED')
   deleted,
+  @_s.JsonValue('NOT_CHECKED')
   notChecked,
 }
 
@@ -9844,10 +10089,15 @@ class StackSetDriftDetectionDetails {
 }
 
 enum StackSetDriftDetectionStatus {
+  @_s.JsonValue('COMPLETED')
   completed,
+  @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('PARTIAL_SUCCESS')
   partialSuccess,
+  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+  @_s.JsonValue('STOPPED')
   stopped,
 }
 
@@ -9870,8 +10120,11 @@ extension on String {
 }
 
 enum StackSetDriftStatus {
+  @_s.JsonValue('DRIFTED')
   drifted,
+  @_s.JsonValue('IN_SYNC')
   inSync,
+  @_s.JsonValue('NOT_CHECKED')
   notChecked,
 }
 
@@ -10037,9 +10290,13 @@ class StackSetOperation {
 }
 
 enum StackSetOperationAction {
+  @_s.JsonValue('CREATE')
   create,
+  @_s.JsonValue('UPDATE')
   update,
+  @_s.JsonValue('DELETE')
   delete,
+  @_s.JsonValue('DETECT_DRIFT')
   detectDrift,
 }
 
@@ -10066,6 +10323,11 @@ extension on String {
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class StackSetOperationPreferences {
   /// The number of accounts, per Region, for which this operation can fail before
   /// AWS CloudFormation stops the operation in that Region. If the operation is
@@ -10074,6 +10336,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>FailureToleranceCount</code> or
   /// <code>FailureTolerancePercentage</code> (but not both).
+  @_s.JsonKey(name: 'FailureToleranceCount')
   final int failureToleranceCount;
 
   /// The percentage of accounts, per Region, for which this stack operation can
@@ -10086,6 +10349,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>FailureToleranceCount</code> or
   /// <code>FailureTolerancePercentage</code>, but not both.
+  @_s.JsonKey(name: 'FailureTolerancePercentage')
   final int failureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
@@ -10099,6 +10363,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>MaxConcurrentCount</code> or
   /// <code>MaxConcurrentPercentage</code>, but not both.
+  @_s.JsonKey(name: 'MaxConcurrentCount')
   final int maxConcurrentCount;
 
   /// The maximum percentage of accounts in which to perform this operation at one
@@ -10115,9 +10380,11 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>MaxConcurrentCount</code> or
   /// <code>MaxConcurrentPercentage</code>, but not both.
+  @_s.JsonKey(name: 'MaxConcurrentPercentage')
   final int maxConcurrentPercentage;
 
   /// The order of the Regions in where you want to perform the stack operation.
+  @_s.JsonKey(name: 'RegionOrder')
   final List<String> regionOrder;
 
   StackSetOperationPreferences({
@@ -10141,13 +10408,20 @@ class StackSetOperationPreferences {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'RegionOrder')),
     );
   }
+
+  Map<String, dynamic> toJson() => _$StackSetOperationPreferencesToJson(this);
 }
 
 enum StackSetOperationResultStatus {
+  @_s.JsonValue('PENDING')
   pending,
+  @_s.JsonValue('RUNNING')
   running,
+  @_s.JsonValue('SUCCEEDED')
   succeeded,
+  @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('CANCELLED')
   cancelled,
 }
 
@@ -10247,11 +10521,17 @@ class StackSetOperationResultSummary {
 }
 
 enum StackSetOperationStatus {
+  @_s.JsonValue('RUNNING')
   running,
+  @_s.JsonValue('SUCCEEDED')
   succeeded,
+  @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('STOPPING')
   stopping,
+  @_s.JsonValue('STOPPED')
   stopped,
+  @_s.JsonValue('QUEUED')
   queued,
 }
 
@@ -10357,7 +10637,9 @@ class StackSetOperationSummary {
 }
 
 enum StackSetStatus {
+  @_s.JsonValue('ACTIVE')
   active,
+  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -10488,27 +10770,49 @@ class StackSetSummary {
 }
 
 enum StackStatus {
+  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
+  @_s.JsonValue('CREATE_FAILED')
   createFailed,
+  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
+  @_s.JsonValue('ROLLBACK_IN_PROGRESS')
   rollbackInProgress,
+  @_s.JsonValue('ROLLBACK_FAILED')
   rollbackFailed,
+  @_s.JsonValue('ROLLBACK_COMPLETE')
   rollbackComplete,
+  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
+  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
+  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
+  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
+  @_s.JsonValue('UPDATE_COMPLETE_CLEANUP_IN_PROGRESS')
   updateCompleteCleanupInProgress,
+  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
+  @_s.JsonValue('UPDATE_ROLLBACK_IN_PROGRESS')
   updateRollbackInProgress,
+  @_s.JsonValue('UPDATE_ROLLBACK_FAILED')
   updateRollbackFailed,
+  @_s.JsonValue('UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS')
   updateRollbackCompleteCleanupInProgress,
+  @_s.JsonValue('UPDATE_ROLLBACK_COMPLETE')
   updateRollbackComplete,
+  @_s.JsonValue('REVIEW_IN_PROGRESS')
   reviewInProgress,
+  @_s.JsonValue('IMPORT_IN_PROGRESS')
   importInProgress,
+  @_s.JsonValue('IMPORT_COMPLETE')
   importComplete,
+  @_s.JsonValue('IMPORT_ROLLBACK_IN_PROGRESS')
   importRollbackInProgress,
+  @_s.JsonValue('IMPORT_ROLLBACK_FAILED')
   importRollbackFailed,
+  @_s.JsonValue('IMPORT_ROLLBACK_COMPLETE')
   importRollbackComplete,
 }
 
@@ -10661,14 +10965,21 @@ class StopStackSetOperationOutput {
 
 /// The Tag type enables you to specify a key-value pair that can be used to
 /// store information about an AWS CloudFormation stack.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class Tag {
   /// <i>Required</i>. A string used to identify this tag. You can specify a
   /// maximum of 128 characters for a tag key. Tags owned by Amazon Web Services
   /// (AWS) have the reserved prefix: <code>aws:</code>.
+  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// <i>Required</i>. A string containing the value for this tag. You can specify
   /// a maximum of 256 characters for a tag value.
+  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
@@ -10681,6 +10992,8 @@ class Tag {
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
 /// The TemplateParameter data type.
@@ -10715,7 +11028,9 @@ class TemplateParameter {
 }
 
 enum TemplateStage {
+  @_s.JsonValue('Original')
   original,
+  @_s.JsonValue('Processed')
   processed,
 }
 
@@ -10938,7 +11253,9 @@ class ValidateTemplateOutput {
 }
 
 enum Visibility {
+  @_s.JsonValue('PUBLIC')
   public,
+  @_s.JsonValue('PRIVATE')
   private,
 }
 

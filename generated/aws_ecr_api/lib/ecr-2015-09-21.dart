@@ -2180,7 +2180,10 @@ class AuthorizationData {
 
   /// The Unix time in seconds and milliseconds when the authorization token
   /// expires. Authorization tokens are valid for 12 hours.
-  @_s.JsonKey(name: 'expiresAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'expiresAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime expiresAt;
 
   /// The registry URL to use for this authorization token in a <code>docker
@@ -2325,7 +2328,9 @@ class CreateRepositoryResponse {
 class DeleteLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   @_s.JsonKey(
-      name: 'lastEvaluatedAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastEvaluatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastEvaluatedAt;
 
   /// The JSON lifecycle policy text.
@@ -2627,7 +2632,9 @@ class GetLifecyclePolicyPreviewResponse {
 class GetLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   @_s.JsonKey(
-      name: 'lastEvaluatedAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastEvaluatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastEvaluatedAt;
 
   /// The JSON lifecycle policy text.
@@ -2731,7 +2738,10 @@ class ImageDetail {
 
   /// The date and time, expressed in standard JavaScript date format, at which
   /// the current image was pushed to the repository.
-  @_s.JsonKey(name: 'imagePushedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'imagePushedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime imagePushedAt;
 
   /// A summary of the last completed image scan.
@@ -2899,14 +2909,16 @@ class ImageScanFindings {
 
   /// The time of the last completed image scan.
   @_s.JsonKey(
-      name: 'imageScanCompletedAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'imageScanCompletedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
   @_s.JsonKey(
       name: 'vulnerabilitySourceUpdatedAt',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime vulnerabilitySourceUpdatedAt;
 
   ImageScanFindings({
@@ -2932,14 +2944,16 @@ class ImageScanFindingsSummary {
 
   /// The time of the last completed image scan.
   @_s.JsonKey(
-      name: 'imageScanCompletedAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'imageScanCompletedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
   @_s.JsonKey(
       name: 'vulnerabilitySourceUpdatedAt',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime vulnerabilitySourceUpdatedAt;
 
   ImageScanFindingsSummary({
@@ -3154,7 +3168,10 @@ class LifecyclePolicyPreviewResult {
 
   /// The date and time, expressed in standard JavaScript date format, at which
   /// the current image was pushed to the repository.
-  @_s.JsonKey(name: 'imagePushedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'imagePushedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime imagePushedAt;
 
   /// The list of tags associated with this image.
@@ -3389,7 +3406,10 @@ class PutLifecyclePolicyResponse {
 class Repository {
   /// The date and time, in JavaScript date format, when the repository was
   /// created.
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
   @_s.JsonKey(name: 'imageScanningConfiguration')
   final ImageScanningConfiguration imageScanningConfiguration;

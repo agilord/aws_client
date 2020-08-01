@@ -184,7 +184,7 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
-    date: unixFromJson(json['Date']),
+    date: json['Date'] == null ? null : DateTime.parse(json['Date'] as String),
     message: json['Message'] as String,
     sourceName: json['SourceName'] as String,
     sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['SourceType']),
@@ -253,7 +253,9 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
     endpoint: json['Endpoint'] == null
         ? null
         : Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>),
-    nodeCreateTime: unixFromJson(json['NodeCreateTime']),
+    nodeCreateTime: json['NodeCreateTime'] == null
+        ? null
+        : DateTime.parse(json['NodeCreateTime'] as String),
     nodeId: json['NodeId'] as String,
     nodeStatus: json['NodeStatus'] as String,
     parameterGroupStatus: json['ParameterGroupStatus'] as String,

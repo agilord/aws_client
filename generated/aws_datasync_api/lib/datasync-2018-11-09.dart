@@ -2300,7 +2300,10 @@ class DescribeAgentResponse {
   final String agentArn;
 
   /// The time that the agent was activated (that is, created in your account).
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The type of endpoint that your agent is connected to. If the endpoint is a
@@ -2310,7 +2313,9 @@ class DescribeAgentResponse {
 
   /// The time that the agent last connected to DataSyc.
   @_s.JsonKey(
-      name: 'LastConnectionTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastConnectionTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastConnectionTime;
 
   /// The name of the agent.
@@ -2351,7 +2356,10 @@ class DescribeAgentResponse {
     createToJson: false)
 class DescribeLocationEfsResponse {
   /// The time that the EFS location was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
   @_s.JsonKey(name: 'Ec2Config')
   final Ec2Config ec2Config;
@@ -2381,7 +2389,10 @@ class DescribeLocationEfsResponse {
     createToJson: false)
 class DescribeLocationFsxWindowsResponse {
   /// The time that the FSx for Windows location was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the Windows domain that the FSx for Windows server belongs to.
@@ -2428,7 +2439,10 @@ class DescribeLocationFsxWindowsResponse {
     createToJson: false)
 class DescribeLocationNfsResponse {
   /// The time that the NFS location was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon resource Name (ARN) of the NFS location that was described.
@@ -2464,7 +2478,10 @@ class DescribeLocationNfsResponse {
     createToJson: false)
 class DescribeLocationS3Response {
   /// The time that the Amazon S3 bucket location was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
@@ -2511,7 +2528,10 @@ class DescribeLocationSmbResponse {
   final List<String> agentArns;
 
   /// The time that the SMB location was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The name of the Windows domain that the SMB server belongs to.
@@ -2615,7 +2635,10 @@ class DescribeTaskExecutionResponse {
   final TaskExecutionResultDetail result;
 
   /// The time that the task execution was started.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the task execution.
@@ -2670,7 +2693,10 @@ class DescribeTaskResponse {
   final String cloudWatchLogGroupArn;
 
   /// The time that the task was created.
-  @_s.JsonKey(name: 'CreationTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'CreationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the task execution that is syncing files.

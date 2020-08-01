@@ -902,8 +902,8 @@ class StreamDescription {
   /// The date and time when the request to create this stream was issued.
   @_s.JsonKey(
       name: 'CreationRequestDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime creationRequestDateTime;
 
   /// The key attribute(s) of the stream's DynamoDB table.
@@ -1029,8 +1029,8 @@ class StreamRecord {
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
   @_s.JsonKey(
       name: 'ApproximateCreationDateTime',
-      fromJson: unixFromJson,
-      toJson: unixToJson)
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime approximateCreationDateTime;
 
   /// The primary key attribute(s) for the DynamoDB item that was modified.

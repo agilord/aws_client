@@ -64,7 +64,9 @@ ClusterListEntry _$ClusterListEntryFromJson(Map<String, dynamic> json) {
     clusterId: json['ClusterId'] as String,
     clusterState:
         _$enumDecodeNullable(_$ClusterStateEnumMap, json['ClusterState']),
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     description: json['Description'] as String,
   );
 }
@@ -115,7 +117,9 @@ ClusterMetadata _$ClusterMetadataFromJson(Map<String, dynamic> json) {
     clusterId: json['ClusterId'] as String,
     clusterState:
         _$enumDecodeNullable(_$ClusterStateEnumMap, json['ClusterState']),
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     description: json['Description'] as String,
     forwardingAddressId: json['ForwardingAddressId'] as String,
     jobType: _$enumDecodeNullable(_$JobTypeEnumMap, json['JobType']),
@@ -325,7 +329,9 @@ Map<String, dynamic> _$INDTaxDocumentsToJson(INDTaxDocuments instance) {
 
 JobListEntry _$JobListEntryFromJson(Map<String, dynamic> json) {
   return JobListEntry(
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     description: json['Description'] as String,
     isMaster: json['IsMaster'] as bool,
     jobId: json['JobId'] as String,
@@ -364,7 +370,9 @@ JobMetadata _$JobMetadataFromJson(Map<String, dynamic> json) {
   return JobMetadata(
     addressId: json['AddressId'] as String,
     clusterId: json['ClusterId'] as String,
-    creationDate: unixFromJson(json['CreationDate']),
+    creationDate: json['CreationDate'] == null
+        ? null
+        : DateTime.parse(json['CreationDate'] as String),
     dataTransferProgress: json['DataTransferProgress'] == null
         ? null
         : DataTransfer.fromJson(

@@ -1462,7 +1462,9 @@ SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
     weight: json['Weight'] as int,
     action: json['Action'] as String,
     ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String,
-    timestamp: unixFromJson(json['Timestamp']),
+    timestamp: json['Timestamp'] == null
+        ? null
+        : DateTime.parse(json['Timestamp'] as String),
   );
 }
 
@@ -1649,8 +1651,12 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: unixFromJson(json['EndTime']),
-    startTime: unixFromJson(json['StartTime']),
+    endTime: json['EndTime'] == null
+        ? null
+        : DateTime.parse(json['EndTime'] as String),
+    startTime: json['StartTime'] == null
+        ? null
+        : DateTime.parse(json['StartTime'] as String),
   );
 }
 
@@ -1663,8 +1669,8 @@ Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
     }
   }
 
-  writeNotNull('EndTime', unixToJson(instance.endTime));
-  writeNotNull('StartTime', unixToJson(instance.startTime));
+  writeNotNull('EndTime', instance.endTime?.toIso8601String());
+  writeNotNull('StartTime', instance.startTime?.toIso8601String());
   return val;
 }
 

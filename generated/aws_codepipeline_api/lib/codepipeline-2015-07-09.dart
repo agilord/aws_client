@@ -2627,7 +2627,9 @@ class ActionExecution {
 
   /// The last status change of the action.
   @_s.JsonKey(
-      name: 'lastStatusChange', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastStatusChange',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastStatusChange;
 
   /// The ARN of the user who last changed the pipeline.
@@ -2692,7 +2694,9 @@ class ActionExecutionDetail {
 
   /// The last update time of the action execution.
   @_s.JsonKey(
-      name: 'lastUpdateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastUpdateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
   /// Output details for the action execution, such as the action execution
@@ -2713,7 +2717,10 @@ class ActionExecutionDetail {
   final String stageName;
 
   /// The start time of the action execution.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the action execution. Status categories are
@@ -2909,7 +2916,10 @@ extension on ActionOwner {
 class ActionRevision {
   /// The date and time when the most recent version of the action was created, in
   /// timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The unique identifier of the change that set the state to this revision (for
@@ -3242,7 +3252,10 @@ enum ArtifactLocationType {
 class ArtifactRevision {
   /// The date and time when the most recent revision of the artifact was created,
   /// in timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The name of an artifact. This name might be system-generated, such as
@@ -3426,7 +3439,10 @@ class CurrentRevision {
 
   /// The date and time when the most recent revision of the artifact was created,
   /// in timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The summary of the most recent revision of the artifact.
@@ -3697,7 +3713,10 @@ class GetPipelineOutput {
     createToJson: false)
 class GetPipelineStateOutput {
   /// The date and time the pipeline was created, in timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The name of the pipeline for which you want to get the state.
@@ -3719,7 +3738,10 @@ class GetPipelineStateOutput {
   final List<StageState> stageStates;
 
   /// The date and time the pipeline was last updated, in timestamp format.
-  @_s.JsonKey(name: 'updated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'updated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updated;
 
   GetPipelineStateOutput({
@@ -4080,7 +4102,10 @@ class ListWebhookItem {
 
   /// The date and time a webhook was last successfully triggered, in timestamp
   /// format.
-  @_s.JsonKey(name: 'lastTriggered', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastTriggered',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastTriggered;
 
   /// Specifies the tags applied to the webhook.
@@ -4359,7 +4384,9 @@ class PipelineExecutionSummary {
   /// The date and time of the last change to the pipeline execution, in timestamp
   /// format.
   @_s.JsonKey(
-      name: 'lastUpdateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastUpdateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
   /// The ID of the pipeline execution.
@@ -4371,7 +4398,10 @@ class PipelineExecutionSummary {
   final List<SourceRevision> sourceRevisions;
 
   /// The date and time when the pipeline execution began, in timestamp format.
-  @_s.JsonKey(name: 'startTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The status of the pipeline execution.
@@ -4441,7 +4471,10 @@ class PipelineExecutionSummary {
     createToJson: false)
 class PipelineMetadata {
   /// The date and time the pipeline was created, in timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The Amazon Resource Name (ARN) of the pipeline.
@@ -4449,7 +4482,10 @@ class PipelineMetadata {
   final String pipelineArn;
 
   /// The date and time the pipeline was last updated, in timestamp format.
-  @_s.JsonKey(name: 'updated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'updated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updated;
 
   PipelineMetadata({
@@ -4469,7 +4505,10 @@ class PipelineMetadata {
     createToJson: false)
 class PipelineSummary {
   /// The date and time the pipeline was created, in timestamp format.
-  @_s.JsonKey(name: 'created', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'created',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The name of the pipeline.
@@ -4477,7 +4516,10 @@ class PipelineSummary {
   final String name;
 
   /// The date and time of the last update to the pipeline, in timestamp format.
-  @_s.JsonKey(name: 'updated', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'updated',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updated;
 
   /// The version number of the pipeline.
@@ -4562,7 +4604,10 @@ class PutActionRevisionOutput {
     createToJson: false)
 class PutApprovalResultOutput {
   /// The timestamp showing when the approval or rejection was submitted.
-  @_s.JsonKey(name: 'approvedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'approvedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime approvedAt;
 
   PutApprovalResultOutput({
@@ -5093,7 +5138,10 @@ class TransitionState {
   final bool enabled;
 
   /// The timestamp when the transition state was last changed.
-  @_s.JsonKey(name: 'lastChangedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'lastChangedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastChangedAt;
 
   /// The ID of the user who last changed the transition state.

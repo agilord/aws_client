@@ -40,7 +40,9 @@ AvailabilityZone _$AvailabilityZoneFromJson(Map<String, dynamic> json) {
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateArn: json['CertificateArn'] as String,
-    certificateCreationDate: unixFromJson(json['CertificateCreationDate']),
+    certificateCreationDate: json['CertificateCreationDate'] == null
+        ? null
+        : DateTime.parse(json['CertificateCreationDate'] as String),
     certificateIdentifier: json['CertificateIdentifier'] as String,
     certificateOwner: json['CertificateOwner'] as String,
     certificatePem: json['CertificatePem'] as String,
@@ -48,8 +50,12 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
         .fromJson(json['CertificateWallet'] as String),
     keyLength: json['KeyLength'] as int,
     signingAlgorithm: json['SigningAlgorithm'] as String,
-    validFromDate: unixFromJson(json['ValidFromDate']),
-    validToDate: unixFromJson(json['ValidToDate']),
+    validFromDate: json['ValidFromDate'] == null
+        ? null
+        : DateTime.parse(json['ValidFromDate'] as String),
+    validToDate: json['ValidToDate'] == null
+        ? null
+        : DateTime.parse(json['ValidToDate'] as String),
   );
 }
 
@@ -558,7 +564,7 @@ const _$DmsSslModeValueEnumMap = {
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
-    date: unixFromJson(json['Date']),
+    date: json['Date'] == null ? null : DateTime.parse(json['Date'] as String),
     eventCategories:
         (json['EventCategories'] as List)?.map((e) => e as String)?.toList(),
     message: json['Message'] as String,
@@ -826,10 +832,16 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
     Map<String, dynamic> json) {
   return PendingMaintenanceAction(
     action: json['Action'] as String,
-    autoAppliedAfterDate: unixFromJson(json['AutoAppliedAfterDate']),
-    currentApplyDate: unixFromJson(json['CurrentApplyDate']),
+    autoAppliedAfterDate: json['AutoAppliedAfterDate'] == null
+        ? null
+        : DateTime.parse(json['AutoAppliedAfterDate'] as String),
+    currentApplyDate: json['CurrentApplyDate'] == null
+        ? null
+        : DateTime.parse(json['CurrentApplyDate'] as String),
     description: json['Description'] as String,
-    forcedApplyDate: unixFromJson(json['ForcedApplyDate']),
+    forcedApplyDate: json['ForcedApplyDate'] == null
+        ? null
+        : DateTime.parse(json['ForcedApplyDate'] as String),
     optInStatus: json['OptInStatus'] as String,
   );
 }
@@ -934,7 +946,9 @@ RefreshSchemasStatus _$RefreshSchemasStatusFromJson(Map<String, dynamic> json) {
   return RefreshSchemasStatus(
     endpointArn: json['EndpointArn'] as String,
     lastFailureMessage: json['LastFailureMessage'] as String,
-    lastRefreshDate: unixFromJson(json['LastRefreshDate']),
+    lastRefreshDate: json['LastRefreshDate'] == null
+        ? null
+        : DateTime.parse(json['LastRefreshDate'] as String),
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     status: _$enumDecodeNullable(
         _$RefreshSchemasStatusTypeValueEnumMap, json['Status']),
@@ -965,8 +979,12 @@ ReplicationInstance _$ReplicationInstanceFromJson(Map<String, dynamic> json) {
     availabilityZone: json['AvailabilityZone'] as String,
     dnsNameServers: json['DnsNameServers'] as String,
     engineVersion: json['EngineVersion'] as String,
-    freeUntil: unixFromJson(json['FreeUntil']),
-    instanceCreateTime: unixFromJson(json['InstanceCreateTime']),
+    freeUntil: json['FreeUntil'] == null
+        ? null
+        : DateTime.parse(json['FreeUntil'] as String),
+    instanceCreateTime: json['InstanceCreateTime'] == null
+        ? null
+        : DateTime.parse(json['InstanceCreateTime'] as String),
     kmsKeyId: json['KmsKeyId'] as String,
     multiAZ: json['MultiAZ'] as bool,
     pendingModifiedValues: json['PendingModifiedValues'] == null
@@ -1051,11 +1069,14 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     recoveryCheckpoint: json['RecoveryCheckpoint'] as String,
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     replicationTaskArn: json['ReplicationTaskArn'] as String,
-    replicationTaskCreationDate:
-        unixFromJson(json['ReplicationTaskCreationDate']),
+    replicationTaskCreationDate: json['ReplicationTaskCreationDate'] == null
+        ? null
+        : DateTime.parse(json['ReplicationTaskCreationDate'] as String),
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
     replicationTaskSettings: json['ReplicationTaskSettings'] as String,
-    replicationTaskStartDate: unixFromJson(json['ReplicationTaskStartDate']),
+    replicationTaskStartDate: json['ReplicationTaskStartDate'] == null
+        ? null
+        : DateTime.parse(json['ReplicationTaskStartDate'] as String),
     replicationTaskStats: json['ReplicationTaskStats'] == null
         ? null
         : ReplicationTaskStats.fromJson(
@@ -1083,7 +1104,10 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
     replicationTaskArn: json['ReplicationTaskArn'] as String,
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
     replicationTaskLastAssessmentDate:
-        unixFromJson(json['ReplicationTaskLastAssessmentDate']),
+        json['ReplicationTaskLastAssessmentDate'] == null
+            ? null
+            : DateTime.parse(
+                json['ReplicationTaskLastAssessmentDate'] as String),
     s3ObjectUrl: json['S3ObjectUrl'] as String,
   );
 }
@@ -1091,12 +1115,22 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
 ReplicationTaskStats _$ReplicationTaskStatsFromJson(Map<String, dynamic> json) {
   return ReplicationTaskStats(
     elapsedTimeMillis: json['ElapsedTimeMillis'] as int,
-    freshStartDate: unixFromJson(json['FreshStartDate']),
-    fullLoadFinishDate: unixFromJson(json['FullLoadFinishDate']),
+    freshStartDate: json['FreshStartDate'] == null
+        ? null
+        : DateTime.parse(json['FreshStartDate'] as String),
+    fullLoadFinishDate: json['FullLoadFinishDate'] == null
+        ? null
+        : DateTime.parse(json['FullLoadFinishDate'] as String),
     fullLoadProgressPercent: json['FullLoadProgressPercent'] as int,
-    fullLoadStartDate: unixFromJson(json['FullLoadStartDate']),
-    startDate: unixFromJson(json['StartDate']),
-    stopDate: unixFromJson(json['StopDate']),
+    fullLoadStartDate: json['FullLoadStartDate'] == null
+        ? null
+        : DateTime.parse(json['FullLoadStartDate'] as String),
+    startDate: json['StartDate'] == null
+        ? null
+        : DateTime.parse(json['StartDate'] as String),
+    stopDate: json['StopDate'] == null
+        ? null
+        : DateTime.parse(json['StopDate'] as String),
     tablesErrored: json['TablesErrored'] as int,
     tablesLoaded: json['TablesLoaded'] as int,
     tablesLoading: json['TablesLoading'] as int,
@@ -1268,13 +1302,19 @@ TableStatistics _$TableStatisticsFromJson(Map<String, dynamic> json) {
     ddls: json['Ddls'] as int,
     deletes: json['Deletes'] as int,
     fullLoadCondtnlChkFailedRows: json['FullLoadCondtnlChkFailedRows'] as int,
-    fullLoadEndTime: unixFromJson(json['FullLoadEndTime']),
+    fullLoadEndTime: json['FullLoadEndTime'] == null
+        ? null
+        : DateTime.parse(json['FullLoadEndTime'] as String),
     fullLoadErrorRows: json['FullLoadErrorRows'] as int,
     fullLoadReloaded: json['FullLoadReloaded'] as bool,
     fullLoadRows: json['FullLoadRows'] as int,
-    fullLoadStartTime: unixFromJson(json['FullLoadStartTime']),
+    fullLoadStartTime: json['FullLoadStartTime'] == null
+        ? null
+        : DateTime.parse(json['FullLoadStartTime'] as String),
     inserts: json['Inserts'] as int,
-    lastUpdateTime: unixFromJson(json['LastUpdateTime']),
+    lastUpdateTime: json['LastUpdateTime'] == null
+        ? null
+        : DateTime.parse(json['LastUpdateTime'] as String),
     schemaName: json['SchemaName'] as String,
     tableName: json['TableName'] as String,
     tableState: json['TableState'] as String,

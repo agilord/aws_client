@@ -6282,7 +6282,10 @@ class ContainerInstance {
   final int pendingTasksCount;
 
   /// The Unix timestamp for when the container instance was registered.
-  @_s.JsonKey(name: 'registeredAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'registeredAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime registeredAt;
 
   /// For CPU and memory resource types, this parameter describes the amount of
@@ -6744,7 +6747,10 @@ class Deployment {
   final List<CapacityProviderStrategyItem> capacityProviderStrategy;
 
   /// The Unix timestamp for when the service deployment was created.
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The most recent desired count of tasks that was specified for the service to
@@ -6808,7 +6814,10 @@ class Deployment {
   final String taskDefinition;
 
   /// The Unix timestamp for when the service deployment was last updated.
-  @_s.JsonKey(name: 'updatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'updatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   Deployment({
@@ -9428,7 +9437,10 @@ class Service {
   final String clusterArn;
 
   /// The Unix timestamp for when the service was created.
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The principal that created the service.
@@ -9682,7 +9694,10 @@ class Service {
     createToJson: false)
 class ServiceEvent {
   /// The Unix timestamp for when the event was triggered.
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The ID string of the event.
@@ -10117,7 +10132,9 @@ class Task {
   /// The Unix timestamp for when the task last went into <code>CONNECTED</code>
   /// status.
   @_s.JsonKey(
-      name: 'connectivityAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'connectivityAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime connectivityAt;
 
   /// The ARN of the container instances that host the task.
@@ -10170,7 +10187,10 @@ class Task {
 
   /// The Unix timestamp for when the task was created (the task entered the
   /// <code>PENDING</code> state).
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The desired status of the task. For more information, see <a
@@ -10181,7 +10201,9 @@ class Task {
 
   /// The Unix timestamp for when the task execution stopped.
   @_s.JsonKey(
-      name: 'executionStoppedAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'executionStoppedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime executionStoppedAt;
 
   /// The name of the task group associated with the task.
@@ -10274,16 +10296,25 @@ class Task {
   final String platformVersion;
 
   /// The Unix timestamp for when the container image pull began.
-  @_s.JsonKey(name: 'pullStartedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'pullStartedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime pullStartedAt;
 
   /// The Unix timestamp for when the container image pull completed.
-  @_s.JsonKey(name: 'pullStoppedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'pullStoppedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime pullStoppedAt;
 
   /// The Unix timestamp for when the task started (the task transitioned from the
   /// <code>PENDING</code> state to the <code>RUNNING</code> state).
-  @_s.JsonKey(name: 'startedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'startedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startedAt;
 
   /// The tag specified when a task is started. If the task is started by an
@@ -10299,7 +10330,10 @@ class Task {
 
   /// The Unix timestamp for when the task was stopped (the task transitioned from
   /// the <code>RUNNING</code> state to the <code>STOPPED</code> state).
-  @_s.JsonKey(name: 'stoppedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stoppedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stoppedAt;
 
   /// The reason that the task was stopped.
@@ -10308,7 +10342,10 @@ class Task {
 
   /// The Unix timestamp for when the task stops (transitions from the
   /// <code>RUNNING</code> state to <code>STOPPED</code>).
-  @_s.JsonKey(name: 'stoppingAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'stoppingAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stoppingAt;
 
   /// The metadata that you apply to the task to help you categorize and organize
@@ -10902,7 +10939,10 @@ class TaskSet {
   final int computedDesiredCount;
 
   /// The Unix timestamp for when the task set was created.
-  @_s.JsonKey(name: 'createdAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'createdAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The external ID associated with the task set.
@@ -11004,7 +11044,9 @@ class TaskSet {
 
   /// The Unix timestamp for when the task set stability status was retrieved.
   @_s.JsonKey(
-      name: 'stabilityStatusAt', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'stabilityStatusAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime stabilityStatusAt;
 
   /// The tag specified when a task set is started. If the task set is created by
@@ -11074,7 +11116,10 @@ class TaskSet {
   final String taskSetArn;
 
   /// The Unix timestamp for when the task set was last updated.
-  @_s.JsonKey(name: 'updatedAt', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'updatedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
   TaskSet({

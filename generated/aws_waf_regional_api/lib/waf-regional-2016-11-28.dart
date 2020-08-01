@@ -9978,7 +9978,10 @@ class SampledHTTPRequest {
 
   /// The time at which AWS WAF received the request from your AWS resource, in
   /// Unix time format (in seconds).
-  @_s.JsonKey(name: 'Timestamp', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timestamp;
 
   SampledHTTPRequest({
@@ -10635,7 +10638,10 @@ class TimeWindow {
   /// AWS resource received. Specify the date and time in the following format:
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
-  @_s.JsonKey(name: 'EndTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
@@ -10643,7 +10649,10 @@ class TimeWindow {
   /// AWS resource received. Specify the date and time in the following format:
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
-  @_s.JsonKey(name: 'StartTime', fromJson: unixFromJson, toJson: unixToJson)
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime startTime;
 
   TimeWindow({

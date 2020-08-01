@@ -81,10 +81,14 @@ CreateUserProfileResult _$CreateUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return CreateUserProfileResult(
     userArn: json['userArn'] as String,
-    createdTimestamp: unixFromJson(json['createdTimestamp']),
+    createdTimestamp: json['createdTimestamp'] == null
+        ? null
+        : DateTime.parse(json['createdTimestamp'] as String),
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
-    lastModifiedTimestamp: unixFromJson(json['lastModifiedTimestamp']),
+    lastModifiedTimestamp: json['lastModifiedTimestamp'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedTimestamp'] as String),
     sshPublicKey: json['sshPublicKey'] as String,
   );
 }
@@ -108,7 +112,9 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
   return DescribeProjectResult(
     arn: json['arn'] as String,
     clientRequestToken: json['clientRequestToken'] as String,
-    createdTimeStamp: unixFromJson(json['createdTimeStamp']),
+    createdTimeStamp: json['createdTimeStamp'] == null
+        ? null
+        : DateTime.parse(json['createdTimeStamp'] as String),
     description: json['description'] as String,
     id: json['id'] as String,
     name: json['name'] as String,
@@ -123,8 +129,12 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
 DescribeUserProfileResult _$DescribeUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return DescribeUserProfileResult(
-    createdTimestamp: unixFromJson(json['createdTimestamp']),
-    lastModifiedTimestamp: unixFromJson(json['lastModifiedTimestamp']),
+    createdTimestamp: json['createdTimestamp'] == null
+        ? null
+        : DateTime.parse(json['createdTimestamp'] as String),
+    lastModifiedTimestamp: json['lastModifiedTimestamp'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedTimestamp'] as String),
     userArn: json['userArn'] as String,
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
@@ -310,10 +320,14 @@ UpdateUserProfileResult _$UpdateUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return UpdateUserProfileResult(
     userArn: json['userArn'] as String,
-    createdTimestamp: unixFromJson(json['createdTimestamp']),
+    createdTimestamp: json['createdTimestamp'] == null
+        ? null
+        : DateTime.parse(json['createdTimestamp'] as String),
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
-    lastModifiedTimestamp: unixFromJson(json['lastModifiedTimestamp']),
+    lastModifiedTimestamp: json['lastModifiedTimestamp'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedTimestamp'] as String),
     sshPublicKey: json['sshPublicKey'] as String,
   );
 }

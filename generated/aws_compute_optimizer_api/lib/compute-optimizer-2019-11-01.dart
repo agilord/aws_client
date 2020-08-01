@@ -477,7 +477,9 @@ class AutoScalingGroupRecommendation {
   /// The time stamp of when the Auto Scaling group recommendation was last
   /// refreshed.
   @_s.JsonKey(
-      name: 'lastRefreshTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastRefreshTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the Auto
@@ -850,7 +852,9 @@ class InstanceRecommendation {
 
   /// The time stamp of when the instance recommendation was last refreshed.
   @_s.JsonKey(
-      name: 'lastRefreshTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'lastRefreshTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the

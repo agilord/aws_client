@@ -1540,7 +1540,9 @@ class ApplicationState {
 
   /// The timestamp when the application status was last updated.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   ApplicationState({
@@ -1661,7 +1663,9 @@ class DescribeApplicationStateResult {
 
   /// The timestamp when the application status was last updated.
   @_s.JsonKey(
-      name: 'LastUpdatedTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdatedTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
   DescribeApplicationStateResult({
@@ -1901,7 +1905,9 @@ class MigrationTask {
 
   /// The timestamp when the task was gathered.
   @_s.JsonKey(
-      name: 'UpdateDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'UpdateDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updateDateTime;
 
   MigrationTask({
@@ -1948,7 +1954,9 @@ class MigrationTaskSummary {
 
   /// The timestamp when the task was gathered.
   @_s.JsonKey(
-      name: 'UpdateDateTime', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'UpdateDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime updateDateTime;
 
   MigrationTaskSummary({

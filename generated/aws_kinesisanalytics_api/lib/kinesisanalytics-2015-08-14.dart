@@ -1908,7 +1908,9 @@ class ApplicationDetail {
 
   /// Time stamp when the application version was created.
   @_s.JsonKey(
-      name: 'CreateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// Describes the application input configuration. For more information, see <a
@@ -1919,7 +1921,9 @@ class ApplicationDetail {
 
   /// Time stamp when the application was last updated.
   @_s.JsonKey(
-      name: 'LastUpdateTimestamp', fromJson: unixFromJson, toJson: unixToJson)
+      name: 'LastUpdateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 
   /// Describes the application output configuration. For more information, see <a

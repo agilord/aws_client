@@ -9,9 +9,20 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        Uint8ListConverter,
+        Uint8ListListConverter,
+        rfc822fromJson,
+        rfc822toJson,
+        iso8601fromJson,
+        iso8601toJson,
+        unixFromJson,
+        unixToJson;
 
+import 'sqs-2012-11-05.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'sqs-2012-11-05.g.dart';
 
 /// Welcome to the <i>Amazon Simple Queue Service API Reference</i>.
 ///
@@ -79,17 +90,20 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// </ul>
 class SQS {
   final _s.QueryProtocol _protocol;
+  final Map<String, _s.Shape> shapes;
 
   SQS({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
-  }) : _protocol = _s.QueryProtocol(
+  })  : _protocol = _s.QueryProtocol(
           client: client,
           service: 'sqs',
           region: region,
           credentials: credentials,
-        );
+        ),
+        shapes = shapesJson
+            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   /// Adds a permission to a queue for a specific <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P">principal</a>.
@@ -184,19 +198,20 @@ class SQS {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'AddPermission',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['AWSAccountIds'] = awsAccountIds;
     $request['Actions'] = actions;
     $request['Label'] = label;
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
+      action: 'AddPermission',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['AddPermissionRequest'],
+      shapes: shapes,
     );
   }
 
@@ -288,18 +303,19 @@ class SQS {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
     ArgumentError.checkNotNull(visibilityTimeout, 'visibilityTimeout');
-    final $request = <String, dynamic>{
-      'Action': 'ChangeMessageVisibility',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['ReceiptHandle'] = receiptHandle;
     $request['VisibilityTimeout'] = visibilityTimeout;
     await _protocol.send(
       $request,
+      action: 'ChangeMessageVisibility',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ChangeMessageVisibilityRequest'],
+      shapes: shapes,
     );
   }
 
@@ -341,17 +357,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'ChangeMessageVisibilityBatch',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
       $request,
+      action: 'ChangeMessageVisibilityBatch',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ChangeMessageVisibilityBatchRequest'],
+      shapes: shapes,
       resultWrapper: 'ChangeMessageVisibilityBatchResult',
     );
     return ChangeMessageVisibilityBatchResult.fromXml($result);
@@ -644,18 +661,19 @@ class SQS {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(queueName, 'queueName');
-    final $request = <String, dynamic>{
-      'Action': 'CreateQueue',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
     attributes?.also((arg) => $request['Attributes'] = arg);
     tags?.also((arg) => $request['tags'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'CreateQueue',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateQueueRequest'],
+      shapes: shapes,
       resultWrapper: 'CreateQueueResult',
     );
     return CreateQueueResult.fromXml($result);
@@ -702,17 +720,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteMessage',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['ReceiptHandle'] = receiptHandle;
     await _protocol.send(
       $request,
+      action: 'DeleteMessage',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteMessageRequest'],
+      shapes: shapes,
     );
   }
 
@@ -751,17 +770,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteMessageBatch',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
       $request,
+      action: 'DeleteMessageBatch',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteMessageBatchRequest'],
+      shapes: shapes,
       resultWrapper: 'DeleteMessageBatchResult',
     );
     return DeleteMessageBatchResult.fromXml($result);
@@ -798,16 +818,17 @@ class SQS {
     @_s.required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'DeleteQueue',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
+      action: 'DeleteQueue',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteQueueRequest'],
+      shapes: shapes,
     );
   }
 
@@ -973,17 +994,18 @@ class SQS {
     List<String> attributeNames,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'GetQueueAttributes',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetQueueAttributes',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetQueueAttributesRequest'],
+      shapes: shapes,
       resultWrapper: 'GetQueueAttributesResult',
     );
     return GetQueueAttributesResult.fromXml($result);
@@ -1016,18 +1038,19 @@ class SQS {
     String queueOwnerAWSAccountId,
   }) async {
     ArgumentError.checkNotNull(queueName, 'queueName');
-    final $request = <String, dynamic>{
-      'Action': 'GetQueueUrl',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
     queueOwnerAWSAccountId
         ?.also((arg) => $request['QueueOwnerAWSAccountId'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'GetQueueUrl',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['GetQueueUrlRequest'],
+      shapes: shapes,
       resultWrapper: 'GetQueueUrlResult',
     );
     return GetQueueUrlResult.fromXml($result);
@@ -1051,16 +1074,17 @@ class SQS {
     @_s.required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'ListDeadLetterSourceQueues',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
       $request,
+      action: 'ListDeadLetterSourceQueues',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListDeadLetterSourceQueuesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListDeadLetterSourceQueuesResult',
     );
     return ListDeadLetterSourceQueuesResult.fromXml($result);
@@ -1085,16 +1109,17 @@ class SQS {
     @_s.required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'ListQueueTags',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
       $request,
+      action: 'ListQueueTags',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListQueueTagsRequest'],
+      shapes: shapes,
       resultWrapper: 'ListQueueTagsResult',
     );
     return ListQueueTagsResult.fromXml($result);
@@ -1120,16 +1145,17 @@ class SQS {
   Future<ListQueuesResult> listQueues({
     String queueNamePrefix,
   }) async {
-    final $request = <String, dynamic>{
-      'Action': 'ListQueues',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     queueNamePrefix?.also((arg) => $request['QueueNamePrefix'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ListQueues',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ListQueuesRequest'],
+      shapes: shapes,
       resultWrapper: 'ListQueuesResult',
     );
     return ListQueuesResult.fromXml($result);
@@ -1162,16 +1188,17 @@ class SQS {
     @_s.required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'PurgeQueue',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
+      action: 'PurgeQueue',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['PurgeQueueRequest'],
+      shapes: shapes,
     );
   }
 
@@ -1427,10 +1454,7 @@ class SQS {
     int waitTimeSeconds,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'ReceiveMessage',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
     maxNumberOfMessages?.also((arg) => $request['MaxNumberOfMessages'] = arg);
@@ -1442,9 +1466,13 @@ class SQS {
     waitTimeSeconds?.also((arg) => $request['WaitTimeSeconds'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'ReceiveMessage',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['ReceiveMessageRequest'],
+      shapes: shapes,
       resultWrapper: 'ReceiveMessageResult',
     );
     return ReceiveMessageResult.fromXml($result);
@@ -1486,17 +1514,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'RemovePermission',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['Label'] = label;
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
+      action: 'RemovePermission',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['RemovePermissionRequest'],
+      shapes: shapes,
     );
   }
 
@@ -1689,10 +1718,7 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(messageBody, 'messageBody');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'SendMessage',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['MessageBody'] = messageBody;
     $request['QueueUrl'] = queueUrl;
     delaySeconds?.also((arg) => $request['DelaySeconds'] = arg);
@@ -1704,9 +1730,13 @@ class SQS {
         ?.also((arg) => $request['MessageSystemAttributes'] = arg);
     final $result = await _protocol.send(
       $request,
+      action: 'SendMessage',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendMessageRequest'],
+      shapes: shapes,
       resultWrapper: 'SendMessageResult',
     );
     return SendMessageResult.fromXml($result);
@@ -1768,17 +1798,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'SendMessageBatch',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
       $request,
+      action: 'SendMessageBatch',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SendMessageBatchRequest'],
+      shapes: shapes,
       resultWrapper: 'SendMessageBatchResult',
     );
     return SendMessageBatchResult.fromXml($result);
@@ -1971,17 +2002,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    final $request = <String, dynamic>{
-      'Action': 'SetQueueAttributes',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
+      action: 'SetQueueAttributes',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['SetQueueAttributesRequest'],
+      shapes: shapes,
     );
   }
 
@@ -2032,17 +2064,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $request = <String, dynamic>{
-      'Action': 'TagQueue',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['Tags'] = tags;
     await _protocol.send(
       $request,
+      action: 'TagQueue',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['TagQueueRequest'],
+      shapes: shapes,
     );
   }
 
@@ -2070,17 +2103,18 @@ class SQS {
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $request = <String, dynamic>{
-      'Action': 'UntagQueue',
-      'Version': '2012-11-05',
-    };
+    final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['TagKeys'] = tagKeys;
     await _protocol.send(
       $request,
+      action: 'UntagQueue',
+      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagQueueRequest'],
+      shapes: shapes,
     );
   }
 }
@@ -2129,18 +2163,26 @@ class BatchResultErrorEntry {
 /// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle</code>
 ///
 /// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45</code>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class ChangeMessageVisibilityBatchRequestEntry {
   /// An identifier for this particular receipt handle used to communicate the
   /// result.
   /// <note>
   /// The <code>Id</code>s of a batch request need to be unique within a request
   /// </note>
+  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// A receipt handle.
+  @_s.JsonKey(name: 'ReceiptHandle')
   final String receiptHandle;
 
   /// The new value (in seconds) for the message's visibility timeout.
+  @_s.JsonKey(name: 'VisibilityTimeout')
   final int visibilityTimeout;
 
   ChangeMessageVisibilityBatchRequestEntry({
@@ -2148,6 +2190,8 @@ class ChangeMessageVisibilityBatchRequestEntry {
     @_s.required this.receiptHandle,
     this.visibilityTimeout,
   });
+  Map<String, dynamic> toJson() =>
+      _$ChangeMessageVisibilityBatchRequestEntryToJson(this);
 }
 
 /// For each message in the batch, the response contains a <code>
@@ -2212,21 +2256,29 @@ class CreateQueueResult {
 }
 
 /// Encloses a receipt handle and an identifier for it.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class DeleteMessageBatchRequestEntry {
   /// An identifier for this particular receipt handle. This is used to
   /// communicate the result.
   /// <note>
   /// The <code>Id</code>s of a batch request need to be unique within a request
   /// </note>
+  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// A receipt handle.
+  @_s.JsonKey(name: 'ReceiptHandle')
   final String receiptHandle;
 
   DeleteMessageBatchRequestEntry({
     @_s.required this.id,
     @_s.required this.receiptHandle,
   });
+  Map<String, dynamic> toJson() => _$DeleteMessageBatchRequestEntryToJson(this);
 }
 
 /// For each message in the batch, the response contains a <code>
@@ -2475,6 +2527,11 @@ class Message {
 /// body must not be empty or null. All parts of the message attribute,
 /// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
 /// part of the message size restriction (256 KB or 262,144 bytes).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MessageAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -2484,22 +2541,27 @@ class MessageAttributeValue {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  final List<Uint8List> binaryListValues;
+  @_s.JsonKey(name: 'BinaryListValues')
+  final List<String> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
-  final Uint8List binaryValue;
+  @_s.JsonKey(name: 'BinaryValue')
+  final String binaryValue;
 
   /// Not implemented. Reserved for future use.
+  @_s.JsonKey(name: 'StringListValues')
   final List<String> stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
   /// see <a
   /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
+  @_s.JsonKey(name: 'StringValue')
   final String stringValue;
 
   MessageAttributeValue({
@@ -2512,23 +2574,32 @@ class MessageAttributeValue {
   factory MessageAttributeValue.fromXml(_s.XmlElement elem) {
     return MessageAttributeValue(
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      binaryListValues:
-          _s.extractXmlUint8ListListValues(elem, 'BinaryListValue'),
-      binaryValue: _s.extractXmlUint8ListValue(elem, 'BinaryValue'),
+      binaryListValues: _s.extractXmlStringListValues(elem, 'BinaryListValue'),
+      binaryValue: _s.extractXmlStringValue(elem, 'BinaryValue'),
       stringListValues: _s.extractXmlStringListValues(elem, 'StringListValue'),
       stringValue: _s.extractXmlStringValue(elem, 'StringValue'),
     );
   }
+
+  Map<String, dynamic> toJson() => _$MessageAttributeValueToJson(this);
 }
 
 enum MessageSystemAttributeName {
+  @_s.JsonValue('SenderId')
   senderId,
+  @_s.JsonValue('SentTimestamp')
   sentTimestamp,
+  @_s.JsonValue('ApproximateReceiveCount')
   approximateReceiveCount,
+  @_s.JsonValue('ApproximateFirstReceiveTimestamp')
   approximateFirstReceiveTimestamp,
+  @_s.JsonValue('SequenceNumber')
   sequenceNumber,
+  @_s.JsonValue('MessageDeduplicationId')
   messageDeduplicationId,
+  @_s.JsonValue('MessageGroupId')
   messageGroupId,
+  @_s.JsonValue('AWSTraceHeader')
   awsTraceHeader,
 }
 
@@ -2557,6 +2628,7 @@ extension on String {
 }
 
 enum MessageSystemAttributeNameForSends {
+  @_s.JsonValue('AWSTraceHeader')
   awsTraceHeader,
 }
 
@@ -2577,6 +2649,11 @@ extension on String {
 ///
 /// <code>Name</code>, <code>type</code>, <code>value</code> and the message
 /// body must not be empty or null.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class MessageSystemAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -2586,22 +2663,27 @@ class MessageSystemAttributeValue {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
+  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  final List<Uint8List> binaryListValues;
+  @_s.JsonKey(name: 'BinaryListValues')
+  final List<String> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
-  final Uint8List binaryValue;
+  @_s.JsonKey(name: 'BinaryValue')
+  final String binaryValue;
 
   /// Not implemented. Reserved for future use.
+  @_s.JsonKey(name: 'StringListValues')
   final List<String> stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
   /// see <a
   /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
+  @_s.JsonKey(name: 'StringValue')
   final String stringValue;
 
   MessageSystemAttributeValue({
@@ -2611,26 +2693,45 @@ class MessageSystemAttributeValue {
     this.stringListValues,
     this.stringValue,
   });
+  Map<String, dynamic> toJson() => _$MessageSystemAttributeValueToJson(this);
 }
 
 enum QueueAttributeName {
+  @_s.JsonValue('All')
   all,
+  @_s.JsonValue('Policy')
   policy,
+  @_s.JsonValue('VisibilityTimeout')
   visibilityTimeout,
+  @_s.JsonValue('MaximumMessageSize')
   maximumMessageSize,
+  @_s.JsonValue('MessageRetentionPeriod')
   messageRetentionPeriod,
+  @_s.JsonValue('ApproximateNumberOfMessages')
   approximateNumberOfMessages,
+  @_s.JsonValue('ApproximateNumberOfMessagesNotVisible')
   approximateNumberOfMessagesNotVisible,
+  @_s.JsonValue('CreatedTimestamp')
   createdTimestamp,
+  @_s.JsonValue('LastModifiedTimestamp')
   lastModifiedTimestamp,
+  @_s.JsonValue('QueueArn')
   queueArn,
+  @_s.JsonValue('ApproximateNumberOfMessagesDelayed')
   approximateNumberOfMessagesDelayed,
+  @_s.JsonValue('DelaySeconds')
   delaySeconds,
+  @_s.JsonValue('ReceiveMessageWaitTimeSeconds')
   receiveMessageWaitTimeSeconds,
+  @_s.JsonValue('RedrivePolicy')
   redrivePolicy,
+  @_s.JsonValue('FifoQueue')
   fifoQueue,
+  @_s.JsonValue('ContentBasedDeduplication')
   contentBasedDeduplication,
+  @_s.JsonValue('KmsMasterKeyId')
   kmsMasterKeyId,
+  @_s.JsonValue('KmsDataKeyReusePeriodSeconds')
   kmsDataKeyReusePeriodSeconds,
 }
 
@@ -2696,6 +2797,11 @@ class ReceiveMessageResult {
 
 /// Contains the details of a single Amazon SQS message along with an
 /// <code>Id</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
 class SendMessageBatchRequestEntry {
   /// An identifier for a message in this batch used to communicate the result.
   /// <note>
@@ -2704,9 +2810,11 @@ class SendMessageBatchRequestEntry {
   /// This identifier can have up to 80 characters. The following characters are
   /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
   /// </note>
+  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The body of the message.
+  @_s.JsonKey(name: 'MessageBody')
   final String messageBody;
 
   /// The length of time, in seconds, for which a specific message is delayed.
@@ -2718,6 +2826,7 @@ class SendMessageBatchRequestEntry {
   /// When you set <code>FifoQueue</code>, you can't set <code>DelaySeconds</code>
   /// per message. You can set this parameter only on a queue level.
   /// </note>
+  @_s.JsonKey(name: 'DelaySeconds')
   final int delaySeconds;
 
   /// Each message attribute consists of a <code>Name</code>, <code>Type</code>,
@@ -2725,6 +2834,7 @@ class SendMessageBatchRequestEntry {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
+  @_s.JsonKey(name: 'MessageAttributes')
   final Map<String, MessageAttributeValue> messageAttributes;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
@@ -2794,6 +2904,7 @@ class SendMessageBatchRequestEntry {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
   /// the MessageDeduplicationId Property</a> in the <i>Amazon Simple Queue
   /// Service Developer Guide</i>.
+  @_s.JsonKey(name: 'MessageDeduplicationId')
   final String messageDeduplicationId;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
@@ -2830,6 +2941,7 @@ class SendMessageBatchRequestEntry {
   /// <code>MessageGroupId</code> is required for FIFO queues. You can't use it
   /// for Standard queues.
   /// </important>
+  @_s.JsonKey(name: 'MessageGroupId')
   final String messageGroupId;
 
   /// The message system attribute to send Each message system attribute consists
@@ -2846,6 +2958,7 @@ class SendMessageBatchRequestEntry {
   /// of a message.
   /// </li>
   /// </ul> </important>
+  @_s.JsonKey(name: 'MessageSystemAttributes')
   final Map<String, MessageSystemAttributeValue> messageSystemAttributes;
 
   SendMessageBatchRequestEntry({
@@ -2857,6 +2970,7 @@ class SendMessageBatchRequestEntry {
     this.messageGroupId,
     this.messageSystemAttributes,
   });
+  Map<String, dynamic> toJson() => _$SendMessageBatchRequestEntryToJson(this);
 }
 
 /// For each message in the batch, the response contains a <code>

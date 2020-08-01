@@ -9,10 +9,16 @@ part of 'sms-2016-10-24.dart';
 AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
   return AppSummary(
     appId: json['appId'] as String,
-    creationTime: unixFromJson(json['creationTime']),
+    creationTime: json['creationTime'] == null
+        ? null
+        : DateTime.parse(json['creationTime'] as String),
     description: json['description'] as String,
-    lastModified: unixFromJson(json['lastModified']),
-    latestReplicationTime: unixFromJson(json['latestReplicationTime']),
+    lastModified: json['lastModified'] == null
+        ? null
+        : DateTime.parse(json['lastModified'] as String),
+    latestReplicationTime: json['latestReplicationTime'] == null
+        ? null
+        : DateTime.parse(json['latestReplicationTime'] as String),
     launchDetails: json['launchDetails'] == null
         ? null
         : LaunchDetails.fromJson(json['launchDetails'] as Map<String, dynamic>),
@@ -110,7 +116,9 @@ const _$AppStatusEnumMap = {
 
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
-    associatedOn: unixFromJson(json['associatedOn']),
+    associatedOn: json['associatedOn'] == null
+        ? null
+        : DateTime.parse(json['associatedOn'] as String),
     capabilityList:
         (json['capabilityList'] as List)?.map((e) => e as String)?.toList(),
     connectorId: json['connectorId'] as String,
@@ -291,7 +299,9 @@ GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
 
 GetServersResponse _$GetServersResponseFromJson(Map<String, dynamic> json) {
   return GetServersResponse(
-    lastModifiedOn: unixFromJson(json['lastModifiedOn']),
+    lastModifiedOn: json['lastModifiedOn'] == null
+        ? null
+        : DateTime.parse(json['lastModifiedOn'] as String),
     nextToken: json['nextToken'] as String,
     serverCatalogStatus: _$enumDecodeNullable(
         _$ServerCatalogStatusEnumMap, json['serverCatalogStatus']),
@@ -321,7 +331,9 @@ LaunchAppResponse _$LaunchAppResponseFromJson(Map<String, dynamic> json) {
 
 LaunchDetails _$LaunchDetailsFromJson(Map<String, dynamic> json) {
   return LaunchDetails(
-    latestLaunchTime: unixFromJson(json['latestLaunchTime']),
+    latestLaunchTime: json['latestLaunchTime'] == null
+        ? null
+        : DateTime.parse(json['latestLaunchTime'] as String),
     stackId: json['stackId'] as String,
     stackName: json['stackName'] as String,
   );
@@ -357,8 +369,9 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
     latestAmiId: json['latestAmiId'] as String,
     licenseType:
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
-    nextReplicationRunStartTime:
-        unixFromJson(json['nextReplicationRunStartTime']),
+    nextReplicationRunStartTime: json['nextReplicationRunStartTime'] == null
+        ? null
+        : DateTime.parse(json['nextReplicationRunStartTime'] as String),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     replicationJobId: json['replicationJobId'] as String,
     replicationRunList: (json['replicationRunList'] as List)
@@ -368,7 +381,9 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
         ?.toList(),
     roleName: json['roleName'] as String,
     runOnce: json['runOnce'] as bool,
-    seedReplicationTime: unixFromJson(json['seedReplicationTime']),
+    seedReplicationTime: json['seedReplicationTime'] == null
+        ? null
+        : DateTime.parse(json['seedReplicationTime'] as String),
     serverId: json['serverId'] as String,
     serverType: _$enumDecodeNullable(_$ServerTypeEnumMap, json['serverType']),
     state: _$enumDecodeNullable(_$ReplicationJobStateEnumMap, json['state']),
@@ -402,12 +417,16 @@ const _$ReplicationJobStateEnumMap = {
 ReplicationRun _$ReplicationRunFromJson(Map<String, dynamic> json) {
   return ReplicationRun(
     amiId: json['amiId'] as String,
-    completedTime: unixFromJson(json['completedTime']),
+    completedTime: json['completedTime'] == null
+        ? null
+        : DateTime.parse(json['completedTime'] as String),
     description: json['description'] as String,
     encrypted: json['encrypted'] as bool,
     kmsKeyId: json['kmsKeyId'] as String,
     replicationRunId: json['replicationRunId'] as String,
-    scheduledStartTime: unixFromJson(json['scheduledStartTime']),
+    scheduledStartTime: json['scheduledStartTime'] == null
+        ? null
+        : DateTime.parse(json['scheduledStartTime'] as String),
     stageDetails: json['stageDetails'] == null
         ? null
         : ReplicationRunStageDetails.fromJson(
@@ -661,7 +680,9 @@ ServerReplicationParameters _$ServerReplicationParametersFromJson(
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     runOnce: json['runOnce'] as bool,
-    seedTime: unixFromJson(json['seedTime']),
+    seedTime: json['seedTime'] == null
+        ? null
+        : DateTime.parse(json['seedTime'] as String),
   );
 }
 
@@ -681,7 +702,7 @@ Map<String, dynamic> _$ServerReplicationParametersToJson(
   writeNotNull('licenseType', _$LicenseTypeEnumMap[instance.licenseType]);
   writeNotNull('numberOfRecentAmisToKeep', instance.numberOfRecentAmisToKeep);
   writeNotNull('runOnce', instance.runOnce);
-  writeNotNull('seedTime', unixToJson(instance.seedTime));
+  writeNotNull('seedTime', instance.seedTime?.toIso8601String());
   return val;
 }
 
