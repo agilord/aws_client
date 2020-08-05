@@ -24,7 +24,7 @@ class GenerateCommand extends Command {
 
   @override
   String get description =>
-      '''Downloads API models (optional) and generates Dart clients, specified 
+      '''Downloads API models (optional) and generates Dart clients, specified
 in the config file, from the downloaded models.''';
 
   Config config;
@@ -248,43 +248,20 @@ in the config file, from the downloaded models.''';
             (e) => print('- [${e.value}](https://pub.dev/packages/${e.key})'));
 
     if (argResults['build'] == true) {
-      final stopwatch = Stopwatch()..start();
-      var latestMessage = '';
-
-      var latestPercentage = 1;
-
-      Timer timer;
-
-      timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        printPercentageInPlace(latestPercentage,
-            '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
-      });
-
       print('\nRunning build_runner in generated projects');
 
-      for (var i = 0; i < touchedDirs.length; i++) {
-        latestPercentage = i * 100 ~/ touchedDirs.length + 1;
-        final baseDir = touchedDirs.elementAt(i);
+      final finalDirsList = touchedDirs.toList();
 
-        if (!(argResults['optimize-build'] as bool) ||
-            await _directoryHasChanges(baseDir)) {
-          latestMessage = '- Running pub get in $baseDir';
-          printPercentageInPlace(latestPercentage,
-              '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
-
-          await _getDependencies(baseDir,
-              upgrade: argResults['upgrade-dep'] as bool);
-
-          latestMessage = '- Running build_runner in $baseDir';
-          printPercentageInPlace(latestPercentage,
-              '${estimatedTimeLeft(latestPercentage, stopwatch.elapsed)} $latestMessage');
-
-          await _runBuildRunner(baseDir);
-        }
-      }
-
-      timer.cancel();
-      printPercentageInPlace(100, 'Done');
+      final buildRunnerFutures = List.generate(
+          // (processors - 1) makes my operating system freeze - Jonathan
+          (Platform.numberOfProcessors - 2)
+              .clamp(1, Platform.numberOfProcessors)
+              .toInt(),
+          (index) async => await _runBuildRunner(
+              finalDirsList,
+              argResults['optimize-build'] as bool,
+              argResults['upgrade-dep'] as bool));
+      await Future.wait(buildRunnerFutures, eagerError: true);
     }
 
     final monoPkgFile = File('mono_pkg.yaml');
@@ -324,16 +301,27 @@ in the config file, from the downloaded models.''';
     }
   }
 
-  Future<void> _runBuildRunner(String baseDir) async {
-    final pr = await Process.run(
-      'pub',
-      ['run', 'build_runner', 'build', '--delete-conflicting-outputs'],
-      workingDirectory: baseDir,
-    );
-    if (pr.exitCode != 0) {
-      print(pr.stdout);
-      print(pr.stderr);
-      throw Exception('build_runner failed at $baseDir');
+  Future<void> _runBuildRunner(
+      List<String> dirs, bool optimize, bool upgrade) async {
+    while (dirs.isNotEmpty) {
+      final baseDir = dirs.removeLast();
+      final dirsLeft = dirs.length;
+      if (optimize && await _directoryHasChanges(baseDir)) {
+        print('Running build_runner in $baseDir, dirs left: $dirsLeft');
+        await _getDependencies(baseDir, upgrade: upgrade);
+
+        final pr = await Process.run(
+          'pub',
+          ['run', 'build_runner', 'build', '--delete-conflicting-outputs'],
+          workingDirectory: baseDir,
+        );
+
+        if (pr.exitCode != 0) {
+          print(pr.stdout);
+          print(pr.stderr);
+          throw Exception('build_runner failed at $baseDir');
+        }
+      }
     }
   }
 
