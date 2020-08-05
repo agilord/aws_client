@@ -8,15 +8,20 @@ import 'package:xml/xml.dart';
 final rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'Z'", 'en_US');
 final iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
 
-DateTime rfc822fromJson(String date) => rfc822Formatter.parse(date);
+DateTime rfc822FromJson(String date) =>
+    date == null ? null : rfc822Formatter.parse(date);
 
-String rfc822toJson(DateTime date) => rfc822Formatter.format(date.toUtc());
+String rfc822ToJson(DateTime date) =>
+    date == null ? null : rfc822Formatter.format(date.toUtc());
 
-DateTime iso8601fromJson(String date) => iso8601Formatter.parse(date);
+DateTime iso8601FromJson(String date) =>
+    date == null ? null : iso8601Formatter.parse(date);
 
-String iso8601toJson(DateTime date) => iso8601Formatter.format(date.toUtc());
+String iso8601ToJson(DateTime date) =>
+    date == null ? null : iso8601Formatter.format(date.toUtc());
 
 DateTime unixTimestampFromJson(dynamic date) {
+  if (date == null) return null;
   if (date is String) {
     return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
   } else if (date is num) {
@@ -26,7 +31,8 @@ DateTime unixTimestampFromJson(dynamic date) {
   throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
 }
 
-int unixTimestampToJson(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
+int unixTimestampToJson(DateTime date) =>
+    date == null ? null : date.millisecondsSinceEpoch ~/ 1000;
 
 class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   const Uint8ListConverter();

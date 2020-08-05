@@ -48,7 +48,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822fromJson, rfc822toJson, iso8601fromJson, iso8601toJson, unixFromJson, unixToJson' : ''};
+  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822FromJson, rfc822ToJson, iso8601FromJson, iso8601ToJson, unixTimestampFromJson, unixTimestampToJson' : ''};
 """);
   buf.writeln(builder.imports());
   buf.writeln(

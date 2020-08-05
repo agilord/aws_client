@@ -154,13 +154,13 @@ Iterable<MapEntry<String, String>> _flatten(
     String formattedDate;
     switch (timeStampFormat) {
       case 'iso8601':
-        formattedDate = iso8601toJson(data);
+        formattedDate = iso8601ToJson(data);
         break;
       case 'unixTimestamp':
         formattedDate = unixTimestampToJson(data).toString();
         break;
       case 'rfc822':
-        formattedDate = rfc822toJson(data);
+        formattedDate = rfc822ToJson(data);
         break;
     }
     yield MapEntry(key, formattedDate);
