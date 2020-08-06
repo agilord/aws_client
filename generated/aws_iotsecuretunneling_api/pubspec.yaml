@@ -1,6 +1,6 @@
 name: aws_iotsecuretunneling_api
 description: AWS API client for AWS IoT Secure Tunneling (generated from SDK API specification).
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_iotsecuretunneling_api
 
 

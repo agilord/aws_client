@@ -1,3 +1,9 @@
+## 0.1.1
+
+(git hash: 7d4c87c83fdcdab81db1f0a0be57a805efb684c4)
+
+- Fix broken date serialization calls. (#222)
+
 ## 0.1.0
 
 (git hash: 66c0c792ffe13847c6f7cac7022934054a42aa34)
