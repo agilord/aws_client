@@ -1,6 +1,6 @@
 name: aws_cloudhsmv2_api
 description: AWS API client for AWS CloudHSM V2 (generated from SDK API specification).
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_cloudhsmv2_api
 
 

@@ -1,6 +1,6 @@
 name: aws_codestar_connections_api
 description: AWS API client for AWS CodeStar connections (generated from SDK API specification).
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_codestar_connections_api
 
 
