@@ -26,9 +26,7 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
     backupArn: json['BackupArn'] as String,
     backupId: json['BackupId'] as String,
     backupType: _$enumDecodeNullable(_$BackupTypeEnumMap, json['BackupType']),
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     engine: json['Engine'] as String,
     engineModel: json['EngineModel'] as String,
@@ -243,9 +241,7 @@ Server _$ServerFromJson(Map<String, dynamic> json) {
     associatePublicIpAddress: json['AssociatePublicIpAddress'] as bool,
     backupRetentionCount: json['BackupRetentionCount'] as int,
     cloudFormationStackArn: json['CloudFormationStackArn'] as String,
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     customDomain: json['CustomDomain'] as String,
     disableAutomatedBackup: json['DisableAutomatedBackup'] as bool,
     endpoint: json['Endpoint'] as String,
@@ -298,9 +294,7 @@ const _$ServerStatusEnumMap = {
 
 ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {
   return ServerEvent(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     logUrl: json['LogUrl'] as String,
     message: json['Message'] as String,
     serverName: json['ServerName'] as String,

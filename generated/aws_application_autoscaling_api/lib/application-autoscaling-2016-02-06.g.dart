@@ -246,9 +246,7 @@ RegisterScalableTargetResponse _$RegisterScalableTargetResponseFromJson(
 
 ScalableTarget _$ScalableTargetFromJson(Map<String, dynamic> json) {
   return ScalableTarget(
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     maxCapacity: json['MaxCapacity'] as int,
     minCapacity: json['MinCapacity'] as int,
     resourceId: json['ResourceId'] as String,
@@ -336,15 +334,11 @@ ScalingActivity _$ScalingActivityFromJson(Map<String, dynamic> json) {
         _$ScalableDimensionEnumMap, json['ScalableDimension']),
     serviceNamespace: _$enumDecodeNullable(
         _$ServiceNamespaceEnumMap, json['ServiceNamespace']),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     statusCode: _$enumDecodeNullable(
         _$ScalingActivityStatusCodeEnumMap, json['StatusCode']),
     details: json['Details'] as String,
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     statusMessage: json['StatusMessage'] as String,
   );
 }
@@ -360,9 +354,7 @@ const _$ScalingActivityStatusCodeEnumMap = {
 
 ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
   return ScalingPolicy(
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     policyARN: json['PolicyARN'] as String,
     policyName: json['PolicyName'] as String,
     policyType: _$enumDecodeNullable(_$PolicyTypeEnumMap, json['PolicyType']),
@@ -396,27 +388,21 @@ const _$PolicyTypeEnumMap = {
 
 ScheduledAction _$ScheduledActionFromJson(Map<String, dynamic> json) {
   return ScheduledAction(
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     resourceId: json['ResourceId'] as String,
     schedule: json['Schedule'] as String,
     scheduledActionARN: json['ScheduledActionARN'] as String,
     scheduledActionName: json['ScheduledActionName'] as String,
     serviceNamespace: _$enumDecodeNullable(
         _$ServiceNamespaceEnumMap, json['ServiceNamespace']),
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     scalableDimension: _$enumDecodeNullable(
         _$ScalableDimensionEnumMap, json['ScalableDimension']),
     scalableTargetAction: json['ScalableTargetAction'] == null
         ? null
         : ScalableTargetAction.fromJson(
             json['ScalableTargetAction'] as Map<String, dynamic>),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
   );
 }
 

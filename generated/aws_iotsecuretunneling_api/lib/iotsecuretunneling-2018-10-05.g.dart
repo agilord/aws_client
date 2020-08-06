@@ -12,9 +12,7 @@ CloseTunnelResponse _$CloseTunnelResponseFromJson(Map<String, dynamic> json) {
 
 ConnectionState _$ConnectionStateFromJson(Map<String, dynamic> json) {
   return ConnectionState(
-    lastUpdatedAt: json['lastUpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedAt'] as String),
+    lastUpdatedAt: unixTimestampFromJson(json['lastUpdatedAt']),
     status: _$enumDecodeNullable(_$ConnectionStatusEnumMap, json['status']),
   );
 }
@@ -161,9 +159,7 @@ Map<String, dynamic> _$TimeoutConfigToJson(TimeoutConfig instance) {
 
 Tunnel _$TunnelFromJson(Map<String, dynamic> json) {
   return Tunnel(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     description: json['description'] as String,
     destinationConfig: json['destinationConfig'] == null
         ? null
@@ -173,9 +169,7 @@ Tunnel _$TunnelFromJson(Map<String, dynamic> json) {
         ? null
         : ConnectionState.fromJson(
             json['destinationConnectionState'] as Map<String, dynamic>),
-    lastUpdatedAt: json['lastUpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedAt'] as String),
+    lastUpdatedAt: unixTimestampFromJson(json['lastUpdatedAt']),
     sourceConnectionState: json['sourceConnectionState'] == null
         ? null
         : ConnectionState.fromJson(
@@ -199,13 +193,9 @@ const _$TunnelStatusEnumMap = {
 
 TunnelSummary _$TunnelSummaryFromJson(Map<String, dynamic> json) {
   return TunnelSummary(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     description: json['description'] as String,
-    lastUpdatedAt: json['lastUpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedAt'] as String),
+    lastUpdatedAt: unixTimestampFromJson(json['lastUpdatedAt']),
     status: _$enumDecodeNullable(_$TunnelStatusEnumMap, json['status']),
     tunnelArn: json['tunnelArn'] as String,
     tunnelId: json['tunnelId'] as String,

@@ -9,9 +9,7 @@ part of 'license-manager-2018-08-01.dart';
 AutomatedDiscoveryInformation _$AutomatedDiscoveryInformationFromJson(
     Map<String, dynamic> json) {
   return AutomatedDiscoveryInformation(
-    lastRunTime: json['LastRunTime'] == null
-        ? null
-        : DateTime.parse(json['LastRunTime'] as String),
+    lastRunTime: unixTimestampFromJson(json['LastRunTime']),
   );
 }
 
@@ -217,9 +215,7 @@ LicenseConfiguration _$LicenseConfigurationFromJson(Map<String, dynamic> json) {
 LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationAssociation(
-    associationTime: json['AssociationTime'] == null
-        ? null
-        : DateTime.parse(json['AssociationTime'] as String),
+    associationTime: unixTimestampFromJson(json['AssociationTime']),
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
     resourceType:
@@ -230,9 +226,7 @@ LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
 LicenseConfigurationUsage _$LicenseConfigurationUsageFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationUsage(
-    associationTime: json['AssociationTime'] == null
-        ? null
-        : DateTime.parse(json['AssociationTime'] as String),
+    associationTime: unixTimestampFromJson(json['AssociationTime']),
     consumedLicenses: json['ConsumedLicenses'] as int,
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
@@ -246,9 +240,7 @@ LicenseOperationFailure _$LicenseOperationFailureFromJson(
     Map<String, dynamic> json) {
   return LicenseOperationFailure(
     errorMessage: json['ErrorMessage'] as String,
-    failureTime: json['FailureTime'] == null
-        ? null
-        : DateTime.parse(json['FailureTime'] as String),
+    failureTime: unixTimestampFromJson(json['FailureTime']),
     metadataList: (json['MetadataList'] as List)
         ?.map((e) =>
             e == null ? null : Metadata.fromJson(e as Map<String, dynamic>))

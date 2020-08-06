@@ -24,9 +24,7 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
     costTypes: json['CostTypes'] == null
         ? null
         : CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>),
-    lastUpdatedTime: json['LastUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['LastUpdatedTime'] as String),
+    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
     plannedBudgetLimits:
         (json['PlannedBudgetLimits'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
@@ -54,7 +52,8 @@ Map<String, dynamic> _$BudgetToJson(Budget instance) {
   writeNotNull('CalculatedSpend', instance.calculatedSpend?.toJson());
   writeNotNull('CostFilters', instance.costFilters);
   writeNotNull('CostTypes', instance.costTypes?.toJson());
-  writeNotNull('LastUpdatedTime', instance.lastUpdatedTime?.toIso8601String());
+  writeNotNull(
+      'LastUpdatedTime', unixTimestampToJson(instance.lastUpdatedTime));
   writeNotNull('PlannedBudgetLimits',
       instance.plannedBudgetLimits?.map((k, e) => MapEntry(k, e?.toJson())));
   writeNotNull('TimePeriod', instance.timePeriod?.toJson());
@@ -414,9 +413,8 @@ const _$SubscriptionTypeEnumMap = {
 
 TimePeriod _$TimePeriodFromJson(Map<String, dynamic> json) {
   return TimePeriod(
-    end: json['End'] == null ? null : DateTime.parse(json['End'] as String),
-    start:
-        json['Start'] == null ? null : DateTime.parse(json['Start'] as String),
+    end: unixTimestampFromJson(json['End']),
+    start: unixTimestampFromJson(json['Start']),
   );
 }
 
@@ -429,8 +427,8 @@ Map<String, dynamic> _$TimePeriodToJson(TimePeriod instance) {
     }
   }
 
-  writeNotNull('End', instance.end?.toIso8601String());
-  writeNotNull('Start', instance.start?.toIso8601String());
+  writeNotNull('End', unixTimestampToJson(instance.end));
+  writeNotNull('Start', unixTimestampToJson(instance.start));
   return val;
 }
 

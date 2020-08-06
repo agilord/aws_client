@@ -9,12 +9,8 @@ part of 'workmail-2017-10-01.dart';
 AccessControlRule _$AccessControlRuleFromJson(Map<String, dynamic> json) {
   return AccessControlRule(
     actions: (json['Actions'] as List)?.map((e) => e as String)?.toList(),
-    dateCreated: json['DateCreated'] == null
-        ? null
-        : DateTime.parse(json['DateCreated'] as String),
-    dateModified: json['DateModified'] == null
-        ? null
-        : DateTime.parse(json['DateModified'] as String),
+    dateCreated: unixTimestampFromJson(json['DateCreated']),
+    dateModified: unixTimestampFromJson(json['DateModified']),
     description: json['Description'] as String,
     effect:
         _$enumDecodeNullable(_$AccessControlRuleEffectEnumMap, json['Effect']),
@@ -171,13 +167,9 @@ DeregisterFromWorkMailResponse _$DeregisterFromWorkMailResponseFromJson(
 DescribeGroupResponse _$DescribeGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeGroupResponse(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     groupId: json['GroupId'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
@@ -195,9 +187,7 @@ DescribeOrganizationResponse _$DescribeOrganizationResponseFromJson(
   return DescribeOrganizationResponse(
     arn: json['ARN'] as String,
     alias: json['Alias'] as String,
-    completedDate: json['CompletedDate'] == null
-        ? null
-        : DateTime.parse(json['CompletedDate'] as String),
+    completedDate: unixTimestampFromJson(json['CompletedDate']),
     defaultMailDomain: json['DefaultMailDomain'] as String,
     directoryId: json['DirectoryId'] as String,
     directoryType: json['DirectoryType'] as String,
@@ -214,13 +204,9 @@ DescribeResourceResponse _$DescribeResourceResponseFromJson(
         ? null
         : BookingOptions.fromJson(
             json['BookingOptions'] as Map<String, dynamic>),
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     name: json['Name'] as String,
     resourceId: json['ResourceId'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
@@ -235,14 +221,10 @@ const _$ResourceTypeEnumMap = {
 
 DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
   return DescribeUserResponse(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     displayName: json['DisplayName'] as String,
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     userId: json['UserId'] as String,
@@ -287,13 +269,9 @@ GetMailboxDetailsResponse _$GetMailboxDetailsResponseFromJson(
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
@@ -405,12 +383,8 @@ ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
 
 Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
@@ -458,13 +432,9 @@ ResetPasswordResponse _$ResetPasswordResponseFromJson(
 
 Resource _$ResourceFromJson(Map<String, dynamic> json) {
   return Resource(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
@@ -519,14 +489,10 @@ UpdateResourceResponse _$UpdateResourceResponseFromJson(
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-    disabledDate: json['DisabledDate'] == null
-        ? null
-        : DateTime.parse(json['DisabledDate'] as String),
+    disabledDate: unixTimestampFromJson(json['DisabledDate']),
     displayName: json['DisplayName'] as String,
     email: json['Email'] as String,
-    enabledDate: json['EnabledDate'] == null
-        ? null
-        : DateTime.parse(json['EnabledDate'] as String),
+    enabledDate: unixTimestampFromJson(json['EnabledDate']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),

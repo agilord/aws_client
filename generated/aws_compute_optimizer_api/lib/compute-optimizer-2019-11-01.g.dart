@@ -27,9 +27,7 @@ AutoScalingGroupRecommendation _$AutoScalingGroupRecommendationFromJson(
         : AutoScalingGroupConfiguration.fromJson(
             json['currentConfiguration'] as Map<String, dynamic>),
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
-    lastRefreshTimestamp: json['lastRefreshTimestamp'] == null
-        ? null
-        : DateTime.parse(json['lastRefreshTimestamp'] as String),
+    lastRefreshTimestamp: unixTimestampFromJson(json['lastRefreshTimestamp']),
     lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
     recommendationOptions: (json['recommendationOptions'] as List)
         ?.map((e) => e == null
@@ -216,9 +214,7 @@ InstanceRecommendation _$InstanceRecommendationFromJson(
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
     instanceArn: json['instanceArn'] as String,
     instanceName: json['instanceName'] as String,
-    lastRefreshTimestamp: json['lastRefreshTimestamp'] == null
-        ? null
-        : DateTime.parse(json['lastRefreshTimestamp'] as String),
+    lastRefreshTimestamp: unixTimestampFromJson(json['lastRefreshTimestamp']),
     lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
     recommendationOptions: (json['recommendationOptions'] as List)
         ?.map((e) => e == null

@@ -74,9 +74,7 @@ ConfigurationEvent _$ConfigurationEventFromJson(Map<String, dynamic> json) {
         _$ConfigurationEventResourceTypeEnumMap, json['EventResourceType']),
     eventStatus: _$enumDecodeNullable(
         _$ConfigurationEventStatusEnumMap, json['EventStatus']),
-    eventTime: json['EventTime'] == null
-        ? null
-        : DateTime.parse(json['EventTime'] as String),
+    eventTime: unixTimestampFromJson(json['EventTime']),
     monitoredResourceARN: json['MonitoredResourceARN'] as String,
   );
 }
@@ -309,18 +307,14 @@ Observation _$ObservationFromJson(Map<String, dynamic> json) {
     codeDeployInstanceGroupId: json['CodeDeployInstanceGroupId'] as String,
     codeDeployState: json['CodeDeployState'] as String,
     ec2State: json['Ec2State'] as String,
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     healthEventArn: json['HealthEventArn'] as String,
     healthEventDescription: json['HealthEventDescription'] as String,
     healthEventTypeCategory: json['HealthEventTypeCategory'] as String,
     healthEventTypeCode: json['HealthEventTypeCode'] as String,
     healthService: json['HealthService'] as String,
     id: json['Id'] as String,
-    lineTime: json['LineTime'] == null
-        ? null
-        : DateTime.parse(json['LineTime'] as String),
+    lineTime: unixTimestampFromJson(json['LineTime']),
     logFilter: _$enumDecodeNullable(_$LogFilterEnumMap, json['LogFilter']),
     logGroup: json['LogGroup'] as String,
     logText: json['LogText'] as String,
@@ -328,9 +322,7 @@ Observation _$ObservationFromJson(Map<String, dynamic> json) {
     metricNamespace: json['MetricNamespace'] as String,
     sourceARN: json['SourceARN'] as String,
     sourceType: json['SourceType'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     unit: json['Unit'] as String,
     value: (json['Value'] as num)?.toDouble(),
     xRayErrorPercent: json['XRayErrorPercent'] as int,
@@ -358,9 +350,7 @@ const _$LogFilterEnumMap = {
 Problem _$ProblemFromJson(Map<String, dynamic> json) {
   return Problem(
     affectedResource: json['AffectedResource'] as String,
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     feedback: (json['Feedback'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -369,9 +359,7 @@ Problem _$ProblemFromJson(Map<String, dynamic> json) {
     resourceGroupName: json['ResourceGroupName'] as String,
     severityLevel:
         _$enumDecodeNullable(_$SeverityLevelEnumMap, json['SeverityLevel']),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
     title: json['Title'] as String,
   );

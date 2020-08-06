@@ -41,9 +41,7 @@ Alarm _$AlarmFromJson(Map<String, dynamic> json) {
         _$ComparisonOperatorEnumMap, json['comparisonOperator']),
     contactProtocols:
         (json['contactProtocols'] as List)?.map((e) => e as String)?.toList(),
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     datapointsToAlarm: json['datapointsToAlarm'] as int,
     evaluationPeriods: json['evaluationPeriods'] as int,
     location: json['location'] == null
@@ -281,9 +279,7 @@ Map<String, dynamic> _$AutoSnapshotAddOnRequestToJson(
 
 AutoSnapshotDetails _$AutoSnapshotDetailsFromJson(Map<String, dynamic> json) {
   return AutoSnapshotDetails(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     date: json['date'] as String,
     fromAttachedDisks: (json['fromAttachedDisks'] as List)
         ?.map((e) =>
@@ -364,9 +360,7 @@ CloudFormationStackRecord _$CloudFormationStackRecordFromJson(
     Map<String, dynamic> json) {
   return CloudFormationStackRecord(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     destinationInfo: json['destinationInfo'] == null
         ? null
         : DestinationInfo.fromJson(
@@ -412,9 +406,7 @@ ContactMethod _$ContactMethodFromJson(Map<String, dynamic> json) {
   return ContactMethod(
     arn: json['arn'] as String,
     contactEndpoint: json['contactEndpoint'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     location: json['location'] == null
         ? null
         : ResourceLocation.fromJson(json['location'] as Map<String, dynamic>),
@@ -806,9 +798,7 @@ Disk _$DiskFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     attachedTo: json['attachedTo'] as String,
     attachmentState: json['attachmentState'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     gbInUse: json['gbInUse'] as int,
     iops: json['iops'] as int,
     isAttached: json['isAttached'] as bool,
@@ -863,9 +853,7 @@ Map<String, dynamic> _$DiskMapToJson(DiskMap instance) {
 DiskSnapshot _$DiskSnapshotFromJson(Map<String, dynamic> json) {
   return DiskSnapshot(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     fromDiskArn: json['fromDiskArn'] as String,
     fromDiskName: json['fromDiskName'] as String,
     fromInstanceArn: json['fromInstanceArn'] as String,
@@ -903,9 +891,7 @@ DiskSnapshotInfo _$DiskSnapshotInfoFromJson(Map<String, dynamic> json) {
 Domain _$DomainFromJson(Map<String, dynamic> json) {
   return Domain(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     domainEntries: (json['domainEntries'] as List)
         ?.map((e) =>
             e == null ? null : DomainEntry.fromJson(e as Map<String, dynamic>))
@@ -974,9 +960,7 @@ EnableAddOnResult _$EnableAddOnResultFromJson(Map<String, dynamic> json) {
 ExportSnapshotRecord _$ExportSnapshotRecordFromJson(Map<String, dynamic> json) {
   return ExportSnapshotRecord(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     destinationInfo: json['destinationInfo'] == null
         ? null
         : DestinationInfo.fromJson(
@@ -999,9 +983,7 @@ ExportSnapshotRecordSourceInfo _$ExportSnapshotRecordSourceInfoFromJson(
     Map<String, dynamic> json) {
   return ExportSnapshotRecordSourceInfo(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     diskSnapshotInfo: json['diskSnapshotInfo'] == null
         ? null
         : DiskSnapshotInfo.fromJson(
@@ -1447,9 +1429,7 @@ GetRelationalDatabaseMasterUserPasswordResult
     _$GetRelationalDatabaseMasterUserPasswordResultFromJson(
         Map<String, dynamic> json) {
   return GetRelationalDatabaseMasterUserPasswordResult(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     masterUserPassword: json['masterUserPassword'] as String,
   );
 }
@@ -1557,16 +1537,10 @@ HostKeyAttributes _$HostKeyAttributesFromJson(Map<String, dynamic> json) {
     algorithm: json['algorithm'] as String,
     fingerprintSHA1: json['fingerprintSHA1'] as String,
     fingerprintSHA256: json['fingerprintSHA256'] as String,
-    notValidAfter: json['notValidAfter'] == null
-        ? null
-        : DateTime.parse(json['notValidAfter'] as String),
-    notValidBefore: json['notValidBefore'] == null
-        ? null
-        : DateTime.parse(json['notValidBefore'] as String),
+    notValidAfter: unixTimestampFromJson(json['notValidAfter']),
+    notValidBefore: unixTimestampFromJson(json['notValidBefore']),
     publicKey: json['publicKey'] as String,
-    witnessedAt: json['witnessedAt'] == null
-        ? null
-        : DateTime.parse(json['witnessedAt'] as String),
+    witnessedAt: unixTimestampFromJson(json['witnessedAt']),
   );
 }
 
@@ -1588,9 +1562,7 @@ Instance _$InstanceFromJson(Map<String, dynamic> json) {
     blueprintId: json['blueprintId'] as String,
     blueprintName: json['blueprintName'] as String,
     bundleId: json['bundleId'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     hardware: json['hardware'] == null
         ? null
         : InstanceHardware.fromJson(json['hardware'] as Map<String, dynamic>),
@@ -1624,9 +1596,7 @@ InstanceAccessDetails _$InstanceAccessDetailsFromJson(
     Map<String, dynamic> json) {
   return InstanceAccessDetails(
     certKey: json['certKey'] as String,
-    expiresAt: json['expiresAt'] == null
-        ? null
-        : DateTime.parse(json['expiresAt'] as String),
+    expiresAt: unixTimestampFromJson(json['expiresAt']),
     hostKeys: (json['hostKeys'] as List)
         ?.map((e) => e == null
             ? null
@@ -1784,9 +1754,7 @@ const _$PortStateEnumMap = {
 InstanceSnapshot _$InstanceSnapshotFromJson(Map<String, dynamic> json) {
   return InstanceSnapshot(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     fromAttachedDisks: (json['fromAttachedDisks'] as List)
         ?.map(
             (e) => e == null ? null : Disk.fromJson(e as Map<String, dynamic>))
@@ -1845,9 +1813,7 @@ IsVpcPeeredResult _$IsVpcPeeredResultFromJson(Map<String, dynamic> json) {
 KeyPair _$KeyPairFromJson(Map<String, dynamic> json) {
   return KeyPair(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     fingerprint: json['fingerprint'] as String,
     location: json['location'] == null
         ? null
@@ -1869,9 +1835,7 @@ LoadBalancer _$LoadBalancerFromJson(Map<String, dynamic> json) {
         (json['configurationOptions'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     dnsName: json['dnsName'] as String,
     healthCheckPath: json['healthCheckPath'] as String,
     instanceHealthSummary: (json['instanceHealthSummary'] as List)
@@ -1920,9 +1884,7 @@ LoadBalancerTlsCertificate _$LoadBalancerTlsCertificateFromJson(
     Map<String, dynamic> json) {
   return LoadBalancerTlsCertificate(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     domainName: json['domainName'] as String,
     domainValidationRecords: (json['domainValidationRecords'] as List)
         ?.map((e) => e == null
@@ -1934,9 +1896,7 @@ LoadBalancerTlsCertificate _$LoadBalancerTlsCertificateFromJson(
         _$LoadBalancerTlsCertificateFailureReasonEnumMap,
         json['failureReason']),
     isAttached: json['isAttached'] as bool,
-    issuedAt: json['issuedAt'] == null
-        ? null
-        : DateTime.parse(json['issuedAt'] as String),
+    issuedAt: unixTimestampFromJson(json['issuedAt']),
     issuer: json['issuer'] as String,
     keyAlgorithm: json['keyAlgorithm'] as String,
     loadBalancerName: json['loadBalancerName'] as String,
@@ -1944,12 +1904,8 @@ LoadBalancerTlsCertificate _$LoadBalancerTlsCertificateFromJson(
         ? null
         : ResourceLocation.fromJson(json['location'] as Map<String, dynamic>),
     name: json['name'] as String,
-    notAfter: json['notAfter'] == null
-        ? null
-        : DateTime.parse(json['notAfter'] as String),
-    notBefore: json['notBefore'] == null
-        ? null
-        : DateTime.parse(json['notBefore'] as String),
+    notAfter: unixTimestampFromJson(json['notAfter']),
+    notBefore: unixTimestampFromJson(json['notBefore']),
     renewalSummary: json['renewalSummary'] == null
         ? null
         : LoadBalancerTlsCertificateRenewalSummary.fromJson(
@@ -1959,9 +1915,7 @@ LoadBalancerTlsCertificate _$LoadBalancerTlsCertificateFromJson(
     revocationReason: _$enumDecodeNullable(
         _$LoadBalancerTlsCertificateRevocationReasonEnumMap,
         json['revocationReason']),
-    revokedAt: json['revokedAt'] == null
-        ? null
-        : DateTime.parse(json['revokedAt'] as String),
+    revokedAt: unixTimestampFromJson(json['revokedAt']),
     serial: json['serial'] as String,
     signatureAlgorithm: json['signatureAlgorithm'] as String,
     status: _$enumDecodeNullable(
@@ -2084,9 +2038,7 @@ LoadBalancerTlsCertificateSummary _$LoadBalancerTlsCertificateSummaryFromJson(
 
 LogEvent _$LogEventFromJson(Map<String, dynamic> json) {
   return LogEvent(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     message: json['message'] as String,
   );
 }
@@ -2098,9 +2050,7 @@ MetricDatapoint _$MetricDatapointFromJson(Map<String, dynamic> json) {
     minimum: (json['minimum'] as num)?.toDouble(),
     sampleCount: (json['sampleCount'] as num)?.toDouble(),
     sum: (json['sum'] as num)?.toDouble(),
-    timestamp: json['timestamp'] == null
-        ? null
-        : DateTime.parse(json['timestamp'] as String),
+    timestamp: unixTimestampFromJson(json['timestamp']),
     unit: _$enumDecodeNullable(_$MetricUnitEnumMap, json['unit']),
   );
 }
@@ -2132,9 +2082,7 @@ OpenInstancePublicPortsResult _$OpenInstancePublicPortsResultFromJson(
 
 Operation _$OperationFromJson(Map<String, dynamic> json) {
   return Operation(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     errorCode: json['errorCode'] as String,
     errorDetails: json['errorDetails'] as String,
     id: json['id'] as String,
@@ -2149,9 +2097,7 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['status']),
-    statusChangedAt: json['statusChangedAt'] == null
-        ? null
-        : DateTime.parse(json['statusChangedAt'] as String),
+    statusChangedAt: unixTimestampFromJson(json['statusChangedAt']),
   );
 }
 
@@ -2248,9 +2194,7 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
     Map<String, dynamic> json) {
   return PendingMaintenanceAction(
     action: json['action'] as String,
-    currentApplyDate: json['currentApplyDate'] == null
-        ? null
-        : DateTime.parse(json['currentApplyDate'] as String),
+    currentApplyDate: unixTimestampFromJson(json['currentApplyDate']),
     description: json['description'] as String,
   );
 }
@@ -2359,18 +2303,14 @@ RelationalDatabase _$RelationalDatabaseFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     backupRetentionEnabled: json['backupRetentionEnabled'] as bool,
     caCertificateIdentifier: json['caCertificateIdentifier'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     engine: json['engine'] as String,
     engineVersion: json['engineVersion'] as String,
     hardware: json['hardware'] == null
         ? null
         : RelationalDatabaseHardware.fromJson(
             json['hardware'] as Map<String, dynamic>),
-    latestRestorableTime: json['latestRestorableTime'] == null
-        ? null
-        : DateTime.parse(json['latestRestorableTime'] as String),
+    latestRestorableTime: unixTimestampFromJson(json['latestRestorableTime']),
     location: json['location'] == null
         ? null
         : ResourceLocation.fromJson(json['location'] as Map<String, dynamic>),
@@ -2451,9 +2391,7 @@ RelationalDatabaseEndpoint _$RelationalDatabaseEndpointFromJson(
 RelationalDatabaseEvent _$RelationalDatabaseEventFromJson(
     Map<String, dynamic> json) {
   return RelationalDatabaseEvent(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     eventCategories:
         (json['eventCategories'] as List)?.map((e) => e as String)?.toList(),
     message: json['message'] as String,
@@ -2509,9 +2447,7 @@ RelationalDatabaseSnapshot _$RelationalDatabaseSnapshotFromJson(
     Map<String, dynamic> json) {
   return RelationalDatabaseSnapshot(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     engine: json['engine'] as String,
     engineVersion: json['engineVersion'] as String,
     fromRelationalDatabaseArn: json['fromRelationalDatabaseArn'] as String,
@@ -2585,9 +2521,7 @@ StaticIp _$StaticIpFromJson(Map<String, dynamic> json) {
   return StaticIp(
     arn: json['arn'] as String,
     attachedTo: json['attachedTo'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     ipAddress: json['ipAddress'] as String,
     isAttached: json['isAttached'] as bool,
     location: json['location'] == null

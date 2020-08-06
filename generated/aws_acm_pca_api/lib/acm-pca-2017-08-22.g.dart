@@ -61,23 +61,13 @@ CertificateAuthority _$CertificateAuthorityFromJson(Map<String, dynamic> json) {
             : CertificateAuthorityConfiguration.fromJson(
                 json['CertificateAuthorityConfiguration']
                     as Map<String, dynamic>),
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     failureReason:
         _$enumDecodeNullable(_$FailureReasonEnumMap, json['FailureReason']),
-    lastStateChangeAt: json['LastStateChangeAt'] == null
-        ? null
-        : DateTime.parse(json['LastStateChangeAt'] as String),
-    notAfter: json['NotAfter'] == null
-        ? null
-        : DateTime.parse(json['NotAfter'] as String),
-    notBefore: json['NotBefore'] == null
-        ? null
-        : DateTime.parse(json['NotBefore'] as String),
-    restorableUntil: json['RestorableUntil'] == null
-        ? null
-        : DateTime.parse(json['RestorableUntil'] as String),
+    lastStateChangeAt: unixTimestampFromJson(json['LastStateChangeAt']),
+    notAfter: unixTimestampFromJson(json['NotAfter']),
+    notBefore: unixTimestampFromJson(json['NotBefore']),
+    restorableUntil: unixTimestampFromJson(json['RestorableUntil']),
     revocationConfiguration: json['RevocationConfiguration'] == null
         ? null
         : RevocationConfiguration.fromJson(
@@ -235,9 +225,7 @@ DescribeCertificateAuthorityAuditReportResponse
   return DescribeCertificateAuthorityAuditReportResponse(
     auditReportStatus: _$enumDecodeNullable(
         _$AuditReportStatusEnumMap, json['AuditReportStatus']),
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     s3BucketName: json['S3BucketName'] as String,
     s3Key: json['S3Key'] as String,
   );
@@ -326,9 +314,7 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
   return Permission(
     actions: (json['Actions'] as List)?.map((e) => e as String)?.toList(),
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     policy: json['Policy'] as String,
     principal: json['Principal'] as String,
     sourceAccount: json['SourceAccount'] as String,

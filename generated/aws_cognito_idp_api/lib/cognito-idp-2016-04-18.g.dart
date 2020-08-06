@@ -251,12 +251,8 @@ AdminGetUserResponse _$AdminGetUserResponseFromJson(Map<String, dynamic> json) {
             ? null
             : AttributeType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    userCreateDate: json['UserCreateDate'] == null
-        ? null
-        : DateTime.parse(json['UserCreateDate'] as String),
-    userLastModifiedDate: json['UserLastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['UserLastModifiedDate'] as String),
+    userCreateDate: unixTimestampFromJson(json['UserCreateDate']),
+    userLastModifiedDate: unixTimestampFromJson(json['UserLastModifiedDate']),
     userMFASettingList:
         (json['UserMFASettingList'] as List)?.map((e) => e as String)?.toList(),
     userStatus:
@@ -477,9 +473,7 @@ AuthEventType _$AuthEventTypeFromJson(Map<String, dynamic> json) {
             ? null
             : ChallengeResponseType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     eventContextData: json['EventContextData'] == null
         ? null
         : EventContextDataType.fromJson(
@@ -867,16 +861,12 @@ DeviceType _$DeviceTypeFromJson(Map<String, dynamic> json) {
             ? null
             : AttributeType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    deviceCreateDate: json['DeviceCreateDate'] == null
-        ? null
-        : DateTime.parse(json['DeviceCreateDate'] as String),
+    deviceCreateDate: unixTimestampFromJson(json['DeviceCreateDate']),
     deviceKey: json['DeviceKey'] as String,
-    deviceLastAuthenticatedDate: json['DeviceLastAuthenticatedDate'] == null
-        ? null
-        : DateTime.parse(json['DeviceLastAuthenticatedDate'] as String),
-    deviceLastModifiedDate: json['DeviceLastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['DeviceLastModifiedDate'] as String),
+    deviceLastAuthenticatedDate:
+        unixTimestampFromJson(json['DeviceLastAuthenticatedDate']),
+    deviceLastModifiedDate:
+        unixTimestampFromJson(json['DeviceLastModifiedDate']),
   );
 }
 
@@ -956,9 +946,7 @@ EventFeedbackType _$EventFeedbackTypeFromJson(Map<String, dynamic> json) {
     feedbackValue:
         _$enumDecodeNullable(_$FeedbackValueTypeEnumMap, json['FeedbackValue']),
     provider: json['Provider'] as String,
-    feedbackDate: json['FeedbackDate'] == null
-        ? null
-        : DateTime.parse(json['FeedbackDate'] as String),
+    feedbackDate: unixTimestampFromJson(json['FeedbackDate']),
   );
 }
 
@@ -1109,14 +1097,10 @@ GlobalSignOutResponse _$GlobalSignOutResponseFromJson(
 
 GroupType _$GroupTypeFromJson(Map<String, dynamic> json) {
   return GroupType(
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     description: json['Description'] as String,
     groupName: json['GroupName'] as String,
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     precedence: json['Precedence'] as int,
     roleArn: json['RoleArn'] as String,
     userPoolId: json['UserPoolId'] as String,
@@ -1142,14 +1126,10 @@ IdentityProviderType _$IdentityProviderTypeFromJson(Map<String, dynamic> json) {
     attributeMapping: (json['AttributeMapping'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     idpIdentifiers:
         (json['IdpIdentifiers'] as List)?.map((e) => e as String)?.toList(),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     providerDetails: (json['ProviderDetails'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -1503,12 +1483,8 @@ Map<String, dynamic> _$PasswordPolicyTypeToJson(PasswordPolicyType instance) {
 
 ProviderDescription _$ProviderDescriptionFromJson(Map<String, dynamic> json) {
   return ProviderDescription(
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     providerName: json['ProviderName'] as String,
     providerType: _$enumDecodeNullable(
         _$IdentityProviderTypeTypeEnumMap, json['ProviderType']),
@@ -1637,9 +1613,7 @@ RiskConfigurationType _$RiskConfigurationTypeFromJson(
             : CompromisedCredentialsRiskConfigurationType.fromJson(
                 json['CompromisedCredentialsRiskConfiguration']
                     as Map<String, dynamic>),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     riskExceptionConfiguration: json['RiskExceptionConfiguration'] == null
         ? null
         : RiskExceptionConfigurationType.fromJson(
@@ -1926,13 +1900,9 @@ UICustomizationType _$UICustomizationTypeFromJson(Map<String, dynamic> json) {
     css: json['CSS'] as String,
     cSSVersion: json['CSSVersion'] as String,
     clientId: json['ClientId'] as String,
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     imageUrl: json['ImageUrl'] as String,
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     userPoolId: json['UserPoolId'] as String,
   );
 }
@@ -2029,22 +1999,16 @@ Map<String, dynamic> _$UserContextDataTypeToJson(UserContextDataType instance) {
 UserImportJobType _$UserImportJobTypeFromJson(Map<String, dynamic> json) {
   return UserImportJobType(
     cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String,
-    completionDate: json['CompletionDate'] == null
-        ? null
-        : DateTime.parse(json['CompletionDate'] as String),
+    completionDate: unixTimestampFromJson(json['CompletionDate']),
     completionMessage: json['CompletionMessage'] as String,
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     failedUsers: json['FailedUsers'] as int,
     importedUsers: json['ImportedUsers'] as int,
     jobId: json['JobId'] as String,
     jobName: json['JobName'] as String,
     preSignedUrl: json['PreSignedUrl'] as String,
     skippedUsers: json['SkippedUsers'] as int,
-    startDate: json['StartDate'] == null
-        ? null
-        : DateTime.parse(json['StartDate'] as String),
+    startDate: unixTimestampFromJson(json['StartDate']),
     status:
         _$enumDecodeNullable(_$UserImportJobStatusTypeEnumMap, json['Status']),
     userPoolId: json['UserPoolId'] as String,
@@ -2115,15 +2079,11 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
     clientId: json['ClientId'] as String,
     clientName: json['ClientName'] as String,
     clientSecret: json['ClientSecret'] as String,
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     defaultRedirectURI: json['DefaultRedirectURI'] as String,
     explicitAuthFlows:
         (json['ExplicitAuthFlows'] as List)?.map((e) => e as String)?.toList(),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     logoutURLs: (json['LogoutURLs'] as List)?.map((e) => e as String)?.toList(),
     preventUserExistenceErrors: _$enumDecodeNullable(
         _$PreventUserExistenceErrorTypesEnumMap,
@@ -2148,17 +2108,13 @@ const _$PreventUserExistenceErrorTypesEnumMap = {
 UserPoolDescriptionType _$UserPoolDescriptionTypeFromJson(
     Map<String, dynamic> json) {
   return UserPoolDescriptionType(
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     id: json['Id'] as String,
     lambdaConfig: json['LambdaConfig'] == null
         ? null
         : LambdaConfigType.fromJson(
             json['LambdaConfig'] as Map<String, dynamic>),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$StatusTypeEnumMap, json['Status']),
   );
@@ -2207,9 +2163,7 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
     autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List)
         ?.map((e) => e as String)
         ?.toList(),
-    creationDate: json['CreationDate'] == null
-        ? null
-        : DateTime.parse(json['CreationDate'] as String),
+    creationDate: unixTimestampFromJson(json['CreationDate']),
     customDomain: json['CustomDomain'] as String,
     deviceConfiguration: json['DeviceConfiguration'] == null
         ? null
@@ -2229,9 +2183,7 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
         ? null
         : LambdaConfigType.fromJson(
             json['LambdaConfig'] as Map<String, dynamic>),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     mfaConfiguration: _$enumDecodeNullable(
         _$UserPoolMfaTypeEnumMap, json['MfaConfiguration']),
     name: json['Name'] as String,
@@ -2284,12 +2236,8 @@ UserType _$UserTypeFromJson(Map<String, dynamic> json) {
             ? null
             : MFAOptionType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    userCreateDate: json['UserCreateDate'] == null
-        ? null
-        : DateTime.parse(json['UserCreateDate'] as String),
-    userLastModifiedDate: json['UserLastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['UserLastModifiedDate'] as String),
+    userCreateDate: unixTimestampFromJson(json['UserCreateDate']),
+    userLastModifiedDate: unixTimestampFromJson(json['UserLastModifiedDate']),
     userStatus:
         _$enumDecodeNullable(_$UserStatusTypeEnumMap, json['UserStatus']),
     username: json['Username'] as String,

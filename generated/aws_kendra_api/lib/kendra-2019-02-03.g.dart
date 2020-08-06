@@ -188,7 +188,7 @@ Map<String, dynamic> _$ClickFeedbackToJson(ClickFeedback instance) {
     }
   }
 
-  writeNotNull('ClickTime', instance.clickTime?.toIso8601String());
+  writeNotNull('ClickTime', unixTimestampToJson(instance.clickTime));
   writeNotNull('ResultId', instance.resultId);
   return val;
 }
@@ -313,16 +313,12 @@ Map<String, dynamic> _$DataSourceConfigurationToJson(
 
 DataSourceSummary _$DataSourceSummaryFromJson(Map<String, dynamic> json) {
   return DataSourceSummary(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['Type']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -343,15 +339,11 @@ const _$DataSourceTypeEnumMap = {
 DataSourceSyncJob _$DataSourceSyncJobFromJson(Map<String, dynamic> json) {
   return DataSourceSyncJob(
     dataSourceErrorCode: json['DataSourceErrorCode'] as String,
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
     errorMessage: json['ErrorMessage'] as String,
     executionId: json['ExecutionId'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status:
         _$enumDecodeNullable(_$DataSourceSyncJobStatusEnumMap, json['Status']),
   );
@@ -473,9 +465,7 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
         ? null
         : DataSourceConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     errorMessage: json['ErrorMessage'] as String,
     id: json['Id'] as String,
@@ -485,17 +475,13 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
     schedule: json['Schedule'] as String,
     status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['Type']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
 }
 
 DescribeFaqResponse _$DescribeFaqResponseFromJson(Map<String, dynamic> json) {
   return DescribeFaqResponse(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     errorMessage: json['ErrorMessage'] as String,
     id: json['Id'] as String,
@@ -506,9 +492,7 @@ DescribeFaqResponse _$DescribeFaqResponseFromJson(Map<String, dynamic> json) {
         ? null
         : S3Path.fromJson(json['S3Path'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$FaqStatusEnumMap, json['Status']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -523,9 +507,7 @@ const _$FaqStatusEnumMap = {
 DescribeIndexResponse _$DescribeIndexResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeIndexResponse(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     documentMetadataConfigurations: (json['DocumentMetadataConfigurations']
             as List)
@@ -548,9 +530,7 @@ DescribeIndexResponse _$DescribeIndexResponseFromJson(
                 json['ServerSideEncryptionConfiguration']
                     as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$IndexStatusEnumMap, json['Status']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -618,9 +598,7 @@ Map<String, dynamic> _$DocumentAttributeToJson(DocumentAttribute instance) {
 DocumentAttributeValue _$DocumentAttributeValueFromJson(
     Map<String, dynamic> json) {
   return DocumentAttributeValue(
-    dateValue: json['DateValue'] == null
-        ? null
-        : DateTime.parse(json['DateValue'] as String),
+    dateValue: unixTimestampFromJson(json['DateValue']),
     longValue: json['LongValue'] as int,
     stringListValue:
         (json['StringListValue'] as List)?.map((e) => e as String)?.toList(),
@@ -638,7 +616,7 @@ Map<String, dynamic> _$DocumentAttributeValueToJson(
     }
   }
 
-  writeNotNull('DateValue', instance.dateValue?.toIso8601String());
+  writeNotNull('DateValue', unixTimestampToJson(instance.dateValue));
   writeNotNull('LongValue', instance.longValue);
   writeNotNull('StringListValue', instance.stringListValue);
   writeNotNull('StringValue', instance.stringValue);
@@ -750,15 +728,11 @@ FaqStatistics _$FaqStatisticsFromJson(Map<String, dynamic> json) {
 
 FaqSummary _$FaqSummaryFromJson(Map<String, dynamic> json) {
   return FaqSummary(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     id: json['Id'] as String,
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$FaqStatusEnumMap, json['Status']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -773,13 +747,9 @@ Highlight _$HighlightFromJson(Map<String, dynamic> json) {
 IndexConfigurationSummary _$IndexConfigurationSummaryFromJson(
     Map<String, dynamic> json) {
   return IndexConfigurationSummary(
-    createdAt: json['CreatedAt'] == null
-        ? null
-        : DateTime.parse(json['CreatedAt'] as String),
+    createdAt: unixTimestampFromJson(json['CreatedAt']),
     status: _$enumDecodeNullable(_$IndexStatusEnumMap, json['Status']),
-    updatedAt: json['UpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['UpdatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['UpdatedAt']),
     id: json['Id'] as String,
     name: json['Name'] as String,
   );
@@ -1166,7 +1136,7 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
     }
   }
 
-  writeNotNull('EndTime', instance.endTime?.toIso8601String());
-  writeNotNull('StartTime', instance.startTime?.toIso8601String());
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
   return val;
 }

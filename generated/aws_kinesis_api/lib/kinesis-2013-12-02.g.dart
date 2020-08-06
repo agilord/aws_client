@@ -9,9 +9,8 @@ part of 'kinesis-2013-12-02.dart';
 Consumer _$ConsumerFromJson(Map<String, dynamic> json) {
   return Consumer(
     consumerARN: json['ConsumerARN'] as String,
-    consumerCreationTimestamp: json['ConsumerCreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['ConsumerCreationTimestamp'] as String),
+    consumerCreationTimestamp:
+        unixTimestampFromJson(json['ConsumerCreationTimestamp']),
     consumerName: json['ConsumerName'] as String,
     consumerStatus:
         _$enumDecodeNullable(_$ConsumerStatusEnumMap, json['ConsumerStatus']),
@@ -59,9 +58,8 @@ const _$ConsumerStatusEnumMap = {
 ConsumerDescription _$ConsumerDescriptionFromJson(Map<String, dynamic> json) {
   return ConsumerDescription(
     consumerARN: json['ConsumerARN'] as String,
-    consumerCreationTimestamp: json['ConsumerCreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['ConsumerCreationTimestamp'] as String),
+    consumerCreationTimestamp:
+        unixTimestampFromJson(json['ConsumerCreationTimestamp']),
     consumerName: json['ConsumerName'] as String,
     consumerStatus:
         _$enumDecodeNullable(_$ConsumerStatusEnumMap, json['ConsumerStatus']),
@@ -329,9 +327,8 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
     data: const Uint8ListConverter().fromJson(json['Data'] as String),
     partitionKey: json['PartitionKey'] as String,
     sequenceNumber: json['SequenceNumber'] as String,
-    approximateArrivalTimestamp: json['ApproximateArrivalTimestamp'] == null
-        ? null
-        : DateTime.parse(json['ApproximateArrivalTimestamp'] as String),
+    approximateArrivalTimestamp:
+        unixTimestampFromJson(json['ApproximateArrivalTimestamp']),
     encryptionType:
         _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['EncryptionType']),
   );
@@ -396,9 +393,8 @@ StreamDescription _$StreamDescriptionFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Shard.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     streamARN: json['StreamARN'] as String,
-    streamCreationTimestamp: json['StreamCreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['StreamCreationTimestamp'] as String),
+    streamCreationTimestamp:
+        unixTimestampFromJson(json['StreamCreationTimestamp']),
     streamName: json['StreamName'] as String,
     streamStatus:
         _$enumDecodeNullable(_$StreamStatusEnumMap, json['StreamStatus']),
@@ -426,9 +422,8 @@ StreamDescriptionSummary _$StreamDescriptionSummaryFromJson(
     openShardCount: json['OpenShardCount'] as int,
     retentionPeriodHours: json['RetentionPeriodHours'] as int,
     streamARN: json['StreamARN'] as String,
-    streamCreationTimestamp: json['StreamCreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['StreamCreationTimestamp'] as String),
+    streamCreationTimestamp:
+        unixTimestampFromJson(json['StreamCreationTimestamp']),
     streamName: json['StreamName'] as String,
     streamStatus:
         _$enumDecodeNullable(_$StreamStatusEnumMap, json['StreamStatus']),

@@ -12,15 +12,9 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
     backupState:
         _$enumDecodeNullable(_$BackupStateEnumMap, json['BackupState']),
     clusterId: json['ClusterId'] as String,
-    copyTimestamp: json['CopyTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CopyTimestamp'] as String),
-    createTimestamp: json['CreateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreateTimestamp'] as String),
-    deleteTimestamp: json['DeleteTimestamp'] == null
-        ? null
-        : DateTime.parse(json['DeleteTimestamp'] as String),
+    copyTimestamp: unixTimestampFromJson(json['CopyTimestamp']),
+    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
+    deleteTimestamp: unixTimestampFromJson(json['DeleteTimestamp']),
     sourceBackup: json['SourceBackup'] as String,
     sourceCluster: json['SourceCluster'] as String,
     sourceRegion: json['SourceRegion'] as String,
@@ -88,9 +82,7 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
         ? null
         : Certificates.fromJson(json['Certificates'] as Map<String, dynamic>),
     clusterId: json['ClusterId'] as String,
-    createTimestamp: json['CreateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreateTimestamp'] as String),
+    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
     hsmType: json['HsmType'] as String,
     hsms: (json['Hsms'] as List)
         ?.map((e) => e == null ? null : Hsm.fromJson(e as Map<String, dynamic>))
@@ -200,9 +192,7 @@ DescribeClustersResponse _$DescribeClustersResponseFromJson(
 
 DestinationBackup _$DestinationBackupFromJson(Map<String, dynamic> json) {
   return DestinationBackup(
-    createTimestamp: json['CreateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreateTimestamp'] as String),
+    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
     sourceBackup: json['SourceBackup'] as String,
     sourceCluster: json['SourceCluster'] as String,
     sourceRegion: json['SourceRegion'] as String,

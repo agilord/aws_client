@@ -13,9 +13,7 @@ AffectedEntity _$AffectedEntityFromJson(Map<String, dynamic> json) {
     entityUrl: json['entityUrl'] as String,
     entityValue: json['entityValue'] as String,
     eventArn: json['eventArn'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedTime'] as String),
+    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
     statusCode:
         _$enumDecodeNullable(_$EntityStatusCodeEnumMap, json['statusCode']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -71,8 +69,8 @@ Map<String, dynamic> _$DateTimeRangeToJson(DateTimeRange instance) {
     }
   }
 
-  writeNotNull('from', instance.from?.toIso8601String());
-  writeNotNull('to', instance.to?.toIso8601String());
+  writeNotNull('from', unixTimestampToJson(instance.from));
+  writeNotNull('to', unixTimestampToJson(instance.to));
   return val;
 }
 
@@ -246,20 +244,14 @@ Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     arn: json['arn'] as String,
     availabilityZone: json['availabilityZone'] as String,
-    endTime: json['endTime'] == null
-        ? null
-        : DateTime.parse(json['endTime'] as String),
+    endTime: unixTimestampFromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedTime'] as String),
+    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: json['startTime'] == null
-        ? null
-        : DateTime.parse(json['startTime'] as String),
+    startTime: unixTimestampFromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );
@@ -394,20 +386,14 @@ OrganizationAffectedEntitiesErrorItem
 OrganizationEvent _$OrganizationEventFromJson(Map<String, dynamic> json) {
   return OrganizationEvent(
     arn: json['arn'] as String,
-    endTime: json['endTime'] == null
-        ? null
-        : DateTime.parse(json['endTime'] as String),
+    endTime: unixTimestampFromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedTime'] as String),
+    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: json['startTime'] == null
-        ? null
-        : DateTime.parse(json['startTime'] as String),
+    startTime: unixTimestampFromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );
