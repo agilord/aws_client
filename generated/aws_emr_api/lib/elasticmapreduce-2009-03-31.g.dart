@@ -201,9 +201,7 @@ BlockPublicAccessConfigurationMetadata
         Map<String, dynamic> json) {
   return BlockPublicAccessConfigurationMetadata(
     createdByArn: json['CreatedByArn'] as String,
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
   );
 }
 
@@ -483,15 +481,9 @@ ClusterSummary _$ClusterSummaryFromJson(Map<String, dynamic> json) {
 
 ClusterTimeline _$ClusterTimelineFromJson(Map<String, dynamic> json) {
   return ClusterTimeline(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
   );
 }
 
@@ -536,9 +528,7 @@ Map<String, dynamic> _$ConfigurationToJson(Configuration instance) {
 CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSecurityConfigurationOutput(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     name: json['Name'] as String,
   );
 }
@@ -571,9 +561,7 @@ DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
 DescribeSecurityConfigurationOutput
     _$DescribeSecurityConfigurationOutputFromJson(Map<String, dynamic> json) {
   return DescribeSecurityConfigurationOutput(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     name: json['Name'] as String,
     securityConfiguration: json['SecurityConfiguration'] as String,
   );
@@ -892,15 +880,9 @@ const _$InstanceFleetStateEnumMap = {
 InstanceFleetTimeline _$InstanceFleetTimelineFromJson(
     Map<String, dynamic> json) {
   return InstanceFleetTimeline(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
   );
 }
 
@@ -985,9 +967,7 @@ const _$InstanceRoleTypeEnumMap = {
 
 InstanceGroupDetail _$InstanceGroupDetailFromJson(Map<String, dynamic> json) {
   return InstanceGroupDetail(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     instanceRequestCount: json['InstanceRequestCount'] as int,
     instanceRole:
         _$enumDecodeNullable(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
@@ -996,18 +976,12 @@ InstanceGroupDetail _$InstanceGroupDetailFromJson(Map<String, dynamic> json) {
     market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
     state: _$enumDecodeNullable(_$InstanceGroupStateEnumMap, json['State']),
     bidPrice: json['BidPrice'] as String,
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
     instanceGroupId: json['InstanceGroupId'] as String,
     lastStateChangeReason: json['LastStateChangeReason'] as String,
     name: json['Name'] as String,
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
-    startDateTime: json['StartDateTime'] == null
-        ? null
-        : DateTime.parse(json['StartDateTime'] as String),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
+    startDateTime: unixTimestampFromJson(json['StartDateTime']),
   );
 }
 
@@ -1077,15 +1051,9 @@ InstanceGroupStatus _$InstanceGroupStatusFromJson(Map<String, dynamic> json) {
 InstanceGroupTimeline _$InstanceGroupTimelineFromJson(
     Map<String, dynamic> json) {
   return InstanceGroupTimeline(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
   );
 }
 
@@ -1157,15 +1125,9 @@ const _$InstanceStateEnumMap = {
 
 InstanceTimeline _$InstanceTimelineFromJson(Map<String, dynamic> json) {
   return InstanceTimeline(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
   );
 }
 
@@ -1248,20 +1210,12 @@ JobFlowDetail _$JobFlowDetailFromJson(Map<String, dynamic> json) {
 JobFlowExecutionStatusDetail _$JobFlowExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return JobFlowExecutionStatusDetail(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     state: _$enumDecodeNullable(_$JobFlowExecutionStateEnumMap, json['State']),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
     lastStateChangeReason: json['LastStateChangeReason'] as String,
-    readyDateTime: json['ReadyDateTime'] == null
-        ? null
-        : DateTime.parse(json['ReadyDateTime'] as String),
-    startDateTime: json['StartDateTime'] == null
-        ? null
-        : DateTime.parse(json['StartDateTime'] as String),
+    readyDateTime: unixTimestampFromJson(json['ReadyDateTime']),
+    startDateTime: unixTimestampFromJson(json['StartDateTime']),
   );
 }
 
@@ -1698,9 +1652,7 @@ Map<String, dynamic> _$ScriptBootstrapActionConfigToJson(
 SecurityConfigurationSummary _$SecurityConfigurationSummaryFromJson(
     Map<String, dynamic> json) {
   return SecurityConfigurationSummary(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     name: json['Name'] as String,
   );
 }
@@ -1859,17 +1811,11 @@ StepDetail _$StepDetailFromJson(Map<String, dynamic> json) {
 StepExecutionStatusDetail _$StepExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return StepExecutionStatusDetail(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     state: _$enumDecodeNullable(_$StepExecutionStateEnumMap, json['State']),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
     lastStateChangeReason: json['LastStateChangeReason'] as String,
-    startDateTime: json['StartDateTime'] == null
-        ? null
-        : DateTime.parse(json['StartDateTime'] as String),
+    startDateTime: unixTimestampFromJson(json['StartDateTime']),
   );
 }
 
@@ -1940,15 +1886,9 @@ StepSummary _$StepSummaryFromJson(Map<String, dynamic> json) {
 
 StepTimeline _$StepTimelineFromJson(Map<String, dynamic> json) {
   return StepTimeline(
-    creationDateTime: json['CreationDateTime'] == null
-        ? null
-        : DateTime.parse(json['CreationDateTime'] as String),
-    endDateTime: json['EndDateTime'] == null
-        ? null
-        : DateTime.parse(json['EndDateTime'] as String),
-    startDateTime: json['StartDateTime'] == null
-        ? null
-        : DateTime.parse(json['StartDateTime'] as String),
+    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    endDateTime: unixTimestampFromJson(json['EndDateTime']),
+    startDateTime: unixTimestampFromJson(json['StartDateTime']),
   );
 }
 

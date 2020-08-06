@@ -9,9 +9,7 @@ part of 'globalaccelerator-2018-08-08.dart';
 Accelerator _$AcceleratorFromJson(Map<String, dynamic> json) {
   return Accelerator(
     acceleratorArn: json['AcceleratorArn'] as String,
-    createdTime: json['CreatedTime'] == null
-        ? null
-        : DateTime.parse(json['CreatedTime'] as String),
+    createdTime: unixTimestampFromJson(json['CreatedTime']),
     dnsName: json['DnsName'] as String,
     enabled: json['Enabled'] as bool,
     ipAddressType:
@@ -20,9 +18,7 @@ Accelerator _$AcceleratorFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : IpSet.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastModifiedTime: json['LastModifiedTime'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedTime'] as String),
+    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$AcceleratorStatusEnumMap, json['Status']),
   );
@@ -116,9 +112,7 @@ const _$ByoipCidrStateEnumMap = {
 ByoipCidrEvent _$ByoipCidrEventFromJson(Map<String, dynamic> json) {
   return ByoipCidrEvent(
     message: json['Message'] as String,
-    timestamp: json['Timestamp'] == null
-        ? null
-        : DateTime.parse(json['Timestamp'] as String),
+    timestamp: unixTimestampFromJson(json['Timestamp']),
   );
 }
 

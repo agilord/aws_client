@@ -78,9 +78,7 @@ const _$LocaleEnumMap = {
 
 BusinessReport _$BusinessReportFromJson(Map<String, dynamic> json) {
   return BusinessReport(
-    deliveryTime: json['DeliveryTime'] == null
-        ? null
-        : DateTime.parse(json['DeliveryTime'] as String),
+    deliveryTime: unixTimestampFromJson(json['DeliveryTime']),
     downloadUrl: json['DownloadUrl'] as String,
     failureCode: _$enumDecodeNullable(
         _$BusinessReportFailureCodeEnumMap, json['FailureCode']),
@@ -584,9 +582,7 @@ const _$DeviceStatusEnumMap = {
 
 DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
   return DeviceData(
-    createdTime: json['CreatedTime'] == null
-        ? null
-        : DateTime.parse(json['CreatedTime'] as String),
+    createdTime: unixTimestampFromJson(json['CreatedTime']),
     deviceArn: json['DeviceArn'] as String,
     deviceName: json['DeviceName'] as String,
     deviceSerialNumber: json['DeviceSerialNumber'] as String,
@@ -608,9 +604,7 @@ DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
 
 DeviceEvent _$DeviceEventFromJson(Map<String, dynamic> json) {
   return DeviceEvent(
-    timestamp: json['Timestamp'] == null
-        ? null
-        : DateTime.parse(json['Timestamp'] as String),
+    timestamp: unixTimestampFromJson(json['Timestamp']),
     type: _$enumDecodeNullable(_$DeviceEventTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
@@ -625,9 +619,8 @@ DeviceNetworkProfileInfo _$DeviceNetworkProfileInfoFromJson(
     Map<String, dynamic> json) {
   return DeviceNetworkProfileInfo(
     certificateArn: json['CertificateArn'] as String,
-    certificateExpirationTime: json['CertificateExpirationTime'] == null
-        ? null
-        : DateTime.parse(json['CertificateExpirationTime'] as String),
+    certificateExpirationTime:
+        unixTimestampFromJson(json['CertificateExpirationTime']),
     networkProfileArn: json['NetworkProfileArn'] as String,
   );
 }
@@ -675,9 +668,8 @@ DeviceStatusInfo _$DeviceStatusInfoFromJson(Map<String, dynamic> json) {
   return DeviceStatusInfo(
     connectionStatus: _$enumDecodeNullable(
         _$ConnectionStatusEnumMap, json['ConnectionStatus']),
-    connectionStatusUpdatedTime: json['ConnectionStatusUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['ConnectionStatusUpdatedTime'] as String),
+    connectionStatusUpdatedTime:
+        unixTimestampFromJson(json['ConnectionStatusUpdatedTime']),
     deviceStatusDetails: (json['DeviceStatusDetails'] as List)
         ?.map((e) => e == null
             ? null

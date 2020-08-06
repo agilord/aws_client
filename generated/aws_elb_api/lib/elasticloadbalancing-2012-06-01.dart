@@ -12,12 +12,12 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822fromJson,
-        rfc822toJson,
-        iso8601fromJson,
-        iso8601toJson,
-        unixFromJson,
-        unixToJson;
+        rfc822FromJson,
+        rfc822ToJson,
+        iso8601FromJson,
+        iso8601ToJson,
+        unixTimestampFromJson,
+        unixTimestampToJson;
 
 import 'elasticloadbalancing-2012-06-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;

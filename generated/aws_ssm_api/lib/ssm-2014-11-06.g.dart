@@ -16,14 +16,10 @@ AccountSharingInfo _$AccountSharingInfoFromJson(Map<String, dynamic> json) {
 Activation _$ActivationFromJson(Map<String, dynamic> json) {
   return Activation(
     activationId: json['ActivationId'] as String,
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     defaultInstanceName: json['DefaultInstanceName'] as String,
     description: json['Description'] as String,
-    expirationDate: json['ExpirationDate'] == null
-        ? null
-        : DateTime.parse(json['ExpirationDate'] as String),
+    expirationDate: unixTimestampFromJson(json['ExpirationDate']),
     expired: json['Expired'] as bool,
     iamRole: json['IamRole'] as String,
     registrationLimit: json['RegistrationLimit'] as int,
@@ -46,9 +42,7 @@ Association _$AssociationFromJson(Map<String, dynamic> json) {
     associationVersion: json['AssociationVersion'] as String,
     documentVersion: json['DocumentVersion'] as String,
     instanceId: json['InstanceId'] as String,
-    lastExecutionDate: json['LastExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastExecutionDate'] as String),
+    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
     name: json['Name'] as String,
     overview: json['Overview'] == null
         ? null
@@ -72,18 +66,14 @@ AssociationDescription _$AssociationDescriptionFromJson(
         json['AutomationTargetParameterName'] as String,
     complianceSeverity: _$enumDecodeNullable(
         _$AssociationComplianceSeverityEnumMap, json['ComplianceSeverity']),
-    date: json['Date'] == null ? null : DateTime.parse(json['Date'] as String),
+    date: unixTimestampFromJson(json['Date']),
     documentVersion: json['DocumentVersion'] as String,
     instanceId: json['InstanceId'] as String,
-    lastExecutionDate: json['LastExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastExecutionDate'] as String),
-    lastSuccessfulExecutionDate: json['LastSuccessfulExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastSuccessfulExecutionDate'] as String),
-    lastUpdateAssociationDate: json['LastUpdateAssociationDate'] == null
-        ? null
-        : DateTime.parse(json['LastUpdateAssociationDate'] as String),
+    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
+    lastSuccessfulExecutionDate:
+        unixTimestampFromJson(json['LastSuccessfulExecutionDate']),
+    lastUpdateAssociationDate:
+        unixTimestampFromJson(json['LastUpdateAssociationDate']),
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
     name: json['Name'] as String,
@@ -153,14 +143,10 @@ AssociationExecution _$AssociationExecutionFromJson(Map<String, dynamic> json) {
   return AssociationExecution(
     associationId: json['AssociationId'] as String,
     associationVersion: json['AssociationVersion'] as String,
-    createdTime: json['CreatedTime'] == null
-        ? null
-        : DateTime.parse(json['CreatedTime'] as String),
+    createdTime: unixTimestampFromJson(json['CreatedTime']),
     detailedStatus: json['DetailedStatus'] as String,
     executionId: json['ExecutionId'] as String,
-    lastExecutionDate: json['LastExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastExecutionDate'] as String),
+    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
     resourceCountByStatus: json['ResourceCountByStatus'] as String,
     status: json['Status'] as String,
   );
@@ -201,9 +187,7 @@ AssociationExecutionTarget _$AssociationExecutionTargetFromJson(
     associationVersion: json['AssociationVersion'] as String,
     detailedStatus: json['DetailedStatus'] as String,
     executionId: json['ExecutionId'] as String,
-    lastExecutionDate: json['LastExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastExecutionDate'] as String),
+    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
     outputSource: json['OutputSource'] == null
         ? null
         : OutputSource.fromJson(json['OutputSource'] as Map<String, dynamic>),
@@ -272,7 +256,7 @@ AssociationOverview _$AssociationOverviewFromJson(Map<String, dynamic> json) {
 
 AssociationStatus _$AssociationStatusFromJson(Map<String, dynamic> json) {
   return AssociationStatus(
-    date: json['Date'] == null ? null : DateTime.parse(json['Date'] as String),
+    date: unixTimestampFromJson(json['Date']),
     message: json['Message'] as String,
     name: _$enumDecodeNullable(_$AssociationStatusNameEnumMap, json['Name']),
     additionalInfo: json['AdditionalInfo'] as String,
@@ -288,7 +272,7 @@ Map<String, dynamic> _$AssociationStatusToJson(AssociationStatus instance) {
     }
   }
 
-  writeNotNull('Date', instance.date?.toIso8601String());
+  writeNotNull('Date', unixTimestampToJson(instance.date));
   writeNotNull('Message', instance.message);
   writeNotNull('Name', _$AssociationStatusNameEnumMap[instance.name]);
   writeNotNull('AdditionalInfo', instance.additionalInfo);
@@ -309,9 +293,7 @@ AssociationVersionInfo _$AssociationVersionInfoFromJson(
     associationVersion: json['AssociationVersion'] as String,
     complianceSeverity: _$enumDecodeNullable(
         _$AssociationComplianceSeverityEnumMap, json['ComplianceSeverity']),
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     documentVersion: json['DocumentVersion'] as String,
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
@@ -384,12 +366,8 @@ AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
     documentName: json['DocumentName'] as String,
     documentVersion: json['DocumentVersion'] as String,
     executedBy: json['ExecutedBy'] as String,
-    executionEndTime: json['ExecutionEndTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionEndTime'] as String),
-    executionStartTime: json['ExecutionStartTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionStartTime'] as String),
+    executionEndTime: unixTimestampFromJson(json['ExecutionEndTime']),
+    executionStartTime: unixTimestampFromJson(json['ExecutionStartTime']),
     failureMessage: json['FailureMessage'] as String,
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
@@ -491,12 +469,8 @@ AutomationExecutionMetadata _$AutomationExecutionMetadataFromJson(
     documentName: json['DocumentName'] as String,
     documentVersion: json['DocumentVersion'] as String,
     executedBy: json['ExecutedBy'] as String,
-    executionEndTime: json['ExecutionEndTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionEndTime'] as String),
-    executionStartTime: json['ExecutionStartTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionStartTime'] as String),
+    executionEndTime: unixTimestampFromJson(json['ExecutionEndTime']),
+    executionStartTime: unixTimestampFromJson(json['ExecutionStartTime']),
     failureMessage: json['FailureMessage'] as String,
     logFile: json['LogFile'] as String,
     maxConcurrency: json['MaxConcurrency'] as String,
@@ -578,9 +552,7 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
     documentName: json['DocumentName'] as String,
     documentVersion: json['DocumentVersion'] as String,
     errorCount: json['ErrorCount'] as int,
-    expiresAfter: json['ExpiresAfter'] == null
-        ? null
-        : DateTime.parse(json['ExpiresAfter'] as String),
+    expiresAfter: unixTimestampFromJson(json['ExpiresAfter']),
     instanceIds:
         (json['InstanceIds'] as List)?.map((e) => e as String)?.toList(),
     maxConcurrency: json['MaxConcurrency'] as String,
@@ -595,9 +567,7 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
     parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
-    requestedDateTime: json['RequestedDateTime'] == null
-        ? null
-        : DateTime.parse(json['RequestedDateTime'] as String),
+    requestedDateTime: unixTimestampFromJson(json['RequestedDateTime']),
     serviceRole: json['ServiceRole'] as String,
     status: _$enumDecodeNullable(_$CommandStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -662,9 +632,7 @@ CommandInvocation _$CommandInvocationFromJson(Map<String, dynamic> json) {
         ? null
         : NotificationConfig.fromJson(
             json['NotificationConfig'] as Map<String, dynamic>),
-    requestedDateTime: json['RequestedDateTime'] == null
-        ? null
-        : DateTime.parse(json['RequestedDateTime'] as String),
+    requestedDateTime: unixTimestampFromJson(json['RequestedDateTime']),
     serviceRole: json['ServiceRole'] as String,
     standardErrorUrl: json['StandardErrorUrl'] as String,
     standardOutputUrl: json['StandardOutputUrl'] as String,
@@ -694,12 +662,9 @@ CommandPlugin _$CommandPluginFromJson(Map<String, dynamic> json) {
     outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String,
     outputS3Region: json['OutputS3Region'] as String,
     responseCode: json['ResponseCode'] as int,
-    responseFinishDateTime: json['ResponseFinishDateTime'] == null
-        ? null
-        : DateTime.parse(json['ResponseFinishDateTime'] as String),
-    responseStartDateTime: json['ResponseStartDateTime'] == null
-        ? null
-        : DateTime.parse(json['ResponseStartDateTime'] as String),
+    responseFinishDateTime:
+        unixTimestampFromJson(json['ResponseFinishDateTime']),
+    responseStartDateTime: unixTimestampFromJson(json['ResponseStartDateTime']),
     standardErrorUrl: json['StandardErrorUrl'] as String,
     standardOutputUrl: json['StandardOutputUrl'] as String,
     status: _$enumDecodeNullable(_$CommandPluginStatusEnumMap, json['Status']),
@@ -719,9 +684,7 @@ const _$CommandPluginStatusEnumMap = {
 ComplianceExecutionSummary _$ComplianceExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return ComplianceExecutionSummary(
-    executionTime: json['ExecutionTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionTime'] as String),
+    executionTime: unixTimestampFromJson(json['ExecutionTime']),
     executionId: json['ExecutionId'] as String,
     executionType: json['ExecutionType'] as String,
   );
@@ -737,7 +700,7 @@ Map<String, dynamic> _$ComplianceExecutionSummaryToJson(
     }
   }
 
-  writeNotNull('ExecutionTime', instance.executionTime?.toIso8601String());
+  writeNotNull('ExecutionTime', unixTimestampToJson(instance.executionTime));
   writeNotNull('ExecutionId', instance.executionId);
   writeNotNull('ExecutionType', instance.executionType);
   return val;
@@ -1502,9 +1465,7 @@ DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
             ? null
             : AttachmentInformation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     defaultVersion: json['DefaultVersion'] as String,
     description: json['Description'] as String,
     documentFormat:
@@ -1670,9 +1631,7 @@ Map<String, dynamic> _$DocumentRequiresToJson(DocumentRequires instance) {
 
 DocumentVersionInfo _$DocumentVersionInfoFromJson(Map<String, dynamic> json) {
   return DocumentVersionInfo(
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
     documentVersion: json['DocumentVersion'] as String,
@@ -1868,12 +1827,8 @@ GetInventorySchemaResult _$GetInventorySchemaResultFromJson(
 GetMaintenanceWindowExecutionResult
     _$GetMaintenanceWindowExecutionResultFromJson(Map<String, dynamic> json) {
   return GetMaintenanceWindowExecutionResult(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -1897,16 +1852,12 @@ GetMaintenanceWindowExecutionTaskInvocationResult
     _$GetMaintenanceWindowExecutionTaskInvocationResultFromJson(
         Map<String, dynamic> json) {
   return GetMaintenanceWindowExecutionTaskInvocationResult(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     executionId: json['ExecutionId'] as String,
     invocationId: json['InvocationId'] as String,
     ownerInformation: json['OwnerInformation'] as String,
     parameters: json['Parameters'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -1929,16 +1880,12 @@ GetMaintenanceWindowExecutionTaskResult
     _$GetMaintenanceWindowExecutionTaskResultFromJson(
         Map<String, dynamic> json) {
   return GetMaintenanceWindowExecutionTaskResult(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
     priority: json['Priority'] as int,
     serviceRole: json['ServiceRole'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -1964,17 +1911,13 @@ GetMaintenanceWindowResult _$GetMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return GetMaintenanceWindowResult(
     allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool,
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     cutoff: json['Cutoff'] as int,
     description: json['Description'] as String,
     duration: json['Duration'] as int,
     enabled: json['Enabled'] as bool,
     endDate: json['EndDate'] as String,
-    modifiedDate: json['ModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['ModifiedDate'] as String),
+    modifiedDate: unixTimestampFromJson(json['ModifiedDate']),
     name: json['Name'] as String,
     nextExecutionTime: json['NextExecutionTime'] as String,
     schedule: json['Schedule'] as String,
@@ -2104,17 +2047,13 @@ GetPatchBaselineResult _$GetPatchBaselineResultFromJson(
     approvedPatchesEnableNonSecurity:
         json['ApprovedPatchesEnableNonSecurity'] as bool,
     baselineId: json['BaselineId'] as String,
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     description: json['Description'] as String,
     globalFilters: json['GlobalFilters'] == null
         ? null
         : PatchFilterGroup.fromJson(
             json['GlobalFilters'] as Map<String, dynamic>),
-    modifiedDate: json['ModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['ModifiedDate'] as String),
+    modifiedDate: unixTimestampFromJson(json['ModifiedDate']),
     name: json['Name'] as String,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
@@ -2218,9 +2157,7 @@ InstanceAssociationStatusInfo _$InstanceAssociationStatusInfoFromJson(
     detailedStatus: json['DetailedStatus'] as String,
     documentVersion: json['DocumentVersion'] as String,
     errorCode: json['ErrorCode'] as String,
-    executionDate: json['ExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['ExecutionDate'] as String),
+    executionDate: unixTimestampFromJson(json['ExecutionDate']),
     executionSummary: json['ExecutionSummary'] as String,
     instanceId: json['InstanceId'] as String,
     name: json['Name'] as String,
@@ -2246,26 +2183,18 @@ InstanceInformation _$InstanceInformationFromJson(Map<String, dynamic> json) {
     iamRole: json['IamRole'] as String,
     instanceId: json['InstanceId'] as String,
     isLatestVersion: json['IsLatestVersion'] as bool,
-    lastAssociationExecutionDate: json['LastAssociationExecutionDate'] == null
-        ? null
-        : DateTime.parse(json['LastAssociationExecutionDate'] as String),
-    lastPingDateTime: json['LastPingDateTime'] == null
-        ? null
-        : DateTime.parse(json['LastPingDateTime'] as String),
+    lastAssociationExecutionDate:
+        unixTimestampFromJson(json['LastAssociationExecutionDate']),
+    lastPingDateTime: unixTimestampFromJson(json['LastPingDateTime']),
     lastSuccessfulAssociationExecutionDate:
-        json['LastSuccessfulAssociationExecutionDate'] == null
-            ? null
-            : DateTime.parse(
-                json['LastSuccessfulAssociationExecutionDate'] as String),
+        unixTimestampFromJson(json['LastSuccessfulAssociationExecutionDate']),
     name: json['Name'] as String,
     pingStatus: _$enumDecodeNullable(_$PingStatusEnumMap, json['PingStatus']),
     platformName: json['PlatformName'] as String,
     platformType:
         _$enumDecodeNullable(_$PlatformTypeEnumMap, json['PlatformType']),
     platformVersion: json['PlatformVersion'] as String,
-    registrationDate: json['RegistrationDate'] == null
-        ? null
-        : DateTime.parse(json['RegistrationDate'] as String),
+    registrationDate: unixTimestampFromJson(json['RegistrationDate']),
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['ResourceType']),
   );
@@ -2335,12 +2264,8 @@ InstancePatchState _$InstancePatchStateFromJson(Map<String, dynamic> json) {
     instanceId: json['InstanceId'] as String,
     operation:
         _$enumDecodeNullable(_$PatchOperationTypeEnumMap, json['Operation']),
-    operationEndTime: json['OperationEndTime'] == null
-        ? null
-        : DateTime.parse(json['OperationEndTime'] as String),
-    operationStartTime: json['OperationStartTime'] == null
-        ? null
-        : DateTime.parse(json['OperationStartTime'] as String),
+    operationEndTime: unixTimestampFromJson(json['OperationEndTime']),
+    operationStartTime: unixTimestampFromJson(json['OperationStartTime']),
     patchGroup: json['PatchGroup'] as String,
     failedCount: json['FailedCount'] as int,
     installOverrideList: json['InstallOverrideList'] as String,
@@ -2349,10 +2274,7 @@ InstancePatchState _$InstancePatchStateFromJson(Map<String, dynamic> json) {
     installedPendingRebootCount: json['InstalledPendingRebootCount'] as int,
     installedRejectedCount: json['InstalledRejectedCount'] as int,
     lastNoRebootInstallOperationTime:
-        json['LastNoRebootInstallOperationTime'] == null
-            ? null
-            : DateTime.parse(
-                json['LastNoRebootInstallOperationTime'] as String),
+        unixTimestampFromJson(json['LastNoRebootInstallOperationTime']),
     missingCount: json['MissingCount'] as int,
     notApplicableCount: json['NotApplicableCount'] as int,
     ownerInformation: json['OwnerInformation'] as String,
@@ -2416,9 +2338,7 @@ InventoryDeletionStatusItem _$InventoryDeletionStatusItemFromJson(
     Map<String, dynamic> json) {
   return InventoryDeletionStatusItem(
     deletionId: json['DeletionId'] as String,
-    deletionStartTime: json['DeletionStartTime'] == null
-        ? null
-        : DateTime.parse(json['DeletionStartTime'] as String),
+    deletionStartTime: unixTimestampFromJson(json['DeletionStartTime']),
     deletionSummary: json['DeletionSummary'] == null
         ? null
         : InventoryDeletionSummary.fromJson(
@@ -2426,9 +2346,7 @@ InventoryDeletionStatusItem _$InventoryDeletionStatusItemFromJson(
     lastStatus: _$enumDecodeNullable(
         _$InventoryDeletionStatusEnumMap, json['LastStatus']),
     lastStatusMessage: json['LastStatusMessage'] as String,
-    lastStatusUpdateTime: json['LastStatusUpdateTime'] == null
-        ? null
-        : DateTime.parse(json['LastStatusUpdateTime'] as String),
+    lastStatusUpdateTime: unixTimestampFromJson(json['LastStatusUpdateTime']),
     typeName: json['TypeName'] as String,
   );
 }
@@ -2773,12 +2691,8 @@ Map<String, dynamic> _$MaintenanceWindowAutomationParametersToJson(
 MaintenanceWindowExecution _$MaintenanceWindowExecutionFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowExecution(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -2791,12 +2705,8 @@ MaintenanceWindowExecutionTaskIdentity
     _$MaintenanceWindowExecutionTaskIdentityFromJson(
         Map<String, dynamic> json) {
   return MaintenanceWindowExecutionTaskIdentity(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -2812,16 +2722,12 @@ MaintenanceWindowExecutionTaskInvocationIdentity
     _$MaintenanceWindowExecutionTaskInvocationIdentityFromJson(
         Map<String, dynamic> json) {
   return MaintenanceWindowExecutionTaskInvocationIdentity(
-    endTime: json['EndTime'] == null
-        ? null
-        : DateTime.parse(json['EndTime'] as String),
+    endTime: unixTimestampFromJson(json['EndTime']),
     executionId: json['ExecutionId'] as String,
     invocationId: json['InvocationId'] as String,
     ownerInformation: json['OwnerInformation'] as String,
     parameters: json['Parameters'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
     statusDetails: json['StatusDetails'] as String,
@@ -3204,14 +3110,10 @@ OpsItem _$OpsItemFromJson(Map<String, dynamic> json) {
   return OpsItem(
     category: json['Category'] as String,
     createdBy: json['CreatedBy'] as String,
-    createdTime: json['CreatedTime'] == null
-        ? null
-        : DateTime.parse(json['CreatedTime'] as String),
+    createdTime: unixTimestampFromJson(json['CreatedTime']),
     description: json['Description'] as String,
     lastModifiedBy: json['LastModifiedBy'] as String,
-    lastModifiedTime: json['LastModifiedTime'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedTime'] as String),
+    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
     notifications: (json['Notifications'] as List)
         ?.map((e) => e == null
             ? null
@@ -3334,13 +3236,9 @@ OpsItemSummary _$OpsItemSummaryFromJson(Map<String, dynamic> json) {
   return OpsItemSummary(
     category: json['Category'] as String,
     createdBy: json['CreatedBy'] as String,
-    createdTime: json['CreatedTime'] == null
-        ? null
-        : DateTime.parse(json['CreatedTime'] as String),
+    createdTime: unixTimestampFromJson(json['CreatedTime']),
     lastModifiedBy: json['LastModifiedBy'] as String,
-    lastModifiedTime: json['LastModifiedTime'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedTime'] as String),
+    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
     operationalData: (json['OperationalData'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
@@ -3380,9 +3278,7 @@ OutputSource _$OutputSourceFromJson(Map<String, dynamic> json) {
 Parameter _$ParameterFromJson(Map<String, dynamic> json) {
   return Parameter(
     arn: json['ARN'] as String,
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     name: json['Name'] as String,
     selector: json['Selector'] as String,
     sourceResult: json['SourceResult'] as String,
@@ -3404,9 +3300,7 @@ ParameterHistory _$ParameterHistoryFromJson(Map<String, dynamic> json) {
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
     labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     lastModifiedUser: json['LastModifiedUser'] as String,
     name: json['Name'] as String,
     policies: (json['Policies'] as List)
@@ -3441,9 +3335,7 @@ ParameterMetadata _$ParameterMetadataFromJson(Map<String, dynamic> json) {
     allowedPattern: json['AllowedPattern'] as String,
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     lastModifiedUser: json['LastModifiedUser'] as String,
     name: json['Name'] as String,
     policies: (json['Policies'] as List)
@@ -3505,9 +3397,7 @@ Patch _$PatchFromJson(Map<String, dynamic> json) {
     msrcSeverity: json['MsrcSeverity'] as String,
     product: json['Product'] as String,
     productFamily: json['ProductFamily'] as String,
-    releaseDate: json['ReleaseDate'] == null
-        ? null
-        : DateTime.parse(json['ReleaseDate'] as String),
+    releaseDate: unixTimestampFromJson(json['ReleaseDate']),
     title: json['Title'] as String,
     vendor: json['Vendor'] as String,
   );
@@ -3528,9 +3418,7 @@ PatchBaselineIdentity _$PatchBaselineIdentityFromJson(
 PatchComplianceData _$PatchComplianceDataFromJson(Map<String, dynamic> json) {
   return PatchComplianceData(
     classification: json['Classification'] as String,
-    installedTime: json['InstalledTime'] == null
-        ? null
-        : DateTime.parse(json['InstalledTime'] as String),
+    installedTime: unixTimestampFromJson(json['InstalledTime']),
     kBId: json['KBId'] as String,
     severity: json['Severity'] as String,
     state:
@@ -3711,9 +3599,7 @@ Map<String, dynamic> _$PatchSourceToJson(PatchSource instance) {
 
 PatchStatus _$PatchStatusFromJson(Map<String, dynamic> json) {
   return PatchStatus(
-    approvalDate: json['ApprovalDate'] == null
-        ? null
-        : DateTime.parse(json['ApprovalDate'] as String),
+    approvalDate: unixTimestampFromJson(json['ApprovalDate']),
     complianceLevel: _$enumDecodeNullable(
         _$PatchComplianceLevelEnumMap, json['ComplianceLevel']),
     deploymentStatus: _$enumDecodeNullable(
@@ -3911,23 +3797,16 @@ ResourceDataSyncItem _$ResourceDataSyncItemFromJson(Map<String, dynamic> json) {
   return ResourceDataSyncItem(
     lastStatus: _$enumDecodeNullable(
         _$LastResourceDataSyncStatusEnumMap, json['LastStatus']),
-    lastSuccessfulSyncTime: json['LastSuccessfulSyncTime'] == null
-        ? null
-        : DateTime.parse(json['LastSuccessfulSyncTime'] as String),
+    lastSuccessfulSyncTime:
+        unixTimestampFromJson(json['LastSuccessfulSyncTime']),
     lastSyncStatusMessage: json['LastSyncStatusMessage'] as String,
-    lastSyncTime: json['LastSyncTime'] == null
-        ? null
-        : DateTime.parse(json['LastSyncTime'] as String),
+    lastSyncTime: unixTimestampFromJson(json['LastSyncTime']),
     s3Destination: json['S3Destination'] == null
         ? null
         : ResourceDataSyncS3Destination.fromJson(
             json['S3Destination'] as Map<String, dynamic>),
-    syncCreatedTime: json['SyncCreatedTime'] == null
-        ? null
-        : DateTime.parse(json['SyncCreatedTime'] as String),
-    syncLastModifiedTime: json['SyncLastModifiedTime'] == null
-        ? null
-        : DateTime.parse(json['SyncLastModifiedTime'] as String),
+    syncCreatedTime: unixTimestampFromJson(json['SyncCreatedTime']),
+    syncLastModifiedTime: unixTimestampFromJson(json['SyncLastModifiedTime']),
     syncName: json['SyncName'] as String,
     syncSource: json['SyncSource'] == null
         ? null
@@ -4114,9 +3993,7 @@ SendCommandResult _$SendCommandResultFromJson(Map<String, dynamic> json) {
 ServiceSetting _$ServiceSettingFromJson(Map<String, dynamic> json) {
   return ServiceSetting(
     arn: json['ARN'] as String,
-    lastModifiedDate: json['LastModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedDate'] as String),
+    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     lastModifiedUser: json['LastModifiedUser'] as String,
     settingId: json['SettingId'] as String,
     settingValue: json['SettingValue'] as String,
@@ -4128,18 +4005,14 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
   return Session(
     details: json['Details'] as String,
     documentName: json['DocumentName'] as String,
-    endDate: json['EndDate'] == null
-        ? null
-        : DateTime.parse(json['EndDate'] as String),
+    endDate: unixTimestampFromJson(json['EndDate']),
     outputUrl: json['OutputUrl'] == null
         ? null
         : SessionManagerOutputUrl.fromJson(
             json['OutputUrl'] as Map<String, dynamic>),
     owner: json['Owner'] as String,
     sessionId: json['SessionId'] as String,
-    startDate: json['StartDate'] == null
-        ? null
-        : DateTime.parse(json['StartDate'] as String),
+    startDate: unixTimestampFromJson(json['StartDate']),
     status: _$enumDecodeNullable(_$SessionStatusEnumMap, json['Status']),
     target: json['Target'] as String,
   );
@@ -4218,12 +4091,8 @@ StartSessionResponse _$StartSessionResponseFromJson(Map<String, dynamic> json) {
 StepExecution _$StepExecutionFromJson(Map<String, dynamic> json) {
   return StepExecution(
     action: json['Action'] as String,
-    executionEndTime: json['ExecutionEndTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionEndTime'] as String),
-    executionStartTime: json['ExecutionStartTime'] == null
-        ? null
-        : DateTime.parse(json['ExecutionStartTime'] as String),
+    executionEndTime: unixTimestampFromJson(json['ExecutionEndTime']),
+    executionStartTime: unixTimestampFromJson(json['ExecutionStartTime']),
     failureDetails: json['FailureDetails'] == null
         ? null
         : FailureDetails.fromJson(
@@ -4499,17 +4368,13 @@ UpdatePatchBaselineResult _$UpdatePatchBaselineResultFromJson(
     approvedPatchesEnableNonSecurity:
         json['ApprovedPatchesEnableNonSecurity'] as bool,
     baselineId: json['BaselineId'] as String,
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     description: json['Description'] as String,
     globalFilters: json['GlobalFilters'] == null
         ? null
         : PatchFilterGroup.fromJson(
             json['GlobalFilters'] as Map<String, dynamic>),
-    modifiedDate: json['ModifiedDate'] == null
-        ? null
-        : DateTime.parse(json['ModifiedDate'] as String),
+    modifiedDate: unixTimestampFromJson(json['ModifiedDate']),
     name: json['Name'] as String,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),

@@ -247,11 +247,11 @@ Map<String, dynamic> _$ScheduledUpdateGroupActionRequestToJson(
 
   writeNotNull('ScheduledActionName', instance.scheduledActionName);
   writeNotNull('DesiredCapacity', instance.desiredCapacity);
-  writeNotNull('EndTime', instance.endTime?.toIso8601String());
+  writeNotNull('EndTime', iso8601ToJson(instance.endTime));
   writeNotNull('MaxSize', instance.maxSize);
   writeNotNull('MinSize', instance.minSize);
   writeNotNull('Recurrence', instance.recurrence);
-  writeNotNull('StartTime', instance.startTime?.toIso8601String());
+  writeNotNull('StartTime', iso8601ToJson(instance.startTime));
   return val;
 }
 

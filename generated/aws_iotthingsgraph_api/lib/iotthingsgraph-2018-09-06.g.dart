@@ -168,9 +168,7 @@ DissociateEntityFromThingResponse _$DissociateEntityFromThingResponseFromJson(
 EntityDescription _$EntityDescriptionFromJson(Map<String, dynamic> json) {
   return EntityDescription(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     definition: json['definition'] == null
         ? null
         : DefinitionDocument.fromJson(
@@ -220,9 +218,7 @@ FlowExecutionMessage _$FlowExecutionMessageFromJson(Map<String, dynamic> json) {
         _$FlowExecutionEventTypeEnumMap, json['eventType']),
     messageId: json['messageId'] as String,
     payload: json['payload'] as String,
-    timestamp: json['timestamp'] == null
-        ? null
-        : DateTime.parse(json['timestamp'] as String),
+    timestamp: unixTimestampFromJson(json['timestamp']),
   );
 }
 
@@ -250,16 +246,12 @@ const _$FlowExecutionEventTypeEnumMap = {
 
 FlowExecutionSummary _$FlowExecutionSummaryFromJson(Map<String, dynamic> json) {
   return FlowExecutionSummary(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     flowExecutionId: json['flowExecutionId'] as String,
     flowTemplateId: json['flowTemplateId'] as String,
     status: _$enumDecodeNullable(_$FlowExecutionStatusEnumMap, json['status']),
     systemInstanceId: json['systemInstanceId'] as String,
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['updatedAt']),
   );
 }
 
@@ -305,9 +297,7 @@ const _$FlowTemplateFilterNameEnumMap = {
 FlowTemplateSummary _$FlowTemplateSummaryFromJson(Map<String, dynamic> json) {
   return FlowTemplateSummary(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     id: json['id'] as String,
     revisionNumber: json['revisionNumber'] as int,
   );
@@ -403,9 +393,7 @@ GetSystemTemplateRevisionsResponse _$GetSystemTemplateRevisionsResponseFromJson(
 GetUploadStatusResponse _$GetUploadStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetUploadStatusResponse(
-    createdDate: json['createdDate'] == null
-        ? null
-        : DateTime.parse(json['createdDate'] as String),
+    createdDate: unixTimestampFromJson(json['createdDate']),
     uploadId: json['uploadId'] as String,
     uploadStatus:
         _$enumDecodeNullable(_$UploadStatusEnumMap, json['uploadStatus']),
@@ -588,9 +576,7 @@ SystemInstanceSummary _$SystemInstanceSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemInstanceSummary(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     greengrassGroupId: json['greengrassGroupId'] as String,
     greengrassGroupName: json['greengrassGroupName'] as String,
     greengrassGroupVersionId: json['greengrassGroupVersionId'] as String,
@@ -598,9 +584,7 @@ SystemInstanceSummary _$SystemInstanceSummaryFromJson(
     status: _$enumDecodeNullable(
         _$SystemInstanceDeploymentStatusEnumMap, json['status']),
     target: _$enumDecodeNullable(_$DeploymentTargetEnumMap, json['target']),
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['updatedAt']),
   );
 }
 
@@ -658,9 +642,7 @@ SystemTemplateSummary _$SystemTemplateSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemTemplateSummary(
     arn: json['arn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     id: json['id'] as String,
     revisionNumber: json['revisionNumber'] as int,
   );

@@ -508,9 +508,7 @@ ContainerInstance _$ContainerInstanceFromJson(Map<String, dynamic> json) {
     containerInstanceArn: json['containerInstanceArn'] as String,
     ec2InstanceId: json['ec2InstanceId'] as String,
     pendingTasksCount: json['pendingTasksCount'] as int,
-    registeredAt: json['registeredAt'] == null
-        ? null
-        : DateTime.parse(json['registeredAt'] as String),
+    registeredAt: unixTimestampFromJson(json['registeredAt']),
     registeredResources: (json['registeredResources'] as List)
         ?.map((e) =>
             e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
@@ -692,9 +690,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
             ? null
             : CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     desiredCount: json['desiredCount'] as int,
     id: json['id'] as String,
     launchType: _$enumDecodeNullable(_$LaunchTypeEnumMap, json['launchType']),
@@ -707,9 +703,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
     runningCount: json['runningCount'] as int,
     status: json['status'] as String,
     taskDefinition: json['taskDefinition'] as String,
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['updatedAt']),
   );
 }
 
@@ -1849,9 +1843,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
             : CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     clusterArn: json['clusterArn'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     createdBy: json['createdBy'] as String,
     deploymentConfiguration: json['deploymentConfiguration'] == null
         ? null
@@ -1930,9 +1922,7 @@ const _$SchedulingStrategyEnumMap = {
 
 ServiceEvent _$ServiceEventFromJson(Map<String, dynamic> json) {
   return ServiceEvent(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     id: json['id'] as String,
     message: json['message'] as String,
   );
@@ -2082,22 +2072,16 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
     clusterArn: json['clusterArn'] as String,
     connectivity:
         _$enumDecodeNullable(_$ConnectivityEnumMap, json['connectivity']),
-    connectivityAt: json['connectivityAt'] == null
-        ? null
-        : DateTime.parse(json['connectivityAt'] as String),
+    connectivityAt: unixTimestampFromJson(json['connectivityAt']),
     containerInstanceArn: json['containerInstanceArn'] as String,
     containers: (json['containers'] as List)
         ?.map((e) =>
             e == null ? null : Container.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     cpu: json['cpu'] as String,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     desiredStatus: json['desiredStatus'] as String,
-    executionStoppedAt: json['executionStoppedAt'] == null
-        ? null
-        : DateTime.parse(json['executionStoppedAt'] as String),
+    executionStoppedAt: unixTimestampFromJson(json['executionStoppedAt']),
     group: json['group'] as String,
     healthStatus:
         _$enumDecodeNullable(_$HealthStatusEnumMap, json['healthStatus']),
@@ -2113,24 +2097,14 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
         ? null
         : TaskOverride.fromJson(json['overrides'] as Map<String, dynamic>),
     platformVersion: json['platformVersion'] as String,
-    pullStartedAt: json['pullStartedAt'] == null
-        ? null
-        : DateTime.parse(json['pullStartedAt'] as String),
-    pullStoppedAt: json['pullStoppedAt'] == null
-        ? null
-        : DateTime.parse(json['pullStoppedAt'] as String),
-    startedAt: json['startedAt'] == null
-        ? null
-        : DateTime.parse(json['startedAt'] as String),
+    pullStartedAt: unixTimestampFromJson(json['pullStartedAt']),
+    pullStoppedAt: unixTimestampFromJson(json['pullStoppedAt']),
+    startedAt: unixTimestampFromJson(json['startedAt']),
     startedBy: json['startedBy'] as String,
     stopCode: _$enumDecodeNullable(_$TaskStopCodeEnumMap, json['stopCode']),
-    stoppedAt: json['stoppedAt'] == null
-        ? null
-        : DateTime.parse(json['stoppedAt'] as String),
+    stoppedAt: unixTimestampFromJson(json['stoppedAt']),
     stoppedReason: json['stoppedReason'] as String,
-    stoppingAt: json['stoppingAt'] == null
-        ? null
-        : DateTime.parse(json['stoppingAt'] as String),
+    stoppingAt: unixTimestampFromJson(json['stoppingAt']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -2305,9 +2279,7 @@ TaskSet _$TaskSetFromJson(Map<String, dynamic> json) {
         ?.toList(),
     clusterArn: json['clusterArn'] as String,
     computedDesiredCount: json['computedDesiredCount'] as int,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: unixTimestampFromJson(json['createdAt']),
     externalId: json['externalId'] as String,
     id: json['id'] as String,
     launchType: _$enumDecodeNullable(_$LaunchTypeEnumMap, json['launchType']),
@@ -2333,9 +2305,7 @@ TaskSet _$TaskSetFromJson(Map<String, dynamic> json) {
         ?.toList(),
     stabilityStatus:
         _$enumDecodeNullable(_$StabilityStatusEnumMap, json['stabilityStatus']),
-    stabilityStatusAt: json['stabilityStatusAt'] == null
-        ? null
-        : DateTime.parse(json['stabilityStatusAt'] as String),
+    stabilityStatusAt: unixTimestampFromJson(json['stabilityStatusAt']),
     startedBy: json['startedBy'] as String,
     status: json['status'] as String,
     tags: (json['tags'] as List)
@@ -2343,9 +2313,7 @@ TaskSet _$TaskSetFromJson(Map<String, dynamic> json) {
         ?.toList(),
     taskDefinition: json['taskDefinition'] as String,
     taskSetArn: json['taskSetArn'] as String,
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
+    updatedAt: unixTimestampFromJson(json['updatedAt']),
   );
 }
 

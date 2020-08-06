@@ -239,9 +239,7 @@ PolicyComplianceDetail _$PolicyComplianceDetailFromJson(
     Map<String, dynamic> json) {
   return PolicyComplianceDetail(
     evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool,
-    expiredAt: json['ExpiredAt'] == null
-        ? null
-        : DateTime.parse(json['ExpiredAt'] as String),
+    expiredAt: unixTimestampFromJson(json['ExpiredAt']),
     issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -267,9 +265,7 @@ PolicyComplianceStatus _$PolicyComplianceStatusFromJson(
     issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     memberAccount: json['MemberAccount'] as String,
     policyId: json['PolicyId'] as String,
     policyName: json['PolicyName'] as String,

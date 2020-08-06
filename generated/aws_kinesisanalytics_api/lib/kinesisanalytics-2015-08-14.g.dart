@@ -50,17 +50,13 @@ ApplicationDetail _$ApplicationDetailFromJson(Map<String, dynamic> json) {
                 : CloudWatchLoggingOptionDescription.fromJson(
                     e as Map<String, dynamic>))
             ?.toList(),
-    createTimestamp: json['CreateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreateTimestamp'] as String),
+    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
     inputDescriptions: (json['InputDescriptions'] as List)
         ?.map((e) => e == null
             ? null
             : InputDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdateTimestamp: json['LastUpdateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['LastUpdateTimestamp'] as String),
+    lastUpdateTimestamp: unixTimestampFromJson(json['LastUpdateTimestamp']),
     outputDescriptions: (json['OutputDescriptions'] as List)
         ?.map((e) => e == null
             ? null

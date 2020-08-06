@@ -310,9 +310,7 @@ DescribeCollectionResponse _$DescribeCollectionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCollectionResponse(
     collectionARN: json['CollectionARN'] as String,
-    creationTimestamp: json['CreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreationTimestamp'] as String),
+    creationTimestamp: unixTimestampFromJson(json['CreationTimestamp']),
     faceCount: json['FaceCount'] as int,
     faceModelVersion: json['FaceModelVersion'] as String,
   );
@@ -345,15 +343,11 @@ DescribeProjectsResponse _$DescribeProjectsResponseFromJson(
 DescribeStreamProcessorResponse _$DescribeStreamProcessorResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeStreamProcessorResponse(
-    creationTimestamp: json['CreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreationTimestamp'] as String),
+    creationTimestamp: unixTimestampFromJson(json['CreationTimestamp']),
     input: json['Input'] == null
         ? null
         : StreamProcessorInput.fromJson(json['Input'] as Map<String, dynamic>),
-    lastUpdateTimestamp: json['LastUpdateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['LastUpdateTimestamp'] as String),
+    lastUpdateTimestamp: unixTimestampFromJson(json['LastUpdateTimestamp']),
     name: json['Name'] as String,
     output: json['Output'] == null
         ? null
@@ -1142,9 +1136,7 @@ Pose _$PoseFromJson(Map<String, dynamic> json) {
 
 ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
   return ProjectDescription(
-    creationTimestamp: json['CreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreationTimestamp'] as String),
+    creationTimestamp: unixTimestampFromJson(json['CreationTimestamp']),
     projectArn: json['ProjectArn'] as String,
     status: _$enumDecodeNullable(_$ProjectStatusEnumMap, json['Status']),
   );
@@ -1154,9 +1146,7 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
     Map<String, dynamic> json) {
   return ProjectVersionDescription(
     billableTrainingTimeInSeconds: json['BillableTrainingTimeInSeconds'] as int,
-    creationTimestamp: json['CreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreationTimestamp'] as String),
+    creationTimestamp: unixTimestampFromJson(json['CreationTimestamp']),
     evaluationResult: json['EvaluationResult'] == null
         ? null
         : EvaluationResult.fromJson(
@@ -1176,9 +1166,7 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
         ? null
         : TrainingDataResult.fromJson(
             json['TrainingDataResult'] as Map<String, dynamic>),
-    trainingEndTimestamp: json['TrainingEndTimestamp'] == null
-        ? null
-        : DateTime.parse(json['TrainingEndTimestamp'] as String),
+    trainingEndTimestamp: unixTimestampFromJson(json['TrainingEndTimestamp']),
   );
 }
 

@@ -182,12 +182,8 @@ DescribeEventSourceResponse _$DescribeEventSourceResponseFromJson(
   return DescribeEventSourceResponse(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
-    expirationTime: json['ExpirationTime'] == null
-        ? null
-        : DateTime.parse(json['ExpirationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -275,12 +271,8 @@ EventSource _$EventSourceFromJson(Map<String, dynamic> json) {
   return EventSource(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
-    expirationTime: json['ExpirationTime'] == null
-        ? null
-        : DateTime.parse(json['ExpirationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -447,12 +439,8 @@ PartnerEventSourceAccount _$PartnerEventSourceAccountFromJson(
     Map<String, dynamic> json) {
   return PartnerEventSourceAccount(
     account: json['Account'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
-    expirationTime: json['ExpirationTime'] == null
-        ? null
-        : DateTime.parse(json['ExpirationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
 }
@@ -472,7 +460,7 @@ Map<String, dynamic> _$PutEventsRequestEntryToJson(
   writeNotNull('EventBusName', instance.eventBusName);
   writeNotNull('Resources', instance.resources);
   writeNotNull('Source', instance.source);
-  writeNotNull('Time', instance.time?.toIso8601String());
+  writeNotNull('Time', unixTimestampToJson(instance.time));
   return val;
 }
 
@@ -509,7 +497,7 @@ Map<String, dynamic> _$PutPartnerEventsRequestEntryToJson(
   writeNotNull('DetailType', instance.detailType);
   writeNotNull('Resources', instance.resources);
   writeNotNull('Source', instance.source);
-  writeNotNull('Time', instance.time?.toIso8601String());
+  writeNotNull('Time', unixTimestampToJson(instance.time));
   return val;
 }
 

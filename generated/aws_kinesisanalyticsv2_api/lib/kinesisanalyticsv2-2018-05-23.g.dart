@@ -292,12 +292,8 @@ ApplicationDetail _$ApplicationDetailFromJson(Map<String, dynamic> json) {
                 : CloudWatchLoggingOptionDescription.fromJson(
                     e as Map<String, dynamic>))
             ?.toList(),
-    createTimestamp: json['CreateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreateTimestamp'] as String),
-    lastUpdateTimestamp: json['LastUpdateTimestamp'] == null
-        ? null
-        : DateTime.parse(json['LastUpdateTimestamp'] as String),
+    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
+    lastUpdateTimestamp: unixTimestampFromJson(json['LastUpdateTimestamp']),
     serviceExecutionRole: json['ServiceExecutionRole'] as String,
   );
 }
@@ -1757,9 +1753,8 @@ SnapshotDetails _$SnapshotDetailsFromJson(Map<String, dynamic> json) {
     snapshotName: json['SnapshotName'] as String,
     snapshotStatus:
         _$enumDecodeNullable(_$SnapshotStatusEnumMap, json['SnapshotStatus']),
-    snapshotCreationTimestamp: json['SnapshotCreationTimestamp'] == null
-        ? null
-        : DateTime.parse(json['SnapshotCreationTimestamp'] as String),
+    snapshotCreationTimestamp:
+        unixTimestampFromJson(json['SnapshotCreationTimestamp']),
   );
 }
 

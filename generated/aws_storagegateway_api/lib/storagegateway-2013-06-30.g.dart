@@ -55,9 +55,7 @@ AttachVolumeOutput _$AttachVolumeOutputFromJson(Map<String, dynamic> json) {
 
 CachediSCSIVolume _$CachediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return CachediSCSIVolume(
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     kMSKey: json['KMSKey'] as String,
     sourceSnapshotId: json['SourceSnapshotId'] as String,
     targetName: json['TargetName'] as String,
@@ -218,9 +216,7 @@ DescribeAvailabilityMonitorTestOutput
     _$DescribeAvailabilityMonitorTestOutputFromJson(Map<String, dynamic> json) {
   return DescribeAvailabilityMonitorTestOutput(
     gatewayARN: json['GatewayARN'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$AvailabilityMonitorTestStatusEnumMap, json['Status']),
   );
@@ -835,9 +831,7 @@ StartGatewayOutput _$StartGatewayOutputFromJson(Map<String, dynamic> json) {
 
 StorediSCSIVolume _$StorediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return StorediSCSIVolume(
-    createdDate: json['CreatedDate'] == null
-        ? null
-        : DateTime.parse(json['CreatedDate'] as String),
+    createdDate: unixTimestampFromJson(json['CreatedDate']),
     kMSKey: json['KMSKey'] as String,
     preservedExistingData: json['PreservedExistingData'] as bool,
     sourceSnapshotId: json['SourceSnapshotId'] as String,
@@ -886,9 +880,7 @@ Tape _$TapeFromJson(Map<String, dynamic> json) {
     progress: (json['Progress'] as num)?.toDouble(),
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
-    tapeCreatedDate: json['TapeCreatedDate'] == null
-        ? null
-        : DateTime.parse(json['TapeCreatedDate'] as String),
+    tapeCreatedDate: unixTimestampFromJson(json['TapeCreatedDate']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
@@ -898,17 +890,13 @@ Tape _$TapeFromJson(Map<String, dynamic> json) {
 
 TapeArchive _$TapeArchiveFromJson(Map<String, dynamic> json) {
   return TapeArchive(
-    completionTime: json['CompletionTime'] == null
-        ? null
-        : DateTime.parse(json['CompletionTime'] as String),
+    completionTime: unixTimestampFromJson(json['CompletionTime']),
     kMSKey: json['KMSKey'] as String,
     poolId: json['PoolId'] as String,
     retrievedTo: json['RetrievedTo'] as String,
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
-    tapeCreatedDate: json['TapeCreatedDate'] == null
-        ? null
-        : DateTime.parse(json['TapeCreatedDate'] as String),
+    tapeCreatedDate: unixTimestampFromJson(json['TapeCreatedDate']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
@@ -930,9 +918,7 @@ TapeRecoveryPointInfo _$TapeRecoveryPointInfoFromJson(
     Map<String, dynamic> json) {
   return TapeRecoveryPointInfo(
     tapeARN: json['TapeARN'] as String,
-    tapeRecoveryPointTime: json['TapeRecoveryPointTime'] == null
-        ? null
-        : DateTime.parse(json['TapeRecoveryPointTime'] as String),
+    tapeRecoveryPointTime: unixTimestampFromJson(json['TapeRecoveryPointTime']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
   );

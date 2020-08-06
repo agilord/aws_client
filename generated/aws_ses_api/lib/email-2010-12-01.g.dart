@@ -286,7 +286,7 @@ Map<String, dynamic> _$MessageDsnToJson(MessageDsn instance) {
   }
 
   writeNotNull('ReportingMta', instance.reportingMta);
-  writeNotNull('ArrivalDate', instance.arrivalDate?.toIso8601String());
+  writeNotNull('ArrivalDate', iso8601ToJson(instance.arrivalDate));
   writeNotNull('ExtensionFields',
       instance.extensionFields?.map((e) => e?.toJson())?.toList());
   return val;
@@ -404,7 +404,7 @@ Map<String, dynamic> _$RecipientDsnFieldsToJson(RecipientDsnFields instance) {
   writeNotNull('ExtensionFields',
       instance.extensionFields?.map((e) => e?.toJson())?.toList());
   writeNotNull('FinalRecipient', instance.finalRecipient);
-  writeNotNull('LastAttemptDate', instance.lastAttemptDate?.toIso8601String());
+  writeNotNull('LastAttemptDate', iso8601ToJson(instance.lastAttemptDate));
   writeNotNull('RemoteMta', instance.remoteMta);
   return val;
 }

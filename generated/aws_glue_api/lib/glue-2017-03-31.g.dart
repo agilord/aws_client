@@ -271,9 +271,7 @@ Map<String, dynamic> _$CatalogEntryToJson(CatalogEntry instance) {
 CatalogImportStatus _$CatalogImportStatusFromJson(Map<String, dynamic> json) {
   return CatalogImportStatus(
     importCompleted: json['ImportCompleted'] as bool,
-    importTime: json['ImportTime'] == null
-        ? null
-        : DateTime.parse(json['ImportTime'] as String),
+    importTime: unixTimestampFromJson(json['ImportTime']),
     importedBy: json['ImportedBy'] as String,
   );
 }
@@ -516,14 +514,10 @@ Connection _$ConnectionFromJson(Map<String, dynamic> json) {
     ),
     connectionType:
         _$enumDecodeNullable(_$ConnectionTypeEnumMap, json['ConnectionType']),
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     description: json['Description'] as String,
     lastUpdatedBy: json['LastUpdatedBy'] as String,
-    lastUpdatedTime: json['LastUpdatedTime'] == null
-        ? null
-        : DateTime.parse(json['LastUpdatedTime'] as String),
+    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
     matchCriteria:
         (json['MatchCriteria'] as List)?.map((e) => e as String)?.toList(),
     name: json['Name'] as String,
@@ -609,15 +603,11 @@ Map<String, dynamic> _$ConnectionsListToJson(ConnectionsList instance) {
 
 Crawl _$CrawlFromJson(Map<String, dynamic> json) {
   return Crawl(
-    completedOn: json['CompletedOn'] == null
-        ? null
-        : DateTime.parse(json['CompletedOn'] as String),
+    completedOn: unixTimestampFromJson(json['CompletedOn']),
     errorMessage: json['ErrorMessage'] as String,
     logGroup: json['LogGroup'] as String,
     logStream: json['LogStream'] as String,
-    startedOn: json['StartedOn'] == null
-        ? null
-        : DateTime.parse(json['StartedOn'] as String),
+    startedOn: unixTimestampFromJson(json['StartedOn']),
     state: _$enumDecodeNullable(_$CrawlStateEnumMap, json['State']),
   );
 }
@@ -630,17 +620,13 @@ Crawler _$CrawlerFromJson(Map<String, dynamic> json) {
     crawlElapsedTime: json['CrawlElapsedTime'] as int,
     crawlerSecurityConfiguration:
         json['CrawlerSecurityConfiguration'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     databaseName: json['DatabaseName'] as String,
     description: json['Description'] as String,
     lastCrawl: json['LastCrawl'] == null
         ? null
         : LastCrawlInfo.fromJson(json['LastCrawl'] as Map<String, dynamic>),
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     name: json['Name'] as String,
     role: json['Role'] as String,
     schedule: json['Schedule'] == null
@@ -784,9 +770,7 @@ CreateDevEndpointResponse _$CreateDevEndpointResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     availabilityZone: json['AvailabilityZone'] as String,
-    createdTimestamp: json['CreatedTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreatedTimestamp'] as String),
+    createdTimestamp: unixTimestampFromJson(json['CreatedTimestamp']),
     endpointName: json['EndpointName'] as String,
     extraJarsS3Path: json['ExtraJarsS3Path'] as String,
     extraPythonLibsS3Path: json['ExtraPythonLibsS3Path'] as String,
@@ -874,9 +858,7 @@ CreateScriptResponse _$CreateScriptResponseFromJson(Map<String, dynamic> json) {
 CreateSecurityConfigurationResponse
     _$CreateSecurityConfigurationResponseFromJson(Map<String, dynamic> json) {
   return CreateSecurityConfigurationResponse(
-    createdTimestamp: json['CreatedTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreatedTimestamp'] as String),
+    createdTimestamp: unixTimestampFromJson(json['CreatedTimestamp']),
     name: json['Name'] as String,
   );
 }
@@ -926,15 +908,11 @@ CsvClassifier _$CsvClassifierFromJson(Map<String, dynamic> json) {
     allowSingleColumn: json['AllowSingleColumn'] as bool,
     containsHeader:
         _$enumDecodeNullable(_$CsvHeaderOptionEnumMap, json['ContainsHeader']),
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     delimiter: json['Delimiter'] as String,
     disableValueTrimming: json['DisableValueTrimming'] as bool,
     header: (json['Header'] as List)?.map((e) => e as String)?.toList(),
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     quoteSymbol: json['QuoteSymbol'] as String,
     version: json['Version'] as int,
   );
@@ -999,9 +977,7 @@ Database _$DatabaseFromJson(Map<String, dynamic> json) {
                 ? null
                 : PrincipalPermissions.fromJson(e as Map<String, dynamic>))
             ?.toList(),
-    createTime: json['CreateTime'] == null
-        ? null
-        : DateTime.parse(json['CreateTime'] as String),
+    createTime: unixTimestampFromJson(json['CreateTime']),
     description: json['Description'] as String,
     locationUri: json['LocationUri'] as String,
     parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
@@ -1118,17 +1094,13 @@ DevEndpoint _$DevEndpointFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     availabilityZone: json['AvailabilityZone'] as String,
-    createdTimestamp: json['CreatedTimestamp'] == null
-        ? null
-        : DateTime.parse(json['CreatedTimestamp'] as String),
+    createdTimestamp: unixTimestampFromJson(json['CreatedTimestamp']),
     endpointName: json['EndpointName'] as String,
     extraJarsS3Path: json['ExtraJarsS3Path'] as String,
     extraPythonLibsS3Path: json['ExtraPythonLibsS3Path'] as String,
     failureReason: json['FailureReason'] as String,
     glueVersion: json['GlueVersion'] as String,
-    lastModifiedTimestamp: json['LastModifiedTimestamp'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedTimestamp'] as String),
+    lastModifiedTimestamp: unixTimestampFromJson(json['LastModifiedTimestamp']),
     lastUpdateStatus: json['LastUpdateStatus'] as String,
     numberOfNodes: json['NumberOfNodes'] as int,
     numberOfWorkers: json['NumberOfWorkers'] as int,
@@ -1559,22 +1531,16 @@ GetJobsResponse _$GetJobsResponseFromJson(Map<String, dynamic> json) {
 
 GetMLTaskRunResponse _$GetMLTaskRunResponseFromJson(Map<String, dynamic> json) {
   return GetMLTaskRunResponse(
-    completedOn: json['CompletedOn'] == null
-        ? null
-        : DateTime.parse(json['CompletedOn'] as String),
+    completedOn: unixTimestampFromJson(json['CompletedOn']),
     errorString: json['ErrorString'] as String,
     executionTime: json['ExecutionTime'] as int,
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     logGroupName: json['LogGroupName'] as String,
     properties: json['Properties'] == null
         ? null
         : TaskRunProperties.fromJson(
             json['Properties'] as Map<String, dynamic>),
-    startedOn: json['StartedOn'] == null
-        ? null
-        : DateTime.parse(json['StartedOn'] as String),
+    startedOn: unixTimestampFromJson(json['StartedOn']),
     status: _$enumDecodeNullable(_$TaskStatusTypeEnumMap, json['Status']),
     taskRunId: json['TaskRunId'] as String,
     transformId: json['TransformId'] as String,
@@ -1595,9 +1561,7 @@ GetMLTaskRunsResponse _$GetMLTaskRunsResponseFromJson(
 GetMLTransformResponse _$GetMLTransformResponseFromJson(
     Map<String, dynamic> json) {
   return GetMLTransformResponse(
-    createdOn: json['CreatedOn'] == null
-        ? null
-        : DateTime.parse(json['CreatedOn'] as String),
+    createdOn: unixTimestampFromJson(json['CreatedOn']),
     description: json['Description'] as String,
     evaluationMetrics: json['EvaluationMetrics'] == null
         ? null
@@ -1609,9 +1573,7 @@ GetMLTransformResponse _$GetMLTransformResponseFromJson(
             e == null ? null : GlueTable.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     labelCount: json['LabelCount'] as int,
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     maxCapacity: (json['MaxCapacity'] as num)?.toDouble(),
     maxRetries: json['MaxRetries'] as int,
     name: json['Name'] as String,
@@ -1687,14 +1649,10 @@ GetPlanResponse _$GetPlanResponseFromJson(Map<String, dynamic> json) {
 GetResourcePolicyResponse _$GetResourcePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourcePolicyResponse(
-    createTime: json['CreateTime'] == null
-        ? null
-        : DateTime.parse(json['CreateTime'] as String),
+    createTime: unixTimestampFromJson(json['CreateTime']),
     policyHash: json['PolicyHash'] as String,
     policyInJson: json['PolicyInJson'] as String,
-    updateTime: json['UpdateTime'] == null
-        ? null
-        : DateTime.parse(json['UpdateTime'] as String),
+    updateTime: unixTimestampFromJson(json['UpdateTime']),
   );
 }
 
@@ -1873,13 +1831,9 @@ GrokClassifier _$GrokClassifierFromJson(Map<String, dynamic> json) {
     classification: json['Classification'] as String,
     grokPattern: json['GrokPattern'] as String,
     name: json['Name'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     customPatterns: json['CustomPatterns'] as String,
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     version: json['Version'] as int,
   );
 }
@@ -1929,9 +1883,7 @@ Job _$JobFromJson(Map<String, dynamic> json) {
     connections: json['Connections'] == null
         ? null
         : ConnectionsList.fromJson(json['Connections'] as Map<String, dynamic>),
-    createdOn: json['CreatedOn'] == null
-        ? null
-        : DateTime.parse(json['CreatedOn'] as String),
+    createdOn: unixTimestampFromJson(json['CreatedOn']),
     defaultArguments: (json['DefaultArguments'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -1941,9 +1893,7 @@ Job _$JobFromJson(Map<String, dynamic> json) {
         : ExecutionProperty.fromJson(
             json['ExecutionProperty'] as Map<String, dynamic>),
     glueVersion: json['GlueVersion'] as String,
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     logUri: json['LogUri'] as String,
     maxCapacity: (json['MaxCapacity'] as num)?.toDouble(),
     maxRetries: json['MaxRetries'] as int,
@@ -2046,9 +1996,7 @@ JobRun _$JobRunFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     attempt: json['Attempt'] as int,
-    completedOn: json['CompletedOn'] == null
-        ? null
-        : DateTime.parse(json['CompletedOn'] as String),
+    completedOn: unixTimestampFromJson(json['CompletedOn']),
     errorMessage: json['ErrorMessage'] as String,
     executionTime: json['ExecutionTime'] as int,
     glueVersion: json['GlueVersion'] as String,
@@ -2056,9 +2004,7 @@ JobRun _$JobRunFromJson(Map<String, dynamic> json) {
     jobName: json['JobName'] as String,
     jobRunState:
         _$enumDecodeNullable(_$JobRunStateEnumMap, json['JobRunState']),
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     logGroupName: json['LogGroupName'] as String,
     maxCapacity: (json['MaxCapacity'] as num)?.toDouble(),
     notificationProperty: json['NotificationProperty'] == null
@@ -2072,9 +2018,7 @@ JobRun _$JobRunFromJson(Map<String, dynamic> json) {
         ?.toList(),
     previousRunId: json['PreviousRunId'] as String,
     securityConfiguration: json['SecurityConfiguration'] as String,
-    startedOn: json['StartedOn'] == null
-        ? null
-        : DateTime.parse(json['StartedOn'] as String),
+    startedOn: unixTimestampFromJson(json['StartedOn']),
     timeout: json['Timeout'] as int,
     triggerName: json['TriggerName'] as String,
     workerType: _$enumDecodeNullable(_$WorkerTypeEnumMap, json['WorkerType']),
@@ -2114,12 +2058,8 @@ JsonClassifier _$JsonClassifierFromJson(Map<String, dynamic> json) {
   return JsonClassifier(
     jsonPath: json['JsonPath'] as String,
     name: json['Name'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     version: json['Version'] as int,
   );
 }
@@ -2138,9 +2078,7 @@ LastCrawlInfo _$LastCrawlInfoFromJson(Map<String, dynamic> json) {
     logGroup: json['LogGroup'] as String,
     logStream: json['LogStream'] as String,
     messagePrefix: json['MessagePrefix'] as String,
-    startTime: json['StartTime'] == null
-        ? null
-        : DateTime.parse(json['StartTime'] as String),
+    startTime: unixTimestampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(_$LastCrawlStatusEnumMap, json['Status']),
   );
 }
@@ -2218,9 +2156,7 @@ Map<String, dynamic> _$LocationToJson(Location instance) {
 
 MLTransform _$MLTransformFromJson(Map<String, dynamic> json) {
   return MLTransform(
-    createdOn: json['CreatedOn'] == null
-        ? null
-        : DateTime.parse(json['CreatedOn'] as String),
+    createdOn: unixTimestampFromJson(json['CreatedOn']),
     description: json['Description'] as String,
     evaluationMetrics: json['EvaluationMetrics'] == null
         ? null
@@ -2232,9 +2168,7 @@ MLTransform _$MLTransformFromJson(Map<String, dynamic> json) {
             e == null ? null : GlueTable.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     labelCount: json['LabelCount'] as int,
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     maxCapacity: (json['MaxCapacity'] as num)?.toDouble(),
     maxRetries: json['MaxRetries'] as int,
     name: json['Name'] as String,
@@ -2352,16 +2286,10 @@ Map<String, dynamic> _$OrderToJson(Order instance) {
 
 Partition _$PartitionFromJson(Map<String, dynamic> json) {
   return Partition(
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
     databaseName: json['DatabaseName'] as String,
-    lastAccessTime: json['LastAccessTime'] == null
-        ? null
-        : DateTime.parse(json['LastAccessTime'] as String),
-    lastAnalyzedTime: json['LastAnalyzedTime'] == null
-        ? null
-        : DateTime.parse(json['LastAnalyzedTime'] as String),
+    lastAccessTime: unixTimestampFromJson(json['LastAccessTime']),
+    lastAnalyzedTime: unixTimestampFromJson(json['LastAnalyzedTime']),
     parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -2393,9 +2321,9 @@ Map<String, dynamic> _$PartitionInputToJson(PartitionInput instance) {
     }
   }
 
-  writeNotNull('LastAccessTime', instance.lastAccessTime?.toIso8601String());
+  writeNotNull('LastAccessTime', unixTimestampToJson(instance.lastAccessTime));
   writeNotNull(
-      'LastAnalyzedTime', instance.lastAnalyzedTime?.toIso8601String());
+      'LastAnalyzedTime', unixTimestampToJson(instance.lastAnalyzedTime));
   writeNotNull('Parameters', instance.parameters);
   writeNotNull('StorageDescriptor', instance.storageDescriptor?.toJson());
   writeNotNull('Values', instance.values);
@@ -2722,9 +2650,7 @@ SearchTablesResponse _$SearchTablesResponseFromJson(Map<String, dynamic> json) {
 SecurityConfiguration _$SecurityConfigurationFromJson(
     Map<String, dynamic> json) {
   return SecurityConfiguration(
-    createdTimeStamp: json['CreatedTimeStamp'] == null
-        ? null
-        : DateTime.parse(json['CreatedTimeStamp'] as String),
+    createdTimeStamp: unixTimestampFromJson(json['CreatedTimeStamp']),
     encryptionConfiguration: json['EncryptionConfiguration'] == null
         ? null
         : EncryptionConfiguration.fromJson(
@@ -2950,20 +2876,14 @@ Map<String, dynamic> _$StorageDescriptorToJson(StorageDescriptor instance) {
 Table _$TableFromJson(Map<String, dynamic> json) {
   return Table(
     name: json['Name'] as String,
-    createTime: json['CreateTime'] == null
-        ? null
-        : DateTime.parse(json['CreateTime'] as String),
+    createTime: unixTimestampFromJson(json['CreateTime']),
     createdBy: json['CreatedBy'] as String,
     databaseName: json['DatabaseName'] as String,
     description: json['Description'] as String,
     isRegisteredWithLakeFormation:
         json['IsRegisteredWithLakeFormation'] as bool,
-    lastAccessTime: json['LastAccessTime'] == null
-        ? null
-        : DateTime.parse(json['LastAccessTime'] as String),
-    lastAnalyzedTime: json['LastAnalyzedTime'] == null
-        ? null
-        : DateTime.parse(json['LastAnalyzedTime'] as String),
+    lastAccessTime: unixTimestampFromJson(json['LastAccessTime']),
+    lastAnalyzedTime: unixTimestampFromJson(json['LastAnalyzedTime']),
     owner: json['Owner'] as String,
     parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
@@ -2978,9 +2898,7 @@ Table _$TableFromJson(Map<String, dynamic> json) {
         : StorageDescriptor.fromJson(
             json['StorageDescriptor'] as Map<String, dynamic>),
     tableType: json['TableType'] as String,
-    updateTime: json['UpdateTime'] == null
-        ? null
-        : DateTime.parse(json['UpdateTime'] as String),
+    updateTime: unixTimestampFromJson(json['UpdateTime']),
     viewExpandedText: json['ViewExpandedText'] as String,
     viewOriginalText: json['ViewOriginalText'] as String,
   );
@@ -3006,9 +2924,9 @@ Map<String, dynamic> _$TableInputToJson(TableInput instance) {
 
   writeNotNull('Name', instance.name);
   writeNotNull('Description', instance.description);
-  writeNotNull('LastAccessTime', instance.lastAccessTime?.toIso8601String());
+  writeNotNull('LastAccessTime', unixTimestampToJson(instance.lastAccessTime));
   writeNotNull(
-      'LastAnalyzedTime', instance.lastAnalyzedTime?.toIso8601String());
+      'LastAnalyzedTime', unixTimestampToJson(instance.lastAnalyzedTime));
   writeNotNull('Owner', instance.owner);
   writeNotNull('Parameters', instance.parameters);
   writeNotNull('PartitionKeys',
@@ -3046,22 +2964,16 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TaskRun _$TaskRunFromJson(Map<String, dynamic> json) {
   return TaskRun(
-    completedOn: json['CompletedOn'] == null
-        ? null
-        : DateTime.parse(json['CompletedOn'] as String),
+    completedOn: unixTimestampFromJson(json['CompletedOn']),
     errorString: json['ErrorString'] as String,
     executionTime: json['ExecutionTime'] as int,
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     logGroupName: json['LogGroupName'] as String,
     properties: json['Properties'] == null
         ? null
         : TaskRunProperties.fromJson(
             json['Properties'] as Map<String, dynamic>),
-    startedOn: json['StartedOn'] == null
-        ? null
-        : DateTime.parse(json['StartedOn'] as String),
+    startedOn: unixTimestampFromJson(json['StartedOn']),
     status: _$enumDecodeNullable(_$TaskStatusTypeEnumMap, json['Status']),
     taskRunId: json['TaskRunId'] as String,
     transformId: json['TransformId'] as String,
@@ -3078,8 +2990,8 @@ Map<String, dynamic> _$TaskRunFilterCriteriaToJson(
     }
   }
 
-  writeNotNull('StartedAfter', instance.startedAfter?.toIso8601String());
-  writeNotNull('StartedBefore', instance.startedBefore?.toIso8601String());
+  writeNotNull('StartedAfter', unixTimestampToJson(instance.startedAfter));
+  writeNotNull('StartedBefore', unixTimestampToJson(instance.startedBefore));
   writeNotNull('Status', _$TaskStatusTypeEnumMap[instance.status]);
   writeNotNull('TaskRunType', _$TaskTypeEnumMap[instance.taskRunType]);
   return val;
@@ -3153,13 +3065,13 @@ Map<String, dynamic> _$TransformFilterCriteriaToJson(
     }
   }
 
-  writeNotNull('CreatedAfter', instance.createdAfter?.toIso8601String());
-  writeNotNull('CreatedBefore', instance.createdBefore?.toIso8601String());
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
   writeNotNull('GlueVersion', instance.glueVersion);
   writeNotNull(
-      'LastModifiedAfter', instance.lastModifiedAfter?.toIso8601String());
+      'LastModifiedAfter', unixTimestampToJson(instance.lastModifiedAfter));
   writeNotNull(
-      'LastModifiedBefore', instance.lastModifiedBefore?.toIso8601String());
+      'LastModifiedBefore', unixTimestampToJson(instance.lastModifiedBefore));
   writeNotNull('Name', instance.name);
   writeNotNull('Schema', instance.schema?.map((e) => e?.toJson())?.toList());
   writeNotNull('Status', _$TransformStatusTypeEnumMap[instance.status]);
@@ -3428,9 +3340,7 @@ Map<String, dynamic> _$UpdateXMLClassifierRequestToJson(
 UserDefinedFunction _$UserDefinedFunctionFromJson(Map<String, dynamic> json) {
   return UserDefinedFunction(
     className: json['ClassName'] as String,
-    createTime: json['CreateTime'] == null
-        ? null
-        : DateTime.parse(json['CreateTime'] as String),
+    createTime: unixTimestampFromJson(json['CreateTime']),
     functionName: json['FunctionName'] as String,
     ownerName: json['OwnerName'] as String,
     ownerType: _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['OwnerType']),
@@ -3468,9 +3378,7 @@ Map<String, dynamic> _$UserDefinedFunctionInputToJson(
 
 Workflow _$WorkflowFromJson(Map<String, dynamic> json) {
   return Workflow(
-    createdOn: json['CreatedOn'] == null
-        ? null
-        : DateTime.parse(json['CreatedOn'] as String),
+    createdOn: unixTimestampFromJson(json['CreatedOn']),
     defaultRunProperties:
         (json['DefaultRunProperties'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
@@ -3479,9 +3387,7 @@ Workflow _$WorkflowFromJson(Map<String, dynamic> json) {
     graph: json['Graph'] == null
         ? null
         : WorkflowGraph.fromJson(json['Graph'] as Map<String, dynamic>),
-    lastModifiedOn: json['LastModifiedOn'] == null
-        ? null
-        : DateTime.parse(json['LastModifiedOn'] as String),
+    lastModifiedOn: unixTimestampFromJson(json['LastModifiedOn']),
     lastRun: json['LastRun'] == null
         ? null
         : WorkflowRun.fromJson(json['LastRun'] as Map<String, dynamic>),
@@ -3504,16 +3410,12 @@ WorkflowGraph _$WorkflowGraphFromJson(Map<String, dynamic> json) {
 
 WorkflowRun _$WorkflowRunFromJson(Map<String, dynamic> json) {
   return WorkflowRun(
-    completedOn: json['CompletedOn'] == null
-        ? null
-        : DateTime.parse(json['CompletedOn'] as String),
+    completedOn: unixTimestampFromJson(json['CompletedOn']),
     graph: json['Graph'] == null
         ? null
         : WorkflowGraph.fromJson(json['Graph'] as Map<String, dynamic>),
     name: json['Name'] as String,
-    startedOn: json['StartedOn'] == null
-        ? null
-        : DateTime.parse(json['StartedOn'] as String),
+    startedOn: unixTimestampFromJson(json['StartedOn']),
     statistics: json['Statistics'] == null
         ? null
         : WorkflowRunStatistics.fromJson(
@@ -3548,12 +3450,8 @@ XMLClassifier _$XMLClassifierFromJson(Map<String, dynamic> json) {
   return XMLClassifier(
     classification: json['Classification'] as String,
     name: json['Name'] as String,
-    creationTime: json['CreationTime'] == null
-        ? null
-        : DateTime.parse(json['CreationTime'] as String),
-    lastUpdated: json['LastUpdated'] == null
-        ? null
-        : DateTime.parse(json['LastUpdated'] as String),
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     rowTag: json['RowTag'] as String,
     version: json['Version'] as int,
   );

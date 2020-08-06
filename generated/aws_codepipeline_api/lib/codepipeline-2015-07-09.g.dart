@@ -181,9 +181,7 @@ ActionExecution _$ActionExecutionFromJson(Map<String, dynamic> json) {
         : ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>),
     externalExecutionId: json['externalExecutionId'] as String,
     externalExecutionUrl: json['externalExecutionUrl'] as String,
-    lastStatusChange: json['lastStatusChange'] == null
-        ? null
-        : DateTime.parse(json['lastStatusChange'] as String),
+    lastStatusChange: unixTimestampFromJson(json['lastStatusChange']),
     lastUpdatedBy: json['lastUpdatedBy'] as String,
     percentComplete: json['percentComplete'] as int,
     status:
@@ -208,9 +206,7 @@ ActionExecutionDetail _$ActionExecutionDetailFromJson(
     input: json['input'] == null
         ? null
         : ActionExecutionInput.fromJson(json['input'] as Map<String, dynamic>),
-    lastUpdateTime: json['lastUpdateTime'] == null
-        ? null
-        : DateTime.parse(json['lastUpdateTime'] as String),
+    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
     output: json['output'] == null
         ? null
         : ActionExecutionOutput.fromJson(
@@ -218,9 +214,7 @@ ActionExecutionDetail _$ActionExecutionDetailFromJson(
     pipelineExecutionId: json['pipelineExecutionId'] as String,
     pipelineVersion: json['pipelineVersion'] as int,
     stageName: json['stageName'] as String,
-    startTime: json['startTime'] == null
-        ? null
-        : DateTime.parse(json['startTime'] as String),
+    startTime: unixTimestampFromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$ActionExecutionStatusEnumMap, json['status']),
   );
@@ -292,9 +286,7 @@ ActionExecutionResult _$ActionExecutionResultFromJson(
 
 ActionRevision _$ActionRevisionFromJson(Map<String, dynamic> json) {
   return ActionRevision(
-    created: json['created'] == null
-        ? null
-        : DateTime.parse(json['created'] as String),
+    created: unixTimestampFromJson(json['created']),
     revisionChangeId: json['revisionChangeId'] as String,
     revisionId: json['revisionId'] as String,
   );
@@ -309,7 +301,7 @@ Map<String, dynamic> _$ActionRevisionToJson(ActionRevision instance) {
     }
   }
 
-  writeNotNull('created', instance.created?.toIso8601String());
+  writeNotNull('created', unixTimestampToJson(instance.created));
   writeNotNull('revisionChangeId', instance.revisionChangeId);
   writeNotNull('revisionId', instance.revisionId);
   return val;
@@ -497,9 +489,7 @@ const _$ArtifactLocationTypeEnumMap = {
 
 ArtifactRevision _$ArtifactRevisionFromJson(Map<String, dynamic> json) {
   return ArtifactRevision(
-    created: json['created'] == null
-        ? null
-        : DateTime.parse(json['created'] as String),
+    created: unixTimestampFromJson(json['created']),
     name: json['name'] as String,
     revisionChangeIdentifier: json['revisionChangeIdentifier'] as String,
     revisionId: json['revisionId'] as String,
@@ -597,7 +587,7 @@ Map<String, dynamic> _$CurrentRevisionToJson(CurrentRevision instance) {
 
   writeNotNull('changeIdentifier', instance.changeIdentifier);
   writeNotNull('revision', instance.revision);
-  writeNotNull('created', instance.created?.toIso8601String());
+  writeNotNull('created', unixTimestampToJson(instance.created));
   writeNotNull('revisionSummary', instance.revisionSummary);
   return val;
 }
@@ -732,18 +722,14 @@ GetPipelineOutput _$GetPipelineOutputFromJson(Map<String, dynamic> json) {
 GetPipelineStateOutput _$GetPipelineStateOutputFromJson(
     Map<String, dynamic> json) {
   return GetPipelineStateOutput(
-    created: json['created'] == null
-        ? null
-        : DateTime.parse(json['created'] as String),
+    created: unixTimestampFromJson(json['created']),
     pipelineName: json['pipelineName'] as String,
     pipelineVersion: json['pipelineVersion'] as int,
     stageStates: (json['stageStates'] as List)
         ?.map((e) =>
             e == null ? null : StageState.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    updated: json['updated'] == null
-        ? null
-        : DateTime.parse(json['updated'] as String),
+    updated: unixTimestampFromJson(json['updated']),
   );
 }
 
@@ -895,9 +881,7 @@ ListWebhookItem _$ListWebhookItemFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     errorCode: json['errorCode'] as String,
     errorMessage: json['errorMessage'] as String,
-    lastTriggered: json['lastTriggered'] == null
-        ? null
-        : DateTime.parse(json['lastTriggered'] as String),
+    lastTriggered: unixTimestampFromJson(json['lastTriggered']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -1014,18 +998,14 @@ const _$PipelineExecutionStatusEnumMap = {
 PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return PipelineExecutionSummary(
-    lastUpdateTime: json['lastUpdateTime'] == null
-        ? null
-        : DateTime.parse(json['lastUpdateTime'] as String),
+    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
     pipelineExecutionId: json['pipelineExecutionId'] as String,
     sourceRevisions: (json['sourceRevisions'] as List)
         ?.map((e) => e == null
             ? null
             : SourceRevision.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: json['startTime'] == null
-        ? null
-        : DateTime.parse(json['startTime'] as String),
+    startTime: unixTimestampFromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$PipelineExecutionStatusEnumMap, json['status']),
     stopTrigger: json['stopTrigger'] == null
@@ -1040,25 +1020,17 @@ PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
 
 PipelineMetadata _$PipelineMetadataFromJson(Map<String, dynamic> json) {
   return PipelineMetadata(
-    created: json['created'] == null
-        ? null
-        : DateTime.parse(json['created'] as String),
+    created: unixTimestampFromJson(json['created']),
     pipelineArn: json['pipelineArn'] as String,
-    updated: json['updated'] == null
-        ? null
-        : DateTime.parse(json['updated'] as String),
+    updated: unixTimestampFromJson(json['updated']),
   );
 }
 
 PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   return PipelineSummary(
-    created: json['created'] == null
-        ? null
-        : DateTime.parse(json['created'] as String),
+    created: unixTimestampFromJson(json['created']),
     name: json['name'] as String,
-    updated: json['updated'] == null
-        ? null
-        : DateTime.parse(json['updated'] as String),
+    updated: unixTimestampFromJson(json['updated']),
     version: json['version'] as int,
   );
 }
@@ -1093,9 +1065,7 @@ PutActionRevisionOutput _$PutActionRevisionOutputFromJson(
 PutApprovalResultOutput _$PutApprovalResultOutputFromJson(
     Map<String, dynamic> json) {
   return PutApprovalResultOutput(
-    approvedAt: json['approvedAt'] == null
-        ? null
-        : DateTime.parse(json['approvedAt'] as String),
+    approvedAt: unixTimestampFromJson(json['approvedAt']),
   );
 }
 
@@ -1311,9 +1281,7 @@ TransitionState _$TransitionStateFromJson(Map<String, dynamic> json) {
   return TransitionState(
     disabledReason: json['disabledReason'] as String,
     enabled: json['enabled'] as bool,
-    lastChangedAt: json['lastChangedAt'] == null
-        ? null
-        : DateTime.parse(json['lastChangedAt'] as String),
+    lastChangedAt: unixTimestampFromJson(json['lastChangedAt']),
     lastChangedBy: json['lastChangedBy'] as String,
   );
 }
