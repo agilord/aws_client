@@ -1,3 +1,7 @@
+## 0.1.0
+
+- Update dependencies
+
 ## 0.0.7
 
 - Fix null value error for 'expected' parameter in 'put' method
