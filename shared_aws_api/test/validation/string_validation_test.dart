@@ -8,7 +8,9 @@ void main() {
     });
 
     test('null value is an ArgumentError', () {
-      expect(() => validateStringPattern('null value', null, r'\d{3}'),
+      expect(
+          () => validateStringPattern('null value', null, r'\d{3}',
+              isRequired: true),
           throwsA(TypeMatcher<ArgumentError>()));
     });
 
@@ -24,7 +26,7 @@ void main() {
     });
 
     test('null value is an ArgumentError', () {
-      expect(() => validateStringLength('null', null, 3, 666),
+      expect(() => validateStringLength('null', null, 3, 666, isRequired: true),
           throwsA(TypeMatcher<ArgumentError>()));
     });
 

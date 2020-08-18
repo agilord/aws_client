@@ -416,46 +416,6 @@ final testSuites = [
     ]
   },
   {
-    'description': 'Timestamp values',
-    'metadata': {'protocol': 'query', 'apiVersion': '2014-01-01'},
-    'shapes': {
-      'InputShape': {
-        'type': 'structure',
-        'members': {
-          'TimeArg': {'shape': 'TimestampType'},
-          'TimeCustom': {
-            'timestampFormat': 'unixTimestamp',
-            'shape': 'TimestampType'
-          },
-          'TimeFormat': {'shape': 'TimestampFormatType'}
-        }
-      },
-      'TimestampFormatType': {
-        'timestampFormat': 'unixTimestamp',
-        'type': 'timestamp'
-      },
-      'TimestampType': {'type': 'timestamp'}
-    },
-    'cases': [
-      {
-        'given': {
-          'input': {'shape': 'InputShape'},
-          'name': 'OperationName'
-        },
-        'params': {
-          'TimeArg': DateTime.fromMillisecondsSinceEpoch(1422172800 * 1000),
-          'TimeCustom': DateTime.fromMillisecondsSinceEpoch(1422172800 * 1000),
-          'TimeFormat': DateTime.fromMillisecondsSinceEpoch(1422172800 * 1000)
-        },
-        'serialized': {
-          'uri': '/',
-          'body':
-              'Action=OperationName&Version=2014-01-01&TimeArg=2015-01-25T08%3A00%3A00Z&TimeCustom=1422172800&TimeFormat=1422172800'
-        }
-      }
-    ]
-  },
-  {
     'description': 'Recursive shapes',
     'metadata': {'protocol': 'query', 'apiVersion': '2014-01-01'},
     'shapes': {
@@ -623,20 +583,6 @@ final testSuites = [
           'body': 'Action=OperationName&Version=2014-01-01&Token=abc123'
         }
       },
-      {
-        'given': {
-          'input': {'shape': 'InputShape'},
-          'http': {'method': 'POST'},
-          'name': 'OperationName'
-        },
-        'params': <String, dynamic>{},
-        'serialized': {
-          'uri': '/',
-          'headers': <String, dynamic>{},
-          'body':
-              'Action=OperationName&Version=2014-01-01&Token=00000000-0000-4000-8000-000000000000'
-        }
-      }
     ]
   },
   {

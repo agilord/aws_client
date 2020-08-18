@@ -8,7 +8,7 @@ void main() {
     });
 
     test('null value is an ArgumentError', () {
-      expect(() => validateNumRange('null', null, 3, 666),
+      expect(() => validateNumRange('null', null, 3, 666, isRequired: true),
           throwsA(TypeMatcher<ArgumentError>()));
     });
 
