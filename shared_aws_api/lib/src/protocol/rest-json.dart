@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_aws_api/src/protocol/_sign.dart';
 
 import '../credentials.dart';
 import 'shared.dart';
@@ -39,14 +42,35 @@ class RestJsonProtocol {
         client, service, region, endpointUrl, credentials);
   }
 
-  Future<Map<String, dynamic>> send(
-    dynamic data, {
+  Future<JsonResponse> send({
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, String> queryParams,
     Map<String, String> headers,
+    dynamic payload,
   }) async {
-    print('$_endpointUrl$_client$_service$_region$_credentials');
-    throw UnimplementedError('rest-json not implemented');
+    final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
+    rq.body = (payload == null ? null : json.encode(payload)) ?? '';
+    rq.headers.addAll(headers);
+
+    signAws4HmacSha256(
+      rq: rq,
+      service: _service,
+      region: _region,
+      credentials: _credentials,
+    );
+
+    final rs = await _client.send(rq);
+
+    final body = await rs.stream.bytesToString();
+
+    if (200 < rs.statusCode || rs.statusCode >= 300) {
+      throwException(rs, body, exceptionFnMap);
+    }
+
+    final parsedBody = jsonDecode(body) as Map<String, dynamic>;
+
+    return JsonResponse(rs.headers, parsedBody);
   }
 }
