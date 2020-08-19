@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:xml/xml.dart';
@@ -242,4 +243,49 @@ String extractRegion(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
   throw Exception('Unable to detect region in ${uri.host}.');
+}
+
+class JsonResponse {
+  final Map<String, String> headers;
+  final Map<String, dynamic> body;
+
+  JsonResponse(this.headers, this.body);
+}
+
+void throwException(StreamedResponse rs, String body,
+    Map<String, AwsExceptionFn> exceptionFnMap) {
+  var type =
+      rs.headers['x-amzn-errortype']?.split(':')?.first ?? 'UnknownError';
+  String message;
+
+  final statusCode = rs.statusCode.toString();
+
+  if (body?.isNotEmpty == true) {
+    try {
+      final e = jsonDecode(body);
+      if (e['__type'] != null || e['code'] != null) {
+        type =
+            ((e['__type'] as String) ?? (e['code'] as String)).split('#').last;
+      }
+      if (type == 'RequestEntityTooLarge') {
+        message = 'Request body must be less than 1 MB';
+      } else {
+        message = e['message'] as String ?? e['Message'] as String;
+      }
+    } catch (_) {
+      message = statusCode;
+    }
+  } else {
+    message = statusCode;
+  }
+
+  final fn = exceptionFnMap[type];
+  final exception = fn != null
+      ? fn(type, message)
+      : GenericAwsException(
+          type: type,
+          code: statusCode,
+          message: message,
+        );
+  throw exception;
 }

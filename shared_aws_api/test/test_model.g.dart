@@ -8,10 +8,10 @@ part of 'test_model.dart';
 
 TestSuite _$TestSuiteFromJson(Map<String, dynamic> json) {
   return TestSuite(
-    (json['shapes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Shape.fromJson(e as Map<String, dynamic>)),
-    ),
+    (json['shapes'] as Map)?.cast<String, dynamic>()?.map(
+          (k, e) => MapEntry(
+              k, e == null ? null : Shape.fromJson(e as Map<String, dynamic>)),
+        ),
     json['description'] as String,
     (json['cases'] as List)
         ?.map(
@@ -28,7 +28,7 @@ Case _$CaseFromJson(Map<String, dynamic> json) {
     json['given'] == null
         ? null
         : Given.fromJson(json['given'] as Map<String, dynamic>),
-    json['params'] as Map<String, dynamic>,
+    (json['params'] as Map)?.cast<String, dynamic>(),
     json['serialized'] == null
         ? null
         : Serialized.fromJson(json['serialized'] as Map<String, dynamic>),
@@ -50,6 +50,7 @@ Given _$GivenFromJson(Map<String, dynamic> json) {
 Http _$HttpFromJson(Map<String, dynamic> json) {
   return Http(
     json['method'] as String,
+    json['requestUri'] as String,
   );
 }
 
@@ -57,8 +58,8 @@ Serialized _$SerializedFromJson(Map<String, dynamic> json) {
   return Serialized(
     json['uri'] as String,
     json['body'] as String,
-    (json['headers'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
+    (json['headers'] as Map)?.cast<String, dynamic>()?.map(
+          (k, e) => MapEntry(k, e as String),
+        ),
   );
 }

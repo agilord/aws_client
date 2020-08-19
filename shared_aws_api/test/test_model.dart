@@ -51,8 +51,9 @@ class Given {
 @JsonSerializable(createToJson: false)
 class Http {
   final String method;
+  final String requestUri;
 
-  Http(this.method);
+  Http(this.method, this.requestUri);
 
   factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
 }

@@ -21,8 +21,8 @@ abstract class ServiceBuilder {
     if (sc != null) {
       sc.uriMembers.forEach((m) {
         uri = uri
-            .replaceAll('{${m.locationName ?? m.name}}', '\$${m.fieldName}')
-            .replaceAll('{${m.locationName ?? m.name}+}', '\$${m.fieldName}');
+            .replaceAll('{${m.locationName ?? m.name}}', '\${Uri.encodeComponent(${m.fieldName}.toString())}')
+            .replaceAll('{${m.locationName ?? m.name}+}', '\${Uri.encodeComponent(${m.fieldName}.toString())}');
       });
     }
     return uri;
