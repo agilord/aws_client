@@ -82,6 +82,11 @@ in the config file, from the downloaded models.''';
         'config-file',
         help: 'Configuration file describing package generation.',
         defaultsTo: 'config.yaml',
+      )
+      ..addOption(
+        'protocol',
+        help: 'Generate only services with a specific protocol',
+        allowed: ['json', 'rest-json', 'rest-xml', 'query', 'ec2'],
       );
   }
 
@@ -110,6 +115,7 @@ in the config file, from the downloaded models.''';
   Future _generateClasses() async {
     print('Generating Dart classes...');
     final devMode = argResults['dev'] == true;
+    final protocol = argResults['protocol'];
 
     final formatter = DartFormatter(fixes: StyleFix.all);
     final dir = Directory('./apis');
@@ -141,7 +147,8 @@ in the config file, from the downloaded models.''';
         final protocolConfig = config.protocols[api.metadata.protocol];
         if (api.isRecognized &&
             (config.packages == null ||
-                config.packages.contains(api.packageName))) {
+                config.packages.contains(api.packageName)) && !(protocol != null && api.metadata.protocol != protocol)) {
+
           final percentage = i * 100 ~/ services.length;
 
           printPercentageInPlace(percentage,

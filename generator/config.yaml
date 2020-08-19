@@ -17,8 +17,97 @@ protocols:
 
 # Packages to generate
 packages:
-  - aws_lambda_api # rest-json
-  - aws_ec2_api # ec2
+## ec2
+  - aws_ec2_api
+## rest-json protocol APIs
+  - aws_accessanalyzer_api
+  - aws_amplify_api
+  - aws_apigateway_api
+  - aws_apigatewaymanagementapi_api
+  - aws_apigatewayv2_api
+  - aws_appconfig_api
+  - aws_appmesh_api
+  - aws_appsync_api
+  - aws_backup_api
+  - aws_batch_api
+  - aws_chime_api
+  - aws_clouddirectory_api
+  - aws_cloudsearchdomain_api
+  - aws_codeguru_reviewer_api
+  - aws_codeguruprofiler_api
+  - aws_codestar_notifications_api
+  - aws_cognito_sync_api
+  - aws_connect_api
+  - aws_connectparticipant_api
+  - aws_dataexchange_api
+  - aws_detective_api
+  - aws_dlm_api
+  - aws_ebs_api
+  - aws_efs_api
+  - aws_eks_api
+  - aws_elastic_inference_api
+  - aws_elastictranscoder_api
+  - aws_es_api
+  - aws_glacier_api
+  - aws_greengrass_api
+  - aws_groundstation_api
+  - aws_guardduty_api
+  - aws_imagebuilder_api
+  - aws_iot_data_api
+  - aws_iot_jobs_data_api
+  - aws_iot1click_devices_api
+  - aws_iot1click_projects_api
+  - aws_iot_api
+  - aws_iotanalytics_api
+  - aws_iotevents_data_api
+  - aws_iotevents_api
+  - aws_kafka_api
+  - aws_kinesis_video_archived_media_api
+  - aws_kinesis_video_media_api
+  - aws_kinesis_video_signaling_api
+  - aws_kinesisvideo_api
+  - aws_lambda_api
+  - aws_lex_models_api
+  - aws_lex_runtime_api
+  - aws_managedblockchain_api
+  - aws_marketplace_catalog_api
+  - aws_mediaconnect_api
+  - aws_mediaconvert_api
+  - aws_medialive_api
+  - aws_mediapackage_vod_api
+  - aws_mediapackage_api
+  - aws_mediastore_data_api
+  - aws_mediatailor_api
+  - aws_mobile_api
+  - aws_mq_api
+  - aws_networkmanager_api
+  - aws_outposts_api
+  - aws_personalize_events_api
+  - aws_personalize_runtime_api
+  - aws_pinpoint_email_api
+  - aws_pinpoint_sms_voice_api
+  - aws_pinpoint_api
+  - aws_polly_api
+  - aws_qldb_api
+  - aws_quicksight_api
+  - aws_ram_api
+  - aws_rds_data_api
+  - aws_resource_groups_api
+  - aws_robomaker_api
+  - aws_sagemaker_a2i_runtime_api
+  - aws_sagemaker_runtime_api
+  - aws_savingsplans_api
+  - aws_schemas_api
+  - aws_securityhub_api
+  - aws_serverlessrepo_api
+  - aws_sesv2_api
+  - aws_signer_api
+  - aws_sso_oidc_api
+  - aws_sso_api
+  - aws_workdocs_api
+  - aws_worklink_api
+  - aws_workmailmessageflow_api
+  - aws_xray_api
 ## json protocol APIs
   - aws_acm_api
   - aws_acm_pca_api
