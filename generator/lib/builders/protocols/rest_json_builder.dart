@@ -20,13 +20,29 @@ class RestJsonServiceBuilder extends ServiceBuilder {
   @override
   String operationContent(Operation operation) {
     final buf = StringBuffer();
-    final shapeClass = operation.input?.shapeClass;
+    final inputShape = operation.input?.shapeClass;
+
     buildRequestHeaders(operation, buf);
-    if (!operation.http.bodyForbidden && shapeClass != null) {
-      final payload = shapeClass?.payloadMember;
+
+    buf.writeln("var query = '';");
+
+    if (inputShape?.hasQueryMembers == true) {
+      buf.writeln("query = '?\${[");
+      for (final member in inputShape.queryMembers) {
+        buf.writeln('if(${member.fieldName} != null)');
+        buf.writeln(
+            '_s.toQueryParam(${member.locationName == null ? 'null' : "'${member.locationName}'"}, ${member.fieldName}),');
+      }
+      buf.writeln("].where((e) => e != null).join('&')}';");
+    }
+
+    final outputClass = operation.output?.shapeClass?.className;
+
+    if (!operation.http.bodyForbidden && inputShape != null) {
+      final payload = inputShape?.payloadMember;
       if (payload == null) {
         buf.writeln('final \$payload = <String, dynamic>{');
-        shapeClass.members.where((m) => m.isBody).forEach((member) {
+        inputShape.members.where((m) => m.isBody).forEach((member) {
           var serializationSuffix = '';
           if (member.shapeClass.enumeration != null) {
             member.shapeClass.isTopLevelInputEnum = true;
@@ -36,24 +52,28 @@ class RestJsonServiceBuilder extends ServiceBuilder {
               "'${member.name}': ${member.fieldName}$serializationSuffix,");
         });
         buf.writeln('};');
-        buf.writeln('await _protocol.send(\$payload,');
+        buf.writeln(
+            '${outputClass != null ? 'final response = ' : ''}await _protocol.send(payload: \$payload,');
       } else {
-        buf.writeln('await _protocol.send(${payload.fieldName},');
+        buf.writeln(
+            '${outputClass != null ? 'final response = ' : ''}await _protocol.send(payload: ${payload.fieldName},');
       }
     } else {
-      buf.writeln('await _protocol.send(null,');
+      buf.writeln(
+          '${outputClass != null ? 'final response = ' : ''}await _protocol.send(payload: null,');
     }
-    if (shapeClass?.hasHeaderMembers == true) {
+    if (inputShape?.hasHeaderMembers == true) {
       buf.writeln('headers: headers,');
     }
-    // TODO: handle querystring too
 
     buf.writeln('method: \'${operation.http.method}\', '
-        'requestUri: \'${buildRequestUri(operation)}\', '
+        "requestUri: '${buildRequestUri(operation)}\$query', "
         'exceptionFnMap: _exceptionFns, '
         ');');
-    buf.writeln('''// TODO: implement rest-json
-      throw UnimplementedError();''');
+
+    if (outputClass != null) {
+      buf.writeln('return $outputClass.fromJson(response);');
+    }
     return buf.toString();
   }
 }

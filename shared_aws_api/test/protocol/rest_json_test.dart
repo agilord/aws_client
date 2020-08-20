@@ -9,7 +9,7 @@ import '../test_model.dart';
 import 'rest_json_test_data.dart';
 
 void main() {
-  group('json protocol', () {
+  group('rest-json protocol', () {
     for (final s in testSuites) {
       TestSuite testSuite;
       try {

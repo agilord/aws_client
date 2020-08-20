@@ -82,6 +82,11 @@ in the config file, from the downloaded models.''';
         'config-file',
         help: 'Configuration file describing package generation.',
         defaultsTo: 'config.yaml',
+      )
+      ..addOption(
+        'protocol',
+        help: 'Generate only services with a specific protocol',
+        allowed: ['json', 'rest-json', 'rest-xml', 'query', 'ec2'],
       );
   }
 
@@ -110,6 +115,7 @@ in the config file, from the downloaded models.''';
   Future _generateClasses() async {
     print('Generating Dart classes...');
     final devMode = argResults['dev'] == true;
+    final protocol = argResults['protocol'];
 
     final formatter = DartFormatter(fixes: StyleFix.all);
     final dir = Directory('./apis');
@@ -128,6 +134,15 @@ in the config file, from the downloaded models.''';
     final latestBuiltApi = <String, String>{};
     final generatedApis = <String, String>{};
 
+    void registerNotGenerated(Api api) {
+      notGeneratedApis[api.metadata.protocol] ??= {};
+      notGeneratedApis[api.metadata.protocol]
+          [api.packageBaseName ?? 'NO_PACKAGE_BASENAME'] ??= [];
+      notGeneratedApis[api.metadata.protocol]
+              [api.packageBaseName ?? 'NO_PACKAGE_BASENAME']
+          .add(api.fileBasename);
+    }
+
     for (var i = 0; i < services.length; i++) {
       final service = services.elementAt(i);
       final def = File('./apis/$service.normal.json');
@@ -139,96 +154,98 @@ in the config file, from the downloaded models.''';
         final api = Api.fromJson(defJson);
         final thinApi = thin.Api.fromJson(defJson);
         final protocolConfig = config.protocols[api.metadata.protocol];
-        if (api.isRecognized &&
+
+        if (!(api.isRecognized &&
             (config.packages == null ||
-                config.packages.contains(api.packageName))) {
-          final percentage = i * 100 ~/ services.length;
-
-          printPercentageInPlace(percentage,
-              'Generating ${api.fileBasename} for package:${api.packageName}');
-
-          // create directories
-          final baseDir = '../generated/${api.packageName}';
-          final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
-          final pubspecFile = File('$baseDir/pubspec.yaml');
-          final readmeFile = File('$baseDir/README.md');
-          final exampleFile = File('$baseDir/example/README.md');
-
-          serviceFile.parent.createSync(recursive: true);
-          exampleFile.createSync(recursive: true);
-
-          var metaContents =
-              '''const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
-
-          var serviceText = buildService(api);
-          if (argResults['format'] == true) {
-            serviceText = formatter.format(serviceText, uri: serviceFile.uri);
-            metaContents = formatter.format(metaContents);
-          }
-
-          if (api.usesQueryProtocol) {
-            File('$baseDir/lib/${api.fileBasename}.meta.dart')
-              ..writeAsStringSync(metaContents);
-          }
-
-          String pubspecYaml;
-
-          if (pubspecFile.existsSync() && !devMode) {
-            String oldServiceText;
-
-            if (serviceFile.existsSync()) {
-              oldServiceText = serviceFile.readAsStringSync();
-            }
-
-            final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
-            final version = Version.parse(pubspecJson['version'] as String);
-            var newVersion = version.toString();
-            final shouldBump = pubspecJson['dependencies']['shared_aws_api'] !=
-                    protocolConfig.shared ||
-                oldServiceText != serviceText;
-
-            if (shouldBump && argResults['bump'] == true) {
-              newVersion = version.incrementPatch().toString();
-              print('Bumping ${api.packageName} from $version to $newVersion');
-            }
-
-            pubspecYaml = buildPubspecYaml(
-              api,
-              packageVersion: newVersion,
-              isDevMode: devMode,
-              protocolConfig: protocolConfig,
-            );
-          } else {
-            pubspecYaml = buildPubspecYaml(
-              api,
-              packageVersion: '0.0.1',
-              isDevMode: devMode,
-              protocolConfig: protocolConfig,
-            );
-          }
-
-          pubspecFile.writeAsStringSync(pubspecYaml);
-          serviceFile.writeAsStringSync(serviceText);
-
-          final latestBuiltApiVersion = latestBuiltApi[api.metadata.serviceId];
-
-          if (latestBuiltApiVersion == null ||
-              latestBuiltApiVersion.compareTo(api.metadata.apiVersion) < 0) {
-            latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
-            readmeFile.writeAsStringSync(buildReadmeMd(api));
-            exampleFile.writeAsStringSync(buildExampleReadme(api));
-          }
-
-          touchedDirs.add(baseDir);
-          generatedApis[api.packageName] = api.metadata.serviceFullName;
-        } else {
-          notGeneratedApis[api.metadata.protocol] ??= {};
-          notGeneratedApis[api.metadata.protocol]
-              [api.packageBaseName ?? 'NO_PACKAGE_BASENAME'] ??= [];
-          notGeneratedApis[api.metadata.protocol]
-                  [api.packageBaseName ?? 'NO_PACKAGE_BASENAME']
-              .add(api.fileBasename);
+                config.packages.contains(api.packageName)))) {
+          registerNotGenerated(api);
+          continue;
         }
+
+        if (protocol != null && api.metadata.protocol != protocol) {
+          registerNotGenerated(api);
+          continue;
+        }
+
+        final percentage = i * 100 ~/ services.length;
+
+        printPercentageInPlace(percentage,
+            'Generating ${api.fileBasename} for package:${api.packageName}');
+
+        // create directories
+        final baseDir = '../generated/${api.packageName}';
+        final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
+        final pubspecFile = File('$baseDir/pubspec.yaml');
+        final readmeFile = File('$baseDir/README.md');
+        final exampleFile = File('$baseDir/example/README.md');
+
+        serviceFile.parent.createSync(recursive: true);
+        exampleFile.createSync(recursive: true);
+
+        var metaContents =
+            '''const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
+
+        var serviceText = buildService(api);
+        if (argResults['format'] == true) {
+          serviceText = formatter.format(serviceText, uri: serviceFile.uri);
+          metaContents = formatter.format(metaContents);
+        }
+
+        if (api.usesQueryProtocol) {
+          File('$baseDir/lib/${api.fileBasename}.meta.dart')
+            ..writeAsStringSync(metaContents);
+        }
+
+        String pubspecYaml;
+
+        if (pubspecFile.existsSync() && !devMode) {
+          String oldServiceText;
+
+          if (serviceFile.existsSync()) {
+            oldServiceText = serviceFile.readAsStringSync();
+          }
+
+          final pubspecJson = loadYaml(pubspecFile.readAsStringSync());
+          final version = Version.parse(pubspecJson['version'] as String);
+          var newVersion = version.toString();
+          final shouldBump = pubspecJson['dependencies']['shared_aws_api'] !=
+                  protocolConfig.shared ||
+              oldServiceText != serviceText;
+
+          if (shouldBump && argResults['bump'] == true) {
+            newVersion = version.incrementPatch().toString();
+            print('Bumping ${api.packageName} from $version to $newVersion');
+          }
+
+          pubspecYaml = buildPubspecYaml(
+            api,
+            packageVersion: newVersion,
+            isDevMode: devMode,
+            protocolConfig: protocolConfig,
+          );
+        } else {
+          pubspecYaml = buildPubspecYaml(
+            api,
+            packageVersion: '0.0.1',
+            isDevMode: devMode,
+            protocolConfig: protocolConfig,
+          );
+        }
+
+        pubspecFile.writeAsStringSync(pubspecYaml);
+        serviceFile.writeAsStringSync(serviceText);
+
+        final latestBuiltApiVersion = latestBuiltApi[api.metadata.serviceId];
+
+        if (latestBuiltApiVersion == null ||
+            latestBuiltApiVersion.compareTo(api.metadata.apiVersion) < 0) {
+          latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
+          readmeFile.writeAsStringSync(buildReadmeMd(api));
+          exampleFile.writeAsStringSync(buildExampleReadme(api));
+        }
+
+        touchedDirs.add(baseDir);
+        generatedApis[api.packageName] = api.metadata.serviceFullName;
       } on UnrecognizedKeysException catch (e) {
         print('Error deserializing $service');
         print(e.message);

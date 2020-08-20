@@ -42,7 +42,7 @@ class RestJsonProtocol {
         client, service, region, endpointUrl, credentials);
   }
 
-  Future<JsonResponse> send({
+  Future<Map<String, dynamic>> send({
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
@@ -71,6 +71,9 @@ class RestJsonProtocol {
 
     final parsedBody = jsonDecode(body) as Map<String, dynamic>;
 
-    return JsonResponse(rs.headers, parsedBody);
+    return {
+      ...rs.headers,
+      ...parsedBody,
+    };
   }
 }

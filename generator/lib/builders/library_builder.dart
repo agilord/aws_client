@@ -273,7 +273,8 @@ ${builder.constructor()}
             dateTimeConversion =
                 ', fromJson: ${timeStampFormat}FromJson, toJson: ${timeStampFormat}ToJson';
           }
-          writeln("  @_s.JsonKey(name: '${member.name}'$dateTimeConversion)");
+          writeln(
+              "  @_s.JsonKey(name: '${member.locationName ?? member.name}'$dateTimeConversion)");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');
