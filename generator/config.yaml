@@ -11,6 +11,7 @@ protocols:
     publish: true
   rest-json:
     shared: ^0.2.1
+    publish: true
   rest-xml:
     shared: ^0.2.1
     publish: true

@@ -1,3 +1,7 @@
+## 0.2.2
+
+- Updated implementation of the rest-json protocol.
+
 ## 0.2.1
 
 - Fix broken date serialization by unifying naming conventions to `${timeStampFormat}ToJson` and `${timeStampFormat}FromJson`
