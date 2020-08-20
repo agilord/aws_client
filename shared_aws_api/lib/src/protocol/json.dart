@@ -72,6 +72,11 @@ class JsonProtocol {
 
     final parsedBody = jsonDecode(body) as Map<String, dynamic>;
 
-    return JsonResponse(rs.headers, parsedBody);
+    // TODO: replace return type with Map<String, dynamic> and discard the
+    // JsonResponse class. The generated code will have to adjust as well.
+    return JsonResponse(rs.headers, {
+      ...parsedBody,
+      ...rs.headers,
+    });
   }
 }
