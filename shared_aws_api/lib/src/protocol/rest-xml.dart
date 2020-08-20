@@ -55,9 +55,12 @@ class RestXmlProtocol {
     final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
-    final root = XmlDocument.parse(body);
-    var elem = root.rootElement;
-    if (elem.name.local == 'ErrorResponse') {
+    XmlDocument root;
+    if (body?.isNotEmpty == true) {
+      root = XmlDocument.parse(body);
+    }
+    var elem = root?.rootElement;
+    if (elem?.name?.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
       final type = error.findElements('Type').first.text;
       final code = error.findElements('Code').first.text;
@@ -68,10 +71,10 @@ class RestXmlProtocol {
           : GenericAwsException(type: type, code: code, message: message);
       throw exception;
     }
-    if (resultWrapper != null) {
+    if (resultWrapper != null && elem != null) {
       elem = elem.findElements(resultWrapper).first;
     }
-    return RestXmlResponse(rs.headers, elem);
+    return RestXmlResponse(rs.headers, elem ?? XmlElement(XmlName('empty')));
   }
 
   Request _buildRequest(
