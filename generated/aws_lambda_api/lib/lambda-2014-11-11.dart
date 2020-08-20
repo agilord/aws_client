@@ -125,6 +125,7 @@ class Lambda {
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
       'FunctionName': functionName,
@@ -132,14 +133,13 @@ class Lambda {
       'BatchSize': batchSize,
       'Parameters': parameters,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2014-11-13/event-source-mappings/',
+      requestUri: '/2014-11-13/event-source-mappings/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceConfiguration.fromJson(response);
   }
 
   /// Deletes the specified Lambda function code and configuration.
@@ -169,15 +169,15 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
+    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2014-11-13/functions/$functionName',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Returns configuration information for the specified event source mapping
@@ -196,14 +196,15 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/event-source-mappings/$uuid',
+      requestUri:
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceConfiguration.fromJson(response);
   }
 
   /// Returns the configuration information of the Lambda function and a
@@ -237,14 +238,15 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/functions/$functionName',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetFunctionResponse.fromJson(response);
   }
 
   /// Returns the configuration information of the Lambda function. This the
@@ -277,14 +279,15 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/functions/$functionName/configuration',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Submits an invocation request to AWS Lambda. Upon receiving the request,
@@ -323,14 +326,15 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
-    await _protocol.send(
-      invokeArgs,
+    var query = '';
+    final response = await _protocol.send(
+      payload: invokeArgs,
       method: 'POST',
-      requestUri: '/2014-11-13/functions/$functionName/invoke-async/',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return InvokeAsyncResponse.fromJson(response);
   }
 
   /// Returns a list of event source mappings you created using the
@@ -385,14 +389,21 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (eventSourceArn != null)
+        _s.toQueryParam('EventSource', eventSourceArn),
+      if (functionName != null) _s.toQueryParam('FunctionName', functionName),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/event-source-mappings/',
+      requestUri: '/2014-11-13/event-source-mappings/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListEventSourcesResponse.fromJson(response);
   }
 
   /// Returns a list of your Lambda functions. For each function, the response
@@ -422,14 +433,18 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/functions/',
+      requestUri: '/2014-11-13/functions/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListFunctionsResponse.fromJson(response);
   }
 
   /// Removes an event source mapping. This means AWS Lambda will no longer
@@ -448,15 +463,15 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
+    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2014-11-13/event-source-mappings/$uuid',
+      requestUri:
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Updates the configuration parameters for the specified Lambda function by
@@ -549,15 +564,23 @@ class Lambda {
       1,
       60,
     );
+    var query = '';
+    query = '?${[
+      if (description != null) _s.toQueryParam('Description', description),
+      if (handler != null) _s.toQueryParam('Handler', handler),
+      if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
+      if (role != null) _s.toQueryParam('Role', role),
+      if (timeout != null) _s.toQueryParam('Timeout', timeout),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2014-11-13/functions/$functionName/configuration',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Creates a new Lambda function or updates an existing function. The
@@ -679,14 +702,24 @@ class Lambda {
       1,
       60,
     );
-    await _protocol.send(
-      functionZip,
+    var query = '';
+    query = '?${[
+      if (handler != null) _s.toQueryParam('Handler', handler),
+      if (mode != null) _s.toQueryParam('Mode', mode),
+      if (role != null) _s.toQueryParam('Role', role),
+      if (runtime != null) _s.toQueryParam('Runtime', runtime),
+      if (description != null) _s.toQueryParam('Description', description),
+      if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
+      if (timeout != null) _s.toQueryParam('Timeout', timeout),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: functionZip,
       method: 'PUT',
-      requestUri: '/2014-11-13/functions/$functionName',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 }
 

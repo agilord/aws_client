@@ -143,21 +143,24 @@ class Lambda {
       organizationId,
       r'''o-[a-z0-9]{10,32}''',
     );
+    var query = '';
+    query = '?${[
+      if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'Action': action,
       'Principal': principal,
       'StatementId': statementId,
       'OrganizationId': organizationId,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
       requestUri:
-          '/2018-10-31/layers/$layerName/versions/$versionNumber/policy',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return AddLayerVersionPermissionResponse.fromJson(response);
   }
 
   /// Grants an AWS service or another account permission to use a function. You
@@ -329,6 +332,10 @@ class Lambda {
       sourceArn,
       r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'Action': action,
       'Principal': principal,
@@ -338,14 +345,14 @@ class Lambda {
       'SourceAccount': sourceAccount,
       'SourceArn': sourceArn,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/functions/$functionName/policy',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return AddPermissionResponse.fromJson(response);
   }
 
   /// Creates an <a
@@ -450,20 +457,21 @@ class Lambda {
       0,
       256,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
       'Name': name,
       'Description': description,
       'RoutingConfig': routingConfig,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/functions/$functionName/aliases',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return AliasConfiguration.fromJson(response);
   }
 
   /// Creates a mapping between an event source and an AWS Lambda function.
@@ -670,6 +678,7 @@ class Lambda {
       1,
       10,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'EventSourceArn': eventSourceArn,
       'FunctionName': functionName,
@@ -684,14 +693,13 @@ class Lambda {
       'StartingPosition': startingPosition?.toValue(),
       'StartingPositionTimestamp': startingPositionTimestamp,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/event-source-mappings/',
+      requestUri: '/2015-03-31/event-source-mappings/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceMappingConfiguration.fromJson(response);
   }
 
   /// Creates a Lambda function. To create a function, you need a <a
@@ -915,6 +923,7 @@ class Lambda {
       1,
       1152921504606846976,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'Code': code,
       'FunctionName': functionName,
@@ -933,14 +942,13 @@ class Lambda {
       'TracingConfig': tracingConfig,
       'VpcConfig': vpcConfig,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/functions',
+      requestUri: '/2015-03-31/functions$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Deletes a Lambda function <a
@@ -1004,15 +1012,15 @@ class Lambda {
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
+    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2015-03-31/functions/$functionName/aliases/$name',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Deletes an <a
@@ -1035,15 +1043,16 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
+    var query = '';
     final $payload = <String, dynamic>{};
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2015-03-31/event-source-mappings/$uuid',
+      requestUri:
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceMappingConfiguration.fromJson(response);
   }
 
   /// Deletes a Lambda function. To delete a specific function version, use the
@@ -1114,15 +1123,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2015-03-31/functions/$functionName',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Removes a concurrent execution limit from a function.
@@ -1168,15 +1180,15 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
+    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2017-10-31/functions/$functionName/concurrency',
+      requestUri:
+          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Deletes the configuration for asynchronous invocation for a function,
@@ -1242,15 +1254,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2019-09-25/functions/$functionName/event-invoke-config',
+      requestUri:
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Deletes a version of an <a
@@ -1286,15 +1301,15 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
+    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2018-10-31/layers/$layerName/versions/$versionNumber',
+      requestUri:
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Deletes the provisioned concurrency configuration for a function.
@@ -1358,15 +1373,18 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2019-09-30/functions/$functionName/provisioned-concurrency',
+      requestUri:
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Retrieves details about your account's <a
@@ -1376,14 +1394,14 @@ class Lambda {
   /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
   Future<GetAccountSettingsResponse> getAccountSettings() async {
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2016-08-19/account-settings/',
+      requestUri: '/2016-08-19/account-settings/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetAccountSettingsResponse.fromJson(response);
   }
 
   /// Returns details about a Lambda function <a
@@ -1447,14 +1465,15 @@ class Lambda {
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName/aliases/$name',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return AliasConfiguration.fromJson(response);
   }
 
   /// Returns details about an event source mapping. You can get the identifier
@@ -1471,14 +1490,15 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/event-source-mappings/$uuid',
+      requestUri:
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceMappingConfiguration.fromJson(response);
   }
 
   /// Returns information about the function or function version, with a link to
@@ -1544,14 +1564,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetFunctionResponse.fromJson(response);
   }
 
   /// Returns details about the reserved concurrency configuration for a
@@ -1598,14 +1622,15 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2019-09-30/functions/$functionName/concurrency',
+      requestUri:
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetFunctionConcurrencyResponse.fromJson(response);
   }
 
   /// Returns the version-specific settings of a Lambda function or version. The
@@ -1673,14 +1698,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName/configuration',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Retrieves the configuration for asynchronous invocation for a function,
@@ -1746,14 +1775,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2019-09-25/functions/$functionName/event-invoke-config',
+      requestUri:
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionEventInvokeConfig.fromJson(response);
   }
 
   /// Returns information about a version of an <a
@@ -1790,14 +1823,15 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers/$layerName/versions/$versionNumber',
+      requestUri:
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetLayerVersionResponse.fromJson(response);
   }
 
   /// Returns information about a version of an <a
@@ -1829,14 +1863,17 @@ class Lambda {
       r'''arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (arn != null) _s.toQueryParam('Arn', arn),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers?find=LayerVersion',
+      requestUri: '/2018-10-31/layers?find=LayerVersion$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetLayerVersionResponse.fromJson(response);
   }
 
   /// Returns the permission policy for a version of an <a
@@ -1873,15 +1910,15 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
       requestUri:
-          '/2018-10-31/layers/$layerName/versions/$versionNumber/policy',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetLayerVersionPolicyResponse.fromJson(response);
   }
 
   /// Returns the <a
@@ -1945,14 +1982,18 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName/policy',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetPolicyResponse.fromJson(response);
   }
 
   /// Retrieves the provisioned concurrency configuration for a function's alias
@@ -2018,14 +2059,18 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2019-09-30/functions/$functionName/provisioned-concurrency',
+      requestUri:
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return GetProvisionedConcurrencyConfigResponse.fromJson(response);
   }
 
   /// Invokes a Lambda function. You can invoke a function synchronously (and
@@ -2192,15 +2237,19 @@ class Lambda {
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
     invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toValue());
     logType?.let((v) => headers['X-Amz-Log-Type'] = v.toValue());
-    await _protocol.send(
-      payload,
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/2015-03-31/functions/$functionName/invocations',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/invocations$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return InvocationResponse.fromJson(response);
   }
 
   /// <important>
@@ -2255,14 +2304,15 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
-    await _protocol.send(
-      invokeArgs,
+    var query = '';
+    final response = await _protocol.send(
+      payload: invokeArgs,
       method: 'POST',
-      requestUri: '/2014-11-13/functions/$functionName/invoke-async/',
+      requestUri:
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return InvokeAsyncResponse.fromJson(response);
   }
 
   /// Returns a list of <a
@@ -2339,14 +2389,21 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (functionVersion != null)
+        _s.toQueryParam('FunctionVersion', functionVersion),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName/aliases',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListAliasesResponse.fromJson(response);
   }
 
   /// Lists event source mappings. Specify an <code>EventSourceArn</code> to
@@ -2428,14 +2485,21 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (eventSourceArn != null)
+        _s.toQueryParam('EventSourceArn', eventSourceArn),
+      if (functionName != null) _s.toQueryParam('FunctionName', functionName),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/event-source-mappings/',
+      requestUri: '/2015-03-31/event-source-mappings/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListEventSourceMappingsResponse.fromJson(response);
   }
 
   /// Retrieves a list of configurations for asynchronous invocation for a
@@ -2500,15 +2564,19 @@ class Lambda {
       1,
       50,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-25/functions/$functionName/event-invoke-config/list',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config/list$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListFunctionEventInvokeConfigsResponse.fromJson(response);
   }
 
   /// Returns a list of Lambda functions, with the version-specific
@@ -2557,14 +2625,21 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (functionVersion != null)
+        _s.toQueryParam('FunctionVersion', functionVersion),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (masterRegion != null) _s.toQueryParam('MasterRegion', masterRegion),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/',
+      requestUri: '/2015-03-31/functions/$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListFunctionsResponse.fromJson(response);
   }
 
   /// Lists the versions of an <a
@@ -2617,14 +2692,21 @@ class Lambda {
       1,
       50,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (compatibleRuntime != null)
+        _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers/$layerName/versions',
+      requestUri:
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListLayerVersionsResponse.fromJson(response);
   }
 
   /// Lists <a
@@ -2658,14 +2740,20 @@ class Lambda {
       1,
       50,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (compatibleRuntime != null)
+        _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers',
+      requestUri: '/2018-10-31/layers$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListLayersResponse.fromJson(response);
   }
 
   /// Retrieves a list of provisioned concurrency configurations for a function.
@@ -2726,15 +2814,19 @@ class Lambda {
       1,
       50,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-30/functions/$functionName/provisioned-concurrency?List=ALL',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency?List=ALL$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListProvisionedConcurrencyConfigsResponse.fromJson(response);
   }
 
   /// Returns a function's <a
@@ -2758,14 +2850,15 @@ class Lambda {
       r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2017-03-31/tags/$resource',
+      requestUri:
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListTagsResponse.fromJson(response);
   }
 
   /// Returns a list of <a
@@ -2828,14 +2921,19 @@ class Lambda {
       1,
       10000,
     );
-    await _protocol.send(
-      null,
+    var query = '';
+    query = '?${[
+      if (marker != null) _s.toQueryParam('Marker', marker),
+      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
+    ].where((e) => e != null).join('&')}';
+    final response = await _protocol.send(
+      payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$functionName/versions',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return ListVersionsByFunctionResponse.fromJson(response);
   }
 
   /// Creates an <a
@@ -2918,20 +3016,21 @@ class Lambda {
       0,
       512,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'CompatibleRuntimes': compatibleRuntimes,
       'Description': description,
       'LicenseInfo': licenseInfo,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2018-10-31/layers/$layerName/versions',
+      requestUri:
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return PublishLayerVersionResponse.fromJson(response);
   }
 
   /// Creates a <a
@@ -3015,19 +3114,20 @@ class Lambda {
       0,
       256,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'CodeSha256': codeSha256,
       'Description': description,
       'RevisionId': revisionId,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/functions/$functionName/versions',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Sets the maximum number of simultaneous executions for a function, and
@@ -3100,17 +3200,18 @@ class Lambda {
       1152921504606846976,
       isRequired: true,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'ReservedConcurrentExecutions': reservedConcurrentExecutions,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2017-10-31/functions/$functionName/concurrency',
+      requestUri:
+          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return Concurrency.fromJson(response);
   }
 
   /// Configures options for <a
@@ -3235,19 +3336,23 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
       'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
       'MaximumRetryAttempts': maximumRetryAttempts,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2019-09-25/functions/$functionName/event-invoke-config',
+      requestUri:
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionEventInvokeConfig.fromJson(response);
   }
 
   /// Adds a provisioned concurrency configuration to a function's alias or
@@ -3327,17 +3432,21 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'ProvisionedConcurrentExecutions': provisionedConcurrentExecutions,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2019-09-30/functions/$functionName/provisioned-concurrency',
+      requestUri:
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return PutProvisionedConcurrencyConfigResponse.fromJson(response);
   }
 
   /// Removes a statement from the permissions policy for a version of an <a
@@ -3399,16 +3508,18 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
+    var query = '';
+    query = '?${[
+      if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2018-10-31/layers/$layerName/versions/$versionNumber/policy/$statementId',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Revokes function-use permission from an AWS service or another account.
@@ -3497,15 +3608,19 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+      if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2015-03-31/functions/$functionName/policy/$statementId',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Adds <a
@@ -3535,17 +3650,17 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
+    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2017-03-31/tags/$resource',
+      requestUri:
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Removes <a
@@ -3575,15 +3690,18 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    var query = '';
+    query = '?${[
+      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
-      $payload,
+      payload: $payload,
       method: 'DELETE',
-      requestUri: '/2017-03-31/tags/$resource',
+      requestUri:
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
   }
 
   /// Updates the configuration of a Lambda function <a
@@ -3686,20 +3804,21 @@ class Lambda {
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'FunctionVersion': functionVersion,
       'RevisionId': revisionId,
       'RoutingConfig': routingConfig,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2015-03-31/functions/$functionName/aliases/$name',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return AliasConfiguration.fromJson(response);
   }
 
   /// Updates an event source mapping. You can change the function that AWS
@@ -3859,6 +3978,7 @@ class Lambda {
       1,
       10,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'BatchSize': batchSize,
       'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
@@ -3870,14 +3990,14 @@ class Lambda {
       'MaximumRetryAttempts': maximumRetryAttempts,
       'ParallelizationFactor': parallelizationFactor,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2015-03-31/event-source-mappings/$uuid',
+      requestUri:
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return EventSourceMappingConfiguration.fromJson(response);
   }
 
   /// Updates a Lambda function's code.
@@ -3987,6 +4107,7 @@ class Lambda {
       1,
       1024,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'DryRun': dryRun,
       'Publish': publish,
@@ -3996,14 +4117,14 @@ class Lambda {
       'S3ObjectVersion': s3ObjectVersion,
       'ZipFile': zipFile,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2015-03-31/functions/$functionName/code',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/code$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Modify the version-specific settings of a Lambda function.
@@ -4188,6 +4309,7 @@ class Lambda {
       1,
       1152921504606846976,
     );
+    var query = '';
     final $payload = <String, dynamic>{
       'DeadLetterConfig': deadLetterConfig,
       'Description': description,
@@ -4203,14 +4325,14 @@ class Lambda {
       'TracingConfig': tracingConfig,
       'VpcConfig': vpcConfig,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'PUT',
-      requestUri: '/2015-03-31/functions/$functionName/configuration',
+      requestUri:
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionConfiguration.fromJson(response);
   }
 
   /// Updates the configuration for asynchronous invocation for a function,
@@ -4318,19 +4440,23 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
+    var query = '';
+    query = '?${[
+      if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
+    ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'DestinationConfig': destinationConfig,
       'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
       'MaximumRetryAttempts': maximumRetryAttempts,
     };
-    await _protocol.send(
-      $payload,
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/2019-09-25/functions/$functionName/event-invoke-config',
+      requestUri:
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
       exceptionFnMap: _exceptionFns,
     );
-// TODO: implement rest-json
-    throw UnimplementedError();
+    return FunctionEventInvokeConfig.fromJson(response);
   }
 }
 
@@ -5261,16 +5387,16 @@ class GetProvisionedConcurrencyConfigResponse {
 class InvocationResponse {
   /// The version of the function that executed. When you invoke a function with
   /// an alias, this indicates which version the alias resolved to.
-  @_s.JsonKey(name: 'ExecutedVersion')
+  @_s.JsonKey(name: 'X-Amz-Executed-Version')
   final String executedVersion;
 
   /// If present, indicates that an error occurred during function execution.
   /// Details about the error are included in the response payload.
-  @_s.JsonKey(name: 'FunctionError')
+  @_s.JsonKey(name: 'X-Amz-Function-Error')
   final String functionError;
 
   /// The last 4 KB of the execution log, which is base64 encoded.
-  @_s.JsonKey(name: 'LogResult')
+  @_s.JsonKey(name: 'X-Amz-Log-Result')
   final String logResult;
 
   /// The response from the function, or an error object.

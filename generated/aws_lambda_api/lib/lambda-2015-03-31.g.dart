@@ -457,9 +457,9 @@ const _$ProvisionedConcurrencyStatusEnumEnumMap = {
 
 InvocationResponse _$InvocationResponseFromJson(Map<String, dynamic> json) {
   return InvocationResponse(
-    executedVersion: json['ExecutedVersion'] as String,
-    functionError: json['FunctionError'] as String,
-    logResult: json['LogResult'] as String,
+    executedVersion: json['X-Amz-Executed-Version'] as String,
+    functionError: json['X-Amz-Function-Error'] as String,
+    logResult: json['X-Amz-Log-Result'] as String,
     payload: const Uint8ListConverter().fromJson(json['Payload'] as String),
     statusCode: json['StatusCode'] as int,
   );
