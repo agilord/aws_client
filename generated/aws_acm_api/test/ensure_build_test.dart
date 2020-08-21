@@ -1,5 +1,5 @@
 @Tags(['presubmit-only'])
-
+import 'package:aws_acm_api/acm-2015-12-08.dart';
 import 'package:build_verify/build_verify.dart';
 import 'package:test/test.dart';
 
@@ -8,4 +8,11 @@ void main() {
       'ensure_build',
       () =>
           expectBuildClean(packageRelativeDirectory: 'generated/aws_acm_api'));
+
+  test('ensure_compilation', () {
+    ACM(
+      region: '',
+      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
+    );
+  });
 }

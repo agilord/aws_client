@@ -1,5 +1,5 @@
 @Tags(['presubmit-only'])
-
+import 'package:aws_frauddetector_api/frauddetector-2019-11-15.dart';
 import 'package:build_verify/build_verify.dart';
 import 'package:test/test.dart';
 
@@ -8,4 +8,11 @@ void main() {
       'ensure_build',
       () => expectBuildClean(
           packageRelativeDirectory: 'generated/aws_frauddetector_api'));
+
+  test('ensure_compilation', () {
+    FraudDetector(
+      region: '',
+      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
+    );
+  });
 }

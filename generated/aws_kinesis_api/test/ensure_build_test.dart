@@ -1,5 +1,5 @@
 @Tags(['presubmit-only'])
-
+import 'package:aws_kinesis_api/kinesis-2013-12-02.dart';
 import 'package:build_verify/build_verify.dart';
 import 'package:test/test.dart';
 
@@ -8,4 +8,11 @@ void main() {
       'ensure_build',
       () => expectBuildClean(
           packageRelativeDirectory: 'generated/aws_kinesis_api'));
+
+  test('ensure_compilation', () {
+    Kinesis(
+      region: '',
+      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
+    );
+  });
 }
