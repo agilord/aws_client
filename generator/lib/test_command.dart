@@ -11,15 +11,18 @@ class TestCommand extends Command {
 
   @override
   void run() async {
+    final stopwatch = Stopwatch()..start();
     final packages =
         Directory('../generated').listSync().map((e) => e.path).toList();
     print('Running tests in generated packages.');
 
-    List.generate(
-        (Platform.numberOfProcessors - 2)
+    final testFutures = List.generate(
+        (Platform.numberOfProcessors - 1)
             .clamp(1, Platform.numberOfProcessors)
             .toInt(),
         (index) async => _runTests(packages));
+    await Future.wait(testFutures);
+    print('Tests finished in ${stopwatch.elapsed}');
   }
 
   Future<void> _getDependencies(String baseDir, {bool upgrade = true}) async {
@@ -53,6 +56,8 @@ class TestCommand extends Command {
         [
           'run',
           'test',
+          '-n',
+          'ensure_compilation',
         ],
         workingDirectory: baseDir,
       );
