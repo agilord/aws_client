@@ -57,7 +57,6 @@ class XRay {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'TraceIds': traceIds,
       'NextToken': nextToken,
@@ -65,7 +64,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/Traces$query',
+      requestUri: '/Traces',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetTracesResult.fromJson(response);
@@ -94,7 +93,6 @@ class XRay {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GroupName': groupName,
       'FilterExpression': filterExpression,
@@ -102,7 +100,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/CreateGroup$query',
+      requestUri: '/CreateGroup',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupResult.fromJson(response);
@@ -127,14 +125,13 @@ class XRay {
     @_s.required SamplingRule samplingRule,
   }) async {
     ArgumentError.checkNotNull(samplingRule, 'samplingRule');
-    var query = '';
     final $payload = <String, dynamic>{
       'SamplingRule': samplingRule,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/CreateSamplingRule$query',
+      requestUri: '/CreateSamplingRule',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSamplingRuleResult.fromJson(response);
@@ -166,7 +163,6 @@ class XRay {
       1,
       32,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GroupARN': groupARN,
       'GroupName': groupName,
@@ -174,7 +170,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DeleteGroup$query',
+      requestUri: '/DeleteGroup',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGroupResult.fromJson(response);
@@ -196,7 +192,6 @@ class XRay {
     String ruleARN,
     String ruleName,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'RuleARN': ruleARN,
       'RuleName': ruleName,
@@ -204,7 +199,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DeleteSamplingRule$query',
+      requestUri: '/DeleteSamplingRule',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSamplingRuleResult.fromJson(response);
@@ -215,12 +210,11 @@ class XRay {
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
   Future<GetEncryptionConfigResult> getEncryptionConfig() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/EncryptionConfig$query',
+      requestUri: '/EncryptionConfig',
       exceptionFnMap: _exceptionFns,
     );
     return GetEncryptionConfigResult.fromJson(response);
@@ -252,7 +246,6 @@ class XRay {
       1,
       32,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GroupARN': groupARN,
       'GroupName': groupName,
@@ -260,7 +253,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/GetGroup$query',
+      requestUri: '/GetGroup',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupResult.fromJson(response);
@@ -282,14 +275,13 @@ class XRay {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/Groups$query',
+      requestUri: '/Groups',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupsResult.fromJson(response);
@@ -305,14 +297,13 @@ class XRay {
   Future<GetSamplingRulesResult> getSamplingRules({
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/GetSamplingRules$query',
+      requestUri: '/GetSamplingRules',
       exceptionFnMap: _exceptionFns,
     );
     return GetSamplingRulesResult.fromJson(response);
@@ -329,14 +320,13 @@ class XRay {
   Future<GetSamplingStatisticSummariesResult> getSamplingStatisticSummaries({
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/SamplingStatisticSummaries$query',
+      requestUri: '/SamplingStatisticSummaries',
       exceptionFnMap: _exceptionFns,
     );
     return GetSamplingStatisticSummariesResult.fromJson(response);
@@ -355,14 +345,13 @@ class XRay {
   }) async {
     ArgumentError.checkNotNull(
         samplingStatisticsDocuments, 'samplingStatisticsDocuments');
-    var query = '';
     final $payload = <String, dynamic>{
       'SamplingStatisticsDocuments': samplingStatisticsDocuments,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/SamplingTargets$query',
+      requestUri: '/SamplingTargets',
       exceptionFnMap: _exceptionFns,
     );
     return GetSamplingTargetsResult.fromJson(response);
@@ -414,7 +403,6 @@ class XRay {
       1,
       32,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
@@ -425,7 +413,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ServiceGraph$query',
+      requestUri: '/ServiceGraph',
       exceptionFnMap: _exceptionFns,
     );
     return GetServiceGraphResult.fromJson(response);
@@ -487,7 +475,6 @@ class XRay {
       1,
       32,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
@@ -500,7 +487,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TimeSeriesServiceStatistics$query',
+      requestUri: '/TimeSeriesServiceStatistics',
       exceptionFnMap: _exceptionFns,
     );
     return GetTimeSeriesServiceStatisticsResult.fromJson(response);
@@ -521,7 +508,6 @@ class XRay {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'TraceIds': traceIds,
       'NextToken': nextToken,
@@ -529,7 +515,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TraceGraph$query',
+      requestUri: '/TraceGraph',
       exceptionFnMap: _exceptionFns,
     );
     return GetTraceGraphResult.fromJson(response);
@@ -595,7 +581,6 @@ class XRay {
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    var query = '';
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
@@ -608,7 +593,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TraceSummaries$query',
+      requestUri: '/TraceSummaries',
       exceptionFnMap: _exceptionFns,
     );
     return GetTraceSummariesResult.fromJson(response);
@@ -654,7 +639,6 @@ class XRay {
       1,
       3000,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Type': type?.toValue(),
       'KeyId': keyId,
@@ -662,7 +646,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/PutEncryptionConfig$query',
+      requestUri: '/PutEncryptionConfig',
       exceptionFnMap: _exceptionFns,
     );
     return PutEncryptionConfigResult.fromJson(response);
@@ -709,7 +693,6 @@ class XRay {
       0,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'TelemetryRecords': telemetryRecords,
       'EC2InstanceId': eC2InstanceId,
@@ -719,7 +702,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TelemetryRecords$query',
+      requestUri: '/TelemetryRecords',
       exceptionFnMap: _exceptionFns,
     );
     return PutTelemetryRecordsResult.fromJson(response);
@@ -797,14 +780,13 @@ class XRay {
     @_s.required List<String> traceSegmentDocuments,
   }) async {
     ArgumentError.checkNotNull(traceSegmentDocuments, 'traceSegmentDocuments');
-    var query = '';
     final $payload = <String, dynamic>{
       'TraceSegmentDocuments': traceSegmentDocuments,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TraceSegments$query',
+      requestUri: '/TraceSegments',
       exceptionFnMap: _exceptionFns,
     );
     return PutTraceSegmentsResult.fromJson(response);
@@ -840,7 +822,6 @@ class XRay {
       1,
       32,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FilterExpression': filterExpression,
       'GroupARN': groupARN,
@@ -849,7 +830,7 @@ class XRay {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/UpdateGroup$query',
+      requestUri: '/UpdateGroup',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupResult.fromJson(response);
@@ -866,14 +847,13 @@ class XRay {
     @_s.required SamplingRuleUpdate samplingRuleUpdate,
   }) async {
     ArgumentError.checkNotNull(samplingRuleUpdate, 'samplingRuleUpdate');
-    var query = '';
     final $payload = <String, dynamic>{
       'SamplingRuleUpdate': samplingRuleUpdate,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/UpdateSamplingRule$query',
+      requestUri: '/UpdateSamplingRule',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSamplingRuleResult.fromJson(response);

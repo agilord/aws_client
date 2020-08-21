@@ -56,13 +56,12 @@ class MediaTailor {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}$query',
+          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePlaybackConfigurationResponse.fromJson(response);
@@ -76,12 +75,11 @@ class MediaTailor {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}$query',
+          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPlaybackConfigurationResponse.fromJson(response);
@@ -110,15 +108,15 @@ class MediaTailor {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/playbackConfigurations$query',
+      requestUri: '/playbackConfigurations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPlaybackConfigurationsResponse.fromJson(response);
@@ -136,11 +134,10 @@ class MediaTailor {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -217,7 +214,6 @@ class MediaTailor {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AdDecisionServerUrl': adDecisionServerUrl,
       'AvailSuppression': availSuppression,
@@ -234,7 +230,7 @@ class MediaTailor {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/playbackConfiguration$query',
+      requestUri: '/playbackConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return PutPlaybackConfigurationResponse.fromJson(response);
@@ -262,14 +258,13 @@ class MediaTailor {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -292,15 +287,15 @@ class MediaTailor {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }

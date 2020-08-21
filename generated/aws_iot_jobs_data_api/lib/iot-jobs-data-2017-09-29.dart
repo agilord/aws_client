@@ -103,8 +103,8 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (executionNumber != null)
         _s.toQueryParam('executionNumber', executionNumber),
       if (includeJobDocument != null)
@@ -114,7 +114,7 @@ class IoTJobsDataPlane {
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobExecutionResponse.fromJson(response);
@@ -147,12 +147,10 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return GetPendingJobExecutionsResponse.fromJson(response);
@@ -204,7 +202,6 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'statusDetails': statusDetails,
       'stepTimeoutInMinutes': stepTimeoutInMinutes,
@@ -213,7 +210,7 @@ class IoTJobsDataPlane {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/\$next$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/\$next',
       exceptionFnMap: _exceptionFns,
     );
     return StartNextPendingJobExecutionResponse.fromJson(response);
@@ -314,7 +311,6 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'status': status?.toValue(),
       'executionNumber': executionNumber,
@@ -328,7 +324,7 @@ class IoTJobsDataPlane {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobExecutionResponse.fromJson(response);

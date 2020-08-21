@@ -73,7 +73,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
       'clientToken': clientToken,
@@ -81,7 +80,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/acceptresourceshareinvitation$query',
+      requestUri: '/acceptresourceshareinvitation',
       exceptionFnMap: _exceptionFns,
     );
     return AcceptResourceShareInvitationResponse.fromJson(response);
@@ -122,7 +121,6 @@ class RAM {
     List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'clientToken': clientToken,
@@ -132,7 +130,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associateresourceshare$query',
+      requestUri: '/associateresourceshare',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateResourceShareResponse.fromJson(response);
@@ -172,7 +170,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
@@ -182,7 +179,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associateresourcesharepermission$query',
+      requestUri: '/associateresourcesharepermission',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateResourceSharePermissionResponse.fromJson(response);
@@ -239,7 +236,6 @@ class RAM {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'allowExternalPrincipals': allowExternalPrincipals,
@@ -252,7 +248,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createresourceshare$query',
+      requestUri: '/createresourceshare',
       exceptionFnMap: _exceptionFns,
     );
     return CreateResourceShareResponse.fromJson(response);
@@ -281,8 +277,8 @@ class RAM {
     String clientToken,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceShareArn != null)
         _s.toQueryParam('resourceShareArn', resourceShareArn),
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
@@ -291,7 +287,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/deleteresourceshare$query',
+      requestUri: '/deleteresourceshare$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteResourceShareResponse.fromJson(response);
@@ -330,7 +326,6 @@ class RAM {
     List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'clientToken': clientToken,
@@ -340,7 +335,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/disassociateresourceshare$query',
+      requestUri: '/disassociateresourceshare',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateResourceShareResponse.fromJson(response);
@@ -373,7 +368,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
@@ -382,7 +376,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/disassociateresourcesharepermission$query',
+      requestUri: '/disassociateresourcesharepermission',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateResourceSharePermissionResponse.fromJson(response);
@@ -397,12 +391,11 @@ class RAM {
   /// May throw [ServiceUnavailableException].
   Future<EnableSharingWithAwsOrganizationResponse>
       enableSharingWithAwsOrganization() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/enablesharingwithawsorganization$query',
+      requestUri: '/enablesharingwithawsorganization',
       exceptionFnMap: _exceptionFns,
     );
     return EnableSharingWithAwsOrganizationResponse.fromJson(response);
@@ -427,7 +420,6 @@ class RAM {
     int permissionVersion,
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'permissionVersion': permissionVersion,
@@ -435,7 +427,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getpermission$query',
+      requestUri: '/getpermission',
       exceptionFnMap: _exceptionFns,
     );
     return GetPermissionResponse.fromJson(response);
@@ -476,7 +468,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArns': resourceArns,
       'maxResults': maxResults,
@@ -486,7 +477,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getresourcepolicies$query',
+      requestUri: '/getresourcepolicies',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourcePoliciesResponse.fromJson(response);
@@ -545,7 +536,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'associationType': associationType?.toValue(),
       'associationStatus': associationStatus?.toValue(),
@@ -558,7 +548,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getresourceshareassociations$query',
+      requestUri: '/getresourceshareassociations',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourceShareAssociationsResponse.fromJson(response);
@@ -599,7 +589,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'maxResults': maxResults,
       'nextToken': nextToken,
@@ -609,7 +598,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getresourceshareinvitations$query',
+      requestUri: '/getresourceshareinvitations',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourceShareInvitationsResponse.fromJson(response);
@@ -663,7 +652,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
       'maxResults': maxResults,
@@ -676,7 +664,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getresourceshares$query',
+      requestUri: '/getresourceshares',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourceSharesResponse.fromJson(response);
@@ -719,7 +707,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
       'maxResults': maxResults,
@@ -728,7 +715,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listpendinginvitationresources$query',
+      requestUri: '/listpendinginvitationresources',
       exceptionFnMap: _exceptionFns,
     );
     return ListPendingInvitationResourcesResponse.fromJson(response);
@@ -765,7 +752,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'maxResults': maxResults,
       'nextToken': nextToken,
@@ -774,7 +760,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listpermissions$query',
+      requestUri: '/listpermissions',
       exceptionFnMap: _exceptionFns,
     );
     return ListPermissionsResponse.fromJson(response);
@@ -835,7 +821,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
       'maxResults': maxResults,
@@ -848,7 +833,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listprincipals$query',
+      requestUri: '/listprincipals',
       exceptionFnMap: _exceptionFns,
     );
     return ListPrincipalsResponse.fromJson(response);
@@ -886,7 +871,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'maxResults': maxResults,
@@ -895,7 +879,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listresourcesharepermissions$query',
+      requestUri: '/listresourcesharepermissions',
       exceptionFnMap: _exceptionFns,
     );
     return ListResourceSharePermissionsResponse.fromJson(response);
@@ -957,7 +941,6 @@ class RAM {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
       'maxResults': maxResults,
@@ -970,7 +953,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listresources$query',
+      requestUri: '/listresources',
       exceptionFnMap: _exceptionFns,
     );
     return ListResourcesResponse.fromJson(response);
@@ -1006,8 +989,8 @@ class RAM {
     @_s.required String resourceShareArn,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceShareArn != null)
         _s.toQueryParam('resourceShareArn', resourceShareArn),
     ].where((e) => e != null).join('&')}';
@@ -1015,7 +998,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/promoteresourcesharecreatedfrompolicy$query',
+      requestUri: '/promoteresourcesharecreatedfrompolicy$_query',
       exceptionFnMap: _exceptionFns,
     );
     return PromoteResourceShareCreatedFromPolicyResponse.fromJson(response);
@@ -1046,7 +1029,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
       'clientToken': clientToken,
@@ -1054,7 +1036,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/rejectresourceshareinvitation$query',
+      requestUri: '/rejectresourceshareinvitation',
       exceptionFnMap: _exceptionFns,
     );
     return RejectResourceShareInvitationResponse.fromJson(response);
@@ -1081,7 +1063,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'tags': tags,
@@ -1089,7 +1070,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tagresource$query',
+      requestUri: '/tagresource',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1112,7 +1093,6 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'tagKeys': tagKeys,
@@ -1120,7 +1100,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/untagresource$query',
+      requestUri: '/untagresource',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1158,7 +1138,6 @@ class RAM {
     String name,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'allowExternalPrincipals': allowExternalPrincipals,
@@ -1168,7 +1147,7 @@ class RAM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateresourceshare$query',
+      requestUri: '/updateresourceshare',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateResourceShareResponse.fromJson(response);

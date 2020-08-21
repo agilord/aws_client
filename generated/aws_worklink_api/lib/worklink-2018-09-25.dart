@@ -108,7 +108,6 @@ class WorkLink {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AcmCertificateArn': acmCertificateArn,
       'DomainName': domainName,
@@ -118,7 +117,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associateDomain$query',
+      requestUri: '/associateDomain',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateDomainResponse.fromJson(response);
@@ -171,7 +170,6 @@ class WorkLink {
       domainName,
       r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AuthorizationProviderType': authorizationProviderType?.toValue(),
       'FleetArn': fleetArn,
@@ -180,7 +178,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associateWebsiteAuthorizationProvider$query',
+      requestUri: '/associateWebsiteAuthorizationProvider',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateWebsiteAuthorizationProviderResponse.fromJson(response);
@@ -239,7 +237,6 @@ class WorkLink {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Certificate': certificate,
       'FleetArn': fleetArn,
@@ -248,7 +245,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associateWebsiteCertificateAuthority$query',
+      requestUri: '/associateWebsiteCertificateAuthority',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateWebsiteCertificateAuthorityResponse.fromJson(response);
@@ -299,7 +296,6 @@ class WorkLink {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetName': fleetName,
       'DisplayName': displayName,
@@ -308,7 +304,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createFleet$query',
+      requestUri: '/createFleet',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFleetResponse.fromJson(response);
@@ -336,14 +332,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteFleet$query',
+      requestUri: '/deleteFleet',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFleetResponse.fromJson(response);
@@ -372,14 +367,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeAuditStreamConfiguration$query',
+      requestUri: '/describeAuditStreamConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuditStreamConfigurationResponse.fromJson(response);
@@ -408,14 +402,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeCompanyNetworkConfiguration$query',
+      requestUri: '/describeCompanyNetworkConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCompanyNetworkConfigurationResponse.fromJson(response);
@@ -454,7 +447,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DeviceId': deviceId,
       'FleetArn': fleetArn,
@@ -462,7 +454,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeDevice$query',
+      requestUri: '/describeDevice',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDeviceResponse.fromJson(response);
@@ -490,14 +482,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeDevicePolicyConfiguration$query',
+      requestUri: '/describeDevicePolicyConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDevicePolicyConfigurationResponse.fromJson(response);
@@ -542,7 +533,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -550,7 +540,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeDomain$query',
+      requestUri: '/describeDomain',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDomainResponse.fromJson(response);
@@ -578,14 +568,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeFleetMetadata$query',
+      requestUri: '/describeFleetMetadata',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFleetMetadataResponse.fromJson(response);
@@ -613,14 +602,13 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeIdentityProviderConfiguration$query',
+      requestUri: '/describeIdentityProviderConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIdentityProviderConfigurationResponse.fromJson(response);
@@ -660,7 +648,6 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'WebsiteCaId': websiteCaId,
@@ -668,7 +655,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeWebsiteCertificateAuthority$query',
+      requestUri: '/describeWebsiteCertificateAuthority',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeWebsiteCertificateAuthorityResponse.fromJson(response);
@@ -714,7 +701,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -722,7 +708,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/disassociateDomain$query',
+      requestUri: '/disassociateDomain',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateDomainResponse.fromJson(response);
@@ -765,7 +751,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AuthorizationProviderId': authorizationProviderId,
       'FleetArn': fleetArn,
@@ -773,7 +758,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/disassociateWebsiteAuthorizationProvider$query',
+      requestUri: '/disassociateWebsiteAuthorizationProvider',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateWebsiteAuthorizationProviderResponse.fromJson(response);
@@ -812,7 +797,6 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'WebsiteCaId': websiteCaId,
@@ -820,7 +804,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/disassociateWebsiteCertificateAuthority$query',
+      requestUri: '/disassociateWebsiteCertificateAuthority',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateWebsiteCertificateAuthorityResponse.fromJson(response);
@@ -873,7 +857,6 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'MaxResults': maxResults,
@@ -882,7 +865,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listDevices$query',
+      requestUri: '/listDevices',
       exceptionFnMap: _exceptionFns,
     );
     return ListDevicesResponse.fromJson(response);
@@ -934,7 +917,6 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'MaxResults': maxResults,
@@ -943,7 +925,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listDomains$query',
+      requestUri: '/listDomains',
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsResponse.fromJson(response);
@@ -983,7 +965,6 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -991,7 +972,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listFleets$query',
+      requestUri: '/listFleets',
       exceptionFnMap: _exceptionFns,
     );
     return ListFleetsResponse.fromJson(response);
@@ -1046,7 +1027,6 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'MaxResults': maxResults,
@@ -1055,7 +1035,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listWebsiteAuthorizationProviders$query',
+      requestUri: '/listWebsiteAuthorizationProviders',
       exceptionFnMap: _exceptionFns,
     );
     return ListWebsiteAuthorizationProvidersResponse.fromJson(response);
@@ -1109,7 +1089,6 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'MaxResults': maxResults,
@@ -1118,7 +1097,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listWebsiteCertificateAuthorities$query',
+      requestUri: '/listWebsiteCertificateAuthorities',
       exceptionFnMap: _exceptionFns,
     );
     return ListWebsiteCertificateAuthoritiesResponse.fromJson(response);
@@ -1163,7 +1142,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1171,7 +1149,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/restoreDomainAccess$query',
+      requestUri: '/restoreDomainAccess',
       exceptionFnMap: _exceptionFns,
     );
     return RestoreDomainAccessResponse.fromJson(response);
@@ -1216,7 +1194,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1224,7 +1201,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/revokeDomainAccess$query',
+      requestUri: '/revokeDomainAccess',
       exceptionFnMap: _exceptionFns,
     );
     return RevokeDomainAccessResponse.fromJson(response);
@@ -1264,7 +1241,6 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'Username': username,
@@ -1272,7 +1248,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/signOutUser$query',
+      requestUri: '/signOutUser',
       exceptionFnMap: _exceptionFns,
     );
     return SignOutUserResponse.fromJson(response);
@@ -1303,7 +1279,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'AuditStreamArn': auditStreamArn,
@@ -1311,7 +1286,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateAuditStreamConfiguration$query',
+      requestUri: '/updateAuditStreamConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAuditStreamConfigurationResponse.fromJson(response);
@@ -1360,7 +1335,6 @@ class WorkLink {
       r'''^vpc-([0-9a-f]{8}|[0-9a-f]{17})$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'SecurityGroupIds': securityGroupIds,
@@ -1370,7 +1344,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateCompanyNetworkConfiguration$query',
+      requestUri: '/updateCompanyNetworkConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateCompanyNetworkConfigurationResponse.fromJson(response);
@@ -1413,7 +1387,6 @@ class WorkLink {
       deviceCaCertificate,
       r'''(-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}\u000D?\u000A)*-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}(\u000D?\u000A)?''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'DeviceCaCertificate': deviceCaCertificate,
@@ -1421,7 +1394,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateDevicePolicyConfiguration$query',
+      requestUri: '/updateDevicePolicyConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDevicePolicyConfigurationResponse.fromJson(response);
@@ -1476,7 +1449,6 @@ class WorkLink {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1485,7 +1457,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateDomainMetadata$query',
+      requestUri: '/updateDomainMetadata',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDomainMetadataResponse.fromJson(response);
@@ -1528,7 +1500,6 @@ class WorkLink {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'DisplayName': displayName,
@@ -1537,7 +1508,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/UpdateFleetMetadata$query',
+      requestUri: '/UpdateFleetMetadata',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFleetMetadataResponse.fromJson(response);
@@ -1580,7 +1551,6 @@ class WorkLink {
       1,
       204800,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'IdentityProviderType': identityProviderType?.toValue(),
@@ -1589,7 +1559,7 @@ class WorkLink {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateIdentityProviderConfiguration$query',
+      requestUri: '/updateIdentityProviderConfiguration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIdentityProviderConfigurationResponse.fromJson(response);

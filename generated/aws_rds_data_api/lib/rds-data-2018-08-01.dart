@@ -151,7 +151,6 @@ class RDSDataService {
       0,
       192,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -164,7 +163,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/BatchExecute$query',
+      requestUri: '/BatchExecute',
       exceptionFnMap: _exceptionFns,
     );
     return BatchExecuteStatementResponse.fromJson(response);
@@ -233,7 +232,6 @@ class RDSDataService {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -243,7 +241,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/BeginTransaction$query',
+      requestUri: '/BeginTransaction',
       exceptionFnMap: _exceptionFns,
     );
     return BeginTransactionResponse.fromJson(response);
@@ -296,7 +294,6 @@ class RDSDataService {
       192,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -305,7 +302,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/CommitTransaction$query',
+      requestUri: '/CommitTransaction',
       exceptionFnMap: _exceptionFns,
     );
     return CommitTransactionResponse.fromJson(response);
@@ -386,7 +383,6 @@ class RDSDataService {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'awsSecretStoreArn': awsSecretStoreArn,
       'dbClusterOrInstanceArn': dbClusterOrInstanceArn,
@@ -397,7 +393,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ExecuteSql$query',
+      requestUri: '/ExecuteSql',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteSqlResponse.fromJson(response);
@@ -516,7 +512,6 @@ class RDSDataService {
       0,
       192,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -532,7 +527,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/Execute$query',
+      requestUri: '/Execute',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteStatementResponse.fromJson(response);
@@ -585,7 +580,6 @@ class RDSDataService {
       192,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -594,7 +588,7 @@ class RDSDataService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/RollbackTransaction$query',
+      requestUri: '/RollbackTransaction',
       exceptionFnMap: _exceptionFns,
     );
     return RollbackTransactionResponse.fromJson(response);

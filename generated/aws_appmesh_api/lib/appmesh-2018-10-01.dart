@@ -107,7 +107,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'meshName': meshName,
       'clientToken': clientToken,
@@ -115,7 +114,7 @@ class AppMesh {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/meshes$query',
+      requestUri: '/meshes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMeshOutput.fromJson(response);
@@ -193,7 +192,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'routeName': routeName,
       'spec': spec,
@@ -203,7 +201,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRouteOutput.fromJson(response);
@@ -293,7 +291,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualNodeName': virtualNodeName,
@@ -303,7 +300,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVirtualNodeOutput.fromJson(response);
@@ -363,7 +360,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualRouterName': virtualRouterName,
@@ -373,7 +369,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVirtualRouterOutput.fromJson(response);
@@ -407,12 +403,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/meshes/${Uri.encodeComponent(meshName.toString())}$query',
+      requestUri: '/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMeshOutput.fromJson(response);
@@ -465,13 +460,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRouteOutput.fromJson(response);
@@ -512,13 +506,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVirtualNodeOutput.fromJson(response);
@@ -564,13 +557,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVirtualRouterOutput.fromJson(response);
@@ -598,11 +590,10 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/meshes/${Uri.encodeComponent(meshName.toString())}$query',
+      requestUri: '/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMeshOutput.fromJson(response);
@@ -654,12 +645,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRouteOutput.fromJson(response);
@@ -699,12 +689,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeVirtualNodeOutput.fromJson(response);
@@ -744,12 +733,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeVirtualRouterOutput.fromJson(response);
@@ -801,15 +789,15 @@ class AppMesh {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/meshes$query',
+      requestUri: '/meshes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMeshesOutput.fromJson(response);
@@ -878,8 +866,8 @@ class AppMesh {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -887,7 +875,7 @@ class AppMesh {
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRoutesOutput.fromJson(response);
@@ -946,8 +934,8 @@ class AppMesh {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -955,7 +943,7 @@ class AppMesh {
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListVirtualNodesOutput.fromJson(response);
@@ -1014,8 +1002,8 @@ class AppMesh {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1023,7 +1011,7 @@ class AppMesh {
       payload: null,
       method: 'GET',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListVirtualRoutersOutput.fromJson(response);
@@ -1088,7 +1076,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'spec': spec,
       'clientToken': clientToken,
@@ -1097,7 +1084,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteOutput.fromJson(response);
@@ -1151,7 +1138,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'spec': spec,
       'clientToken': clientToken,
@@ -1160,7 +1146,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVirtualNodeOutput.fromJson(response);
@@ -1214,7 +1200,6 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'spec': spec,
       'clientToken': clientToken,
@@ -1223,7 +1208,7 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$query',
+          '/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVirtualRouterOutput.fromJson(response);

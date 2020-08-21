@@ -74,7 +74,6 @@ class Backup {
     String creatorRequestId,
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupPlan': backupPlan,
       'BackupPlanTags': backupPlanTags,
@@ -83,7 +82,7 @@ class Backup {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/backup/plans/$query',
+      requestUri: '/backup/plans/',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBackupPlanOutput.fromJson(response);
@@ -149,7 +148,6 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(backupSelection, 'backupSelection');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupSelection': backupSelection,
       'CreatorRequestId': creatorRequestId,
@@ -158,7 +156,7 @@ class Backup {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBackupSelectionOutput.fromJson(response);
@@ -209,7 +207,6 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupVaultTags': backupVaultTags,
       'CreatorRequestId': creatorRequestId,
@@ -219,7 +216,7 @@ class Backup {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBackupVaultOutput.fromJson(response);
@@ -242,13 +239,12 @@ class Backup {
     @_s.required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteBackupPlanOutput.fromJson(response);
@@ -274,13 +270,12 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(selectionId, 'selectionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/${Uri.encodeComponent(selectionId.toString())}$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/${Uri.encodeComponent(selectionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -303,13 +298,12 @@ class Backup {
     @_s.required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -336,13 +330,12 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -369,13 +362,12 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -410,13 +402,12 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -435,12 +426,10 @@ class Backup {
     @_s.required String backupJobId,
   }) async {
     ArgumentError.checkNotNull(backupJobId, 'backupJobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/backup-jobs/${Uri.encodeComponent(backupJobId.toString())}$query',
+      requestUri: '/backup-jobs/${Uri.encodeComponent(backupJobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBackupJobOutput.fromJson(response);
@@ -462,12 +451,11 @@ class Backup {
     @_s.required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBackupVaultOutput.fromJson(response);
@@ -486,12 +474,10 @@ class Backup {
     @_s.required String copyJobId,
   }) async {
     ArgumentError.checkNotNull(copyJobId, 'copyJobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/copy-jobs/${Uri.encodeComponent(copyJobId.toString())}$query',
+      requestUri: '/copy-jobs/${Uri.encodeComponent(copyJobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCopyJobOutput.fromJson(response);
@@ -513,12 +499,10 @@ class Backup {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/resources/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/resources/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProtectedResourceOutput.fromJson(response);
@@ -554,12 +538,11 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRecoveryPointOutput.fromJson(response);
@@ -580,12 +563,11 @@ class Backup {
     @_s.required String restoreJobId,
   }) async {
     ArgumentError.checkNotNull(restoreJobId, 'restoreJobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restore-jobs/${Uri.encodeComponent(restoreJobId.toString())}$query',
+          '/restore-jobs/${Uri.encodeComponent(restoreJobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRestoreJobOutput.fromJson(response);
@@ -605,12 +587,11 @@ class Backup {
     @_s.required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/toTemplate/$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/toTemplate/',
       exceptionFnMap: _exceptionFns,
     );
     return ExportBackupPlanTemplateOutput.fromJson(response);
@@ -635,15 +616,15 @@ class Backup {
     String versionId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionId != null) _s.toQueryParam('versionId', versionId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupPlanOutput.fromJson(response);
@@ -664,14 +645,13 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(
         backupPlanTemplateJson, 'backupPlanTemplateJson');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupPlanTemplateJson': backupPlanTemplateJson,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/backup/template/json/toPlan$query',
+      requestUri: '/backup/template/json/toPlan',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupPlanFromJSONOutput.fromJson(response);
@@ -691,12 +671,11 @@ class Backup {
     @_s.required String backupPlanTemplateId,
   }) async {
     ArgumentError.checkNotNull(backupPlanTemplateId, 'backupPlanTemplateId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/template/plans/${Uri.encodeComponent(backupPlanTemplateId.toString())}/toPlan$query',
+          '/backup/template/plans/${Uri.encodeComponent(backupPlanTemplateId.toString())}/toPlan',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupPlanFromTemplateOutput.fromJson(response);
@@ -722,12 +701,11 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(selectionId, 'selectionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/${Uri.encodeComponent(selectionId.toString())}$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/${Uri.encodeComponent(selectionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupSelectionOutput.fromJson(response);
@@ -756,12 +734,11 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupVaultAccessPolicyOutput.fromJson(response);
@@ -789,12 +766,11 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
     return GetBackupVaultNotificationsOutput.fromJson(response);
@@ -831,12 +807,11 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}/restore-metadata$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}/restore-metadata',
       exceptionFnMap: _exceptionFns,
     );
     return GetRecoveryPointRestoreMetadataOutput.fromJson(response);
@@ -846,11 +821,10 @@ class Backup {
   ///
   /// May throw [ServiceUnavailableException].
   Future<GetSupportedResourceTypesOutput> getSupportedResourceTypes() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/supported-resource-types$query',
+      requestUri: '/supported-resource-types',
       exceptionFnMap: _exceptionFns,
     );
     return GetSupportedResourceTypesOutput.fromJson(response);
@@ -936,8 +910,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (byBackupVaultName != null)
         _s.toQueryParam('backupVaultName', byBackupVaultName),
       if (byCreatedAfter != null)
@@ -954,7 +928,7 @@ class Backup {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/backup-jobs/$query',
+      requestUri: '/backup-jobs/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupJobsOutput.fromJson(response);
@@ -986,15 +960,15 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/backup/template/plans$query',
+      requestUri: '/backup/template/plans$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupPlanTemplatesOutput.fromJson(response);
@@ -1032,8 +1006,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1041,7 +1015,7 @@ class Backup {
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/versions/$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/versions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupPlanVersionsOutput.fromJson(response);
@@ -1079,8 +1053,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeDeleted != null)
         _s.toQueryParam('includeDeleted', includeDeleted),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -1089,7 +1063,7 @@ class Backup {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/backup/plans/$query',
+      requestUri: '/backup/plans/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupPlansOutput.fromJson(response);
@@ -1126,8 +1100,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1135,7 +1109,7 @@ class Backup {
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}/selections/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupSelectionsOutput.fromJson(response);
@@ -1167,15 +1141,15 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/backup-vaults/$query',
+      requestUri: '/backup-vaults/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupVaultsOutput.fromJson(response);
@@ -1254,8 +1228,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (byCreatedAfter != null)
         _s.toQueryParam('createdAfter', byCreatedAfter),
       if (byCreatedBefore != null)
@@ -1272,7 +1246,7 @@ class Backup {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/copy-jobs/$query',
+      requestUri: '/copy-jobs/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCopyJobsOutput.fromJson(response);
@@ -1303,15 +1277,15 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/resources/$query',
+      requestUri: '/resources/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProtectedResourcesOutput.fromJson(response);
@@ -1386,8 +1360,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (byBackupPlanId != null)
         _s.toQueryParam('backupPlanId', byBackupPlanId),
       if (byCreatedAfter != null)
@@ -1404,7 +1378,7 @@ class Backup {
       payload: null,
       method: 'GET',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRecoveryPointsByBackupVaultOutput.fromJson(response);
@@ -1442,8 +1416,8 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1451,7 +1425,7 @@ class Backup {
       payload: null,
       method: 'GET',
       requestUri:
-          '/resources/${Uri.encodeComponent(resourceArn.toString())}/recovery-points/$query',
+          '/resources/${Uri.encodeComponent(resourceArn.toString())}/recovery-points/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRecoveryPointsByResourceOutput.fromJson(response);
@@ -1483,15 +1457,15 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/restore-jobs/$query',
+      requestUri: '/restore-jobs/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRestoreJobsOutput.fromJson(response);
@@ -1531,15 +1505,16 @@ class Backup {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}/$query',
+      requestUri:
+          '/tags/${Uri.encodeComponent(resourceArn.toString())}/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsOutput.fromJson(response);
@@ -1573,7 +1548,6 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Policy': policy,
     };
@@ -1581,7 +1555,7 @@ class Backup {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1622,7 +1596,6 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupVaultEvents': backupVaultEvents,
       'SNSTopicArn': sNSTopicArn,
@@ -1631,7 +1604,7 @@ class Backup {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1702,7 +1675,6 @@ class Backup {
     );
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupVaultName': backupVaultName,
       'IamRoleArn': iamRoleArn,
@@ -1716,7 +1688,7 @@ class Backup {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/backup-jobs$query',
+      requestUri: '/backup-jobs',
       exceptionFnMap: _exceptionFns,
     );
     return StartBackupJobOutput.fromJson(response);
@@ -1772,7 +1744,6 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DestinationBackupVaultArn': destinationBackupVaultArn,
       'IamRoleArn': iamRoleArn,
@@ -1784,7 +1755,7 @@ class Backup {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/copy-jobs$query',
+      requestUri: '/copy-jobs',
       exceptionFnMap: _exceptionFns,
     );
     return StartCopyJobOutput.fromJson(response);
@@ -1893,7 +1864,6 @@ class Backup {
       resourceType,
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'IamRoleArn': iamRoleArn,
       'Metadata': metadata,
@@ -1904,7 +1874,7 @@ class Backup {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/restore-jobs$query',
+      requestUri: '/restore-jobs',
       exceptionFnMap: _exceptionFns,
     );
     return StartRestoreJobOutput.fromJson(response);
@@ -1924,13 +1894,11 @@ class Backup {
     @_s.required String backupJobId,
   }) async {
     ArgumentError.checkNotNull(backupJobId, 'backupJobId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/backup-jobs/${Uri.encodeComponent(backupJobId.toString())}$query',
+      requestUri: '/backup-jobs/${Uri.encodeComponent(backupJobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1957,14 +1925,13 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1989,14 +1956,13 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/untag/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/untag/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2022,7 +1988,6 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    var query = '';
     final $payload = <String, dynamic>{
       'BackupPlan': backupPlan,
     };
@@ -2030,7 +1995,7 @@ class Backup {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}$query',
+          '/backup/plans/${Uri.encodeComponent(backupPlanId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBackupPlanOutput.fromJson(response);
@@ -2087,7 +2052,6 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'Lifecycle': lifecycle,
     };
@@ -2095,7 +2059,7 @@ class Backup {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}$query',
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName.toString())}/recovery-points/${Uri.encodeComponent(recoveryPointArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRecoveryPointLifecycleOutput.fromJson(response);

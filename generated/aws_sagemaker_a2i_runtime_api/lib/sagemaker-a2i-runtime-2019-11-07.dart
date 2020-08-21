@@ -109,13 +109,12 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}$query',
+          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteHumanLoopResponse.fromJson(response);
@@ -147,12 +146,11 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}$query',
+          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeHumanLoopResponse.fromJson(response);
@@ -228,8 +226,8 @@ class AugmentedAIRuntime {
       nextToken,
       r'''.*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (flowDefinitionArn != null)
         _s.toQueryParam('FlowDefinitionArn', flowDefinitionArn),
       if (creationTimeAfter != null)
@@ -243,7 +241,7 @@ class AugmentedAIRuntime {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/human-loops$query',
+      requestUri: '/human-loops$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListHumanLoopsResponse.fromJson(response);
@@ -307,7 +305,6 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FlowDefinitionArn': flowDefinitionArn,
       'HumanLoopInput': humanLoopInput,
@@ -317,7 +314,7 @@ class AugmentedAIRuntime {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/human-loops$query',
+      requestUri: '/human-loops',
       exceptionFnMap: _exceptionFns,
     );
     return StartHumanLoopResponse.fromJson(response);
@@ -349,14 +346,13 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'HumanLoopName': humanLoopName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/human-loops/stop$query',
+      requestUri: '/human-loops/stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopHumanLoopResponse.fromJson(response);

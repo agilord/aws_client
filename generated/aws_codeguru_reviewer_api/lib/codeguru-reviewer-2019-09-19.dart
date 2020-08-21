@@ -97,7 +97,6 @@ class CodeGuruReviewer {
       clientRequestToken,
       r'''^[\w-]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Repository': repository,
       'ClientRequestToken': clientRequestToken,
@@ -105,7 +104,7 @@ class CodeGuruReviewer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/associations$query',
+      requestUri: '/associations',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateRepositoryResponse.fromJson(response);
@@ -138,12 +137,11 @@ class CodeGuruReviewer {
       r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z]+:[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/associations/${Uri.encodeComponent(associationArn.toString())}$query',
+          '/associations/${Uri.encodeComponent(associationArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRepositoryAssociationResponse.fromJson(response);
@@ -177,13 +175,12 @@ class CodeGuruReviewer {
       r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z]+:[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/associations/${Uri.encodeComponent(associationArn.toString())}$query',
+          '/associations/${Uri.encodeComponent(associationArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateRepositoryResponse.fromJson(response);
@@ -253,8 +250,8 @@ class CodeGuruReviewer {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (names != null) _s.toQueryParam('Name', names),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
@@ -265,7 +262,7 @@ class CodeGuruReviewer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/associations$query',
+      requestUri: '/associations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRepositoryAssociationsResponse.fromJson(response);

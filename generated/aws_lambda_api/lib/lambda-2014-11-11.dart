@@ -125,7 +125,6 @@ class Lambda {
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
       'FunctionName': functionName,
@@ -136,7 +135,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2014-11-13/event-source-mappings/$query',
+      requestUri: '/2014-11-13/event-source-mappings/',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceConfiguration.fromJson(response);
@@ -169,13 +168,12 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -196,12 +194,11 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceConfiguration.fromJson(response);
@@ -238,12 +235,11 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionResponse.fromJson(response);
@@ -279,12 +275,11 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -326,12 +321,11 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
-    var query = '';
     final response = await _protocol.send(
       payload: invokeArgs,
       method: 'POST',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeAsyncResponse.fromJson(response);
@@ -389,8 +383,8 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (eventSourceArn != null)
         _s.toQueryParam('EventSource', eventSourceArn),
       if (functionName != null) _s.toQueryParam('FunctionName', functionName),
@@ -400,7 +394,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/event-source-mappings/$query',
+      requestUri: '/2014-11-13/event-source-mappings/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListEventSourcesResponse.fromJson(response);
@@ -433,15 +427,15 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/functions/$query',
+      requestUri: '/2014-11-13/functions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionsResponse.fromJson(response);
@@ -463,13 +457,12 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -564,8 +557,8 @@ class Lambda {
       1,
       60,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (description != null) _s.toQueryParam('Description', description),
       if (handler != null) _s.toQueryParam('Handler', handler),
       if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
@@ -577,7 +570,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -702,8 +695,8 @@ class Lambda {
       1,
       60,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (handler != null) _s.toQueryParam('Handler', handler),
       if (mode != null) _s.toQueryParam('Mode', mode),
       if (role != null) _s.toQueryParam('Role', role),
@@ -716,7 +709,7 @@ class Lambda {
       payload: functionZip,
       method: 'PUT',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);

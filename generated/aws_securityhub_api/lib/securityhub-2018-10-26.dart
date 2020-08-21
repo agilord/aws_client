@@ -113,7 +113,6 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'InvitationId': invitationId,
       'MasterId': masterId,
@@ -121,7 +120,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/master$query',
+      requestUri: '/master',
       exceptionFnMap: _exceptionFns,
     );
     return AcceptInvitationResponse.fromJson(response);
@@ -146,14 +145,13 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         standardsSubscriptionArns, 'standardsSubscriptionArns');
-    var query = '';
     final $payload = <String, dynamic>{
       'StandardsSubscriptionArns': standardsSubscriptionArns,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/standards/deregister$query',
+      requestUri: '/standards/deregister',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDisableStandardsResponse.fromJson(response);
@@ -180,14 +178,13 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         standardsSubscriptionRequests, 'standardsSubscriptionRequests');
-    var query = '';
     final $payload = <String, dynamic>{
       'StandardsSubscriptionRequests': standardsSubscriptionRequests,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/standards/register$query',
+      requestUri: '/standards/register',
       exceptionFnMap: _exceptionFns,
     );
     return BatchEnableStandardsResponse.fromJson(response);
@@ -248,14 +245,13 @@ class SecurityHub {
     @_s.required List<AwsSecurityFinding> findings,
   }) async {
     ArgumentError.checkNotNull(findings, 'findings');
-    var query = '';
     final $payload = <String, dynamic>{
       'Findings': findings,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/findings/import$query',
+      requestUri: '/findings/import',
       exceptionFnMap: _exceptionFns,
     );
     return BatchImportFindingsResponse.fromJson(response);
@@ -418,7 +414,6 @@ class SecurityHub {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingIdentifiers': findingIdentifiers,
       'Confidence': confidence,
@@ -434,7 +429,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/findings/batchupdate$query',
+      requestUri: '/findings/batchupdate',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateFindingsResponse.fromJson(response);
@@ -485,7 +480,6 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Id': id,
@@ -494,7 +488,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/actionTargets$query',
+      requestUri: '/actionTargets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateActionTargetResponse.fromJson(response);
@@ -546,7 +540,6 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'GroupByAttribute': groupByAttribute,
@@ -555,7 +548,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/insights$query',
+      requestUri: '/insights',
       exceptionFnMap: _exceptionFns,
     );
     return CreateInsightResponse.fromJson(response);
@@ -594,14 +587,13 @@ class SecurityHub {
   Future<CreateMembersResponse> createMembers({
     List<AccountDetails> accountDetails,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountDetails': accountDetails,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/members$query',
+      requestUri: '/members',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMembersResponse.fromJson(response);
@@ -621,14 +613,13 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitations/decline$query',
+      requestUri: '/invitations/decline',
       exceptionFnMap: _exceptionFns,
     );
     return DeclineInvitationsResponse.fromJson(response);
@@ -657,13 +648,12 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/actionTargets/${Uri.encodeComponent(actionTargetArn.toString())}$query',
+          '/actionTargets/${Uri.encodeComponent(actionTargetArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteActionTargetResponse.fromJson(response);
@@ -689,13 +679,11 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/insights/${Uri.encodeComponent(insightArn.toString())}$query',
+      requestUri: '/insights/${Uri.encodeComponent(insightArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInsightResponse.fromJson(response);
@@ -716,14 +704,13 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitations/delete$query',
+      requestUri: '/invitations/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInvitationsResponse.fromJson(response);
@@ -742,14 +729,13 @@ class SecurityHub {
   Future<DeleteMembersResponse> deleteMembers({
     List<String> accountIds,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/members/delete$query',
+      requestUri: '/members/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMembersResponse.fromJson(response);
@@ -788,7 +774,6 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ActionTargetArns': actionTargetArns,
       'MaxResults': maxResults,
@@ -797,7 +782,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/actionTargets/get$query',
+      requestUri: '/actionTargets/get',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeActionTargetsResponse.fromJson(response);
@@ -822,14 +807,14 @@ class SecurityHub {
       hubArn,
       r'''.*\S.*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (hubArn != null) _s.toQueryParam('HubArn', hubArn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/accounts$query',
+      requestUri: '/accounts$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeHubResponse.fromJson(response);
@@ -863,15 +848,15 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/products$query',
+      requestUri: '/products$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProductsResponse.fromJson(response);
@@ -906,15 +891,15 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/standards$query',
+      requestUri: '/standards$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStandardsResponse.fromJson(response);
@@ -963,8 +948,8 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -972,7 +957,7 @@ class SecurityHub {
       payload: null,
       method: 'GET',
       requestUri:
-          '/standards/controls/${Uri.encodeComponent(standardsSubscriptionArn.toString())}$query',
+          '/standards/controls/${Uri.encodeComponent(standardsSubscriptionArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStandardsControlsResponse.fromJson(response);
@@ -1001,13 +986,12 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/productSubscriptions/${Uri.encodeComponent(productSubscriptionArn.toString())}$query',
+          '/productSubscriptions/${Uri.encodeComponent(productSubscriptionArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DisableImportFindingsForProductResponse.fromJson(response);
@@ -1033,12 +1017,11 @@ class SecurityHub {
   /// May throw [InvalidAccessException].
   /// May throw [ResourceNotFoundException].
   Future<void> disableSecurityHub() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/accounts$query',
+      requestUri: '/accounts',
       exceptionFnMap: _exceptionFns,
     );
     return DisableSecurityHubResponse.fromJson(response);
@@ -1053,12 +1036,11 @@ class SecurityHub {
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   Future<void> disassociateFromMasterAccount() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/master/disassociate$query',
+      requestUri: '/master/disassociate',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateFromMasterAccountResponse.fromJson(response);
@@ -1079,14 +1061,13 @@ class SecurityHub {
   Future<void> disassociateMembers({
     List<String> accountIds,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/members/disassociate$query',
+      requestUri: '/members/disassociate',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateMembersResponse.fromJson(response);
@@ -1117,14 +1098,13 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ProductArn': productArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/productSubscriptions$query',
+      requestUri: '/productSubscriptions',
       exceptionFnMap: _exceptionFns,
     );
     return EnableImportFindingsForProductResponse.fromJson(response);
@@ -1170,7 +1150,6 @@ class SecurityHub {
     bool enableDefaultStandards,
     Map<String, String> tags,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'EnableDefaultStandards': enableDefaultStandards,
       'Tags': tags,
@@ -1178,7 +1157,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/accounts$query',
+      requestUri: '/accounts',
       exceptionFnMap: _exceptionFns,
     );
     return EnableSecurityHubResponse.fromJson(response);
@@ -1215,7 +1194,6 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -1224,7 +1202,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/standards/get$query',
+      requestUri: '/standards/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetEnabledStandardsResponse.fromJson(response);
@@ -1266,7 +1244,6 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -1276,7 +1253,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/findings$query',
+      requestUri: '/findings',
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingsResponse.fromJson(response);
@@ -1303,12 +1280,11 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/insights/results/${Uri.encodeComponent(insightArn.toString())}$query',
+          '/insights/results/${Uri.encodeComponent(insightArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetInsightResultsResponse.fromJson(response);
@@ -1348,7 +1324,6 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'InsightArns': insightArns,
       'MaxResults': maxResults,
@@ -1357,7 +1332,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/insights/get$query',
+      requestUri: '/insights/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetInsightsResponse.fromJson(response);
@@ -1372,11 +1347,10 @@ class SecurityHub {
   /// May throw [InvalidAccessException].
   /// May throw [LimitExceededException].
   Future<GetInvitationsCountResponse> getInvitationsCount() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/invitations/count$query',
+      requestUri: '/invitations/count',
       exceptionFnMap: _exceptionFns,
     );
     return GetInvitationsCountResponse.fromJson(response);
@@ -1391,11 +1365,10 @@ class SecurityHub {
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   Future<GetMasterAccountResponse> getMasterAccount() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/master$query',
+      requestUri: '/master',
       exceptionFnMap: _exceptionFns,
     );
     return GetMasterAccountResponse.fromJson(response);
@@ -1417,14 +1390,13 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/members/get$query',
+      requestUri: '/members/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetMembersResponse.fromJson(response);
@@ -1453,14 +1425,13 @@ class SecurityHub {
   Future<InviteMembersResponse> inviteMembers({
     List<String> accountIds,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/members/invite$query',
+      requestUri: '/members/invite',
       exceptionFnMap: _exceptionFns,
     );
     return InviteMembersResponse.fromJson(response);
@@ -1493,15 +1464,15 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/productSubscriptions$query',
+      requestUri: '/productSubscriptions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListEnabledProductsForImportResponse.fromJson(response);
@@ -1535,15 +1506,15 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/invitations$query',
+      requestUri: '/invitations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListInvitationsResponse.fromJson(response);
@@ -1590,8 +1561,8 @@ class SecurityHub {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (onlyAssociated != null)
@@ -1600,7 +1571,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/members$query',
+      requestUri: '/members$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMembersResponse.fromJson(response);
@@ -1624,11 +1595,10 @@ class SecurityHub {
       r'''^arn:aws:securityhub:.*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1657,14 +1627,13 @@ class SecurityHub {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1693,15 +1662,15 @@ class SecurityHub {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1746,7 +1715,6 @@ class SecurityHub {
       name,
       r'''.*\S.*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Name': name,
@@ -1755,7 +1723,7 @@ class SecurityHub {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/actionTargets/${Uri.encodeComponent(actionTargetArn.toString())}$query',
+          '/actionTargets/${Uri.encodeComponent(actionTargetArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateActionTargetResponse.fromJson(response);
@@ -1788,7 +1756,6 @@ class SecurityHub {
     RecordState recordState,
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'Note': note,
@@ -1797,7 +1764,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/findings$query',
+      requestUri: '/findings',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFindingsResponse.fromJson(response);
@@ -1845,7 +1812,6 @@ class SecurityHub {
       name,
       r'''.*\S.*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'GroupByAttribute': groupByAttribute,
@@ -1854,8 +1820,7 @@ class SecurityHub {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri:
-          '/insights/${Uri.encodeComponent(insightArn.toString())}$query',
+      requestUri: '/insights/${Uri.encodeComponent(insightArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInsightResponse.fromJson(response);
@@ -1895,7 +1860,6 @@ class SecurityHub {
       disabledReason,
       r'''.*\S.*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ControlStatus': controlStatus?.toValue(),
       'DisabledReason': disabledReason,
@@ -1904,7 +1868,7 @@ class SecurityHub {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/standards/control/${Uri.encodeComponent(standardsControlArn.toString())}$query',
+          '/standards/control/${Uri.encodeComponent(standardsControlArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateStandardsControlResponse.fromJson(response);

@@ -53,11 +53,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(
         createApplicationRequest, 'createApplicationRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: createApplicationRequest,
       method: 'POST',
-      requestUri: '/v1/apps$query',
+      requestUri: '/v1/apps',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAppResponse.fromJson(response);
@@ -83,12 +82,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeCampaignRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCampaignResponse.fromJson(response);
@@ -114,12 +112,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
     final response = await _protocol.send(
       payload: emailTemplateRequest,
       method: 'POST',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email',
       exceptionFnMap: _exceptionFns,
     );
     return CreateEmailTemplateResponse.fromJson(response);
@@ -144,12 +141,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(exportJobRequest, 'exportJobRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: exportJobRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export',
       exceptionFnMap: _exceptionFns,
     );
     return CreateExportJobResponse.fromJson(response);
@@ -174,12 +170,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(importJobRequest, 'importJobRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: importJobRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import',
       exceptionFnMap: _exceptionFns,
     );
     return CreateImportJobResponse.fromJson(response);
@@ -204,12 +199,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeJourneyRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJourneyResponse.fromJson(response);
@@ -237,12 +231,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
     final response = await _protocol.send(
       payload: pushNotificationTemplateRequest,
       method: 'POST',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePushTemplateResponse.fromJson(response);
@@ -263,11 +256,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(
         createRecommenderConfiguration, 'createRecommenderConfiguration');
-    var query = '';
     final response = await _protocol.send(
       payload: createRecommenderConfiguration,
       method: 'POST',
-      requestUri: '/v1/recommenders$query',
+      requestUri: '/v1/recommenders',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRecommenderConfigurationResponse.fromJson(response);
@@ -294,12 +286,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeSegmentRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSegmentResponse.fromJson(response);
@@ -325,12 +316,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
     final response = await _protocol.send(
       payload: sMSTemplateRequest,
       method: 'POST',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSmsTemplateResponse.fromJson(response);
@@ -356,12 +346,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: voiceTemplateRequest,
       method: 'POST',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVoiceTemplateResponse.fromJson(response);
@@ -385,13 +374,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAdmChannelResponse.fromJson(response);
@@ -415,13 +403,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApnsChannelResponse.fromJson(response);
@@ -445,13 +432,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApnsSandboxChannelResponse.fromJson(response);
@@ -475,13 +461,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApnsVoipChannelResponse.fromJson(response);
@@ -505,13 +490,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApnsVoipSandboxChannelResponse.fromJson(response);
@@ -534,13 +518,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}$query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAppResponse.fromJson(response);
@@ -564,13 +546,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteBaiduChannelResponse.fromJson(response);
@@ -598,13 +579,12 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCampaignResponse.fromJson(response);
@@ -628,13 +608,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEmailChannelResponse.fromJson(response);
@@ -692,8 +671,8 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -701,7 +680,7 @@ class Pinpoint {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEmailTemplateResponse.fromJson(response);
@@ -729,13 +708,12 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEndpointResponse.fromJson(response);
@@ -758,13 +736,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEventStreamResponse.fromJson(response);
@@ -788,13 +765,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGcmChannelResponse.fromJson(response);
@@ -822,13 +798,12 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteJourneyResponse.fromJson(response);
@@ -886,8 +861,8 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -895,7 +870,7 @@ class Pinpoint {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePushTemplateResponse.fromJson(response);
@@ -920,13 +895,12 @@ class Pinpoint {
     @_s.required String recommenderId,
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}$query',
+          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRecommenderConfigurationResponse.fromJson(response);
@@ -954,13 +928,12 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSegmentResponse.fromJson(response);
@@ -984,13 +957,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSmsChannelResponse.fromJson(response);
@@ -1048,8 +1020,8 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1057,7 +1029,7 @@ class Pinpoint {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSmsTemplateResponse.fromJson(response);
@@ -1085,13 +1057,12 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteUserEndpointsResponse.fromJson(response);
@@ -1115,13 +1086,12 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVoiceChannelResponse.fromJson(response);
@@ -1179,8 +1149,8 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1188,7 +1158,7 @@ class Pinpoint {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVoiceTemplateResponse.fromJson(response);
@@ -1212,12 +1182,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     return GetAdmChannelResponse.fromJson(response);
@@ -1241,12 +1210,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     return GetApnsChannelResponse.fromJson(response);
@@ -1270,12 +1238,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return GetApnsSandboxChannelResponse.fromJson(response);
@@ -1299,12 +1266,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     return GetApnsVoipChannelResponse.fromJson(response);
@@ -1328,12 +1294,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return GetApnsVoipSandboxChannelResponse.fromJson(response);
@@ -1356,12 +1321,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}$query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAppResponse.fromJson(response);
@@ -1424,8 +1387,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('end-time', endTime),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
@@ -1435,7 +1398,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationDateRangeKpiResponse.fromJson(response);
@@ -1458,12 +1421,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationSettingsResponse.fromJson(response);
@@ -1492,15 +1454,15 @@ class Pinpoint {
     String pageSize,
     String token,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/apps$query',
+      requestUri: '/v1/apps$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetAppsResponse.fromJson(response);
@@ -1524,12 +1486,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     return GetBaiduChannelResponse.fromJson(response);
@@ -1558,12 +1519,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignResponse.fromJson(response);
@@ -1602,8 +1562,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -1611,7 +1571,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/activities$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/activities$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignActivitiesResponse.fromJson(response);
@@ -1679,8 +1639,8 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('end-time', endTime),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
@@ -1690,7 +1650,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignDateRangeKpiResponse.fromJson(response);
@@ -1724,12 +1684,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(version, 'version');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignVersionResponse.fromJson(response);
@@ -1769,8 +1728,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -1778,7 +1737,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignVersionsResponse.fromJson(response);
@@ -1813,8 +1772,8 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -1822,7 +1781,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCampaignsResponse.fromJson(response);
@@ -1846,12 +1805,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels',
       exceptionFnMap: _exceptionFns,
     );
     return GetChannelsResponse.fromJson(response);
@@ -1875,12 +1833,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     return GetEmailChannelResponse.fromJson(response);
@@ -1938,15 +1895,15 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetEmailTemplateResponse.fromJson(response);
@@ -1975,12 +1932,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetEndpointResponse.fromJson(response);
@@ -2003,12 +1959,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     return GetEventStreamResponse.fromJson(response);
@@ -2037,12 +1992,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export/${Uri.encodeComponent(jobId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetExportJobResponse.fromJson(response);
@@ -2077,8 +2031,8 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2086,7 +2040,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetExportJobsResponse.fromJson(response);
@@ -2110,12 +2064,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     return GetGcmChannelResponse.fromJson(response);
@@ -2144,12 +2097,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import/${Uri.encodeComponent(jobId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetImportJobResponse.fromJson(response);
@@ -2184,8 +2136,8 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2193,7 +2145,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetImportJobsResponse.fromJson(response);
@@ -2222,12 +2174,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetJourneyResponse.fromJson(response);
@@ -2295,8 +2246,8 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('end-time', endTime),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
@@ -2306,7 +2257,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetJourneyDateRangeKpiResponse.fromJson(response);
@@ -2353,8 +2304,8 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyActivityId, 'journeyActivityId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
@@ -2362,7 +2313,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/activities/${Uri.encodeComponent(journeyActivityId.toString())}/execution-metrics$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/activities/${Uri.encodeComponent(journeyActivityId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetJourneyExecutionActivityMetricsResponse.fromJson(response);
@@ -2403,8 +2354,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
@@ -2412,7 +2363,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/execution-metrics$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetJourneyExecutionMetricsResponse.fromJson(response);
@@ -2470,15 +2421,15 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetPushTemplateResponse.fromJson(response);
@@ -2503,12 +2454,11 @@ class Pinpoint {
     @_s.required String recommenderId,
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}$query',
+          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommenderConfigurationResponse.fromJson(response);
@@ -2537,15 +2487,15 @@ class Pinpoint {
     String pageSize,
     String token,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/recommenders$query',
+      requestUri: '/v1/recommenders$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommenderConfigurationsResponse.fromJson(response);
@@ -2574,12 +2524,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentResponse.fromJson(response);
@@ -2619,8 +2568,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2628,7 +2577,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/export$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentExportJobsResponse.fromJson(response);
@@ -2668,8 +2617,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2677,7 +2626,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/import$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentImportJobsResponse.fromJson(response);
@@ -2712,12 +2661,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
     ArgumentError.checkNotNull(version, 'version');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentVersionResponse.fromJson(response);
@@ -2758,8 +2706,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2767,7 +2715,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentVersionsResponse.fromJson(response);
@@ -2802,8 +2750,8 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -2811,7 +2759,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSegmentsResponse.fromJson(response);
@@ -2835,12 +2783,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     return GetSmsChannelResponse.fromJson(response);
@@ -2898,15 +2845,15 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSmsTemplateResponse.fromJson(response);
@@ -2935,12 +2882,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetUserEndpointsResponse.fromJson(response);
@@ -2964,12 +2910,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     return GetVoiceChannelResponse.fromJson(response);
@@ -3027,15 +2972,15 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetVoiceTemplateResponse.fromJson(response);
@@ -3070,8 +3015,8 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
@@ -3079,7 +3024,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJourneysResponse.fromJson(response);
@@ -3094,12 +3039,10 @@ class Pinpoint {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -3143,8 +3086,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(templateType, 'templateType');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
@@ -3152,7 +3095,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/versions$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTemplateVersionsResponse.fromJson(response);
@@ -3192,8 +3135,8 @@ class Pinpoint {
     String prefix,
     String templateType,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (prefix != null) _s.toQueryParam('prefix', prefix),
@@ -3202,7 +3145,7 @@ class Pinpoint {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/templates$query',
+      requestUri: '/v1/templates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTemplatesResponse.fromJson(response);
@@ -3221,11 +3164,10 @@ class Pinpoint {
     @_s.required NumberValidateRequest numberValidateRequest,
   }) async {
     ArgumentError.checkNotNull(numberValidateRequest, 'numberValidateRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: numberValidateRequest,
       method: 'POST',
-      requestUri: '/v1/phone/number/validate$query',
+      requestUri: '/v1/phone/number/validate',
       exceptionFnMap: _exceptionFns,
     );
     return PhoneNumberValidateResponse.fromJson(response);
@@ -3251,12 +3193,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeEventStream, 'writeEventStream');
-    var query = '';
     final response = await _protocol.send(
       payload: writeEventStream,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     return PutEventStreamResponse.fromJson(response);
@@ -3282,12 +3223,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(eventsRequest, 'eventsRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: eventsRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/events$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/events',
       exceptionFnMap: _exceptionFns,
     );
     return PutEventsResponse.fromJson(response);
@@ -3336,12 +3276,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(
         updateAttributesRequest, 'updateAttributesRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: updateAttributesRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/attributes/${Uri.encodeComponent(attributeType.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/attributes/${Uri.encodeComponent(attributeType.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveAttributesResponse.fromJson(response);
@@ -3366,12 +3305,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(messageRequest, 'messageRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: messageRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/messages$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/messages',
       exceptionFnMap: _exceptionFns,
     );
     return SendMessagesResponse.fromJson(response);
@@ -3397,12 +3335,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(
         sendUsersMessageRequest, 'sendUsersMessageRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: sendUsersMessageRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users-messages$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users-messages',
       exceptionFnMap: _exceptionFns,
     );
     return SendUsersMessagesResponse.fromJson(response);
@@ -3419,12 +3356,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagsModel, 'tagsModel');
-    var query = '';
     await _protocol.send(
       payload: tagsModel,
       method: 'POST',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3445,8 +3380,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -3454,7 +3389,7 @@ class Pinpoint {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3479,12 +3414,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(aDMChannelRequest, 'aDMChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: aDMChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAdmChannelResponse.fromJson(response);
@@ -3510,12 +3444,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(aPNSChannelRequest, 'aPNSChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: aPNSChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApnsChannelResponse.fromJson(response);
@@ -3542,12 +3475,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSSandboxChannelRequest, 'aPNSSandboxChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: aPNSSandboxChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApnsSandboxChannelResponse.fromJson(response);
@@ -3574,12 +3506,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSVoipChannelRequest, 'aPNSVoipChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: aPNSVoipChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApnsVoipChannelResponse.fromJson(response);
@@ -3606,12 +3537,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSVoipSandboxChannelRequest, 'aPNSVoipSandboxChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: aPNSVoipSandboxChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApnsVoipSandboxChannelResponse.fromJson(response);
@@ -3638,12 +3568,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(
         writeApplicationSettingsRequest, 'writeApplicationSettingsRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeApplicationSettingsRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApplicationSettingsResponse.fromJson(response);
@@ -3669,12 +3598,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(baiduChannelRequest, 'baiduChannelRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: baiduChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBaiduChannelResponse.fromJson(response);
@@ -3704,12 +3632,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeCampaignRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateCampaignResponse.fromJson(response);
@@ -3735,12 +3662,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(emailChannelRequest, 'emailChannelRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: emailChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEmailChannelResponse.fromJson(response);
@@ -3812,8 +3738,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (createNewVersion != null)
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
@@ -3822,7 +3748,7 @@ class Pinpoint {
       payload: emailTemplateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEmailTemplateResponse.fromJson(response);
@@ -3855,12 +3781,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
     ArgumentError.checkNotNull(endpointRequest, 'endpointRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: endpointRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEndpointResponse.fromJson(response);
@@ -3889,12 +3814,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointBatchRequest, 'endpointBatchRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: endpointBatchRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEndpointsBatchResponse.fromJson(response);
@@ -3920,12 +3844,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(gCMChannelRequest, 'gCMChannelRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: gCMChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGcmChannelResponse.fromJson(response);
@@ -3955,12 +3878,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeJourneyRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJourneyResponse.fromJson(response);
@@ -3990,12 +3912,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(journeyStateRequest, 'journeyStateRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: journeyStateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/state$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/state',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJourneyStateResponse.fromJson(response);
@@ -4069,8 +3990,8 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (createNewVersion != null)
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
@@ -4079,7 +4000,7 @@ class Pinpoint {
       payload: pushNotificationTemplateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePushTemplateResponse.fromJson(response);
@@ -4107,12 +4028,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
     ArgumentError.checkNotNull(
         updateRecommenderConfiguration, 'updateRecommenderConfiguration');
-    var query = '';
     final response = await _protocol.send(
       payload: updateRecommenderConfiguration,
       method: 'PUT',
       requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}$query',
+          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRecommenderConfigurationResponse.fromJson(response);
@@ -4144,12 +4064,11 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
     ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: writeSegmentRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSegmentResponse.fromJson(response);
@@ -4175,12 +4094,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(sMSChannelRequest, 'sMSChannelRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: sMSChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSmsChannelResponse.fromJson(response);
@@ -4252,8 +4170,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (createNewVersion != null)
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
@@ -4262,7 +4180,7 @@ class Pinpoint {
       payload: sMSTemplateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSmsTemplateResponse.fromJson(response);
@@ -4297,12 +4215,11 @@ class Pinpoint {
         templateActiveVersionRequest, 'templateActiveVersionRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(templateType, 'templateType');
-    var query = '';
     final response = await _protocol.send(
       payload: templateActiveVersionRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/active-version$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/active-version',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTemplateActiveVersionResponse.fromJson(response);
@@ -4328,12 +4245,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(voiceChannelRequest, 'voiceChannelRequest');
-    var query = '';
     final response = await _protocol.send(
       payload: voiceChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice$query',
+          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVoiceChannelResponse.fromJson(response);
@@ -4405,8 +4321,8 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (createNewVersion != null)
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
@@ -4415,7 +4331,7 @@ class Pinpoint {
       payload: voiceTemplateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$query',
+          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVoiceTemplateResponse.fromJson(response);

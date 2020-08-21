@@ -9074,7 +9074,7 @@ class NodeConfigurationOptionsFilter {
   /// NumberOfNodes, then values can range from 0 to 200. If filter Name is
   /// EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For
   /// example, filter NumberOfNodes (name) GT (operator) 3 (values).
-  @_s.JsonKey(name: 'Values')
+  @_s.JsonKey(name: 'Value')
   final List<String> values;
 
   NodeConfigurationOptionsFilter({

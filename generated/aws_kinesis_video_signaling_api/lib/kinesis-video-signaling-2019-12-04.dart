@@ -124,7 +124,6 @@ class KinesisVideoSignalingChannels {
       username,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'ClientId': clientId,
@@ -134,7 +133,7 @@ class KinesisVideoSignalingChannels {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/get-ice-server-config$query',
+      requestUri: '/v1/get-ice-server-config',
       exceptionFnMap: _exceptionFns,
     );
     return GetIceServerConfigResponse.fromJson(response);
@@ -209,7 +208,6 @@ class KinesisVideoSignalingChannels {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'MessagePayload': messagePayload,
@@ -218,7 +216,7 @@ class KinesisVideoSignalingChannels {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/send-alexa-offer-to-master$query',
+      requestUri: '/v1/send-alexa-offer-to-master',
       exceptionFnMap: _exceptionFns,
     );
     return SendAlexaOfferToMasterResponse.fromJson(response);

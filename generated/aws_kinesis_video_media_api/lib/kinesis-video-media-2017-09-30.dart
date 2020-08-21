@@ -143,7 +143,6 @@ class KinesisVideoMedia {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'StartSelector': startSelector,
       'StreamARN': streamARN,
@@ -152,7 +151,7 @@ class KinesisVideoMedia {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getMedia$query',
+      requestUri: '/getMedia',
       exceptionFnMap: _exceptionFns,
     );
     return GetMediaOutput.fromJson(response);

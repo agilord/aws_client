@@ -85,7 +85,6 @@ class PersonalizeEvents {
       1,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'eventList': eventList,
       'sessionId': sessionId,
@@ -95,7 +94,7 @@ class PersonalizeEvents {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/events$query',
+      requestUri: '/events',
       exceptionFnMap: _exceptionFns,
     );
   }

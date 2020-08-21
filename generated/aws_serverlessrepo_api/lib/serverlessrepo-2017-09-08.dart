@@ -218,7 +218,6 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(author, 'author');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'Author': author,
       'Description': description,
@@ -239,7 +238,7 @@ class ServerlessApplicationRepository {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/applications$query',
+      requestUri: '/applications',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApplicationResponse.fromJson(response);
@@ -284,7 +283,6 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    var query = '';
     final $payload = <String, dynamic>{
       'SourceCodeArchiveUrl': sourceCodeArchiveUrl,
       'SourceCodeUrl': sourceCodeUrl,
@@ -295,7 +293,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions/${Uri.encodeComponent(semanticVersion.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions/${Uri.encodeComponent(semanticVersion.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApplicationVersionResponse.fromJson(response);
@@ -447,7 +445,6 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(stackName, 'stackName');
-    var query = '';
     final $payload = <String, dynamic>{
       'StackName': stackName,
       'Capabilities': capabilities,
@@ -466,7 +463,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/changesets$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/changesets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCloudFormationChangeSetResponse.fromJson(response);
@@ -494,7 +491,6 @@ class ServerlessApplicationRepository {
     String semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{
       'SemanticVersion': semanticVersion,
     };
@@ -502,7 +498,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCloudFormationTemplateResponse.fromJson(response);
@@ -523,13 +519,12 @@ class ServerlessApplicationRepository {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -552,8 +547,8 @@ class ServerlessApplicationRepository {
     String semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (semanticVersion != null)
         _s.toQueryParam('semanticVersion', semanticVersion),
     ].where((e) => e != null).join('&')}';
@@ -561,7 +556,7 @@ class ServerlessApplicationRepository {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationResponse.fromJson(response);
@@ -581,12 +576,11 @@ class ServerlessApplicationRepository {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationPolicyResponse.fromJson(response);
@@ -614,12 +608,11 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(templateId, 'templateId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFormationTemplateResponse.fromJson(response);
@@ -657,8 +650,8 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (semanticVersion != null)
@@ -668,7 +661,7 @@ class ServerlessApplicationRepository {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/dependencies$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/dependencies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationDependenciesResponse.fromJson(response);
@@ -702,8 +695,8 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -711,7 +704,7 @@ class ServerlessApplicationRepository {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationVersionsResponse.fromJson(response);
@@ -739,15 +732,15 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/applications$query',
+      requestUri: '/applications$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationsResponse.fromJson(response);
@@ -777,7 +770,6 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(statements, 'statements');
-    var query = '';
     final $payload = <String, dynamic>{
       'Statements': statements,
     };
@@ -785,7 +777,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return PutApplicationPolicyResponse.fromJson(response);
@@ -812,7 +804,6 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    var query = '';
     final $payload = <String, dynamic>{
       'OrganizationId': organizationId,
     };
@@ -820,7 +811,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/unshare$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/unshare',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -881,7 +872,6 @@ class ServerlessApplicationRepository {
     String readmeUrl,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Author': author,
       'Description': description,
@@ -894,7 +884,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApplicationResponse.fromJson(response);

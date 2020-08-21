@@ -53,14 +53,13 @@ class PinpointSMSVoice {
   Future<void> createConfigurationSet({
     String configurationSetName,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'ConfigurationSetName': configurationSetName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/sms-voice/configuration-sets$query',
+      requestUri: '/v1/sms-voice/configuration-sets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationSetResponse.fromJson(response);
@@ -86,7 +85,6 @@ class PinpointSMSVoice {
     String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
       'EventDestinationName': eventDestinationName,
@@ -95,7 +93,7 @@ class PinpointSMSVoice {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations$query',
+          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationSetEventDestinationResponse.fromJson(response);
@@ -114,13 +112,12 @@ class PinpointSMSVoice {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}$query',
+          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetResponse.fromJson(response);
@@ -144,13 +141,12 @@ class PinpointSMSVoice {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}$query',
+          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetEventDestinationResponse.fromJson(response);
@@ -172,12 +168,11 @@ class PinpointSMSVoice {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations$query',
+          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetEventDestinationsResponse.fromJson(response);
@@ -201,15 +196,15 @@ class PinpointSMSVoice {
     String nextToken,
     String pageSize,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/sms-voice/configuration-sets$query',
+      requestUri: '/v1/sms-voice/configuration-sets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationSetsResponse.fromJson(response);
@@ -244,7 +239,6 @@ class PinpointSMSVoice {
     String destinationPhoneNumber,
     String originationPhoneNumber,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'CallerId': callerId,
       'ConfigurationSetName': configurationSetName,
@@ -255,7 +249,7 @@ class PinpointSMSVoice {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/sms-voice/voice/message$query',
+      requestUri: '/v1/sms-voice/voice/message',
       exceptionFnMap: _exceptionFns,
     );
     return SendVoiceMessageResponse.fromJson(response);
@@ -283,7 +277,6 @@ class PinpointSMSVoice {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    var query = '';
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
     };
@@ -291,7 +284,7 @@ class PinpointSMSVoice {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}$query',
+          '/v1/sms-voice/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConfigurationSetEventDestinationResponse.fromJson(response);

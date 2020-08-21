@@ -417,7 +417,6 @@ class KinesisVideoArchivedMedia {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DASHFragmentSelector': dASHFragmentSelector,
       'DisplayFragmentNumber': displayFragmentNumber?.toValue(),
@@ -431,7 +430,7 @@ class KinesisVideoArchivedMedia {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getDASHStreamingSessionURL$query',
+      requestUri: '/getDASHStreamingSessionURL',
       exceptionFnMap: _exceptionFns,
     );
     return GetDASHStreamingSessionURLOutput.fromJson(response);
@@ -888,7 +887,6 @@ class KinesisVideoArchivedMedia {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ContainerFormat': containerFormat?.toValue(),
       'DiscontinuityMode': discontinuityMode?.toValue(),
@@ -903,7 +901,7 @@ class KinesisVideoArchivedMedia {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getHLSStreamingSessionURL$query',
+      requestUri: '/getHLSStreamingSessionURL',
       exceptionFnMap: _exceptionFns,
     );
     return GetHLSStreamingSessionURLOutput.fromJson(response);
@@ -988,7 +986,6 @@ class KinesisVideoArchivedMedia {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Fragments': fragments,
       'StreamName': streamName,
@@ -996,7 +993,7 @@ class KinesisVideoArchivedMedia {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getMediaForFragmentList$query',
+      requestUri: '/getMediaForFragmentList',
       exceptionFnMap: _exceptionFns,
     );
     return GetMediaForFragmentListOutput.fromJson(response);
@@ -1096,7 +1093,6 @@ class KinesisVideoArchivedMedia {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'StreamName': streamName,
       'FragmentSelector': fragmentSelector,
@@ -1106,7 +1102,7 @@ class KinesisVideoArchivedMedia {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listFragments$query',
+      requestUri: '/listFragments',
       exceptionFnMap: _exceptionFns,
     );
     return ListFragmentsOutput.fromJson(response);

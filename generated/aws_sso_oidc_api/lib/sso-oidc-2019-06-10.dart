@@ -125,7 +125,6 @@ class SSOOIDC {
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
     ArgumentError.checkNotNull(deviceCode, 'deviceCode');
     ArgumentError.checkNotNull(grantType, 'grantType');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientId': clientId,
       'clientSecret': clientSecret,
@@ -139,7 +138,7 @@ class SSOOIDC {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/token$query',
+      requestUri: '/token',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTokenResponse.fromJson(response);
@@ -171,7 +170,6 @@ class SSOOIDC {
   }) async {
     ArgumentError.checkNotNull(clientName, 'clientName');
     ArgumentError.checkNotNull(clientType, 'clientType');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientName': clientName,
       'clientType': clientType,
@@ -180,7 +178,7 @@ class SSOOIDC {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/client/register$query',
+      requestUri: '/client/register',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterClientResponse.fromJson(response);
@@ -216,7 +214,6 @@ class SSOOIDC {
     ArgumentError.checkNotNull(clientId, 'clientId');
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
     ArgumentError.checkNotNull(startUrl, 'startUrl');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientId': clientId,
       'clientSecret': clientSecret,
@@ -225,7 +222,7 @@ class SSOOIDC {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/device_authorization$query',
+      requestUri: '/device_authorization',
       exceptionFnMap: _exceptionFns,
     );
     return StartDeviceAuthorizationResponse.fromJson(response);

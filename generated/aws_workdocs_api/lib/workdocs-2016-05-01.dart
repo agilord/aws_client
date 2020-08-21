@@ -135,14 +135,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -188,14 +187,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/api/v1/users/${Uri.encodeComponent(userId.toString())}/activation$query',
+          '/api/v1/users/${Uri.encodeComponent(userId.toString())}/activation',
       exceptionFnMap: _exceptionFns,
     );
     return ActivateUserResponse.fromJson(response);
@@ -251,7 +249,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Principals': principals,
       'NotificationOptions': notificationOptions,
@@ -261,7 +258,7 @@ class WorkDocs {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return AddResourcePermissionsResponse.fromJson(response);
@@ -382,7 +379,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Text': text,
       'NotifyCollaborators': notifyCollaborators,
@@ -395,7 +391,7 @@ class WorkDocs {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comment$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comment',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCommentResponse.fromJson(response);
@@ -465,8 +461,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionId != null) _s.toQueryParam('versionid', versionId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -477,7 +473,7 @@ class WorkDocs {
       headers: headers,
       method: 'PUT',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/customMetadata$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/customMetadata$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCustomMetadataResponse.fromJson(response);
@@ -542,7 +538,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
       'Name': name,
@@ -551,7 +546,7 @@ class WorkDocs {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/api/v1/folders$query',
+      requestUri: '/api/v1/folders',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFolderResponse.fromJson(response);
@@ -604,7 +599,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Labels': labels,
     };
@@ -613,7 +607,7 @@ class WorkDocs {
       headers: headers,
       method: 'PUT',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/labels$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/labels',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLabelsResponse.fromJson(response);
@@ -674,7 +668,6 @@ class WorkDocs {
     );
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
-    var query = '';
     final $payload = <String, dynamic>{
       'Endpoint': endpoint,
       'Protocol': protocol?.toValue(),
@@ -684,7 +677,7 @@ class WorkDocs {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions$query',
+          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNotificationSubscriptionResponse.fromJson(response);
@@ -817,7 +810,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'GivenName': givenName,
       'Password': password,
@@ -832,7 +824,7 @@ class WorkDocs {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/api/v1/users$query',
+      requestUri: '/api/v1/users',
       exceptionFnMap: _exceptionFns,
     );
     return CreateUserResponse.fromJson(response);
@@ -879,14 +871,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/users/${Uri.encodeComponent(userId.toString())}/activation$query',
+          '/api/v1/users/${Uri.encodeComponent(userId.toString())}/activation',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -969,14 +960,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comment/${Uri.encodeComponent(commentId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comment/${Uri.encodeComponent(commentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1047,8 +1037,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deleteAll != null) _s.toQueryParam('deleteAll', deleteAll),
       if (keys != null) _s.toQueryParam('keys', keys),
       if (versionId != null) _s.toQueryParam('versionId', versionId),
@@ -1059,7 +1049,7 @@ class WorkDocs {
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/customMetadata$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/customMetadata$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCustomMetadataResponse.fromJson(response);
@@ -1108,14 +1098,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1163,14 +1152,12 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
-      requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}$query',
+      requestUri: '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1217,14 +1204,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/contents$query',
+          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/contents',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1277,8 +1263,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deleteAll != null) _s.toQueryParam('deleteAll', deleteAll),
       if (labels != null) _s.toQueryParam('labels', labels),
     ].where((e) => e != null).join('&')}';
@@ -1288,7 +1274,7 @@ class WorkDocs {
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/labels$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/labels$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLabelsResponse.fromJson(response);
@@ -1338,13 +1324,12 @@ class WorkDocs {
       r'''[&\w+-.@]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions/${Uri.encodeComponent(subscriptionId.toString())}$query',
+          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions/${Uri.encodeComponent(subscriptionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1389,14 +1374,12 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
-      requestUri:
-          '/api/v1/users/${Uri.encodeComponent(userId.toString())}$query',
+      requestUri: '/api/v1/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1529,8 +1512,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (activityTypes != null)
         _s.toQueryParam('activityTypes', activityTypes),
       if (endTime != null) _s.toQueryParam('endTime', endTime),
@@ -1548,7 +1531,7 @@ class WorkDocs {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/activities$query',
+      requestUri: '/api/v1/activities$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeActivitiesResponse.fromJson(response);
@@ -1639,8 +1622,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
@@ -1649,7 +1632,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comments$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}/comments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCommentsResponse.fromJson(response);
@@ -1752,8 +1735,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
       if (include != null) _s.toQueryParam('include', include),
       if (limit != null) _s.toQueryParam('limit', limit),
@@ -1764,7 +1747,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDocumentVersionsResponse.fromJson(response);
@@ -1866,8 +1849,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (include != null) _s.toQueryParam('include', include),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -1880,7 +1863,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/contents$query',
+          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/contents$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFolderContentsResponse.fromJson(response);
@@ -1967,8 +1950,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (searchQuery != null) _s.toQueryParam('searchQuery', searchQuery),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -1979,7 +1962,7 @@ class WorkDocs {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/groups$query',
+      requestUri: '/api/v1/groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGroupsResponse.fromJson(response);
@@ -2032,8 +2015,8 @@ class WorkDocs {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
@@ -2041,7 +2024,7 @@ class WorkDocs {
       payload: null,
       method: 'GET',
       requestUri:
-          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions$query',
+          '/api/v1/organizations/${Uri.encodeComponent(organizationId.toString())}/subscriptions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeNotificationSubscriptionsResponse.fromJson(response);
@@ -2122,8 +2105,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
       if (principalId != null) _s.toQueryParam('principalId', principalId),
@@ -2133,7 +2116,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeResourcePermissionsResponse.fromJson(response);
@@ -2194,8 +2177,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
@@ -2203,7 +2186,7 @@ class WorkDocs {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/me/root$query',
+      requestUri: '/api/v1/me/root$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRootFoldersResponse.fromJson(response);
@@ -2332,8 +2315,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
       if (include != null) _s.toQueryParam('include', include),
       if (limit != null) _s.toQueryParam('limit', limit),
@@ -2349,7 +2332,7 @@ class WorkDocs {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/users$query',
+      requestUri: '/api/v1/users$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUsersResponse.fromJson(response);
@@ -2387,12 +2370,11 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/me$query',
+      requestUri: '/api/v1/me',
       exceptionFnMap: _exceptionFns,
     );
     return GetCurrentUserResponse.fromJson(response);
@@ -2444,8 +2426,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeCustomMetadata != null)
         _s.toQueryParam('includeCustomMetadata', includeCustomMetadata),
     ].where((e) => e != null).join('&')}';
@@ -2454,7 +2436,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDocumentResponse.fromJson(response);
@@ -2542,8 +2524,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -2553,7 +2535,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/path$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/path$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDocumentPathResponse.fromJson(response);
@@ -2639,8 +2621,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
       if (includeCustomMetadata != null)
         _s.toQueryParam('includeCustomMetadata', includeCustomMetadata),
@@ -2650,7 +2632,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDocumentVersionResponse.fromJson(response);
@@ -2702,8 +2684,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeCustomMetadata != null)
         _s.toQueryParam('includeCustomMetadata', includeCustomMetadata),
     ].where((e) => e != null).join('&')}';
@@ -2712,7 +2694,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}$query',
+          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetFolderResponse.fromJson(response);
@@ -2800,8 +2782,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -2811,7 +2793,7 @@ class WorkDocs {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/path$query',
+          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}/path$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetFolderPathResponse.fromJson(response);
@@ -2881,8 +2863,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (collectionType != null)
         _s.toQueryParam('collectionType', collectionType),
       if (limit != null) _s.toQueryParam('limit', limit),
@@ -2893,7 +2875,7 @@ class WorkDocs {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/api/v1/resources$query',
+      requestUri: '/api/v1/resources$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourcesResponse.fromJson(response);
@@ -3005,7 +2987,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
       'ContentCreatedTimestamp': contentCreatedTimestamp,
@@ -3019,7 +3000,7 @@ class WorkDocs {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/api/v1/documents$query',
+      requestUri: '/api/v1/documents',
       exceptionFnMap: _exceptionFns,
     );
     return InitiateDocumentVersionUploadResponse.fromJson(response);
@@ -3064,14 +3045,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3138,8 +3118,8 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (principalType != null) _s.toQueryParam('type', principalType),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -3148,7 +3128,7 @@ class WorkDocs {
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions/${Uri.encodeComponent(principalId.toString())}$query',
+          '/api/v1/resources/${Uri.encodeComponent(resourceId.toString())}/permissions/${Uri.encodeComponent(principalId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3234,7 +3214,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'ParentFolderId': parentFolderId,
@@ -3245,7 +3224,7 @@ class WorkDocs {
       headers: headers,
       method: 'PATCH',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3319,7 +3298,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'VersionStatus': versionStatus?.toValue(),
     };
@@ -3328,7 +3306,7 @@ class WorkDocs {
       headers: headers,
       method: 'PATCH',
       requestUri:
-          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$query',
+          '/api/v1/documents/${Uri.encodeComponent(documentId.toString())}/versions/${Uri.encodeComponent(versionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3414,7 +3392,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'ParentFolderId': parentFolderId,
@@ -3424,8 +3401,7 @@ class WorkDocs {
       payload: $payload,
       headers: headers,
       method: 'PATCH',
-      requestUri:
-          '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}$query',
+      requestUri: '/api/v1/folders/${Uri.encodeComponent(folderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3521,7 +3497,6 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'GivenName': givenName,
       'GrantPoweruserPrivileges': grantPoweruserPrivileges?.toValue(),
@@ -3535,8 +3510,7 @@ class WorkDocs {
       payload: $payload,
       headers: headers,
       method: 'PATCH',
-      requestUri:
-          '/api/v1/users/${Uri.encodeComponent(userId.toString())}$query',
+      requestUri: '/api/v1/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateUserResponse.fromJson(response);

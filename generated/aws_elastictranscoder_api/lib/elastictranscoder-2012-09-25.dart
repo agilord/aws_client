@@ -70,13 +70,11 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -165,7 +163,6 @@ class ElasticTranscoder {
       1,
       255,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'PipelineId': pipelineId,
       'Input': input,
@@ -179,7 +176,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2012-09-25/jobs$query',
+      requestUri: '/2012-09-25/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
@@ -510,7 +507,6 @@ class ElasticTranscoder {
       outputBucket,
       r'''^(\w|\.|-){1,255}$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
       'Name': name,
@@ -524,7 +520,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2012-09-25/pipelines$query',
+      requestUri: '/2012-09-25/pipelines',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePipelineResponse.fromJson(response);
@@ -607,7 +603,6 @@ class ElasticTranscoder {
       0,
       255,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Container': container,
       'Name': name,
@@ -619,7 +614,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2012-09-25/presets$query',
+      requestUri: '/2012-09-25/presets',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePresetResponse.fromJson(response);
@@ -650,13 +645,11 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePipelineResponse.fromJson(response);
@@ -688,13 +681,11 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePresetResponse.fromJson(response);
@@ -747,8 +738,8 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascending != null) _s.toQueryParam('Ascending', ascending),
       if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
     ].where((e) => e != null).join('&')}';
@@ -756,7 +747,7 @@ class ElasticTranscoder {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2012-09-25/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$query',
+          '/2012-09-25/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsByPipelineResponse.fromJson(response);
@@ -809,8 +800,8 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascending != null) _s.toQueryParam('Ascending', ascending),
       if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
     ].where((e) => e != null).join('&')}';
@@ -818,7 +809,7 @@ class ElasticTranscoder {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2012-09-25/jobsByStatus/${Uri.encodeComponent(status.toString())}$query',
+          '/2012-09-25/jobsByStatus/${Uri.encodeComponent(status.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsByStatusResponse.fromJson(response);
@@ -855,15 +846,15 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascending != null) _s.toQueryParam('Ascending', ascending),
       if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/pipelines$query',
+      requestUri: '/2012-09-25/pipelines$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPipelinesResponse.fromJson(response);
@@ -900,15 +891,15 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascending != null) _s.toQueryParam('Ascending', ascending),
       if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/presets$query',
+      requestUri: '/2012-09-25/presets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPresetsResponse.fromJson(response);
@@ -934,12 +925,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadJobResponse.fromJson(response);
@@ -965,12 +954,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadPipelineResponse.fromJson(response);
@@ -997,12 +984,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadPresetResponse.fromJson(response);
@@ -1067,7 +1052,6 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(topics, 'topics');
-    var query = '';
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
       'OutputBucket': outputBucket,
@@ -1077,7 +1061,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2012-09-25/roleTests$query',
+      requestUri: '/2012-09-25/roleTests',
       exceptionFnMap: _exceptionFns,
     );
     return TestRoleResponse.fromJson(response);
@@ -1374,7 +1358,6 @@ class ElasticTranscoder {
       role,
       r'''^arn:aws:iam::\w{12}:role/.+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AwsKmsKeyArn': awsKmsKeyArn,
       'ContentConfig': contentConfig,
@@ -1387,8 +1370,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineResponse.fromJson(response);
@@ -1453,7 +1435,6 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(notifications, 'notifications');
-    var query = '';
     final $payload = <String, dynamic>{
       'Notifications': notifications,
     };
@@ -1461,7 +1442,7 @@ class ElasticTranscoder {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/notifications$query',
+          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/notifications',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineNotificationsResponse.fromJson(response);
@@ -1515,7 +1496,6 @@ class ElasticTranscoder {
       r'''(^Active$)|(^Paused$)''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Status': status,
     };
@@ -1523,7 +1503,7 @@ class ElasticTranscoder {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/status$query',
+          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/status',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineStatusResponse.fromJson(response);

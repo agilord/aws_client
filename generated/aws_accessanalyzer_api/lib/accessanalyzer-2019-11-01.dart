@@ -98,7 +98,6 @@ class AccessAnalyzer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
       'type': type?.toValue(),
@@ -109,7 +108,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/analyzer$query',
+      requestUri: '/analyzer',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAnalyzerResponse.fromJson(response);
@@ -173,7 +172,6 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filter': filter,
       'ruleName': ruleName,
@@ -183,7 +181,7 @@ class AccessAnalyzer {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -222,8 +220,8 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -231,7 +229,7 @@ class AccessAnalyzer {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -285,8 +283,8 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -294,7 +292,7 @@ class AccessAnalyzer {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -330,15 +328,15 @@ class AccessAnalyzer {
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (analyzerArn != null) _s.toQueryParam('analyzerArn', analyzerArn),
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/analyzed-resource$query',
+      requestUri: '/analyzed-resource$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnalyzedResourceResponse.fromJson(response);
@@ -371,12 +369,10 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}$query',
+      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnalyzerResponse.fromJson(response);
@@ -427,12 +423,11 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetArchiveRuleResponse.fromJson(response);
@@ -463,14 +458,14 @@ class AccessAnalyzer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(id, 'id');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (analyzerArn != null) _s.toQueryParam('analyzerArn', analyzerArn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/finding/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/finding/${Uri.encodeComponent(id.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingResponse.fromJson(response);
@@ -509,7 +504,6 @@ class AccessAnalyzer {
       r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'maxResults': maxResults,
@@ -519,7 +513,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/analyzed-resource$query',
+      requestUri: '/analyzed-resource',
       exceptionFnMap: _exceptionFns,
     );
     return ListAnalyzedResourcesResponse.fromJson(response);
@@ -545,8 +539,8 @@ class AccessAnalyzer {
     String nextToken,
     Type type,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (type != null) _s.toQueryParam('type', type),
@@ -554,7 +548,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/analyzer$query',
+      requestUri: '/analyzer$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAnalyzersResponse.fromJson(response);
@@ -594,8 +588,8 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -603,7 +597,7 @@ class AccessAnalyzer {
       payload: null,
       method: 'GET',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListArchiveRulesResponse.fromJson(response);
@@ -645,7 +639,6 @@ class AccessAnalyzer {
       r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'filter': filter,
@@ -656,7 +649,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/finding$query',
+      requestUri: '/finding',
       exceptionFnMap: _exceptionFns,
     );
     return ListFindingsResponse.fromJson(response);
@@ -676,11 +669,10 @@ class AccessAnalyzer {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -719,7 +711,6 @@ class AccessAnalyzer {
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'resourceArn': resourceArn,
@@ -727,7 +718,7 @@ class AccessAnalyzer {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/resource/scan$query',
+      requestUri: '/resource/scan',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -751,14 +742,13 @@ class AccessAnalyzer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -783,15 +773,15 @@ class AccessAnalyzer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -852,7 +842,6 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filter': filter,
       'clientToken': clientToken,
@@ -861,7 +850,7 @@ class AccessAnalyzer {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}$query',
+          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -911,7 +900,6 @@ class AccessAnalyzer {
       resourceArn,
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'status': status?.toValue(),
@@ -922,7 +910,7 @@ class AccessAnalyzer {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/finding$query',
+      requestUri: '/finding',
       exceptionFnMap: _exceptionFns,
     );
   }

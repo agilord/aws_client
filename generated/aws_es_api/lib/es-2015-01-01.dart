@@ -64,7 +64,6 @@ class ElasticsearchService {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagList, 'tagList');
-    var query = '';
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagList': tagList,
@@ -72,7 +71,7 @@ class ElasticsearchService {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/tags$query',
+      requestUri: '/2015-01-01/tags',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -111,13 +110,12 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-01-01/packages/associate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}$query',
+          '/2015-01-01/packages/associate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return AssociatePackageResponse.fromJson(response);
@@ -154,14 +152,13 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/serviceSoftwareUpdate/cancel$query',
+      requestUri: '/2015-01-01/es/serviceSoftwareUpdate/cancel',
       exceptionFnMap: _exceptionFns,
     );
     return CancelElasticsearchServiceSoftwareUpdateResponse.fromJson(response);
@@ -274,7 +271,6 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'AccessPolicies': accessPolicies,
@@ -294,7 +290,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/domain$query',
+      requestUri: '/2015-01-01/es/domain',
       exceptionFnMap: _exceptionFns,
     );
     return CreateElasticsearchDomainResponse.fromJson(response);
@@ -350,7 +346,6 @@ class ElasticsearchService {
       0,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
@@ -360,7 +355,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/packages$query',
+      requestUri: '/2015-01-01/packages',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePackageResponse.fromJson(response);
@@ -393,13 +388,12 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}$query',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteElasticsearchDomainResponse.fromJson(response);
@@ -417,11 +411,10 @@ class ElasticsearchService {
   /// May throw [InternalException].
   /// May throw [ValidationException].
   Future<void> deleteElasticsearchServiceRole() async {
-    var query = '';
     await _protocol.send(
       payload: null,
       method: 'DELETE',
-      requestUri: '/2015-01-01/es/role$query',
+      requestUri: '/2015-01-01/es/role',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -442,13 +435,12 @@ class ElasticsearchService {
     @_s.required String packageID,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}$query',
+          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePackageResponse.fromJson(response);
@@ -481,12 +473,11 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}$query',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchDomainResponse.fromJson(response);
@@ -521,12 +512,11 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config$query',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchDomainConfigResponse.fromJson(response);
@@ -545,14 +535,13 @@ class ElasticsearchService {
     @_s.required List<String> domainNames,
   }) async {
     ArgumentError.checkNotNull(domainNames, 'domainNames');
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainNames': domainNames,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/domain-info$query',
+      requestUri: '/2015-01-01/es/domain-info',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchDomainsResponse.fromJson(response);
@@ -600,15 +589,15 @@ class ElasticsearchService {
       domainName,
       r'''[a-z][a-z0-9\-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (domainName != null) _s.toQueryParam('domainName', domainName),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion.toString())}/${Uri.encodeComponent(instanceType.toString())}$query',
+          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion.toString())}/${Uri.encodeComponent(instanceType.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(response);
@@ -644,7 +633,6 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -653,7 +641,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/packages/describe$query',
+      requestUri: '/2015-01-01/packages/describe',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePackagesResponse.fromJson(response);
@@ -694,8 +682,8 @@ class ElasticsearchService {
       reservedElasticsearchInstanceOfferingId,
       r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (reservedElasticsearchInstanceOfferingId != null)
@@ -704,7 +692,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/reservedInstanceOfferings$query',
+      requestUri: '/2015-01-01/es/reservedInstanceOfferings$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeReservedElasticsearchInstanceOfferingsResponse.fromJson(
@@ -748,8 +736,8 @@ class ElasticsearchService {
       reservedElasticsearchInstanceId,
       r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (reservedElasticsearchInstanceId != null)
@@ -758,7 +746,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/reservedInstances$query',
+      requestUri: '/2015-01-01/es/reservedInstances$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeReservedElasticsearchInstancesResponse.fromJson(response);
@@ -798,13 +786,12 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-01-01/packages/dissociate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}$query',
+          '/2015-01-01/packages/dissociate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DissociatePackageResponse.fromJson(response);
@@ -834,14 +821,14 @@ class ElasticsearchService {
       domainName,
       r'''[a-z][a-z0-9\-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (domainName != null) _s.toQueryParam('domainName', domainName),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/compatibleVersions$query',
+      requestUri: '/2015-01-01/es/compatibleVersions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCompatibleElasticsearchVersionsResponse.fromJson(response);
@@ -880,8 +867,8 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -889,7 +876,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/history$query',
+          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/history$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetUpgradeHistoryResponse.fromJson(response);
@@ -920,12 +907,11 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/status$query',
+          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetUpgradeStatusResponse.fromJson(response);
@@ -937,11 +923,10 @@ class ElasticsearchService {
   /// May throw [BaseException].
   /// May throw [ValidationException].
   Future<ListDomainNamesResponse> listDomainNames() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/domain$query',
+      requestUri: '/2015-01-01/domain',
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainNamesResponse.fromJson(response);
@@ -976,8 +961,8 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -985,7 +970,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}/domains$query',
+          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}/domains$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsForPackageResponse.fromJson(response);
@@ -1040,8 +1025,8 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (domainName != null) _s.toQueryParam('domainName', domainName),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1050,7 +1035,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/instanceTypes/${Uri.encodeComponent(elasticsearchVersion.toString())}$query',
+          '/2015-01-01/es/instanceTypes/${Uri.encodeComponent(elasticsearchVersion.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListElasticsearchInstanceTypesResponse.fromJson(response);
@@ -1076,15 +1061,15 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/versions$query',
+      requestUri: '/2015-01-01/es/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListElasticsearchVersionsResponse.fromJson(response);
@@ -1132,8 +1117,8 @@ class ElasticsearchService {
       0,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1141,7 +1126,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/domain/${Uri.encodeComponent(domainName.toString())}/packages$query',
+          '/2015-01-01/domain/${Uri.encodeComponent(domainName.toString())}/packages$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPackagesForDomainResponse.fromJson(response);
@@ -1161,14 +1146,14 @@ class ElasticsearchService {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (arn != null) _s.toQueryParam('arn', arn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/tags/$query',
+      requestUri: '/2015-01-01/tags/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsResponse.fromJson(response);
@@ -1219,7 +1204,6 @@ class ElasticsearchService {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ReservationName': reservationName,
       'ReservedElasticsearchInstanceOfferingId':
@@ -1229,7 +1213,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/purchaseReservedInstanceOffering$query',
+      requestUri: '/2015-01-01/es/purchaseReservedInstanceOffering',
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseReservedElasticsearchInstanceOfferingResponse.fromJson(
@@ -1255,7 +1239,6 @@ class ElasticsearchService {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagKeys': tagKeys,
@@ -1263,7 +1246,7 @@ class ElasticsearchService {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/tags-removal$query',
+      requestUri: '/2015-01-01/tags-removal',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1296,14 +1279,13 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/serviceSoftwareUpdate/start$query',
+      requestUri: '/2015-01-01/es/serviceSoftwareUpdate/start',
       exceptionFnMap: _exceptionFns,
     );
     return StartElasticsearchServiceSoftwareUpdateResponse.fromJson(response);
@@ -1394,7 +1376,6 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccessPolicies': accessPolicies,
       'AdvancedOptions': advancedOptions,
@@ -1411,7 +1392,7 @@ class ElasticsearchService {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config$query',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateElasticsearchDomainConfigResponse.fromJson(response);
@@ -1453,7 +1434,6 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetVersion, 'targetVersion');
-    var query = '';
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'TargetVersion': targetVersion,
@@ -1462,7 +1442,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-01-01/es/upgradeDomain$query',
+      requestUri: '/2015-01-01/es/upgradeDomain',
       exceptionFnMap: _exceptionFns,
     );
     return UpgradeElasticsearchDomainResponse.fromJson(response);

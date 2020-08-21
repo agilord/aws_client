@@ -103,7 +103,6 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken,
       'InvitationId': invitationId,
@@ -113,7 +112,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMemberOutput.fromJson(response);
@@ -206,7 +205,6 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken,
       'Framework': framework?.toValue(),
@@ -220,7 +218,7 @@ class ManagedBlockchain {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/networks$query',
+      requestUri: '/networks',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNetworkOutput.fromJson(response);
@@ -283,7 +281,6 @@ class ManagedBlockchain {
       isRequired: true,
     );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken,
       'NodeConfiguration': nodeConfiguration,
@@ -292,7 +289,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNodeOutput.fromJson(response);
@@ -371,7 +368,6 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Actions': actions,
       'ClientRequestToken': clientRequestToken,
@@ -382,7 +378,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProposalOutput.fromJson(response);
@@ -429,13 +425,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMemberOutput.fromJson(response);
@@ -488,13 +483,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteNodeOutput.fromJson(response);
@@ -533,12 +527,11 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetMemberOutput.fromJson(response);
@@ -565,12 +558,10 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}$query',
+      requestUri: '/networks/${Uri.encodeComponent(networkId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetNetworkOutput.fromJson(response);
@@ -621,12 +612,11 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetNodeOutput.fromJson(response);
@@ -665,12 +655,11 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetProposalOutput.fromJson(response);
@@ -706,15 +695,15 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/invitations$query',
+      requestUri: '/invitations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListInvitationsOutput.fromJson(response);
@@ -777,8 +766,8 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (isOwned != null) _s.toQueryParam('isOwned', isOwned),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (name != null) _s.toQueryParam('name', name),
@@ -789,7 +778,7 @@ class ManagedBlockchain {
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMembersOutput.fromJson(response);
@@ -838,8 +827,8 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (framework != null) _s.toQueryParam('framework', framework),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (name != null) _s.toQueryParam('name', name),
@@ -849,7 +838,7 @@ class ManagedBlockchain {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/networks$query',
+      requestUri: '/networks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListNetworksOutput.fromJson(response);
@@ -912,8 +901,8 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (status != null) _s.toQueryParam('status', status),
@@ -922,7 +911,7 @@ class ManagedBlockchain {
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListNodesOutput.fromJson(response);
@@ -981,8 +970,8 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -990,7 +979,7 @@ class ManagedBlockchain {
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}/votes$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}/votes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProposalVotesOutput.fromJson(response);
@@ -1037,8 +1026,8 @@ class ManagedBlockchain {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1046,7 +1035,7 @@ class ManagedBlockchain {
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProposalsOutput.fromJson(response);
@@ -1076,13 +1065,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/invitations/${Uri.encodeComponent(invitationId.toString())}$query',
+          '/invitations/${Uri.encodeComponent(invitationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return RejectInvitationOutput.fromJson(response);
@@ -1126,7 +1114,6 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'LogPublishingConfiguration': logPublishingConfiguration,
     };
@@ -1134,7 +1121,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMemberOutput.fromJson(response);
@@ -1189,7 +1176,6 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'LogPublishingConfiguration': logPublishingConfiguration,
     };
@@ -1197,7 +1183,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/members/${Uri.encodeComponent(memberId.toString())}/nodes/${Uri.encodeComponent(nodeId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateNodeOutput.fromJson(response);
@@ -1256,7 +1242,6 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Vote': vote?.toValue(),
       'VoterMemberId': voterMemberId,
@@ -1265,7 +1250,7 @@ class ManagedBlockchain {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}/votes$query',
+          '/networks/${Uri.encodeComponent(networkId.toString())}/proposals/${Uri.encodeComponent(proposalId.toString())}/votes',
       exceptionFnMap: _exceptionFns,
     );
     return VoteOnProposalOutput.fromJson(response);

@@ -92,7 +92,6 @@ class ConnectParticipant {
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{};
     participantToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Type': type,
     };
@@ -100,7 +99,7 @@ class ConnectParticipant {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/participant/connection$query',
+      requestUri: '/participant/connection',
       exceptionFnMap: _exceptionFns,
     );
     return CreateParticipantConnectionResponse.fromJson(response);
@@ -140,7 +139,6 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientToken': clientToken,
     };
@@ -148,7 +146,7 @@ class ConnectParticipant {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/participant/disconnect$query',
+      requestUri: '/participant/disconnect',
       exceptionFnMap: _exceptionFns,
     );
     return DisconnectParticipantResponse.fromJson(response);
@@ -222,7 +220,6 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'MaxResults': maxResults,
@@ -235,7 +232,7 @@ class ConnectParticipant {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/participant/transcript$query',
+      requestUri: '/participant/transcript',
       exceptionFnMap: _exceptionFns,
     );
     return GetTranscriptResponse.fromJson(response);
@@ -307,7 +304,6 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ContentType': contentType,
       'ClientToken': clientToken,
@@ -317,7 +313,7 @@ class ConnectParticipant {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/participant/event$query',
+      requestUri: '/participant/event',
       exceptionFnMap: _exceptionFns,
     );
     return SendEventResponse.fromJson(response);
@@ -381,7 +377,6 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'ContentType': contentType,
@@ -391,7 +386,7 @@ class ConnectParticipant {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/participant/message$query',
+      requestUri: '/participant/message',
       exceptionFnMap: _exceptionFns,
     );
     return SendMessageResponse.fromJson(response);

@@ -2545,7 +2545,7 @@ class MessageAttributeValue {
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'BinaryListValues')
+  @_s.JsonKey(name: 'BinaryListValue')
   final List<String> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
@@ -2554,7 +2554,7 @@ class MessageAttributeValue {
   final String binaryValue;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'StringListValues')
+  @_s.JsonKey(name: 'StringListValue')
   final List<String> stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
@@ -2667,7 +2667,7 @@ class MessageSystemAttributeValue {
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'BinaryListValues')
+  @_s.JsonKey(name: 'BinaryListValue')
   final List<String> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
@@ -2676,7 +2676,7 @@ class MessageSystemAttributeValue {
   final String binaryValue;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'StringListValues')
+  @_s.JsonKey(name: 'StringListValue')
   final List<String> stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
@@ -2834,7 +2834,7 @@ class SendMessageBatchRequestEntry {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'MessageAttributes')
+  @_s.JsonKey(name: 'MessageAttribute')
   final Map<String, MessageAttributeValue> messageAttributes;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
@@ -2958,7 +2958,7 @@ class SendMessageBatchRequestEntry {
   /// of a message.
   /// </li>
   /// </ul> </important>
-  @_s.JsonKey(name: 'MessageSystemAttributes')
+  @_s.JsonKey(name: 'MessageSystemAttribute')
   final Map<String, MessageSystemAttributeValue> messageSystemAttributes;
 
   SendMessageBatchRequestEntry({

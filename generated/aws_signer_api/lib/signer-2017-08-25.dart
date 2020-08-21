@@ -81,13 +81,12 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}$query',
+          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -106,12 +105,10 @@ class Signer {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/signing-jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/signing-jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSigningJobResponse.fromJson(response);
@@ -129,12 +126,11 @@ class Signer {
     @_s.required String platformId,
   }) async {
     ArgumentError.checkNotNull(platformId, 'platformId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/signing-platforms/${Uri.encodeComponent(platformId.toString())}$query',
+          '/signing-platforms/${Uri.encodeComponent(platformId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSigningPlatformResponse.fromJson(response);
@@ -166,12 +162,11 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}$query',
+          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSigningProfileResponse.fromJson(response);
@@ -227,8 +222,8 @@ class Signer {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (platformId != null) _s.toQueryParam('platformId', platformId),
@@ -238,7 +233,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-jobs$query',
+      requestUri: '/signing-jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningJobsResponse.fromJson(response);
@@ -288,8 +283,8 @@ class Signer {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (category != null) _s.toQueryParam('category', category),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -299,7 +294,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-platforms$query',
+      requestUri: '/signing-platforms$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningPlatformsResponse.fromJson(response);
@@ -343,8 +338,8 @@ class Signer {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeCanceled != null)
         _s.toQueryParam('includeCanceled', includeCanceled),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -353,7 +348,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-profiles$query',
+      requestUri: '/signing-profiles$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningProfilesResponse.fromJson(response);
@@ -371,11 +366,10 @@ class Signer {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -438,7 +432,6 @@ class Signer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(signingMaterial, 'signingMaterial');
-    var query = '';
     final $payload = <String, dynamic>{
       'platformId': platformId,
       'signingMaterial': signingMaterial,
@@ -450,7 +443,7 @@ class Signer {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}$query',
+          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return PutSigningProfileResponse.fromJson(response);
@@ -528,7 +521,6 @@ class Signer {
       profileName,
       r'''^[a-zA-Z0-9_]{2,}''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'destination': destination,
@@ -538,7 +530,7 @@ class Signer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/signing-jobs$query',
+      requestUri: '/signing-jobs',
       exceptionFnMap: _exceptionFns,
     );
     return StartSigningJobResponse.fromJson(response);
@@ -564,14 +556,13 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -595,15 +586,15 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);

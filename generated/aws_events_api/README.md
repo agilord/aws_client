@@ -1,4 +1,4 @@
-# AWS API client for Amazon CloudWatch Events
+# AWS API client for Amazon EventBridge
 
 **Warning: This is a generated library, some operations may not work.**
 

@@ -210,7 +210,8 @@ class CloudFront {
     ArgumentError.checkNotNull(invalidationBatch, 'invalidationBatch');
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2016-11-25/distribution/$distributionId/invalidation',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       payload: invalidationBatch.toXml('InvalidationBatch'),
       exceptionFnMap: _exceptionFns,
     );
@@ -342,7 +343,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2016-11-25/origin-access-identity/cloudfront/$id',
+      requestUri:
+          '/2016-11-25/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -371,7 +373,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2016-11-25/distribution/$id',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -449,7 +452,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2016-11-25/streaming-distribution/$id',
+      requestUri:
+          '/2016-11-25/streaming-distribution/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -469,7 +473,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/origin-access-identity/cloudfront/$id',
+      requestUri:
+          '/2016-11-25/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFrontOriginAccessIdentityResult.fromXml($result.body,
@@ -490,7 +495,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/origin-access-identity/cloudfront/$id/config',
+      requestUri:
+          '/2016-11-25/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFrontOriginAccessIdentityConfigResult.fromXml($result.body,
@@ -510,7 +516,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/distribution/$id',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDistributionResult.fromXml($result.body,
@@ -530,7 +537,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/distribution/$id/config',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetDistributionConfigResult.fromXml($result.body,
@@ -557,7 +565,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/distribution/$distributionId/invalidation/$id',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetInvalidationResult.fromXml($result.body);
@@ -577,7 +586,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/streaming-distribution/$id',
+      requestUri:
+          '/2016-11-25/streaming-distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetStreamingDistributionResult.fromXml($result.body,
@@ -598,7 +608,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/streaming-distribution/$id/config',
+      requestUri:
+          '/2016-11-25/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetStreamingDistributionConfigResult.fromXml($result.body,
@@ -701,7 +712,8 @@ class CloudFront {
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/distributionsByWebACLId/$webACLId',
+      requestUri:
+          '/2016-11-25/distributionsByWebACLId/${Uri.encodeComponent(webACLId.toString())}',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -740,7 +752,8 @@ class CloudFront {
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2016-11-25/distribution/$distributionId/invalidation',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -910,7 +923,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2016-11-25/origin-access-identity/cloudfront/$id/config',
+      requestUri:
+          '/2016-11-25/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: cloudFrontOriginAccessIdentityConfig
           .toXml('CloudFrontOriginAccessIdentityConfig'),
@@ -982,7 +996,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2016-11-25/distribution/$id/config',
+      requestUri:
+          '/2016-11-25/distribution/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: distributionConfig.toXml('DistributionConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1030,7 +1045,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2016-11-25/streaming-distribution/$id/config',
+      requestUri:
+          '/2016-11-25/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: streamingDistributionConfig.toXml('StreamingDistributionConfig'),
       exceptionFnMap: _exceptionFns,

@@ -73,8 +73,8 @@ class Mobile {
     String region,
     String snapshotId,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (name != null) _s.toQueryParam('name', name),
       if (region != null) _s.toQueryParam('region', region),
       if (snapshotId != null) _s.toQueryParam('snapshotId', snapshotId),
@@ -82,7 +82,7 @@ class Mobile {
     final response = await _protocol.send(
       payload: contents,
       method: 'POST',
-      requestUri: '/projects$query',
+      requestUri: '/projects$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProjectResult.fromJson(response);
@@ -102,13 +102,11 @@ class Mobile {
     @_s.required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectId.toString())}$query',
+      requestUri: '/projects/${Uri.encodeComponent(projectId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProjectResult.fromJson(response);
@@ -129,11 +127,10 @@ class Mobile {
     @_s.required String bundleId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/bundles/${Uri.encodeComponent(bundleId.toString())}$query',
+      requestUri: '/bundles/${Uri.encodeComponent(bundleId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBundleResult.fromJson(response);
@@ -160,8 +157,8 @@ class Mobile {
     bool syncFromResources,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (projectId != null) _s.toQueryParam('projectId', projectId),
       if (syncFromResources != null)
         _s.toQueryParam('syncFromResources', syncFromResources),
@@ -169,7 +166,7 @@ class Mobile {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/project$query',
+      requestUri: '/project$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProjectResult.fromJson(response);
@@ -200,8 +197,8 @@ class Mobile {
     String projectId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (platform != null) _s.toQueryParam('platform', platform),
       if (projectId != null) _s.toQueryParam('projectId', projectId),
     ].where((e) => e != null).join('&')}';
@@ -209,7 +206,7 @@ class Mobile {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/bundles/${Uri.encodeComponent(bundleId.toString())}$query',
+      requestUri: '/bundles/${Uri.encodeComponent(bundleId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ExportBundleResult.fromJson(response);
@@ -233,12 +230,11 @@ class Mobile {
     @_s.required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/exports/${Uri.encodeComponent(projectId.toString())}$query',
+      requestUri: '/exports/${Uri.encodeComponent(projectId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ExportProjectResult.fromJson(response);
@@ -263,15 +259,15 @@ class Mobile {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/bundles$query',
+      requestUri: '/bundles$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBundlesResult.fromJson(response);
@@ -296,15 +292,15 @@ class Mobile {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/projects$query',
+      requestUri: '/projects$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProjectsResult.fromJson(response);
@@ -333,14 +329,14 @@ class Mobile {
     Uint8List contents,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (projectId != null) _s.toQueryParam('projectId', projectId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: contents,
       method: 'POST',
-      requestUri: '/update$query',
+      requestUri: '/update$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateProjectResult.fromJson(response);

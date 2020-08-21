@@ -104,7 +104,6 @@ class EFS {
       isRequired: true,
     );
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientToken': clientToken,
       'FileSystemId': fileSystemId,
@@ -115,7 +114,7 @@ class EFS {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-02-01/access-points$query',
+      requestUri: '/2015-02-01/access-points',
       exceptionFnMap: _exceptionFns,
     );
     return AccessPointDescription.fromJson(response);
@@ -292,7 +291,6 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'CreationToken': creationToken,
       'Encrypted': encrypted,
@@ -305,7 +303,7 @@ class EFS {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-02-01/file-systems$query',
+      requestUri: '/2015-02-01/file-systems',
       exceptionFnMap: _exceptionFns,
     );
     return FileSystemDescription.fromJson(response);
@@ -482,7 +480,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(subnetId, 'subnetId');
-    var query = '';
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'SubnetId': subnetId,
@@ -492,7 +489,7 @@ class EFS {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-02-01/mount-targets$query',
+      requestUri: '/2015-02-01/mount-targets',
       exceptionFnMap: _exceptionFns,
     );
     return MountTargetDescription.fromJson(response);
@@ -526,7 +523,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -534,7 +530,7 @@ class EFS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-02-01/create-tags/${Uri.encodeComponent(fileSystemId.toString())}$query',
+          '/2015-02-01/create-tags/${Uri.encodeComponent(fileSystemId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -557,13 +553,12 @@ class EFS {
     @_s.required String accessPointId,
   }) async {
     ArgumentError.checkNotNull(accessPointId, 'accessPointId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-02-01/access-points/${Uri.encodeComponent(accessPointId.toString())}$query',
+          '/2015-02-01/access-points/${Uri.encodeComponent(accessPointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -597,13 +592,12 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -629,13 +623,12 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -685,13 +678,12 @@ class EFS {
     @_s.required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}$query',
+          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -722,7 +714,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
     };
@@ -730,7 +721,7 @@ class EFS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-02-01/delete-tags/${Uri.encodeComponent(fileSystemId.toString())}$query',
+          '/2015-02-01/delete-tags/${Uri.encodeComponent(fileSystemId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -779,8 +770,8 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (accessPointId != null)
         _s.toQueryParam('AccessPointId', accessPointId),
       if (fileSystemId != null) _s.toQueryParam('FileSystemId', fileSystemId),
@@ -790,7 +781,7 @@ class EFS {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-02-01/access-points$query',
+      requestUri: '/2015-02-01/access-points$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAccessPointsResponse.fromJson(response);
@@ -813,12 +804,11 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return FileSystemPolicyDescription.fromJson(response);
@@ -892,8 +882,8 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (creationToken != null)
         _s.toQueryParam('CreationToken', creationToken),
       if (fileSystemId != null) _s.toQueryParam('FileSystemId', fileSystemId),
@@ -903,7 +893,7 @@ class EFS {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-02-01/file-systems$query',
+      requestUri: '/2015-02-01/file-systems$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFileSystemsResponse.fromJson(response);
@@ -930,12 +920,11 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/lifecycle-configuration$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/lifecycle-configuration',
       exceptionFnMap: _exceptionFns,
     );
     return LifecycleConfigurationDescription.fromJson(response);
@@ -971,12 +960,11 @@ class EFS {
     @_s.required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}/security-groups$query',
+          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}/security-groups',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMountTargetSecurityGroupsResponse.fromJson(response);
@@ -1040,8 +1028,8 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (accessPointId != null)
         _s.toQueryParam('AccessPointId', accessPointId),
       if (fileSystemId != null) _s.toQueryParam('FileSystemId', fileSystemId),
@@ -1053,7 +1041,7 @@ class EFS {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-02-01/mount-targets$query',
+      requestUri: '/2015-02-01/mount-targets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMountTargetsResponse.fromJson(response);
@@ -1097,8 +1085,8 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -1106,7 +1094,7 @@ class EFS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-02-01/tags/${Uri.encodeComponent(fileSystemId.toString())}/$query',
+          '/2015-02-01/tags/${Uri.encodeComponent(fileSystemId.toString())}/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTagsResponse.fromJson(response);
@@ -1147,8 +1135,8 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1156,7 +1144,7 @@ class EFS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}$query',
+          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1202,7 +1190,6 @@ class EFS {
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    var query = '';
     final $payload = <String, dynamic>{
       'SecurityGroups': securityGroups,
     };
@@ -1210,7 +1197,7 @@ class EFS {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}/security-groups$query',
+          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId.toString())}/security-groups',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1261,7 +1248,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(policy, 'policy');
-    var query = '';
     final $payload = <String, dynamic>{
       'Policy': policy,
       'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
@@ -1270,7 +1256,7 @@ class EFS {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return FileSystemPolicyDescription.fromJson(response);
@@ -1334,7 +1320,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(lifecyclePolicies, 'lifecyclePolicies');
-    var query = '';
     final $payload = <String, dynamic>{
       'LifecyclePolicies': lifecyclePolicies,
     };
@@ -1342,7 +1327,7 @@ class EFS {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/lifecycle-configuration$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}/lifecycle-configuration',
       exceptionFnMap: _exceptionFns,
     );
     return LifecycleConfigurationDescription.fromJson(response);
@@ -1370,7 +1355,6 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1378,7 +1362,7 @@ class EFS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}$query',
+          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1405,7 +1389,6 @@ class EFS {
     List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
     };
@@ -1413,7 +1396,7 @@ class EFS {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}$query',
+          '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1457,7 +1440,6 @@ class EFS {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
       'ThroughputMode': throughputMode?.toValue(),
@@ -1466,7 +1448,7 @@ class EFS {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}$query',
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return FileSystemDescription.fromJson(response);

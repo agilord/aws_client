@@ -210,7 +210,6 @@ class CodeStarNotifications {
       clientRequestToken,
       r'''^[\w:/-]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DetailType': detailType?.toValue(),
       'EventTypeIds': eventTypeIds,
@@ -224,7 +223,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createNotificationRule$query',
+      requestUri: '/createNotificationRule',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNotificationRuleResult.fromJson(response);
@@ -249,14 +248,13 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteNotificationRule$query',
+      requestUri: '/deleteNotificationRule',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteNotificationRuleResult.fromJson(response);
@@ -286,7 +284,6 @@ class CodeStarNotifications {
       320,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'TargetAddress': targetAddress,
       'ForceUnsubscribeAll': forceUnsubscribeAll,
@@ -294,7 +291,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteTarget$query',
+      requestUri: '/deleteTarget',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTargetResult.fromJson(response);
@@ -317,14 +314,13 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeNotificationRule$query',
+      requestUri: '/describeNotificationRule',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeNotificationRuleResult.fromJson(response);
@@ -363,7 +359,6 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -372,7 +367,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listEventTypes$query',
+      requestUri: '/listEventTypes',
       exceptionFnMap: _exceptionFns,
     );
     return ListEventTypesResult.fromJson(response);
@@ -415,7 +410,6 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -424,7 +418,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listNotificationRules$query',
+      requestUri: '/listNotificationRules',
       exceptionFnMap: _exceptionFns,
     );
     return ListNotificationRulesResult.fromJson(response);
@@ -447,14 +441,13 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listTagsForResource$query',
+      requestUri: '/listTagsForResource',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResult.fromJson(response);
@@ -497,7 +490,6 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -506,7 +498,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listTargets$query',
+      requestUri: '/listTargets',
       exceptionFnMap: _exceptionFns,
     );
     return ListTargetsResult.fromJson(response);
@@ -550,7 +542,6 @@ class CodeStarNotifications {
       clientRequestToken,
       r'''^[\w:/-]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Target': target,
@@ -559,7 +550,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/subscribe$query',
+      requestUri: '/subscribe',
       exceptionFnMap: _exceptionFns,
     );
     return SubscribeResult.fromJson(response);
@@ -589,7 +580,6 @@ class CodeStarNotifications {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Tags': tags,
@@ -597,7 +587,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tagResource$query',
+      requestUri: '/tagResource',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResult.fromJson(response);
@@ -633,7 +623,6 @@ class CodeStarNotifications {
       320,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'TargetAddress': targetAddress,
@@ -641,7 +630,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/unsubscribe$query',
+      requestUri: '/unsubscribe',
       exceptionFnMap: _exceptionFns,
     );
     return UnsubscribeResult.fromJson(response);
@@ -672,7 +661,6 @@ class CodeStarNotifications {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'TagKeys': tagKeys,
@@ -680,7 +668,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/untagResource$query',
+      requestUri: '/untagResource',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResult.fromJson(response);
@@ -746,7 +734,6 @@ class CodeStarNotifications {
       name,
       r'''[A-Za-z0-9\-_ ]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'DetailType': detailType?.toValue(),
@@ -758,7 +745,7 @@ class CodeStarNotifications {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateNotificationRule$query',
+      requestUri: '/updateNotificationRule',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateNotificationRuleResult.fromJson(response);
