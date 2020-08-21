@@ -10,7 +10,7 @@ protocols:
     shared: ^0.2.1
     publish: true
   rest-json:
-    shared: ^0.2.1
+    shared: ^0.2.2
     publish: true
   rest-xml:
     shared: ^0.2.1
