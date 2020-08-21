@@ -1,8 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'descriptor.g.dart';
-
-@JsonSerializable(includeIfNull: false)
 class Descriptor {
   final String shape;
   final String locationName;
@@ -12,8 +7,22 @@ class Descriptor {
     this.locationName,
   );
 
-  factory Descriptor.fromJson(Map<String, dynamic> json) =>
-      _$DescriptorFromJson(json);
+  factory Descriptor.fromJson(Map<String, dynamic> json) => Descriptor(
+        json['shape'] as String,
+        json['locationName'] as String,
+      );
 
-  Map<String, dynamic> toJson() => _$DescriptorToJson(this);
+  Map<String, dynamic> toJson() {
+    final val = <String, dynamic>{};
+
+    void writeNotNull(String key, dynamic value) {
+      if (value != null) {
+        val[key] = value;
+      }
+    }
+
+    writeNotNull('shape', shape);
+    writeNotNull('locationName', locationName);
+    return val;
+  }
 }
