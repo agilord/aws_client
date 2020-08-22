@@ -24,10 +24,11 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
     buildRequestHeaders(operation, buf);
 
-    buf.writeln("var query = '';");
+    final hasQueryMembers = inputShape?.hasQueryMembers == true;
 
-    if (inputShape?.hasQueryMembers == true) {
-      buf.writeln("query = '?\${[");
+    if (hasQueryMembers) {
+      buf.writeln("var _query = '';");
+      buf.writeln("_query = '?\${[");
       for (final member in inputShape.queryMembers) {
         buf.writeln('if(${member.fieldName} != null)');
         buf.writeln(
@@ -67,7 +68,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     }
 
     buf.writeln('method: \'${operation.http.method}\', '
-        "requestUri: '${buildRequestUri(operation)}\$query', "
+        "requestUri: '${buildRequestUri(operation)}${hasQueryMembers ? '\$_query' : ''}', "
         'exceptionFnMap: _exceptionFns, '
         ');');
 
