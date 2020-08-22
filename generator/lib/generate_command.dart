@@ -246,6 +246,13 @@ in the config file, from the downloaded models.''';
 
         touchedDirs.add(baseDir);
         generatedApis[api.packageName] = api.metadata.serviceFullName;
+        
+        final pathParts = baseDir.split('/')..removeAt(0);
+        final ensureBuildTestContent =
+            formatter.format(buildTest(pathParts.join('/'), api));
+        File('$baseDir/test/ensure_build_test.dart')
+          ..createSync(recursive: true)
+          ..writeAsStringSync(ensureBuildTestContent);
       } on UnrecognizedKeysException catch (e) {
         print('Error deserializing $service');
         print(e.message);
@@ -286,13 +293,6 @@ in the config file, from the downloaded models.''';
     final licenseFile = File('aws-sdk-js-license.txt');
 
     for (final baseDir in touchedDirs) {
-      final pathParts = baseDir.split('/')..removeAt(0);
-      final ensureBuildTestContent =
-          formatter.format(buildTest(pathParts.join('/')));
-      File('$baseDir/test/ensure_build_test.dart')
-        ..createSync(recursive: true)
-        ..writeAsStringSync(ensureBuildTestContent);
-
       monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
       licenseFile.copySync('$baseDir/LICENSE');
     }

@@ -8,7 +8,11 @@ class Ec2ServiceBuilder extends ServiceBuilder {
   Ec2ServiceBuilder(this.api);
 
   @override
-  String constructor() => '';
+  String constructor() => '''
+  ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,}) {
+  print('\$client\$region\$credentials\$endpointUrl');
+  }
+  ''';
 
   @override
   String imports() => '';
