@@ -53,13 +53,12 @@ class ApiGatewayManagementApi {
     @_s.required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}$query',
+          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -73,12 +72,11 @@ class ApiGatewayManagementApi {
     @_s.required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}$query',
+          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConnectionResponse.fromJson(response);
@@ -102,12 +100,11 @@ class ApiGatewayManagementApi {
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(data, 'data');
-    var query = '';
     await _protocol.send(
       payload: data,
       method: 'POST',
       requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}$query',
+          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }

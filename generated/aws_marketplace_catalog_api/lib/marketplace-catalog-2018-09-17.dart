@@ -97,8 +97,8 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (catalog != null) _s.toQueryParam('catalog', catalog),
       if (changeSetId != null) _s.toQueryParam('changeSetId', changeSetId),
     ].where((e) => e != null).join('&')}';
@@ -106,7 +106,7 @@ class MarketplaceCatalog {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/CancelChangeSet$query',
+      requestUri: '/CancelChangeSet$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CancelChangeSetResponse.fromJson(response);
@@ -159,15 +159,15 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (catalog != null) _s.toQueryParam('catalog', catalog),
       if (changeSetId != null) _s.toQueryParam('changeSetId', changeSetId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/DescribeChangeSet$query',
+      requestUri: '/DescribeChangeSet$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChangeSetResponse.fromJson(response);
@@ -220,15 +220,15 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (catalog != null) _s.toQueryParam('catalog', catalog),
       if (entityId != null) _s.toQueryParam('entityId', entityId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/DescribeEntity$query',
+      requestUri: '/DescribeEntity$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEntityResponse.fromJson(response);
@@ -305,7 +305,6 @@ class MarketplaceCatalog {
       nextToken,
       r'''^[\w+=.:@\-\/]$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'FilterList': filterList,
@@ -316,7 +315,7 @@ class MarketplaceCatalog {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListChangeSets$query',
+      requestUri: '/ListChangeSets',
       exceptionFnMap: _exceptionFns,
     );
     return ListChangeSetsResponse.fromJson(response);
@@ -405,7 +404,6 @@ class MarketplaceCatalog {
       nextToken,
       r'''^[\w+=.:@\-\/]$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'EntityType': entityType,
@@ -417,7 +415,7 @@ class MarketplaceCatalog {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListEntities$query',
+      requestUri: '/ListEntities',
       exceptionFnMap: _exceptionFns,
     );
     return ListEntitiesResponse.fromJson(response);
@@ -489,7 +487,6 @@ class MarketplaceCatalog {
       clientRequestToken,
       r'''^[\w\-]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'ChangeSet': changeSet,
@@ -499,7 +496,7 @@ class MarketplaceCatalog {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/StartChangeSet$query',
+      requestUri: '/StartChangeSet',
       exceptionFnMap: _exceptionFns,
     );
     return StartChangeSetResponse.fromJson(response);

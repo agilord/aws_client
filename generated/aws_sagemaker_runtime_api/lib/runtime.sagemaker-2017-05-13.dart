@@ -184,13 +184,12 @@ class SageMakerRuntime {
         (v) => headers['X-Amzn-SageMaker-Custom-Attributes'] = v.toString());
     targetModel
         ?.let((v) => headers['X-Amzn-SageMaker-Target-Model'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: body,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/endpoints/${Uri.encodeComponent(endpointName.toString())}/invocations$query',
+          '/endpoints/${Uri.encodeComponent(endpointName.toString())}/invocations',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeEndpointOutput.fromJson(response);

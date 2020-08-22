@@ -116,7 +116,6 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'deviceId': deviceId,
     };
@@ -124,7 +123,7 @@ class IoT1ClickProjects {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateDeviceWithPlacementResponse.fromJson(response);
@@ -179,7 +178,6 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'placementName': placementName,
       'attributes': attributes,
@@ -188,7 +186,7 @@ class IoT1ClickProjects {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePlacementResponse.fromJson(response);
@@ -247,7 +245,6 @@ class IoT1ClickProjects {
       0,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'projectName': projectName,
       'description': description,
@@ -257,7 +254,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/projects$query',
+      requestUri: '/projects',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProjectResponse.fromJson(response);
@@ -311,13 +308,12 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePlacementResponse.fromJson(response);
@@ -353,13 +349,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}$query',
+      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProjectResponse.fromJson(response);
@@ -408,12 +402,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePlacementResponse.fromJson(response);
@@ -444,12 +437,10 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}$query',
+      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProjectResponse.fromJson(response);
@@ -517,13 +508,12 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateDeviceFromPlacementResponse.fromJson(response);
@@ -572,12 +562,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicesInPlacementResponse.fromJson(response);
@@ -629,8 +618,8 @@ class IoT1ClickProjects {
       1,
       1024,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -638,7 +627,7 @@ class IoT1ClickProjects {
       payload: null,
       method: 'GET',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPlacementsResponse.fromJson(response);
@@ -672,15 +661,15 @@ class IoT1ClickProjects {
       1,
       1024,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/projects$query',
+      requestUri: '/projects$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProjectsResponse.fromJson(response);
@@ -705,11 +694,10 @@ class IoT1ClickProjects {
       r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -745,14 +733,13 @@ class IoT1ClickProjects {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -781,15 +768,15 @@ class IoT1ClickProjects {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -845,7 +832,6 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'attributes': attributes,
     };
@@ -853,7 +839,7 @@ class IoT1ClickProjects {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}$query',
+          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePlacementResponse.fromJson(response);
@@ -906,7 +892,6 @@ class IoT1ClickProjects {
       0,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'description': description,
       'placementTemplate': placementTemplate,
@@ -914,8 +899,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}$query',
+      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateProjectResponse.fromJson(response);

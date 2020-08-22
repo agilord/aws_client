@@ -86,7 +86,6 @@ class PinpointEmail {
     TrackingOptions trackingOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'ConfigurationSetName': configurationSetName,
       'DeliveryOptions': deliveryOptions,
@@ -98,7 +97,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/configuration-sets$query',
+      requestUri: '/v1/email/configuration-sets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationSetResponse.fromJson(response);
@@ -137,7 +136,6 @@ class PinpointEmail {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    var query = '';
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
       'EventDestinationName': eventDestinationName,
@@ -146,7 +144,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationSetEventDestinationResponse.fromJson(response);
@@ -175,7 +173,6 @@ class PinpointEmail {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    var query = '';
     final $payload = <String, dynamic>{
       'PoolName': poolName,
       'Tags': tags,
@@ -183,7 +180,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/dedicated-ip-pools$query',
+      requestUri: '/v1/email/dedicated-ip-pools',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDedicatedIpPoolResponse.fromJson(response);
@@ -233,7 +230,6 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
-    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'FromEmailAddress': fromEmailAddress,
@@ -243,7 +239,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/deliverability-dashboard/test$query',
+      requestUri: '/v1/email/deliverability-dashboard/test',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeliverabilityTestReportResponse.fromJson(response);
@@ -283,7 +279,6 @@ class PinpointEmail {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
       'Tags': tags,
@@ -291,7 +286,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/identities$query',
+      requestUri: '/v1/email/identities',
       exceptionFnMap: _exceptionFns,
     );
     return CreateEmailIdentityResponse.fromJson(response);
@@ -316,13 +311,12 @@ class PinpointEmail {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetResponse.fromJson(response);
@@ -353,13 +347,12 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetEventDestinationResponse.fromJson(response);
@@ -378,13 +371,12 @@ class PinpointEmail {
     @_s.required String poolName,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/email/dedicated-ip-pools/${Uri.encodeComponent(poolName.toString())}$query',
+          '/v1/email/dedicated-ip-pools/${Uri.encodeComponent(poolName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDedicatedIpPoolResponse.fromJson(response);
@@ -405,13 +397,12 @@ class PinpointEmail {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}$query',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEmailIdentityResponse.fromJson(response);
@@ -423,11 +414,10 @@ class PinpointEmail {
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   Future<GetAccountResponse> getAccount() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/account$query',
+      requestUri: '/v1/email/account',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountResponse.fromJson(response);
@@ -448,15 +438,15 @@ class PinpointEmail {
     @_s.required List<String> blacklistItemNames,
   }) async {
     ArgumentError.checkNotNull(blacklistItemNames, 'blacklistItemNames');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (blacklistItemNames != null)
         _s.toQueryParam('BlacklistItemNames', blacklistItemNames),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/deliverability-dashboard/blacklist-report$query',
+      requestUri: '/v1/email/deliverability-dashboard/blacklist-report$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBlacklistReportsResponse.fromJson(response);
@@ -483,12 +473,11 @@ class PinpointEmail {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetResponse.fromJson(response);
@@ -515,12 +504,11 @@ class PinpointEmail {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetEventDestinationsResponse.fromJson(response);
@@ -542,12 +530,11 @@ class PinpointEmail {
     @_s.required String ip,
   }) async {
     ArgumentError.checkNotNull(ip, 'ip');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}$query',
+          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDedicatedIpResponse.fromJson(response);
@@ -578,8 +565,8 @@ class PinpointEmail {
     int pageSize,
     String poolName,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
       if (poolName != null) _s.toQueryParam('PoolName', poolName),
@@ -587,7 +574,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/dedicated-ips$query',
+      requestUri: '/v1/email/dedicated-ips$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDedicatedIpsResponse.fromJson(response);
@@ -611,11 +598,10 @@ class PinpointEmail {
   /// May throw [BadRequestException].
   Future<GetDeliverabilityDashboardOptionsResponse>
       getDeliverabilityDashboardOptions() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/deliverability-dashboard$query',
+      requestUri: '/v1/email/deliverability-dashboard',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeliverabilityDashboardOptionsResponse.fromJson(response);
@@ -633,12 +619,11 @@ class PinpointEmail {
     @_s.required String reportId,
   }) async {
     ArgumentError.checkNotNull(reportId, 'reportId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/deliverability-dashboard/test-reports/${Uri.encodeComponent(reportId.toString())}$query',
+          '/v1/email/deliverability-dashboard/test-reports/${Uri.encodeComponent(reportId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeliverabilityTestReportResponse.fromJson(response);
@@ -664,12 +649,11 @@ class PinpointEmail {
     @_s.required String campaignId,
   }) async {
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/deliverability-dashboard/campaigns/${Uri.encodeComponent(campaignId.toString())}$query',
+          '/v1/email/deliverability-dashboard/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainDeliverabilityCampaignResponse.fromJson(response);
@@ -701,8 +685,8 @@ class PinpointEmail {
     ArgumentError.checkNotNull(domain, 'domain');
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endDate != null) _s.toQueryParam('EndDate', endDate),
       if (startDate != null) _s.toQueryParam('StartDate', startDate),
     ].where((e) => e != null).join('&')}';
@@ -710,7 +694,7 @@ class PinpointEmail {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/deliverability-dashboard/statistics-report/${Uri.encodeComponent(domain.toString())}$query',
+          '/v1/email/deliverability-dashboard/statistics-report/${Uri.encodeComponent(domain.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainStatisticsReportResponse.fromJson(response);
@@ -730,12 +714,11 @@ class PinpointEmail {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}$query',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetEmailIdentityResponse.fromJson(response);
@@ -768,15 +751,15 @@ class PinpointEmail {
     String nextToken,
     int pageSize,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/configuration-sets$query',
+      requestUri: '/v1/email/configuration-sets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationSetsResponse.fromJson(response);
@@ -802,15 +785,15 @@ class PinpointEmail {
     String nextToken,
     int pageSize,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/dedicated-ip-pools$query',
+      requestUri: '/v1/email/dedicated-ip-pools$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDedicatedIpPoolsResponse.fromJson(response);
@@ -842,15 +825,15 @@ class PinpointEmail {
     String nextToken,
     int pageSize,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/deliverability-dashboard/test-reports$query',
+      requestUri: '/v1/email/deliverability-dashboard/test-reports$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDeliverabilityTestReportsResponse.fromJson(response);
@@ -899,8 +882,8 @@ class PinpointEmail {
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endDate != null) _s.toQueryParam('EndDate', endDate),
       if (startDate != null) _s.toQueryParam('StartDate', startDate),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
@@ -910,7 +893,7 @@ class PinpointEmail {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/email/deliverability-dashboard/domains/${Uri.encodeComponent(subscribedDomain.toString())}/campaigns$query',
+          '/v1/email/deliverability-dashboard/domains/${Uri.encodeComponent(subscribedDomain.toString())}/campaigns$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainDeliverabilityCampaignsResponse.fromJson(response);
@@ -940,15 +923,15 @@ class PinpointEmail {
     String nextToken,
     int pageSize,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/identities$query',
+      requestUri: '/v1/email/identities$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListEmailIdentitiesResponse.fromJson(response);
@@ -972,14 +955,14 @@ class PinpointEmail {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('ResourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/email/tags$query',
+      requestUri: '/v1/email/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -999,14 +982,13 @@ class PinpointEmail {
   Future<void> putAccountDedicatedIpWarmupAttributes({
     bool autoWarmupEnabled,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AutoWarmupEnabled': autoWarmupEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/email/account/dedicated-ips/warmup$query',
+      requestUri: '/v1/email/account/dedicated-ips/warmup',
       exceptionFnMap: _exceptionFns,
     );
     return PutAccountDedicatedIpWarmupAttributesResponse.fromJson(response);
@@ -1028,14 +1010,13 @@ class PinpointEmail {
   Future<void> putAccountSendingAttributes({
     bool sendingEnabled,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'SendingEnabled': sendingEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/email/account/sending$query',
+      requestUri: '/v1/email/account/sending',
       exceptionFnMap: _exceptionFns,
     );
     return PutAccountSendingAttributesResponse.fromJson(response);
@@ -1069,7 +1050,6 @@ class PinpointEmail {
     TlsPolicy tlsPolicy,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'SendingPoolName': sendingPoolName,
       'TlsPolicy': tlsPolicy?.toValue(),
@@ -1078,7 +1058,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/delivery-options$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/delivery-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetDeliveryOptionsResponse.fromJson(response);
@@ -1104,7 +1084,6 @@ class PinpointEmail {
     bool reputationMetricsEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'ReputationMetricsEnabled': reputationMetricsEnabled,
     };
@@ -1112,7 +1091,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/reputation-options$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/reputation-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetReputationOptionsResponse.fromJson(response);
@@ -1138,7 +1117,6 @@ class PinpointEmail {
     bool sendingEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'SendingEnabled': sendingEnabled,
     };
@@ -1146,7 +1124,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/sending$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/sending',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetSendingOptionsResponse.fromJson(response);
@@ -1170,7 +1148,6 @@ class PinpointEmail {
     String customRedirectDomain,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    var query = '';
     final $payload = <String, dynamic>{
       'CustomRedirectDomain': customRedirectDomain,
     };
@@ -1178,7 +1155,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/tracking-options$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/tracking-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetTrackingOptionsResponse.fromJson(response);
@@ -1211,7 +1188,6 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(destinationPoolName, 'destinationPoolName');
     ArgumentError.checkNotNull(ip, 'ip');
-    var query = '';
     final $payload = <String, dynamic>{
       'DestinationPoolName': destinationPoolName,
     };
@@ -1219,7 +1195,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/pool$query',
+          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/pool',
       exceptionFnMap: _exceptionFns,
     );
     return PutDedicatedIpInPoolResponse.fromJson(response);
@@ -1244,7 +1220,6 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(ip, 'ip');
     ArgumentError.checkNotNull(warmupPercentage, 'warmupPercentage');
-    var query = '';
     final $payload = <String, dynamic>{
       'WarmupPercentage': warmupPercentage,
     };
@@ -1252,7 +1227,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/warmup$query',
+          '/v1/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/warmup',
       exceptionFnMap: _exceptionFns,
     );
     return PutDedicatedIpWarmupAttributesResponse.fromJson(response);
@@ -1290,7 +1265,6 @@ class PinpointEmail {
     List<DomainDeliverabilityTrackingOption> subscribedDomains,
   }) async {
     ArgumentError.checkNotNull(dashboardEnabled, 'dashboardEnabled');
-    var query = '';
     final $payload = <String, dynamic>{
       'DashboardEnabled': dashboardEnabled,
       'SubscribedDomains': subscribedDomains,
@@ -1298,7 +1272,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/email/deliverability-dashboard$query',
+      requestUri: '/v1/email/deliverability-dashboard',
       exceptionFnMap: _exceptionFns,
     );
     return PutDeliverabilityDashboardOptionResponse.fromJson(response);
@@ -1325,7 +1299,6 @@ class PinpointEmail {
     bool signingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final $payload = <String, dynamic>{
       'SigningEnabled': signingEnabled,
     };
@@ -1333,7 +1306,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/dkim$query',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/dkim',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityDkimAttributesResponse.fromJson(response);
@@ -1383,7 +1356,6 @@ class PinpointEmail {
     bool emailForwardingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final $payload = <String, dynamic>{
       'EmailForwardingEnabled': emailForwardingEnabled,
     };
@@ -1391,7 +1363,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/feedback$query',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/feedback',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityFeedbackAttributesResponse.fromJson(response);
@@ -1443,7 +1415,6 @@ class PinpointEmail {
     String mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    var query = '';
     final $payload = <String, dynamic>{
       'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
       'MailFromDomain': mailFromDomain,
@@ -1452,7 +1423,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/mail-from$query',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/mail-from',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityMailFromAttributesResponse.fromJson(response);
@@ -1523,7 +1494,6 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(destination, 'destination');
-    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'Destination': destination,
@@ -1536,7 +1506,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/outbound-emails$query',
+      requestUri: '/v1/email/outbound-emails',
       exceptionFnMap: _exceptionFns,
     );
     return SendEmailResponse.fromJson(response);
@@ -1573,7 +1543,6 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'Tags': tags,
@@ -1581,7 +1550,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/email/tags$query',
+      requestUri: '/v1/email/tags',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1613,8 +1582,8 @@ class PinpointEmail {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('ResourceArn', resourceArn),
       if (tagKeys != null) _s.toQueryParam('TagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
@@ -1622,7 +1591,7 @@ class PinpointEmail {
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/v1/email/tags$query',
+      requestUri: '/v1/email/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1658,7 +1627,6 @@ class PinpointEmail {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    var query = '';
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
     };
@@ -1666,7 +1634,7 @@ class PinpointEmail {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}$query',
+          '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConfigurationSetEventDestinationResponse.fromJson(response);

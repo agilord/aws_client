@@ -83,8 +83,8 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -92,7 +92,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/accept-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/accept-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -143,7 +143,6 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'billingGroupArn': billingGroupArn,
       'billingGroupName': billingGroupName,
@@ -153,7 +152,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/billing-groups/addThingToBillingGroup$query',
+      requestUri: '/billing-groups/addThingToBillingGroup',
       exceptionFnMap: _exceptionFns,
     );
     return AddThingToBillingGroupResponse.fromJson(response);
@@ -212,7 +211,6 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'overrideDynamicGroups': overrideDynamicGroups,
       'thingArn': thingArn,
@@ -223,7 +221,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/thing-groups/addThingToThingGroup$query',
+      requestUri: '/thing-groups/addThingToThingGroup',
       exceptionFnMap: _exceptionFns,
     );
     return AddThingToThingGroupResponse.fromJson(response);
@@ -291,7 +289,6 @@ class IoT {
       comment,
       r'''[^\p{C}]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'targets': targets,
       'comment': comment,
@@ -299,8 +296,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/jobs/${Uri.encodeComponent(jobId.toString())}/targets$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}/targets',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateTargetsWithJobResponse.fromJson(response);
@@ -342,7 +338,6 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
-    var query = '';
     final $payload = <String, dynamic>{
       'target': target,
     };
@@ -350,7 +345,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/target-policies/${Uri.encodeComponent(policyName.toString())}$query',
+          '/target-policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -397,14 +392,13 @@ class IoT {
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
       requestUri:
-          '/principal-policies/${Uri.encodeComponent(policyName.toString())}$query',
+          '/principal-policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -446,8 +440,8 @@ class IoT {
     );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (securityProfileTargetArn != null)
         _s.toQueryParam('securityProfileTargetArn', securityProfileTargetArn),
     ].where((e) => e != null).join('&')}';
@@ -456,7 +450,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return AttachSecurityProfileResponse.fromJson(response);
@@ -500,14 +494,13 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-principal'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/principals$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/principals',
       exceptionFnMap: _exceptionFns,
     );
     return AttachThingPrincipalResponse.fromJson(response);
@@ -540,13 +533,12 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}/cancel$query',
+          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}/cancel',
       exceptionFnMap: _exceptionFns,
     );
     return CancelAuditMitigationActionsTaskResponse.fromJson(response);
@@ -581,13 +573,12 @@ class IoT {
       r'''[a-zA-Z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/audit/tasks/${Uri.encodeComponent(taskId.toString())}/cancel$query',
+          '/audit/tasks/${Uri.encodeComponent(taskId.toString())}/cancel',
       exceptionFnMap: _exceptionFns,
     );
     return CancelAuditTaskResponse.fromJson(response);
@@ -633,13 +624,12 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/cancel-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/cancel-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -711,8 +701,8 @@ class IoT {
       reasonCode,
       r'''[\p{Upper}\p{Digit}_]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -722,7 +712,8 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}/cancel$query',
+      requestUri:
+          '/jobs/${Uri.encodeComponent(jobId.toString())}/cancel$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -803,8 +794,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -815,7 +806,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/cancel$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/cancel$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -829,12 +820,11 @@ class IoT {
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalFailureException].
   Future<void> clearDefaultAuthorizer() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/default-authorizer$query',
+      requestUri: '/default-authorizer',
       exceptionFnMap: _exceptionFns,
     );
     return ClearDefaultAuthorizerResponse.fromJson(response);
@@ -866,12 +856,11 @@ class IoT {
       2048,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/confirmdestination/${Uri.encodeComponent(confirmationToken.toString())}$query',
+          '/confirmdestination/${Uri.encodeComponent(confirmationToken.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ConfirmTopicRuleDestinationResponse.fromJson(response);
@@ -940,7 +929,6 @@ class IoT {
       tokenKeyName,
       r'''[a-zA-Z0-9_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
       'signingDisabled': signingDisabled,
@@ -952,7 +940,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}$query',
+          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAuthorizerResponse.fromJson(response);
@@ -992,7 +980,6 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'billingGroupProperties': billingGroupProperties,
       'tags': tags,
@@ -1001,7 +988,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}$query',
+          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBillingGroupResponse.fromJson(response);
@@ -1077,8 +1064,8 @@ class IoT {
       1152921504606846976,
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -1087,7 +1074,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/certificates$query',
+      requestUri: '/certificates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCertificateFromCsrResponse.fromJson(response);
@@ -1163,7 +1150,6 @@ class IoT {
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'stringValues': stringValues,
@@ -1173,7 +1159,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDimensionResponse.fromJson(response);
@@ -1256,7 +1242,6 @@ class IoT {
       validationCertificateArn,
       r'''arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/?[a-zA-Z0-9/-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'authorizerConfig': authorizerConfig,
       'domainName': domainName,
@@ -1268,7 +1253,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}$query',
+          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDomainConfigurationResponse.fromJson(response);
@@ -1353,7 +1338,6 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'queryString': queryString,
       'indexName': indexName,
@@ -1365,7 +1349,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDynamicThingGroupResponse.fromJson(response);
@@ -1485,7 +1469,6 @@ class IoT {
       1,
       1350,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'targets': targets,
       'abortConfig': abortConfig,
@@ -1501,7 +1484,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
@@ -1527,15 +1510,15 @@ class IoT {
   Future<CreateKeysAndCertificateResponse> createKeysAndCertificate({
     bool setAsActive,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/keys-and-certificate$query',
+      requestUri: '/keys-and-certificate$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateKeysAndCertificateResponse.fromJson(response);
@@ -1592,7 +1575,6 @@ class IoT {
       2048,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'actionParams': actionParams,
       'roleArn': roleArn,
@@ -1602,7 +1584,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}$query',
+          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMitigationActionResponse.fromJson(response);
@@ -1707,7 +1689,6 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -1723,8 +1704,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}$query',
+      requestUri: '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateOTAUpdateResponse.fromJson(response);
@@ -1770,15 +1750,13 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePolicyResponse.fromJson(response);
@@ -1835,8 +1813,8 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsDefault != null) _s.toQueryParam('setAsDefault', setAsDefault),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -1846,7 +1824,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}/version$query',
+          '/policies/${Uri.encodeComponent(policyName.toString())}/version$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePolicyVersionResponse.fromJson(response);
@@ -1880,13 +1858,12 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/provisioning-claim$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/provisioning-claim',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProvisioningClaimResponse.fromJson(response);
@@ -1970,7 +1947,6 @@ class IoT {
       description,
       r'''[^\p{C}]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'provisioningRoleArn': provisioningRoleArn,
       'templateBody': templateBody,
@@ -1982,7 +1958,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/provisioning-templates$query',
+      requestUri: '/provisioning-templates',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProvisioningTemplateResponse.fromJson(response);
@@ -2027,8 +2003,8 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsDefault != null) _s.toQueryParam('setAsDefault', setAsDefault),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -2038,7 +2014,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProvisioningTemplateVersionResponse.fromJson(response);
@@ -2096,7 +2072,6 @@ class IoT {
       900,
       3600,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'roleArn': roleArn,
       'credentialDurationSeconds': credentialDurationSeconds,
@@ -2104,8 +2079,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}$query',
+      requestUri: '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRoleAliasResponse.fromJson(response);
@@ -2178,7 +2152,6 @@ class IoT {
       dayOfMonth,
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'frequency': frequency?.toValue(),
       'targetCheckNames': targetCheckNames,
@@ -2190,7 +2163,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}$query',
+          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateScheduledAuditResponse.fromJson(response);
@@ -2267,7 +2240,6 @@ class IoT {
       securityProfileDescription,
       r'''[\p{Graph}\x20]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'additionalMetricsToRetain': additionalMetricsToRetain,
       'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
@@ -2280,7 +2252,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSecurityProfileResponse.fromJson(response);
@@ -2356,7 +2328,6 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -2366,7 +2337,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}$query',
+      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateStreamResponse.fromJson(response);
@@ -2446,7 +2417,6 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'attributePayload': attributePayload,
       'billingGroupName': billingGroupName,
@@ -2455,7 +2425,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateThingResponse.fromJson(response);
@@ -2515,7 +2485,6 @@ class IoT {
       parentGroupName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'parentGroupName': parentGroupName,
       'tags': tags,
@@ -2525,7 +2494,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateThingGroupResponse.fromJson(response);
@@ -2569,7 +2538,6 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
       'thingTypeProperties': thingTypeProperties,
@@ -2578,7 +2546,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}$query',
+          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateThingTypeResponse.fromJson(response);
@@ -2634,12 +2602,11 @@ class IoT {
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
     final headers = <String, String>{};
     tags?.let((v) => headers['x-amz-tagging'] = v.toString());
-    var query = '';
     await _protocol.send(
       payload: topicRulePayload,
       headers: headers,
       method: 'POST',
-      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2660,14 +2627,13 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         destinationConfiguration, 'destinationConfiguration');
-    var query = '';
     final $payload = <String, dynamic>{
       'destinationConfiguration': destinationConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/destinations$query',
+      requestUri: '/destinations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTopicRuleDestinationResponse.fromJson(response);
@@ -2687,8 +2653,8 @@ class IoT {
   Future<void> deleteAccountAuditConfiguration({
     bool deleteScheduledAudits,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deleteScheduledAudits != null)
         _s.toQueryParam('deleteScheduledAudits', deleteScheduledAudits),
     ].where((e) => e != null).join('&')}';
@@ -2696,7 +2662,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/audit/configuration$query',
+      requestUri: '/audit/configuration$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAccountAuditConfigurationResponse.fromJson(response);
@@ -2731,13 +2697,12 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}$query',
+          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAuthorizerResponse.fromJson(response);
@@ -2776,8 +2741,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -2786,7 +2751,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}$query',
+          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteBillingGroupResponse.fromJson(response);
@@ -2822,13 +2787,12 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCACertificateResponse.fromJson(response);
@@ -2876,8 +2840,8 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (forceDelete != null) _s.toQueryParam('forceDelete', forceDelete),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -2885,7 +2849,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/certificates/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/certificates/${Uri.encodeComponent(certificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2915,12 +2879,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDimensionResponse.fromJson(response);
@@ -2959,13 +2922,12 @@ class IoT {
       r'''[\w.-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}$query',
+          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDomainConfigurationResponse.fromJson(response);
@@ -3001,8 +2963,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -3011,7 +2973,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDynamicThingGroupResponse.fromJson(response);
@@ -3071,15 +3033,15 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3153,8 +3115,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -3162,7 +3124,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/executionNumber/${Uri.encodeComponent(executionNumber.toString())}$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/executionNumber/${Uri.encodeComponent(executionNumber.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3192,13 +3154,12 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}$query',
+          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMitigationActionResponse.fromJson(response);
@@ -3243,8 +3204,8 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deleteStream != null) _s.toQueryParam('deleteStream', deleteStream),
       if (forceDeleteAWSJob != null)
         _s.toQueryParam('forceDeleteAWSJob', forceDeleteAWSJob),
@@ -3254,7 +3215,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}$query',
+          '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteOTAUpdateResponse.fromJson(response);
@@ -3300,13 +3261,11 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3354,13 +3313,12 @@ class IoT {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}$query',
+          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3393,13 +3351,12 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProvisioningTemplateResponse.fromJson(response);
@@ -3438,13 +3395,12 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions/${Uri.encodeComponent(versionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProvisioningTemplateVersionResponse.fromJson(response);
@@ -3458,12 +3414,11 @@ class IoT {
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalFailureException].
   Future<void> deleteRegistrationCode() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/registrationcode$query',
+      requestUri: '/registrationcode',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRegistrationCodeResponse.fromJson(response);
@@ -3498,13 +3453,11 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}$query',
+      requestUri: '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRoleAliasResponse.fromJson(response);
@@ -3536,13 +3489,12 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}$query',
+          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteScheduledAuditResponse.fromJson(response);
@@ -3581,8 +3533,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -3591,7 +3543,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSecurityProfileResponse.fromJson(response);
@@ -3626,12 +3578,11 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}$query',
+      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteStreamResponse.fromJson(response);
@@ -3674,8 +3625,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -3683,7 +3634,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingResponse.fromJson(response);
@@ -3719,8 +3670,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -3729,7 +3680,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingGroupResponse.fromJson(response);
@@ -3768,13 +3719,12 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}$query',
+          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingTypeResponse.fromJson(response);
@@ -3807,12 +3757,11 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3831,12 +3780,11 @@ class IoT {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/destinations/${Uri.encodeComponent(arn.toString())}$query',
+      requestUri: '/destinations/${Uri.encodeComponent(arn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTopicRuleDestinationResponse.fromJson(response);
@@ -3860,8 +3808,8 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(targetName, 'targetName');
     ArgumentError.checkNotNull(targetType, 'targetType');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (targetName != null) _s.toQueryParam('targetName', targetName),
       if (targetType != null) _s.toQueryParam('targetType', targetType),
     ].where((e) => e != null).join('&')}';
@@ -3869,7 +3817,7 @@ class IoT {
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/v2LoggingLevel$query',
+      requestUri: '/v2LoggingLevel$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3908,7 +3856,6 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'undoDeprecate': undoDeprecate,
     };
@@ -3916,7 +3863,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}/deprecate$query',
+          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}/deprecate',
       exceptionFnMap: _exceptionFns,
     );
     return DeprecateThingTypeResponse.fromJson(response);
@@ -3930,11 +3877,10 @@ class IoT {
   /// May throw [InternalFailureException].
   Future<DescribeAccountAuditConfigurationResponse>
       describeAccountAuditConfiguration() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/audit/configuration$query',
+      requestUri: '/audit/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAccountAuditConfigurationResponse.fromJson(response);
@@ -3969,12 +3915,11 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/audit/findings/${Uri.encodeComponent(findingId.toString())}$query',
+          '/audit/findings/${Uri.encodeComponent(findingId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuditFindingResponse.fromJson(response);
@@ -4010,12 +3955,11 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}$query',
+          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuditMitigationActionsTaskResponse.fromJson(response);
@@ -4047,12 +3991,10 @@ class IoT {
       r'''[a-zA-Z0-9\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/audit/tasks/${Uri.encodeComponent(taskId.toString())}$query',
+      requestUri: '/audit/tasks/${Uri.encodeComponent(taskId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuditTaskResponse.fromJson(response);
@@ -4086,12 +4028,11 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}$query',
+          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuthorizerResponse.fromJson(response);
@@ -4123,12 +4064,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}$query',
+          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBillingGroupResponse.fromJson(response);
@@ -4162,12 +4102,11 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCACertificateResponse.fromJson(response);
@@ -4202,12 +4141,11 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/certificates/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/certificates/${Uri.encodeComponent(certificateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCertificateResponse.fromJson(response);
@@ -4222,11 +4160,10 @@ class IoT {
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalFailureException].
   Future<DescribeDefaultAuthorizerResponse> describeDefaultAuthorizer() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/default-authorizer$query',
+      requestUri: '/default-authorizer',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDefaultAuthorizerResponse.fromJson(response);
@@ -4258,11 +4195,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDimensionResponse.fromJson(response);
@@ -4300,12 +4236,11 @@ class IoT {
       r'''[\w.:-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}$query',
+          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDomainConfigurationResponse.fromJson(response);
@@ -4355,14 +4290,14 @@ class IoT {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endpointType != null) _s.toQueryParam('endpointType', endpointType),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/endpoint$query',
+      requestUri: '/endpoint$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEndpointResponse.fromJson(response);
@@ -4374,11 +4309,10 @@ class IoT {
   /// May throw [ThrottlingException].
   Future<DescribeEventConfigurationsResponse>
       describeEventConfigurations() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/event-configurations$query',
+      requestUri: '/event-configurations',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEventConfigurationsResponse.fromJson(response);
@@ -4412,11 +4346,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/indices/${Uri.encodeComponent(indexName.toString())}$query',
+      requestUri: '/indices/${Uri.encodeComponent(indexName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIndexResponse.fromJson(response);
@@ -4448,11 +4381,10 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobResponse.fromJson(response);
@@ -4507,8 +4439,8 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (executionNumber != null)
         _s.toQueryParam('executionNumber', executionNumber),
     ].where((e) => e != null).join('&')}';
@@ -4516,7 +4448,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobExecutionResponse.fromJson(response);
@@ -4548,12 +4480,11 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}$query',
+          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMitigationActionResponse.fromJson(response);
@@ -4586,12 +4517,11 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProvisioningTemplateResponse.fromJson(response);
@@ -4630,12 +4560,11 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions/${Uri.encodeComponent(versionId.toString())}$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions/${Uri.encodeComponent(versionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProvisioningTemplateVersionResponse.fromJson(response);
@@ -4669,12 +4598,10 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}$query',
+      requestUri: '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRoleAliasResponse.fromJson(response);
@@ -4706,12 +4633,11 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}$query',
+          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeScheduledAuditResponse.fromJson(response);
@@ -4743,12 +4669,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSecurityProfileResponse.fromJson(response);
@@ -4782,11 +4707,10 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}$query',
+      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStreamResponse.fromJson(response);
@@ -4820,11 +4744,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeThingResponse.fromJson(response);
@@ -4856,12 +4779,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeThingGroupResponse.fromJson(response);
@@ -4888,12 +4810,11 @@ class IoT {
       40,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}$query',
+          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeThingRegistrationTaskResponse.fromJson(response);
@@ -4927,12 +4848,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}$query',
+          '/thing-types/${Uri.encodeComponent(thingTypeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeThingTypeResponse.fromJson(response);
@@ -4971,7 +4891,6 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
-    var query = '';
     final $payload = <String, dynamic>{
       'target': target,
     };
@@ -4979,7 +4898,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/target-policies/${Uri.encodeComponent(policyName.toString())}$query',
+          '/target-policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5026,14 +4945,13 @@ class IoT {
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/principal-policies/${Uri.encodeComponent(policyName.toString())}$query',
+          '/principal-policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5071,8 +4989,8 @@ class IoT {
     );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (securityProfileTargetArn != null)
         _s.toQueryParam('securityProfileTargetArn', securityProfileTargetArn),
     ].where((e) => e != null).join('&')}';
@@ -5081,7 +4999,7 @@ class IoT {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DetachSecurityProfileResponse.fromJson(response);
@@ -5130,14 +5048,13 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-principal'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'DELETE',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/principals$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/principals',
       exceptionFnMap: _exceptionFns,
     );
     return DetachThingPrincipalResponse.fromJson(response);
@@ -5170,13 +5087,11 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/rules/${Uri.encodeComponent(ruleName.toString())}/disable$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}/disable',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5208,13 +5123,11 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/rules/${Uri.encodeComponent(ruleName.toString())}/enable$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}/enable',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5273,7 +5186,6 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'queryString': queryString,
       'aggregationField': aggregationField,
@@ -5283,7 +5195,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/indices/cardinality$query',
+      requestUri: '/indices/cardinality',
       exceptionFnMap: _exceptionFns,
     );
     return GetCardinalityResponse.fromJson(response);
@@ -5325,8 +5237,8 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (thingName != null) _s.toQueryParam('thingName', thingName),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -5336,7 +5248,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/effective-policies$query',
+      requestUri: '/effective-policies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetEffectivePoliciesResponse.fromJson(response);
@@ -5350,11 +5262,10 @@ class IoT {
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalFailureException].
   Future<GetIndexingConfigurationResponse> getIndexingConfiguration() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/indexing/config$query',
+      requestUri: '/indexing/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetIndexingConfigurationResponse.fromJson(response);
@@ -5386,12 +5297,10 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/jobs/${Uri.encodeComponent(jobId.toString())}/job-document$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}/job-document',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobDocumentResponse.fromJson(response);
@@ -5406,11 +5315,10 @@ class IoT {
   /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
   Future<GetLoggingOptionsResponse> getLoggingOptions() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/loggingOptions$query',
+      requestUri: '/loggingOptions',
       exceptionFnMap: _exceptionFns,
     );
     return GetLoggingOptionsResponse.fromJson(response);
@@ -5444,12 +5352,10 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}$query',
+      requestUri: '/otaUpdates/${Uri.encodeComponent(otaUpdateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetOTAUpdateResponse.fromJson(response);
@@ -5523,7 +5429,6 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'queryString': queryString,
       'aggregationField': aggregationField,
@@ -5534,7 +5439,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/indices/percentiles$query',
+      requestUri: '/indices/percentiles',
       exceptionFnMap: _exceptionFns,
     );
     return GetPercentilesResponse.fromJson(response);
@@ -5569,12 +5474,10 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPolicyResponse.fromJson(response);
@@ -5619,12 +5522,11 @@ class IoT {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}$query',
+          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPolicyVersionResponse.fromJson(response);
@@ -5638,11 +5540,10 @@ class IoT {
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   Future<GetRegistrationCodeResponse> getRegistrationCode() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/registrationcode$query',
+      requestUri: '/registrationcode',
       exceptionFnMap: _exceptionFns,
     );
     return GetRegistrationCodeResponse.fromJson(response);
@@ -5707,7 +5608,6 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'queryString': queryString,
       'aggregationField': aggregationField,
@@ -5717,7 +5617,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/indices/statistics$query',
+      requestUri: '/indices/statistics',
       exceptionFnMap: _exceptionFns,
     );
     return GetStatisticsResponse.fromJson(response);
@@ -5749,11 +5649,10 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTopicRuleResponse.fromJson(response);
@@ -5772,11 +5671,10 @@ class IoT {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/destinations/${Uri.encodeComponent(arn.toString())}$query',
+      requestUri: '/destinations/${Uri.encodeComponent(arn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTopicRuleDestinationResponse.fromJson(response);
@@ -5788,11 +5686,10 @@ class IoT {
   /// May throw [NotConfiguredException].
   /// May throw [ServiceUnavailableException].
   Future<GetV2LoggingOptionsResponse> getV2LoggingOptions() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2LoggingOptions$query',
+      requestUri: '/v2LoggingOptions',
       exceptionFnMap: _exceptionFns,
     );
     return GetV2LoggingOptionsResponse.fromJson(response);
@@ -5846,8 +5743,8 @@ class IoT {
       1,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (securityProfileName != null)
@@ -5857,7 +5754,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/active-violations$query',
+      requestUri: '/active-violations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListActiveViolationsResponse.fromJson(response);
@@ -5902,8 +5799,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
       if (recursive != null) _s.toQueryParam('recursive', recursive),
@@ -5913,7 +5810,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/attached-policies/${Uri.encodeComponent(target.toString())}$query',
+          '/attached-policies/${Uri.encodeComponent(target.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAttachedPoliciesResponse.fromJson(response);
@@ -5976,7 +5873,6 @@ class IoT {
       taskId,
       r'''[a-zA-Z0-9\-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'endTime': endTime,
@@ -5989,7 +5885,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/audit/findings$query',
+      requestUri: '/audit/findings',
       exceptionFnMap: _exceptionFns,
     );
     return ListAuditFindingsResponse.fromJson(response);
@@ -6059,8 +5955,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (findingId != null) _s.toQueryParam('findingId', findingId),
       if (taskId != null) _s.toQueryParam('taskId', taskId),
       if (actionStatus != null) _s.toQueryParam('actionStatus', actionStatus),
@@ -6070,7 +5966,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/audit/mitigationactions/executions$query',
+      requestUri: '/audit/mitigationactions/executions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAuditMitigationActionsExecutionsResponse.fromJson(response);
@@ -6148,8 +6044,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
       if (auditTaskId != null) _s.toQueryParam('auditTaskId', auditTaskId),
@@ -6161,7 +6057,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/audit/mitigationactions/tasks$query',
+      requestUri: '/audit/mitigationactions/tasks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAuditMitigationActionsTasksResponse.fromJson(response);
@@ -6211,8 +6107,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -6223,7 +6119,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/audit/tasks$query',
+      requestUri: '/audit/tasks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAuditTasksResponse.fromJson(response);
@@ -6265,8 +6161,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -6276,7 +6172,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/authorizers/$query',
+      requestUri: '/authorizers/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAuthorizersResponse.fromJson(response);
@@ -6319,8 +6215,8 @@ class IoT {
       namePrefixFilter,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (namePrefixFilter != null)
         _s.toQueryParam('namePrefixFilter', namePrefixFilter),
@@ -6329,7 +6225,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/billing-groups$query',
+      requestUri: '/billing-groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBillingGroupsResponse.fromJson(response);
@@ -6370,8 +6266,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -6380,7 +6276,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/cacertificates$query',
+      requestUri: '/cacertificates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCACertificatesResponse.fromJson(response);
@@ -6422,8 +6318,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -6432,7 +6328,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/certificates$query',
+      requestUri: '/certificates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCertificatesResponse.fromJson(response);
@@ -6490,8 +6386,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -6501,7 +6397,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/certificates-by-ca/${Uri.encodeComponent(caCertificateId.toString())}$query',
+          '/certificates-by-ca/${Uri.encodeComponent(caCertificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCertificatesByCAResponse.fromJson(response);
@@ -6528,15 +6424,15 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/dimensions$query',
+      requestUri: '/dimensions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDimensionsResponse.fromJson(response);
@@ -6579,8 +6475,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
       if (serviceType != null) _s.toQueryParam('serviceType', serviceType),
@@ -6588,7 +6484,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/domainConfigurations$query',
+      requestUri: '/domainConfigurations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainConfigurationsResponse.fromJson(response);
@@ -6618,15 +6514,15 @@ class IoT {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/indices$query',
+      requestUri: '/indices$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListIndicesResponse.fromJson(response);
@@ -6676,8 +6572,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (status != null) _s.toQueryParam('status', status),
@@ -6685,7 +6581,8 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}/things$query',
+      requestUri:
+          '/jobs/${Uri.encodeComponent(jobId.toString())}/things$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobExecutionsForJobResponse.fromJson(response);
@@ -6736,8 +6633,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (status != null) _s.toQueryParam('status', status),
@@ -6746,7 +6643,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobExecutionsForThingResponse.fromJson(response);
@@ -6818,8 +6715,8 @@ class IoT {
       thingGroupName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (status != null) _s.toQueryParam('status', status),
@@ -6832,7 +6729,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/jobs$query',
+      requestUri: '/jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -6865,8 +6762,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (actionType != null) _s.toQueryParam('actionType', actionType),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -6874,7 +6771,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/mitigationactions/actions$query',
+      requestUri: '/mitigationactions/actions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMitigationActionsResponse.fromJson(response);
@@ -6907,8 +6804,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (otaUpdateStatus != null)
@@ -6917,7 +6814,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/otaUpdates$query',
+      requestUri: '/otaUpdates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListOTAUpdatesResponse.fromJson(response);
@@ -6956,8 +6853,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -6966,7 +6863,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/certificates-out-going$query',
+      requestUri: '/certificates-out-going$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListOutgoingCertificatesResponse.fromJson(response);
@@ -7005,8 +6902,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -7015,7 +6912,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/policies$query',
+      requestUri: '/policies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPoliciesResponse.fromJson(response);
@@ -7079,8 +6976,8 @@ class IoT {
     );
     final headers = <String, String>{};
     policyName?.let((v) => headers['x-amzn-iot-policy'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -7090,7 +6987,7 @@ class IoT {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/policy-principals$query',
+      requestUri: '/policy-principals$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPolicyPrincipalsResponse.fromJson(response);
@@ -7125,12 +7022,11 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}/version$query',
+          '/policies/${Uri.encodeComponent(policyName.toString())}/version',
       exceptionFnMap: _exceptionFns,
     );
     return ListPolicyVersionsResponse.fromJson(response);
@@ -7184,8 +7080,8 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -7195,7 +7091,7 @@ class IoT {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/principal-policies$query',
+      requestUri: '/principal-policies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPrincipalPoliciesResponse.fromJson(response);
@@ -7234,8 +7130,8 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-principal'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -7243,7 +7139,7 @@ class IoT {
       payload: null,
       headers: headers,
       method: 'GET',
-      requestUri: '/principals/things$query',
+      requestUri: '/principals/things$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPrincipalThingsResponse.fromJson(response);
@@ -7291,8 +7187,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -7300,7 +7196,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProvisioningTemplateVersionsResponse.fromJson(response);
@@ -7328,15 +7224,15 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/provisioning-templates$query',
+      requestUri: '/provisioning-templates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProvisioningTemplatesResponse.fromJson(response);
@@ -7374,8 +7270,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -7384,7 +7280,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/role-aliases$query',
+      requestUri: '/role-aliases$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRoleAliasesResponse.fromJson(response);
@@ -7411,15 +7307,15 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/audit/scheduledaudits$query',
+      requestUri: '/audit/scheduledaudits$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListScheduledAuditsResponse.fromJson(response);
@@ -7465,8 +7361,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (dimensionName != null)
         _s.toQueryParam('dimensionName', dimensionName),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -7475,7 +7371,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/security-profiles$query',
+      requestUri: '/security-profiles$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSecurityProfilesResponse.fromJson(response);
@@ -7515,8 +7411,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (securityProfileTargetArn != null)
         _s.toQueryParam('securityProfileTargetArn', securityProfileTargetArn),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -7526,7 +7422,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/security-profiles-for-target$query',
+      requestUri: '/security-profiles-for-target$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSecurityProfilesForTargetResponse.fromJson(response);
@@ -7559,8 +7455,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (ascendingOrder != null)
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -7569,7 +7465,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/streams$query',
+      requestUri: '/streams$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListStreamsResponse.fromJson(response);
@@ -7592,15 +7488,15 @@ class IoT {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags$query',
+      requestUri: '/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -7654,8 +7550,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
     ].where((e) => e != null).join('&')}';
@@ -7664,7 +7560,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/policy-targets/${Uri.encodeComponent(policyName.toString())}$query',
+          '/policy-targets/${Uri.encodeComponent(policyName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTargetsForPolicyResponse.fromJson(response);
@@ -7711,8 +7607,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -7720,7 +7616,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}/targets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTargetsForSecurityProfileResponse.fromJson(response);
@@ -7781,8 +7677,8 @@ class IoT {
       parentGroup,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (namePrefixFilter != null)
         _s.toQueryParam('namePrefixFilter', namePrefixFilter),
@@ -7793,7 +7689,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/thing-groups$query',
+      requestUri: '/thing-groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingGroupsResponse.fromJson(response);
@@ -7838,8 +7734,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -7847,7 +7743,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/thing-groups$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/thing-groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingGroupsForThingResponse.fromJson(response);
@@ -7883,12 +7779,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/principals$query',
+          '/things/${Uri.encodeComponent(thingName.toString())}/principals',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingPrincipalsResponse.fromJson(response);
@@ -7934,8 +7829,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (reportType != null) _s.toQueryParam('reportType', reportType),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -7944,7 +7839,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}/reports$query',
+          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}/reports$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingRegistrationTaskReportsResponse.fromJson(response);
@@ -7976,8 +7871,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (status != null) _s.toQueryParam('status', status),
@@ -7985,7 +7880,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/thing-registration-tasks$query',
+      requestUri: '/thing-registration-tasks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingRegistrationTasksResponse.fromJson(response);
@@ -8029,8 +7924,8 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (thingTypeName != null)
@@ -8039,7 +7934,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/thing-types$query',
+      requestUri: '/thing-types$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingTypesResponse.fromJson(response);
@@ -8117,8 +8012,8 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (attributeName != null)
         _s.toQueryParam('attributeName', attributeName),
       if (attributeValue != null)
@@ -8131,7 +8026,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/things$query',
+      requestUri: '/things$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingsResponse.fromJson(response);
@@ -8177,8 +8072,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -8186,7 +8081,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}/things$query',
+          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}/things$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingsInBillingGroupResponse.fromJson(response);
@@ -8236,8 +8131,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (recursive != null) _s.toQueryParam('recursive', recursive),
@@ -8246,7 +8141,7 @@ class IoT {
       payload: null,
       method: 'GET',
       requestUri:
-          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}/things$query',
+          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}/things$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThingsInThingGroupResponse.fromJson(response);
@@ -8274,15 +8169,15 @@ class IoT {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/destinations$query',
+      requestUri: '/destinations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTopicRuleDestinationsResponse.fromJson(response);
@@ -8317,8 +8212,8 @@ class IoT {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (ruleDisabled != null) _s.toQueryParam('ruleDisabled', ruleDisabled),
@@ -8327,7 +8222,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/rules$query',
+      requestUri: '/rules$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTopicRulesResponse.fromJson(response);
@@ -8361,8 +8256,8 @@ class IoT {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (targetType != null) _s.toQueryParam('targetType', targetType),
@@ -8370,7 +8265,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2LoggingLevel$query',
+      requestUri: '/v2LoggingLevel$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListV2LoggingLevelsResponse.fromJson(response);
@@ -8436,8 +8331,8 @@ class IoT {
       1,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -8449,7 +8344,7 @@ class IoT {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/violation-events$query',
+      requestUri: '/violation-events$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListViolationEventsResponse.fromJson(response);
@@ -8512,8 +8407,8 @@ class IoT {
       65536,
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (allowAutoRegistration != null)
         _s.toQueryParam('allowAutoRegistration', allowAutoRegistration),
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
@@ -8526,7 +8421,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/cacertificate$query',
+      requestUri: '/cacertificate$_query',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterCACertificateResponse.fromJson(response);
@@ -8577,8 +8472,8 @@ class IoT {
       1,
       65536,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -8589,7 +8484,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/certificate/register$query',
+      requestUri: '/certificate/register$_query',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterCertificateResponse.fromJson(response);
@@ -8624,7 +8519,6 @@ class IoT {
     Map<String, String> parameters,
   }) async {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
-    var query = '';
     final $payload = <String, dynamic>{
       'templateBody': templateBody,
       'parameters': parameters,
@@ -8632,7 +8526,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/things$query',
+      requestUri: '/things',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterThingResponse.fromJson(response);
@@ -8687,7 +8581,6 @@ class IoT {
       0,
       128,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'rejectReason': rejectReason,
     };
@@ -8695,7 +8588,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/reject-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/reject-certificate-transfer/${Uri.encodeComponent(certificateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -8746,7 +8639,6 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'billingGroupArn': billingGroupArn,
       'billingGroupName': billingGroupName,
@@ -8756,7 +8648,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/billing-groups/removeThingFromBillingGroup$query',
+      requestUri: '/billing-groups/removeThingFromBillingGroup',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveThingFromBillingGroupResponse.fromJson(response);
@@ -8808,7 +8700,6 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'thingArn': thingArn,
       'thingGroupArn': thingGroupArn,
@@ -8818,7 +8709,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/thing-groups/removeThingFromThingGroup$query',
+      requestUri: '/thing-groups/removeThingFromThingGroup',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveThingFromThingGroupResponse.fromJson(response);
@@ -8860,11 +8751,10 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
-    var query = '';
     await _protocol.send(
       payload: topicRulePayload,
       method: 'PATCH',
-      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}$query',
+      requestUri: '/rules/${Uri.encodeComponent(ruleName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -8927,7 +8817,6 @@ class IoT {
       1,
       500,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'queryString': queryString,
       'indexName': indexName,
@@ -8938,7 +8827,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/indices/search$query',
+      requestUri: '/indices/search',
       exceptionFnMap: _exceptionFns,
     );
     return SearchIndexResponse.fromJson(response);
@@ -8974,14 +8863,13 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'authorizerName': authorizerName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/default-authorizer$query',
+      requestUri: '/default-authorizer',
       exceptionFnMap: _exceptionFns,
     );
     return SetDefaultAuthorizerResponse.fromJson(response);
@@ -9029,13 +8917,12 @@ class IoT {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}$query',
+          '/policies/${Uri.encodeComponent(policyName.toString())}/version/${Uri.encodeComponent(policyVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9055,11 +8942,10 @@ class IoT {
     @_s.required LoggingOptionsPayload loggingOptionsPayload,
   }) async {
     ArgumentError.checkNotNull(loggingOptionsPayload, 'loggingOptionsPayload');
-    var query = '';
     await _protocol.send(
       payload: loggingOptionsPayload,
       method: 'POST',
-      requestUri: '/loggingOptions$query',
+      requestUri: '/loggingOptions',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9082,7 +8968,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(logLevel, 'logLevel');
     ArgumentError.checkNotNull(logTarget, 'logTarget');
-    var query = '';
     final $payload = <String, dynamic>{
       'logLevel': logLevel?.toValue(),
       'logTarget': logTarget,
@@ -9090,7 +8975,7 @@ class IoT {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2LoggingLevel$query',
+      requestUri: '/v2LoggingLevel',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9114,7 +8999,6 @@ class IoT {
     bool disableAllLogs,
     String roleArn,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'defaultLogLevel': defaultLogLevel?.toValue(),
       'disableAllLogs': disableAllLogs,
@@ -9123,7 +9007,7 @@ class IoT {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2LoggingOptions$query',
+      requestUri: '/v2LoggingOptions',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9193,7 +9077,6 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
       'clientRequestToken': clientRequestToken,
@@ -9203,7 +9086,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}$query',
+          '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return StartAuditMitigationActionsTaskResponse.fromJson(response);
@@ -9227,14 +9110,13 @@ class IoT {
     @_s.required List<String> targetCheckNames,
   }) async {
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
-    var query = '';
     final $payload = <String, dynamic>{
       'targetCheckNames': targetCheckNames,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/audit/tasks$query',
+      requestUri: '/audit/tasks',
       exceptionFnMap: _exceptionFns,
     );
     return StartOnDemandAuditTaskResponse.fromJson(response);
@@ -9303,7 +9185,6 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(templateBody, 'templateBody');
-    var query = '';
     final $payload = <String, dynamic>{
       'inputFileBucket': inputFileBucket,
       'inputFileKey': inputFileKey,
@@ -9313,7 +9194,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/thing-registration-tasks$query',
+      requestUri: '/thing-registration-tasks',
       exceptionFnMap: _exceptionFns,
     );
     return StartThingRegistrationTaskResponse.fromJson(response);
@@ -9340,13 +9221,12 @@ class IoT {
       40,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}/cancel$query',
+          '/thing-registration-tasks/${Uri.encodeComponent(taskId.toString())}/cancel',
       exceptionFnMap: _exceptionFns,
     );
     return StopThingRegistrationTaskResponse.fromJson(response);
@@ -9372,7 +9252,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tags': tags,
@@ -9380,7 +9259,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags$query',
+      requestUri: '/tags',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -9427,8 +9306,8 @@ class IoT {
     String principal,
   }) async {
     ArgumentError.checkNotNull(authInfos, 'authInfos');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (clientId != null) _s.toQueryParam('clientId', clientId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -9441,7 +9320,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/test-authorization$query',
+      requestUri: '/test-authorization$_query',
       exceptionFnMap: _exceptionFns,
     );
     return TestAuthorizationResponse.fromJson(response);
@@ -9516,7 +9395,6 @@ class IoT {
       tokenSignature,
       r'''[A-Za-z0-9+/]+={0,2}''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'httpContext': httpContext,
       'mqttContext': mqttContext,
@@ -9528,7 +9406,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}/test$query',
+          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}/test',
       exceptionFnMap: _exceptionFns,
     );
     return TestInvokeAuthorizerResponse.fromJson(response);
@@ -9604,8 +9482,8 @@ class IoT {
       0,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (targetAwsAccount != null)
         _s.toQueryParam('targetAwsAccount', targetAwsAccount),
     ].where((e) => e != null).join('&')}';
@@ -9616,7 +9494,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/transfer-certificate/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/transfer-certificate/${Uri.encodeComponent(certificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return TransferCertificateResponse.fromJson(response);
@@ -9640,7 +9518,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tagKeys': tagKeys,
@@ -9648,7 +9525,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/untag$query',
+      requestUri: '/untag',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -9696,7 +9573,6 @@ class IoT {
       20,
       2048,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'auditCheckConfigurations': auditCheckConfigurations,
       'auditNotificationTargetConfigurations':
@@ -9706,7 +9582,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/audit/configuration$query',
+      requestUri: '/audit/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAccountAuditConfigurationResponse.fromJson(response);
@@ -9768,7 +9644,6 @@ class IoT {
       tokenKeyName,
       r'''[a-zA-Z0-9_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
       'status': status?.toValue(),
@@ -9779,7 +9654,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}$query',
+          '/authorizer/${Uri.encodeComponent(authorizerName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAuthorizerResponse.fromJson(response);
@@ -9825,7 +9700,6 @@ class IoT {
     );
     ArgumentError.checkNotNull(
         billingGroupProperties, 'billingGroupProperties');
-    var query = '';
     final $payload = <String, dynamic>{
       'billingGroupProperties': billingGroupProperties,
       'expectedVersion': expectedVersion,
@@ -9834,7 +9708,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}$query',
+          '/billing-groups/${Uri.encodeComponent(billingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBillingGroupResponse.fromJson(response);
@@ -9888,8 +9762,8 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (newAutoRegistrationStatus != null)
         _s.toQueryParam('newAutoRegistrationStatus', newAutoRegistrationStatus),
       if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
@@ -9902,7 +9776,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/cacertificate/${Uri.encodeComponent(certificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9958,8 +9832,8 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(newStatus, 'newStatus');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -9967,7 +9841,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/certificates/${Uri.encodeComponent(certificateId.toString())}$query',
+          '/certificates/${Uri.encodeComponent(certificateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -10007,14 +9881,13 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
-    var query = '';
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/dimensions/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDimensionResponse.fromJson(response);
@@ -10067,7 +9940,6 @@ class IoT {
       r'''[\w.:-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'authorizerConfig': authorizerConfig,
       'domainConfigurationStatus': domainConfigurationStatus?.toValue(),
@@ -10077,7 +9949,7 @@ class IoT {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}$query',
+          '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDomainConfigurationResponse.fromJson(response);
@@ -10156,7 +10028,6 @@ class IoT {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
       'expectedVersion': expectedVersion,
@@ -10168,7 +10039,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDynamicThingGroupResponse.fromJson(response);
@@ -10185,14 +10056,13 @@ class IoT {
   Future<void> updateEventConfigurations({
     Map<String, Configuration> eventConfigurations,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'eventConfigurations': eventConfigurations,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/event-configurations$query',
+      requestUri: '/event-configurations',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEventConfigurationsResponse.fromJson(response);
@@ -10215,7 +10085,6 @@ class IoT {
     ThingGroupIndexingConfiguration thingGroupIndexingConfiguration,
     ThingIndexingConfiguration thingIndexingConfiguration,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'thingGroupIndexingConfiguration': thingGroupIndexingConfiguration,
       'thingIndexingConfiguration': thingIndexingConfiguration,
@@ -10223,7 +10092,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/indexing/config$query',
+      requestUri: '/indexing/config',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIndexingConfigurationResponse.fromJson(response);
@@ -10290,7 +10159,6 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'abortConfig': abortConfig,
       'description': description,
@@ -10301,7 +10169,7 @@ class IoT {
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -10348,7 +10216,6 @@ class IoT {
       20,
       2048,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'actionParams': actionParams,
       'roleArn': roleArn,
@@ -10357,7 +10224,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}$query',
+          '/mitigationactions/actions/${Uri.encodeComponent(actionName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMitigationActionResponse.fromJson(response);
@@ -10424,7 +10291,6 @@ class IoT {
       20,
       2048,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'defaultVersionId': defaultVersionId,
       'description': description,
@@ -10435,7 +10301,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}$query',
+          '/provisioning-templates/${Uri.encodeComponent(templateName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateProvisioningTemplateResponse.fromJson(response);
@@ -10489,7 +10355,6 @@ class IoT {
       20,
       2048,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'credentialDurationSeconds': credentialDurationSeconds,
       'roleArn': roleArn,
@@ -10497,8 +10362,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}$query',
+      requestUri: '/role-aliases/${Uri.encodeComponent(roleAlias.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRoleAliasResponse.fromJson(response);
@@ -10565,7 +10429,6 @@ class IoT {
       dayOfMonth,
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'dayOfMonth': dayOfMonth,
       'dayOfWeek': dayOfWeek?.toValue(),
@@ -10576,7 +10439,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}$query',
+          '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateScheduledAuditResponse.fromJson(response);
@@ -10673,8 +10536,8 @@ class IoT {
       securityProfileDescription,
       r'''[\p{Graph}\x20]*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
@@ -10692,7 +10555,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$query',
+          '/security-profiles/${Uri.encodeComponent(securityProfileName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSecurityProfileResponse.fromJson(response);
@@ -10756,7 +10619,6 @@ class IoT {
       20,
       2048,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'description': description,
       'files': files,
@@ -10765,7 +10627,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}$query',
+      requestUri: '/streams/${Uri.encodeComponent(streamId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateStreamResponse.fromJson(response);
@@ -10836,7 +10698,6 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'attributePayload': attributePayload,
       'expectedVersion': expectedVersion,
@@ -10846,7 +10707,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingResponse.fromJson(response);
@@ -10889,7 +10750,6 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
-    var query = '';
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
       'expectedVersion': expectedVersion,
@@ -10898,7 +10758,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}$query',
+          '/thing-groups/${Uri.encodeComponent(thingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingGroupResponse.fromJson(response);
@@ -10942,7 +10802,6 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'overrideDynamicGroups': overrideDynamicGroups,
       'thingGroupsToAdd': thingGroupsToAdd,
@@ -10952,7 +10811,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/thing-groups/updateThingGroupsForThing$query',
+      requestUri: '/thing-groups/updateThingGroupsForThing',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingGroupsForThingResponse.fromJson(response);
@@ -11000,7 +10859,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(status, 'status');
-    var query = '';
     final $payload = <String, dynamic>{
       'arn': arn,
       'status': status?.toValue(),
@@ -11008,7 +10866,7 @@ class IoT {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/destinations$query',
+      requestUri: '/destinations',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTopicRuleDestinationResponse.fromJson(response);
@@ -11028,14 +10886,13 @@ class IoT {
     @_s.required List<Behavior> behaviors,
   }) async {
     ArgumentError.checkNotNull(behaviors, 'behaviors');
-    var query = '';
     final $payload = <String, dynamic>{
       'behaviors': behaviors,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/security-profile-behaviors/validate$query',
+      requestUri: '/security-profile-behaviors/validate',
       exceptionFnMap: _exceptionFns,
     );
     return ValidateSecurityProfileBehaviorsResponse.fromJson(response);

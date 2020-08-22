@@ -682,7 +682,7 @@ class DeletableAttribute {
     createFactory: false,
     createToJson: true)
 class DeletableItem {
-  @_s.JsonKey(name: 'Name')
+  @_s.JsonKey(name: 'ItemName')
   final String name;
   @_s.JsonKey(name: 'Attributes')
   final List<DeletableAttribute> attributes;
@@ -1042,7 +1042,7 @@ class ReplaceableItem {
   final List<ReplaceableAttribute> attributes;
 
   /// The name of the replaceable item.
-  @_s.JsonKey(name: 'Name')
+  @_s.JsonKey(name: 'ItemName')
   final String name;
 
   ReplaceableItem({

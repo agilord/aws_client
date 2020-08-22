@@ -81,7 +81,6 @@ class CodeGuruProfiler {
       fleetInstanceId,
       r'''^[\w-.:/]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fleetInstanceId': fleetInstanceId,
     };
@@ -89,7 +88,7 @@ class CodeGuruProfiler {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/configureAgent$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/configureAgent',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigureAgentResponse.fromJson(response);
@@ -148,8 +147,8 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -159,7 +158,7 @@ class CodeGuruProfiler {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/profilingGroups$query',
+      requestUri: '/profilingGroups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProfilingGroupResponse.fromJson(response);
@@ -191,13 +190,12 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProfilingGroupResponse.fromJson(response);
@@ -229,12 +227,11 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProfilingGroupResponse.fromJson(response);
@@ -265,12 +262,11 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetPolicyResponse.fromJson(response);
@@ -359,8 +355,8 @@ class CodeGuruProfiler {
     );
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (maxDepth != null) _s.toQueryParam('maxDepth', maxDepth),
       if (period != null) _s.toQueryParam('period', period),
@@ -371,7 +367,7 @@ class CodeGuruProfiler {
       headers: headers,
       method: 'GET',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profile$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profile$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetProfileResponse.fromJson(response);
@@ -463,8 +459,8 @@ class CodeGuruProfiler {
       nextToken,
       r'''^[\w-]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (period != null) _s.toQueryParam('period', period),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
@@ -476,7 +472,7 @@ class CodeGuruProfiler {
       payload: null,
       method: 'GET',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profileTimes$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profileTimes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProfileTimesResponse.fromJson(response);
@@ -532,8 +528,8 @@ class CodeGuruProfiler {
       nextToken,
       r'''^[\w-]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeDescription != null)
         _s.toQueryParam('includeDescription', includeDescription),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -542,7 +538,7 @@ class CodeGuruProfiler {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/profilingGroups$query',
+      requestUri: '/profilingGroups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProfilingGroupsResponse.fromJson(response);
@@ -601,8 +597,8 @@ class CodeGuruProfiler {
     );
     final headers = <String, String>{};
     contentType?.let((v) => headers['Content-Type'] = v.toString());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (profileToken != null) _s.toQueryParam('profileToken', profileToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -610,7 +606,7 @@ class CodeGuruProfiler {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/agentProfile$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/agentProfile$_query',
       exceptionFnMap: _exceptionFns,
     );
     return PostAgentProfileResponse.fromJson(response);
@@ -667,7 +663,6 @@ class CodeGuruProfiler {
       revisionId,
       r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'principals': principals,
       'revisionId': revisionId,
@@ -676,7 +671,7 @@ class CodeGuruProfiler {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy/${Uri.encodeComponent(actionGroup.toString())}$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy/${Uri.encodeComponent(actionGroup.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return PutPermissionResponse.fromJson(response);
@@ -726,8 +721,8 @@ class CodeGuruProfiler {
       r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (revisionId != null) _s.toQueryParam('revisionId', revisionId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -735,7 +730,7 @@ class CodeGuruProfiler {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy/${Uri.encodeComponent(actionGroup.toString())}$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/policy/${Uri.encodeComponent(actionGroup.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return RemovePermissionResponse.fromJson(response);
@@ -774,7 +769,6 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'agentOrchestrationConfig': agentOrchestrationConfig,
     };
@@ -782,7 +776,7 @@ class CodeGuruProfiler {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}$query',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateProfilingGroupResponse.fromJson(response);

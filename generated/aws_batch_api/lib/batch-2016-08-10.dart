@@ -79,7 +79,6 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobId': jobId,
       'reason': reason,
@@ -87,7 +86,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/canceljob$query',
+      requestUri: '/v1/canceljob',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -193,7 +192,6 @@ class Batch {
         computeEnvironmentName, 'computeEnvironmentName');
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
       'serviceRole': serviceRole,
@@ -204,7 +202,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/createcomputeenvironment$query',
+      requestUri: '/v1/createcomputeenvironment',
       exceptionFnMap: _exceptionFns,
     );
     return CreateComputeEnvironmentResponse.fromJson(response);
@@ -255,7 +253,6 @@ class Batch {
         computeEnvironmentOrder, 'computeEnvironmentOrder');
     ArgumentError.checkNotNull(jobQueueName, 'jobQueueName');
     ArgumentError.checkNotNull(priority, 'priority');
-    var query = '';
     final $payload = <String, dynamic>{
       'computeEnvironmentOrder': computeEnvironmentOrder,
       'jobQueueName': jobQueueName,
@@ -265,7 +262,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/createjobqueue$query',
+      requestUri: '/v1/createjobqueue',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobQueueResponse.fromJson(response);
@@ -288,14 +285,13 @@ class Batch {
     @_s.required String computeEnvironment,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
-    var query = '';
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/deletecomputeenvironment$query',
+      requestUri: '/v1/deletecomputeenvironment',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteComputeEnvironmentResponse.fromJson(response);
@@ -317,14 +313,13 @@ class Batch {
     @_s.required String jobQueue,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobQueue': jobQueue,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/deletejobqueue$query',
+      requestUri: '/v1/deletejobqueue',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteJobQueueResponse.fromJson(response);
@@ -343,14 +338,13 @@ class Batch {
     @_s.required String jobDefinition,
   }) async {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobDefinition': jobDefinition,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/deregisterjobdefinition$query',
+      requestUri: '/v1/deregisterjobdefinition',
       exceptionFnMap: _exceptionFns,
     );
     return DeregisterJobDefinitionResponse.fromJson(response);
@@ -399,7 +393,6 @@ class Batch {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'computeEnvironments': computeEnvironments,
       'maxResults': maxResults,
@@ -408,7 +401,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/describecomputeenvironments$query',
+      requestUri: '/v1/describecomputeenvironments',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeComputeEnvironmentsResponse.fromJson(response);
@@ -461,7 +454,6 @@ class Batch {
     String nextToken,
     String status,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
       'jobDefinitions': jobDefinitions,
@@ -472,7 +464,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/describejobdefinitions$query',
+      requestUri: '/v1/describejobdefinitions',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobDefinitionsResponse.fromJson(response);
@@ -514,7 +506,6 @@ class Batch {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'jobQueues': jobQueues,
       'maxResults': maxResults,
@@ -523,7 +514,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/describejobqueues$query',
+      requestUri: '/v1/describejobqueues',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobQueuesResponse.fromJson(response);
@@ -540,14 +531,13 @@ class Batch {
     @_s.required List<String> jobs,
   }) async {
     ArgumentError.checkNotNull(jobs, 'jobs');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobs': jobs,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/describejobs$query',
+      requestUri: '/v1/describejobs',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobsResponse.fromJson(response);
@@ -622,7 +612,6 @@ class Batch {
     String multiNodeJobId,
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'arrayJobId': arrayJobId,
       'jobQueue': jobQueue,
@@ -634,7 +623,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/listjobs$query',
+      requestUri: '/v1/listjobs',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -701,7 +690,6 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
       'type': type?.toValue(),
@@ -714,7 +702,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/registerjobdefinition$query',
+      requestUri: '/v1/registerjobdefinition',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterJobDefinitionResponse.fromJson(response);
@@ -810,7 +798,6 @@ class Batch {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
     ArgumentError.checkNotNull(jobName, 'jobName');
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobDefinition': jobDefinition,
       'jobName': jobName,
@@ -826,7 +813,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/submitjob$query',
+      requestUri: '/v1/submitjob',
       exceptionFnMap: _exceptionFns,
     );
     return SubmitJobResponse.fromJson(response);
@@ -853,7 +840,6 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobId': jobId,
       'reason': reason,
@@ -861,7 +847,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/terminatejob$query',
+      requestUri: '/v1/terminatejob',
       exceptionFnMap: _exceptionFns,
     );
     return TerminateJobResponse.fromJson(response);
@@ -907,7 +893,6 @@ class Batch {
     CEState state,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
-    var query = '';
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
       'computeResources': computeResources,
@@ -917,7 +902,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/updatecomputeenvironment$query',
+      requestUri: '/v1/updatecomputeenvironment',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateComputeEnvironmentResponse.fromJson(response);
@@ -954,7 +939,6 @@ class Batch {
     JQState state,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobQueue': jobQueue,
       'computeEnvironmentOrder': computeEnvironmentOrder,
@@ -964,7 +948,7 @@ class Batch {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/updatejobqueue$query',
+      requestUri: '/v1/updatejobqueue',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobQueueResponse.fromJson(response);

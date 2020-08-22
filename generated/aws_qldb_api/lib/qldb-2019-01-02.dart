@@ -89,7 +89,6 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'PermissionsMode': permissionsMode?.toValue(),
@@ -99,7 +98,7 @@ class QLDB {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ledgers$query',
+      requestUri: '/ledgers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLedgerResponse.fromJson(response);
@@ -137,12 +136,11 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -196,12 +194,11 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports/${Uri.encodeComponent(exportId.toString())}$query',
+          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports/${Uri.encodeComponent(exportId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJournalS3ExportResponse.fromJson(response);
@@ -232,11 +229,10 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeLedgerResponse.fromJson(response);
@@ -337,7 +333,6 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(s3ExportConfiguration, 's3ExportConfiguration');
-    var query = '';
     final $payload = <String, dynamic>{
       'ExclusiveEndTime': exclusiveEndTime,
       'InclusiveStartTime': inclusiveStartTime,
@@ -348,7 +343,7 @@ class QLDB {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports$query',
+          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports',
       exceptionFnMap: _exceptionFns,
     );
     return ExportJournalToS3Response.fromJson(response);
@@ -409,7 +404,6 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       'DigestTipAddress': digestTipAddress,
@@ -417,8 +411,7 @@ class QLDB {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/block$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}/block',
       exceptionFnMap: _exceptionFns,
     );
     return GetBlockResponse.fromJson(response);
@@ -450,13 +443,11 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/digest$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}/digest',
       exceptionFnMap: _exceptionFns,
     );
     return GetDigestResponse.fromJson(response);
@@ -526,7 +517,6 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       'DocumentId': documentId,
@@ -535,8 +525,7 @@ class QLDB {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/revision$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}/revision',
       exceptionFnMap: _exceptionFns,
     );
     return GetRevisionResponse.fromJson(response);
@@ -580,15 +569,15 @@ class QLDB {
       nextToken,
       r'''^[A-Za-z-0-9+/=]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/journal-s3-exports$query',
+      requestUri: '/journal-s3-exports$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJournalS3ExportsResponse.fromJson(response);
@@ -650,8 +639,8 @@ class QLDB {
       nextToken,
       r'''^[A-Za-z-0-9+/=]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -659,7 +648,7 @@ class QLDB {
       payload: null,
       method: 'GET',
       requestUri:
-          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports$query',
+          '/ledgers/${Uri.encodeComponent(name.toString())}/journal-s3-exports$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJournalS3ExportsForLedgerResponse.fromJson(response);
@@ -703,15 +692,15 @@ class QLDB {
       nextToken,
       r'''^[A-Za-z-0-9+/=]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/ledgers$query',
+      requestUri: '/ledgers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListLedgersResponse.fromJson(response);
@@ -738,11 +727,10 @@ class QLDB {
       1600,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -780,14 +768,13 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -820,15 +807,15 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -870,14 +857,13 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DeletionProtection': deletionProtection,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/ledgers/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLedgerResponse.fromJson(response);

@@ -93,15 +93,13 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/bots/${Uri.encodeComponent(name.toString())}/versions$query',
+      requestUri: '/bots/${Uri.encodeComponent(name.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBotVersionResponse.fromJson(response);
@@ -159,15 +157,13 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/intents/${Uri.encodeComponent(name.toString())}/versions$query',
+      requestUri: '/intents/${Uri.encodeComponent(name.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIntentVersionResponse.fromJson(response);
@@ -226,15 +222,13 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/slottypes/${Uri.encodeComponent(name.toString())}/versions$query',
+      requestUri: '/slottypes/${Uri.encodeComponent(name.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSlotTypeVersionResponse.fromJson(response);
@@ -287,12 +281,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/bots/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/bots/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -352,13 +345,12 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -431,13 +423,12 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/${Uri.encodeComponent(name.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -494,13 +485,12 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/bots/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/bots/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -549,12 +539,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/intents/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/intents/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -611,13 +600,12 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/intents/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/intents/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -666,12 +654,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/slottypes/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/slottypes/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -728,13 +715,12 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/slottypes/${Uri.encodeComponent(name.toString())}/version/${Uri.encodeComponent(version.toString())}$query',
+          '/slottypes/${Uri.encodeComponent(name.toString())}/version/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -797,13 +783,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/utterances/${Uri.encodeComponent(userId.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/utterances/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -843,12 +828,11 @@ class LexModelBuildingService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionOrAlias, 'versionOrAlias');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(versionOrAlias.toString())}$query',
+          '/bots/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(versionOrAlias.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotResponse.fromJson(response);
@@ -902,12 +886,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotAliasResponse.fromJson(response);
@@ -976,8 +959,8 @@ class LexModelBuildingService {
       nameContains,
       r'''^([A-Za-z]_?)+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nameContains != null) _s.toQueryParam('nameContains', nameContains),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -986,7 +969,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotAliasesResponse.fromJson(response);
@@ -1060,12 +1043,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/${Uri.encodeComponent(name.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotChannelAssociationResponse.fromJson(response);
@@ -1155,8 +1137,8 @@ class LexModelBuildingService {
       nameContains,
       r'''^([A-Za-z]_?)+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nameContains != null) _s.toQueryParam('nameContains', nameContains),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1165,7 +1147,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(botAlias.toString())}/channels/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotChannelAssociationsResponse.fromJson(response);
@@ -1228,8 +1210,8 @@ class LexModelBuildingService {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1237,7 +1219,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(name.toString())}/versions/$query',
+          '/bots/${Uri.encodeComponent(name.toString())}/versions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotVersionsResponse.fromJson(response);
@@ -1301,8 +1283,8 @@ class LexModelBuildingService {
       nameContains,
       r'''^([A-Za-z]_?)+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nameContains != null) _s.toQueryParam('nameContains', nameContains),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1310,7 +1292,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/bots/$query',
+      requestUri: '/bots/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBotsResponse.fromJson(response);
@@ -1335,12 +1317,11 @@ class LexModelBuildingService {
     @_s.required String signature,
   }) async {
     ArgumentError.checkNotNull(signature, 'signature');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/builtins/intents/${Uri.encodeComponent(signature.toString())}$query',
+          '/builtins/intents/${Uri.encodeComponent(signature.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetBuiltinIntentResponse.fromJson(response);
@@ -1387,8 +1368,8 @@ class LexModelBuildingService {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (locale != null) _s.toQueryParam('locale', locale),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1398,7 +1379,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/builtins/intents/$query',
+      requestUri: '/builtins/intents/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBuiltinIntentsResponse.fromJson(response);
@@ -1446,8 +1427,8 @@ class LexModelBuildingService {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (locale != null) _s.toQueryParam('locale', locale),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1457,7 +1438,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/builtins/slottypes/$query',
+      requestUri: '/builtins/slottypes/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetBuiltinSlotTypesResponse.fromJson(response);
@@ -1517,8 +1498,8 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (exportType != null) _s.toQueryParam('exportType', exportType),
       if (name != null) _s.toQueryParam('name', name),
       if (resourceType != null) _s.toQueryParam('resourceType', resourceType),
@@ -1527,7 +1508,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/exports/$query',
+      requestUri: '/exports/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetExportResponse.fromJson(response);
@@ -1547,11 +1528,10 @@ class LexModelBuildingService {
     @_s.required String importId,
   }) async {
     ArgumentError.checkNotNull(importId, 'importId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/imports/${Uri.encodeComponent(importId.toString())}$query',
+      requestUri: '/imports/${Uri.encodeComponent(importId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetImportResponse.fromJson(response);
@@ -1605,12 +1585,11 @@ class LexModelBuildingService {
       r'''\$LATEST|[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/intents/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/intents/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntentResponse.fromJson(response);
@@ -1673,8 +1652,8 @@ class LexModelBuildingService {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1682,7 +1661,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/intents/${Uri.encodeComponent(name.toString())}/versions/$query',
+          '/intents/${Uri.encodeComponent(name.toString())}/versions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntentVersionsResponse.fromJson(response);
@@ -1745,8 +1724,8 @@ class LexModelBuildingService {
       nameContains,
       r'''^([A-Za-z]_?)+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nameContains != null) _s.toQueryParam('nameContains', nameContains),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1754,7 +1733,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/intents/$query',
+      requestUri: '/intents/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntentsResponse.fromJson(response);
@@ -1808,12 +1787,11 @@ class LexModelBuildingService {
       r'''\$LATEST|[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}$query',
+          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSlotTypeResponse.fromJson(response);
@@ -1876,8 +1854,8 @@ class LexModelBuildingService {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1885,7 +1863,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/$query',
+          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSlotTypeVersionsResponse.fromJson(response);
@@ -1948,8 +1926,8 @@ class LexModelBuildingService {
       nameContains,
       r'''^([A-Za-z]_?)+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nameContains != null) _s.toQueryParam('nameContains', nameContains),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1957,7 +1935,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/slottypes/$query',
+      requestUri: '/slottypes/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSlotTypesResponse.fromJson(response);
@@ -2028,8 +2006,8 @@ class LexModelBuildingService {
     );
     ArgumentError.checkNotNull(botVersions, 'botVersions');
     ArgumentError.checkNotNull(statusType, 'statusType');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (botVersions != null) _s.toQueryParam('bot_versions', botVersions),
       if (statusType != null) _s.toQueryParam('status_type', statusType),
     ].where((e) => e != null).join('&')}';
@@ -2037,7 +2015,7 @@ class LexModelBuildingService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/utterances?view=aggregation$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/utterances?view=aggregation$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetUtterancesViewResponse.fromJson(response);
@@ -2064,11 +2042,10 @@ class LexModelBuildingService {
       1011,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -2318,7 +2295,6 @@ class LexModelBuildingService {
       60,
       86400,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'childDirected': childDirected,
       'locale': locale?.toValue(),
@@ -2338,7 +2314,7 @@ class LexModelBuildingService {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/bots/${Uri.encodeComponent(name.toString())}/versions/\$LATEST$query',
+          '/bots/${Uri.encodeComponent(name.toString())}/versions/\$LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutBotResponse.fromJson(response);
@@ -2448,7 +2424,6 @@ class LexModelBuildingService {
       0,
       200,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'botVersion': botVersion,
       'checksum': checksum,
@@ -2460,7 +2435,7 @@ class LexModelBuildingService {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/bots/${Uri.encodeComponent(botName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return PutBotAliasResponse.fromJson(response);
@@ -2707,7 +2682,6 @@ class LexModelBuildingService {
       0,
       200,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checksum': checksum,
       'conclusionStatement': conclusionStatement,
@@ -2726,7 +2700,7 @@ class LexModelBuildingService {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/intents/${Uri.encodeComponent(name.toString())}/versions/\$LATEST$query',
+          '/intents/${Uri.encodeComponent(name.toString())}/versions/\$LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutIntentResponse.fromJson(response);
@@ -2873,7 +2847,6 @@ class LexModelBuildingService {
       parentSlotTypeSignature,
       r'''^((AMAZON\.)_?|[A-Za-z]_?)+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'checksum': checksum,
       'createVersion': createVersion,
@@ -2887,7 +2860,7 @@ class LexModelBuildingService {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/\$LATEST$query',
+          '/slottypes/${Uri.encodeComponent(name.toString())}/versions/\$LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutSlotTypeResponse.fromJson(response);
@@ -2946,7 +2919,6 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(mergeStrategy, 'mergeStrategy');
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
-    var query = '';
     final $payload = <String, dynamic>{
       'mergeStrategy': mergeStrategy?.toValue(),
       'payload': payload,
@@ -2956,7 +2928,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/imports/$query',
+      requestUri: '/imports/',
       exceptionFnMap: _exceptionFns,
     );
     return StartImportResponse.fromJson(response);
@@ -2991,14 +2963,13 @@ class LexModelBuildingService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -3031,15 +3002,15 @@ class LexModelBuildingService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);

@@ -113,15 +113,15 @@ class EBS {
       r'''^snap-[0-9a-f]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (blockToken != null) _s.toQueryParam('blockToken', blockToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks/${Uri.encodeComponent(blockIndex.toString())}$query',
+          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks/${Uri.encodeComponent(blockIndex.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSnapshotBlockResponse.fromJson(response);
@@ -208,8 +208,8 @@ class EBS {
       nextToken,
       r'''^[A-Za-z0-9+/=]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (firstSnapshotId != null)
         _s.toQueryParam('firstSnapshotId', firstSnapshotId),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -221,7 +221,7 @@ class EBS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/snapshots/${Uri.encodeComponent(secondSnapshotId.toString())}/changedblocks$query',
+          '/snapshots/${Uri.encodeComponent(secondSnapshotId.toString())}/changedblocks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListChangedBlocksResponse.fromJson(response);
@@ -283,8 +283,8 @@ class EBS {
       nextToken,
       r'''^[A-Za-z0-9+/=]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('pageToken', nextToken),
       if (startingBlockIndex != null)
@@ -294,7 +294,7 @@ class EBS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks$query',
+          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSnapshotBlocksResponse.fromJson(response);

@@ -85,7 +85,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'SchemaFacet': schemaFacet,
@@ -95,7 +94,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/facets$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/facets',
       exceptionFnMap: _exceptionFns,
     );
     return AddFacetToObjectResponse.fromJson(response);
@@ -131,7 +130,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'PublishedSchemaArn': publishedSchemaArn,
     };
@@ -139,7 +137,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/apply$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/apply',
       exceptionFnMap: _exceptionFns,
     );
     return ApplySchemaResponse.fromJson(response);
@@ -205,7 +203,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ChildReference': childReference,
       'LinkName': linkName,
@@ -215,7 +212,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/attach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/attach',
       exceptionFnMap: _exceptionFns,
     );
     return AttachObjectResponse.fromJson(response);
@@ -255,7 +252,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'PolicyReference': policyReference,
@@ -264,7 +260,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/policy/attach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/policy/attach',
       exceptionFnMap: _exceptionFns,
     );
     return AttachPolicyResponse.fromJson(response);
@@ -304,7 +300,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       'TargetReference': targetReference,
@@ -313,7 +308,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/index/attach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/index/attach',
       exceptionFnMap: _exceptionFns,
     );
     return AttachToIndexResponse.fromJson(response);
@@ -365,7 +360,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkFacet, 'typedLinkFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Attributes': attributes,
       'SourceObjectReference': sourceObjectReference,
@@ -376,7 +370,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/attach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/attach',
       exceptionFnMap: _exceptionFns,
     );
     return AttachTypedLinkResponse.fromJson(response);
@@ -414,7 +408,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'Operations': operations,
     };
@@ -422,7 +415,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/batchread$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/batchread',
       exceptionFnMap: _exceptionFns,
     );
     return BatchReadResponse.fromJson(response);
@@ -454,7 +447,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(operations, 'operations');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Operations': operations,
     };
@@ -462,7 +454,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/batchwrite$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/batchwrite',
       exceptionFnMap: _exceptionFns,
     );
     return BatchWriteResponse.fromJson(response);
@@ -513,7 +505,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -521,7 +512,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory/create$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory/create',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDirectoryResponse.fromJson(response);
@@ -607,7 +598,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Attributes': attributes,
@@ -618,7 +608,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet/create$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet/create',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFacetResponse.fromJson(response);
@@ -680,7 +670,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'IsUnique': isUnique,
       'OrderedIndexedAttributeList': orderedIndexedAttributeList,
@@ -691,7 +680,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/index$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/index',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIndexResponse.fromJson(response);
@@ -755,7 +744,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'SchemaFacets': schemaFacets,
       'LinkName': linkName,
@@ -766,7 +754,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object',
       exceptionFnMap: _exceptionFns,
     );
     return CreateObjectResponse.fromJson(response);
@@ -822,14 +810,13 @@ class CloudDirectory {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/create$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/create',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSchemaResponse.fromJson(response);
@@ -864,7 +851,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Facet': facet,
     };
@@ -872,8 +858,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/typedlink/facet/create$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/create',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTypedLinkFacetResponse.fromJson(response);
@@ -901,13 +886,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDirectoryResponse.fromJson(response);
@@ -954,7 +938,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -962,7 +945,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet/delete$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFacetResponse.fromJson(response);
@@ -1000,7 +983,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
     };
@@ -1008,7 +990,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/delete$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteObjectResponse.fromJson(response);
@@ -1035,13 +1017,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSchemaResponse.fromJson(response);
@@ -1080,7 +1061,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1088,8 +1068,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/typedlink/facet/delete$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTypedLinkFacetResponse.fromJson(response);
@@ -1127,7 +1106,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       'TargetReference': targetReference,
@@ -1136,7 +1114,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/index/detach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/index/detach',
       exceptionFnMap: _exceptionFns,
     );
     return DetachFromIndexResponse.fromJson(response);
@@ -1189,7 +1167,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'LinkName': linkName,
       'ParentReference': parentReference,
@@ -1198,7 +1175,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/detach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/detach',
       exceptionFnMap: _exceptionFns,
     );
     return DetachObjectResponse.fromJson(response);
@@ -1236,7 +1213,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'PolicyReference': policyReference,
@@ -1245,7 +1221,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/policy/detach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/policy/detach',
       exceptionFnMap: _exceptionFns,
     );
     return DetachPolicyResponse.fromJson(response);
@@ -1280,7 +1256,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'TypedLinkSpecifier': typedLinkSpecifier,
     };
@@ -1288,7 +1263,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/detach$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/detach',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1314,13 +1289,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory/disable$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory/disable',
       exceptionFnMap: _exceptionFns,
     );
     return DisableDirectoryResponse.fromJson(response);
@@ -1346,13 +1320,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory/enable$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory/enable',
       exceptionFnMap: _exceptionFns,
     );
     return EnableDirectoryResponse.fromJson(response);
@@ -1375,15 +1348,13 @@ class CloudDirectory {
     @_s.required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'SchemaArn': schemaArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/schema/getappliedschema$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/getappliedschema',
       exceptionFnMap: _exceptionFns,
     );
     return GetAppliedSchemaVersionResponse.fromJson(response);
@@ -1406,13 +1377,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory/get$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetDirectoryResponse.fromJson(response);
@@ -1458,7 +1428,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1466,7 +1435,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet',
       exceptionFnMap: _exceptionFns,
     );
     return GetFacetResponse.fromJson(response);
@@ -1509,7 +1478,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'TypedLinkSpecifier': typedLinkSpecifier,
@@ -1519,8 +1487,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/typedlink/attributes/get$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/attributes/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetLinkAttributesResponse.fromJson(response);
@@ -1569,7 +1536,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'ObjectReference': objectReference,
@@ -1579,8 +1545,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/object/attributes/get$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/attributes/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectAttributesResponse.fromJson(response);
@@ -1616,7 +1581,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
     };
@@ -1624,7 +1588,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/information$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/information',
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectInformationResponse.fromJson(response);
@@ -1651,13 +1615,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/json$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/json',
       exceptionFnMap: _exceptionFns,
     );
     return GetSchemaAsJsonResponse.fromJson(response);
@@ -1698,7 +1661,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1706,7 +1668,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/get$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetTypedLinkFacetInformationResponse.fromJson(response);
@@ -1749,7 +1711,6 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DirectoryArn': directoryArn,
       'MaxResults': maxResults,
@@ -1759,7 +1720,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/applied$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/applied',
       exceptionFnMap: _exceptionFns,
     );
     return ListAppliedSchemaArnsResponse.fromJson(response);
@@ -1809,7 +1770,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'TargetReference': targetReference,
       'MaxResults': maxResults,
@@ -1819,7 +1779,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/indices$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/indices',
       exceptionFnMap: _exceptionFns,
     );
     return ListAttachedIndicesResponse.fromJson(response);
@@ -1852,7 +1812,6 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -1860,7 +1819,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/development$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/development',
       exceptionFnMap: _exceptionFns,
     );
     return ListDevelopmentSchemaArnsResponse.fromJson(response);
@@ -1896,7 +1855,6 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -1905,7 +1863,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/directory/list$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/directory/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListDirectoriesResponse.fromJson(response);
@@ -1963,7 +1921,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'MaxResults': maxResults,
@@ -1973,7 +1930,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet/attributes$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet/attributes',
       exceptionFnMap: _exceptionFns,
     );
     return ListFacetAttributesResponse.fromJson(response);
@@ -2012,7 +1969,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -2021,7 +1977,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet/list$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListFacetNamesResponse.fromJson(response);
@@ -2088,7 +2044,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'ConsistencyLevel': consistencyLevel?.toValue(),
@@ -2101,7 +2056,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/incoming$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/incoming',
       exceptionFnMap: _exceptionFns,
     );
     return ListIncomingTypedLinksResponse.fromJson(response);
@@ -2161,7 +2116,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       'MaxResults': maxResults,
@@ -2172,7 +2126,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/index/targets$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/index/targets',
       exceptionFnMap: _exceptionFns,
     );
     return ListIndexResponse.fromJson(response);
@@ -2209,7 +2163,6 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -2218,7 +2171,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/managed$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/managed',
       exceptionFnMap: _exceptionFns,
     );
     return ListManagedSchemaArnsResponse.fromJson(response);
@@ -2280,7 +2233,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'FacetFilter': facetFilter,
@@ -2291,7 +2243,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/attributes$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/attributes',
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectAttributesResponse.fromJson(response);
@@ -2350,7 +2302,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'MaxResults': maxResults,
@@ -2360,7 +2311,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/children$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/children',
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectChildrenResponse.fromJson(response);
@@ -2418,7 +2369,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'MaxResults': maxResults,
@@ -2428,7 +2378,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/parentpaths$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/parentpaths',
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectParentPathsResponse.fromJson(response);
@@ -2493,7 +2443,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'IncludeAllLinksToEachParent': includeAllLinksToEachParent,
@@ -2504,7 +2453,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/parent$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/parent',
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectParentsResponse.fromJson(response);
@@ -2560,7 +2509,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'MaxResults': maxResults,
@@ -2570,7 +2518,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/policy$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/policy',
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectPoliciesResponse.fromJson(response);
@@ -2637,7 +2585,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'ConsistencyLevel': consistencyLevel?.toValue(),
@@ -2650,7 +2597,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/outgoing$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/outgoing',
       exceptionFnMap: _exceptionFns,
     );
     return ListOutgoingTypedLinksResponse.fromJson(response);
@@ -2708,7 +2655,6 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    var query = '';
     final $payload = <String, dynamic>{
       'PolicyReference': policyReference,
       'MaxResults': maxResults,
@@ -2718,7 +2664,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/policy/attachment$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/policy/attachment',
       exceptionFnMap: _exceptionFns,
     );
     return ListPolicyAttachmentsResponse.fromJson(response);
@@ -2757,7 +2703,6 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -2766,7 +2711,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/published$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/published',
       exceptionFnMap: _exceptionFns,
     );
     return ListPublishedSchemaArnsResponse.fromJson(response);
@@ -2809,7 +2754,6 @@ class CloudDirectory {
       50,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'MaxResults': maxResults,
@@ -2818,7 +2762,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/tags$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/tags',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -2873,7 +2817,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'MaxResults': maxResults,
@@ -2883,8 +2826,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/typedlink/facet/attributes$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/attributes',
       exceptionFnMap: _exceptionFns,
     );
     return ListTypedLinkFacetAttributesResponse.fromJson(response);
@@ -2927,7 +2869,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -2936,7 +2877,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/list$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListTypedLinkFacetNamesResponse.fromJson(response);
@@ -2991,7 +2932,6 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'MaxResults': maxResults,
@@ -3001,7 +2941,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/amazonclouddirectory/2017-01-11/policy/lookup$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/policy/lookup',
       exceptionFnMap: _exceptionFns,
     );
     return LookupPolicyResponse.fromJson(response);
@@ -3081,7 +3021,6 @@ class CloudDirectory {
     final headers = <String, String>{};
     developmentSchemaArn
         ?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Version': version,
       'MinorVersion': minorVersion,
@@ -3091,7 +3030,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/publish$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/publish',
       exceptionFnMap: _exceptionFns,
     );
     return PublishSchemaResponse.fromJson(response);
@@ -3124,7 +3063,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Document': document,
     };
@@ -3132,7 +3070,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/json$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/json',
       exceptionFnMap: _exceptionFns,
     );
     return PutSchemaFromJsonResponse.fromJson(response);
@@ -3168,7 +3106,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'SchemaFacet': schemaFacet,
@@ -3177,7 +3114,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/facets/delete$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/facets/delete',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveFacetFromObjectResponse.fromJson(response);
@@ -3206,7 +3143,6 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'Tags': tags,
@@ -3214,7 +3150,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/tags/add$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/tags/add',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -3243,7 +3179,6 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'TagKeys': tagKeys,
@@ -3251,7 +3186,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/tags/remove$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/tags/remove',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -3322,7 +3257,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'AttributeUpdates': attributeUpdates,
@@ -3332,7 +3266,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/facet$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/facet',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFacetResponse.fromJson(response);
@@ -3374,7 +3308,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'TypedLinkSpecifier': typedLinkSpecifier,
@@ -3384,7 +3317,7 @@ class CloudDirectory {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/amazonclouddirectory/2017-01-11/typedlink/attributes/update$query',
+          '/amazonclouddirectory/2017-01-11/typedlink/attributes/update',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLinkAttributesResponse.fromJson(response);
@@ -3423,7 +3356,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'ObjectReference': objectReference,
@@ -3432,7 +3364,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/object/update$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/object/update',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateObjectAttributesResponse.fromJson(response);
@@ -3476,7 +3408,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -3484,7 +3415,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/schema/update$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/update',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSchemaResponse.fromJson(response);
@@ -3547,7 +3478,6 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'IdentityAttributeOrder': identityAttributeOrder,
@@ -3557,7 +3487,7 @@ class CloudDirectory {
       payload: $payload,
       headers: headers,
       method: 'PUT',
-      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTypedLinkFacetResponse.fromJson(response);
@@ -3599,7 +3529,6 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'DirectoryArn': directoryArn,
       'PublishedSchemaArn': publishedSchemaArn,
@@ -3608,8 +3537,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/schema/upgradeapplied$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/upgradeapplied',
       exceptionFnMap: _exceptionFns,
     );
     return UpgradeAppliedSchemaResponse.fromJson(response);
@@ -3665,7 +3593,6 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'DevelopmentSchemaArn': developmentSchemaArn,
       'MinorVersion': minorVersion,
@@ -3675,8 +3602,7 @@ class CloudDirectory {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/amazonclouddirectory/2017-01-11/schema/upgradepublished$query',
+      requestUri: '/amazonclouddirectory/2017-01-11/schema/upgradepublished',
       exceptionFnMap: _exceptionFns,
     );
     return UpgradePublishedSchemaResponse.fromJson(response);

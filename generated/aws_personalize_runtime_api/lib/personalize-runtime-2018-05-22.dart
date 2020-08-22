@@ -96,7 +96,6 @@ class PersonalizeRuntime {
       256,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
       'inputList': inputList,
@@ -106,7 +105,7 @@ class PersonalizeRuntime {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/personalize-ranking$query',
+      requestUri: '/personalize-ranking',
       exceptionFnMap: _exceptionFns,
     );
     return GetPersonalizedRankingResponse.fromJson(response);
@@ -192,7 +191,6 @@ class PersonalizeRuntime {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
       'context': context,
@@ -203,7 +201,7 @@ class PersonalizeRuntime {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/recommendations$query',
+      requestUri: '/recommendations',
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommendationsResponse.fromJson(response);

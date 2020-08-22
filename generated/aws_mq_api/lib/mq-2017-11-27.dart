@@ -138,7 +138,6 @@ class MQ {
     Map<String, String> tags,
     List<User> users,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
       'BrokerName': brokerName,
@@ -161,7 +160,7 @@ class MQ {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/brokers$query',
+      requestUri: '/v1/brokers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBrokerResponse.fromJson(response);
@@ -197,7 +196,6 @@ class MQ {
     String name,
     Map<String, String> tags,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'EngineType': engineType?.toValue(),
       'EngineVersion': engineVersion,
@@ -207,7 +205,7 @@ class MQ {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/configurations$query',
+      requestUri: '/v1/configurations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationResponse.fromJson(response);
@@ -230,15 +228,13 @@ class MQ {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -281,7 +277,6 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
-    var query = '';
     final $payload = <String, dynamic>{
       'ConsoleAccess': consoleAccess,
       'Groups': groups,
@@ -291,7 +286,7 @@ class MQ {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateUserResponse.fromJson(response);
@@ -313,13 +308,11 @@ class MQ {
     @_s.required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}$query',
+      requestUri: '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteBrokerResponse.fromJson(response);
@@ -343,8 +336,8 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -352,7 +345,7 @@ class MQ {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -377,13 +370,12 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteUserResponse.fromJson(response);
@@ -405,12 +397,10 @@ class MQ {
     @_s.required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}$query',
+      requestUri: '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBrokerResponse.fromJson(response);
@@ -443,8 +433,8 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (engineType != null) _s.toQueryParam('engineType', engineType),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -452,7 +442,7 @@ class MQ {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/broker-engine-types$query',
+      requestUri: '/v1/broker-engine-types$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBrokerEngineTypesResponse.fromJson(response);
@@ -493,8 +483,8 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (engineType != null) _s.toQueryParam('engineType', engineType),
       if (hostInstanceType != null)
         _s.toQueryParam('hostInstanceType', hostInstanceType),
@@ -505,7 +495,7 @@ class MQ {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/broker-instance-options$query',
+      requestUri: '/v1/broker-instance-options$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBrokerInstanceOptionsResponse.fromJson(response);
@@ -524,12 +514,11 @@ class MQ {
     @_s.required String configurationId,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}$query',
+          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeConfigurationResponse.fromJson(response);
@@ -554,12 +543,11 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     ArgumentError.checkNotNull(configurationRevision, 'configurationRevision');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}/revisions/${Uri.encodeComponent(configurationRevision.toString())}$query',
+          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}/revisions/${Uri.encodeComponent(configurationRevision.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeConfigurationRevisionResponse.fromJson(response);
@@ -585,12 +573,11 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUserResponse.fromJson(response);
@@ -619,15 +606,15 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/brokers$query',
+      requestUri: '/v1/brokers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBrokersResponse.fromJson(response);
@@ -662,8 +649,8 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -671,7 +658,7 @@ class MQ {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}/revisions$query',
+          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}/revisions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationRevisionsResponse.fromJson(response);
@@ -700,15 +687,15 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/configurations$query',
+      requestUri: '/v1/configurations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationsResponse.fromJson(response);
@@ -727,12 +714,10 @@ class MQ {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsResponse.fromJson(response);
@@ -767,8 +752,8 @@ class MQ {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -776,7 +761,7 @@ class MQ {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListUsersResponse.fromJson(response);
@@ -795,13 +780,12 @@ class MQ {
     @_s.required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/reboot$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/reboot',
       exceptionFnMap: _exceptionFns,
     );
     return RebootBrokerResponse.fromJson(response);
@@ -855,7 +839,6 @@ class MQ {
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
-    var query = '';
     final $payload = <String, dynamic>{
       'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
       'Configuration': configuration,
@@ -867,8 +850,7 @@ class MQ {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}$query',
+      requestUri: '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBrokerResponse.fromJson(response);
@@ -896,7 +878,6 @@ class MQ {
     String description,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Data': data,
       'Description': description,
@@ -905,7 +886,7 @@ class MQ {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}$query',
+          '/v1/configurations/${Uri.encodeComponent(configurationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConfigurationResponse.fromJson(response);
@@ -948,7 +929,6 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
-    var query = '';
     final $payload = <String, dynamic>{
       'ConsoleAccess': consoleAccess,
       'Groups': groups,
@@ -958,7 +938,7 @@ class MQ {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}$query',
+          '/v1/brokers/${Uri.encodeComponent(brokerId.toString())}/users/${Uri.encodeComponent(username.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateUserResponse.fromJson(response);

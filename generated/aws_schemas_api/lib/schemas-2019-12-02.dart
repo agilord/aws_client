@@ -75,7 +75,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'SourceArn': sourceArn,
       'Description': description,
@@ -84,7 +83,7 @@ class Schemas {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/discoverers$query',
+      requestUri: '/v1/discoverers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDiscovererResponse.fromJson(response);
@@ -116,7 +115,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Tags': tags,
@@ -125,7 +123,7 @@ class Schemas {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRegistryResponse.fromJson(response);
@@ -168,7 +166,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'Type': type?.toValue(),
@@ -179,7 +176,7 @@ class Schemas {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSchemaResponse.fromJson(response);
@@ -197,13 +194,12 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}$query',
+          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -220,13 +216,12 @@ class Schemas {
     @_s.required String registryName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -245,13 +240,12 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -272,13 +266,12 @@ class Schemas {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
     ArgumentError.checkNotNull(schemaVersion, 'schemaVersion');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/version/${Uri.encodeComponent(schemaVersion.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/version/${Uri.encodeComponent(schemaVersion.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -300,8 +293,8 @@ class Schemas {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
@@ -309,7 +302,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeCodeBindingResponse.fromJson(response);
@@ -327,12 +320,11 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}$query',
+          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDiscovererResponse.fromJson(response);
@@ -350,12 +342,11 @@ class Schemas {
     @_s.required String registryName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRegistryResponse.fromJson(response);
@@ -376,8 +367,8 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
@@ -385,7 +376,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSchemaResponse.fromJson(response);
@@ -408,8 +399,8 @@ class Schemas {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
@@ -417,7 +408,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}/source$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}/source$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCodeBindingSourceResponse.fromJson(response);
@@ -442,7 +433,6 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(events, 'events');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'Events': events,
       'Type': type?.toValue(),
@@ -450,7 +440,7 @@ class Schemas {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/discover$query',
+      requestUri: '/v1/discover',
       exceptionFnMap: _exceptionFns,
     );
     return GetDiscoveredSchemaResponse.fromJson(response);
@@ -469,8 +459,8 @@ class Schemas {
     String nextToken,
     String sourceArnPrefix,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (discovererIdPrefix != null)
         _s.toQueryParam('discovererIdPrefix', discovererIdPrefix),
       if (limit != null) _s.toQueryParam('limit', limit),
@@ -481,7 +471,7 @@ class Schemas {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/discoverers$query',
+      requestUri: '/v1/discoverers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDiscoverersResponse.fromJson(response);
@@ -500,8 +490,8 @@ class Schemas {
     String registryNamePrefix,
     String scope,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (registryNamePrefix != null)
@@ -511,7 +501,7 @@ class Schemas {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/registries$query',
+      requestUri: '/v1/registries$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRegistriesResponse.fromJson(response);
@@ -533,8 +523,8 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -542,7 +532,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/versions$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSchemaVersionsResponse.fromJson(response);
@@ -562,8 +552,8 @@ class Schemas {
     String schemaNamePrefix,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (schemaNamePrefix != null)
@@ -573,7 +563,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSchemasResponse.fromJson(response);
@@ -589,11 +579,10 @@ class Schemas {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -625,7 +614,6 @@ class Schemas {
       29000,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
       'Timeout': timeout,
@@ -633,7 +621,7 @@ class Schemas {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/slr-deletion/lock$query',
+      requestUri: '/slr-deletion/lock',
       exceptionFnMap: _exceptionFns,
     );
     return LockServiceLinkedRoleResponse.fromJson(response);
@@ -657,8 +645,8 @@ class Schemas {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
@@ -667,7 +655,7 @@ class Schemas {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return PutCodeBindingResponse.fromJson(response);
@@ -688,8 +676,8 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(keywords, 'keywords');
     ArgumentError.checkNotNull(registryName, 'registryName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (keywords != null) _s.toQueryParam('keywords', keywords),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -698,7 +686,7 @@ class Schemas {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/search$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/search$_query',
       exceptionFnMap: _exceptionFns,
     );
     return SearchSchemasResponse.fromJson(response);
@@ -716,13 +704,12 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}/start$query',
+          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}/start',
       exceptionFnMap: _exceptionFns,
     );
     return StartDiscovererResponse.fromJson(response);
@@ -740,13 +727,12 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}/stop$query',
+          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}/stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopDiscovererResponse.fromJson(response);
@@ -764,14 +750,13 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -793,14 +778,13 @@ class Schemas {
       1600,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/slr-deletion/unlock$query',
+      requestUri: '/slr-deletion/unlock',
       exceptionFnMap: _exceptionFns,
     );
     return UnlockServiceLinkedRoleResponse.fromJson(response);
@@ -818,15 +802,15 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -853,7 +837,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
     };
@@ -861,7 +844,7 @@ class Schemas {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}$query',
+          '/v1/discoverers/id/${Uri.encodeComponent(discovererId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDiscovererResponse.fromJson(response);
@@ -889,7 +872,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
     };
@@ -897,7 +879,7 @@ class Schemas {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRegistryResponse.fromJson(response);
@@ -950,7 +932,6 @@ class Schemas {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ClientTokenId': clientTokenId,
       'Content': content,
@@ -961,7 +942,7 @@ class Schemas {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}$query',
+          '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSchemaResponse.fromJson(response);

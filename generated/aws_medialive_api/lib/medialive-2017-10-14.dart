@@ -64,7 +64,6 @@ class MediaLive {
     BatchScheduleActionDeleteRequest deletes,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Creates': creates,
       'Deletes': deletes,
@@ -73,7 +72,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateScheduleResponse.fromJson(response);
@@ -133,7 +132,6 @@ class MediaLive {
     String roleArn,
     Map<String, String> tags,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelClass': channelClass?.toValue(),
       'Destinations': destinations,
@@ -150,7 +148,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/prod/channels$query',
+      requestUri: '/prod/channels',
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelResponse.fromJson(response);
@@ -209,7 +207,6 @@ class MediaLive {
     InputType type,
     InputVpcRequest vpc,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'Destinations': destinations,
       'InputSecurityGroups': inputSecurityGroups,
@@ -225,7 +222,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/prod/inputs$query',
+      requestUri: '/prod/inputs',
       exceptionFnMap: _exceptionFns,
     );
     return CreateInputResponse.fromJson(response);
@@ -249,7 +246,6 @@ class MediaLive {
     Map<String, String> tags,
     List<InputWhitelistRuleCidr> whitelistRules,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
       'WhitelistRules': whitelistRules,
@@ -257,7 +253,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/prod/inputSecurityGroups$query',
+      requestUri: '/prod/inputSecurityGroups',
       exceptionFnMap: _exceptionFns,
     );
     return CreateInputSecurityGroupResponse.fromJson(response);
@@ -301,7 +297,6 @@ class MediaLive {
     ArgumentError.checkNotNull(multiplexSettings, 'multiplexSettings');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(requestId, 'requestId');
-    var query = '';
     final $payload = <String, dynamic>{
       'AvailabilityZones': availabilityZones,
       'MultiplexSettings': multiplexSettings,
@@ -312,7 +307,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/prod/multiplexes$query',
+      requestUri: '/prod/multiplexes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultiplexResponse.fromJson(response);
@@ -352,7 +347,6 @@ class MediaLive {
         multiplexProgramSettings, 'multiplexProgramSettings');
     ArgumentError.checkNotNull(programName, 'programName');
     ArgumentError.checkNotNull(requestId, 'requestId');
-    var query = '';
     final $payload = <String, dynamic>{
       'MultiplexProgramSettings': multiplexProgramSettings,
       'ProgramName': programName,
@@ -362,7 +356,7 @@ class MediaLive {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultiplexProgramResponse.fromJson(response);
@@ -379,15 +373,13 @@ class MediaLive {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -409,13 +401,11 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}$query',
+      requestUri: '/prod/channels/${Uri.encodeComponent(channelId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteChannelResponse.fromJson(response);
@@ -438,13 +428,11 @@ class MediaLive {
     @_s.required String inputId,
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/prod/inputs/${Uri.encodeComponent(inputId.toString())}$query',
+      requestUri: '/prod/inputs/${Uri.encodeComponent(inputId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInputResponse.fromJson(response);
@@ -466,13 +454,12 @@ class MediaLive {
     @_s.required String inputSecurityGroupId,
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}$query',
+          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInputSecurityGroupResponse.fromJson(response);
@@ -495,13 +482,12 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMultiplexResponse.fromJson(response);
@@ -529,13 +515,12 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMultiplexProgramResponse.fromJson(response);
@@ -558,13 +543,12 @@ class MediaLive {
     @_s.required String reservationId,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}$query',
+          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteReservationResponse.fromJson(response);
@@ -586,13 +570,12 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteScheduleResponse.fromJson(response);
@@ -613,8 +596,8 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -622,7 +605,7 @@ class MediaLive {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+          '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -643,12 +626,10 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}$query',
+      requestUri: '/prod/channels/${Uri.encodeComponent(channelId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
@@ -670,12 +651,10 @@ class MediaLive {
     @_s.required String inputId,
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/prod/inputs/${Uri.encodeComponent(inputId.toString())}$query',
+      requestUri: '/prod/inputs/${Uri.encodeComponent(inputId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeInputResponse.fromJson(response);
@@ -697,12 +676,11 @@ class MediaLive {
     @_s.required String inputSecurityGroupId,
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}$query',
+          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeInputSecurityGroupResponse.fromJson(response);
@@ -724,12 +702,11 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMultiplexResponse.fromJson(response);
@@ -756,12 +733,11 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMultiplexProgramResponse.fromJson(response);
@@ -783,12 +759,11 @@ class MediaLive {
     @_s.required String offeringId,
   }) async {
     ArgumentError.checkNotNull(offeringId, 'offeringId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/offerings/${Uri.encodeComponent(offeringId.toString())}$query',
+          '/prod/offerings/${Uri.encodeComponent(offeringId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeOfferingResponse.fromJson(response);
@@ -810,12 +785,11 @@ class MediaLive {
     @_s.required String reservationId,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}$query',
+          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeReservationResponse.fromJson(response);
@@ -845,8 +819,8 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -854,7 +828,7 @@ class MediaLive {
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/schedule$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeScheduleResponse.fromJson(response);
@@ -878,15 +852,15 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/channels$query',
+      requestUri: '/prod/channels$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
@@ -910,15 +884,15 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/inputSecurityGroups$query',
+      requestUri: '/prod/inputSecurityGroups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListInputSecurityGroupsResponse.fromJson(response);
@@ -942,15 +916,15 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/inputs$query',
+      requestUri: '/prod/inputs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListInputsResponse.fromJson(response);
@@ -986,8 +960,8 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -995,7 +969,7 @@ class MediaLive {
       payload: null,
       method: 'GET',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMultiplexProgramsResponse.fromJson(response);
@@ -1025,15 +999,15 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/multiplexes$query',
+      requestUri: '/prod/multiplexes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMultiplexesResponse.fromJson(response);
@@ -1098,8 +1072,8 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (channelClass != null) _s.toQueryParam('channelClass', channelClass),
       if (channelConfiguration != null)
         _s.toQueryParam('channelConfiguration', channelConfiguration),
@@ -1120,7 +1094,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/offerings$query',
+      requestUri: '/prod/offerings$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListOfferingsResponse.fromJson(response);
@@ -1176,8 +1150,8 @@ class MediaLive {
       1,
       1000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (channelClass != null) _s.toQueryParam('channelClass', channelClass),
       if (codec != null) _s.toQueryParam('codec', codec),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -1195,7 +1169,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/prod/reservations$query',
+      requestUri: '/prod/reservations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListReservationsResponse.fromJson(response);
@@ -1211,12 +1185,10 @@ class MediaLive {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/prod/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1270,7 +1242,6 @@ class MediaLive {
       isRequired: true,
     );
     ArgumentError.checkNotNull(offeringId, 'offeringId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Count': count,
       'Name': name,
@@ -1282,7 +1253,7 @@ class MediaLive {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/offerings/${Uri.encodeComponent(offeringId.toString())}/purchase$query',
+          '/prod/offerings/${Uri.encodeComponent(offeringId.toString())}/purchase',
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseOfferingResponse.fromJson(response);
@@ -1305,13 +1276,12 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/start$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/start',
       exceptionFnMap: _exceptionFns,
     );
     return StartChannelResponse.fromJson(response);
@@ -1335,13 +1305,12 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/start$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/start',
       exceptionFnMap: _exceptionFns,
     );
     return StartMultiplexResponse.fromJson(response);
@@ -1364,13 +1333,12 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/stop$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopChannelResponse.fromJson(response);
@@ -1394,13 +1362,12 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/stop$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopMultiplexResponse.fromJson(response);
@@ -1450,7 +1417,6 @@ class MediaLive {
     String roleArn,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Destinations': destinations,
       'EncoderSettings': encoderSettings,
@@ -1463,8 +1429,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}$query',
+      requestUri: '/prod/channels/${Uri.encodeComponent(channelId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelResponse.fromJson(response);
@@ -1497,7 +1462,6 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(channelClass, 'channelClass');
     ArgumentError.checkNotNull(channelId, 'channelId');
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelClass': channelClass?.toValue(),
       'Destinations': destinations,
@@ -1506,7 +1470,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/channelClass$query',
+          '/prod/channels/${Uri.encodeComponent(channelId.toString())}/channelClass',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelClassResponse.fromJson(response);
@@ -1560,7 +1524,6 @@ class MediaLive {
     List<InputSourceRequest> sources,
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Destinations': destinations,
       'InputSecurityGroups': inputSecurityGroups,
@@ -1572,8 +1535,7 @@ class MediaLive {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/prod/inputs/${Uri.encodeComponent(inputId.toString())}$query',
+      requestUri: '/prod/inputs/${Uri.encodeComponent(inputId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInputResponse.fromJson(response);
@@ -1603,7 +1565,6 @@ class MediaLive {
     List<InputWhitelistRuleCidr> whitelistRules,
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
       'WhitelistRules': whitelistRules,
@@ -1612,7 +1573,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}$query',
+          '/prod/inputSecurityGroups/${Uri.encodeComponent(inputSecurityGroupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInputSecurityGroupResponse.fromJson(response);
@@ -1643,7 +1604,6 @@ class MediaLive {
     String name,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    var query = '';
     final $payload = <String, dynamic>{
       'MultiplexSettings': multiplexSettings,
       'Name': name,
@@ -1652,7 +1612,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMultiplexResponse.fromJson(response);
@@ -1684,7 +1644,6 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
-    var query = '';
     final $payload = <String, dynamic>{
       'MultiplexProgramSettings': multiplexProgramSettings,
     };
@@ -1692,7 +1651,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}$query',
+          '/prod/multiplexes/${Uri.encodeComponent(multiplexId.toString())}/programs/${Uri.encodeComponent(programName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMultiplexProgramResponse.fromJson(response);
@@ -1719,7 +1678,6 @@ class MediaLive {
     String name,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1727,7 +1685,7 @@ class MediaLive {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}$query',
+          '/prod/reservations/${Uri.encodeComponent(reservationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateReservationResponse.fromJson(response);

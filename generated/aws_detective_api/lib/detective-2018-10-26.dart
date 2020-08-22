@@ -118,14 +118,13 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/invitation$query',
+      requestUri: '/invitation',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -156,11 +155,10 @@ class Detective {
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   Future<CreateGraphResponse> createGraph() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
-      requestUri: '/graph$query',
+      requestUri: '/graph',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGraphResponse.fromJson(response);
@@ -228,7 +226,6 @@ class Detective {
       1,
       1000,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Accounts': accounts,
       'GraphArn': graphArn,
@@ -237,7 +234,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/members$query',
+      requestUri: '/graph/members',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMembersResponse.fromJson(response);
@@ -266,14 +263,13 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/removal$query',
+      requestUri: '/graph/removal',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -307,7 +303,6 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -315,7 +310,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/members/removal$query',
+      requestUri: '/graph/members/removal',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMembersResponse.fromJson(response);
@@ -345,14 +340,13 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/membership/removal$query',
+      requestUri: '/membership/removal',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -385,7 +379,6 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -393,7 +386,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/members/get$query',
+      requestUri: '/graph/members/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetMembersResponse.fromJson(response);
@@ -433,7 +426,6 @@ class Detective {
       1,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -441,7 +433,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graphs/list$query',
+      requestUri: '/graphs/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListGraphsResponse.fromJson(response);
@@ -485,7 +477,6 @@ class Detective {
       1,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -493,7 +484,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitations/list$query',
+      requestUri: '/invitations/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListInvitationsResponse.fromJson(response);
@@ -543,7 +534,6 @@ class Detective {
       1,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
       'MaxResults': maxResults,
@@ -552,7 +542,7 @@ class Detective {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/members/list$query',
+      requestUri: '/graph/members/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListMembersResponse.fromJson(response);
@@ -582,14 +572,13 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitation/removal$query',
+      requestUri: '/invitation/removal',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -649,7 +638,6 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountId': accountId,
       'GraphArn': graphArn,
@@ -657,7 +645,7 @@ class Detective {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/graph/member/monitoringstate$query',
+      requestUri: '/graph/member/monitoringstate',
       exceptionFnMap: _exceptionFns,
     );
   }

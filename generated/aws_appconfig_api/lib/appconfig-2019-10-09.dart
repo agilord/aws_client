@@ -82,7 +82,6 @@ class AppConfig {
       0,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Description': description,
@@ -91,7 +90,7 @@ class AppConfig {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/applications$query',
+      requestUri: '/applications',
       exceptionFnMap: _exceptionFns,
     );
     return Application.fromJson(response);
@@ -207,7 +206,6 @@ class AppConfig {
       0,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'LocationUri': locationUri,
       'Name': name,
@@ -220,7 +218,7 @@ class AppConfig {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigurationProfile.fromJson(response);
@@ -336,7 +334,6 @@ class AppConfig {
       0,
       1440,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
       'GrowthFactor': growthFactor,
@@ -350,7 +347,7 @@ class AppConfig {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deploymentstrategies$query',
+      requestUri: '/deploymentstrategies',
       exceptionFnMap: _exceptionFns,
     );
     return DeploymentStrategy.fromJson(response);
@@ -413,7 +410,6 @@ class AppConfig {
       0,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Description': description,
@@ -424,7 +420,7 @@ class AppConfig {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments',
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
@@ -449,13 +445,12 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -493,13 +488,12 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -523,13 +517,12 @@ class AppConfig {
       r'''([a-z0-9]{4,7}|arn:aws.*)''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/deployementstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}$query',
+          '/deployementstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -565,13 +558,12 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -594,12 +586,11 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Application.fromJson(response);
@@ -677,8 +668,8 @@ class AppConfig {
       1,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (clientId != null) _s.toQueryParam('client_id', clientId),
       if (clientConfigurationVersion != null)
         _s.toQueryParam(
@@ -688,7 +679,7 @@ class AppConfig {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(application.toString())}/environments/${Uri.encodeComponent(environment.toString())}/configurations/${Uri.encodeComponent(configuration.toString())}$query',
+          '/applications/${Uri.encodeComponent(application.toString())}/environments/${Uri.encodeComponent(environment.toString())}/configurations/${Uri.encodeComponent(configuration.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return Configuration.fromJson(response);
@@ -725,12 +716,11 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigurationProfile.fromJson(response);
@@ -770,12 +760,11 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments/${Uri.encodeComponent(deploymentNumber.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments/${Uri.encodeComponent(deploymentNumber.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -803,12 +792,11 @@ class AppConfig {
       r'''([a-z0-9]{4,7}|arn:aws.*)''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/deploymentstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}$query',
+          '/deploymentstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeploymentStrategy.fromJson(response);
@@ -849,12 +837,11 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
@@ -888,15 +875,15 @@ class AppConfig {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/applications$query',
+      requestUri: '/applications$_query',
       exceptionFnMap: _exceptionFns,
     );
     return Applications.fromJson(response);
@@ -942,8 +929,8 @@ class AppConfig {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -951,7 +938,7 @@ class AppConfig {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigurationProfiles.fromJson(response);
@@ -985,15 +972,15 @@ class AppConfig {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/deploymentstrategies$query',
+      requestUri: '/deploymentstrategies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeploymentStrategies.fromJson(response);
@@ -1050,8 +1037,8 @@ class AppConfig {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1059,7 +1046,7 @@ class AppConfig {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return Deployments.fromJson(response);
@@ -1105,8 +1092,8 @@ class AppConfig {
       1,
       2048,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max_results', maxResults),
       if (nextToken != null) _s.toQueryParam('next_token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1114,7 +1101,7 @@ class AppConfig {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return Environments.fromJson(response);
@@ -1145,11 +1132,10 @@ class AppConfig {
       r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ResourceTags.fromJson(response);
@@ -1236,7 +1222,6 @@ class AppConfig {
       0,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ConfigurationProfileId': configurationProfileId,
       'ConfigurationVersion': configurationVersion,
@@ -1248,7 +1233,7 @@ class AppConfig {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments',
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -1290,13 +1275,12 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments/${Uri.encodeComponent(deploymentNumber.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}/deployments/${Uri.encodeComponent(deploymentNumber.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -1337,14 +1321,13 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1379,15 +1362,15 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1430,7 +1413,6 @@ class AppConfig {
       1,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Name': name,
@@ -1439,7 +1421,7 @@ class AppConfig {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Application.fromJson(response);
@@ -1515,7 +1497,6 @@ class AppConfig {
       retrievalRoleArn,
       r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Name': name,
@@ -1526,7 +1507,7 @@ class AppConfig {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigurationProfile.fromJson(response);
@@ -1622,7 +1603,6 @@ class AppConfig {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
       'Description': description,
@@ -1634,7 +1614,7 @@ class AppConfig {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/deploymentstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}$query',
+          '/deploymentstrategies/${Uri.encodeComponent(deploymentStrategyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeploymentStrategy.fromJson(response);
@@ -1693,7 +1673,6 @@ class AppConfig {
       1,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Monitors': monitors,
@@ -1703,7 +1682,7 @@ class AppConfig {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/environments/${Uri.encodeComponent(environmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
@@ -1752,8 +1731,8 @@ class AppConfig {
       128,
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (configurationVersion != null)
         _s.toQueryParam('configuration_version', configurationVersion),
     ].where((e) => e != null).join('&')}';
@@ -1762,7 +1741,7 @@ class AppConfig {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}/validators$query',
+          '/applications/${Uri.encodeComponent(applicationId.toString())}/configurationprofiles/${Uri.encodeComponent(configurationProfileId.toString())}/validators$_query',
       exceptionFnMap: _exceptionFns,
     );
   }

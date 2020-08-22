@@ -79,7 +79,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/accesspoint/$name',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -228,7 +229,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/accesspoint/$name',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -265,7 +267,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/accesspoint/$name/policy',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -307,7 +310,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/jobs/$jobId/tagging',
+      requestUri:
+          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -377,7 +381,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/jobs/$jobId',
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -416,7 +420,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/$name',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -455,7 +460,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/$name/policy',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -498,7 +504,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/$name/policyStatus',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policyStatus',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -541,7 +548,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/jobs/$jobId/tagging',
+      requestUri:
+          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -763,7 +771,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/accesspoint/$name/policy',
+      requestUri:
+          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -811,7 +820,8 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/jobs/$jobId/tagging',
+      requestUri:
+          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -903,7 +913,8 @@ class S3Control {
     priority?.let((v) => queryParams['priority'] = v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/v20180820/jobs/$jobId/priority',
+      requestUri:
+          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/priority',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -970,7 +981,8 @@ class S3Control {
         ?.let((v) => queryParams['statusUpdateReason'] = v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/v20180820/jobs/$jobId/status',
+      requestUri:
+          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/status',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,

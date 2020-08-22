@@ -78,13 +78,11 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/shadow$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingShadowResponse.fromJson(response);
@@ -124,12 +122,10 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/shadow$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return GetThingShadowResponse.fromJson(response);
@@ -166,14 +162,14 @@ class IoTDataPlane {
       0,
       1,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qos != null) _s.toQueryParam('qos', qos),
     ].where((e) => e != null).join('&')}';
     await _protocol.send(
       payload: payload,
       method: 'POST',
-      requestUri: '/topics/${Uri.encodeComponent(topic.toString())}$query',
+      requestUri: '/topics/${Uri.encodeComponent(topic.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -218,12 +214,10 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: payload,
       method: 'POST',
-      requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/shadow$query',
+      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingShadowResponse.fromJson(response);

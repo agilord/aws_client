@@ -93,13 +93,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelIngestionResponse.fromJson(response);
@@ -247,7 +246,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
@@ -261,7 +259,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDashboardResponse.fromJson(response);
@@ -350,7 +348,6 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
-    var query = '';
     final $payload = <String, dynamic>{
       'DataSetId': dataSetId,
       'ImportMode': importMode?.toValue(),
@@ -366,7 +363,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDataSetResponse.fromJson(response);
@@ -457,7 +454,6 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'DataSourceId': dataSourceId,
       'Name': name,
@@ -473,7 +469,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDataSourceResponse.fromJson(response);
@@ -563,7 +559,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GroupName': groupName,
       'Description': description,
@@ -572,7 +567,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupResponse.fromJson(response);
@@ -662,13 +657,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members/${Uri.encodeComponent(memberName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members/${Uri.encodeComponent(memberName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupMembershipResponse.fromJson(response);
@@ -773,7 +767,6 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AssignmentName': assignmentName,
       'AssignmentStatus': assignmentStatus?.toValue(),
@@ -784,7 +777,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIAMPolicyAssignmentResponse.fromJson(response);
@@ -849,13 +842,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIngestionResponse.fromJson(response);
@@ -966,7 +958,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
       'Name': name,
@@ -978,7 +969,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTemplateResponse.fromJson(response);
@@ -1064,7 +1055,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'TemplateVersionNumber': templateVersionNumber,
     };
@@ -1072,7 +1062,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTemplateAliasResponse.fromJson(response);
@@ -1136,8 +1126,8 @@ class QuickSight {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
     ].where((e) => e != null).join('&')}';
@@ -1146,7 +1136,7 @@ class QuickSight {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDashboardResponse.fromJson(response);
@@ -1185,13 +1175,12 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDataSetResponse.fromJson(response);
@@ -1231,13 +1220,12 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDataSourceResponse.fromJson(response);
@@ -1309,13 +1297,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGroupResponse.fromJson(response);
@@ -1406,13 +1393,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members/${Uri.encodeComponent(memberName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members/${Uri.encodeComponent(memberName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGroupMembershipResponse.fromJson(response);
@@ -1483,13 +1469,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespace/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespace/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteIAMPolicyAssignmentResponse.fromJson(response);
@@ -1554,8 +1539,8 @@ class QuickSight {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
     ].where((e) => e != null).join('&')}';
@@ -1564,7 +1549,7 @@ class QuickSight {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTemplateResponse.fromJson(response);
@@ -1637,13 +1622,12 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTemplateAliasResponse.fromJson(response);
@@ -1716,13 +1700,12 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteUserResponse.fromJson(response);
@@ -1780,13 +1763,12 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalId, 'principalId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/user-principals/${Uri.encodeComponent(principalId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/user-principals/${Uri.encodeComponent(principalId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteUserByPrincipalIdResponse.fromJson(response);
@@ -1865,8 +1847,8 @@ class QuickSight {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (aliasName != null) _s.toQueryParam('alias-name', aliasName),
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
@@ -1875,7 +1857,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDashboardResponse.fromJson(response);
@@ -1927,12 +1909,11 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDashboardPermissionsResponse.fromJson(response);
@@ -1971,12 +1952,11 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDataSetResponse.fromJson(response);
@@ -2018,12 +1998,11 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDataSetPermissionsResponse.fromJson(response);
@@ -2062,12 +2041,11 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDataSourceResponse.fromJson(response);
@@ -2106,12 +2084,11 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDataSourcePermissionsResponse.fromJson(response);
@@ -2184,12 +2161,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGroupResponse.fromJson(response);
@@ -2261,12 +2237,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIAMPolicyAssignmentResponse.fromJson(response);
@@ -2323,12 +2298,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions/${Uri.encodeComponent(ingestionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIngestionResponse.fromJson(response);
@@ -2414,8 +2388,8 @@ class QuickSight {
       1,
       1152921504606846976,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (aliasName != null) _s.toQueryParam('alias-name', aliasName),
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
@@ -2424,7 +2398,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTemplateResponse.fromJson(response);
@@ -2497,12 +2471,11 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTemplateAliasResponse.fromJson(response);
@@ -2555,12 +2528,11 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTemplatePermissionsResponse.fromJson(response);
@@ -2631,12 +2603,11 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUserResponse.fromJson(response);
@@ -2751,8 +2722,8 @@ class QuickSight {
       15,
       600,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (identityType != null) _s.toQueryParam('creds-type', identityType),
       if (resetDisabled != null)
         _s.toQueryParam('reset-disabled', resetDisabled),
@@ -2766,7 +2737,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/embed-url$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/embed-url$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDashboardEmbedUrlResponse.fromJson(response);
@@ -2834,8 +2805,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2843,7 +2814,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/versions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDashboardVersionsResponse.fromJson(response);
@@ -2891,8 +2862,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2900,7 +2871,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDashboardsResponse.fromJson(response);
@@ -2952,8 +2923,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2961,7 +2932,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetsResponse.fromJson(response);
@@ -3009,8 +2980,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3018,7 +2989,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSourcesResponse.fromJson(response);
@@ -3105,8 +3076,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3114,7 +3085,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}/members$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupMembershipsResponse.fromJson(response);
@@ -3183,8 +3154,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3192,7 +3163,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupsResponse.fromJson(response);
@@ -3263,8 +3234,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3272,7 +3243,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListIAMPolicyAssignmentsResponse.fromJson(response);
@@ -3361,8 +3332,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3370,7 +3341,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}/iam-policy-assignments$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}/iam-policy-assignments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListIAMPolicyAssignmentsForUserResponse.fromJson(response);
@@ -3425,8 +3396,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3434,7 +3405,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/ingestions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListIngestionsResponse.fromJson(response);
@@ -3455,12 +3426,11 @@ class QuickSight {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags$query',
+          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -3526,8 +3496,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-result', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3535,7 +3505,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTemplateAliasesResponse.fromJson(response);
@@ -3603,8 +3573,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3612,7 +3582,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/versions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTemplateVersionsResponse.fromJson(response);
@@ -3661,8 +3631,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-result', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3670,7 +3640,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTemplatesResponse.fromJson(response);
@@ -3757,8 +3727,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3766,7 +3736,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}/groups$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}/groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListUserGroupsResponse.fromJson(response);
@@ -3835,8 +3805,8 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3844,7 +3814,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListUsersResponse.fromJson(response);
@@ -3995,7 +3965,6 @@ class QuickSight {
       userName,
       r'''[\u0020-\u00FF]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Email': email,
       'IdentityType': identityType?.toValue(),
@@ -4008,7 +3977,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterUserResponse.fromJson(response);
@@ -4066,7 +4035,6 @@ class QuickSight {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Filters': filters,
       'MaxResults': maxResults,
@@ -4076,7 +4044,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/search/dashboards$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/search/dashboards',
       exceptionFnMap: _exceptionFns,
     );
     return SearchDashboardsResponse.fromJson(response);
@@ -4131,7 +4099,6 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -4139,7 +4106,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags$query',
+          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -4165,8 +4132,8 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('keys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -4174,7 +4141,7 @@ class QuickSight {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags$query',
+          '/resources/${Uri.encodeComponent(resourceArn.toString())}/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -4296,7 +4263,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
@@ -4308,7 +4274,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDashboardResponse.fromJson(response);
@@ -4369,7 +4335,6 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GrantPermissions': grantPermissions,
       'RevokePermissions': revokePermissions,
@@ -4378,7 +4343,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDashboardPermissionsResponse.fromJson(response);
@@ -4444,13 +4409,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/dashboards/${Uri.encodeComponent(dashboardId.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDashboardPublishedVersionResponse.fromJson(response);
@@ -4529,7 +4493,6 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
-    var query = '';
     final $payload = <String, dynamic>{
       'ImportMode': importMode?.toValue(),
       'Name': name,
@@ -4542,7 +4505,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSetResponse.fromJson(response);
@@ -4593,7 +4556,6 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final $payload = <String, dynamic>{
       'GrantPermissions': grantPermissions,
       'RevokePermissions': revokePermissions,
@@ -4602,7 +4564,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sets/${Uri.encodeComponent(dataSetId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSetPermissionsResponse.fromJson(response);
@@ -4674,7 +4636,6 @@ class QuickSight {
       128,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Credentials': credentials,
@@ -4686,7 +4647,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSourceResponse.fromJson(response);
@@ -4734,7 +4695,6 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    var query = '';
     final $payload = <String, dynamic>{
       'GrantPermissions': grantPermissions,
       'RevokePermissions': revokePermissions,
@@ -4743,7 +4703,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/data-sources/${Uri.encodeComponent(dataSourceId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSourcePermissionsResponse.fromJson(response);
@@ -4825,7 +4785,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
     };
@@ -4833,7 +4792,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/groups/${Uri.encodeComponent(groupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupResponse.fromJson(response);
@@ -4935,7 +4894,6 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AssignmentStatus': assignmentStatus?.toValue(),
       'Identities': identities,
@@ -4945,7 +4903,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/iam-policy-assignments/${Uri.encodeComponent(assignmentName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIAMPolicyAssignmentResponse.fromJson(response);
@@ -5034,7 +4992,6 @@ class QuickSight {
       1,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
       'Name': name,
@@ -5044,7 +5001,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTemplateResponse.fromJson(response);
@@ -5130,7 +5087,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'TemplateVersionNumber': templateVersionNumber,
     };
@@ -5138,7 +5094,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/aliases/${Uri.encodeComponent(aliasName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTemplateAliasResponse.fromJson(response);
@@ -5198,7 +5154,6 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'GrantPermissions': grantPermissions,
       'RevokePermissions': revokePermissions,
@@ -5207,7 +5162,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/permissions$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}/permissions',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTemplatePermissionsResponse.fromJson(response);
@@ -5303,7 +5258,6 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Email': email,
       'Role': role?.toValue(),
@@ -5312,7 +5266,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}$query',
+          '/accounts/${Uri.encodeComponent(awsAccountId.toString())}/namespaces/${Uri.encodeComponent(namespace.toString())}/users/${Uri.encodeComponent(userName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateUserResponse.fromJson(response);

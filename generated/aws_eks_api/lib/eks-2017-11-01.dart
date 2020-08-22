@@ -187,7 +187,6 @@ class EKS {
     );
     ArgumentError.checkNotNull(resourcesVpcConfig, 'resourcesVpcConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'resourcesVpcConfig': resourcesVpcConfig,
@@ -201,7 +200,7 @@ class EKS {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/clusters$query',
+      requestUri: '/clusters',
       exceptionFnMap: _exceptionFns,
     );
     return CreateClusterResponse.fromJson(response);
@@ -301,7 +300,6 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
     ArgumentError.checkNotNull(podExecutionRoleArn, 'podExecutionRoleArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'fargateProfileName': fargateProfileName,
       'podExecutionRoleArn': podExecutionRoleArn,
@@ -314,7 +312,7 @@ class EKS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFargateProfileResponse.fromJson(response);
@@ -436,7 +434,6 @@ class EKS {
     ArgumentError.checkNotNull(nodeRole, 'nodeRole');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     ArgumentError.checkNotNull(subnets, 'subnets');
-    var query = '';
     final $payload = <String, dynamic>{
       'nodeRole': nodeRole,
       'nodegroupName': nodegroupName,
@@ -456,7 +453,7 @@ class EKS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNodegroupResponse.fromJson(response);
@@ -488,12 +485,11 @@ class EKS {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/clusters/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/clusters/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteClusterResponse.fromJson(response);
@@ -528,13 +524,12 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles/${Uri.encodeComponent(fargateProfileName.toString())}$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles/${Uri.encodeComponent(fargateProfileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFargateProfileResponse.fromJson(response);
@@ -561,13 +556,12 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteNodegroupResponse.fromJson(response);
@@ -597,11 +591,10 @@ class EKS {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/clusters/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/clusters/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeClusterResponse.fromJson(response);
@@ -625,12 +618,11 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles/${Uri.encodeComponent(fargateProfileName.toString())}$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles/${Uri.encodeComponent(fargateProfileName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFargateProfileResponse.fromJson(response);
@@ -655,12 +647,11 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeNodegroupResponse.fromJson(response);
@@ -693,8 +684,8 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(updateId, 'updateId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nodegroupName != null)
         _s.toQueryParam('nodegroupName', nodegroupName),
     ].where((e) => e != null).join('&')}';
@@ -702,7 +693,7 @@ class EKS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(name.toString())}/updates/${Uri.encodeComponent(updateId.toString())}$query',
+          '/clusters/${Uri.encodeComponent(name.toString())}/updates/${Uri.encodeComponent(updateId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUpdateResponse.fromJson(response);
@@ -746,15 +737,15 @@ class EKS {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/clusters$query',
+      requestUri: '/clusters$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListClustersResponse.fromJson(response);
@@ -802,8 +793,8 @@ class EKS {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -811,7 +802,7 @@ class EKS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/fargate-profiles$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFargateProfilesResponse.fromJson(response);
@@ -861,8 +852,8 @@ class EKS {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -870,7 +861,7 @@ class EKS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListNodegroupsResponse.fromJson(response);
@@ -889,11 +880,10 @@ class EKS {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -943,8 +933,8 @@ class EKS {
       1,
       100,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (nodegroupName != null)
@@ -954,7 +944,7 @@ class EKS {
       payload: null,
       method: 'GET',
       requestUri:
-          '/clusters/${Uri.encodeComponent(name.toString())}/updates$query',
+          '/clusters/${Uri.encodeComponent(name.toString())}/updates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListUpdatesResponse.fromJson(response);
@@ -985,14 +975,13 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1016,15 +1005,15 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1099,7 +1088,6 @@ class EKS {
     VpcConfigRequest resourcesVpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'logging': logging,
@@ -1109,7 +1097,7 @@ class EKS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/clusters/${Uri.encodeComponent(name.toString())}/update-config$query',
+          '/clusters/${Uri.encodeComponent(name.toString())}/update-config',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateClusterConfigResponse.fromJson(response);
@@ -1153,7 +1141,6 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(version, 'version');
-    var query = '';
     final $payload = <String, dynamic>{
       'version': version,
       'clientRequestToken': clientRequestToken,
@@ -1161,8 +1148,7 @@ class EKS {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/clusters/${Uri.encodeComponent(name.toString())}/updates$query',
+      requestUri: '/clusters/${Uri.encodeComponent(name.toString())}/updates',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateClusterVersionResponse.fromJson(response);
@@ -1207,7 +1193,6 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'labels': labels,
@@ -1217,7 +1202,7 @@ class EKS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}/update-config$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}/update-config',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateNodegroupConfigResponse.fromJson(response);
@@ -1289,7 +1274,6 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'force': force,
@@ -1300,7 +1284,7 @@ class EKS {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}/update-version$query',
+          '/clusters/${Uri.encodeComponent(clusterName.toString())}/node-groups/${Uri.encodeComponent(nodegroupName.toString())}/update-version',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateNodegroupVersionResponse.fromJson(response);

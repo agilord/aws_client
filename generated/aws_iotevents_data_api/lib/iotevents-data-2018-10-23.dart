@@ -62,14 +62,13 @@ class IoTEventsData {
     @_s.required List<Message> messages,
   }) async {
     ArgumentError.checkNotNull(messages, 'messages');
-    var query = '';
     final $payload = <String, dynamic>{
       'messages': messages,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/inputs/messages$query',
+      requestUri: '/inputs/messages',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutMessageResponse.fromJson(response);
@@ -90,14 +89,13 @@ class IoTEventsData {
     @_s.required List<UpdateDetectorRequest> detectors,
   }) async {
     ArgumentError.checkNotNull(detectors, 'detectors');
-    var query = '';
     final $payload = <String, dynamic>{
       'detectors': detectors,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/detectors$query',
+      requestUri: '/detectors',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateDetectorResponse.fromJson(response);
@@ -147,15 +145,15 @@ class IoTEventsData {
       keyValue,
       r'''^[a-zA-Z0-9\-_:]+$''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (keyValue != null) _s.toQueryParam('keyValue', keyValue),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}/keyValues/$query',
+          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}/keyValues/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDetectorResponse.fromJson(response);
@@ -213,8 +211,8 @@ class IoTEventsData {
       1,
       128,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (stateName != null) _s.toQueryParam('stateName', stateName),
@@ -223,7 +221,7 @@ class IoTEventsData {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}$query',
+          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDetectorsResponse.fromJson(response);

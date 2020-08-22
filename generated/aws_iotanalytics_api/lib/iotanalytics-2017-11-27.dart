@@ -125,7 +125,6 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(messages, 'messages');
-    var query = '';
     final $payload = <String, dynamic>{
       'channelName': channelName,
       'messages': messages,
@@ -133,7 +132,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/messages/batch$query',
+      requestUri: '/messages/batch',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutMessageResponse.fromJson(response);
@@ -171,13 +170,12 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing/${Uri.encodeComponent(reprocessingId.toString())}$query',
+          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing/${Uri.encodeComponent(reprocessingId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelPipelineReprocessingResponse.fromJson(response);
@@ -227,7 +225,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'channelName': channelName,
       'channelStorage': channelStorage,
@@ -237,7 +234,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/channels$query',
+      requestUri: '/channels',
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelResponse.fromJson(response);
@@ -314,7 +311,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'actions': actions,
       'datasetName': datasetName,
@@ -327,7 +323,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/datasets$query',
+      requestUri: '/datasets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatasetResponse.fromJson(response);
@@ -361,13 +357,12 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$query',
+          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatasetContentResponse.fromJson(response);
@@ -417,7 +412,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
       'datastoreStorage': datastoreStorage,
@@ -427,7 +421,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/datastores$query',
+      requestUri: '/datastores',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatastoreResponse.fromJson(response);
@@ -485,7 +479,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
       'pipelineName': pipelineName,
@@ -494,7 +487,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/pipelines$query',
+      requestUri: '/pipelines',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePipelineResponse.fromJson(response);
@@ -527,13 +520,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}$query',
+      requestUri: '/channels/${Uri.encodeComponent(channelName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -568,13 +559,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}$query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -619,8 +608,8 @@ class IoTAnalytics {
       7,
       36,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionId != null) _s.toQueryParam('versionId', versionId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -628,7 +617,7 @@ class IoTAnalytics {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$query',
+          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -660,13 +649,12 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}$query',
+          '/datastores/${Uri.encodeComponent(datastoreName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -698,13 +686,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}$query',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -742,8 +728,8 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeStatistics != null)
         _s.toQueryParam('includeStatistics', includeStatistics),
     ].where((e) => e != null).join('&')}';
@@ -751,7 +737,7 @@ class IoTAnalytics {
       payload: null,
       method: 'GET',
       requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}$query',
+          '/channels/${Uri.encodeComponent(channelName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
@@ -784,12 +770,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}$query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatasetResponse.fromJson(response);
@@ -828,8 +812,8 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (includeStatistics != null)
         _s.toQueryParam('includeStatistics', includeStatistics),
     ].where((e) => e != null).join('&')}';
@@ -837,7 +821,7 @@ class IoTAnalytics {
       payload: null,
       method: 'GET',
       requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}$query',
+          '/datastores/${Uri.encodeComponent(datastoreName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatastoreResponse.fromJson(response);
@@ -851,11 +835,10 @@ class IoTAnalytics {
   /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   Future<DescribeLoggingOptionsResponse> describeLoggingOptions() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/logging$query',
+      requestUri: '/logging',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeLoggingOptionsResponse.fromJson(response);
@@ -888,12 +871,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}$query',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePipelineResponse.fromJson(response);
@@ -939,15 +920,15 @@ class IoTAnalytics {
       7,
       36,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (versionId != null) _s.toQueryParam('versionId', versionId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$query',
+          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDatasetContentResponse.fromJson(response);
@@ -977,15 +958,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/channels$query',
+      requestUri: '/channels$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
@@ -1044,8 +1025,8 @@ class IoTAnalytics {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (scheduledBefore != null)
@@ -1057,7 +1038,7 @@ class IoTAnalytics {
       payload: null,
       method: 'GET',
       requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/contents$query',
+          '/datasets/${Uri.encodeComponent(datasetName.toString())}/contents$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetContentsResponse.fromJson(response);
@@ -1087,15 +1068,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/datasets$query',
+      requestUri: '/datasets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetsResponse.fromJson(response);
@@ -1125,15 +1106,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/datastores$query',
+      requestUri: '/datastores$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDatastoresResponse.fromJson(response);
@@ -1163,15 +1144,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/pipelines$query',
+      requestUri: '/pipelines$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPipelinesResponse.fromJson(response);
@@ -1199,14 +1180,14 @@ class IoTAnalytics {
       2048,
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags$query',
+      requestUri: '/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1231,14 +1212,13 @@ class IoTAnalytics {
     @_s.required LoggingOptions loggingOptions,
   }) async {
     ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
-    var query = '';
     final $payload = <String, dynamic>{
       'loggingOptions': loggingOptions,
     };
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/logging$query',
+      requestUri: '/logging',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1266,7 +1246,6 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(payloads, 'payloads');
     ArgumentError.checkNotNull(pipelineActivity, 'pipelineActivity');
-    var query = '';
     final $payload = <String, dynamic>{
       'payloads': payloads,
       'pipelineActivity': pipelineActivity,
@@ -1274,7 +1253,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/pipelineactivities/run$query',
+      requestUri: '/pipelineactivities/run',
       exceptionFnMap: _exceptionFns,
     );
     return RunPipelineActivityResponse.fromJson(response);
@@ -1327,8 +1306,8 @@ class IoTAnalytics {
       1,
       10,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (endTime != null) _s.toQueryParam('endTime', endTime),
       if (maxMessages != null) _s.toQueryParam('maxMessages', maxMessages),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
@@ -1337,7 +1316,7 @@ class IoTAnalytics {
       payload: null,
       method: 'GET',
       requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}/sample$query',
+          '/channels/${Uri.encodeComponent(channelName.toString())}/sample$_query',
       exceptionFnMap: _exceptionFns,
     );
     return SampleChannelDataResponse.fromJson(response);
@@ -1379,7 +1358,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'endTime': endTime,
       'startTime': startTime,
@@ -1388,7 +1366,7 @@ class IoTAnalytics {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing$query',
+          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing',
       exceptionFnMap: _exceptionFns,
     );
     return StartPipelineReprocessingResponse.fromJson(response);
@@ -1422,8 +1400,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -1432,7 +1410,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags$query',
+      requestUri: '/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1465,8 +1443,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
@@ -1474,7 +1452,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags$query',
+      requestUri: '/tags$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1518,7 +1496,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'channelStorage': channelStorage,
       'retentionPeriod': retentionPeriod,
@@ -1526,8 +1503,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}$query',
+      requestUri: '/channels/${Uri.encodeComponent(channelName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1586,7 +1562,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'actions': actions,
       'contentDeliveryRules': contentDeliveryRules,
@@ -1597,8 +1572,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}$query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1643,7 +1617,6 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'datastoreStorage': datastoreStorage,
       'retentionPeriod': retentionPeriod,
@@ -1652,7 +1625,7 @@ class IoTAnalytics {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}$query',
+          '/datastores/${Uri.encodeComponent(datastoreName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1704,15 +1677,13 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
     };
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}$query',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }

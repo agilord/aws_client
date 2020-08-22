@@ -84,7 +84,6 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     ArgumentError.checkNotNull(masterId, 'masterId');
-    var query = '';
     final $payload = <String, dynamic>{
       'InvitationId': invitationId,
       'MasterId': masterId,
@@ -93,7 +92,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/master$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/master',
       exceptionFnMap: _exceptionFns,
     );
     return AcceptInvitationResponse.fromJson(response);
@@ -127,7 +126,6 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingIds': findingIds,
     };
@@ -135,7 +133,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/archive$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/archive',
       exceptionFnMap: _exceptionFns,
     );
     return ArchiveFindingsResponse.fromJson(response);
@@ -174,7 +172,6 @@ class GuardDuty {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Enable': enable,
       'ClientToken': clientToken,
@@ -184,7 +181,7 @@ class GuardDuty {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/detector$query',
+      requestUri: '/detector',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDetectorResponse.fromJson(response);
@@ -266,7 +263,6 @@ class GuardDuty {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingCriteria': findingCriteria,
       'Name': name,
@@ -280,7 +276,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFilterResponse.fromJson(response);
@@ -361,7 +357,6 @@ class GuardDuty {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Activate': activate,
       'Format': format?.toValue(),
@@ -374,7 +369,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIPSetResponse.fromJson(response);
@@ -407,7 +402,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountDetails': accountDetails,
     };
@@ -415,7 +409,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMembersResponse.fromJson(response);
@@ -463,7 +457,6 @@ class GuardDuty {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DestinationProperties': destinationProperties,
       'DestinationType': destinationType?.toValue(),
@@ -473,7 +466,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePublishingDestinationResponse.fromJson(response);
@@ -503,7 +496,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingTypes': findingTypes,
     };
@@ -511,7 +503,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/create$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/create',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSampleFindingsResponse.fromJson(response);
@@ -590,7 +582,6 @@ class GuardDuty {
       0,
       64,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Activate': activate,
       'Format': format?.toValue(),
@@ -603,7 +594,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset',
       exceptionFnMap: _exceptionFns,
     );
     return CreateThreatIntelSetResponse.fromJson(response);
@@ -622,14 +613,13 @@ class GuardDuty {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitation/decline$query',
+      requestUri: '/invitation/decline',
       exceptionFnMap: _exceptionFns,
     );
     return DeclineInvitationsResponse.fromJson(response);
@@ -653,13 +643,11 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}$query',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDetectorResponse.fromJson(response);
@@ -688,13 +676,12 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(filterName, 'filterName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFilterResponse.fromJson(response);
@@ -724,13 +711,12 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteIPSetResponse.fromJson(response);
@@ -749,14 +735,13 @@ class GuardDuty {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/invitation/delete$query',
+      requestUri: '/invitation/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInvitationsResponse.fromJson(response);
@@ -788,7 +773,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -796,7 +780,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/delete$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMembersResponse.fromJson(response);
@@ -827,13 +811,12 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePublishingDestinationResponse.fromJson(response);
@@ -862,13 +845,12 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThreatIntelSetResponse.fromJson(response);
@@ -899,12 +881,11 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePublishingDestinationResponse.fromJson(response);
@@ -929,13 +910,12 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/master/disassociate$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/master/disassociate',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateFromMasterAccountResponse.fromJson(response);
@@ -967,7 +947,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -975,7 +954,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/disassociate$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/disassociate',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateMembersResponse.fromJson(response);
@@ -999,12 +978,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}$query',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDetectorResponse.fromJson(response);
@@ -1033,12 +1010,11 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(filterName, 'filterName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFilterResponse.fromJson(response);
@@ -1072,7 +1048,6 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingIds': findingIds,
       'SortCriteria': sortCriteria,
@@ -1081,7 +1056,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/get$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingsResponse.fromJson(response);
@@ -1115,7 +1090,6 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingStatisticTypes, 'findingStatisticTypes');
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingStatisticTypes': findingStatisticTypes,
       'FindingCriteria': findingCriteria,
@@ -1124,7 +1098,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/statistics$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/statistics',
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingsStatisticsResponse.fromJson(response);
@@ -1153,12 +1127,11 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetIPSetResponse.fromJson(response);
@@ -1170,11 +1143,10 @@ class GuardDuty {
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   Future<GetInvitationsCountResponse> getInvitationsCount() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/invitation/count$query',
+      requestUri: '/invitation/count',
       exceptionFnMap: _exceptionFns,
     );
     return GetInvitationsCountResponse.fromJson(response);
@@ -1199,12 +1171,11 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/master$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/master',
       exceptionFnMap: _exceptionFns,
     );
     return GetMasterAccountResponse.fromJson(response);
@@ -1236,7 +1207,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -1244,7 +1214,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/get$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/get',
       exceptionFnMap: _exceptionFns,
     );
     return GetMembersResponse.fromJson(response);
@@ -1273,12 +1243,11 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetThreatIntelSetResponse.fromJson(response);
@@ -1322,7 +1291,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'DisableEmailNotification': disableEmailNotification,
@@ -1332,7 +1300,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/invite$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/invite',
       exceptionFnMap: _exceptionFns,
     );
     return InviteMembersResponse.fromJson(response);
@@ -1362,15 +1330,15 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/detector$query',
+      requestUri: '/detector$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDetectorsResponse.fromJson(response);
@@ -1412,8 +1380,8 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1421,7 +1389,7 @@ class GuardDuty {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFiltersResponse.fromJson(response);
@@ -1634,7 +1602,6 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingCriteria': findingCriteria,
       'MaxResults': maxResults,
@@ -1645,7 +1612,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings',
       exceptionFnMap: _exceptionFns,
     );
     return ListFindingsResponse.fromJson(response);
@@ -1689,8 +1656,8 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1698,7 +1665,7 @@ class GuardDuty {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListIPSetsResponse.fromJson(response);
@@ -1729,15 +1696,15 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/invitation$query',
+      requestUri: '/invitation$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListInvitationsResponse.fromJson(response);
@@ -1786,8 +1753,8 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (onlyAssociated != null)
@@ -1797,7 +1764,7 @@ class GuardDuty {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMembersResponse.fromJson(response);
@@ -1839,8 +1806,8 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1848,7 +1815,7 @@ class GuardDuty {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPublishingDestinationsResponse.fromJson(response);
@@ -1874,11 +1841,10 @@ class GuardDuty {
       r'''^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1922,8 +1888,8 @@ class GuardDuty {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1931,7 +1897,7 @@ class GuardDuty {
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListThreatIntelSetsResponse.fromJson(response);
@@ -1964,7 +1930,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -1972,7 +1937,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/start$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/start',
       exceptionFnMap: _exceptionFns,
     );
     return StartMonitoringMembersResponse.fromJson(response);
@@ -2005,7 +1970,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -2013,7 +1977,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/stop$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/member/stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopMonitoringMembersResponse.fromJson(response);
@@ -2042,14 +2006,13 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -2078,7 +2041,6 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'FindingIds': findingIds,
     };
@@ -2086,7 +2048,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/unarchive$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/unarchive',
       exceptionFnMap: _exceptionFns,
     );
     return UnarchiveFindingsResponse.fromJson(response);
@@ -2114,15 +2076,15 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -2155,7 +2117,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Enable': enable,
       'FindingPublishingFrequency': findingPublishingFrequency?.toValue(),
@@ -2163,8 +2124,7 @@ class GuardDuty {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}$query',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDetectorResponse.fromJson(response);
@@ -2224,7 +2184,6 @@ class GuardDuty {
       1,
       100,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Action': action?.toValue(),
       'Description': description,
@@ -2235,7 +2194,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/filter/${Uri.encodeComponent(filterName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFilterResponse.fromJson(response);
@@ -2274,7 +2233,6 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(feedback, 'feedback');
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    var query = '';
     final $payload = <String, dynamic>{
       'Feedback': feedback?.toValue(),
       'FindingIds': findingIds,
@@ -2284,7 +2242,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/feedback$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/findings/feedback',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFindingsFeedbackResponse.fromJson(response);
@@ -2340,7 +2298,6 @@ class GuardDuty {
       1,
       300,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Activate': activate,
       'Location': location,
@@ -2350,7 +2307,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/ipset/${Uri.encodeComponent(ipSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIPSetResponse.fromJson(response);
@@ -2387,7 +2344,6 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DestinationProperties': destinationProperties,
     };
@@ -2395,7 +2351,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/publishingDestination/${Uri.encodeComponent(destinationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePublishingDestinationResponse.fromJson(response);
@@ -2451,7 +2407,6 @@ class GuardDuty {
       1,
       300,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Activate': activate,
       'Location': location,
@@ -2461,7 +2416,7 @@ class GuardDuty {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}$query',
+          '/detector/${Uri.encodeComponent(detectorId.toString())}/threatintelset/${Uri.encodeComponent(threatIntelSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThreatIntelSetResponse.fromJson(response);

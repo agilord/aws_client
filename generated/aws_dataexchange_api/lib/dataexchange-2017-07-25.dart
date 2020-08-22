@@ -74,12 +74,11 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -118,7 +117,6 @@ class DataExchange {
     ArgumentError.checkNotNull(assetType, 'assetType');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'AssetType': assetType?.toValue(),
       'Description': description,
@@ -128,7 +126,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/data-sets$query',
+      requestUri: '/v1/data-sets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDataSetResponse.fromJson(response);
@@ -153,7 +151,6 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(details, 'details');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'Details': details,
       'Type': type?.toValue(),
@@ -161,7 +158,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/jobs$query',
+      requestUri: '/v1/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
@@ -199,7 +196,6 @@ class DataExchange {
       0,
       16384,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Comment': comment,
       'Tags': tags,
@@ -208,7 +204,7 @@ class DataExchange {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRevisionResponse.fromJson(response);
@@ -239,13 +235,12 @@ class DataExchange {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -265,13 +260,11 @@ class DataExchange {
     @_s.required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -296,13 +289,12 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -330,12 +322,11 @@ class DataExchange {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetResponse.fromJson(response);
@@ -354,12 +345,10 @@ class DataExchange {
     @_s.required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataSetResponse.fromJson(response);
@@ -378,11 +367,10 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -406,12 +394,11 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRevisionResponse.fromJson(response);
@@ -446,8 +433,8 @@ class DataExchange {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -455,7 +442,7 @@ class DataExchange {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetRevisionsResponse.fromJson(response);
@@ -491,8 +478,8 @@ class DataExchange {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (origin != null) _s.toQueryParam('origin', origin),
@@ -500,7 +487,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/data-sets$query',
+      requestUri: '/v1/data-sets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetsResponse.fromJson(response);
@@ -537,8 +524,8 @@ class DataExchange {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (dataSetId != null) _s.toQueryParam('dataSetId', dataSetId),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -547,7 +534,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/jobs$query',
+      requestUri: '/v1/jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -587,8 +574,8 @@ class DataExchange {
       1,
       25,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -596,7 +583,7 @@ class DataExchange {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListRevisionAssetsResponse.fromJson(response);
@@ -610,11 +597,10 @@ class DataExchange {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -635,12 +621,11 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return StartJobResponse.fromJson(response);
@@ -659,14 +644,13 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -684,15 +668,15 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -729,7 +713,6 @@ class DataExchange {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -737,7 +720,7 @@ class DataExchange {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetResponse.fromJson(response);
@@ -765,7 +748,6 @@ class DataExchange {
     String name,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Name': name,
@@ -773,8 +755,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}$query',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSetResponse.fromJson(response);
@@ -816,7 +797,6 @@ class DataExchange {
       0,
       16384,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Comment': comment,
       'Finalized': finalized,
@@ -825,7 +805,7 @@ class DataExchange {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}$query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRevisionResponse.fromJson(response);

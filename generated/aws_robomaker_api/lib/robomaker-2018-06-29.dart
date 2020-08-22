@@ -52,14 +52,13 @@ class RoboMaker {
     @_s.required List<String> jobs,
   }) async {
     ArgumentError.checkNotNull(jobs, 'jobs');
-    var query = '';
     final $payload = <String, dynamic>{
       'jobs': jobs,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/batchDescribeSimulationJob$query',
+      requestUri: '/batchDescribeSimulationJob',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDescribeSimulationJobResponse.fromJson(response);
@@ -91,14 +90,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'job': job,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/cancelDeploymentJob$query',
+      requestUri: '/cancelDeploymentJob',
       exceptionFnMap: _exceptionFns,
     );
     return CancelDeploymentJobResponse.fromJson(response);
@@ -130,14 +128,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'job': job,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/cancelSimulationJob$query',
+      requestUri: '/cancelSimulationJob',
       exceptionFnMap: _exceptionFns,
     );
     return CancelSimulationJobResponse.fromJson(response);
@@ -171,14 +168,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'batch': batch,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/cancelSimulationJobBatch$query',
+      requestUri: '/cancelSimulationJobBatch',
       exceptionFnMap: _exceptionFns,
     );
     return CancelSimulationJobBatchResponse.fromJson(response);
@@ -257,7 +253,6 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'deploymentApplicationConfigs': deploymentApplicationConfigs,
@@ -268,7 +263,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createDeploymentJob$query',
+      requestUri: '/createDeploymentJob',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeploymentJobResponse.fromJson(response);
@@ -306,7 +301,6 @@ class RoboMaker {
       r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'tags': tags,
@@ -314,7 +308,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createFleet$query',
+      requestUri: '/createFleet',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFleetResponse.fromJson(response);
@@ -375,7 +369,6 @@ class RoboMaker {
       r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'architecture': architecture?.toValue(),
       'greengrassGroupId': greengrassGroupId,
@@ -385,7 +378,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createRobot$query',
+      requestUri: '/createRobot',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRobotResponse.fromJson(response);
@@ -435,7 +428,6 @@ class RoboMaker {
     );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -445,7 +437,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createRobotApplication$query',
+      requestUri: '/createRobotApplication',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRobotApplicationResponse.fromJson(response);
@@ -494,7 +486,6 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'currentRevisionId': currentRevisionId,
@@ -502,7 +493,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createRobotApplicationVersion$query',
+      requestUri: '/createRobotApplicationVersion',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRobotApplicationVersionResponse.fromJson(response);
@@ -562,7 +553,6 @@ class RoboMaker {
     ArgumentError.checkNotNull(
         simulationSoftwareSuite, 'simulationSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -574,7 +564,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createSimulationApplication$query',
+      requestUri: '/createSimulationApplication',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSimulationApplicationResponse.fromJson(response);
@@ -625,7 +615,6 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'currentRevisionId': currentRevisionId,
@@ -633,7 +622,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createSimulationApplicationVersion$query',
+      requestUri: '/createSimulationApplicationVersion',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSimulationApplicationVersionResponse.fromJson(response);
@@ -749,7 +738,6 @@ class RoboMaker {
       clientRequestToken,
       r'''[a-zA-Z0-9_\-=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
       'maxJobDurationInSeconds': maxJobDurationInSeconds,
@@ -767,7 +755,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createSimulationJob$query',
+      requestUri: '/createSimulationJob',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSimulationJobResponse.fromJson(response);
@@ -798,14 +786,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteFleet$query',
+      requestUri: '/deleteFleet',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFleetResponse.fromJson(response);
@@ -836,14 +823,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'robot': robot,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteRobot$query',
+      requestUri: '/deleteRobot',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRobotResponse.fromJson(response);
@@ -889,7 +875,6 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'applicationVersion': applicationVersion,
@@ -897,7 +882,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteRobotApplication$query',
+      requestUri: '/deleteRobotApplication',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRobotApplicationResponse.fromJson(response);
@@ -943,7 +928,6 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'applicationVersion': applicationVersion,
@@ -951,7 +935,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteSimulationApplication$query',
+      requestUri: '/deleteSimulationApplication',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSimulationApplicationResponse.fromJson(response);
@@ -1001,7 +985,6 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fleet': fleet,
       'robot': robot,
@@ -1009,7 +992,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deregisterRobot$query',
+      requestUri: '/deregisterRobot',
       exceptionFnMap: _exceptionFns,
     );
     return DeregisterRobotResponse.fromJson(response);
@@ -1041,14 +1024,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'job': job,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeDeploymentJob$query',
+      requestUri: '/describeDeploymentJob',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDeploymentJobResponse.fromJson(response);
@@ -1080,14 +1062,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeFleet$query',
+      requestUri: '/describeFleet',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFleetResponse.fromJson(response);
@@ -1119,14 +1100,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'robot': robot,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeRobot$query',
+      requestUri: '/describeRobot',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRobotResponse.fromJson(response);
@@ -1173,7 +1153,6 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'applicationVersion': applicationVersion,
@@ -1181,7 +1160,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeRobotApplication$query',
+      requestUri: '/describeRobotApplication',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRobotApplicationResponse.fromJson(response);
@@ -1228,7 +1207,6 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'applicationVersion': applicationVersion,
@@ -1236,7 +1214,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeSimulationApplication$query',
+      requestUri: '/describeSimulationApplication',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSimulationApplicationResponse.fromJson(response);
@@ -1268,14 +1246,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'job': job,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeSimulationJob$query',
+      requestUri: '/describeSimulationJob',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSimulationJobResponse.fromJson(response);
@@ -1306,14 +1283,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'batch': batch,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeSimulationJobBatch$query',
+      requestUri: '/describeSimulationJobBatch',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSimulationJobBatchResponse.fromJson(response);
@@ -1368,7 +1344,6 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1377,7 +1352,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listDeploymentJobs$query',
+      requestUri: '/listDeploymentJobs',
       exceptionFnMap: _exceptionFns,
     );
     return ListDeploymentJobsResponse.fromJson(response);
@@ -1434,7 +1409,6 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1443,7 +1417,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listFleets$query',
+      requestUri: '/listFleets',
       exceptionFnMap: _exceptionFns,
     );
     return ListFleetsResponse.fromJson(response);
@@ -1510,7 +1484,6 @@ class RoboMaker {
       versionQualifier,
       r'''ALL''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1520,7 +1493,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listRobotApplications$query',
+      requestUri: '/listRobotApplications',
       exceptionFnMap: _exceptionFns,
     );
     return ListRobotApplicationsResponse.fromJson(response);
@@ -1575,7 +1548,6 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1584,7 +1556,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listRobots$query',
+      requestUri: '/listRobots',
       exceptionFnMap: _exceptionFns,
     );
     return ListRobotsResponse.fromJson(response);
@@ -1652,7 +1624,6 @@ class RoboMaker {
       versionQualifier,
       r'''ALL''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1662,7 +1633,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listSimulationApplications$query',
+      requestUri: '/listSimulationApplications',
       exceptionFnMap: _exceptionFns,
     );
     return ListSimulationApplicationsResponse.fromJson(response);
@@ -1707,7 +1678,6 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1716,7 +1686,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listSimulationJobBatches$query',
+      requestUri: '/listSimulationJobBatches',
       exceptionFnMap: _exceptionFns,
     );
     return ListSimulationJobBatchesResponse.fromJson(response);
@@ -1776,7 +1746,6 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -1785,7 +1754,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listSimulationJobs$query',
+      requestUri: '/listSimulationJobs',
       exceptionFnMap: _exceptionFns,
     );
     return ListSimulationJobsResponse.fromJson(response);
@@ -1817,11 +1786,10 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1872,7 +1840,6 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fleet': fleet,
       'robot': robot,
@@ -1880,7 +1847,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/registerRobot$query',
+      requestUri: '/registerRobot',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterRobotResponse.fromJson(response);
@@ -1913,14 +1880,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'job': job,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/restartSimulationJob$query',
+      requestUri: '/restartSimulationJob',
       exceptionFnMap: _exceptionFns,
     );
     return RestartSimulationJobResponse.fromJson(response);
@@ -1967,7 +1933,6 @@ class RoboMaker {
       clientRequestToken,
       r'''[a-zA-Z0-9_\-=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'createSimulationJobRequests': createSimulationJobRequests,
       'batchPolicy': batchPolicy,
@@ -1977,7 +1942,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/startSimulationJobBatch$query',
+      requestUri: '/startSimulationJobBatch',
       exceptionFnMap: _exceptionFns,
     );
     return StartSimulationJobBatchResponse.fromJson(response);
@@ -2032,7 +1997,6 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'fleet': fleet,
@@ -2040,7 +2004,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/syncDeploymentJob$query',
+      requestUri: '/syncDeploymentJob',
       exceptionFnMap: _exceptionFns,
     );
     return SyncDeploymentJobResponse.fromJson(response);
@@ -2088,14 +2052,13 @@ class RoboMaker {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -2139,15 +2102,15 @@ class RoboMaker {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -2205,7 +2168,6 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -2215,7 +2177,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateRobotApplication$query',
+      requestUri: '/updateRobotApplication',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRobotApplicationResponse.fromJson(response);
@@ -2283,7 +2245,6 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'application': application,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -2295,7 +2256,7 @@ class RoboMaker {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateSimulationApplication$query',
+      requestUri: '/updateSimulationApplication',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSimulationApplicationResponse.fromJson(response);

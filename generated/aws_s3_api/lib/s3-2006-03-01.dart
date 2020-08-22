@@ -108,7 +108,8 @@ class S3 {
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -263,7 +264,8 @@ class S3 {
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       payload: multipartUpload.toXml('MultipartUpload'),
@@ -855,7 +857,8 @@ class S3 {
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -1009,7 +1012,7 @@ class S3 {
         (v) => headers['x-amz-bucket-object-lock-enabled'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       headers: headers,
       payload: createBucketConfiguration.toXml('CreateBucketConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -1436,7 +1439,8 @@ class S3 {
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/$bucket/$key?uploads',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?uploads',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -1466,7 +1470,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1517,7 +1521,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?analytics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?analytics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -1554,7 +1558,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?cors',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?cors',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1595,7 +1599,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?encryption',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?encryption',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1646,7 +1650,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?inventory',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?inventory',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -1689,7 +1693,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?lifecycle',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1746,7 +1750,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?metrics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?metrics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -1792,7 +1796,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?policy',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1835,7 +1839,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?replication',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?replication',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1865,7 +1869,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?tagging',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?tagging',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1906,7 +1910,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?website',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?website',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2000,7 +2004,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -2068,7 +2073,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket/$key?tagging',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -2172,7 +2178,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/$bucket?delete',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?delete',
       headers: headers,
       payload: delete.toXml('Delete'),
       exceptionFnMap: _exceptionFns,
@@ -2218,7 +2224,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/$bucket?publicAccessBlock',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}?publicAccessBlock',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2267,7 +2274,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?accelerate',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?accelerate',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketAccelerateConfigurationOutput.fromXml($result.body);
@@ -2295,7 +2302,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?acl',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?acl',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketAclOutput.fromXml($result.body);
@@ -2349,7 +2356,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?analytics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?analytics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -2385,7 +2392,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?cors',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?cors',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketCorsOutput.fromXml($result.body);
@@ -2425,7 +2432,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?encryption',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?encryption',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketEncryptionOutput.fromXml($result.body);
@@ -2478,7 +2485,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?inventory',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?inventory',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -2547,7 +2554,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?lifecycle',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLifecycleOutput.fromXml($result.body);
@@ -2619,7 +2626,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?lifecycle',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLifecycleConfigurationOutput.fromXml($result.body);
@@ -2651,7 +2658,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?location',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?location',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLocationOutput.fromXml($result.body);
@@ -2679,7 +2686,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?logging',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?logging',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLoggingOutput.fromXml($result.body);
@@ -2736,7 +2743,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?metrics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?metrics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -2754,7 +2761,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?notification',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?notification',
       exceptionFnMap: _exceptionFns,
     );
     return NotificationConfigurationDeprecated.fromXml($result.body);
@@ -2794,7 +2801,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?notification',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?notification',
       exceptionFnMap: _exceptionFns,
     );
     return NotificationConfiguration.fromXml($result.body);
@@ -2836,7 +2843,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?policy',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketPolicyOutput.fromXml($result.body);
@@ -2882,7 +2889,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?policyStatus',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?policyStatus',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketPolicyStatusOutput.fromXml($result.body);
@@ -2931,7 +2938,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?replication',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?replication',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketReplicationOutput.fromXml($result.body);
@@ -2960,7 +2967,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?requestPayment',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?requestPayment',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketRequestPaymentOutput.fromXml($result.body);
@@ -3003,7 +3010,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?tagging',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?tagging',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketTaggingOutput.fromXml($result.body);
@@ -3041,7 +3048,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?versioning',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?versioning',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketVersioningOutput.fromXml($result.body);
@@ -3078,7 +3085,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?website',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?website',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketWebsiteOutput.fromXml($result.body);
@@ -3400,7 +3407,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -3473,7 +3481,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key?acl',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?acl',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -3525,7 +3534,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key?legal-hold',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?legal-hold',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -3547,7 +3557,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?object-lock',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?object-lock',
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectLockConfigurationOutput.fromXml($result.body);
@@ -3598,7 +3608,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key?retention',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?retention',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -3669,7 +3680,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key?tagging',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -3721,7 +3733,8 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key?torrent',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?torrent',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -3777,7 +3790,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?publicAccessBlock',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}?publicAccessBlock',
       exceptionFnMap: _exceptionFns,
     );
     return GetPublicAccessBlockOutput.fromXml($result.body);
@@ -3808,7 +3822,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'HEAD',
-      requestUri: '/$bucket',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4016,7 +4030,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'HEAD',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -4082,7 +4097,7 @@ class S3 {
         ?.let((v) => queryParams['continuation-token'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?analytics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?analytics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -4150,7 +4165,7 @@ class S3 {
         ?.let((v) => queryParams['continuation-token'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?inventory',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?inventory',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -4220,7 +4235,7 @@ class S3 {
         ?.let((v) => queryParams['continuation-token'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?metrics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?metrics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -4360,7 +4375,7 @@ class S3 {
     uploadIdMarker?.let((v) => queryParams['upload-id-marker'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?uploads',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?uploads',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -4455,7 +4470,7 @@ class S3 {
         ?.let((v) => queryParams['version-id-marker'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?versions',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?versions',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -4534,7 +4549,7 @@ class S3 {
     prefix?.let((v) => queryParams['prefix'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -4653,7 +4668,7 @@ class S3 {
     startAfter?.let((v) => queryParams['start-after'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket?list-type=2',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?list-type=2',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -4755,7 +4770,8 @@ class S3 {
         ?.let((v) => queryParams['part-number-marker'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,
@@ -4827,7 +4843,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?accelerate',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?accelerate',
       payload: accelerateConfiguration.toXml('AccelerateConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5012,7 +5028,7 @@ class S3 {
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?acl',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?acl',
       headers: headers,
       payload: accessControlPolicy.toXml('AccessControlPolicy'),
       exceptionFnMap: _exceptionFns,
@@ -5126,7 +5142,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?analytics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?analytics',
       queryParams: queryParams,
       payload: analyticsConfiguration.toXml('AnalyticsConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5219,7 +5235,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?cors',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?cors',
       headers: headers,
       payload: cORSConfiguration.toXml('CORSConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5284,7 +5300,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?encryption',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?encryption',
       headers: headers,
       payload: serverSideEncryptionConfiguration
           .toXml('ServerSideEncryptionConfiguration'),
@@ -5398,7 +5414,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?inventory',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?inventory',
       queryParams: queryParams,
       payload: inventoryConfiguration.toXml('InventoryConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5503,7 +5519,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?lifecycle',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       headers: headers,
       payload: lifecycleConfiguration.toXml('LifecycleConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5611,7 +5627,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?lifecycle',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       payload: lifecycleConfiguration.toXml('LifecycleConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5709,7 +5725,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?logging',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?logging',
       headers: headers,
       payload: bucketLoggingStatus.toXml('BucketLoggingStatus'),
       exceptionFnMap: _exceptionFns,
@@ -5786,7 +5802,7 @@ class S3 {
     id?.let((v) => queryParams['id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?metrics',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?metrics',
       queryParams: queryParams,
       payload: metricsConfiguration.toXml('MetricsConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5817,7 +5833,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?notification',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?notification',
       headers: headers,
       payload: notificationConfiguration.toXml('NotificationConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -5899,7 +5915,7 @@ class S3 {
         notificationConfiguration, 'notificationConfiguration');
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?notification',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?notification',
       payload: notificationConfiguration.toXml('NotificationConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5962,7 +5978,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?policy',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?policy',
       headers: headers,
       payload: policy,
       exceptionFnMap: _exceptionFns,
@@ -6063,7 +6079,7 @@ class S3 {
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?replication',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?replication',
       headers: headers,
       payload: replicationConfiguration.toXml('ReplicationConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -6113,7 +6129,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?requestPayment',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?requestPayment',
       headers: headers,
       payload: requestPaymentConfiguration.toXml('RequestPaymentConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -6223,7 +6239,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?tagging',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?tagging',
       headers: headers,
       payload: tagging.toXml('Tagging'),
       exceptionFnMap: _exceptionFns,
@@ -6303,7 +6319,7 @@ class S3 {
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?versioning',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?versioning',
       headers: headers,
       payload: versioningConfiguration.toXml('VersioningConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -6422,7 +6438,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?website',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?website',
       headers: headers,
       payload: websiteConfiguration.toXml('WebsiteConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -7003,7 +7019,8 @@ class S3 {
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       headers: headers,
       payload: body,
       exceptionFnMap: _exceptionFns,
@@ -7211,7 +7228,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key?acl',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?acl',
       queryParams: queryParams,
       headers: headers,
       payload: accessControlPolicy.toXml('AccessControlPolicy'),
@@ -7281,7 +7299,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key?legal-hold',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?legal-hold',
       queryParams: queryParams,
       headers: headers,
       payload: legalHold.toXml('LegalHold'),
@@ -7333,7 +7352,7 @@ class S3 {
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?object-lock',
+      requestUri: '/${Uri.encodeComponent(bucket.toString())}?object-lock',
       headers: headers,
       payload: objectLockConfiguration.toXml('ObjectLockConfiguration'),
       exceptionFnMap: _exceptionFns,
@@ -7411,7 +7430,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key?retention',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?retention',
       queryParams: queryParams,
       headers: headers,
       payload: retention.toXml('Retention'),
@@ -7546,7 +7566,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key?tagging',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
       queryParams: queryParams,
       headers: headers,
       payload: tagging.toXml('Tagging'),
@@ -7621,7 +7642,8 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket?publicAccessBlock',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}?publicAccessBlock',
       headers: headers,
       payload: publicAccessBlockConfiguration
           .toXml('PublicAccessBlockConfiguration'),
@@ -7966,7 +7988,8 @@ class S3 {
     versionId?.let((v) => queryParams['versionId'] = v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/$bucket/$key?restore',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?restore',
       queryParams: queryParams,
       headers: headers,
       payload: restoreRequest.toXml('RestoreRequest'),
@@ -8188,7 +8211,8 @@ class S3 {
             v.toString());
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/$bucket/$key?select&select-type=2',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?select&select-type=2',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -8394,7 +8418,8 @@ class S3 {
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       payload: body,
@@ -8703,7 +8728,8 @@ class S3 {
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/$bucket/$key',
+      requestUri:
+          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
       exceptionFnMap: _exceptionFns,

@@ -63,12 +63,10 @@ class WorkMailMessageFlow {
       r'''[a-z0-9\-]*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/messages/${Uri.encodeComponent(messageId.toString())}$query',
+      requestUri: '/messages/${Uri.encodeComponent(messageId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRawMessageContentResponse.fromJson(response);

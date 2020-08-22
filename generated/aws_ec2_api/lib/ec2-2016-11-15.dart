@@ -18,6 +18,15 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// invest in hardware up front, so you can develop and deploy applications
 /// faster.
 class EC2 {
+  EC2({
+    @_s.required String region,
+    _s.AwsClientCredentials credentials,
+    _s.Client client,
+    String endpointUrl,
+  }) {
+    print('$client$region$credentials$endpointUrl');
+  }
+
   /// Accepts the Convertible Reserved Instance exchange quote described in the
   /// <a>GetReservedInstancesExchangeQuote</a> call.
   ///

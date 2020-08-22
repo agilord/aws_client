@@ -294,7 +294,8 @@ class CloudFront {
     ArgumentError.checkNotNull(invalidationBatch, 'invalidationBatch');
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2019-03-26/distribution/$distributionId/invalidation',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       payload: invalidationBatch.toXml('InvalidationBatch'),
       exceptionFnMap: _exceptionFns,
     );
@@ -449,7 +450,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/origin-access-identity/cloudfront/$id',
+      requestUri:
+          '/2019-03-26/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -478,7 +480,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/distribution/$id',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -508,7 +511,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/field-level-encryption/$id',
+      requestUri:
+          '/2019-03-26/field-level-encryption/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -538,7 +542,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/field-level-encryption-profile/$id',
+      requestUri:
+          '/2019-03-26/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -568,7 +573,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/public-key/$id',
+      requestUri:
+          '/2019-03-26/public-key/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -646,7 +652,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2019-03-26/streaming-distribution/$id',
+      requestUri:
+          '/2019-03-26/streaming-distribution/${Uri.encodeComponent(id.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -666,7 +673,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/origin-access-identity/cloudfront/$id',
+      requestUri:
+          '/2019-03-26/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFrontOriginAccessIdentityResult.fromXml($result.body,
@@ -687,7 +695,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/origin-access-identity/cloudfront/$id/config',
+      requestUri:
+          '/2019-03-26/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFrontOriginAccessIdentityConfigResult.fromXml($result.body,
@@ -708,7 +717,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/distribution/$id',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDistributionResult.fromXml($result.body,
@@ -729,7 +739,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/distribution/$id/config',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetDistributionConfigResult.fromXml($result.body,
@@ -749,7 +760,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/field-level-encryption/$id',
+      requestUri:
+          '/2019-03-26/field-level-encryption/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFieldLevelEncryptionResult.fromXml($result.body,
@@ -770,7 +782,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/field-level-encryption/$id/config',
+      requestUri:
+          '/2019-03-26/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetFieldLevelEncryptionConfigResult.fromXml($result.body,
@@ -791,7 +804,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/field-level-encryption-profile/$id',
+      requestUri:
+          '/2019-03-26/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFieldLevelEncryptionProfileResult.fromXml($result.body,
@@ -813,7 +827,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/field-level-encryption-profile/$id/config',
+      requestUri:
+          '/2019-03-26/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetFieldLevelEncryptionProfileConfigResult.fromXml($result.body,
@@ -840,7 +855,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/distribution/$distributionId/invalidation/$id',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetInvalidationResult.fromXml($result.body);
@@ -859,7 +875,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/public-key/$id',
+      requestUri:
+          '/2019-03-26/public-key/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPublicKeyResult.fromXml($result.body, headers: $result.headers);
@@ -878,7 +895,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/public-key/$id/config',
+      requestUri:
+          '/2019-03-26/public-key/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetPublicKeyConfigResult.fromXml($result.body,
@@ -899,7 +917,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/streaming-distribution/$id',
+      requestUri:
+          '/2019-03-26/streaming-distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetStreamingDistributionResult.fromXml($result.body,
@@ -920,7 +939,8 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/streaming-distribution/$id/config',
+      requestUri:
+          '/2019-03-26/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
     return GetStreamingDistributionConfigResult.fromXml($result.body,
@@ -1023,7 +1043,8 @@ class CloudFront {
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/distributionsByWebACLId/$webACLId',
+      requestUri:
+          '/2019-03-26/distributionsByWebACLId/${Uri.encodeComponent(webACLId.toString())}',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -1127,7 +1148,8 @@ class CloudFront {
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2019-03-26/distribution/$distributionId/invalidation',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -1327,7 +1349,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/origin-access-identity/cloudfront/$id/config',
+      requestUri:
+          '/2019-03-26/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: cloudFrontOriginAccessIdentityConfig
           .toXml('CloudFrontOriginAccessIdentityConfig'),
@@ -1492,7 +1515,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/distribution/$id/config',
+      requestUri:
+          '/2019-03-26/distribution/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: distributionConfig.toXml('DistributionConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1538,7 +1562,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/field-level-encryption/$id/config',
+      requestUri:
+          '/2019-03-26/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: fieldLevelEncryptionConfig.toXml('FieldLevelEncryptionConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1586,7 +1611,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/field-level-encryption-profile/$id/config',
+      requestUri:
+          '/2019-03-26/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: fieldLevelEncryptionProfileConfig
           .toXml('FieldLevelEncryptionProfileConfig'),
@@ -1628,7 +1654,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/public-key/$id/config',
+      requestUri:
+          '/2019-03-26/public-key/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: publicKeyConfig.toXml('PublicKeyConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1676,7 +1703,8 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/2019-03-26/streaming-distribution/$id/config',
+      requestUri:
+          '/2019-03-26/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
       headers: headers,
       payload: streamingDistributionConfig.toXml('StreamingDistributionConfig'),
       exceptionFnMap: _exceptionFns,

@@ -56,14 +56,13 @@ class MediaConvert {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/certificates$query',
+      requestUri: '/2017-08-29/certificates',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateCertificateResponse.fromJson(response);
@@ -85,13 +84,11 @@ class MediaConvert {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2017-08-29/jobs/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2017-08-29/jobs/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -201,7 +198,6 @@ class MediaConvert {
       -50,
       50,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Role': role,
       'Settings': settings,
@@ -220,7 +216,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/jobs$query',
+      requestUri: '/2017-08-29/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
@@ -304,7 +300,6 @@ class MediaConvert {
       -50,
       50,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Settings': settings,
@@ -320,7 +315,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/jobTemplates$query',
+      requestUri: '/2017-08-29/jobTemplates',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobTemplateResponse.fromJson(response);
@@ -360,7 +355,6 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(settings, 'settings');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Settings': settings,
@@ -371,7 +365,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/presets$query',
+      requestUri: '/2017-08-29/presets',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePresetResponse.fromJson(response);
@@ -422,7 +416,6 @@ class MediaConvert {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
       'Description': description,
@@ -434,7 +427,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/queues$query',
+      requestUri: '/2017-08-29/queues',
       exceptionFnMap: _exceptionFns,
     );
     return CreateQueueResponse.fromJson(response);
@@ -455,13 +448,12 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}$query',
+          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteJobTemplateResponse.fromJson(response);
@@ -482,13 +474,11 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePresetResponse.fromJson(response);
@@ -509,13 +499,11 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteQueueResponse.fromJson(response);
@@ -549,7 +537,6 @@ class MediaConvert {
     DescribeEndpointsMode mode,
     String nextToken,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'Mode': mode?.toValue(),
@@ -558,7 +545,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/endpoints$query',
+      requestUri: '/2017-08-29/endpoints',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEndpointsResponse.fromJson(response);
@@ -582,13 +569,12 @@ class MediaConvert {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2017-08-29/certificates/${Uri.encodeComponent(arn.toString())}$query',
+          '/2017-08-29/certificates/${Uri.encodeComponent(arn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateCertificateResponse.fromJson(response);
@@ -609,12 +595,10 @@ class MediaConvert {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2017-08-29/jobs/${Uri.encodeComponent(id.toString())}$query',
+      requestUri: '/2017-08-29/jobs/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -635,12 +619,11 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}$query',
+          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobTemplateResponse.fromJson(response);
@@ -661,12 +644,10 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPresetResponse.fromJson(response);
@@ -687,12 +668,10 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueueResponse.fromJson(response);
@@ -743,8 +722,8 @@ class MediaConvert {
       1,
       20,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (category != null) _s.toQueryParam('category', category),
       if (listBy != null) _s.toQueryParam('listBy', listBy),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -754,7 +733,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2017-08-29/jobTemplates$query',
+      requestUri: '/2017-08-29/jobTemplates$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobTemplatesResponse.fromJson(response);
@@ -804,8 +783,8 @@ class MediaConvert {
       1,
       20,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (order != null) _s.toQueryParam('order', order),
@@ -815,7 +794,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2017-08-29/jobs$query',
+      requestUri: '/2017-08-29/jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -866,8 +845,8 @@ class MediaConvert {
       1,
       20,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (category != null) _s.toQueryParam('category', category),
       if (listBy != null) _s.toQueryParam('listBy', listBy),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -877,7 +856,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2017-08-29/presets$query',
+      requestUri: '/2017-08-29/presets$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPresetsResponse.fromJson(response);
@@ -923,8 +902,8 @@ class MediaConvert {
       1,
       20,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (listBy != null) _s.toQueryParam('listBy', listBy),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -933,7 +912,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2017-08-29/queues$query',
+      requestUri: '/2017-08-29/queues$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueuesResponse.fromJson(response);
@@ -955,12 +934,10 @@ class MediaConvert {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2017-08-29/tags/${Uri.encodeComponent(arn.toString())}$query',
+      requestUri: '/2017-08-29/tags/${Uri.encodeComponent(arn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -990,7 +967,6 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Tags': tags,
@@ -998,7 +974,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2017-08-29/tags$query',
+      requestUri: '/2017-08-29/tags',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1026,15 +1002,13 @@ class MediaConvert {
     List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/2017-08-29/tags/${Uri.encodeComponent(arn.toString())}$query',
+      requestUri: '/2017-08-29/tags/${Uri.encodeComponent(arn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1105,7 +1079,6 @@ class MediaConvert {
       -50,
       50,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'AccelerationSettings': accelerationSettings,
       'Category': category,
@@ -1120,7 +1093,7 @@ class MediaConvert {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}$query',
+          '/2017-08-29/jobTemplates/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobTemplateResponse.fromJson(response);
@@ -1153,7 +1126,6 @@ class MediaConvert {
     PresetSettings settings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'Category': category,
       'Description': description,
@@ -1162,8 +1134,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/presets/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePresetResponse.fromJson(response);
@@ -1204,7 +1175,6 @@ class MediaConvert {
     QueueStatus status,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'ReservationPlanSettings': reservationPlanSettings,
@@ -1213,8 +1183,7 @@ class MediaConvert {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}$query',
+      requestUri: '/2017-08-29/queues/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateQueueResponse.fromJson(response);

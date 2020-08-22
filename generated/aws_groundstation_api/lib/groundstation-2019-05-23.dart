@@ -55,12 +55,11 @@ class GroundStation {
     @_s.required String contactId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/contact/${Uri.encodeComponent(contactId.toString())}$query',
+      requestUri: '/contact/${Uri.encodeComponent(contactId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ContactIdResponse.fromJson(response);
@@ -104,7 +103,6 @@ class GroundStation {
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -113,7 +111,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/config$query',
+      requestUri: '/config',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigIdResponse.fromJson(response);
@@ -144,7 +142,6 @@ class GroundStation {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(endpointDetails, 'endpointDetails');
-    var query = '';
     final $payload = <String, dynamic>{
       'endpointDetails': endpointDetails,
       'tags': tags,
@@ -152,7 +149,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/dataflowEndpointGroup$query',
+      requestUri: '/dataflowEndpointGroup',
       exceptionFnMap: _exceptionFns,
     );
     return DataflowEndpointGroupIdResponse.fromJson(response);
@@ -238,7 +235,6 @@ class GroundStation {
       1,
       21600,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'dataflowEdges': dataflowEdges,
       'minimumViableContactDurationSeconds':
@@ -252,7 +248,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/missionprofile$query',
+      requestUri: '/missionprofile',
       exceptionFnMap: _exceptionFns,
     );
     return MissionProfileIdResponse.fromJson(response);
@@ -275,13 +271,12 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(configId, 'configId');
     ArgumentError.checkNotNull(configType, 'configType');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}$query',
+          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigIdResponse.fromJson(response);
@@ -300,13 +295,12 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(
         dataflowEndpointGroupId, 'dataflowEndpointGroupId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId.toString())}$query',
+          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DataflowEndpointGroupIdResponse.fromJson(response);
@@ -324,13 +318,12 @@ class GroundStation {
     @_s.required String missionProfileId,
   }) async {
     ArgumentError.checkNotNull(missionProfileId, 'missionProfileId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}$query',
+          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return MissionProfileIdResponse.fromJson(response);
@@ -348,11 +341,10 @@ class GroundStation {
     @_s.required String contactId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/contact/${Uri.encodeComponent(contactId.toString())}$query',
+      requestUri: '/contact/${Uri.encodeComponent(contactId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeContactResponse.fromJson(response);
@@ -377,12 +369,11 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(configId, 'configId');
     ArgumentError.checkNotNull(configType, 'configType');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}$query',
+          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigResponse.fromJson(response);
@@ -401,12 +392,11 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(
         dataflowEndpointGroupId, 'dataflowEndpointGroupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId.toString())}$query',
+          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataflowEndpointGroupResponse.fromJson(response);
@@ -429,7 +419,6 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(month, 'month');
     ArgumentError.checkNotNull(year, 'year');
-    var query = '';
     final $payload = <String, dynamic>{
       'month': month,
       'year': year,
@@ -437,7 +426,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/minute-usage$query',
+      requestUri: '/minute-usage',
       exceptionFnMap: _exceptionFns,
     );
     return GetMinuteUsageResponse.fromJson(response);
@@ -455,12 +444,11 @@ class GroundStation {
     @_s.required String missionProfileId,
   }) async {
     ArgumentError.checkNotNull(missionProfileId, 'missionProfileId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}$query',
+          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetMissionProfileResponse.fromJson(response);
@@ -478,12 +466,10 @@ class GroundStation {
     @_s.required String satelliteId,
   }) async {
     ArgumentError.checkNotNull(satelliteId, 'satelliteId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/satellite/${Uri.encodeComponent(satelliteId.toString())}$query',
+      requestUri: '/satellite/${Uri.encodeComponent(satelliteId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSatelliteResponse.fromJson(response);
@@ -505,15 +491,15 @@ class GroundStation {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/config$query',
+      requestUri: '/config$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigsResponse.fromJson(response);
@@ -566,7 +552,6 @@ class GroundStation {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statusList, 'statusList');
-    var query = '';
     final $payload = <String, dynamic>{
       'endTime': endTime,
       'startTime': startTime,
@@ -580,7 +565,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/contacts$query',
+      requestUri: '/contacts',
       exceptionFnMap: _exceptionFns,
     );
     return ListContactsResponse.fromJson(response);
@@ -603,15 +588,15 @@ class GroundStation {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/dataflowEndpointGroup$query',
+      requestUri: '/dataflowEndpointGroup$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataflowEndpointGroupsResponse.fromJson(response);
@@ -637,8 +622,8 @@ class GroundStation {
     String nextToken,
     String satelliteId,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (satelliteId != null) _s.toQueryParam('satelliteId', satelliteId),
@@ -646,7 +631,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/groundstation$query',
+      requestUri: '/groundstation$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroundStationsResponse.fromJson(response);
@@ -669,15 +654,15 @@ class GroundStation {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/missionprofile$query',
+      requestUri: '/missionprofile$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMissionProfilesResponse.fromJson(response);
@@ -699,15 +684,15 @@ class GroundStation {
     int maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/satellite$query',
+      requestUri: '/satellite$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSatellitesResponse.fromJson(response);
@@ -725,11 +710,10 @@ class GroundStation {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -771,7 +755,6 @@ class GroundStation {
     ArgumentError.checkNotNull(missionProfileArn, 'missionProfileArn');
     ArgumentError.checkNotNull(satelliteArn, 'satelliteArn');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    var query = '';
     final $payload = <String, dynamic>{
       'endTime': endTime,
       'groundStation': groundStation,
@@ -783,7 +766,7 @@ class GroundStation {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/contact$query',
+      requestUri: '/contact',
       exceptionFnMap: _exceptionFns,
     );
     return ContactIdResponse.fromJson(response);
@@ -806,14 +789,13 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -836,15 +818,15 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -893,7 +875,6 @@ class GroundStation {
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -902,7 +883,7 @@ class GroundStation {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}$query',
+          '/config/${Uri.encodeComponent(configType.toString())}/${Uri.encodeComponent(configId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ConfigIdResponse.fromJson(response);
@@ -981,7 +962,6 @@ class GroundStation {
       name,
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
       'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
@@ -995,7 +975,7 @@ class GroundStation {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}$query',
+          '/missionprofile/${Uri.encodeComponent(missionProfileId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return MissionProfileIdResponse.fromJson(response);

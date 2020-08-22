@@ -464,8 +464,8 @@ class CloudSearchDomain {
     String stats,
   }) async {
     ArgumentError.checkNotNull(query, 'query');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (query != null) _s.toQueryParam('q', query),
       if (cursor != null) _s.toQueryParam('cursor', cursor),
       if (expr != null) _s.toQueryParam('expr', expr),
@@ -484,7 +484,7 @@ class CloudSearchDomain {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2013-01-01/search?format=sdk&pretty=true$query',
+      requestUri: '/2013-01-01/search?format=sdk&pretty=true$_query',
       exceptionFnMap: _exceptionFns,
     );
     return SearchResponse.fromJson(response);
@@ -527,8 +527,8 @@ class CloudSearchDomain {
   }) async {
     ArgumentError.checkNotNull(query, 'query');
     ArgumentError.checkNotNull(suggester, 'suggester');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (query != null) _s.toQueryParam('q', query),
       if (suggester != null) _s.toQueryParam('suggester', suggester),
       if (size != null) _s.toQueryParam('size', size),
@@ -536,7 +536,7 @@ class CloudSearchDomain {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2013-01-01/suggest?format=sdk&pretty=true$query',
+      requestUri: '/2013-01-01/suggest?format=sdk&pretty=true$_query',
       exceptionFnMap: _exceptionFns,
     );
     return SuggestResponse.fromJson(response);
@@ -590,12 +590,11 @@ class CloudSearchDomain {
     ArgumentError.checkNotNull(documents, 'documents');
     final headers = <String, String>{};
     contentType?.let((v) => headers['Content-Type'] = v.toValue());
-    var query = '';
     final response = await _protocol.send(
       payload: documents,
       headers: headers,
       method: 'POST',
-      requestUri: '/2013-01-01/documents/batch?format=sdk$query',
+      requestUri: '/2013-01-01/documents/batch?format=sdk',
       exceptionFnMap: _exceptionFns,
     );
     return UploadDocumentsResponse.fromJson(response);

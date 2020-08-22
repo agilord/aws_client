@@ -116,7 +116,6 @@ class Outposts {
       name,
       r'''^[\S ]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'SiteId': siteId,
       'AvailabilityZone': availabilityZone,
@@ -127,7 +126,7 @@ class Outposts {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/outposts$query',
+      requestUri: '/outposts',
       exceptionFnMap: _exceptionFns,
     );
     return CreateOutpostOutput.fromJson(response);
@@ -156,13 +155,11 @@ class Outposts {
       r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/outposts/${Uri.encodeComponent(outpostId.toString())}$query',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteOutpostOutput.fromJson(response);
@@ -191,12 +188,11 @@ class Outposts {
       r'''os-[a-f0-9]{17}''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/sites/${Uri.encodeComponent(siteId.toString())}$query',
+      requestUri: '/sites/${Uri.encodeComponent(siteId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSiteOutput.fromJson(response);
@@ -225,12 +221,10 @@ class Outposts {
       r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/outposts/${Uri.encodeComponent(outpostId.toString())}$query',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostOutput.fromJson(response);
@@ -278,8 +272,8 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -287,7 +281,7 @@ class Outposts {
       payload: null,
       method: 'GET',
       requestUri:
-          '/outposts/${Uri.encodeComponent(outpostId.toString())}/instanceTypes$query',
+          '/outposts/${Uri.encodeComponent(outpostId.toString())}/instanceTypes$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostInstanceTypesOutput.fromJson(response);
@@ -319,15 +313,15 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/outposts$query',
+      requestUri: '/outposts$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListOutpostsOutput.fromJson(response);
@@ -359,15 +353,15 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/sites$query',
+      requestUri: '/sites$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSitesOutput.fromJson(response);

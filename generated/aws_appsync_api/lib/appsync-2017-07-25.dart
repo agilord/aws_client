@@ -115,7 +115,6 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'apiCachingBehavior': apiCachingBehavior?.toValue(),
       'ttl': ttl,
@@ -126,8 +125,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApiCacheResponse.fromJson(response);
@@ -162,7 +160,6 @@ class AppSync {
     int expires,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final $payload = <String, dynamic>{
       'description': description,
       'expires': expires,
@@ -170,8 +167,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApiKeyResponse.fromJson(response);
@@ -243,7 +239,6 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'type': type?.toValue(),
@@ -259,7 +254,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDataSourceResponse.fromJson(response);
@@ -352,7 +347,6 @@ class AppSync {
       1,
       65536,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -364,8 +358,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFunctionResponse.fromJson(response);
@@ -418,7 +411,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'authenticationType': authenticationType?.toValue(),
       'name': name,
@@ -432,7 +424,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/apis$query',
+      requestUri: '/v1/apis',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGraphqlApiResponse.fromJson(response);
@@ -563,7 +555,6 @@ class AppSync {
       1,
       65536,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
       'requestMappingTemplate': requestMappingTemplate,
@@ -578,7 +569,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateResolverResponse.fromJson(response);
@@ -611,7 +602,6 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(format, 'format');
-    var query = '';
     final $payload = <String, dynamic>{
       'definition': definition,
       'format': format?.toValue(),
@@ -619,8 +609,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTypeResponse.fromJson(response);
@@ -640,13 +629,11 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApiCacheResponse.fromJson(response);
@@ -670,13 +657,12 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys/${Uri.encodeComponent(id.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteApiKeyResponse.fromJson(response);
@@ -714,13 +700,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDataSourceResponse.fromJson(response);
@@ -757,13 +742,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFunctionResponse.fromJson(response);
@@ -784,12 +768,11 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGraphqlApiResponse.fromJson(response);
@@ -844,13 +827,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteResolverResponse.fromJson(response);
@@ -888,13 +870,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTypeResponse.fromJson(response);
@@ -914,13 +895,12 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/FlushCache$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/FlushCache',
       exceptionFnMap: _exceptionFns,
     );
     return FlushApiCacheResponse.fromJson(response);
@@ -940,12 +920,10 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches',
       exceptionFnMap: _exceptionFns,
     );
     return GetApiCacheResponse.fromJson(response);
@@ -983,12 +961,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataSourceResponse.fromJson(response);
@@ -1024,12 +1001,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionResponse.fromJson(response);
@@ -1049,11 +1025,10 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetGraphqlApiResponse.fromJson(response);
@@ -1082,8 +1057,8 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (format != null) _s.toQueryParam('format', format),
       if (includeDirectives != null)
         _s.toQueryParam('includeDirectives', includeDirectives),
@@ -1092,7 +1067,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schema$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schema$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntrospectionSchemaResponse.fromJson(response);
@@ -1146,12 +1121,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetResolverResponse.fromJson(response);
@@ -1170,12 +1144,11 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schemacreation$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schemacreation',
       exceptionFnMap: _exceptionFns,
     );
     return GetSchemaCreationStatusResponse.fromJson(response);
@@ -1218,15 +1191,15 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (format != null) _s.toQueryParam('format', format),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetTypeResponse.fromJson(response);
@@ -1277,8 +1250,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1286,7 +1259,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListApiKeysResponse.fromJson(response);
@@ -1331,8 +1304,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1340,7 +1313,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSourcesResponse.fromJson(response);
@@ -1385,8 +1358,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1394,7 +1367,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionsResponse.fromJson(response);
@@ -1433,15 +1406,15 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/apis$query',
+      requestUri: '/v1/apis$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGraphqlApisResponse.fromJson(response);
@@ -1491,8 +1464,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1500,7 +1473,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListResolversResponse.fromJson(response);
@@ -1550,8 +1523,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1559,7 +1532,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}/resolvers$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}/resolvers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListResolversByFunctionResponse.fromJson(response);
@@ -1593,12 +1566,10 @@ class AppSync {
       r'''^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1649,8 +1620,8 @@ class AppSync {
       nextToken,
       r'''[\\S]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (format != null) _s.toQueryParam('format', format),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -1659,7 +1630,7 @@ class AppSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListTypesResponse.fromJson(response);
@@ -1686,7 +1657,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
-    var query = '';
     final $payload = <String, dynamic>{
       'definition': definition,
     };
@@ -1694,7 +1664,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schemacreation$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schemacreation',
       exceptionFnMap: _exceptionFns,
     );
     return StartSchemaCreationResponse.fromJson(response);
@@ -1733,15 +1703,13 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1780,8 +1748,8 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1789,7 +1757,7 @@ class AppSync {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1860,7 +1828,6 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'apiCachingBehavior': apiCachingBehavior?.toValue(),
       'ttl': ttl,
@@ -1870,7 +1837,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches/update$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/ApiCaches/update',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApiCacheResponse.fromJson(response);
@@ -1905,7 +1872,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
-    var query = '';
     final $payload = <String, dynamic>{
       'description': description,
       'expires': expires,
@@ -1914,7 +1880,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys/${Uri.encodeComponent(id.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/apikeys/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApiKeyResponse.fromJson(response);
@@ -1985,7 +1951,6 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    var query = '';
     final $payload = <String, dynamic>{
       'type': type?.toValue(),
       'description': description,
@@ -2000,7 +1965,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/datasources/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSourceResponse.fromJson(response);
@@ -2107,7 +2072,6 @@ class AppSync {
       1,
       65536,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -2120,7 +2084,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/functions/${Uri.encodeComponent(functionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFunctionResponse.fromJson(response);
@@ -2174,7 +2138,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    var query = '';
     final $payload = <String, dynamic>{
       'name': name,
       'additionalAuthenticationProviders': additionalAuthenticationProviders,
@@ -2187,7 +2150,7 @@ class AppSync {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}$query',
+      requestUri: '/v1/apis/${Uri.encodeComponent(apiId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGraphqlApiResponse.fromJson(response);
@@ -2311,7 +2274,6 @@ class AppSync {
       1,
       65536,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'requestMappingTemplate': requestMappingTemplate,
       'cachingConfig': cachingConfig,
@@ -2325,7 +2287,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}/resolvers/${Uri.encodeComponent(fieldName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateResolverResponse.fromJson(response);
@@ -2372,7 +2334,6 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'format': format?.toValue(),
       'definition': definition,
@@ -2381,7 +2342,7 @@ class AppSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}$query',
+          '/v1/apis/${Uri.encodeComponent(apiId.toString())}/types/${Uri.encodeComponent(typeName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTypeResponse.fromJson(response);

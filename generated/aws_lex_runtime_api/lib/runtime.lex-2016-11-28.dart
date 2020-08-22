@@ -86,13 +86,12 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session$query',
+          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSessionResponse.fromJson(response);
@@ -154,8 +153,8 @@ class LexRuntimeService {
       checkpointLabelFilter,
       r'''[a-zA-Z0-9-]+''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (checkpointLabelFilter != null)
         _s.toQueryParam('checkpointLabelFilter', checkpointLabelFilter),
     ].where((e) => e != null).join('&')}';
@@ -163,7 +162,7 @@ class LexRuntimeService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session/$query',
+          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSessionResponse.fromJson(response);
@@ -455,13 +454,12 @@ class LexRuntimeService {
         ?.let((v) => headers['x-amz-lex-request-attributes'] = v.toString());
     sessionAttributes
         ?.let((v) => headers['x-amz-lex-session-attributes'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: inputStream,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/content$query',
+          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/content',
       exceptionFnMap: _exceptionFns,
     );
     return PostContentResponse.fromJson(response);
@@ -639,7 +637,6 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'inputText': inputText,
       'requestAttributes': requestAttributes,
@@ -649,7 +646,7 @@ class LexRuntimeService {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/text$query',
+          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/text',
       exceptionFnMap: _exceptionFns,
     );
     return PostTextResponse.fromJson(response);
@@ -786,7 +783,6 @@ class LexRuntimeService {
     );
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'dialogAction': dialogAction,
       'recentIntentSummaryView': recentIntentSummaryView,
@@ -797,7 +793,7 @@ class LexRuntimeService {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session$query',
+          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
       exceptionFnMap: _exceptionFns,
     );
     return PutSessionResponse.fromJson(response);

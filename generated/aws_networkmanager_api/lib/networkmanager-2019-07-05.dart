@@ -87,7 +87,6 @@ class NetworkManager {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'CustomerGatewayArn': customerGatewayArn,
       'DeviceId': deviceId,
@@ -97,7 +96,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateCustomerGatewayResponse.fromJson(response);
@@ -131,7 +130,6 @@ class NetworkManager {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'DeviceId': deviceId,
       'LinkId': linkId,
@@ -140,7 +138,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateLinkResponse.fromJson(response);
@@ -204,7 +202,6 @@ class NetworkManager {
     String vendor,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Location': location,
@@ -219,7 +216,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeviceResponse.fromJson(response);
@@ -245,7 +242,6 @@ class NetworkManager {
     String description,
     List<Tag> tags,
   }) async {
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Tags': tags,
@@ -253,7 +249,7 @@ class NetworkManager {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/global-networks$query',
+      requestUri: '/global-networks',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGlobalNetworkResponse.fromJson(response);
@@ -311,7 +307,6 @@ class NetworkManager {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Bandwidth': bandwidth,
       'SiteId': siteId,
@@ -324,7 +319,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLinkResponse.fromJson(response);
@@ -374,7 +369,6 @@ class NetworkManager {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Location': location,
@@ -384,7 +378,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSiteResponse.fromJson(response);
@@ -411,13 +405,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices/${Uri.encodeComponent(deviceId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices/${Uri.encodeComponent(deviceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDeviceResponse.fromJson(response);
@@ -440,13 +433,12 @@ class NetworkManager {
     @_s.required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGlobalNetworkResponse.fromJson(response);
@@ -473,13 +465,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links/${Uri.encodeComponent(linkId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links/${Uri.encodeComponent(linkId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLinkResponse.fromJson(response);
@@ -506,13 +497,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites/${Uri.encodeComponent(siteId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites/${Uri.encodeComponent(siteId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSiteResponse.fromJson(response);
@@ -540,13 +530,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations/${Uri.encodeComponent(transitGatewayArn.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations/${Uri.encodeComponent(transitGatewayArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeregisterTransitGatewayResponse.fromJson(response);
@@ -583,8 +572,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (globalNetworkIds != null)
         _s.toQueryParam('globalNetworkIds', globalNetworkIds),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -593,7 +582,7 @@ class NetworkManager {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/global-networks$query',
+      requestUri: '/global-networks$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGlobalNetworksResponse.fromJson(response);
@@ -622,13 +611,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations/${Uri.encodeComponent(customerGatewayArn.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations/${Uri.encodeComponent(customerGatewayArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateCustomerGatewayResponse.fromJson(response);
@@ -660,8 +648,8 @@ class NetworkManager {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deviceId != null) _s.toQueryParam('deviceId', deviceId),
       if (linkId != null) _s.toQueryParam('linkId', linkId),
     ].where((e) => e != null).join('&')}';
@@ -670,7 +658,7 @@ class NetworkManager {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateLinkResponse.fromJson(response);
@@ -714,8 +702,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (customerGatewayArns != null)
         _s.toQueryParam('customerGatewayArns', customerGatewayArns),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -725,7 +713,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/customer-gateway-associations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetCustomerGatewayAssociationsResponse.fromJson(response);
@@ -767,8 +755,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deviceIds != null) _s.toQueryParam('deviceIds', deviceIds),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -778,7 +766,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicesResponse.fromJson(response);
@@ -821,8 +809,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (deviceId != null) _s.toQueryParam('deviceId', deviceId),
       if (linkId != null) _s.toQueryParam('linkId', linkId),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
@@ -832,7 +820,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/link-associations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetLinkAssociationsResponse.fromJson(response);
@@ -885,8 +873,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (linkIds != null) _s.toQueryParam('linkIds', linkIds),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
@@ -898,7 +886,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetLinksResponse.fromJson(response);
@@ -936,8 +924,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (siteIds != null) _s.toQueryParam('siteIds', siteIds),
@@ -946,7 +934,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSitesResponse.fromJson(response);
@@ -987,8 +975,8 @@ class NetworkManager {
       1,
       500,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (transitGatewayArns != null)
@@ -998,7 +986,7 @@ class NetworkManager {
       payload: null,
       method: 'GET',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetTransitGatewayRegistrationsResponse.fromJson(response);
@@ -1018,11 +1006,10 @@ class NetworkManager {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1054,7 +1041,6 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'TransitGatewayArn': transitGatewayArn,
     };
@@ -1062,7 +1048,7 @@ class NetworkManager {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/transit-gateway-registrations',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterTransitGatewayResponse.fromJson(response);
@@ -1089,14 +1075,13 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1122,15 +1107,15 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1190,7 +1175,6 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Location': location,
@@ -1204,7 +1188,7 @@ class NetworkManager {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices/${Uri.encodeComponent(deviceId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/devices/${Uri.encodeComponent(deviceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDeviceResponse.fromJson(response);
@@ -1232,7 +1216,6 @@ class NetworkManager {
     String description,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
     };
@@ -1240,7 +1223,7 @@ class NetworkManager {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGlobalNetworkResponse.fromJson(response);
@@ -1290,7 +1273,6 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Bandwidth': bandwidth,
       'Description': description,
@@ -1301,7 +1283,7 @@ class NetworkManager {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links/${Uri.encodeComponent(linkId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/links/${Uri.encodeComponent(linkId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLinkResponse.fromJson(response);
@@ -1350,7 +1332,6 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'Location': location,
@@ -1359,7 +1340,7 @@ class NetworkManager {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites/${Uri.encodeComponent(siteId.toString())}$query',
+          '/global-networks/${Uri.encodeComponent(globalNetworkId.toString())}/sites/${Uri.encodeComponent(siteId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSiteResponse.fromJson(response);

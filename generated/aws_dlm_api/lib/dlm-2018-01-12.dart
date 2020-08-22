@@ -101,7 +101,6 @@ class DLM {
     );
     ArgumentError.checkNotNull(policyDetails, 'policyDetails');
     ArgumentError.checkNotNull(state, 'state');
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'ExecutionRoleArn': executionRoleArn,
@@ -112,7 +111,7 @@ class DLM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/policies$query',
+      requestUri: '/policies',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLifecyclePolicyResponse.fromJson(response);
@@ -144,13 +143,11 @@ class DLM {
       r'''policy-[A-Za-z0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri:
-          '/policies/${Uri.encodeComponent(policyId.toString())}/$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}/',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLifecyclePolicyResponse.fromJson(response);
@@ -194,8 +191,8 @@ class DLM {
     List<String> tagsToAdd,
     List<String> targetTags,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (policyIds != null) _s.toQueryParam('policyIds', policyIds),
       if (resourceTypes != null)
         _s.toQueryParam('resourceTypes', resourceTypes),
@@ -206,7 +203,7 @@ class DLM {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/policies$query',
+      requestUri: '/policies$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetLifecyclePoliciesResponse.fromJson(response);
@@ -237,12 +234,10 @@ class DLM {
       r'''policy-[A-Za-z0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/policies/${Uri.encodeComponent(policyId.toString())}/$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}/',
       exceptionFnMap: _exceptionFns,
     );
     return GetLifecyclePolicyResponse.fromJson(response);
@@ -273,11 +268,10 @@ class DLM {
       r'''^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\d+:policy/[0-9A-Za-z_-]{1,128}$''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -313,14 +307,13 @@ class DLM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -356,15 +349,15 @@ class DLM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -436,7 +429,6 @@ class DLM {
       executionRoleArn,
       r'''arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'ExecutionRoleArn': executionRoleArn,
@@ -446,7 +438,7 @@ class DLM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}$query',
+      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLifecyclePolicyResponse.fromJson(response);

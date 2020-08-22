@@ -79,7 +79,6 @@ class SavingsPlans {
   }) async {
     ArgumentError.checkNotNull(commitment, 'commitment');
     ArgumentError.checkNotNull(savingsPlanOfferingId, 'savingsPlanOfferingId');
-    var query = '';
     final $payload = <String, dynamic>{
       'commitment': commitment,
       'savingsPlanOfferingId': savingsPlanOfferingId,
@@ -90,7 +89,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/CreateSavingsPlan$query',
+      requestUri: '/CreateSavingsPlan',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSavingsPlanResponse.fromJson(response);
@@ -137,7 +136,6 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
       'filters': filters,
@@ -147,7 +145,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DescribeSavingsPlanRates$query',
+      requestUri: '/DescribeSavingsPlanRates',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSavingsPlanRatesResponse.fromJson(response);
@@ -201,7 +199,6 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -213,7 +210,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DescribeSavingsPlans$query',
+      requestUri: '/DescribeSavingsPlans',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSavingsPlansResponse.fromJson(response);
@@ -284,7 +281,6 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'filters': filters,
       'maxResults': maxResults,
@@ -300,7 +296,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DescribeSavingsPlansOfferingRates$query',
+      requestUri: '/DescribeSavingsPlansOfferingRates',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSavingsPlansOfferingRatesResponse.fromJson(response);
@@ -382,7 +378,6 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'currencies': currencies,
       'descriptions': descriptions,
@@ -401,7 +396,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/DescribeSavingsPlansOfferings$query',
+      requestUri: '/DescribeSavingsPlansOfferings',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSavingsPlansOfferingsResponse.fromJson(response);
@@ -425,14 +420,13 @@ class SavingsPlans {
       r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListTagsForResource$query',
+      requestUri: '/ListTagsForResource',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -463,7 +457,6 @@ class SavingsPlans {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tags': tags,
@@ -471,7 +464,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TagResource$query',
+      requestUri: '/TagResource',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -500,7 +493,6 @@ class SavingsPlans {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tagKeys': tagKeys,
@@ -508,7 +500,7 @@ class SavingsPlans {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/UntagResource$query',
+      requestUri: '/UntagResource',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);

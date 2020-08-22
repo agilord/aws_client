@@ -85,7 +85,6 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelName': channelName,
       'ChannelType': channelType?.toValue(),
@@ -95,7 +94,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createSignalingChannel$query',
+      requestUri: '/createSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSignalingChannelOutput.fromJson(response);
@@ -232,7 +231,6 @@ class KinesisVideo {
       mediaType,
       r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'StreamName': streamName,
       'DataRetentionInHours': dataRetentionInHours,
@@ -244,7 +242,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/createStream$query',
+      requestUri: '/createStream',
       exceptionFnMap: _exceptionFns,
     );
     return CreateStreamOutput.fromJson(response);
@@ -297,7 +295,6 @@ class KinesisVideo {
       currentVersion,
       r'''[a-zA-Z0-9]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'CurrentVersion': currentVersion,
@@ -305,7 +302,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteSignalingChannel$query',
+      requestUri: '/deleteSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSignalingChannelOutput.fromJson(response);
@@ -374,7 +371,6 @@ class KinesisVideo {
       currentVersion,
       r'''[a-zA-Z0-9]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'StreamARN': streamARN,
       'CurrentVersion': currentVersion,
@@ -382,7 +378,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteStream$query',
+      requestUri: '/deleteStream',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteStreamOutput.fromJson(response);
@@ -428,7 +424,6 @@ class KinesisVideo {
       channelName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'ChannelName': channelName,
@@ -436,7 +431,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeSignalingChannel$query',
+      requestUri: '/describeSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSignalingChannelOutput.fromJson(response);
@@ -481,7 +476,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'StreamARN': streamARN,
       'StreamName': streamName,
@@ -489,7 +483,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/describeStream$query',
+      requestUri: '/describeStream',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStreamOutput.fromJson(response);
@@ -550,7 +544,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'APIName': aPIName?.toValue(),
       'StreamARN': streamARN,
@@ -559,7 +552,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getDataEndpoint$query',
+      requestUri: '/getDataEndpoint',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataEndpointOutput.fromJson(response);
@@ -614,7 +607,6 @@ class KinesisVideo {
       r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'SingleMasterChannelEndpointConfiguration':
@@ -623,7 +615,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/getSignalingChannelEndpoint$query',
+      requestUri: '/getSignalingChannelEndpoint',
       exceptionFnMap: _exceptionFns,
     );
     return GetSignalingChannelEndpointOutput.fromJson(response);
@@ -672,7 +664,6 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelNameCondition': channelNameCondition,
       'MaxResults': maxResults,
@@ -681,7 +672,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listSignalingChannels$query',
+      requestUri: '/listSignalingChannels',
       exceptionFnMap: _exceptionFns,
     );
     return ListSignalingChannelsOutput.fromJson(response);
@@ -730,7 +721,6 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'MaxResults': maxResults,
       'NextToken': nextToken,
@@ -739,7 +729,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listStreams$query',
+      requestUri: '/listStreams',
       exceptionFnMap: _exceptionFns,
     );
     return ListStreamsOutput.fromJson(response);
@@ -788,7 +778,6 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
       'NextToken': nextToken,
@@ -796,7 +785,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListTagsForResource$query',
+      requestUri: '/ListTagsForResource',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceOutput.fromJson(response);
@@ -863,7 +852,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'NextToken': nextToken,
       'StreamARN': streamARN,
@@ -872,7 +860,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listTagsForStream$query',
+      requestUri: '/listTagsForStream',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForStreamOutput.fromJson(response);
@@ -918,7 +906,6 @@ class KinesisVideo {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
       'Tags': tags,
@@ -926,7 +913,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/TagResource$query',
+      requestUri: '/TagResource',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceOutput.fromJson(response);
@@ -993,7 +980,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
       'StreamARN': streamARN,
@@ -1002,7 +988,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tagStream$query',
+      requestUri: '/tagStream',
       exceptionFnMap: _exceptionFns,
     );
     return TagStreamOutput.fromJson(response);
@@ -1041,7 +1027,6 @@ class KinesisVideo {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
-    var query = '';
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
       'TagKeyList': tagKeyList,
@@ -1049,7 +1034,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/UntagResource$query',
+      requestUri: '/UntagResource',
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceOutput.fromJson(response);
@@ -1105,7 +1090,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
       'StreamARN': streamARN,
@@ -1114,7 +1098,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/untagStream$query',
+      requestUri: '/untagStream',
       exceptionFnMap: _exceptionFns,
     );
     return UntagStreamOutput.fromJson(response);
@@ -1227,7 +1211,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
       'DataRetentionChangeInHours': dataRetentionChangeInHours,
@@ -1238,7 +1221,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateDataRetention$query',
+      requestUri: '/updateDataRetention',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataRetentionOutput.fromJson(response);
@@ -1302,7 +1285,6 @@ class KinesisVideo {
       r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'CurrentVersion': currentVersion,
@@ -1311,7 +1293,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateSignalingChannel$query',
+      requestUri: '/updateSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSignalingChannelOutput.fromJson(response);
@@ -1434,7 +1416,6 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
       'DeviceName': deviceName,
@@ -1445,7 +1426,7 @@ class KinesisVideo {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/updateStream$query',
+      requestUri: '/updateStream',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateStreamOutput.fromJson(response);

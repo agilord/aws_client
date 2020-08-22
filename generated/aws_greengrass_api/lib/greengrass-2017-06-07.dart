@@ -64,7 +64,6 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
     };
@@ -72,7 +71,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateRoleToGroupResponse.fromJson(response);
@@ -92,14 +91,13 @@ class Greengrass {
     @_s.required String roleArn,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/greengrass/servicerole$query',
+      requestUri: '/greengrass/servicerole',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateServiceRoleToAccountResponse.fromJson(response);
@@ -130,7 +128,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -140,7 +137,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/connectors$query',
+      requestUri: '/greengrass/definition/connectors',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConnectorDefinitionResponse.fromJson(response);
@@ -169,7 +166,6 @@ class Greengrass {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Connectors': connectors,
     };
@@ -178,7 +174,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConnectorDefinitionVersionResponse.fromJson(response);
@@ -209,7 +205,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -219,7 +214,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/cores$query',
+      requestUri: '/greengrass/definition/cores',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCoreDefinitionResponse.fromJson(response);
@@ -246,7 +241,6 @@ class Greengrass {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Cores': cores,
     };
@@ -255,7 +249,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCoreDefinitionVersionResponse.fromJson(response);
@@ -292,7 +286,6 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'DeploymentType': deploymentType?.toValue(),
       'DeploymentId': deploymentId,
@@ -303,7 +296,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeploymentResponse.fromJson(response);
@@ -334,7 +327,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -344,7 +336,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/devices$query',
+      requestUri: '/greengrass/definition/devices',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeviceDefinitionResponse.fromJson(response);
@@ -370,7 +362,6 @@ class Greengrass {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Devices': devices,
     };
@@ -379,7 +370,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeviceDefinitionVersionResponse.fromJson(response);
@@ -412,7 +403,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -422,7 +412,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/functions$query',
+      requestUri: '/greengrass/definition/functions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFunctionDefinitionResponse.fromJson(response);
@@ -456,7 +446,6 @@ class Greengrass {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'DefaultConfig': defaultConfig,
       'Functions': functions,
@@ -466,7 +455,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFunctionDefinitionVersionResponse.fromJson(response);
@@ -499,7 +488,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -509,7 +497,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/groups$query',
+      requestUri: '/greengrass/groups',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupResponse.fromJson(response);
@@ -534,14 +522,13 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupCertificateAuthorityResponse.fromJson(response);
@@ -591,7 +578,6 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
       'CoreDefinitionVersionArn': coreDefinitionVersionArn,
@@ -606,7 +592,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGroupVersionResponse.fromJson(response);
@@ -637,7 +623,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -647,7 +632,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/loggers$query',
+      requestUri: '/greengrass/definition/loggers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLoggerDefinitionResponse.fromJson(response);
@@ -673,7 +658,6 @@ class Greengrass {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Loggers': loggers,
     };
@@ -682,7 +666,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLoggerDefinitionVersionResponse.fromJson(response);
@@ -714,7 +698,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -724,7 +707,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/resources$query',
+      requestUri: '/greengrass/definition/resources',
       exceptionFnMap: _exceptionFns,
     );
     return CreateResourceDefinitionResponse.fromJson(response);
@@ -751,7 +734,6 @@ class Greengrass {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Resources': resources,
     };
@@ -760,7 +742,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateResourceDefinitionVersionResponse.fromJson(response);
@@ -795,7 +777,6 @@ class Greengrass {
         updateTargetsOperatingSystem, 'updateTargetsOperatingSystem');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'S3UrlSignerRole': s3UrlSignerRole,
       'SoftwareToUpdate': softwareToUpdate?.toValue(),
@@ -808,7 +789,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/updates$query',
+      requestUri: '/greengrass/updates',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSoftwareUpdateJobResponse.fromJson(response);
@@ -839,7 +820,6 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'InitialVersion': initialVersion,
       'Name': name,
@@ -849,7 +829,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/definition/subscriptions$query',
+      requestUri: '/greengrass/definition/subscriptions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSubscriptionDefinitionResponse.fromJson(response);
@@ -878,7 +858,6 @@ class Greengrass {
         subscriptionDefinitionId, 'subscriptionDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Subscriptions': subscriptions,
     };
@@ -887,7 +866,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSubscriptionDefinitionVersionResponse.fromJson(response);
@@ -903,13 +882,12 @@ class Greengrass {
     @_s.required String connectorDefinitionId,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConnectorDefinitionResponse.fromJson(response);
@@ -925,13 +903,12 @@ class Greengrass {
     @_s.required String coreDefinitionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCoreDefinitionResponse.fromJson(response);
@@ -947,13 +924,12 @@ class Greengrass {
     @_s.required String deviceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDeviceDefinitionResponse.fromJson(response);
@@ -969,13 +945,12 @@ class Greengrass {
     @_s.required String functionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFunctionDefinitionResponse.fromJson(response);
@@ -991,13 +966,12 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGroupResponse.fromJson(response);
@@ -1013,13 +987,12 @@ class Greengrass {
     @_s.required String loggerDefinitionId,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLoggerDefinitionResponse.fromJson(response);
@@ -1035,13 +1008,12 @@ class Greengrass {
     @_s.required String resourceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteResourceDefinitionResponse.fromJson(response);
@@ -1058,13 +1030,12 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSubscriptionDefinitionResponse.fromJson(response);
@@ -1081,13 +1052,12 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateRoleFromGroupResponse.fromJson(response);
@@ -1099,12 +1069,11 @@ class Greengrass {
   /// May throw [InternalServerErrorException].
   Future<DisassociateServiceRoleFromAccountResponse>
       disassociateServiceRoleFromAccount() async {
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/greengrass/servicerole$query',
+      requestUri: '/greengrass/servicerole',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateServiceRoleFromAccountResponse.fromJson(response);
@@ -1121,12 +1090,11 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/role',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssociatedRoleResponse.fromJson(response);
@@ -1142,12 +1110,11 @@ class Greengrass {
     @_s.required String bulkDeploymentId,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/status$query',
+          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetBulkDeploymentStatusResponse.fromJson(response);
@@ -1164,12 +1131,11 @@ class Greengrass {
     @_s.required String thingName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/things/${Uri.encodeComponent(thingName.toString())}/connectivityInfo$query',
+          '/greengrass/things/${Uri.encodeComponent(thingName.toString())}/connectivityInfo',
       exceptionFnMap: _exceptionFns,
     );
     return GetConnectivityInfoResponse.fromJson(response);
@@ -1185,12 +1151,11 @@ class Greengrass {
     @_s.required String connectorDefinitionId,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConnectorDefinitionResponse.fromJson(response);
@@ -1225,15 +1190,15 @@ class Greengrass {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     ArgumentError.checkNotNull(
         connectorDefinitionVersionId, 'connectorDefinitionVersionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions/${Uri.encodeComponent(connectorDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions/${Uri.encodeComponent(connectorDefinitionVersionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetConnectorDefinitionVersionResponse.fromJson(response);
@@ -1249,12 +1214,11 @@ class Greengrass {
     @_s.required String coreDefinitionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCoreDefinitionResponse.fromJson(response);
@@ -1281,12 +1245,11 @@ class Greengrass {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     ArgumentError.checkNotNull(
         coreDefinitionVersionId, 'coreDefinitionVersionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions/${Uri.encodeComponent(coreDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions/${Uri.encodeComponent(coreDefinitionVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCoreDefinitionVersionResponse.fromJson(response);
@@ -1307,12 +1270,11 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}/status$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeploymentStatusResponse.fromJson(response);
@@ -1328,12 +1290,11 @@ class Greengrass {
     @_s.required String deviceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeviceDefinitionResponse.fromJson(response);
@@ -1365,15 +1326,15 @@ class Greengrass {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     ArgumentError.checkNotNull(
         deviceDefinitionVersionId, 'deviceDefinitionVersionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions/${Uri.encodeComponent(deviceDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions/${Uri.encodeComponent(deviceDefinitionVersionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeviceDefinitionVersionResponse.fromJson(response);
@@ -1390,12 +1351,11 @@ class Greengrass {
     @_s.required String functionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionDefinitionResponse.fromJson(response);
@@ -1429,15 +1389,15 @@ class Greengrass {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     ArgumentError.checkNotNull(
         functionDefinitionVersionId, 'functionDefinitionVersionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions/${Uri.encodeComponent(functionDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions/${Uri.encodeComponent(functionDefinitionVersionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionDefinitionVersionResponse.fromJson(response);
@@ -1453,12 +1413,11 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupResponse.fromJson(response);
@@ -1482,12 +1441,11 @@ class Greengrass {
     ArgumentError.checkNotNull(
         certificateAuthorityId, 'certificateAuthorityId');
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/${Uri.encodeComponent(certificateAuthorityId.toString())}$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/${Uri.encodeComponent(certificateAuthorityId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupCertificateAuthorityResponse.fromJson(response);
@@ -1505,12 +1463,11 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/configuration/expiry$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/configuration/expiry',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupCertificateConfigurationResponse.fromJson(response);
@@ -1535,12 +1492,11 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     ArgumentError.checkNotNull(groupVersionId, 'groupVersionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions/${Uri.encodeComponent(groupVersionId.toString())}$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions/${Uri.encodeComponent(groupVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupVersionResponse.fromJson(response);
@@ -1556,12 +1512,11 @@ class Greengrass {
     @_s.required String loggerDefinitionId,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetLoggerDefinitionResponse.fromJson(response);
@@ -1593,15 +1548,15 @@ class Greengrass {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     ArgumentError.checkNotNull(
         loggerDefinitionVersionId, 'loggerDefinitionVersionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions/${Uri.encodeComponent(loggerDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions/${Uri.encodeComponent(loggerDefinitionVersionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetLoggerDefinitionVersionResponse.fromJson(response);
@@ -1618,12 +1573,11 @@ class Greengrass {
     @_s.required String resourceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourceDefinitionResponse.fromJson(response);
@@ -1651,12 +1605,11 @@ class Greengrass {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     ArgumentError.checkNotNull(
         resourceDefinitionVersionId, 'resourceDefinitionVersionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions/${Uri.encodeComponent(resourceDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions/${Uri.encodeComponent(resourceDefinitionVersionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetResourceDefinitionVersionResponse.fromJson(response);
@@ -1666,11 +1619,10 @@ class Greengrass {
   ///
   /// May throw [InternalServerErrorException].
   Future<GetServiceRoleForAccountResponse> getServiceRoleForAccount() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/servicerole$query',
+      requestUri: '/greengrass/servicerole',
       exceptionFnMap: _exceptionFns,
     );
     return GetServiceRoleForAccountResponse.fromJson(response);
@@ -1687,12 +1639,11 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSubscriptionDefinitionResponse.fromJson(response);
@@ -1726,15 +1677,15 @@ class Greengrass {
         subscriptionDefinitionId, 'subscriptionDefinitionId');
     ArgumentError.checkNotNull(
         subscriptionDefinitionVersionId, 'subscriptionDefinitionVersionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions/${Uri.encodeComponent(subscriptionDefinitionVersionId.toString())}$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions/${Uri.encodeComponent(subscriptionDefinitionVersionId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetSubscriptionDefinitionVersionResponse.fromJson(response);
@@ -1761,8 +1712,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1770,7 +1721,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/detailed-reports$query',
+          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/detailed-reports$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBulkDeploymentDetailedReportsResponse.fromJson(response);
@@ -1790,15 +1741,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/bulk/deployments$query',
+      requestUri: '/greengrass/bulk/deployments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListBulkDeploymentsResponse.fromJson(response);
@@ -1827,8 +1778,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1836,7 +1787,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConnectorDefinitionVersionsResponse.fromJson(response);
@@ -1854,15 +1805,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/connectors$query',
+      requestUri: '/greengrass/definition/connectors$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListConnectorDefinitionsResponse.fromJson(response);
@@ -1887,8 +1838,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1896,7 +1847,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCoreDefinitionVersionsResponse.fromJson(response);
@@ -1914,15 +1865,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/cores$query',
+      requestUri: '/greengrass/definition/cores$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListCoreDefinitionsResponse.fromJson(response);
@@ -1947,8 +1898,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1956,7 +1907,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDeploymentsResponse.fromJson(response);
@@ -1981,8 +1932,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1990,7 +1941,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDeviceDefinitionVersionsResponse.fromJson(response);
@@ -2008,15 +1959,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/devices$query',
+      requestUri: '/greengrass/definition/devices$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListDeviceDefinitionsResponse.fromJson(response);
@@ -2042,8 +1993,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2051,7 +2002,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionDefinitionVersionsResponse.fromJson(response);
@@ -2069,15 +2020,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/functions$query',
+      requestUri: '/greengrass/definition/functions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionDefinitionsResponse.fromJson(response);
@@ -2095,12 +2046,11 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupCertificateAuthoritiesResponse.fromJson(response);
@@ -2125,8 +2075,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2134,7 +2084,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupVersionsResponse.fromJson(response);
@@ -2152,15 +2102,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/groups$query',
+      requestUri: '/greengrass/groups$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupsResponse.fromJson(response);
@@ -2185,8 +2135,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2194,7 +2144,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListLoggerDefinitionVersionsResponse.fromJson(response);
@@ -2212,15 +2162,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/loggers$query',
+      requestUri: '/greengrass/definition/loggers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListLoggerDefinitionsResponse.fromJson(response);
@@ -2246,8 +2196,8 @@ class Greengrass {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2255,7 +2205,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListResourceDefinitionVersionsResponse.fromJson(response);
@@ -2273,15 +2223,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/resources$query',
+      requestUri: '/greengrass/definition/resources$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListResourceDefinitionsResponse.fromJson(response);
@@ -2308,8 +2258,8 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -2317,7 +2267,7 @@ class Greengrass {
       payload: null,
       method: 'GET',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSubscriptionDefinitionVersionsResponse.fromJson(response);
@@ -2335,15 +2285,15 @@ class Greengrass {
     String maxResults,
     String nextToken,
   }) async {
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/subscriptions$query',
+      requestUri: '/greengrass/definition/subscriptions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListSubscriptionDefinitionsResponse.fromJson(response);
@@ -2359,11 +2309,10 @@ class Greengrass {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -2389,7 +2338,6 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'Force': force,
     };
@@ -2398,7 +2346,7 @@ class Greengrass {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments/\$reset$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/deployments/\$reset',
       exceptionFnMap: _exceptionFns,
     );
     return ResetDeploymentsResponse.fromJson(response);
@@ -2442,7 +2390,6 @@ class Greengrass {
     ArgumentError.checkNotNull(inputFileUri, 'inputFileUri');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{
       'ExecutionRoleArn': executionRoleArn,
       'InputFileUri': inputFileUri,
@@ -2452,7 +2399,7 @@ class Greengrass {
       payload: $payload,
       headers: headers,
       method: 'POST',
-      requestUri: '/greengrass/bulk/deployments$query',
+      requestUri: '/greengrass/bulk/deployments',
       exceptionFnMap: _exceptionFns,
     );
     return StartBulkDeploymentResponse.fromJson(response);
@@ -2472,13 +2419,12 @@ class Greengrass {
     @_s.required String bulkDeploymentId,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/\$stop$query',
+          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId.toString())}/\$stop',
       exceptionFnMap: _exceptionFns,
     );
     return StopBulkDeploymentResponse.fromJson(response);
@@ -2498,14 +2444,13 @@ class Greengrass {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var query = '';
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2525,15 +2470,15 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2555,7 +2500,6 @@ class Greengrass {
     List<ConnectivityInfo> connectivityInfo,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    var query = '';
     final $payload = <String, dynamic>{
       'ConnectivityInfo': connectivityInfo,
     };
@@ -2563,7 +2507,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/things/${Uri.encodeComponent(thingName.toString())}/connectivityInfo$query',
+          '/greengrass/things/${Uri.encodeComponent(thingName.toString())}/connectivityInfo',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConnectivityInfoResponse.fromJson(response);
@@ -2583,7 +2527,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2591,7 +2534,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}$query',
+          '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConnectorDefinitionResponse.fromJson(response);
@@ -2611,7 +2554,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2619,7 +2561,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}$query',
+          '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateCoreDefinitionResponse.fromJson(response);
@@ -2639,7 +2581,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2647,7 +2588,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}$query',
+          '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDeviceDefinitionResponse.fromJson(response);
@@ -2667,7 +2608,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2675,7 +2615,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}$query',
+          '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFunctionDefinitionResponse.fromJson(response);
@@ -2695,7 +2635,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2703,7 +2642,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupResponse.fromJson(response);
@@ -2726,7 +2665,6 @@ class Greengrass {
     String certificateExpiryInMilliseconds,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    var query = '';
     final $payload = <String, dynamic>{
       'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
     };
@@ -2734,7 +2672,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/configuration/expiry$query',
+          '/greengrass/groups/${Uri.encodeComponent(groupId.toString())}/certificateauthorities/configuration/expiry',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupCertificateConfigurationResponse.fromJson(response);
@@ -2754,7 +2692,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2762,7 +2699,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}$query',
+          '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLoggerDefinitionResponse.fromJson(response);
@@ -2782,7 +2719,6 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2790,7 +2726,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}$query',
+          '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateResourceDefinitionResponse.fromJson(response);
@@ -2811,7 +2747,6 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -2819,7 +2754,7 @@ class Greengrass {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}$query',
+          '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSubscriptionDefinitionResponse.fromJson(response);

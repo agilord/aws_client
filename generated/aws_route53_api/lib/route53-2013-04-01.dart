@@ -94,7 +94,8 @@ class Route53 {
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/hostedzone/$hostedZoneId/associatevpc',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/associatevpc',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateVPCWithHostedZoneResponse.fromXml($result.body);
@@ -224,7 +225,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/hostedzone/$hostedZoneId/rrset/',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset/',
       exceptionFnMap: _exceptionFns,
     );
     return ChangeResourceRecordSetsResponse.fromXml($result.body);
@@ -286,7 +288,8 @@ class Route53 {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/tags/$resourceType/$resourceId',
+      requestUri:
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1016,7 +1019,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/trafficpolicy/$id',
+      requestUri:
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrafficPolicyVersionResponse.fromXml($result.body,
@@ -1066,7 +1070,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/$hostedZoneId/authorizevpcassociation',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
@@ -1110,7 +1114,8 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/healthcheck/$healthCheckId',
+      requestUri:
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1192,7 +1197,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/hostedzone/$id',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteHostedZoneResponse.fromXml($result.body);
@@ -1225,7 +1231,8 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/queryloggingconfig/$id',
+      requestUri:
+          '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1261,7 +1268,8 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/delegationset/$id',
+      requestUri:
+          '/2013-04-01/delegationset/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1300,7 +1308,8 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/trafficpolicy/$id/$version',
+      requestUri:
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1336,7 +1345,8 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/2013-04-01/trafficpolicyinstance/$id',
+      requestUri:
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1385,7 +1395,7 @@ class Route53 {
     await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/$hostedZoneId/deauthorizevpcassociation',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/deauthorizevpcassociation',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1439,7 +1449,8 @@ class Route53 {
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/hostedzone/$hostedZoneId/disassociatevpc',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/disassociatevpc',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateVPCFromHostedZoneResponse.fromXml($result.body);
@@ -1496,7 +1507,8 @@ class Route53 {
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/accountlimit/$type',
+      requestUri:
+          '/2013-04-01/accountlimit/${Uri.encodeComponent(type.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountLimitResponse.fromXml($result.body);
@@ -1537,7 +1549,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/change/$id',
+      requestUri: '/2013-04-01/change/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetChangeResponse.fromXml($result.body);
@@ -1687,7 +1699,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/healthcheck/$healthCheckId',
+      requestUri:
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckResponse.fromXml($result.body);
@@ -1733,7 +1746,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/healthcheck/$healthCheckId/lastfailurereason',
+      requestUri:
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}/lastfailurereason',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckLastFailureReasonResponse.fromXml($result.body);
@@ -1767,7 +1781,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/healthcheck/$healthCheckId/status',
+      requestUri:
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckStatusResponse.fromXml($result.body);
@@ -1794,7 +1809,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/hostedzone/$id',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHostedZoneResponse.fromXml($result.body);
@@ -1858,7 +1874,8 @@ class Route53 {
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/hostedzonelimit/$hostedZoneId/$type',
+      requestUri:
+          '/2013-04-01/hostedzonelimit/${Uri.encodeComponent(hostedZoneId.toString())}/${Uri.encodeComponent(type.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHostedZoneLimitResponse.fromXml($result.body);
@@ -1891,7 +1908,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/queryloggingconfig/$id',
+      requestUri:
+          '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueryLoggingConfigResponse.fromXml($result.body);
@@ -1920,7 +1938,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/delegationset/$id',
+      requestUri:
+          '/2013-04-01/delegationset/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetReusableDelegationSetResponse.fromXml($result.body);
@@ -1962,7 +1981,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/reusabledelegationsetlimit/$delegationSetId/$type',
+          '/2013-04-01/reusabledelegationsetlimit/${Uri.encodeComponent(delegationSetId.toString())}/${Uri.encodeComponent(type.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetReusableDelegationSetLimitResponse.fromXml($result.body);
@@ -2001,7 +2020,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/trafficpolicy/$id/$version',
+      requestUri:
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTrafficPolicyResponse.fromXml($result.body);
@@ -2038,7 +2058,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/trafficpolicyinstance/$id',
+      requestUri:
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTrafficPolicyInstanceResponse.fromXml($result.body);
@@ -2634,7 +2655,8 @@ class Route53 {
     startRecordType?.let((v) => queryParams['type'] = v.toValue());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/hostedzone/$hostedZoneId/rrset',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -2727,7 +2749,8 @@ class Route53 {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/tags/$resourceType/$resourceId',
+      requestUri:
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromXml($result.body);
@@ -2769,7 +2792,8 @@ class Route53 {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/tags/$resourceType',
+      requestUri:
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourcesResponse.fromXml($result.body);
@@ -3203,7 +3227,8 @@ class Route53 {
         ?.let((v) => queryParams['trafficpolicyversion'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/trafficpolicies/$id/versions',
+      requestUri:
+          '/2013-04-01/trafficpolicies/${Uri.encodeComponent(id.toString())}/versions',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -3263,7 +3288,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/hostedzone/$hostedZoneId/authorizevpcassociation',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
@@ -3847,7 +3872,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/healthcheck/$healthCheckId',
+      requestUri:
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHealthCheckResponse.fromXml($result.body);
@@ -3885,7 +3911,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/hostedzone/$id',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHostedZoneCommentResponse.fromXml($result.body);
@@ -3938,7 +3965,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/trafficpolicy/$id/$version',
+      requestUri:
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyCommentResponse.fromXml($result.body);
@@ -4028,7 +4056,8 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri: '/2013-04-01/trafficpolicyinstance/$id',
+      requestUri:
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyInstanceResponse.fromXml($result.body);

@@ -126,13 +126,12 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -179,13 +178,12 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -225,7 +223,6 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -233,7 +230,7 @@ class Glacier {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags?operation=add$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags?operation=add',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -328,14 +325,13 @@ class Glacier {
     final headers = <String, String>{};
     archiveSize?.let((v) => headers['x-amz-archive-size'] = v.toString());
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ArchiveCreationOutput.fromJson(response);
@@ -388,13 +384,12 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(lockId, 'lockId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy/${Uri.encodeComponent(lockId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy/${Uri.encodeComponent(lockId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -451,13 +446,12 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVaultOutput.fromJson(response);
@@ -521,13 +515,12 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(archiveId, 'archiveId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/archives/${Uri.encodeComponent(archiveId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/archives/${Uri.encodeComponent(archiveId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -580,13 +573,12 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -623,13 +615,12 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -674,13 +665,12 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -736,12 +726,11 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GlacierJobDescription.fromJson(response);
@@ -792,12 +781,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeVaultOutput.fromJson(response);
@@ -824,12 +812,11 @@ class Glacier {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/policies/data-retrieval$query',
+          '/${Uri.encodeComponent(accountId.toString())}/policies/data-retrieval',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataRetrievalPolicyOutput.fromJson(response);
@@ -951,13 +938,12 @@ class Glacier {
     ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{};
     range?.let((v) => headers['Range'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       headers: headers,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/output$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/output',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobOutputOutput.fromJson(response);
@@ -992,12 +978,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetVaultAccessPolicyOutput.fromJson(response);
@@ -1057,12 +1042,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetVaultLockOutput.fromJson(response);
@@ -1112,12 +1096,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
     return GetVaultNotificationsOutput.fromJson(response);
@@ -1156,12 +1139,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: jobParameters,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return InitiateJobOutput.fromJson(response);
@@ -1244,14 +1226,13 @@ class Glacier {
     archiveDescription
         ?.let((v) => headers['x-amz-archive-description'] = v.toString());
     partSize?.let((v) => headers['x-amz-part-size'] = v.toString());
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads',
       exceptionFnMap: _exceptionFns,
     );
     return InitiateMultipartUploadOutput.fromJson(response);
@@ -1323,12 +1304,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: policy,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy',
       exceptionFnMap: _exceptionFns,
     );
     return InitiateVaultLockOutput.fromJson(response);
@@ -1420,8 +1400,8 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (completed != null) _s.toQueryParam('completed', completed),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
@@ -1431,7 +1411,7 @@ class Glacier {
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsOutput.fromJson(response);
@@ -1506,8 +1486,8 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
@@ -1515,7 +1495,7 @@ class Glacier {
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListMultipartUploadsOutput.fromJson(response);
@@ -1590,8 +1570,8 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
@@ -1599,7 +1579,7 @@ class Glacier {
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListPartsOutput.fromJson(response);
@@ -1622,12 +1602,11 @@ class Glacier {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/provisioned-capacity$query',
+          '/${Uri.encodeComponent(accountId.toString())}/provisioned-capacity',
       exceptionFnMap: _exceptionFns,
     );
     return ListProvisionedCapacityOutput.fromJson(response);
@@ -1659,12 +1638,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForVaultOutput.fromJson(response);
@@ -1723,15 +1701,15 @@ class Glacier {
     String marker,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(accountId.toString())}/vaults$query',
+      requestUri: '/${Uri.encodeComponent(accountId.toString())}/vaults$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListVaultsOutput.fromJson(response);
@@ -1754,13 +1732,12 @@ class Glacier {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/provisioned-capacity$query',
+          '/${Uri.encodeComponent(accountId.toString())}/provisioned-capacity',
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseProvisionedCapacityOutput.fromJson(response);
@@ -1797,7 +1774,6 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
     };
@@ -1805,7 +1781,7 @@ class Glacier {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags?operation=remove$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/tags?operation=remove',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1840,7 +1816,6 @@ class Glacier {
     DataRetrievalPolicy policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    var query = '';
     final $payload = <String, dynamic>{
       'Policy': policy,
     };
@@ -1848,7 +1823,7 @@ class Glacier {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/policies/data-retrieval$query',
+          '/${Uri.encodeComponent(accountId.toString())}/policies/data-retrieval',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1886,12 +1861,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     await _protocol.send(
       payload: policy,
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1963,12 +1937,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    var query = '';
     await _protocol.send(
       payload: vaultNotificationConfig,
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2053,13 +2026,12 @@ class Glacier {
     archiveDescription
         ?.let((v) => headers['x-amz-archive-description'] = v.toString());
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: body,
       headers: headers,
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/archives$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/archives',
       exceptionFnMap: _exceptionFns,
     );
     return ArchiveCreationOutput.fromJson(response);
@@ -2164,13 +2136,12 @@ class Glacier {
     final headers = <String, String>{};
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
     range?.let((v) => headers['Content-Range'] = v.toString());
-    var query = '';
     final response = await _protocol.send(
       payload: body,
       headers: headers,
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}$query',
+          '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return UploadMultipartPartOutput.fromJson(response);

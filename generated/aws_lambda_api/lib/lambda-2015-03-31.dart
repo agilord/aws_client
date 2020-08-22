@@ -143,8 +143,8 @@ class Lambda {
       organizationId,
       r'''o-[a-z0-9]{10,32}''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -157,7 +157,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy$_query',
       exceptionFnMap: _exceptionFns,
     );
     return AddLayerVersionPermissionResponse.fromJson(response);
@@ -332,8 +332,8 @@ class Lambda {
       sourceArn,
       r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -349,7 +349,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$_query',
       exceptionFnMap: _exceptionFns,
     );
     return AddPermissionResponse.fromJson(response);
@@ -457,7 +457,6 @@ class Lambda {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
       'Name': name,
@@ -468,7 +467,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases',
       exceptionFnMap: _exceptionFns,
     );
     return AliasConfiguration.fromJson(response);
@@ -678,7 +677,6 @@ class Lambda {
       1,
       10,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'EventSourceArn': eventSourceArn,
       'FunctionName': functionName,
@@ -696,7 +694,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/event-source-mappings/$query',
+      requestUri: '/2015-03-31/event-source-mappings/',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceMappingConfiguration.fromJson(response);
@@ -923,7 +921,6 @@ class Lambda {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Code': code,
       'FunctionName': functionName,
@@ -945,7 +942,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2015-03-31/functions$query',
+      requestUri: '/2015-03-31/functions',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -1012,13 +1009,12 @@ class Lambda {
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1043,13 +1039,12 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    var query = '';
     final $payload = <String, dynamic>{};
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceMappingConfiguration.fromJson(response);
@@ -1123,8 +1118,8 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1132,7 +1127,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1180,13 +1175,12 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
+          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1254,8 +1248,8 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1263,7 +1257,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1301,13 +1295,12 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    var query = '';
     final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1373,8 +1366,8 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -1382,7 +1375,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1394,11 +1387,10 @@ class Lambda {
   /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
   Future<GetAccountSettingsResponse> getAccountSettings() async {
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2016-08-19/account-settings/$query',
+      requestUri: '/2016-08-19/account-settings/',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountSettingsResponse.fromJson(response);
@@ -1465,12 +1457,11 @@ class Lambda {
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return AliasConfiguration.fromJson(response);
@@ -1490,12 +1481,11 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceMappingConfiguration.fromJson(response);
@@ -1564,15 +1554,15 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionResponse.fromJson(response);
@@ -1622,12 +1612,11 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/concurrency',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionConcurrencyResponse.fromJson(response);
@@ -1698,15 +1687,15 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -1775,15 +1764,15 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
@@ -1823,12 +1812,11 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetLayerVersionResponse.fromJson(response);
@@ -1863,14 +1851,14 @@ class Lambda {
       r'''arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (arn != null) _s.toQueryParam('Arn', arn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers?find=LayerVersion$query',
+      requestUri: '/2018-10-31/layers?find=LayerVersion$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetLayerVersionResponse.fromJson(response);
@@ -1910,12 +1898,11 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetLayerVersionPolicyResponse.fromJson(response);
@@ -1982,15 +1969,15 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetPolicyResponse.fromJson(response);
@@ -2059,15 +2046,15 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$_query',
       exceptionFnMap: _exceptionFns,
     );
     return GetProvisionedConcurrencyConfigResponse.fromJson(response);
@@ -2237,8 +2224,8 @@ class Lambda {
     clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
     invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toValue());
     logType?.let((v) => headers['X-Amz-Log-Type'] = v.toValue());
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -2246,7 +2233,7 @@ class Lambda {
       headers: headers,
       method: 'POST',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/invocations$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/invocations$_query',
       exceptionFnMap: _exceptionFns,
     );
     return InvocationResponse.fromJson(response);
@@ -2304,12 +2291,11 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
-    var query = '';
     final response = await _protocol.send(
       payload: invokeArgs,
       method: 'POST',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/$query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeAsyncResponse.fromJson(response);
@@ -2389,8 +2375,8 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (functionVersion != null)
         _s.toQueryParam('FunctionVersion', functionVersion),
       if (marker != null) _s.toQueryParam('Marker', marker),
@@ -2400,7 +2386,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListAliasesResponse.fromJson(response);
@@ -2485,8 +2471,8 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (eventSourceArn != null)
         _s.toQueryParam('EventSourceArn', eventSourceArn),
       if (functionName != null) _s.toQueryParam('FunctionName', functionName),
@@ -2496,7 +2482,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/event-source-mappings/$query',
+      requestUri: '/2015-03-31/event-source-mappings/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListEventSourceMappingsResponse.fromJson(response);
@@ -2564,8 +2550,8 @@ class Lambda {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -2573,7 +2559,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config/list$query',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config/list$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionEventInvokeConfigsResponse.fromJson(response);
@@ -2625,8 +2611,8 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (functionVersion != null)
         _s.toQueryParam('FunctionVersion', functionVersion),
       if (marker != null) _s.toQueryParam('Marker', marker),
@@ -2636,7 +2622,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-03-31/functions/$query',
+      requestUri: '/2015-03-31/functions/$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionsResponse.fromJson(response);
@@ -2692,8 +2678,8 @@ class Lambda {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (compatibleRuntime != null)
         _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
       if (marker != null) _s.toQueryParam('Marker', marker),
@@ -2703,7 +2689,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListLayerVersionsResponse.fromJson(response);
@@ -2740,8 +2726,8 @@ class Lambda {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (compatibleRuntime != null)
         _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
       if (marker != null) _s.toQueryParam('Marker', marker),
@@ -2750,7 +2736,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2018-10-31/layers$query',
+      requestUri: '/2018-10-31/layers$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListLayersResponse.fromJson(response);
@@ -2814,8 +2800,8 @@ class Lambda {
       1,
       50,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -2823,7 +2809,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency?List=ALL$query',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency?List=ALL$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListProvisionedConcurrencyConfigsResponse.fromJson(response);
@@ -2850,12 +2836,11 @@ class Lambda {
       r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    var query = '';
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsResponse.fromJson(response);
@@ -2921,8 +2906,8 @@ class Lambda {
       1,
       10000,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -2930,7 +2915,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
     return ListVersionsByFunctionResponse.fromJson(response);
@@ -3016,7 +3001,6 @@ class Lambda {
       0,
       512,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Content': content,
       'CompatibleRuntimes': compatibleRuntimes,
@@ -3027,7 +3011,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return PublishLayerVersionResponse.fromJson(response);
@@ -3114,7 +3098,6 @@ class Lambda {
       0,
       256,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'CodeSha256': codeSha256,
       'Description': description,
@@ -3124,7 +3107,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/versions',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -3200,7 +3183,6 @@ class Lambda {
       1152921504606846976,
       isRequired: true,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'ReservedConcurrentExecutions': reservedConcurrentExecutions,
     };
@@ -3208,7 +3190,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency$query',
+          '/2017-10-31/functions/${Uri.encodeComponent(functionName.toString())}/concurrency',
       exceptionFnMap: _exceptionFns,
     );
     return Concurrency.fromJson(response);
@@ -3336,8 +3318,8 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -3349,7 +3331,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
@@ -3432,8 +3414,8 @@ class Lambda {
       r'''(|[a-zA-Z0-9$_-]+)''',
       isRequired: true,
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -3443,7 +3425,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$query',
+          '/2019-09-30/functions/${Uri.encodeComponent(functionName.toString())}/provisioned-concurrency$_query',
       exceptionFnMap: _exceptionFns,
     );
     return PutProvisionedConcurrencyConfigResponse.fromJson(response);
@@ -3508,8 +3490,8 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -3517,7 +3499,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$query',
+          '/2018-10-31/layers/${Uri.encodeComponent(layerName.toString())}/versions/${Uri.encodeComponent(versionNumber.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3608,8 +3590,8 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
@@ -3618,7 +3600,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/policy/${Uri.encodeComponent(statementId.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3650,7 +3632,6 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var query = '';
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -3658,7 +3639,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3690,8 +3671,8 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -3699,7 +3680,7 @@ class Lambda {
       payload: $payload,
       method: 'DELETE',
       requestUri:
-          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$query',
+          '/2017-03-31/tags/${Uri.encodeComponent(resource.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3804,7 +3785,6 @@ class Lambda {
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'Description': description,
       'FunctionVersion': functionVersion,
@@ -3815,7 +3795,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/aliases/${Uri.encodeComponent(name.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return AliasConfiguration.fromJson(response);
@@ -3978,7 +3958,6 @@ class Lambda {
       1,
       10,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'BatchSize': batchSize,
       'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
@@ -3994,7 +3973,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}$query',
+          '/2015-03-31/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceMappingConfiguration.fromJson(response);
@@ -4107,7 +4086,6 @@ class Lambda {
       1,
       1024,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DryRun': dryRun,
       'Publish': publish,
@@ -4121,7 +4099,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/code$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/code',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -4309,7 +4287,6 @@ class Lambda {
       1,
       1152921504606846976,
     );
-    var query = '';
     final $payload = <String, dynamic>{
       'DeadLetterConfig': deadLetterConfig,
       'Description': description,
@@ -4329,7 +4306,7 @@ class Lambda {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration$query',
+          '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -4440,8 +4417,8 @@ class Lambda {
       qualifier,
       r'''(|[a-zA-Z0-9$_-]+)''',
     );
-    var query = '';
-    query = '?${[
+    var _query = '';
+    _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
@@ -4453,7 +4430,7 @@ class Lambda {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$query',
+          '/2019-09-25/functions/${Uri.encodeComponent(functionName.toString())}/event-invoke-config$_query',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
