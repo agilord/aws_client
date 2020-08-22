@@ -1,3 +1,7 @@
+## 0.2.3
+
+- Fix crash in query protocol meta-data initialization
+
 ## 0.2.2
 
 - Updated implementation of the rest-json protocol.
