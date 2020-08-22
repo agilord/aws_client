@@ -9,8 +9,13 @@
 
 ## Published generated packages
 
+- [AWS Amplify](https://pub.dev/packages/aws_amplify_api)
+- [AWS App Mesh](https://pub.dev/packages/aws_appmesh_api)
+- [AWS AppSync](https://pub.dev/packages/aws_appsync_api)
 - [AWS Application Discovery Service](https://pub.dev/packages/aws_discovery_api)
 - [AWS Auto Scaling Plans](https://pub.dev/packages/aws_autoscaling_plans_api)
+- [AWS Backup](https://pub.dev/packages/aws_backup_api)
+- [AWS Batch](https://pub.dev/packages/aws_batch_api)
 - [AWS Budgets](https://pub.dev/packages/aws_budgets_api)
 - [AWS Certificate Manager](https://pub.dev/packages/aws_acm_api)
 - [AWS Certificate Manager Private Certificate Authority](https://pub.dev/packages/aws_acm_pca_api)
@@ -24,12 +29,14 @@
 - [AWS CodeDeploy](https://pub.dev/packages/aws_deploy_api)
 - [AWS CodePipeline](https://pub.dev/packages/aws_codepipeline_api)
 - [AWS CodeStar](https://pub.dev/packages/aws_codestar_api)
+- [AWS CodeStar Notifications](https://pub.dev/packages/aws_codestar_notifications_api)
 - [AWS CodeStar connections](https://pub.dev/packages/aws_codestar_connections_api)
 - [AWS Comprehend Medical](https://pub.dev/packages/aws_comprehendmedical_api)
 - [AWS Compute Optimizer](https://pub.dev/packages/aws_compute_optimizer_api)
 - [AWS Config](https://pub.dev/packages/aws_configservice_api)
 - [AWS Cost Explorer Service](https://pub.dev/packages/aws_ce_api)
 - [AWS Cost and Usage Report Service](https://pub.dev/packages/aws_cur_api)
+- [AWS Data Exchange](https://pub.dev/packages/aws_dataexchange_api)
 - [AWS Data Pipeline](https://pub.dev/packages/aws_datapipeline_api)
 - [AWS DataSync](https://pub.dev/packages/aws_datasync_api)
 - [AWS Database Migration Service](https://pub.dev/packages/aws_dms_api)
@@ -38,54 +45,101 @@
 - [AWS Directory Service](https://pub.dev/packages/aws_ds_api)
 - [AWS EC2 Instance Connect](https://pub.dev/packages/aws_ec2_instance_connect_api)
 - [AWS Elastic Beanstalk](https://pub.dev/packages/aws_elasticbeanstalk_api)
+- [AWS Elemental MediaConvert](https://pub.dev/packages/aws_mediaconvert_api)
+- [AWS Elemental MediaLive](https://pub.dev/packages/aws_medialive_api)
+- [AWS Elemental MediaPackage](https://pub.dev/packages/aws_mediapackage_api)
+- [AWS Elemental MediaPackage VOD](https://pub.dev/packages/aws_mediapackage_vod_api)
 - [AWS Elemental MediaStore](https://pub.dev/packages/aws_mediastore_api)
+- [AWS Elemental MediaStore Data Plane](https://pub.dev/packages/aws_mediastore_data_api)
 - [AWS Global Accelerator](https://pub.dev/packages/aws_globalaccelerator_api)
 - [AWS Glue](https://pub.dev/packages/aws_glue_api)
+- [AWS Greengrass](https://pub.dev/packages/aws_greengrass_api)
+- [AWS Ground Station](https://pub.dev/packages/aws_groundstation_api)
 - [AWS Health APIs and Notifications](https://pub.dev/packages/aws_health_api)
 - [AWS Identity and Access Management](https://pub.dev/packages/aws_iam_api)
 - [AWS Import/Export](https://pub.dev/packages/aws_importexport_api)
+- [AWS IoT](https://pub.dev/packages/aws_iot_api)
+- [AWS IoT 1-Click Devices Service](https://pub.dev/packages/aws_iot1click_devices_api)
+- [AWS IoT 1-Click Projects Service](https://pub.dev/packages/aws_iot1click_projects_api)
+- [AWS IoT Analytics](https://pub.dev/packages/aws_iotanalytics_api)
+- [AWS IoT Data Plane](https://pub.dev/packages/aws_iot_data_api)
+- [AWS IoT Events](https://pub.dev/packages/aws_iotevents_api)
+- [AWS IoT Events Data](https://pub.dev/packages/aws_iotevents_data_api)
+- [AWS IoT Jobs Data Plane](https://pub.dev/packages/aws_iot_jobs_data_api)
 - [AWS IoT Secure Tunneling](https://pub.dev/packages/aws_iotsecuretunneling_api)
 - [AWS IoT Things Graph](https://pub.dev/packages/aws_iotthingsgraph_api)
 - [AWS Key Management Service](https://pub.dev/packages/aws_kms_api)
 - [AWS Lake Formation](https://pub.dev/packages/aws_lakeformation_api)
+- [AWS Lambda](https://pub.dev/packages/aws_lambda_api)
 - [AWS License Manager](https://pub.dev/packages/aws_license_manager_api)
+- [AWS Marketplace Catalog Service](https://pub.dev/packages/aws_marketplace_catalog_api)
 - [AWS Marketplace Commerce Analytics](https://pub.dev/packages/aws_marketplacecommerceanalytics_api)
 - [AWS Marketplace Entitlement Service](https://pub.dev/packages/aws_marketplace_entitlement_api)
+- [AWS MediaConnect](https://pub.dev/packages/aws_mediaconnect_api)
+- [AWS MediaTailor](https://pub.dev/packages/aws_mediatailor_api)
 - [AWS Migration Hub](https://pub.dev/packages/aws_mgh_api)
 - [AWS Migration Hub Config](https://pub.dev/packages/aws_migrationhub_config_api)
+- [AWS Mobile](https://pub.dev/packages/aws_mobile_api)
+- [AWS Network Manager](https://pub.dev/packages/aws_networkmanager_api)
 - [AWS OpsWorks](https://pub.dev/packages/aws_opsworks_api)
 - [AWS OpsWorks CM](https://pub.dev/packages/aws_opsworks_cm_api)
 - [AWS Organizations](https://pub.dev/packages/aws_organizations_api)
+- [AWS Outposts](https://pub.dev/packages/aws_outposts_api)
 - [AWS Performance Insights](https://pub.dev/packages/aws_pi_api)
 - [AWS Price List Service](https://pub.dev/packages/aws_pricing_api)
+- [AWS RDS DataService](https://pub.dev/packages/aws_rds_data_api)
+- [AWS Resource Access Manager](https://pub.dev/packages/aws_ram_api)
+- [AWS Resource Groups](https://pub.dev/packages/aws_resource_groups_api)
 - [AWS Resource Groups Tagging API](https://pub.dev/packages/aws_resourcegroupstaggingapi_api)
+- [AWS RoboMaker](https://pub.dev/packages/aws_robomaker_api)
 - [AWS S3 Control](https://pub.dev/packages/aws_s3control_api)
+- [AWS SSO OIDC](https://pub.dev/packages/aws_sso_oidc_api)
+- [AWS Savings Plans](https://pub.dev/packages/aws_savingsplans_api)
 - [AWS Secrets Manager](https://pub.dev/packages/aws_secretsmanager_api)
 - [AWS Security Token Service](https://pub.dev/packages/aws_sts_api)
+- [AWS SecurityHub](https://pub.dev/packages/aws_securityhub_api)
 - [AWS Server Migration Service](https://pub.dev/packages/aws_sms_api)
 - [AWS Service Catalog](https://pub.dev/packages/aws_servicecatalog_api)
 - [AWS Shield](https://pub.dev/packages/aws_shield_api)
+- [AWS Signer](https://pub.dev/packages/aws_signer_api)
+- [AWS Single Sign-On](https://pub.dev/packages/aws_sso_api)
 - [AWS Storage Gateway](https://pub.dev/packages/aws_storagegateway_api)
 - [AWS Support](https://pub.dev/packages/aws_support_api)
-- [AWS Transfer Family](https://pub.dev/packages/aws_transfer_api)
+- [AWS Transfer for SFTP](https://pub.dev/packages/aws_transfer_api)
 - [AWS WAF](https://pub.dev/packages/aws_waf_api)
 - [AWS WAF Regional](https://pub.dev/packages/aws_waf_regional_api)
 - [AWS WAFV2](https://pub.dev/packages/aws_wafv2_api)
+- [AWS X-Ray](https://pub.dev/packages/aws_xray_api)
 - [AWSKendraFrontendService](https://pub.dev/packages/aws_kendra_api)
 - [AWSMarketplace Metering](https://pub.dev/packages/aws_meteringmarketplace_api)
+- [AWSServerlessApplicationRepository](https://pub.dev/packages/aws_serverlessrepo_api)
+- [Access Analyzer](https://pub.dev/packages/aws_accessanalyzer_api)
 - [Alexa For Business](https://pub.dev/packages/aws_alexaforbusiness_api)
+- [Amazon API Gateway](https://pub.dev/packages/aws_apigateway_api)
+- [Amazon AppConfig](https://pub.dev/packages/aws_appconfig_api)
 - [Amazon AppStream](https://pub.dev/packages/aws_appstream_api)
 - [Amazon Athena](https://pub.dev/packages/aws_athena_api)
+- [Amazon Augmented AI Runtime](https://pub.dev/packages/aws_sagemaker_a2i_runtime_api)
+- [Amazon Chime](https://pub.dev/packages/aws_chime_api)
+- [Amazon CloudDirectory](https://pub.dev/packages/aws_clouddirectory_api)
 - [Amazon CloudFront](https://pub.dev/packages/aws_cloudfront_api)
 - [Amazon CloudHSM](https://pub.dev/packages/aws_cloudhsm_api)
 - [Amazon CloudSearch](https://pub.dev/packages/aws_cloudsearch_api)
+- [Amazon CloudSearch Domain](https://pub.dev/packages/aws_cloudsearchdomain_api)
 - [Amazon CloudWatch](https://pub.dev/packages/aws_cloudwatch_api)
 - [Amazon CloudWatch Application Insights](https://pub.dev/packages/aws_application_insights_api)
 - [Amazon CloudWatch Events](https://pub.dev/packages/aws_events_api)
 - [Amazon CloudWatch Logs](https://pub.dev/packages/aws_logs_api)
+- [Amazon CodeGuru Profiler](https://pub.dev/packages/aws_codeguruprofiler_api)
+- [Amazon CodeGuru Reviewer](https://pub.dev/packages/aws_codeguru_reviewer_api)
 - [Amazon Cognito Identity](https://pub.dev/packages/aws_cognito_identity_api)
 - [Amazon Cognito Identity Provider](https://pub.dev/packages/aws_cognito_idp_api)
+- [Amazon Cognito Sync](https://pub.dev/packages/aws_cognito_sync_api)
 - [Amazon Comprehend](https://pub.dev/packages/aws_comprehend_api)
+- [Amazon Connect Participant Service](https://pub.dev/packages/aws_connectparticipant_api)
+- [Amazon Connect Service](https://pub.dev/packages/aws_connect_api)
+- [Amazon Data Lifecycle Manager](https://pub.dev/packages/aws_dlm_api)
+- [Amazon Detective](https://pub.dev/packages/aws_detective_api)
 - [Amazon DocumentDB with MongoDB compatibility](https://pub.dev/packages/aws_docdb_api)
 - [Amazon DynamoDB](https://pub.dev/packages/aws_dynamodb_api)
 - [Amazon DynamoDB Accelerator (DAX)](https://pub.dev/packages/aws_dax_api)
@@ -93,33 +147,58 @@
 - [Amazon EC2 Container Registry](https://pub.dev/packages/aws_ecr_api)
 - [Amazon EC2 Container Service](https://pub.dev/packages/aws_ecs_api)
 - [Amazon ElastiCache](https://pub.dev/packages/aws_elasticache_api)
+- [Amazon Elastic  Inference](https://pub.dev/packages/aws_elastic_inference_api)
+- [Amazon Elastic Block Store](https://pub.dev/packages/aws_ebs_api)
+- [Amazon Elastic File System](https://pub.dev/packages/aws_efs_api)
+- [Amazon Elastic Kubernetes Service](https://pub.dev/packages/aws_eks_api)
 - [Amazon Elastic MapReduce](https://pub.dev/packages/aws_emr_api)
+- [Amazon Elastic Transcoder](https://pub.dev/packages/aws_elastictranscoder_api)
+- [Amazon Elasticsearch Service](https://pub.dev/packages/aws_es_api)
 - [Amazon FSx](https://pub.dev/packages/aws_fsx_api)
 - [Amazon Forecast Query Service](https://pub.dev/packages/aws_forecastquery_api)
 - [Amazon Forecast Service](https://pub.dev/packages/aws_forecast_api)
 - [Amazon Fraud Detector](https://pub.dev/packages/aws_frauddetector_api)
 - [Amazon GameLift](https://pub.dev/packages/aws_gamelift_api)
+- [Amazon Glacier](https://pub.dev/packages/aws_glacier_api)
+- [Amazon GuardDuty](https://pub.dev/packages/aws_guardduty_api)
 - [Amazon Import/Export Snowball](https://pub.dev/packages/aws_snowball_api)
 - [Amazon Inspector](https://pub.dev/packages/aws_inspector_api)
 - [Amazon Kinesis](https://pub.dev/packages/aws_kinesis_api)
 - [Amazon Kinesis Analytics](https://pub.dev/packages/aws_kinesisanalyticsv2_api)
 - [Amazon Kinesis Analytics](https://pub.dev/packages/aws_kinesisanalytics_api)
 - [Amazon Kinesis Firehose](https://pub.dev/packages/aws_firehose_api)
+- [Amazon Kinesis Video Signaling Channels](https://pub.dev/packages/aws_kinesis_video_signaling_api)
+- [Amazon Kinesis Video Streams](https://pub.dev/packages/aws_kinesisvideo_api)
+- [Amazon Kinesis Video Streams Archived Media](https://pub.dev/packages/aws_kinesis_video_archived_media_api)
+- [Amazon Kinesis Video Streams Media](https://pub.dev/packages/aws_kinesis_video_media_api)
+- [Amazon Lex Model Building Service](https://pub.dev/packages/aws_lex_models_api)
+- [Amazon Lex Runtime Service](https://pub.dev/packages/aws_lex_runtime_api)
 - [Amazon Lightsail](https://pub.dev/packages/aws_lightsail_api)
 - [Amazon Machine Learning](https://pub.dev/packages/aws_machinelearning_api)
 - [Amazon Macie](https://pub.dev/packages/aws_macie_api)
+- [Amazon Managed Blockchain](https://pub.dev/packages/aws_managedblockchain_api)
 - [Amazon Mechanical Turk](https://pub.dev/packages/aws_mturk_api)
 - [Amazon Neptune](https://pub.dev/packages/aws_neptune_api)
 - [Amazon Personalize](https://pub.dev/packages/aws_personalize_api)
+- [Amazon Personalize Events](https://pub.dev/packages/aws_personalize_events_api)
+- [Amazon Personalize Runtime](https://pub.dev/packages/aws_personalize_runtime_api)
+- [Amazon Pinpoint](https://pub.dev/packages/aws_pinpoint_api)
+- [Amazon Pinpoint Email Service](https://pub.dev/packages/aws_pinpoint_email_api)
+- [Amazon Pinpoint SMS and Voice Service](https://pub.dev/packages/aws_pinpoint_sms_voice_api)
+- [Amazon Polly](https://pub.dev/packages/aws_polly_api)
+- [Amazon QLDB](https://pub.dev/packages/aws_qldb_api)
 - [Amazon QLDB Session](https://pub.dev/packages/aws_qldb_session_api)
+- [Amazon QuickSight](https://pub.dev/packages/aws_quicksight_api)
 - [Amazon Redshift](https://pub.dev/packages/aws_redshift_api)
 - [Amazon Rekognition](https://pub.dev/packages/aws_rekognition_api)
 - [Amazon Relational Database Service](https://pub.dev/packages/aws_rds_api)
 - [Amazon Route 53](https://pub.dev/packages/aws_route53_api)
 - [Amazon Route 53 Domains](https://pub.dev/packages/aws_route53domains_api)
 - [Amazon Route 53 Resolver](https://pub.dev/packages/aws_route53resolver_api)
+- [Amazon SageMaker Runtime](https://pub.dev/packages/aws_sagemaker_runtime_api)
 - [Amazon SageMaker Service](https://pub.dev/packages/aws_sagemaker_api)
 - [Amazon Simple Email Service](https://pub.dev/packages/aws_ses_api)
+- [Amazon Simple Email Service](https://pub.dev/packages/aws_sesv2_api)
 - [Amazon Simple Notification Service](https://pub.dev/packages/aws_sns_api)
 - [Amazon Simple Queue Service](https://pub.dev/packages/aws_sqs_api)
 - [Amazon Simple Storage Service](https://pub.dev/packages/aws_s3_api)
@@ -129,109 +208,27 @@
 - [Amazon Textract](https://pub.dev/packages/aws_textract_api)
 - [Amazon Transcribe Service](https://pub.dev/packages/aws_transcribe_api)
 - [Amazon Translate](https://pub.dev/packages/aws_translate_api)
+- [Amazon WorkDocs](https://pub.dev/packages/aws_workdocs_api)
+- [Amazon WorkLink](https://pub.dev/packages/aws_worklink_api)
 - [Amazon WorkMail](https://pub.dev/packages/aws_workmail_api)
+- [Amazon WorkMail Message Flow](https://pub.dev/packages/aws_workmailmessageflow_api)
 - [Amazon WorkSpaces](https://pub.dev/packages/aws_workspaces_api)
+- [AmazonApiGatewayManagementApi](https://pub.dev/packages/aws_apigatewaymanagementapi_api)
+- [AmazonApiGatewayV2](https://pub.dev/packages/aws_apigatewayv2_api)
+- [AmazonMQ](https://pub.dev/packages/aws_mq_api)
 - [Application Auto Scaling](https://pub.dev/packages/aws_application_autoscaling_api)
 - [Auto Scaling](https://pub.dev/packages/aws_autoscaling_api)
-- [Elastic Load Balancing](https://pub.dev/packages/aws_elb_api)
+- [EC2 Image Builder](https://pub.dev/packages/aws_imagebuilder_api)
 - [Elastic Load Balancing](https://pub.dev/packages/aws_elbv2_api)
+- [Elastic Load Balancing](https://pub.dev/packages/aws_elb_api)
 - [Firewall Management Service](https://pub.dev/packages/aws_fms_api)
+- [Managed Streaming for Kafka](https://pub.dev/packages/aws_kafka_api)
+- [Schemas](https://pub.dev/packages/aws_schemas_api)
 - [Service Quotas](https://pub.dev/packages/aws_service_quotas_api)
 
 # TODO
 
-Implement remaining protocols and generate the services depending on those protocols:
-- EC2
-- rest-json:
-  - NO_PACKAGE_BASENAME: [iotsitewise-2019-12-02, macie2-2020-01-01, synthetics-2017-10-11, mobileanalytics-2014-06-05]
-  - accessanalyzer: [accessanalyzer-2019-11-01]
-  - amplify: [amplify-2017-07-25]
-  - apigateway: [apigateway-2015-07-09]
-  - apigatewaymanagementapi: [apigatewaymanagementapi-2018-11-29]
-  - apigatewayv2: [apigatewayv2-2018-11-29]
-  - appconfig: [appconfig-2019-10-09]
-  - appmesh: [appmesh-2018-10-01, appmesh-2019-01-25]
-  - appsync: [appsync-2017-07-25]
-  - backup: [backup-2018-11-15]
-  - batch: [batch-2016-08-10]
-  - chime: [chime-2018-05-01]
-  - clouddirectory: [clouddirectory-2016-05-10, clouddirectory-2017-01-11]
-  - cloudsearchdomain: [cloudsearchdomain-2013-01-01]
-  - codeguru-reviewer: [codeguru-reviewer-2019-09-19]
-  - codeguruprofiler: [codeguruprofiler-2019-07-18]
-  - codestar-notifications: [codestar-notifications-2019-10-15]
-  - cognito-sync: [cognito-sync-2014-06-30]
-  - connect: [connect-2017-08-08]
-  - connectparticipant: [connectparticipant-2018-09-07]
-  - dataexchange: [dataexchange-2017-07-25]
-  - detective: [detective-2018-10-26]
-  - dlm: [dlm-2018-01-12]
-  - ebs: [ebs-2019-11-02]
-  - efs: [elasticfilesystem-2015-02-01]
-  - eks: [eks-2017-11-01]
-  - elastic-inference: [elastic-inference-2017-07-25]
-  - elastictranscoder: [elastictranscoder-2012-09-25]
-  - es: [es-2015-01-01]
-  - glacier: [glacier-2012-06-01]
-  - greengrass: [greengrass-2017-06-07]
-  - groundstation: [groundstation-2019-05-23]
-  - guardduty: [guardduty-2017-11-28]
-  - imagebuilder: [imagebuilder-2019-12-02]
-  - iot: [iot-2015-05-28]
-  - iot-data: [iot-data-2015-05-28]
-  - iot-jobs-data: [iot-jobs-data-2017-09-29]
-  - iot1click-devices: [devices-2018-05-14]
-  - iot1click-projects: [iot1click-projects-2018-05-14]
-  - iotanalytics: [iotanalytics-2017-11-27]
-  - iotevents: [iotevents-2018-07-27]
-  - iotevents-data: [iotevents-data-2018-10-23]
-  - kafka: [kafka-2018-11-14]
-  - kinesis-video-archived-media: [kinesis-video-archived-media-2017-09-30]
-  - kinesis-video-media: [kinesis-video-media-2017-09-30]
-  - kinesis-video-signaling: [kinesis-video-signaling-2019-12-04]
-  - kinesisvideo: [kinesisvideo-2017-09-30]
-  - lambda [lambda-2014-11-11, lambda-2015-03-31]
-  - lex-models: [lex-models-2017-04-19]
-  - lex-runtime: [runtime.lex-2016-11-28]
-  - managedblockchain: [managedblockchain-2018-09-24]
-  - marketplace-catalog: [marketplace-catalog-2018-09-17]
-  - mediaconnect: [mediaconnect-2018-11-14]
-  - mediaconvert: [mediaconvert-2017-08-29]
-  - medialive: [medialive-2017-10-14]
-  - mediapackage: [mediapackage-2017-10-12]
-  - mediapackage-vod: [mediapackage-vod-2018-11-07]
-  - mediastore-data: [mediastore-data-2017-09-01]
-  - mediatailor: [mediatailor-2018-04-23]
-  - mobile: [mobile-2017-07-01]
-  - mq: [mq-2017-11-27]
-  - networkmanager: [networkmanager-2019-07-05]
-  - outposts: [outposts-2019-12-03]
-  - personalize-events: [personalize-events-2018-03-22]
-  - personalize-runtime: [personalize-runtime-2018-05-22]
-  - pinpoint: [pinpoint-2016-12-01]
-  - pinpoint-email: [pinpoint-email-2018-07-26]
-  - pinpoint-sms-voice: [pinpoint-sms-voice-2018-09-05]
-  - polly: [polly-2016-06-10]
-  - qldb: [qldb-2019-01-02]
-  - quicksight: [quicksight-2018-04-01]
-  - ram: [ram-2018-01-04]
-  - rds-data: [rds-data-2018-08-01]
-  - resource-groups: [resource-groups-2017-11-27]
-  - robomaker: [robomaker-2018-06-29]
-  - sagemaker-a2i-runtime: [sagemaker-a2i-runtime-2019-11-07]
-  - sagemaker-runtime: [runtime.sagemaker-2017-05-13]
-  - savingsplans: [savingsplans-2019-06-28]
-  - schemas: [schemas-2019-12-02]
-  - securityhub: [securityhub-2018-10-26]
-  - serverlessrepo: [serverlessrepo-2017-09-08]
-  - sesv2: [sesv2-2019-09-27]
-  - signer: [signer-2017-08-25]
-  - sso: [sso-2019-06-10]
-  - sso-oidc: [sso-oidc-2019-06-10]
-  - workdocs: [workdocs-2016-05-01]
-  - worklink: [worklink-2018-09-25]
-  - workmailmessageflow: [workmailmessageflow-2019-05-01]
-  - xray: [xray-2016-04-12]
+- Implement EC2 protocol
 
 ## Maintenance
 
