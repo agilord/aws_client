@@ -25,7 +25,8 @@ class Shape {
         json['type'] as String,
         json['key'] == null
             ? null
-            : Descriptor.fromJson((json['key'] as Map)?.cast<String, dynamic>()),
+            : Descriptor.fromJson(
+                (json['key'] as Map)?.cast<String, dynamic>()),
         json['value'] == null
             ? null
             : Descriptor.fromJson(
