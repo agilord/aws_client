@@ -1,3 +1,7 @@
+## 0.2.4
+
+- Fix header being null in multiple protocols.
+
 ## 0.2.3
 
 - Fix crash in query protocol meta-data initialization
