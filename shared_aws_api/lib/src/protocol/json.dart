@@ -51,9 +51,14 @@ class JsonProtocol {
     Map<String, String> headers,
     dynamic payload,
   }) async {
-    final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
+    final rq = Request(
+      method,
+      Uri.parse('$_endpointUrl$requestUri').replace(
+        queryParameters: queryParams ?? {},
+      ),
+    );
     rq.body = payload == null ? null : json.encode(payload);
-    rq.headers.addAll(headers);
+    rq.headers.addAll(headers ?? {});
 
     signAws4HmacSha256(
       rq: rq,

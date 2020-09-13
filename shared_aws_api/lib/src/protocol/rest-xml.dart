@@ -90,9 +90,9 @@ class RestXmlProtocol {
         '$_endpointUrl$requestUri',
       ).replace(queryParameters: queryParams.isEmpty ? null : queryParams),
     );
-    if (headers != null) {
-      rq.headers.addAll(headers);
-    }
+
+    rq.headers.addAll(headers ?? {});
+
     if (payload is XmlElement) {
       rq.body = payload.toXmlString();
       rq.headers['Content-Type'] = 'application/xml';
