@@ -9,7 +9,7 @@ class QueryServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = isGlobalService(api) ? '' : '@_s.required';
+    final regionRequired = api.isGlobalService ? '' : '@_s.required';
     return '''
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;

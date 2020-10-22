@@ -10,7 +10,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = isGlobalService(api) ? '' : '@_s.required';
+    final regionRequired = api.isGlobalService ? '' : '@_s.required';
     return '''
     final _s.RestXmlProtocol _protocol;
     ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
