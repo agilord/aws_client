@@ -5,20 +5,17 @@ import 'package:meta/meta.dart';
 import 'package:shared_aws_api/src/protocol/_sign.dart';
 
 import '../credentials.dart';
+import 'endpoint.dart';
 import 'shared.dart';
 
 class RestJsonProtocol {
-  final String _endpointUrl;
   final Client _client;
-  final String _service;
-  final String _region;
+  final Endpoint _endpoint;
   final AwsClientCredentials _credentials;
 
   RestJsonProtocol._(
     this._client,
-    this._service,
-    this._region,
-    this._endpointUrl,
+    this._endpoint,
     this._credentials,
   );
 
@@ -30,16 +27,11 @@ class RestJsonProtocol {
     AwsClientCredentials credentials,
   }) {
     client ??= Client();
-    if (service == null || region == null) {
-      ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
-    }
-    endpointUrl ??= 'https://$service.$region.amazonaws.com';
-    service ??= extractService(Uri.parse(endpointUrl));
-    region ??= extractRegion(Uri.parse(endpointUrl));
+    final endpoint = Endpoint.forProtocol(
+        service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestJsonProtocol._(
-        client, service, region, endpointUrl, credentials);
+    return RestJsonProtocol._(client, endpoint, credentials);
   }
 
   Future<Map<String, dynamic>> send({
@@ -52,7 +44,7 @@ class RestJsonProtocol {
   }) async {
     final rq = Request(
       method,
-      Uri.parse('$_endpointUrl$requestUri').replace(
+      Uri.parse('${_endpoint.url}$requestUri').replace(
         queryParameters: queryParams ?? {},
       ),
     );
@@ -61,8 +53,8 @@ class RestJsonProtocol {
 
     signAws4HmacSha256(
       rq: rq,
-      service: _service,
-      region: _region,
+      service: _endpoint.service,
+      region: _endpoint.signingRegion,
       credentials: _credentials,
     );
 

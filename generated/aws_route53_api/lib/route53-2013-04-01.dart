@@ -18,7 +18,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class Route53 {
   final _s.RestXmlProtocol _protocol;
   Route53({
-    @_s.required String region,
+    String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,

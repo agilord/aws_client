@@ -84,7 +84,7 @@ part 'budgets-2016-10-20.g.dart';
 class Budgets {
   final _s.JsonProtocol _protocol;
   Budgets({
-    @_s.required String region,
+    String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:aws_client.generator/builders/endpoint_config_builder.dart';
 import 'package:aws_client.generator/builders/example_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model_thin/api.dart' as thin;
@@ -19,6 +20,8 @@ import 'download_command.dart';
 import 'model/config.dart';
 
 class GenerateCommand extends Command {
+  final _formatter = DartFormatter(fixes: StyleFix.all);
+
   @override
   String get name => 'generate';
 
@@ -104,10 +107,12 @@ in the config file, from the downloaded models.''';
       config = config.copyWith(packages: argPackages);
     }
 
-    if (argResults['download'] == true || !Directory('./apis').existsSync()) {
+    if (argResults['download'] == true ||
+        [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
       await DownloadCommand(config).run();
     }
     await _generateClasses();
+    await _generateConfigFiles();
 
     print('Generator finished in ${stopwatch.elapsed}');
   }
@@ -117,9 +122,8 @@ in the config file, from the downloaded models.''';
     final devMode = argResults['dev'] == true;
     final protocol = argResults['protocol'];
 
-    final formatter = DartFormatter(fixes: StyleFix.all);
     final dir = Directory('./apis');
-    final files = dir.listSync();
+    final files = dir.listSync().whereType<File>();
     final services = <String>{};
 
     files.forEach((ent) {
@@ -187,8 +191,8 @@ in the config file, from the downloaded models.''';
 
         var serviceText = buildService(api);
         if (argResults['format'] == true) {
-          serviceText = formatter.format(serviceText, uri: serviceFile.uri);
-          metaContents = formatter.format(metaContents);
+          serviceText = _formatter.format(serviceText, uri: serviceFile.uri);
+          metaContents = _formatter.format(metaContents);
         }
 
         if (api.usesQueryProtocol) {
@@ -249,7 +253,7 @@ in the config file, from the downloaded models.''';
 
         final pathParts = baseDir.split('/')..removeAt(0);
         final ensureBuildTestContent =
-            formatter.format(buildTest(pathParts.join('/'), api));
+            _formatter.format(buildTest(pathParts.join('/'), api));
         File('$baseDir/test/ensure_build_test.dart')
           ..createSync(recursive: true)
           ..writeAsStringSync(ensureBuildTestContent);
@@ -363,6 +367,20 @@ in the config file, from the downloaded models.''';
     }
 
     return !(pr.stdout as String).contains('working tree clean');
+  }
+
+  final _configDataFile = File('./apis/config/region_config_data.json');
+  Future<void> _generateConfigFiles() async {
+    final jsonContent =
+        jsonDecode(await _configDataFile.readAsString()) as Map<String, Object>;
+    final endpointConfigCode =
+        _formatter.format(buildEndpointConfig(jsonContent));
+
+    File('../shared_aws_api/lib/src/protocol/endpoint_config_data.dart')
+      ..createSync(recursive: true)
+      ..writeAsStringSync(endpointConfigCode);
+
+    print('Generated endpoint_config_data file');
   }
 }
 

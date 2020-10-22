@@ -8,14 +8,17 @@ class QueryServiceBuilder extends ServiceBuilder {
   QueryServiceBuilder(this.api);
 
   @override
-  String constructor() => '''
+  String constructor() {
+    final regionRequired = isGlobalService(api) ? '' : '@_s.required';
+    return '''
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
 
-  ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client,})
+  ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client,})
   : _protocol = _s.QueryProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials,),
   shapes = shapesJson.map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
   ''';
+  }
 
   @override
   String imports() => "import '${api.fileBasename}.meta.dart';";

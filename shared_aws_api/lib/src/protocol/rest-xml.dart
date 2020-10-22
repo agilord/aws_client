@@ -7,20 +7,17 @@ import 'package:xml/xml.dart';
 import '../credentials.dart';
 
 import '_sign.dart';
+import 'endpoint.dart';
 import 'shared.dart';
 
 class RestXmlProtocol {
-  final String _endpointUrl;
   final Client _client;
-  final String _service;
-  final String _region;
+  final Endpoint _endpoint;
   final AwsClientCredentials _credentials;
 
   RestXmlProtocol._(
     this._client,
-    this._service,
-    this._region,
-    this._endpointUrl,
+    this._endpoint,
     this._credentials,
   );
 
@@ -32,15 +29,11 @@ class RestXmlProtocol {
     AwsClientCredentials credentials,
   }) {
     client ??= Client();
-    if (service == null || region == null) {
-      ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
-    }
-    endpointUrl ??= 'https://$service.$region.amazonaws.com';
-    service ??= extractService(Uri.parse(endpointUrl));
-    region ??= extractRegion(Uri.parse(endpointUrl));
+    final endpoint = Endpoint.forProtocol(
+        service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestXmlProtocol._(client, service, region, endpointUrl, credentials);
+    return RestXmlProtocol._(client, endpoint, credentials);
   }
 
   Future<RestXmlResponse> send({
@@ -87,7 +80,7 @@ class RestXmlProtocol {
     final rq = Request(
       method,
       Uri.parse(
-        '$_endpointUrl$requestUri',
+        '${_endpoint.url}$requestUri',
       ).replace(queryParameters: queryParams.isEmpty ? null : queryParams),
     );
 
@@ -107,8 +100,8 @@ class RestXmlProtocol {
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
       rq: rq,
-      service: _service,
-      region: _region,
+      service: _endpoint.service,
+      region: _endpoint.signingRegion,
       credentials: _credentials,
     );
     return rq;

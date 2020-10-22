@@ -1,3 +1,4 @@
+import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
@@ -56,4 +57,14 @@ abstract class ServiceBuilder {
       }
     });
   }
+
+  bool isGlobalService(Api api) => const {
+        'budgets',
+        'cloudfront',
+        'iam',
+        'importexport',
+        'route53',
+        'sts',
+        'waf',
+      }.contains(api.metadata.endpointPrefix);
 }

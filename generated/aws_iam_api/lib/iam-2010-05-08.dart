@@ -54,7 +54,7 @@ class IAM {
   final Map<String, _s.Shape> shapes;
 
   IAM({
-    @_s.required String region,
+    String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(

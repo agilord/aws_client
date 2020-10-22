@@ -35,7 +35,7 @@ part 'waf-2015-08-24.g.dart';
 class WAF {
   final _s.JsonProtocol _protocol;
   WAF({
-    @_s.required String region,
+    String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,

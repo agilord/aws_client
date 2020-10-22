@@ -5,6 +5,7 @@ import 'package:archive/archive.dart';
 import 'package:args/command_runner.dart';
 import 'package:aws_client.generator/model/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
 class DownloadCommand extends Command {
@@ -42,9 +43,9 @@ Future<void> _fetchApiDefinitions(String reference) async {
   final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   // Extract the contents of the Zip archive to disk.
   for (final file in archive) {
-    final filename = file.name;
+    final filename = file.name.split('/').skip(1).join('/');
 
-    // Only keep the API definitions
+    // Only keep the API definitions & config files
     if (file.isFile &&
         filename.contains('apis') &&
         filename.endsWith('json') &&
@@ -63,6 +64,12 @@ Future<void> _fetchApiDefinitions(String reference) async {
       newfile
         ..createSync(recursive: true)
         ..writeAsStringSync(jsonEncode(json));
+    } else if (file.isFile &&
+        const ['lib/region_config_data.json', 'apis/metadata.json']
+            .contains(filename)) {
+      File(path.join('apis/config', path.basename(filename)))
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(file.content as List<int>);
     }
   }
 }
