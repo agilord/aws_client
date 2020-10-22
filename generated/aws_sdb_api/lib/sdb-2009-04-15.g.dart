@@ -29,7 +29,7 @@ Map<String, dynamic> _$DeletableItemToJson(DeletableItem instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
+  writeNotNull('ItemName', instance.name);
   writeNotNull(
       'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
   return val;
@@ -62,7 +62,7 @@ Map<String, dynamic> _$ReplaceableItemToJson(ReplaceableItem instance) {
 
   writeNotNull(
       'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Name', instance.name);
+  writeNotNull('ItemName', instance.name);
   return val;
 }
 

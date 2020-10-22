@@ -27,8 +27,9 @@ class TestCommand extends Command {
 
   Future<void> _getDependencies(String baseDir, {bool upgrade = true}) async {
     final pr = await Process.run(
-      'pub',
+      'dart',
       [
+        'pub',
         if (upgrade) 'upgrade',
         if (!upgrade) 'get',
         '--no-precompile',
@@ -52,8 +53,9 @@ class TestCommand extends Command {
       await _getDependencies(baseDir);
 
       final pr = await Process.run(
-        'pub',
+        'dart',
         [
+          'pub',
           'run',
           'test',
           '-n',

@@ -34,7 +34,7 @@ Map<String, dynamic> _$NodeConfigurationOptionsFilterToJson(
   writeNotNull(
       'Name', _$NodeConfigurationOptionsFilterNameEnumMap[instance.name]);
   writeNotNull('Operator', _$OperatorTypeEnumMap[instance.operator]);
-  writeNotNull('Values', instance.values);
+  writeNotNull('Value', instance.values);
   return val;
 }
 

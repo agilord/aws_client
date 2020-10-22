@@ -246,7 +246,7 @@ in the config file, from the downloaded models.''';
 
         touchedDirs.add(baseDir);
         generatedApis[api.packageName] = api.metadata.serviceFullName;
-        
+
         final pathParts = baseDir.split('/')..removeAt(0);
         final ensureBuildTestContent =
             formatter.format(buildTest(pathParts.join('/'), api));
@@ -303,8 +303,9 @@ in the config file, from the downloaded models.''';
 
   Future<void> _getDependencies(String baseDir, {bool upgrade = true}) async {
     final pr = await Process.run(
-      'pub',
+      'dart',
       [
+        'pub',
         if (upgrade) 'upgrade',
         if (!upgrade) 'get',
         '--no-precompile',
@@ -323,13 +324,19 @@ in the config file, from the downloaded models.''';
     while (dirs.isNotEmpty) {
       final baseDir = dirs.removeLast();
       final dirsLeft = dirs.length;
-      if (optimize && await _directoryHasChanges(baseDir)) {
+      if (!optimize || await _directoryHasChanges(baseDir)) {
         print('Running build_runner in $baseDir, dirs left: $dirsLeft');
         await _getDependencies(baseDir, upgrade: upgrade);
 
         final pr = await Process.run(
-          'pub',
-          ['run', 'build_runner', 'build', '--delete-conflicting-outputs'],
+          'dart',
+          [
+            'pub',
+            'run',
+            'build_runner',
+            'build',
+            '--delete-conflicting-outputs'
+          ],
           workingDirectory: baseDir,
         );
 
