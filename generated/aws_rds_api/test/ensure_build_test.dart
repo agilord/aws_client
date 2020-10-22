@@ -1,4 +1,4 @@
-import 'package:aws_rds_api/rds-2013-02-12.dart';
+import 'package:aws_rds_api/rds-2014-10-31.dart';
 import 'package:build_verify/build_verify.dart';
 import 'package:test/test.dart' as t;
 

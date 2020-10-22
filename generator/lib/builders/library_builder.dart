@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
@@ -10,7 +8,6 @@ import 'package:aws_client.generator/builders/protocols/rest_xml_builder.dart';
 import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/dart_type.dart';
-import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
@@ -236,9 +233,6 @@ ${builder.constructor()}
         if (member.documentation != null) {
           writeln(dartdocComment(member.documentation));
         }
-
-        final shapeClass = member.shapeClass;
-        final valueEnum = shapeClass.enumeration;
 
         if (shape.requiresJson) {
           var dateTimeConversion = '';

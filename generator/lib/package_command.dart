@@ -260,8 +260,8 @@ class PublishCommand extends Command {
       print('$package: $currentPublishedVersion -> $version.');
       if (!isDryRun) {
         final pr = await Process.run(
-          'pub',
-          ['publish', '--force'],
+          'dart',
+          ['pub', 'publish', '--force'],
           workingDirectory: pkgDir,
         );
         print(pr.stdout

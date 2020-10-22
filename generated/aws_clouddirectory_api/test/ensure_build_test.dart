@@ -1,4 +1,4 @@
-import 'package:aws_clouddirectory_api/clouddirectory-2016-05-10.dart';
+import 'package:aws_clouddirectory_api/clouddirectory-2017-01-11.dart';
 import 'package:build_verify/build_verify.dart';
 import 'package:test/test.dart' as t;
 

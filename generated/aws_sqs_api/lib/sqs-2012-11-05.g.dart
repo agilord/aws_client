@@ -48,9 +48,9 @@ Map<String, dynamic> _$MessageAttributeValueToJson(
   }
 
   writeNotNull('DataType', instance.dataType);
-  writeNotNull('BinaryListValues', instance.binaryListValues);
+  writeNotNull('BinaryListValue', instance.binaryListValues);
   writeNotNull('BinaryValue', instance.binaryValue);
-  writeNotNull('StringListValues', instance.stringListValues);
+  writeNotNull('StringListValue', instance.stringListValues);
   writeNotNull('StringValue', instance.stringValue);
   return val;
 }
@@ -66,9 +66,9 @@ Map<String, dynamic> _$MessageSystemAttributeValueToJson(
   }
 
   writeNotNull('DataType', instance.dataType);
-  writeNotNull('BinaryListValues', instance.binaryListValues);
+  writeNotNull('BinaryListValue', instance.binaryListValues);
   writeNotNull('BinaryValue', instance.binaryValue);
-  writeNotNull('StringListValues', instance.stringListValues);
+  writeNotNull('StringListValue', instance.stringListValues);
   writeNotNull('StringValue', instance.stringValue);
   return val;
 }
@@ -86,12 +86,12 @@ Map<String, dynamic> _$SendMessageBatchRequestEntryToJson(
   writeNotNull('Id', instance.id);
   writeNotNull('MessageBody', instance.messageBody);
   writeNotNull('DelaySeconds', instance.delaySeconds);
-  writeNotNull('MessageAttributes',
+  writeNotNull('MessageAttribute',
       instance.messageAttributes?.map((k, e) => MapEntry(k, e?.toJson())));
   writeNotNull('MessageDeduplicationId', instance.messageDeduplicationId);
   writeNotNull('MessageGroupId', instance.messageGroupId);
   writeNotNull(
-      'MessageSystemAttributes',
+      'MessageSystemAttribute',
       instance.messageSystemAttributes
           ?.map((k, e) => MapEntry(k, e?.toJson())));
   return val;
