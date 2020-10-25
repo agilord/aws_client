@@ -420,7 +420,7 @@ String _xmlExtractorFn(
     return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
-    final memberElemName = shapeRef.member.locationName ?? elemName;
+    final memberElemName = shapeRef.member.locationName ?? 'member';
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
