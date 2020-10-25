@@ -1247,7 +1247,7 @@ class DescribeDomainsResponse {
     return DescribeDomainsResponse(
       domainStatusList: _s.extractXmlChild(elem, 'DomainStatusList')?.let(
           (elem) => elem
-              .findElements('DomainStatusList')
+              .findElements('member')
               .map((c) => DomainStatus.fromXml(c))
               .toList()),
     );
@@ -1265,7 +1265,7 @@ class DescribeIndexFieldsResponse {
   factory DescribeIndexFieldsResponse.fromXml(_s.XmlElement elem) {
     return DescribeIndexFieldsResponse(
       indexFields: _s.extractXmlChild(elem, 'IndexFields')?.let((elem) => elem
-          .findElements('IndexFields')
+          .findElements('member')
           .map((c) => IndexFieldStatus.fromXml(c))
           .toList()),
     );
@@ -1284,7 +1284,7 @@ class DescribeRankExpressionsResponse {
     return DescribeRankExpressionsResponse(
       rankExpressions: _s.extractXmlChild(elem, 'RankExpressions')?.let(
           (elem) => elem
-              .findElements('RankExpressions')
+              .findElements('member')
               .map((c) => RankExpressionStatus.fromXml(c))
               .toList()),
     );
@@ -1462,7 +1462,7 @@ class IndexDocumentsResponse {
     return IndexDocumentsResponse(
       fieldNames: _s
           .extractXmlChild(elem, 'FieldNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'FieldNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -1533,7 +1533,7 @@ class IndexField {
           ?.let((e) => LiteralOptions.fromXml(e)),
       sourceAttributes: _s.extractXmlChild(elem, 'SourceAttributes')?.let(
           (elem) => elem
-              .findElements('SourceAttributes')
+              .findElements('member')
               .map((c) => SourceAttribute.fromXml(c))
               .toList()),
       textOptions: _s

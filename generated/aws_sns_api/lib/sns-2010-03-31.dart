@@ -2315,10 +2315,8 @@ class ListEndpointsByPlatformApplicationResponse {
   factory ListEndpointsByPlatformApplicationResponse.fromXml(
       _s.XmlElement elem) {
     return ListEndpointsByPlatformApplicationResponse(
-      endpoints: _s.extractXmlChild(elem, 'Endpoints')?.let((elem) => elem
-          .findElements('Endpoints')
-          .map((c) => Endpoint.fromXml(c))
-          .toList()),
+      endpoints: _s.extractXmlChild(elem, 'Endpoints')?.let((elem) =>
+          elem.findElements('member').map((c) => Endpoint.fromXml(c)).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -2344,7 +2342,7 @@ class ListPhoneNumbersOptedOutResponse {
       nextToken: _s.extractXmlStringValue(elem, 'nextToken'),
       phoneNumbers: _s
           .extractXmlChild(elem, 'phoneNumbers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'phoneNumbers')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2368,7 +2366,7 @@ class ListPlatformApplicationsResponse {
       platformApplications: _s
           .extractXmlChild(elem, 'PlatformApplications')
           ?.let((elem) => elem
-              .findElements('PlatformApplications')
+              .findElements('member')
               .map((c) => PlatformApplication.fromXml(c))
               .toList()),
     );
@@ -2394,7 +2392,7 @@ class ListSubscriptionsByTopicResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       subscriptions: _s.extractXmlChild(elem, 'Subscriptions')?.let((elem) =>
           elem
-              .findElements('Subscriptions')
+              .findElements('member')
               .map((c) => Subscription.fromXml(c))
               .toList()),
     );
@@ -2419,7 +2417,7 @@ class ListSubscriptionsResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       subscriptions: _s.extractXmlChild(elem, 'Subscriptions')?.let((elem) =>
           elem
-              .findElements('Subscriptions')
+              .findElements('member')
               .map((c) => Subscription.fromXml(c))
               .toList()),
     );
@@ -2436,7 +2434,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromXml(_s.XmlElement elem) {
     return ListTagsForResourceResponse(
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -2458,7 +2456,7 @@ class ListTopicsResponse {
     return ListTopicsResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       topics: _s.extractXmlChild(elem, 'Topics')?.let((elem) =>
-          elem.findElements('Topics').map((c) => Topic.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Topic.fromXml(c)).toList()),
     );
   }
 }

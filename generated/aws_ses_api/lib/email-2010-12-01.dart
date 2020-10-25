@@ -4116,7 +4116,7 @@ class CloudWatchDestination {
       dimensionConfigurations: _s
           .extractXmlChild(elem, 'DimensionConfigurations')
           ?.let((elem) => elem
-              .findElements('DimensionConfigurations')
+              .findElements('member')
               .map((c) => CloudWatchDimensionConfiguration.fromXml(c))
               .toList()),
     );
@@ -4566,7 +4566,7 @@ class DescribeActiveReceiptRuleSetResponse {
           .extractXmlChild(elem, 'Metadata')
           ?.let((e) => ReceiptRuleSetMetadata.fromXml(e)),
       rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) => elem
-          .findElements('Rules')
+          .findElements('member')
           .map((c) => ReceiptRule.fromXml(c))
           .toList()),
     );
@@ -4611,7 +4611,7 @@ class DescribeConfigurationSetResponse {
           ?.let((e) => DeliveryOptions.fromXml(e)),
       eventDestinations: _s.extractXmlChild(elem, 'EventDestinations')?.let(
           (elem) => elem
-              .findElements('EventDestinations')
+              .findElements('member')
               .map((c) => EventDestination.fromXml(c))
               .toList()),
       reputationOptions: _s
@@ -4661,7 +4661,7 @@ class DescribeReceiptRuleSetResponse {
           .extractXmlChild(elem, 'Metadata')
           ?.let((e) => ReceiptRuleSetMetadata.fromXml(e)),
       rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) => elem
-          .findElements('Rules')
+          .findElements('member')
           .map((c) => ReceiptRule.fromXml(c))
           .toList()),
     );
@@ -4830,8 +4830,9 @@ class EventDestination {
   });
   factory EventDestination.fromXml(_s.XmlElement elem) {
     return EventDestination(
-      matchingEventTypes: _s.extractXmlChild(elem, 'MatchingEventTypes')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'MatchingEventTypes')),
+      matchingEventTypes: _s
+          .extractXmlChild(elem, 'MatchingEventTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       name: _s.extractXmlStringValue(elem, 'Name'),
       cloudWatchDestination: _s
           .extractXmlChild(elem, 'CloudWatchDestination')
@@ -5154,7 +5155,7 @@ class GetSendStatisticsResponse {
     return GetSendStatisticsResponse(
       sendDataPoints: _s.extractXmlChild(elem, 'SendDataPoints')?.let((elem) =>
           elem
-              .findElements('SendDataPoints')
+              .findElements('member')
               .map((c) => SendDataPoint.fromXml(c))
               .toList()),
     );
@@ -5213,7 +5214,7 @@ class IdentityDkimAttributes {
           ?.toVerificationStatus(),
       dkimTokens: _s
           .extractXmlChild(elem, 'DkimTokens')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'DkimTokens')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -5537,7 +5538,7 @@ class ListConfigurationSetsResponse {
     return ListConfigurationSetsResponse(
       configurationSets: _s.extractXmlChild(elem, 'ConfigurationSets')?.let(
           (elem) => elem
-              .findElements('ConfigurationSets')
+              .findElements('member')
               .map((c) => ConfigurationSet.fromXml(c))
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5567,7 +5568,7 @@ class ListCustomVerificationEmailTemplatesResponse {
       customVerificationEmailTemplates: _s
           .extractXmlChild(elem, 'CustomVerificationEmailTemplates')
           ?.let((elem) => elem
-              .findElements('CustomVerificationEmailTemplates')
+              .findElements('member')
               .map((c) => CustomVerificationEmailTemplate.fromXml(c))
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5592,7 +5593,7 @@ class ListIdentitiesResponse {
     return ListIdentitiesResponse(
       identities: _s
           .extractXmlChild(elem, 'Identities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Identities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5610,7 +5611,7 @@ class ListIdentityPoliciesResponse {
     return ListIdentityPoliciesResponse(
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -5627,7 +5628,7 @@ class ListReceiptFiltersResponse {
   factory ListReceiptFiltersResponse.fromXml(_s.XmlElement elem) {
     return ListReceiptFiltersResponse(
       filters: _s.extractXmlChild(elem, 'Filters')?.let((elem) => elem
-          .findElements('Filters')
+          .findElements('member')
           .map((c) => ReceiptFilter.fromXml(c))
           .toList()),
     );
@@ -5655,7 +5656,7 @@ class ListReceiptRuleSetsResponse {
     return ListReceiptRuleSetsResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       ruleSets: _s.extractXmlChild(elem, 'RuleSets')?.let((elem) => elem
-          .findElements('RuleSets')
+          .findElements('member')
           .map((c) => ReceiptRuleSetMetadata.fromXml(c))
           .toList()),
     );
@@ -5681,7 +5682,7 @@ class ListTemplatesResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       templatesMetadata: _s.extractXmlChild(elem, 'TemplatesMetadata')?.let(
           (elem) => elem
-              .findElements('TemplatesMetadata')
+              .findElements('member')
               .map((c) => TemplateMetadata.fromXml(c))
               .toList()),
     );
@@ -5701,8 +5702,7 @@ class ListVerifiedEmailAddressesResponse {
     return ListVerifiedEmailAddressesResponse(
       verifiedEmailAddresses: _s
           .extractXmlChild(elem, 'VerifiedEmailAddresses')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'VerifiedEmailAddresses')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -6177,13 +6177,13 @@ class ReceiptRule {
     return ReceiptRule(
       name: _s.extractXmlStringValue(elem, 'Name'),
       actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) => elem
-          .findElements('Actions')
+          .findElements('member')
           .map((c) => ReceiptAction.fromXml(c))
           .toList()),
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
       recipients: _s
           .extractXmlChild(elem, 'Recipients')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Recipients')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       scanEnabled: _s.extractXmlBoolValue(elem, 'ScanEnabled'),
       tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
     );
@@ -6606,7 +6606,7 @@ class SendBulkTemplatedEmailResponse {
   factory SendBulkTemplatedEmailResponse.fromXml(_s.XmlElement elem) {
     return SendBulkTemplatedEmailResponse(
       status: _s.extractXmlChild(elem, 'Status')?.let((elem) => elem
-          .findElements('Status')
+          .findElements('member')
           .map((c) => BulkEmailDestinationStatus.fromXml(c))
           .toList()),
     );
@@ -7066,7 +7066,7 @@ class VerifyDomainDkimResponse {
     return VerifyDomainDkimResponse(
       dkimTokens: _s
           .extractXmlChild(elem, 'DkimTokens')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'DkimTokens')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

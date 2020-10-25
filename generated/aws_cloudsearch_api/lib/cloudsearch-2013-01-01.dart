@@ -1757,7 +1757,7 @@ class BuildSuggestersResponse {
     return BuildSuggestersResponse(
       fieldNames: _s
           .extractXmlChild(elem, 'FieldNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'FieldNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2052,7 +2052,7 @@ class DescribeAnalysisSchemesResponse {
     return DescribeAnalysisSchemesResponse(
       analysisSchemes: _s.extractXmlChild(elem, 'AnalysisSchemes')?.let(
           (elem) => elem
-              .findElements('AnalysisSchemes')
+              .findElements('member')
               .map((c) => AnalysisSchemeStatus.fromXml(c))
               .toList()),
     );
@@ -2109,7 +2109,7 @@ class DescribeDomainsResponse {
     return DescribeDomainsResponse(
       domainStatusList: _s.extractXmlChild(elem, 'DomainStatusList')?.let(
           (elem) => elem
-              .findElements('DomainStatusList')
+              .findElements('member')
               .map((c) => DomainStatus.fromXml(c))
               .toList()),
     );
@@ -2128,7 +2128,7 @@ class DescribeExpressionsResponse {
   factory DescribeExpressionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeExpressionsResponse(
       expressions: _s.extractXmlChild(elem, 'Expressions')?.let((elem) => elem
-          .findElements('Expressions')
+          .findElements('member')
           .map((c) => ExpressionStatus.fromXml(c))
           .toList()),
     );
@@ -2147,7 +2147,7 @@ class DescribeIndexFieldsResponse {
   factory DescribeIndexFieldsResponse.fromXml(_s.XmlElement elem) {
     return DescribeIndexFieldsResponse(
       indexFields: _s.extractXmlChild(elem, 'IndexFields')?.let((elem) => elem
-          .findElements('IndexFields')
+          .findElements('member')
           .map((c) => IndexFieldStatus.fromXml(c))
           .toList()),
     );
@@ -2199,7 +2199,7 @@ class DescribeSuggestersResponse {
   factory DescribeSuggestersResponse.fromXml(_s.XmlElement elem) {
     return DescribeSuggestersResponse(
       suggesters: _s.extractXmlChild(elem, 'Suggesters')?.let((elem) => elem
-          .findElements('Suggesters')
+          .findElements('member')
           .map((c) => SuggesterStatus.fromXml(c))
           .toList()),
     );
@@ -2563,7 +2563,7 @@ class IndexDocumentsResponse {
     return IndexDocumentsResponse(
       fieldNames: _s
           .extractXmlChild(elem, 'FieldNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'FieldNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

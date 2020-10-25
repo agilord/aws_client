@@ -14438,8 +14438,7 @@ class ConnectionPoolConfigurationInfo {
           _s.extractXmlIntValue(elem, 'MaxIdleConnectionsPercent'),
       sessionPinningFilters: _s
           .extractXmlChild(elem, 'SessionPinningFilters')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'SessionPinningFilters')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -15121,8 +15120,9 @@ class DBCluster {
       clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
       copyTagsToSnapshot: _s.extractXmlBoolValue(elem, 'CopyTagsToSnapshot'),
       crossAccountClone: _s.extractXmlBoolValue(elem, 'CrossAccountClone'),
-      customEndpoints: _s.extractXmlChild(elem, 'CustomEndpoints')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'CustomEndpoints')),
+      customEndpoints: _s
+          .extractXmlChild(elem, 'CustomEndpoints')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
       dBClusterIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
@@ -15155,8 +15155,7 @@ class DBCluster {
           _s.extractXmlDateTimeValue(elem, 'EarliestRestorableTime'),
       enabledCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'EnabledCloudwatchLogsExports')
-          ?.let((elem) => _s.extractXmlStringListValues(
-              elem, 'EnabledCloudwatchLogsExports')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineMode: _s.extractXmlStringValue(elem, 'EngineMode'),
@@ -15411,11 +15410,12 @@ class DBClusterEndpoint {
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       endpointType: _s.extractXmlStringValue(elem, 'EndpointType'),
-      excludedMembers: _s.extractXmlChild(elem, 'ExcludedMembers')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ExcludedMembers')),
+      excludedMembers: _s
+          .extractXmlChild(elem, 'ExcludedMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       staticMembers: _s
           .extractXmlChild(elem, 'StaticMembers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'StaticMembers')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -16028,8 +16028,9 @@ class DBEngineVersion {
           ?.let((e) => CharacterSet.fromXml(e)),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      exportableLogTypes: _s.extractXmlChild(elem, 'ExportableLogTypes')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ExportableLogTypes')),
+      exportableLogTypes: _s
+          .extractXmlChild(elem, 'ExportableLogTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       status: _s.extractXmlStringValue(elem, 'Status'),
       supportedCharacterSets: _s
           .extractXmlChild(elem, 'SupportedCharacterSets')
@@ -16039,12 +16040,10 @@ class DBEngineVersion {
               .toList()),
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'SupportedEngineModes')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportedFeatureNames: _s
           .extractXmlChild(elem, 'SupportedFeatureNames')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'SupportedFeatureNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportedTimezones: _s.extractXmlChild(elem, 'SupportedTimezones')?.let(
           (elem) => elem
               .findElements('Timezone')
@@ -16479,8 +16478,7 @@ class DBInstance {
               .toList()),
       enabledCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'EnabledCloudwatchLogsExports')
-          ?.let((elem) => _s.extractXmlStringListValues(
-              elem, 'EnabledCloudwatchLogsExports')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       endpoint:
           _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
@@ -17098,7 +17096,7 @@ class DBProxy {
   factory DBProxy.fromXml(_s.XmlElement elem) {
     return DBProxy(
       auth: _s.extractXmlChild(elem, 'Auth')?.let((elem) => elem
-          .findElements('Auth')
+          .findElements('member')
           .map((c) => UserAuthConfigInfo.fromXml(c))
           .toList()),
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
@@ -17112,11 +17110,12 @@ class DBProxy {
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toDBProxyStatus(),
       updatedDate: _s.extractXmlDateTimeValue(elem, 'UpdatedDate'),
-      vpcSecurityGroupIds: _s.extractXmlChild(elem, 'VpcSecurityGroupIds')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'VpcSecurityGroupIds')),
+      vpcSecurityGroupIds: _s
+          .extractXmlChild(elem, 'VpcSecurityGroupIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       vpcSubnetIds: _s
           .extractXmlChild(elem, 'VpcSubnetIds')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'VpcSubnetIds')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -17982,10 +17981,8 @@ class DescribeDBProxiesResponse {
   });
   factory DescribeDBProxiesResponse.fromXml(_s.XmlElement elem) {
     return DescribeDBProxiesResponse(
-      dBProxies: _s.extractXmlChild(elem, 'DBProxies')?.let((elem) => elem
-          .findElements('DBProxies')
-          .map((c) => DBProxy.fromXml(c))
-          .toList()),
+      dBProxies: _s.extractXmlChild(elem, 'DBProxies')?.let((elem) =>
+          elem.findElements('member').map((c) => DBProxy.fromXml(c)).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -18009,7 +18006,7 @@ class DescribeDBProxyTargetGroupsResponse {
     return DescribeDBProxyTargetGroupsResponse(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('TargetGroups')
+          .findElements('member')
           .map((c) => DBProxyTargetGroup.fromXml(c))
           .toList()),
     );
@@ -18034,7 +18031,7 @@ class DescribeDBProxyTargetsResponse {
     return DescribeDBProxyTargetsResponse(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       targets: _s.extractXmlChild(elem, 'Targets')?.let((elem) => elem
-          .findElements('Targets')
+          .findElements('member')
           .map((c) => DBProxyTarget.fromXml(c))
           .toList()),
     );
@@ -18650,7 +18647,7 @@ class ExportTask {
     return ExportTask(
       exportOnly: _s
           .extractXmlChild(elem, 'ExportOnly')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ExportOnly')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       exportTaskIdentifier:
           _s.extractXmlStringValue(elem, 'ExportTaskIdentifier'),
       failureCause: _s.extractXmlStringValue(elem, 'FailureCause'),
@@ -18855,7 +18852,7 @@ class GlobalClusterMember {
       isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
       readers: _s
           .extractXmlChild(elem, 'Readers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Readers')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -19892,8 +19889,7 @@ class OrderableDBInstanceOption {
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'SupportedEngineModes')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportsEnhancedMonitoring:
           _s.extractXmlBoolValue(elem, 'SupportsEnhancedMonitoring'),
       supportsIAMDatabaseAuthentication:
@@ -20030,8 +20026,7 @@ class Parameter {
       source: _s.extractXmlStringValue(elem, 'Source'),
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'SupportedEngineModes')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
@@ -20055,10 +20050,12 @@ class PendingCloudwatchLogsExports {
   });
   factory PendingCloudwatchLogsExports.fromXml(_s.XmlElement elem) {
     return PendingCloudwatchLogsExports(
-      logTypesToDisable: _s.extractXmlChild(elem, 'LogTypesToDisable')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'LogTypesToDisable')),
-      logTypesToEnable: _s.extractXmlChild(elem, 'LogTypesToEnable')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'LogTypesToEnable')),
+      logTypesToDisable: _s
+          .extractXmlChild(elem, 'LogTypesToDisable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      logTypesToEnable: _s
+          .extractXmlChild(elem, 'LogTypesToEnable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -20453,7 +20450,7 @@ class RegisterDBProxyTargetsResponse {
     return RegisterDBProxyTargetsResponse(
       dBProxyTargets: _s.extractXmlChild(elem, 'DBProxyTargets')?.let((elem) =>
           elem
-              .findElements('DBProxyTargets')
+              .findElements('member')
               .map((c) => DBProxyTarget.fromXml(c))
               .toList()),
     );

@@ -9423,10 +9423,10 @@ class CORSRule {
   });
   factory CORSRule.fromXml(_s.XmlElement elem) {
     return CORSRule(
-      allowedMethods: _s.extractXmlStringListValues(elem, 'AllowedMethod'),
-      allowedOrigins: _s.extractXmlStringListValues(elem, 'AllowedOrigin'),
-      allowedHeaders: _s.extractXmlStringListValues(elem, 'AllowedHeader'),
-      exposeHeaders: _s.extractXmlStringListValues(elem, 'ExposeHeader'),
+      allowedMethods: _s.extractXmlStringListValues(elem, 'member'),
+      allowedOrigins: _s.extractXmlStringListValues(elem, 'member'),
+      allowedHeaders: _s.extractXmlStringListValues(elem, 'member'),
+      exposeHeaders: _s.extractXmlStringListValues(elem, 'member'),
       maxAgeSeconds: _s.extractXmlIntValue(elem, 'MaxAgeSeconds'),
     );
   }
@@ -9619,7 +9619,7 @@ class CloudFunctionConfiguration {
     return CloudFunctionConfiguration(
       cloudFunction: _s.extractXmlStringValue(elem, 'CloudFunction'),
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       id: _s.extractXmlStringValue(elem, 'Id'),
       invocationRole: _s.extractXmlStringValue(elem, 'InvocationRole'),
     );
@@ -10391,10 +10391,10 @@ class DeleteObjectsOutput {
   }) {
     return DeleteObjectsOutput(
       deleted: elem
-          .findElements('Deleted')
+          .findElements('member')
           .map((c) => DeletedObject.fromXml(c))
           .toList(),
-      errors: elem.findElements('Error').map((c) => Error.fromXml(c)).toList(),
+      errors: elem.findElements('member').map((c) => Error.fromXml(c)).toList(),
       requestCharged: _s
           .extractHeaderStringValue(headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -12486,10 +12486,8 @@ class GetBucketCorsOutput {
   });
   factory GetBucketCorsOutput.fromXml(_s.XmlElement elem) {
     return GetBucketCorsOutput(
-      cORSRules: elem
-          .findElements('CORSRule')
-          .map((c) => CORSRule.fromXml(c))
-          .toList(),
+      cORSRules:
+          elem.findElements('member').map((c) => CORSRule.fromXml(c)).toList(),
     );
   }
 }
@@ -12535,7 +12533,7 @@ class GetBucketLifecycleConfigurationOutput {
   factory GetBucketLifecycleConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleConfigurationOutput(
       rules: elem
-          .findElements('Rule')
+          .findElements('member')
           .map((c) => LifecycleRule.fromXml(c))
           .toList(),
     );
@@ -12551,7 +12549,7 @@ class GetBucketLifecycleOutput {
   });
   factory GetBucketLifecycleOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleOutput(
-      rules: elem.findElements('Rule').map((c) => Rule.fromXml(c)).toList(),
+      rules: elem.findElements('member').map((c) => Rule.fromXml(c)).toList(),
     );
   }
 }
@@ -14051,7 +14049,7 @@ class LambdaFunctionConfiguration {
   });
   factory LambdaFunctionConfiguration.fromXml(_s.XmlElement elem) {
     return LambdaFunctionConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       lambdaFunctionArn: _s.extractXmlStringValue(elem, 'CloudFunction'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -14200,12 +14198,12 @@ class LifecycleRule {
           .extractXmlChild(elem, 'NoncurrentVersionExpiration')
           ?.let((e) => NoncurrentVersionExpiration.fromXml(e)),
       noncurrentVersionTransitions: elem
-          .findElements('NoncurrentVersionTransition')
+          .findElements('member')
           .map((c) => NoncurrentVersionTransition.fromXml(c))
           .toList(),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       transitions: elem
-          .findElements('Transition')
+          .findElements('member')
           .map((c) => Transition.fromXml(c))
           .toList(),
     );
@@ -14337,7 +14335,7 @@ class ListBucketAnalyticsConfigurationsOutput {
   factory ListBucketAnalyticsConfigurationsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketAnalyticsConfigurationsOutput(
       analyticsConfigurationList: elem
-          .findElements('AnalyticsConfiguration')
+          .findElements('member')
           .map((c) => AnalyticsConfiguration.fromXml(c))
           .toList(),
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
@@ -14377,7 +14375,7 @@ class ListBucketInventoryConfigurationsOutput {
     return ListBucketInventoryConfigurationsOutput(
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       inventoryConfigurationList: elem
-          .findElements('InventoryConfiguration')
+          .findElements('member')
           .map((c) => InventoryConfiguration.fromXml(c))
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14417,7 +14415,7 @@ class ListBucketMetricsConfigurationsOutput {
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       metricsConfigurationList: elem
-          .findElements('MetricsConfiguration')
+          .findElements('member')
           .map((c) => MetricsConfiguration.fromXml(c))
           .toList(),
       nextContinuationToken:
@@ -14521,7 +14519,7 @@ class ListMultipartUploadsOutput {
     return ListMultipartUploadsOutput(
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
       commonPrefixes: elem
-          .findElements('CommonPrefixes')
+          .findElements('member')
           .map((c) => CommonPrefix.fromXml(c))
           .toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
@@ -14535,7 +14533,7 @@ class ListMultipartUploadsOutput {
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       uploadIdMarker: _s.extractXmlStringValue(elem, 'UploadIdMarker'),
       uploads: elem
-          .findElements('Upload')
+          .findElements('member')
           .map((c) => MultipartUpload.fromXml(c))
           .toList(),
     );
@@ -14624,11 +14622,11 @@ class ListObjectVersionsOutput {
   factory ListObjectVersionsOutput.fromXml(_s.XmlElement elem) {
     return ListObjectVersionsOutput(
       commonPrefixes: elem
-          .findElements('CommonPrefixes')
+          .findElements('member')
           .map((c) => CommonPrefix.fromXml(c))
           .toList(),
       deleteMarkers: elem
-          .findElements('DeleteMarker')
+          .findElements('member')
           .map((c) => DeleteMarkerEntry.fromXml(c))
           .toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
@@ -14644,7 +14642,7 @@ class ListObjectVersionsOutput {
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       versionIdMarker: _s.extractXmlStringValue(elem, 'VersionIdMarker'),
       versions: elem
-          .findElements('Version')
+          .findElements('member')
           .map((c) => ObjectVersion.fromXml(c))
           .toList(),
     );
@@ -14723,11 +14721,11 @@ class ListObjectsOutput {
   factory ListObjectsOutput.fromXml(_s.XmlElement elem) {
     return ListObjectsOutput(
       commonPrefixes: elem
-          .findElements('CommonPrefixes')
+          .findElements('member')
           .map((c) => CommonPrefix.fromXml(c))
           .toList(),
       contents:
-          elem.findElements('Contents').map((c) => Object.fromXml(c)).toList(),
+          elem.findElements('member').map((c) => Object.fromXml(c)).toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
           _s.extractXmlStringValue(elem, 'EncodingType')?.toEncodingType(),
@@ -14843,11 +14841,11 @@ class ListObjectsV2Output {
   factory ListObjectsV2Output.fromXml(_s.XmlElement elem) {
     return ListObjectsV2Output(
       commonPrefixes: elem
-          .findElements('CommonPrefixes')
+          .findElements('member')
           .map((c) => CommonPrefix.fromXml(c))
           .toList(),
       contents:
-          elem.findElements('Contents').map((c) => Object.fromXml(c)).toList(),
+          elem.findElements('member').map((c) => Object.fromXml(c)).toList(),
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
@@ -14963,7 +14961,7 @@ class ListPartsOutput {
       nextPartNumberMarker: _s.extractXmlIntValue(elem, 'NextPartNumberMarker'),
       owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
       partNumberMarker: _s.extractXmlIntValue(elem, 'PartNumberMarker'),
-      parts: elem.findElements('Part').map((c) => Part.fromXml(c)).toList(),
+      parts: elem.findElements('member').map((c) => Part.fromXml(c)).toList(),
       requestCharged: _s
           .extractHeaderStringValue(headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -15476,15 +15474,15 @@ class NotificationConfiguration {
   factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
     return NotificationConfiguration(
       lambdaFunctionConfigurations: elem
-          .findElements('CloudFunctionConfiguration')
+          .findElements('member')
           .map((c) => LambdaFunctionConfiguration.fromXml(c))
           .toList(),
       queueConfigurations: elem
-          .findElements('QueueConfiguration')
+          .findElements('member')
           .map((c) => QueueConfiguration.fromXml(c))
           .toList(),
       topicConfigurations: elem
-          .findElements('TopicConfiguration')
+          .findElements('member')
           .map((c) => TopicConfiguration.fromXml(c))
           .toList(),
     );
@@ -16661,7 +16659,7 @@ class QueueConfiguration {
   });
   factory QueueConfiguration.fromXml(_s.XmlElement elem) {
     return QueueConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       queueArn: _s.extractXmlStringValue(elem, 'Queue'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -16710,7 +16708,7 @@ class QueueConfigurationDeprecated {
   factory QueueConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return QueueConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       id: _s.extractXmlStringValue(elem, 'Id'),
       queue: _s.extractXmlStringValue(elem, 'Queue'),
     );
@@ -16896,7 +16894,7 @@ class ReplicationConfiguration {
     return ReplicationConfiguration(
       role: _s.extractXmlStringValue(elem, 'Role'),
       rules: elem
-          .findElements('Rule')
+          .findElements('member')
           .map((c) => ReplicationRule.fromXml(c))
           .toList(),
     );
@@ -17622,7 +17620,7 @@ class S3KeyFilter {
   factory S3KeyFilter.fromXml(_s.XmlElement elem) {
     return S3KeyFilter(
       filterRules: elem
-          .findElements('FilterRule')
+          .findElements('member')
           .map((c) => FilterRule.fromXml(c))
           .toList(),
     );
@@ -17958,7 +17956,7 @@ class ServerSideEncryptionConfiguration {
   factory ServerSideEncryptionConfiguration.fromXml(_s.XmlElement elem) {
     return ServerSideEncryptionConfiguration(
       rules: elem
-          .findElements('Rule')
+          .findElements('member')
           .map((c) => ServerSideEncryptionRule.fromXml(c))
           .toList(),
     );
@@ -18466,7 +18464,7 @@ class TopicConfiguration {
   });
   factory TopicConfiguration.fromXml(_s.XmlElement elem) {
     return TopicConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       topicArn: _s.extractXmlStringValue(elem, 'Topic'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -18516,7 +18514,7 @@ class TopicConfigurationDeprecated {
   factory TopicConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return TopicConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s.extractXmlStringListValues(elem, 'member'),
       id: _s.extractXmlStringValue(elem, 'Id'),
       topic: _s.extractXmlStringValue(elem, 'Topic'),
     );

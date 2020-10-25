@@ -5158,12 +5158,10 @@ class AllowedNodeTypeModificationsMessage {
     return AllowedNodeTypeModificationsMessage(
       scaleDownModifications: _s
           .extractXmlChild(elem, 'ScaleDownModifications')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'ScaleDownModifications')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       scaleUpModifications: _s
           .extractXmlChild(elem, 'ScaleUpModifications')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'ScaleUpModifications')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -5614,7 +5612,7 @@ class CacheCluster {
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
       securityGroups: _s.extractXmlChild(elem, 'SecurityGroups')?.let((elem) =>
           elem
-              .findElements('SecurityGroups')
+              .findElements('member')
               .map((c) => SecurityGroupMembership.fromXml(c))
               .toList()),
       snapshotRetentionLimit:

@@ -12739,7 +12739,7 @@ class DeletionTaskFailureReasonType {
       reason: _s.extractXmlStringValue(elem, 'Reason'),
       roleUsageList: _s.extractXmlChild(elem, 'RoleUsageList')?.let((elem) =>
           elem
-              .findElements('RoleUsageList')
+              .findElements('member')
               .map((c) => RoleUsageType.fromXml(c))
               .toList()),
     );
@@ -13014,13 +13014,12 @@ class EvaluationResult {
       evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
           (elem) => elem
-              .findElements('MatchedStatements')
+              .findElements('member')
               .map((c) => Statement.fromXml(c))
               .toList()),
       missingContextValues: _s
           .extractXmlChild(elem, 'MissingContextValues')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'MissingContextValues')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       organizationsDecisionDetail: _s
           .extractXmlChild(elem, 'OrganizationsDecisionDetail')
           ?.let((e) => OrganizationsDecisionDetail.fromXml(e)),
@@ -13030,7 +13029,7 @@ class EvaluationResult {
       resourceSpecificResults: _s
           .extractXmlChild(elem, 'ResourceSpecificResults')
           ?.let((elem) => elem
-              .findElements('ResourceSpecificResults')
+              .findElements('member')
               .map((c) => ResourceSpecificResult.fromXml(c))
               .toList()),
     );
@@ -13161,23 +13160,23 @@ class GetAccountAuthorizationDetailsResponse {
     return GetAccountAuthorizationDetailsResponse(
       groupDetailList: _s.extractXmlChild(elem, 'GroupDetailList')?.let(
           (elem) => elem
-              .findElements('GroupDetailList')
+              .findElements('member')
               .map((c) => GroupDetail.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) => elem
-          .findElements('Policies')
+          .findElements('member')
           .map((c) => ManagedPolicyDetail.fromXml(c))
           .toList()),
       roleDetailList: _s.extractXmlChild(elem, 'RoleDetailList')?.let((elem) =>
           elem
-              .findElements('RoleDetailList')
+              .findElements('member')
               .map((c) => RoleDetail.fromXml(c))
               .toList()),
       userDetailList: _s.extractXmlChild(elem, 'UserDetailList')?.let((elem) =>
           elem
-              .findElements('UserDetailList')
+              .findElements('member')
               .map((c) => UserDetail.fromXml(c))
               .toList()),
     );
@@ -13237,8 +13236,9 @@ class GetContextKeysForPolicyResponse {
   });
   factory GetContextKeysForPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetContextKeysForPolicyResponse(
-      contextKeyNames: _s.extractXmlChild(elem, 'ContextKeyNames')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ContextKeyNames')),
+      contextKeyNames: _s
+          .extractXmlChild(elem, 'ContextKeyNames')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -13332,7 +13332,7 @@ class GetGroupResponse {
     return GetGroupResponse(
       group: _s.extractXmlChild(elem, 'Group')?.let((e) => Group.fromXml(e)),
       users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('Users').map((c) => User.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -13404,10 +13404,11 @@ class GetOpenIDConnectProviderResponse {
     return GetOpenIDConnectProviderResponse(
       clientIDList: _s
           .extractXmlChild(elem, 'ClientIDList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ClientIDList')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      thumbprintList: _s.extractXmlChild(elem, 'ThumbprintList')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ThumbprintList')),
+      thumbprintList: _s
+          .extractXmlChild(elem, 'ThumbprintList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       url: _s.extractXmlStringValue(elem, 'Url'),
     );
   }
@@ -13472,7 +13473,7 @@ class GetOrganizationsAccessReportResponse {
       jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
       accessDetails: _s.extractXmlChild(elem, 'AccessDetails')?.let((elem) =>
           elem
-              .findElements('AccessDetails')
+              .findElements('member')
               .map((c) => AccessDetail.fromXml(c))
               .toList()),
       errorDetails: _s
@@ -13681,7 +13682,7 @@ class GetServiceLastAccessedDetailsResponse {
       servicesLastAccessed: _s
           .extractXmlChild(elem, 'ServicesLastAccessed')
           ?.let((elem) => elem
-              .findElements('ServicesLastAccessed')
+              .findElements('member')
               .map((c) => ServiceLastAccessed.fromXml(c))
               .toList()),
       error: _s
@@ -13744,7 +13745,7 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
     return GetServiceLastAccessedDetailsWithEntitiesResponse(
       entityDetailsList: _s.extractXmlChild(elem, 'EntityDetailsList')?.let(
           (elem) => elem
-              .findElements('EntityDetailsList')
+              .findElements('member')
               .map((c) => EntityDetails.fromXml(c))
               .toList()),
       jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate'),
@@ -13952,7 +13953,7 @@ class GroupDetail {
       attachedManagedPolicies: _s
           .extractXmlChild(elem, 'AttachedManagedPolicies')
           ?.let((elem) => elem
-              .findElements('AttachedManagedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
@@ -13960,7 +13961,7 @@ class GroupDetail {
       groupName: _s.extractXmlStringValue(elem, 'GroupName'),
       groupPolicyList: _s.extractXmlChild(elem, 'GroupPolicyList')?.let(
           (elem) => elem
-              .findElements('GroupPolicyList')
+              .findElements('member')
               .map((c) => PolicyDetail.fromXml(c))
               .toList()),
       path: _s.extractXmlStringValue(elem, 'Path'),
@@ -14030,7 +14031,7 @@ class InstanceProfile {
           _s.extractXmlStringValue(elem, 'InstanceProfileName'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('Roles').map((c) => Role.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
     );
   }
 }
@@ -14063,7 +14064,7 @@ class ListAccessKeysResponse {
     return ListAccessKeysResponse(
       accessKeyMetadata: _s.extractXmlChild(elem, 'AccessKeyMetadata')?.let(
           (elem) => elem
-              .findElements('AccessKeyMetadata')
+              .findElements('member')
               .map((c) => AccessKeyMetadata.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14099,8 +14100,9 @@ class ListAccountAliasesResponse {
   });
   factory ListAccountAliasesResponse.fromXml(_s.XmlElement elem) {
     return ListAccountAliasesResponse(
-      accountAliases: _s.extractXmlChild(elem, 'AccountAliases')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AccountAliases')),
+      accountAliases: _s
+          .extractXmlChild(elem, 'AccountAliases')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14136,7 +14138,7 @@ class ListAttachedGroupPoliciesResponse {
     return ListAttachedGroupPoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
           (elem) => elem
-              .findElements('AttachedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14174,7 +14176,7 @@ class ListAttachedRolePoliciesResponse {
     return ListAttachedRolePoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
           (elem) => elem
-              .findElements('AttachedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14212,7 +14214,7 @@ class ListAttachedUserPoliciesResponse {
     return ListAttachedUserPoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
           (elem) => elem
-              .findElements('AttachedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14258,15 +14260,15 @@ class ListEntitiesForPolicyResponse {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       policyGroups: _s.extractXmlChild(elem, 'PolicyGroups')?.let((elem) => elem
-          .findElements('PolicyGroups')
+          .findElements('member')
           .map((c) => PolicyGroup.fromXml(c))
           .toList()),
       policyRoles: _s.extractXmlChild(elem, 'PolicyRoles')?.let((elem) => elem
-          .findElements('PolicyRoles')
+          .findElements('member')
           .map((c) => PolicyRole.fromXml(c))
           .toList()),
       policyUsers: _s.extractXmlChild(elem, 'PolicyUsers')?.let((elem) => elem
-          .findElements('PolicyUsers')
+          .findElements('member')
           .map((c) => PolicyUser.fromXml(c))
           .toList()),
     );
@@ -14306,7 +14308,7 @@ class ListGroupPoliciesResponse {
     return ListGroupPoliciesResponse(
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14340,7 +14342,7 @@ class ListGroupsForUserResponse {
   factory ListGroupsForUserResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsForUserResponse(
       groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('Groups').map((c) => Group.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14374,7 +14376,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsResponse(
       groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('Groups').map((c) => Group.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14410,7 +14412,7 @@ class ListInstanceProfilesForRoleResponse {
     return ListInstanceProfilesForRoleResponse(
       instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
           (elem) => elem
-              .findElements('InstanceProfiles')
+              .findElements('member')
               .map((c) => InstanceProfile.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14447,7 +14449,7 @@ class ListInstanceProfilesResponse {
     return ListInstanceProfilesResponse(
       instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
           (elem) => elem
-              .findElements('InstanceProfiles')
+              .findElements('member')
               .map((c) => InstanceProfile.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14483,7 +14485,7 @@ class ListMFADevicesResponse {
   factory ListMFADevicesResponse.fromXml(_s.XmlElement elem) {
     return ListMFADevicesResponse(
       mFADevices: _s.extractXmlChild(elem, 'MFADevices')?.let((elem) => elem
-          .findElements('MFADevices')
+          .findElements('member')
           .map((c) => MFADevice.fromXml(c))
           .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14506,7 +14508,7 @@ class ListOpenIDConnectProvidersResponse {
       openIDConnectProviderList: _s
           .extractXmlChild(elem, 'OpenIDConnectProviderList')
           ?.let((elem) => elem
-              .findElements('OpenIDConnectProviderList')
+              .findElements('member')
               .map((c) => OpenIDConnectProviderListEntry.fromXml(c))
               .toList()),
     );
@@ -14542,7 +14544,7 @@ class ListPoliciesGrantingServiceAccessEntry {
   factory ListPoliciesGrantingServiceAccessEntry.fromXml(_s.XmlElement elem) {
     return ListPoliciesGrantingServiceAccessEntry(
       policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) => elem
-          .findElements('Policies')
+          .findElements('member')
           .map((c) => PolicyGrantingServiceAccess.fromXml(c))
           .toList()),
       serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
@@ -14580,7 +14582,7 @@ class ListPoliciesGrantingServiceAccessResponse {
       policiesGrantingServiceAccess: _s
           .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')
           ?.let((elem) => elem
-              .findElements('PoliciesGrantingServiceAccess')
+              .findElements('member')
               .map((c) => ListPoliciesGrantingServiceAccessEntry.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14618,7 +14620,7 @@ class ListPoliciesResponse {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) =>
-          elem.findElements('Policies').map((c) => Policy.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Policy.fromXml(c)).toList()),
     );
   }
 }
@@ -14656,7 +14658,7 @@ class ListPolicyVersionsResponse {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       versions: _s.extractXmlChild(elem, 'Versions')?.let((elem) => elem
-          .findElements('Versions')
+          .findElements('member')
           .map((c) => PolicyVersion.fromXml(c))
           .toList()),
     );
@@ -14691,7 +14693,7 @@ class ListRolePoliciesResponse {
     return ListRolePoliciesResponse(
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14725,7 +14727,7 @@ class ListRoleTagsResponse {
   factory ListRoleTagsResponse.fromXml(_s.XmlElement elem) {
     return ListRoleTagsResponse(
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14759,7 +14761,7 @@ class ListRolesResponse {
   factory ListRolesResponse.fromXml(_s.XmlElement elem) {
     return ListRolesResponse(
       roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('Roles').map((c) => Role.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14779,7 +14781,7 @@ class ListSAMLProvidersResponse {
     return ListSAMLProvidersResponse(
       sAMLProviderList: _s.extractXmlChild(elem, 'SAMLProviderList')?.let(
           (elem) => elem
-              .findElements('SAMLProviderList')
+              .findElements('member')
               .map((c) => SAMLProviderListEntry.fromXml(c))
               .toList()),
     );
@@ -14816,7 +14818,7 @@ class ListSSHPublicKeysResponse {
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       sSHPublicKeys: _s.extractXmlChild(elem, 'SSHPublicKeys')?.let((elem) =>
           elem
-              .findElements('SSHPublicKeys')
+              .findElements('member')
               .map((c) => SSHPublicKeyMetadata.fromXml(c))
               .toList()),
     );
@@ -14852,7 +14854,7 @@ class ListServerCertificatesResponse {
       serverCertificateMetadataList: _s
           .extractXmlChild(elem, 'ServerCertificateMetadataList')
           ?.let((elem) => elem
-              .findElements('ServerCertificateMetadataList')
+              .findElements('member')
               .map((c) => ServerCertificateMetadata.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14874,7 +14876,7 @@ class ListServiceSpecificCredentialsResponse {
       serviceSpecificCredentials: _s
           .extractXmlChild(elem, 'ServiceSpecificCredentials')
           ?.let((elem) => elem
-              .findElements('ServiceSpecificCredentials')
+              .findElements('member')
               .map((c) => ServiceSpecificCredentialMetadata.fromXml(c))
               .toList()),
     );
@@ -14909,7 +14911,7 @@ class ListSigningCertificatesResponse {
   factory ListSigningCertificatesResponse.fromXml(_s.XmlElement elem) {
     return ListSigningCertificatesResponse(
       certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
-          .findElements('Certificates')
+          .findElements('member')
           .map((c) => SigningCertificate.fromXml(c))
           .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14946,7 +14948,7 @@ class ListUserPoliciesResponse {
     return ListUserPoliciesResponse(
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14980,7 +14982,7 @@ class ListUserTagsResponse {
   factory ListUserTagsResponse.fromXml(_s.XmlElement elem) {
     return ListUserTagsResponse(
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15014,7 +15016,7 @@ class ListUsersResponse {
   factory ListUsersResponse.fromXml(_s.XmlElement elem) {
     return ListUsersResponse(
       users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('Users').map((c) => User.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15050,7 +15052,7 @@ class ListVirtualMFADevicesResponse {
     return ListVirtualMFADevicesResponse(
       virtualMFADevices: _s.extractXmlChild(elem, 'VirtualMFADevices')?.let(
           (elem) => elem
-              .findElements('VirtualMFADevices')
+              .findElements('member')
               .map((c) => VirtualMFADevice.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -15220,7 +15222,7 @@ class ManagedPolicyDetail {
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
       policyVersionList: _s.extractXmlChild(elem, 'PolicyVersionList')?.let(
           (elem) => elem
-              .findElements('PolicyVersionList')
+              .findElements('member')
               .map((c) => PolicyVersion.fromXml(c))
               .toList()),
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
@@ -15938,13 +15940,12 @@ class ResourceSpecificResult {
       ),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
           (elem) => elem
-              .findElements('MatchedStatements')
+              .findElements('member')
               .map((c) => Statement.fromXml(c))
               .toList()),
       missingContextValues: _s
           .extractXmlChild(elem, 'MissingContextValues')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'MissingContextValues')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       permissionsBoundaryDecisionDetail: _s
           .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
           ?.let((e) => PermissionsBoundaryDecisionDetail.fromXml(e)),
@@ -16045,7 +16046,7 @@ class Role {
           .extractXmlChild(elem, 'RoleLastUsed')
           ?.let((e) => RoleLastUsed.fromXml(e)),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -16135,13 +16136,13 @@ class RoleDetail {
       attachedManagedPolicies: _s
           .extractXmlChild(elem, 'AttachedManagedPolicies')
           ?.let((elem) => elem
-              .findElements('AttachedManagedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
       instanceProfileList: _s.extractXmlChild(elem, 'InstanceProfileList')?.let(
           (elem) => elem
-              .findElements('InstanceProfileList')
+              .findElements('member')
               .map((c) => InstanceProfile.fromXml(c))
               .toList()),
       path: _s.extractXmlStringValue(elem, 'Path'),
@@ -16155,11 +16156,11 @@ class RoleDetail {
       roleName: _s.extractXmlStringValue(elem, 'RoleName'),
       rolePolicyList: _s.extractXmlChild(elem, 'RolePolicyList')?.let((elem) =>
           elem
-              .findElements('RolePolicyList')
+              .findElements('member')
               .map((c) => PolicyDetail.fromXml(c))
               .toList()),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -16221,7 +16222,7 @@ class RoleUsageType {
       region: _s.extractXmlStringValue(elem, 'Region'),
       resources: _s
           .extractXmlChild(elem, 'Resources')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Resources')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -16652,7 +16653,7 @@ class SimulatePolicyResponse {
     return SimulatePolicyResponse(
       evaluationResults: _s.extractXmlChild(elem, 'EvaluationResults')?.let(
           (elem) => elem
-              .findElements('EvaluationResults')
+              .findElements('member')
               .map((c) => EvaluationResult.fromXml(c))
               .toList()),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -16942,7 +16943,7 @@ class User {
           .extractXmlChild(elem, 'PermissionsBoundary')
           ?.let((e) => AttachedPermissionsBoundary.fromXml(e)),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -17013,24 +17014,24 @@ class UserDetail {
       attachedManagedPolicies: _s
           .extractXmlChild(elem, 'AttachedManagedPolicies')
           ?.let((elem) => elem
-              .findElements('AttachedManagedPolicies')
+              .findElements('member')
               .map((c) => AttachedPolicy.fromXml(c))
               .toList()),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
       groupList: _s
           .extractXmlChild(elem, 'GroupList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'GroupList')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       path: _s.extractXmlStringValue(elem, 'Path'),
       permissionsBoundary: _s
           .extractXmlChild(elem, 'PermissionsBoundary')
           ?.let((e) => AttachedPermissionsBoundary.fromXml(e)),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       userId: _s.extractXmlStringValue(elem, 'UserId'),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
       userPolicyList: _s.extractXmlChild(elem, 'UserPolicyList')?.let((elem) =>
           elem
-              .findElements('UserPolicyList')
+              .findElements('member')
               .map((c) => PolicyDetail.fromXml(c))
               .toList()),
     );
