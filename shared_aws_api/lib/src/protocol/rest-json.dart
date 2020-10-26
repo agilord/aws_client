@@ -70,7 +70,7 @@ class RestJsonProtocol {
 
     final body = await rs.stream.bytesToString();
 
-    if (200 < rs.statusCode || rs.statusCode >= 300) {
+    if (rs.statusCode < 200 || rs.statusCode >= 300) {
       throwException(rs, body, exceptionFnMap);
     }
 
