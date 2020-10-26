@@ -64,4 +64,31 @@ void main() {
       );
     });
   });
+  group('Endpoint.forProtocol', () {
+    test('Infer endpoint', () {
+      expect(
+        Endpoint.forProtocol(service: 'iam'),
+        Endpoint(
+          service: 'iam',
+          url: 'https://iam.amazonaws.com',
+          signingRegion: 'us-east-1',
+          signatureVersion: 'v4',
+        ),
+      );
+    });
+    test('Custom endpointUrl', () {
+      expect(
+        Endpoint.forProtocol(
+            service: 'iam',
+            endpointUrl: 'https://test.com',
+            region: 'us-gov-1'),
+        Endpoint(
+          service: 'iam',
+          url: 'https://test.com',
+          signingRegion: 'us-gov-1',
+          signatureVersion: 'v4',
+        ),
+      );
+    });
+  });
 }

@@ -21,13 +21,13 @@ final rules = <String, RegionConfig>{
   '*/sts': _globalSSL,
   '*/importexport': RegionConfig(
     endpoint: '{service}.amazonaws.com',
-    signatureVersion: 'v2',
     globalEndpoint: true,
+    signatureVersion: 'v2',
   ),
   '*/route53': RegionConfig(
     endpoint: 'https://{service}.amazonaws.com',
-    signatureVersion: 'v3https',
     globalEndpoint: true,
+    signatureVersion: 'v3https',
   ),
   '*/waf': _globalSSL,
   'us-gov-*/iam': _globalGovCloud,

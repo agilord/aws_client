@@ -2,10 +2,21 @@ import 'package:meta/meta.dart';
 import 'endpoint_config_data.dart' as config;
 import 'shared.dart';
 
+/// A data class that holds the URL and signing information to communicate
+/// with an AWS service.
+/// This is an internal class used by the different protocols.
 class Endpoint {
+  /// The `endpointPrefix` of the service. This is necessary to correctly infer
+  /// the URL and sign the request
   final String service;
+
+  /// The URL to use to communicate with AWS.
   final String url;
+
+  /// The region to use in the request signature.
   final String signingRegion;
+
+  /// The version of the algorithm to sign the request.
   final String signatureVersion;
 
   Endpoint(
@@ -18,6 +29,8 @@ class Endpoint {
         assert(signingRegion != null),
         signatureVersion = signatureVersion ?? 'v4';
 
+  /// Creates a `Endpoint` using only the service prefix and an optional region
+  /// The other information will be inferred from the global configuration rules.
   static Endpoint fromConfig(String service, {String region}) {
     assert(service != null);
 
@@ -39,7 +52,8 @@ class Endpoint {
     if (region != null) {
       url = url.replaceAll('{region}', region);
     }
-    assert(!url.contains('{'), 'Url pattern is not correctly transformed');
+    assert(
+        !url.contains('{'), 'Url pattern is not correctly transformed ($url)');
 
     if (!url.contains('://')) {
       url = 'https://$url';
@@ -53,6 +67,8 @@ class Endpoint {
     );
   }
 
+  /// Creates a `Endpoint` from either a user-provided custom endpointUrl or
+  /// by inferring the configuration from the service prefix.
   static Endpoint forProtocol(
       {String service, String region, String endpointUrl}) {
     if (service == null) {
@@ -91,7 +107,11 @@ class Endpoint {
       'signingRegion: $signingRegion, signatureVersion: $signatureVersion)';
 }
 
+/// The internal data-class used in the generated configuration file.
+/// It holds the url pattern to use for each services.
 class RegionConfig {
+  /// The URL pattern for the service.
+  /// The pattern can contains a "{service}" and "{region}" placeholder (ie. {service}.{region}.amazonaws.com)
   final String endpoint;
   final bool globalEndpoint;
   final String signatureVersion;

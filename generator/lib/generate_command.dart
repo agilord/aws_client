@@ -18,6 +18,7 @@ import 'builders/readme_builder.dart';
 import 'builders/test_builder.dart';
 import 'download_command.dart';
 import 'model/config.dart';
+import 'model/region_config.dart';
 
 class GenerateCommand extends Command {
   final _formatter = DartFormatter(fixes: StyleFix.all);
@@ -373,8 +374,9 @@ in the config file, from the downloaded models.''';
   Future<void> _generateConfigFiles() async {
     final jsonContent =
         jsonDecode(await _configDataFile.readAsString()) as Map<String, Object>;
+    final configData = RegionConfigData.fromJson(jsonContent);
     final endpointConfigCode =
-        _formatter.format(buildEndpointConfig(jsonContent));
+        _formatter.format(buildEndpointConfig(configData));
 
     File('../shared_aws_api/lib/src/protocol/endpoint_config_data.dart')
       ..createSync(recursive: true)
