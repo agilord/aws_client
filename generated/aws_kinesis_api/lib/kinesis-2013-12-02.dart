@@ -1864,7 +1864,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Data': base64Encode(data),
+        'Data': data?.let(base64Encode),
         'PartitionKey': partitionKey,
         'StreamName': streamName,
         if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,

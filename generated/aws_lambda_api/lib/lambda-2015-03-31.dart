@@ -4107,7 +4107,7 @@ class Lambda {
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
-      if (zipFile != null) 'ZipFile': base64Encode(zipFile),
+      if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -2132,7 +2132,7 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'layerPartBlob': base64Encode(layerPartBlob),
+        'layerPartBlob': layerPartBlob?.let(base64Encode),
         'partFirstByte': partFirstByte,
         'partLastByte': partLastByte,
         'repositoryName': repositoryName,

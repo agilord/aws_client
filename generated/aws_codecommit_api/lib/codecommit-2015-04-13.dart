@@ -4704,7 +4704,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'branchName': branchName,
-        'fileContent': base64Encode(fileContent),
+        'fileContent': fileContent?.let(base64Encode),
         'filePath': filePath,
         'repositoryName': repositoryName,
         if (commitMessage != null) 'commitMessage': commitMessage,

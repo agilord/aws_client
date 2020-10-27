@@ -7741,7 +7741,7 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
         if (css != null) 'CSS': css,
         if (clientId != null) 'ClientId': clientId,
-        if (imageFile != null) 'ImageFile': base64Encode(imageFile),
+        if (imageFile != null) 'ImageFile': imageFile.let(base64Encode),
       },
     );
 

@@ -2930,7 +2930,7 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $payload = <String, dynamic>{
       'mergeStrategy': mergeStrategy?.toValue(),
-      'payload': base64Encode(payload),
+      'payload': payload?.let(base64Encode),
       'resourceType': resourceType?.toValue(),
       if (tags != null) 'tags': tags,
     };

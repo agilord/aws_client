@@ -1272,7 +1272,7 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': base64Encode(ciphertextBlob),
+        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -2283,7 +2283,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Plaintext': base64Encode(plaintext),
+        'Plaintext': plaintext?.let(base64Encode),
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -3560,8 +3560,8 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptedKeyMaterial': base64Encode(encryptedKeyMaterial),
-        'ImportToken': base64Encode(importToken),
+        'EncryptedKeyMaterial': encryptedKeyMaterial?.let(base64Encode),
+        'ImportToken': importToken?.let(base64Encode),
         'KeyId': keyId,
         if (expirationModel != null)
           'ExpirationModel': expirationModel?.toValue(),
@@ -4518,7 +4518,7 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': base64Encode(ciphertextBlob),
+        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
         'DestinationKeyId': destinationKeyId,
         if (destinationEncryptionAlgorithm != null)
           'DestinationEncryptionAlgorithm':
@@ -4953,7 +4953,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': base64Encode(message),
+        'Message': message?.let(base64Encode),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType?.toValue(),
@@ -5583,8 +5583,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': base64Encode(message),
-        'Signature': base64Encode(signature),
+        'Message': message?.let(base64Encode),
+        'Signature': signature?.let(base64Encode),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType?.toValue(),

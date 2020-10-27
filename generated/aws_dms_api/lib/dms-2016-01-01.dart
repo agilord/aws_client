@@ -2007,7 +2007,7 @@ class DatabaseMigrationService {
         'CertificateIdentifier': certificateIdentifier,
         if (certificatePem != null) 'CertificatePem': certificatePem,
         if (certificateWallet != null)
-          'CertificateWallet': base64Encode(certificateWallet),
+          'CertificateWallet': certificateWallet.let(base64Encode),
         if (tags != null) 'Tags': tags,
       },
     );

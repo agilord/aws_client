@@ -2387,7 +2387,7 @@ class GameLift {
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (tags != null) 'Tags': tags,
         if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
+        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
       },
     );
 
@@ -10786,7 +10786,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
+        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
       },
     );
 

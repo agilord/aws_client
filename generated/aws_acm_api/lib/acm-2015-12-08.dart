@@ -279,7 +279,7 @@ class ACM {
       headers: headers,
       payload: {
         'CertificateArn': certificateArn,
-        'Passphrase': base64Encode(passphrase),
+        'Passphrase': passphrase?.let(base64Encode),
       },
     );
 
@@ -472,11 +472,11 @@ class ACM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Certificate': base64Encode(certificate),
-        'PrivateKey': base64Encode(privateKey),
+        'Certificate': certificate?.let(base64Encode),
+        'PrivateKey': privateKey?.let(base64Encode),
         if (certificateArn != null) 'CertificateArn': certificateArn,
         if (certificateChain != null)
-          'CertificateChain': base64Encode(certificateChain),
+          'CertificateChain': certificateChain.let(base64Encode),
         if (tags != null) 'Tags': tags,
       },
     );

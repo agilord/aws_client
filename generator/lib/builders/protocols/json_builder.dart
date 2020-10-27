@@ -24,18 +24,15 @@ class JsonServiceBuilder extends ServiceBuilder {
       if (m.shapeClass.enumeration != null) {
         m.shapeClass.isTopLevelInputEnum = true;
         serializationSuffix = '?.toValue()';
-      }
-
-      var fieldAccess = '${m.fieldName}$serializationSuffix';
-      if (m.shapeClass.type == 'blob') {
-        fieldAccess = 'base64Encode($fieldAccess)';
+      } else if (m.shapeClass.type == 'blob') {
+        serializationSuffix = '${m.isRequired ? '?' : ''}.let(base64Encode)';
       }
 
       final buffer = StringBuffer();
       if (!m.isRequired) {
         buffer.writeln('if (${m.fieldName} != null)');
       }
-      buffer.writeln("'${m.name}': $fieldAccess,");
+      buffer.writeln("'${m.name}': ${m.fieldName}$serializationSuffix,");
       return '$buffer';
     })?.join();
     var payload = '';

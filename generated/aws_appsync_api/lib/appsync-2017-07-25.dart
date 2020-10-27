@@ -1666,7 +1666,7 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     final $payload = <String, dynamic>{
-      'definition': base64Encode(definition),
+      'definition': definition?.let(base64Encode),
     };
     final response = await _protocol.send(
       payload: $payload,

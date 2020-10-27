@@ -213,7 +213,7 @@ class Kafka {
     final $payload = <String, dynamic>{
       'KafkaVersions': kafkaVersions,
       'Name': name,
-      'ServerProperties': base64Encode(serverProperties),
+      'ServerProperties': serverProperties?.let(base64Encode),
       if (description != null) 'Description': description,
     };
     final response = await _protocol.send(

@@ -951,10 +951,10 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Certificate': base64Encode(certificate),
+        'Certificate': certificate?.let(base64Encode),
         'CertificateAuthorityArn': certificateAuthorityArn,
         if (certificateChain != null)
-          'CertificateChain': base64Encode(certificateChain),
+          'CertificateChain': certificateChain.let(base64Encode),
       },
     );
   }
@@ -1106,7 +1106,7 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'Csr': base64Encode(csr),
+        'Csr': csr?.let(base64Encode),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
         'Validity': validity,
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
