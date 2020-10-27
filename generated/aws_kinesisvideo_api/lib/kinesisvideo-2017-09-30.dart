@@ -87,9 +87,10 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'ChannelName': channelName,
-      'ChannelType': channelType?.toValue(),
-      'SingleMasterConfiguration': singleMasterConfiguration,
-      'Tags': tags,
+      if (channelType != null) 'ChannelType': channelType?.toValue(),
+      if (singleMasterConfiguration != null)
+        'SingleMasterConfiguration': singleMasterConfiguration,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -233,11 +234,12 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,
-      'DataRetentionInHours': dataRetentionInHours,
-      'DeviceName': deviceName,
-      'KmsKeyId': kmsKeyId,
-      'MediaType': mediaType,
-      'Tags': tags,
+      if (dataRetentionInHours != null)
+        'DataRetentionInHours': dataRetentionInHours,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (mediaType != null) 'MediaType': mediaType,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -297,7 +299,7 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
-      'CurrentVersion': currentVersion,
+      if (currentVersion != null) 'CurrentVersion': currentVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -373,7 +375,7 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'StreamARN': streamARN,
-      'CurrentVersion': currentVersion,
+      if (currentVersion != null) 'CurrentVersion': currentVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -425,8 +427,8 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      'ChannelName': channelName,
+      if (channelARN != null) 'ChannelARN': channelARN,
+      if (channelName != null) 'ChannelName': channelName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -477,8 +479,8 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -546,8 +548,8 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'APIName': aPIName?.toValue(),
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -609,8 +611,9 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
-      'SingleMasterChannelEndpointConfiguration':
-          singleMasterChannelEndpointConfiguration,
+      if (singleMasterChannelEndpointConfiguration != null)
+        'SingleMasterChannelEndpointConfiguration':
+            singleMasterChannelEndpointConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -665,9 +668,10 @@ class KinesisVideo {
       r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
-      'ChannelNameCondition': channelNameCondition,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (channelNameCondition != null)
+        'ChannelNameCondition': channelNameCondition,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -722,9 +726,10 @@ class KinesisVideo {
       r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'StreamNameCondition': streamNameCondition,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamNameCondition != null)
+        'StreamNameCondition': streamNameCondition,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -780,7 +785,7 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -853,9 +858,9 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'NextToken': nextToken,
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -982,8 +987,8 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'Tags': tags,
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1092,8 +1097,8 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1215,8 +1220,8 @@ class KinesisVideo {
       'CurrentVersion': currentVersion,
       'DataRetentionChangeInHours': dataRetentionChangeInHours,
       'Operation': operation?.toValue(),
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1288,7 +1293,8 @@ class KinesisVideo {
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       'CurrentVersion': currentVersion,
-      'SingleMasterConfiguration': singleMasterConfiguration,
+      if (singleMasterConfiguration != null)
+        'SingleMasterConfiguration': singleMasterConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1418,10 +1424,10 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
-      'DeviceName': deviceName,
-      'MediaType': mediaType,
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (mediaType != null) 'MediaType': mediaType,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,

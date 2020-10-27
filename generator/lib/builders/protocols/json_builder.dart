@@ -25,9 +25,18 @@ class JsonServiceBuilder extends ServiceBuilder {
         m.shapeClass.isTopLevelInputEnum = true;
         serializationSuffix = '?.toValue()';
       }
-      return '''
-    '${m.name}': ${m.fieldName}$serializationSuffix,
-    ''';
+
+      var fieldAccess = '${m.fieldName}$serializationSuffix';
+      if (m.shapeClass.type == 'blob') {
+        fieldAccess = 'base64Encode($fieldAccess)';
+      }
+
+      final buffer = StringBuffer();
+      if (!m.isRequired) {
+        buffer.writeln('if (${m.fieldName} != null)');
+      }
+      buffer.writeln("'${m.name}': $fieldAccess,");
+      return '$buffer';
     })?.join();
     var payload = '';
     if (payloadMembers?.isNotEmpty == true) {

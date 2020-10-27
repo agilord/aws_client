@@ -155,10 +155,10 @@ class RDSDataService {
       'resourceArn': resourceArn,
       'secretArn': secretArn,
       'sql': sql,
-      'database': database,
-      'parameterSets': parameterSets,
-      'schema': schema,
-      'transactionId': transactionId,
+      if (database != null) 'database': database,
+      if (parameterSets != null) 'parameterSets': parameterSets,
+      if (schema != null) 'schema': schema,
+      if (transactionId != null) 'transactionId': transactionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -235,8 +235,8 @@ class RDSDataService {
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
-      'database': database,
-      'schema': schema,
+      if (database != null) 'database': database,
+      if (schema != null) 'schema': schema,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -387,8 +387,8 @@ class RDSDataService {
       'awsSecretStoreArn': awsSecretStoreArn,
       'dbClusterOrInstanceArn': dbClusterOrInstanceArn,
       'sqlStatements': sqlStatements,
-      'database': database,
-      'schema': schema,
+      if (database != null) 'database': database,
+      if (schema != null) 'schema': schema,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -516,13 +516,15 @@ class RDSDataService {
       'resourceArn': resourceArn,
       'secretArn': secretArn,
       'sql': sql,
-      'continueAfterTimeout': continueAfterTimeout,
-      'database': database,
-      'includeResultMetadata': includeResultMetadata,
-      'parameters': parameters,
-      'resultSetOptions': resultSetOptions,
-      'schema': schema,
-      'transactionId': transactionId,
+      if (continueAfterTimeout != null)
+        'continueAfterTimeout': continueAfterTimeout,
+      if (database != null) 'database': database,
+      if (includeResultMetadata != null)
+        'includeResultMetadata': includeResultMetadata,
+      if (parameters != null) 'parameters': parameters,
+      if (resultSetOptions != null) 'resultSetOptions': resultSetOptions,
+      if (schema != null) 'schema': schema,
+      if (transactionId != null) 'transactionId': transactionId,
     };
     final response = await _protocol.send(
       payload: $payload,

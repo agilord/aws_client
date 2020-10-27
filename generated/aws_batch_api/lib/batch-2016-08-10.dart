@@ -196,8 +196,8 @@ class Batch {
       'computeEnvironmentName': computeEnvironmentName,
       'serviceRole': serviceRole,
       'type': type?.toValue(),
-      'computeResources': computeResources,
-      'state': state?.toValue(),
+      if (computeResources != null) 'computeResources': computeResources,
+      if (state != null) 'state': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -257,7 +257,7 @@ class Batch {
       'computeEnvironmentOrder': computeEnvironmentOrder,
       'jobQueueName': jobQueueName,
       'priority': priority,
-      'state': state?.toValue(),
+      if (state != null) 'state': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -394,9 +394,10 @@ class Batch {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'computeEnvironments': computeEnvironments,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (computeEnvironments != null)
+        'computeEnvironments': computeEnvironments,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -455,11 +456,11 @@ class Batch {
     String status,
   }) async {
     final $payload = <String, dynamic>{
-      'jobDefinitionName': jobDefinitionName,
-      'jobDefinitions': jobDefinitions,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'status': status,
+      if (jobDefinitionName != null) 'jobDefinitionName': jobDefinitionName,
+      if (jobDefinitions != null) 'jobDefinitions': jobDefinitions,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (status != null) 'status': status,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -507,9 +508,9 @@ class Batch {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'jobQueues': jobQueues,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (jobQueues != null) 'jobQueues': jobQueues,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -613,12 +614,12 @@ class Batch {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'arrayJobId': arrayJobId,
-      'jobQueue': jobQueue,
-      'jobStatus': jobStatus?.toValue(),
-      'maxResults': maxResults,
-      'multiNodeJobId': multiNodeJobId,
-      'nextToken': nextToken,
+      if (arrayJobId != null) 'arrayJobId': arrayJobId,
+      if (jobQueue != null) 'jobQueue': jobQueue,
+      if (jobStatus != null) 'jobStatus': jobStatus?.toValue(),
+      if (maxResults != null) 'maxResults': maxResults,
+      if (multiNodeJobId != null) 'multiNodeJobId': multiNodeJobId,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -693,11 +694,12 @@ class Batch {
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
       'type': type?.toValue(),
-      'containerProperties': containerProperties,
-      'nodeProperties': nodeProperties,
-      'parameters': parameters,
-      'retryStrategy': retryStrategy,
-      'timeout': timeout,
+      if (containerProperties != null)
+        'containerProperties': containerProperties,
+      if (nodeProperties != null) 'nodeProperties': nodeProperties,
+      if (parameters != null) 'parameters': parameters,
+      if (retryStrategy != null) 'retryStrategy': retryStrategy,
+      if (timeout != null) 'timeout': timeout,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -802,13 +804,13 @@ class Batch {
       'jobDefinition': jobDefinition,
       'jobName': jobName,
       'jobQueue': jobQueue,
-      'arrayProperties': arrayProperties,
-      'containerOverrides': containerOverrides,
-      'dependsOn': dependsOn,
-      'nodeOverrides': nodeOverrides,
-      'parameters': parameters,
-      'retryStrategy': retryStrategy,
-      'timeout': timeout,
+      if (arrayProperties != null) 'arrayProperties': arrayProperties,
+      if (containerOverrides != null) 'containerOverrides': containerOverrides,
+      if (dependsOn != null) 'dependsOn': dependsOn,
+      if (nodeOverrides != null) 'nodeOverrides': nodeOverrides,
+      if (parameters != null) 'parameters': parameters,
+      if (retryStrategy != null) 'retryStrategy': retryStrategy,
+      if (timeout != null) 'timeout': timeout,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -895,9 +897,9 @@ class Batch {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
-      'computeResources': computeResources,
-      'serviceRole': serviceRole,
-      'state': state?.toValue(),
+      if (computeResources != null) 'computeResources': computeResources,
+      if (serviceRole != null) 'serviceRole': serviceRole,
+      if (state != null) 'state': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -941,9 +943,10 @@ class Batch {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
       'jobQueue': jobQueue,
-      'computeEnvironmentOrder': computeEnvironmentOrder,
-      'priority': priority,
-      'state': state?.toValue(),
+      if (computeEnvironmentOrder != null)
+        'computeEnvironmentOrder': computeEnvironmentOrder,
+      if (priority != null) 'priority': priority,
+      if (state != null) 'state': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

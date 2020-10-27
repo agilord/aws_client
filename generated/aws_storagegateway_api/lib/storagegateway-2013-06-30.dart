@@ -203,10 +203,10 @@ class StorageGateway {
         'GatewayName': gatewayName,
         'GatewayRegion': gatewayRegion,
         'GatewayTimezone': gatewayTimezone,
-        'GatewayType': gatewayType,
-        'MediumChangerType': mediumChangerType,
-        'Tags': tags,
-        'TapeDriveType': tapeDriveType,
+        if (gatewayType != null) 'GatewayType': gatewayType,
+        if (mediumChangerType != null) 'MediumChangerType': mediumChangerType,
+        if (tags != null) 'Tags': tags,
+        if (tapeDriveType != null) 'TapeDriveType': tapeDriveType,
       },
     );
 
@@ -598,8 +598,8 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'NetworkInterfaceId': networkInterfaceId,
         'VolumeARN': volumeARN,
-        'DiskId': diskId,
-        'TargetName': targetName,
+        if (diskId != null) 'DiskId': diskId,
+        if (targetName != null) 'TargetName': targetName,
       },
     );
 
@@ -880,11 +880,11 @@ class StorageGateway {
         'NetworkInterfaceId': networkInterfaceId,
         'TargetName': targetName,
         'VolumeSizeInBytes': volumeSizeInBytes,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'SnapshotId': snapshotId,
-        'SourceVolumeARN': sourceVolumeARN,
-        'Tags': tags,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (snapshotId != null) 'SnapshotId': snapshotId,
+        if (sourceVolumeARN != null) 'SourceVolumeARN': sourceVolumeARN,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1080,17 +1080,20 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'LocationARN': locationARN,
         'Role': role,
-        'ClientList': clientList,
-        'DefaultStorageClass': defaultStorageClass,
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'NFSFileShareDefaults': nFSFileShareDefaults,
-        'ObjectACL': objectACL?.toValue(),
-        'ReadOnly': readOnly,
-        'RequesterPays': requesterPays,
-        'Squash': squash,
-        'Tags': tags,
+        if (clientList != null) 'ClientList': clientList,
+        if (defaultStorageClass != null)
+          'DefaultStorageClass': defaultStorageClass,
+        if (guessMIMETypeEnabled != null)
+          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (nFSFileShareDefaults != null)
+          'NFSFileShareDefaults': nFSFileShareDefaults,
+        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (readOnly != null) 'ReadOnly': readOnly,
+        if (requesterPays != null) 'RequesterPays': requesterPays,
+        if (squash != null) 'Squash': squash,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1312,20 +1315,23 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'LocationARN': locationARN,
         'Role': role,
-        'AdminUserList': adminUserList,
-        'AuditDestinationARN': auditDestinationARN,
-        'Authentication': authentication,
-        'DefaultStorageClass': defaultStorageClass,
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        'InvalidUserList': invalidUserList,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'ObjectACL': objectACL?.toValue(),
-        'ReadOnly': readOnly,
-        'RequesterPays': requesterPays,
-        'SMBACLEnabled': sMBACLEnabled,
-        'Tags': tags,
-        'ValidUserList': validUserList,
+        if (adminUserList != null) 'AdminUserList': adminUserList,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
+        if (authentication != null) 'Authentication': authentication,
+        if (defaultStorageClass != null)
+          'DefaultStorageClass': defaultStorageClass,
+        if (guessMIMETypeEnabled != null)
+          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+        if (invalidUserList != null) 'InvalidUserList': invalidUserList,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (readOnly != null) 'ReadOnly': readOnly,
+        if (requesterPays != null) 'RequesterPays': requesterPays,
+        if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
+        if (tags != null) 'Tags': tags,
+        if (validUserList != null) 'ValidUserList': validUserList,
       },
     );
 
@@ -1420,7 +1426,7 @@ class StorageGateway {
       payload: {
         'SnapshotDescription': snapshotDescription,
         'VolumeARN': volumeARN,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1507,7 +1513,7 @@ class StorageGateway {
       payload: {
         'SnapshotDescription': snapshotDescription,
         'VolumeARN': volumeARN,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1663,10 +1669,10 @@ class StorageGateway {
         'NetworkInterfaceId': networkInterfaceId,
         'PreserveExistingData': preserveExistingData,
         'TargetName': targetName,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'SnapshotId': snapshotId,
-        'Tags': tags,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (snapshotId != null) 'SnapshotId': snapshotId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1790,10 +1796,10 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'TapeBarcode': tapeBarcode,
         'TapeSizeInBytes': tapeSizeInBytes,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'PoolId': poolId,
-        'Tags': tags,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (poolId != null) 'PoolId': poolId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1948,10 +1954,10 @@ class StorageGateway {
         'NumTapesToCreate': numTapesToCreate,
         'TapeBarcodePrefix': tapeBarcodePrefix,
         'TapeSizeInBytes': tapeSizeInBytes,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'PoolId': poolId,
-        'Tags': tags,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (poolId != null) 'PoolId': poolId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2110,7 +2116,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
-        'ForceDelete': forceDelete,
+        if (forceDelete != null) 'ForceDelete': forceDelete,
       },
     );
 
@@ -2854,9 +2860,9 @@ class StorageGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Marker': marker,
-        'TapeARNs': tapeARNs,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+        if (tapeARNs != null) 'TapeARNs': tapeARNs,
       },
     );
 
@@ -2918,8 +2924,8 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -2990,9 +2996,9 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'Limit': limit,
-        'Marker': marker,
-        'TapeARNs': tapeARNs,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+        if (tapeARNs != null) 'TapeARNs': tapeARNs,
       },
     );
 
@@ -3099,9 +3105,9 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'Limit': limit,
-        'Marker': marker,
-        'VTLDeviceARNs': vTLDeviceARNs,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+        if (vTLDeviceARNs != null) 'VTLDeviceARNs': vTLDeviceARNs,
       },
     );
 
@@ -3193,7 +3199,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'VolumeARN': volumeARN,
-        'ForceDetach': forceDetach,
+        if (forceDetach != null) 'ForceDetach': forceDetach,
       },
     );
 
@@ -3365,9 +3371,10 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'Password': password,
         'UserName': userName,
-        'DomainControllers': domainControllers,
-        'OrganizationalUnit': organizationalUnit,
-        'TimeoutInSeconds': timeoutInSeconds,
+        if (domainControllers != null) 'DomainControllers': domainControllers,
+        if (organizationalUnit != null)
+          'OrganizationalUnit': organizationalUnit,
+        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
       },
     );
 
@@ -3428,9 +3435,9 @@ class StorageGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GatewayARN': gatewayARN,
-        'Limit': limit,
-        'Marker': marker,
+        if (gatewayARN != null) 'GatewayARN': gatewayARN,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3487,8 +3494,8 @@ class StorageGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3592,8 +3599,8 @@ class StorageGateway {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3650,9 +3657,9 @@ class StorageGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Marker': marker,
-        'TapeARNs': tapeARNs,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+        if (tapeARNs != null) 'TapeARNs': tapeARNs,
       },
     );
 
@@ -3798,9 +3805,9 @@ class StorageGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GatewayARN': gatewayARN,
-        'Limit': limit,
-        'Marker': marker,
+        if (gatewayARN != null) 'GatewayARN': gatewayARN,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3933,8 +3940,8 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
-        'FolderList': folderList,
-        'Recursive': recursive,
+        if (folderList != null) 'FolderList': folderList,
+        if (recursive != null) 'Recursive': recursive,
       },
     );
 
@@ -4478,10 +4485,12 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'AverageDownloadRateLimitInBitsPerSec':
-            averageDownloadRateLimitInBitsPerSec,
-        'AverageUploadRateLimitInBitsPerSec':
-            averageUploadRateLimitInBitsPerSec,
+        if (averageDownloadRateLimitInBitsPerSec != null)
+          'AverageDownloadRateLimitInBitsPerSec':
+              averageDownloadRateLimitInBitsPerSec,
+        if (averageUploadRateLimitInBitsPerSec != null)
+          'AverageUploadRateLimitInBitsPerSec':
+              averageUploadRateLimitInBitsPerSec,
       },
     );
 
@@ -4580,7 +4589,8 @@ class StorageGateway {
         'InitiatorName': initiatorName,
         'SecretToAuthenticateInitiator': secretToAuthenticateInitiator,
         'TargetARN': targetARN,
-        'SecretToAuthenticateTarget': secretToAuthenticateTarget,
+        if (secretToAuthenticateTarget != null)
+          'SecretToAuthenticateTarget': secretToAuthenticateTarget,
       },
     );
 
@@ -4658,9 +4668,10 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'CloudWatchLogGroupARN': cloudWatchLogGroupARN,
-        'GatewayName': gatewayName,
-        'GatewayTimezone': gatewayTimezone,
+        if (cloudWatchLogGroupARN != null)
+          'CloudWatchLogGroupARN': cloudWatchLogGroupARN,
+        if (gatewayName != null) 'GatewayName': gatewayName,
+        if (gatewayTimezone != null) 'GatewayTimezone': gatewayTimezone,
       },
     );
 
@@ -4802,8 +4813,8 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'HourOfDay': hourOfDay,
         'MinuteOfHour': minuteOfHour,
-        'DayOfMonth': dayOfMonth,
-        'DayOfWeek': dayOfWeek,
+        if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
+        if (dayOfWeek != null) 'DayOfWeek': dayOfWeek,
       },
     );
 
@@ -4958,16 +4969,19 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
-        'ClientList': clientList,
-        'DefaultStorageClass': defaultStorageClass,
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'NFSFileShareDefaults': nFSFileShareDefaults,
-        'ObjectACL': objectACL?.toValue(),
-        'ReadOnly': readOnly,
-        'RequesterPays': requesterPays,
-        'Squash': squash,
+        if (clientList != null) 'ClientList': clientList,
+        if (defaultStorageClass != null)
+          'DefaultStorageClass': defaultStorageClass,
+        if (guessMIMETypeEnabled != null)
+          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (nFSFileShareDefaults != null)
+          'NFSFileShareDefaults': nFSFileShareDefaults,
+        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (readOnly != null) 'ReadOnly': readOnly,
+        if (requesterPays != null) 'RequesterPays': requesterPays,
+        if (squash != null) 'Squash': squash,
       },
     );
 
@@ -5122,18 +5136,21 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
-        'AdminUserList': adminUserList,
-        'AuditDestinationARN': auditDestinationARN,
-        'DefaultStorageClass': defaultStorageClass,
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        'InvalidUserList': invalidUserList,
-        'KMSEncrypted': kMSEncrypted,
-        'KMSKey': kMSKey,
-        'ObjectACL': objectACL?.toValue(),
-        'ReadOnly': readOnly,
-        'RequesterPays': requesterPays,
-        'SMBACLEnabled': sMBACLEnabled,
-        'ValidUserList': validUserList,
+        if (adminUserList != null) 'AdminUserList': adminUserList,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
+        if (defaultStorageClass != null)
+          'DefaultStorageClass': defaultStorageClass,
+        if (guessMIMETypeEnabled != null)
+          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+        if (invalidUserList != null) 'InvalidUserList': invalidUserList,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (readOnly != null) 'ReadOnly': readOnly,
+        if (requesterPays != null) 'RequesterPays': requesterPays,
+        if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
+        if (validUserList != null) 'ValidUserList': validUserList,
       },
     );
 
@@ -5292,8 +5309,8 @@ class StorageGateway {
         'RecurrenceInHours': recurrenceInHours,
         'StartAt': startAt,
         'VolumeARN': volumeARN,
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 

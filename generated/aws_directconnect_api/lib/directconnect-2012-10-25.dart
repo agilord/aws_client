@@ -97,8 +97,9 @@ class DirectConnect {
         'associatedGatewayOwnerAccount': associatedGatewayOwnerAccount,
         'directConnectGatewayId': directConnectGatewayId,
         'proposalId': proposalId,
-        'overrideAllowedPrefixesToDirectConnectGateway':
-            overrideAllowedPrefixesToDirectConnectGateway,
+        if (overrideAllowedPrefixesToDirectConnectGateway != null)
+          'overrideAllowedPrefixesToDirectConnectGateway':
+              overrideAllowedPrefixesToDirectConnectGateway,
       },
     );
 
@@ -240,7 +241,7 @@ class DirectConnect {
         'connectionName': connectionName,
         'ownerAccount': ownerAccount,
         'vlan': vlan,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -633,8 +634,9 @@ class DirectConnect {
       headers: headers,
       payload: {
         'virtualInterfaceId': virtualInterfaceId,
-        'directConnectGatewayId': directConnectGatewayId,
-        'virtualGatewayId': virtualGatewayId,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
       },
     );
 
@@ -756,8 +758,9 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'newBGPPeer': newBGPPeer,
-        'virtualInterfaceId': virtualInterfaceId,
+        if (newBGPPeer != null) 'newBGPPeer': newBGPPeer,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
       },
     );
 
@@ -826,9 +829,9 @@ class DirectConnect {
         'bandwidth': bandwidth,
         'connectionName': connectionName,
         'location': location,
-        'lagId': lagId,
-        'providerName': providerName,
-        'tags': tags,
+        if (lagId != null) 'lagId': lagId,
+        if (providerName != null) 'providerName': providerName,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -873,7 +876,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'directConnectGatewayName': directConnectGatewayName,
-        'amazonSideAsn': amazonSideAsn,
+        if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
       },
     );
 
@@ -926,10 +929,11 @@ class DirectConnect {
       headers: headers,
       payload: {
         'directConnectGatewayId': directConnectGatewayId,
-        'addAllowedPrefixesToDirectConnectGateway':
-            addAllowedPrefixesToDirectConnectGateway,
-        'gatewayId': gatewayId,
-        'virtualGatewayId': virtualGatewayId,
+        if (addAllowedPrefixesToDirectConnectGateway != null)
+          'addAllowedPrefixesToDirectConnectGateway':
+              addAllowedPrefixesToDirectConnectGateway,
+        if (gatewayId != null) 'gatewayId': gatewayId,
+        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
       },
     );
 
@@ -991,10 +995,12 @@ class DirectConnect {
         'directConnectGatewayId': directConnectGatewayId,
         'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
         'gatewayId': gatewayId,
-        'addAllowedPrefixesToDirectConnectGateway':
-            addAllowedPrefixesToDirectConnectGateway,
-        'removeAllowedPrefixesToDirectConnectGateway':
-            removeAllowedPrefixesToDirectConnectGateway,
+        if (addAllowedPrefixesToDirectConnectGateway != null)
+          'addAllowedPrefixesToDirectConnectGateway':
+              addAllowedPrefixesToDirectConnectGateway,
+        if (removeAllowedPrefixesToDirectConnectGateway != null)
+          'removeAllowedPrefixesToDirectConnectGateway':
+              removeAllowedPrefixesToDirectConnectGateway,
       },
     );
 
@@ -1075,9 +1081,9 @@ class DirectConnect {
         'bandwidth': bandwidth,
         'interconnectName': interconnectName,
         'location': location,
-        'lagId': lagId,
-        'providerName': providerName,
-        'tags': tags,
+        if (lagId != null) 'lagId': lagId,
+        if (providerName != null) 'providerName': providerName,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1171,10 +1177,11 @@ class DirectConnect {
         'lagName': lagName,
         'location': location,
         'numberOfConnections': numberOfConnections,
-        'childConnectionTags': childConnectionTags,
-        'connectionId': connectionId,
-        'providerName': providerName,
-        'tags': tags,
+        if (childConnectionTags != null)
+          'childConnectionTags': childConnectionTags,
+        if (connectionId != null) 'connectionId': connectionId,
+        if (providerName != null) 'providerName': providerName,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1355,10 +1362,11 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'asn': asn,
-        'bgpPeerId': bgpPeerId,
-        'customerAddress': customerAddress,
-        'virtualInterfaceId': virtualInterfaceId,
+        if (asn != null) 'asn': asn,
+        if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
+        if (customerAddress != null) 'customerAddress': customerAddress,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
       },
     );
 
@@ -1469,9 +1477,10 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'associationId': associationId,
-        'directConnectGatewayId': directConnectGatewayId,
-        'virtualGatewayId': virtualGatewayId,
+        if (associationId != null) 'associationId': associationId,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
       },
     );
 
@@ -1649,8 +1658,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        'loaContentType': loaContentType?.toValue(),
-        'providerName': providerName,
+        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (providerName != null) 'providerName': providerName,
       },
     );
 
@@ -1678,7 +1687,7 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'connectionId': connectionId,
+        if (connectionId != null) 'connectionId': connectionId,
       },
     );
 
@@ -1766,11 +1775,13 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'associatedGatewayId': associatedGatewayId,
-        'directConnectGatewayId': directConnectGatewayId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'proposalId': proposalId,
+        if (associatedGatewayId != null)
+          'associatedGatewayId': associatedGatewayId,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (proposalId != null) 'proposalId': proposalId,
       },
     );
 
@@ -1832,12 +1843,14 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'associatedGatewayId': associatedGatewayId,
-        'associationId': associationId,
-        'directConnectGatewayId': directConnectGatewayId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'virtualGatewayId': virtualGatewayId,
+        if (associatedGatewayId != null)
+          'associatedGatewayId': associatedGatewayId,
+        if (associationId != null) 'associationId': associationId,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
       },
     );
 
@@ -1891,10 +1904,12 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'virtualInterfaceId': virtualInterfaceId,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
       },
     );
 
@@ -1937,9 +1952,10 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (directConnectGatewayId != null)
+          'directConnectGatewayId': directConnectGatewayId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2023,8 +2039,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         'interconnectId': interconnectId,
-        'loaContentType': loaContentType?.toValue(),
-        'providerName': providerName,
+        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (providerName != null) 'providerName': providerName,
       },
     );
 
@@ -2053,7 +2069,7 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'interconnectId': interconnectId,
+        if (interconnectId != null) 'interconnectId': interconnectId,
       },
     );
 
@@ -2081,7 +2097,7 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'lagId': lagId,
+        if (lagId != null) 'lagId': lagId,
       },
     );
 
@@ -2130,8 +2146,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        'loaContentType': loaContentType?.toValue(),
-        'providerName': providerName,
+        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (providerName != null) 'providerName': providerName,
       },
     );
 
@@ -2245,8 +2261,9 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'connectionId': connectionId,
-        'virtualInterfaceId': virtualInterfaceId,
+        if (connectionId != null) 'connectionId': connectionId,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
       },
     );
 
@@ -2411,11 +2428,13 @@ class DirectConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'addAllowedPrefixesToDirectConnectGateway':
-            addAllowedPrefixesToDirectConnectGateway,
-        'associationId': associationId,
-        'removeAllowedPrefixesToDirectConnectGateway':
-            removeAllowedPrefixesToDirectConnectGateway,
+        if (addAllowedPrefixesToDirectConnectGateway != null)
+          'addAllowedPrefixesToDirectConnectGateway':
+              addAllowedPrefixesToDirectConnectGateway,
+        if (associationId != null) 'associationId': associationId,
+        if (removeAllowedPrefixesToDirectConnectGateway != null)
+          'removeAllowedPrefixesToDirectConnectGateway':
+              removeAllowedPrefixesToDirectConnectGateway,
       },
     );
 
@@ -2473,8 +2492,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         'lagId': lagId,
-        'lagName': lagName,
-        'minimumLinks': minimumLinks,
+        if (lagName != null) 'lagName': lagName,
+        if (minimumLinks != null) 'minimumLinks': minimumLinks,
       },
     );
 
@@ -2518,7 +2537,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'virtualInterfaceId': virtualInterfaceId,
-        'mtu': mtu,
+        if (mtu != null) 'mtu': mtu,
       },
     );
 

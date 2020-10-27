@@ -119,8 +119,8 @@ class Health {
       headers: headers,
       payload: {
         'eventArn': eventArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -205,9 +205,9 @@ class Health {
       headers: headers,
       payload: {
         'filter': filter,
-        'locale': locale,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -300,9 +300,9 @@ class Health {
       headers: headers,
       payload: {
         'organizationEntityFilters': organizationEntityFilters,
-        'locale': locale,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -332,7 +332,7 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'eventArns': eventArns,
+        if (eventArns != null) 'eventArns': eventArns,
       },
     );
 
@@ -397,9 +397,9 @@ class Health {
       headers: headers,
       payload: {
         'aggregateField': aggregateField?.toValue(),
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -454,7 +454,7 @@ class Health {
       headers: headers,
       payload: {
         'eventArns': eventArns,
-        'locale': locale,
+        if (locale != null) 'locale': locale,
       },
     );
 
@@ -513,7 +513,7 @@ class Health {
       headers: headers,
       payload: {
         'organizationEventDetailFilters': organizationEventDetailFilters,
-        'locale': locale,
+        if (locale != null) 'locale': locale,
       },
     );
 
@@ -590,10 +590,10 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filter': filter,
-        'locale': locale,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -675,10 +675,10 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filter': filter,
-        'locale': locale,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -768,10 +768,10 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filter': filter,
-        'locale': locale,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 

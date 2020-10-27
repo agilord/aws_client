@@ -84,7 +84,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'TagsList': tagsList,
+        if (tagsList != null) 'TagsList': tagsList,
       },
     );
 
@@ -254,16 +254,22 @@ class CloudTrail {
       payload: {
         'Name': name,
         'S3BucketName': s3BucketName,
-        'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
-        'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-        'EnableLogFileValidation': enableLogFileValidation,
-        'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
-        'IsMultiRegionTrail': isMultiRegionTrail,
-        'IsOrganizationTrail': isOrganizationTrail,
-        'KmsKeyId': kmsKeyId,
-        'S3KeyPrefix': s3KeyPrefix,
-        'SnsTopicName': snsTopicName,
-        'TagsList': tagsList,
+        if (cloudWatchLogsLogGroupArn != null)
+          'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+        if (cloudWatchLogsRoleArn != null)
+          'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
+        if (enableLogFileValidation != null)
+          'EnableLogFileValidation': enableLogFileValidation,
+        if (includeGlobalServiceEvents != null)
+          'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
+        if (isMultiRegionTrail != null)
+          'IsMultiRegionTrail': isMultiRegionTrail,
+        if (isOrganizationTrail != null)
+          'IsOrganizationTrail': isOrganizationTrail,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+        if (snsTopicName != null) 'SnsTopicName': snsTopicName,
+        if (tagsList != null) 'TagsList': tagsList,
       },
     );
 
@@ -366,8 +372,9 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'includeShadowTrails': includeShadowTrails,
-        'trailNameList': trailNameList,
+        if (includeShadowTrails != null)
+          'includeShadowTrails': includeShadowTrails,
+        if (trailNameList != null) 'trailNameList': trailNameList,
       },
     );
 
@@ -636,9 +643,9 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'NextToken': nextToken,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -681,7 +688,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         'ResourceIdList': resourceIdList,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -714,7 +721,7 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -840,12 +847,12 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'EventCategory': eventCategory?.toValue(),
-        'LookupAttributes': lookupAttributes,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (eventCategory != null) 'EventCategory': eventCategory?.toValue(),
+        if (lookupAttributes != null) 'LookupAttributes': lookupAttributes,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -1047,7 +1054,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'TagsList': tagsList,
+        if (tagsList != null) 'TagsList': tagsList,
       },
     );
 
@@ -1316,16 +1323,22 @@ class CloudTrail {
       headers: headers,
       payload: {
         'Name': name,
-        'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
-        'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-        'EnableLogFileValidation': enableLogFileValidation,
-        'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
-        'IsMultiRegionTrail': isMultiRegionTrail,
-        'IsOrganizationTrail': isOrganizationTrail,
-        'KmsKeyId': kmsKeyId,
-        'S3BucketName': s3BucketName,
-        'S3KeyPrefix': s3KeyPrefix,
-        'SnsTopicName': snsTopicName,
+        if (cloudWatchLogsLogGroupArn != null)
+          'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+        if (cloudWatchLogsRoleArn != null)
+          'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
+        if (enableLogFileValidation != null)
+          'EnableLogFileValidation': enableLogFileValidation,
+        if (includeGlobalServiceEvents != null)
+          'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
+        if (isMultiRegionTrail != null)
+          'IsMultiRegionTrail': isMultiRegionTrail,
+        if (isOrganizationTrail != null)
+          'IsOrganizationTrail': isOrganizationTrail,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (s3BucketName != null) 'S3BucketName': s3BucketName,
+        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+        if (snsTopicName != null) 'SnsTopicName': snsTopicName,
       },
     );
 

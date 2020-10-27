@@ -416,15 +416,16 @@ class SecurityHub {
     );
     final $payload = <String, dynamic>{
       'FindingIdentifiers': findingIdentifiers,
-      'Confidence': confidence,
-      'Criticality': criticality,
-      'Note': note,
-      'RelatedFindings': relatedFindings,
-      'Severity': severity,
-      'Types': types,
-      'UserDefinedFields': userDefinedFields,
-      'VerificationState': verificationState?.toValue(),
-      'Workflow': workflow,
+      if (confidence != null) 'Confidence': confidence,
+      if (criticality != null) 'Criticality': criticality,
+      if (note != null) 'Note': note,
+      if (relatedFindings != null) 'RelatedFindings': relatedFindings,
+      if (severity != null) 'Severity': severity,
+      if (types != null) 'Types': types,
+      if (userDefinedFields != null) 'UserDefinedFields': userDefinedFields,
+      if (verificationState != null)
+        'VerificationState': verificationState?.toValue(),
+      if (workflow != null) 'Workflow': workflow,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -588,7 +589,7 @@ class SecurityHub {
     List<AccountDetails> accountDetails,
   }) async {
     final $payload = <String, dynamic>{
-      'AccountDetails': accountDetails,
+      if (accountDetails != null) 'AccountDetails': accountDetails,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -730,7 +731,7 @@ class SecurityHub {
     List<String> accountIds,
   }) async {
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      if (accountIds != null) 'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -775,9 +776,9 @@ class SecurityHub {
       100,
     );
     final $payload = <String, dynamic>{
-      'ActionTargetArns': actionTargetArns,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (actionTargetArns != null) 'ActionTargetArns': actionTargetArns,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1062,7 +1063,7 @@ class SecurityHub {
     List<String> accountIds,
   }) async {
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      if (accountIds != null) 'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1151,8 +1152,9 @@ class SecurityHub {
     Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
-      'EnableDefaultStandards': enableDefaultStandards,
-      'Tags': tags,
+      if (enableDefaultStandards != null)
+        'EnableDefaultStandards': enableDefaultStandards,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1195,9 +1197,10 @@ class SecurityHub {
       100,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'StandardsSubscriptionArns': standardsSubscriptionArns,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (standardsSubscriptionArns != null)
+        'StandardsSubscriptionArns': standardsSubscriptionArns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1245,10 +1248,10 @@ class SecurityHub {
       100,
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'SortCriteria': sortCriteria,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sortCriteria != null) 'SortCriteria': sortCriteria,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1325,9 +1328,9 @@ class SecurityHub {
       100,
     );
     final $payload = <String, dynamic>{
-      'InsightArns': insightArns,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (insightArns != null) 'InsightArns': insightArns,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1426,7 +1429,7 @@ class SecurityHub {
     List<String> accountIds,
   }) async {
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      if (accountIds != null) 'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1716,8 +1719,8 @@ class SecurityHub {
       r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Name': name,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1758,8 +1761,8 @@ class SecurityHub {
     ArgumentError.checkNotNull(filters, 'filters');
     final $payload = <String, dynamic>{
       'Filters': filters,
-      'Note': note,
-      'RecordState': recordState?.toValue(),
+      if (note != null) 'Note': note,
+      if (recordState != null) 'RecordState': recordState?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1813,9 +1816,9 @@ class SecurityHub {
       r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'GroupByAttribute': groupByAttribute,
-      'Name': name,
+      if (filters != null) 'Filters': filters,
+      if (groupByAttribute != null) 'GroupByAttribute': groupByAttribute,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1861,8 +1864,8 @@ class SecurityHub {
       r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
-      'ControlStatus': controlStatus?.toValue(),
-      'DisabledReason': disabledReason,
+      if (controlStatus != null) 'ControlStatus': controlStatus?.toValue(),
+      if (disabledReason != null) 'DisabledReason': disabledReason,
     };
     final response = await _protocol.send(
       payload: $payload,

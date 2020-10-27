@@ -125,10 +125,10 @@ class Pricing {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FormatVersion': formatVersion,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServiceCode': serviceCode,
+        if (formatVersion != null) 'FormatVersion': formatVersion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serviceCode != null) 'ServiceCode': serviceCode,
       },
     );
 
@@ -190,8 +190,8 @@ class Pricing {
       payload: {
         'AttributeName': attributeName,
         'ServiceCode': serviceCode,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -248,11 +248,11 @@ class Pricing {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'FormatVersion': formatVersion,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServiceCode': serviceCode,
+        if (filters != null) 'Filters': filters,
+        if (formatVersion != null) 'FormatVersion': formatVersion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serviceCode != null) 'ServiceCode': serviceCode,
       },
     );
 

@@ -197,7 +197,8 @@ class FMS {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        'DeleteAllPolicyResources': deleteAllPolicyResources,
+        if (deleteAllPolicyResources != null)
+          'DeleteAllPolicyResources': deleteAllPolicyResources,
       },
     );
   }
@@ -487,11 +488,11 @@ class FMS {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        'EndTime': endTime,
-        'MaxResults': maxResults,
-        'MemberAccountId': memberAccountId,
-        'NextToken': nextToken,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (memberAccountId != null) 'MemberAccountId': memberAccountId,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -574,8 +575,8 @@ class FMS {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -638,8 +639,8 @@ class FMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -702,8 +703,8 @@ class FMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -874,7 +875,7 @@ class FMS {
       headers: headers,
       payload: {
         'Policy': policy,
-        'TagList': tagList,
+        if (tagList != null) 'TagList': tagList,
       },
     );
 

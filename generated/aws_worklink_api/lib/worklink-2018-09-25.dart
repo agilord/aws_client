@@ -112,7 +112,7 @@ class WorkLink {
       'AcmCertificateArn': acmCertificateArn,
       'DomainName': domainName,
       'FleetArn': fleetArn,
-      'DisplayName': displayName,
+      if (displayName != null) 'DisplayName': displayName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -173,7 +173,7 @@ class WorkLink {
     final $payload = <String, dynamic>{
       'AuthorizationProviderType': authorizationProviderType?.toValue(),
       'FleetArn': fleetArn,
-      'DomainName': domainName,
+      if (domainName != null) 'DomainName': domainName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -240,7 +240,7 @@ class WorkLink {
     final $payload = <String, dynamic>{
       'Certificate': certificate,
       'FleetArn': fleetArn,
-      'DisplayName': displayName,
+      if (displayName != null) 'DisplayName': displayName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -298,8 +298,9 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetName': fleetName,
-      'DisplayName': displayName,
-      'OptimizeForEndUserLocation': optimizeForEndUserLocation,
+      if (displayName != null) 'DisplayName': displayName,
+      if (optimizeForEndUserLocation != null)
+        'OptimizeForEndUserLocation': optimizeForEndUserLocation,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -859,8 +860,8 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -919,8 +920,8 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -966,8 +967,8 @@ class WorkLink {
       r'''[\w\-]+''',
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1029,8 +1030,8 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1091,8 +1092,8 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1281,7 +1282,7 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'AuditStreamArn': auditStreamArn,
+      if (auditStreamArn != null) 'AuditStreamArn': auditStreamArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1389,7 +1390,8 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'DeviceCaCertificate': deviceCaCertificate,
+      if (deviceCaCertificate != null)
+        'DeviceCaCertificate': deviceCaCertificate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1452,7 +1454,7 @@ class WorkLink {
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
-      'DisplayName': displayName,
+      if (displayName != null) 'DisplayName': displayName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1502,8 +1504,9 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'DisplayName': displayName,
-      'OptimizeForEndUserLocation': optimizeForEndUserLocation,
+      if (displayName != null) 'DisplayName': displayName,
+      if (optimizeForEndUserLocation != null)
+        'OptimizeForEndUserLocation': optimizeForEndUserLocation,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1554,7 +1557,8 @@ class WorkLink {
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'IdentityProviderType': identityProviderType?.toValue(),
-      'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
+      if (identityProviderSamlMetadata != null)
+        'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
     };
     final response = await _protocol.send(
       payload: $payload,

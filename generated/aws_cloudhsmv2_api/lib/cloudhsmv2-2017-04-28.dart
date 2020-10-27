@@ -88,7 +88,7 @@ class CloudHSMV2 {
       payload: {
         'BackupId': backupId,
         'DestinationRegion': destinationRegion,
-        'TagList': tagList,
+        if (tagList != null) 'TagList': tagList,
       },
     );
 
@@ -158,8 +158,8 @@ class CloudHSMV2 {
       payload: {
         'HsmType': hsmType,
         'SubnetIds': subnetIds,
-        'SourceBackupId': sourceBackupId,
-        'TagList': tagList,
+        if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
+        if (tagList != null) 'TagList': tagList,
       },
     );
 
@@ -225,7 +225,7 @@ class CloudHSMV2 {
       payload: {
         'AvailabilityZone': availabilityZone,
         'ClusterId': clusterId,
-        'IpAddress': ipAddress,
+        if (ipAddress != null) 'IpAddress': ipAddress,
       },
     );
 
@@ -381,9 +381,9 @@ class CloudHSMV2 {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'EniId': eniId,
-        'EniIp': eniIp,
-        'HsmId': hsmId,
+        if (eniId != null) 'EniId': eniId,
+        if (eniIp != null) 'EniIp': eniIp,
+        if (hsmId != null) 'HsmId': hsmId,
       },
     );
 
@@ -468,10 +468,10 @@ class CloudHSMV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortAscending': sortAscending,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortAscending != null) 'SortAscending': sortAscending,
       },
     );
 
@@ -547,9 +547,9 @@ class CloudHSMV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -712,8 +712,8 @@ class CloudHSMV2 {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

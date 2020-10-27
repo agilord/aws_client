@@ -178,12 +178,12 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'closeStatusFilter': closeStatusFilter,
-        'closeTimeFilter': closeTimeFilter,
-        'executionFilter': executionFilter,
-        'startTimeFilter': startTimeFilter,
-        'tagFilter': tagFilter,
-        'typeFilter': typeFilter,
+        if (closeStatusFilter != null) 'closeStatusFilter': closeStatusFilter,
+        if (closeTimeFilter != null) 'closeTimeFilter': closeTimeFilter,
+        if (executionFilter != null) 'executionFilter': executionFilter,
+        if (startTimeFilter != null) 'startTimeFilter': startTimeFilter,
+        if (tagFilter != null) 'tagFilter': tagFilter,
+        if (typeFilter != null) 'typeFilter': typeFilter,
       },
     );
 
@@ -302,9 +302,9 @@ class SWF {
       payload: {
         'domain': domain,
         'startTimeFilter': startTimeFilter,
-        'executionFilter': executionFilter,
-        'tagFilter': tagFilter,
-        'typeFilter': typeFilter,
+        if (executionFilter != null) 'executionFilter': executionFilter,
+        if (tagFilter != null) 'tagFilter': tagFilter,
+        if (typeFilter != null) 'typeFilter': typeFilter,
       },
     );
 
@@ -1107,9 +1107,9 @@ class SWF {
       payload: {
         'domain': domain,
         'execution': execution,
-        'maximumPageSize': maximumPageSize,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
       },
     );
 
@@ -1230,10 +1230,10 @@ class SWF {
       payload: {
         'domain': domain,
         'registrationStatus': registrationStatus?.toValue(),
-        'maximumPageSize': maximumPageSize,
-        'name': name,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (name != null) 'name': name,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
       },
     );
 
@@ -1416,15 +1416,15 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'closeStatusFilter': closeStatusFilter,
-        'closeTimeFilter': closeTimeFilter,
-        'executionFilter': executionFilter,
-        'maximumPageSize': maximumPageSize,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
-        'startTimeFilter': startTimeFilter,
-        'tagFilter': tagFilter,
-        'typeFilter': typeFilter,
+        if (closeStatusFilter != null) 'closeStatusFilter': closeStatusFilter,
+        if (closeTimeFilter != null) 'closeTimeFilter': closeTimeFilter,
+        if (executionFilter != null) 'executionFilter': executionFilter,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
+        if (startTimeFilter != null) 'startTimeFilter': startTimeFilter,
+        if (tagFilter != null) 'tagFilter': tagFilter,
+        if (typeFilter != null) 'typeFilter': typeFilter,
       },
     );
 
@@ -1523,9 +1523,9 @@ class SWF {
       headers: headers,
       payload: {
         'registrationStatus': registrationStatus?.toValue(),
-        'maximumPageSize': maximumPageSize,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
       },
     );
 
@@ -1682,12 +1682,12 @@ class SWF {
       payload: {
         'domain': domain,
         'startTimeFilter': startTimeFilter,
-        'executionFilter': executionFilter,
-        'maximumPageSize': maximumPageSize,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
-        'tagFilter': tagFilter,
-        'typeFilter': typeFilter,
+        if (executionFilter != null) 'executionFilter': executionFilter,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
+        if (tagFilter != null) 'tagFilter': tagFilter,
+        if (typeFilter != null) 'typeFilter': typeFilter,
       },
     );
 
@@ -1842,10 +1842,10 @@ class SWF {
       payload: {
         'domain': domain,
         'registrationStatus': registrationStatus?.toValue(),
-        'maximumPageSize': maximumPageSize,
-        'name': name,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (name != null) 'name': name,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
       },
     );
 
@@ -1949,7 +1949,7 @@ class SWF {
       payload: {
         'domain': domain,
         'taskList': taskList,
-        'identity': identity,
+        if (identity != null) 'identity': identity,
       },
     );
 
@@ -2111,10 +2111,10 @@ class SWF {
       payload: {
         'domain': domain,
         'taskList': taskList,
-        'identity': identity,
-        'maximumPageSize': maximumPageSize,
-        'nextPageToken': nextPageToken,
-        'reverseOrder': reverseOrder,
+        if (identity != null) 'identity': identity,
+        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
+        if (nextPageToken != null) 'nextPageToken': nextPageToken,
+        if (reverseOrder != null) 'reverseOrder': reverseOrder,
       },
     );
 
@@ -2226,7 +2226,7 @@ class SWF {
       headers: headers,
       payload: {
         'taskToken': taskToken,
-        'details': details,
+        if (details != null) 'details': details,
       },
     );
 
@@ -2454,13 +2454,20 @@ class SWF {
         'domain': domain,
         'name': name,
         'version': version,
-        'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
-        'defaultTaskList': defaultTaskList,
-        'defaultTaskPriority': defaultTaskPriority,
-        'defaultTaskScheduleToCloseTimeout': defaultTaskScheduleToCloseTimeout,
-        'defaultTaskScheduleToStartTimeout': defaultTaskScheduleToStartTimeout,
-        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
-        'description': description,
+        if (defaultTaskHeartbeatTimeout != null)
+          'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
+        if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
+        if (defaultTaskPriority != null)
+          'defaultTaskPriority': defaultTaskPriority,
+        if (defaultTaskScheduleToCloseTimeout != null)
+          'defaultTaskScheduleToCloseTimeout':
+              defaultTaskScheduleToCloseTimeout,
+        if (defaultTaskScheduleToStartTimeout != null)
+          'defaultTaskScheduleToStartTimeout':
+              defaultTaskScheduleToStartTimeout,
+        if (defaultTaskStartToCloseTimeout != null)
+          'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
+        if (description != null) 'description': description,
       },
     );
   }
@@ -2575,8 +2582,8 @@ class SWF {
         'name': name,
         'workflowExecutionRetentionPeriodInDays':
             workflowExecutionRetentionPeriodInDays,
-        'description': description,
-        'tags': tags,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
   }
@@ -2817,14 +2824,18 @@ class SWF {
         'domain': domain,
         'name': name,
         'version': version,
-        'defaultChildPolicy': defaultChildPolicy?.toValue(),
-        'defaultExecutionStartToCloseTimeout':
-            defaultExecutionStartToCloseTimeout,
-        'defaultLambdaRole': defaultLambdaRole,
-        'defaultTaskList': defaultTaskList,
-        'defaultTaskPriority': defaultTaskPriority,
-        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
-        'description': description,
+        if (defaultChildPolicy != null)
+          'defaultChildPolicy': defaultChildPolicy?.toValue(),
+        if (defaultExecutionStartToCloseTimeout != null)
+          'defaultExecutionStartToCloseTimeout':
+              defaultExecutionStartToCloseTimeout,
+        if (defaultLambdaRole != null) 'defaultLambdaRole': defaultLambdaRole,
+        if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
+        if (defaultTaskPriority != null)
+          'defaultTaskPriority': defaultTaskPriority,
+        if (defaultTaskStartToCloseTimeout != null)
+          'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
+        if (description != null) 'description': description,
       },
     );
   }
@@ -2922,7 +2933,7 @@ class SWF {
       payload: {
         'domain': domain,
         'workflowId': workflowId,
-        'runId': runId,
+        if (runId != null) 'runId': runId,
       },
     );
   }
@@ -3018,7 +3029,7 @@ class SWF {
       headers: headers,
       payload: {
         'taskToken': taskToken,
-        'details': details,
+        if (details != null) 'details': details,
       },
     );
   }
@@ -3114,7 +3125,7 @@ class SWF {
       headers: headers,
       payload: {
         'taskToken': taskToken,
-        'result': result,
+        if (result != null) 'result': result,
       },
     );
   }
@@ -3214,8 +3225,8 @@ class SWF {
       headers: headers,
       payload: {
         'taskToken': taskToken,
-        'details': details,
-        'reason': reason,
+        if (details != null) 'details': details,
+        if (reason != null) 'reason': reason,
       },
     );
   }
@@ -3292,8 +3303,8 @@ class SWF {
       headers: headers,
       payload: {
         'taskToken': taskToken,
-        'decisions': decisions,
-        'executionContext': executionContext,
+        if (decisions != null) 'decisions': decisions,
+        if (executionContext != null) 'executionContext': executionContext,
       },
     );
   }
@@ -3414,8 +3425,8 @@ class SWF {
         'domain': domain,
         'signalName': signalName,
         'workflowId': workflowId,
-        'input': input,
-        'runId': runId,
+        if (input != null) 'input': input,
+        if (runId != null) 'runId': runId,
       },
     );
   }
@@ -3699,14 +3710,16 @@ class SWF {
         'domain': domain,
         'workflowId': workflowId,
         'workflowType': workflowType,
-        'childPolicy': childPolicy?.toValue(),
-        'executionStartToCloseTimeout': executionStartToCloseTimeout,
-        'input': input,
-        'lambdaRole': lambdaRole,
-        'tagList': tagList,
-        'taskList': taskList,
-        'taskPriority': taskPriority,
-        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
+        if (executionStartToCloseTimeout != null)
+          'executionStartToCloseTimeout': executionStartToCloseTimeout,
+        if (input != null) 'input': input,
+        if (lambdaRole != null) 'lambdaRole': lambdaRole,
+        if (tagList != null) 'tagList': tagList,
+        if (taskList != null) 'taskList': taskList,
+        if (taskPriority != null) 'taskPriority': taskPriority,
+        if (taskStartToCloseTimeout != null)
+          'taskStartToCloseTimeout': taskStartToCloseTimeout,
       },
     );
 
@@ -3907,10 +3920,10 @@ class SWF {
       payload: {
         'domain': domain,
         'workflowId': workflowId,
-        'childPolicy': childPolicy?.toValue(),
-        'details': details,
-        'reason': reason,
-        'runId': runId,
+        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
+        if (details != null) 'details': details,
+        if (reason != null) 'reason': reason,
+        if (runId != null) 'runId': runId,
       },
     );
   }

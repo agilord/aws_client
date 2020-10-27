@@ -125,8 +125,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (portfolioShareType != null)
+          'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -269,7 +270,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
         'PrincipalType': principalType?.toValue(),
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -370,8 +371,8 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
-        'SourcePortfolioId': sourcePortfolioId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (sourcePortfolioId != null) 'SourcePortfolioId': sourcePortfolioId,
       },
     );
 
@@ -479,7 +480,7 @@ class ServiceCatalog {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
         'ServiceActionId': serviceActionId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -582,7 +583,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ServiceActionAssociations': serviceActionAssociations,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -639,7 +640,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ServiceActionAssociations': serviceActionAssociations,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -770,12 +771,13 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'SourceProductArn': sourceProductArn,
-        'AcceptLanguage': acceptLanguage,
-        'CopyOptions': copyOptions,
-        'SourceProvisioningArtifactIdentifiers':
-            sourceProvisioningArtifactIdentifiers,
-        'TargetProductId': targetProductId,
-        'TargetProductName': targetProductName,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (copyOptions != null) 'CopyOptions': copyOptions,
+        if (sourceProvisioningArtifactIdentifiers != null)
+          'SourceProvisioningArtifactIdentifiers':
+              sourceProvisioningArtifactIdentifiers,
+        if (targetProductId != null) 'TargetProductId': targetProductId,
+        if (targetProductName != null) 'TargetProductName': targetProductName,
       },
     );
 
@@ -989,8 +991,8 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         'ProductId': productId,
         'Type': type,
-        'AcceptLanguage': acceptLanguage,
-        'Description': description,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -1098,9 +1100,9 @@ class ServiceCatalog {
         'DisplayName': displayName,
         'IdempotencyToken': idempotencyToken,
         'ProviderName': providerName,
-        'AcceptLanguage': acceptLanguage,
-        'Description': description,
-        'Tags': tags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1189,9 +1191,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'AccountId': accountId,
-        'OrganizationNode': organizationNode,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accountId != null) 'AccountId': accountId,
+        if (organizationNode != null) 'OrganizationNode': organizationNode,
       },
     );
 
@@ -1352,13 +1354,14 @@ class ServiceCatalog {
         'Owner': owner,
         'ProductType': productType?.toValue(),
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
-        'AcceptLanguage': acceptLanguage,
-        'Description': description,
-        'Distributor': distributor,
-        'SupportDescription': supportDescription,
-        'SupportEmail': supportEmail,
-        'SupportUrl': supportUrl,
-        'Tags': tags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (description != null) 'Description': description,
+        if (distributor != null) 'Distributor': distributor,
+        if (supportDescription != null)
+          'SupportDescription': supportDescription,
+        if (supportEmail != null) 'SupportEmail': supportEmail,
+        if (supportUrl != null) 'SupportUrl': supportUrl,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1545,11 +1548,12 @@ class ServiceCatalog {
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'NotificationArns': notificationArns,
-        'PathId': pathId,
-        'ProvisioningParameters': provisioningParameters,
-        'Tags': tags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (notificationArns != null) 'NotificationArns': notificationArns,
+        if (pathId != null) 'PathId': pathId,
+        if (provisioningParameters != null)
+          'ProvisioningParameters': provisioningParameters,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1646,7 +1650,7 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'Parameters': parameters,
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -1774,8 +1778,8 @@ class ServiceCatalog {
         'DefinitionType': definitionType?.toValue(),
         'IdempotencyToken': idempotencyToken,
         'Name': name,
-        'AcceptLanguage': acceptLanguage,
-        'Description': description,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -1902,7 +1906,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -1972,7 +1976,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2054,9 +2058,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'AccountId': accountId,
-        'OrganizationNode': organizationNode,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accountId != null) 'AccountId': accountId,
+        if (organizationNode != null) 'OrganizationNode': organizationNode,
       },
     );
 
@@ -2126,7 +2130,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2196,8 +2200,8 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PlanId': planId,
-        'AcceptLanguage': acceptLanguage,
-        'IgnoreErrors': ignoreErrors,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
       },
     );
 
@@ -2288,7 +2292,7 @@ class ServiceCatalog {
       payload: {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2354,7 +2358,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2458,7 +2462,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2523,7 +2527,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'CopyProductToken': copyProductToken,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2587,7 +2591,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2697,7 +2701,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2762,7 +2766,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2827,7 +2831,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2891,7 +2895,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -2983,9 +2987,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PlanId': planId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -3074,8 +3078,8 @@ class ServiceCatalog {
       payload: {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'Verbose': verbose,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (verbose != null) 'Verbose': verbose,
       },
     );
 
@@ -3187,8 +3191,8 @@ class ServiceCatalog {
       payload: {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'PathId': pathId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pathId != null) 'PathId': pathId,
       },
     );
 
@@ -3291,9 +3295,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -3357,7 +3361,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -3444,7 +3448,7 @@ class ServiceCatalog {
       payload: {
         'ProvisionedProductId': provisionedProductId,
         'ServiceActionId': serviceActionId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -3644,7 +3648,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -3730,7 +3734,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -3837,7 +3841,7 @@ class ServiceCatalog {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
         'ServiceActionId': serviceActionId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -3998,7 +4002,7 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'PlanId': planId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -4114,8 +4118,8 @@ class ServiceCatalog {
         'ExecuteToken': executeToken,
         'ProvisionedProductId': provisionedProductId,
         'ServiceActionId': serviceActionId,
-        'AcceptLanguage': acceptLanguage,
-        'Parameters': parameters,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (parameters != null) 'Parameters': parameters,
       },
     );
 
@@ -4229,10 +4233,11 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'PortfolioShareType': portfolioShareType?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (portfolioShareType != null)
+          'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -4323,9 +4328,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -4431,10 +4436,10 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'ProductId': productId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (productId != null) 'ProductId': productId,
       },
     );
 
@@ -4527,9 +4532,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -4644,9 +4649,9 @@ class ServiceCatalog {
       payload: {
         'OrganizationNodeType': organizationNodeType?.toValue(),
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -4753,10 +4758,11 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'OrganizationParentId': organizationParentId,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (organizationParentId != null)
+          'OrganizationParentId': organizationParentId,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -4827,9 +4833,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -4920,9 +4926,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5013,9 +5019,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5108,11 +5114,12 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'AccessLevelFilter': accessLevelFilter,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'ProvisionProductId': provisionProductId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (provisionProductId != null)
+          'ProvisionProductId': provisionProductId,
       },
     );
 
@@ -5178,7 +5185,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProductId': productId,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -5273,9 +5280,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ServiceActionId': serviceActionId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5356,11 +5363,11 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'AccessLevelFilter': accessLevelFilter,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'SearchFilter': searchFilter,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (searchFilter != null) 'SearchFilter': searchFilter,
       },
     );
 
@@ -5437,9 +5444,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'TagOptionId': tagOptionId,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'ResourceType': resourceType,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (resourceType != null) 'ResourceType': resourceType,
       },
     );
 
@@ -5510,9 +5517,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5627,9 +5634,9 @@ class ServiceCatalog {
       payload: {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5726,9 +5733,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProvisionedProductId': provisionedProductId,
-        'AcceptLanguage': acceptLanguage,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5784,9 +5791,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (filters != null) 'Filters': filters,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -5959,12 +5966,14 @@ class ServiceCatalog {
         'ProvisionToken': provisionToken,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'NotificationArns': notificationArns,
-        'PathId': pathId,
-        'ProvisioningParameters': provisioningParameters,
-        'ProvisioningPreferences': provisioningPreferences,
-        'Tags': tags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (notificationArns != null) 'NotificationArns': notificationArns,
+        if (pathId != null) 'PathId': pathId,
+        if (provisioningParameters != null)
+          'ProvisioningParameters': provisioningParameters,
+        if (provisioningPreferences != null)
+          'ProvisioningPreferences': provisioningPreferences,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6050,8 +6059,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'AcceptLanguage': acceptLanguage,
-        'PortfolioShareType': portfolioShareType?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (portfolioShareType != null)
+          'PortfolioShareType': portfolioShareType?.toValue(),
       },
     );
 
@@ -6129,10 +6139,10 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'AccessLevelFilter': accessLevelFilter,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
       },
     );
 
@@ -6216,12 +6226,12 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'Filters': filters,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (filters != null) 'Filters': filters,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6326,14 +6336,14 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'Filters': filters,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'PortfolioId': portfolioId,
-        'ProductSource': productSource?.toValue(),
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (filters != null) 'Filters': filters,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (portfolioId != null) 'PortfolioId': portfolioId,
+        if (productSource != null) 'ProductSource': productSource?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6433,13 +6443,13 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptLanguage': acceptLanguage,
-        'AccessLevelFilter': accessLevelFilter,
-        'Filters': filters,
-        'PageSize': pageSize,
-        'PageToken': pageToken,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder?.toValue(),
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
+        if (filters != null) 'Filters': filters,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (sortBy != null) 'SortBy': sortBy,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6548,10 +6558,12 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'TerminateToken': terminateToken,
-        'AcceptLanguage': acceptLanguage,
-        'IgnoreErrors': ignoreErrors,
-        'ProvisionedProductId': provisionedProductId,
-        'ProvisionedProductName': provisionedProductName,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
+        if (provisionedProductId != null)
+          'ProvisionedProductId': provisionedProductId,
+        if (provisionedProductName != null)
+          'ProvisionedProductName': provisionedProductName,
       },
     );
 
@@ -6690,9 +6702,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
-        'Description': description,
-        'Parameters': parameters,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (description != null) 'Description': description,
+        if (parameters != null) 'Parameters': parameters,
       },
     );
 
@@ -6799,12 +6811,12 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
-        'AddTags': addTags,
-        'Description': description,
-        'DisplayName': displayName,
-        'ProviderName': providerName,
-        'RemoveTags': removeTags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (addTags != null) 'AddTags': addTags,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (providerName != null) 'ProviderName': providerName,
+        if (removeTags != null) 'RemoveTags': removeTags,
       },
     );
 
@@ -6948,16 +6960,17 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
-        'AddTags': addTags,
-        'Description': description,
-        'Distributor': distributor,
-        'Name': name,
-        'Owner': owner,
-        'RemoveTags': removeTags,
-        'SupportDescription': supportDescription,
-        'SupportEmail': supportEmail,
-        'SupportUrl': supportUrl,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (addTags != null) 'AddTags': addTags,
+        if (description != null) 'Description': description,
+        if (distributor != null) 'Distributor': distributor,
+        if (name != null) 'Name': name,
+        if (owner != null) 'Owner': owner,
+        if (removeTags != null) 'RemoveTags': removeTags,
+        if (supportDescription != null)
+          'SupportDescription': supportDescription,
+        if (supportEmail != null) 'SupportEmail': supportEmail,
+        if (supportUrl != null) 'SupportUrl': supportUrl,
       },
     );
 
@@ -7125,15 +7138,20 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'UpdateToken': updateToken,
-        'AcceptLanguage': acceptLanguage,
-        'PathId': pathId,
-        'ProductId': productId,
-        'ProvisionedProductId': provisionedProductId,
-        'ProvisionedProductName': provisionedProductName,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        'ProvisioningParameters': provisioningParameters,
-        'ProvisioningPreferences': provisioningPreferences,
-        'Tags': tags,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (pathId != null) 'PathId': pathId,
+        if (productId != null) 'ProductId': productId,
+        if (provisionedProductId != null)
+          'ProvisionedProductId': provisionedProductId,
+        if (provisionedProductName != null)
+          'ProvisionedProductName': provisionedProductName,
+        if (provisioningArtifactId != null)
+          'ProvisioningArtifactId': provisioningArtifactId,
+        if (provisioningParameters != null)
+          'ProvisioningParameters': provisioningParameters,
+        if (provisioningPreferences != null)
+          'ProvisioningPreferences': provisioningPreferences,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -7248,7 +7266,7 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'ProvisionedProductId': provisionedProductId,
         'ProvisionedProductProperties': provisionedProductProperties,
-        'AcceptLanguage': acceptLanguage,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
 
@@ -7366,11 +7384,11 @@ class ServiceCatalog {
       payload: {
         'ProductId': productId,
         'ProvisioningArtifactId': provisioningArtifactId,
-        'AcceptLanguage': acceptLanguage,
-        'Active': active,
-        'Description': description,
-        'Guidance': guidance?.toValue(),
-        'Name': name,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (active != null) 'Active': active,
+        if (description != null) 'Description': description,
+        if (guidance != null) 'Guidance': guidance?.toValue(),
+        if (name != null) 'Name': name,
       },
     );
 
@@ -7464,10 +7482,10 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'AcceptLanguage': acceptLanguage,
-        'Definition': definition,
-        'Description': description,
-        'Name': name,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (definition != null) 'Definition': definition,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -7525,8 +7543,8 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'Id': id,
-        'Active': active,
-        'Value': value,
+        if (active != null) 'Active': active,
+        if (value != null) 'Value': value,
       },
     );
 

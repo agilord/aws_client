@@ -907,10 +907,11 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceIds': resourceIds,
-        'ScalableDimension': scalableDimension?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceIds != null) 'ResourceIds': resourceIds,
+        if (scalableDimension != null)
+          'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1120,10 +1121,11 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceId != null) 'ResourceId': resourceId,
+        if (scalableDimension != null)
+          'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1337,11 +1339,12 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PolicyNames': policyNames,
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (policyNames != null) 'PolicyNames': policyNames,
+        if (resourceId != null) 'ResourceId': resourceId,
+        if (scalableDimension != null)
+          'ScalableDimension': scalableDimension?.toValue(),
       },
     );
 
@@ -1555,11 +1558,13 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ScheduledActionNames': scheduledActionNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceId != null) 'ResourceId': resourceId,
+        if (scalableDimension != null)
+          'ScalableDimension': scalableDimension?.toValue(),
+        if (scheduledActionNames != null)
+          'ScheduledActionNames': scheduledActionNames,
       },
     );
 
@@ -1828,10 +1833,12 @@ class ApplicationAutoScaling {
         'ResourceId': resourceId,
         'ScalableDimension': scalableDimension?.toValue(),
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'PolicyType': policyType?.toValue(),
-        'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
-        'TargetTrackingScalingPolicyConfiguration':
-            targetTrackingScalingPolicyConfiguration,
+        if (policyType != null) 'PolicyType': policyType?.toValue(),
+        if (stepScalingPolicyConfiguration != null)
+          'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
+        if (targetTrackingScalingPolicyConfiguration != null)
+          'TargetTrackingScalingPolicyConfiguration':
+              targetTrackingScalingPolicyConfiguration,
       },
     );
 
@@ -2109,10 +2116,11 @@ class ApplicationAutoScaling {
         'ScalableDimension': scalableDimension?.toValue(),
         'ScheduledActionName': scheduledActionName,
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'EndTime': endTime,
-        'ScalableTargetAction': scalableTargetAction,
-        'Schedule': schedule,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (scalableTargetAction != null)
+          'ScalableTargetAction': scalableTargetAction,
+        if (schedule != null) 'Schedule': schedule,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -2382,10 +2390,10 @@ class ApplicationAutoScaling {
         'ResourceId': resourceId,
         'ScalableDimension': scalableDimension?.toValue(),
         'ServiceNamespace': serviceNamespace?.toValue(),
-        'MaxCapacity': maxCapacity,
-        'MinCapacity': minCapacity,
-        'RoleARN': roleARN,
-        'SuspendedState': suspendedState,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (minCapacity != null) 'MinCapacity': minCapacity,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (suspendedState != null) 'SuspendedState': suspendedState,
       },
     );
 

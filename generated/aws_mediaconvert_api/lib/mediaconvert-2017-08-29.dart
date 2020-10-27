@@ -201,17 +201,21 @@ class MediaConvert {
     final $payload = <String, dynamic>{
       'Role': role,
       'Settings': settings,
-      'AccelerationSettings': accelerationSettings,
-      'BillingTagsSource': billingTagsSource?.toValue(),
-      'ClientRequestToken': clientRequestToken,
-      'HopDestinations': hopDestinations,
-      'JobTemplate': jobTemplate,
-      'Priority': priority,
-      'Queue': queue,
-      'SimulateReservedQueue': simulateReservedQueue?.toValue(),
-      'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      'Tags': tags,
-      'UserMetadata': userMetadata,
+      if (accelerationSettings != null)
+        'AccelerationSettings': accelerationSettings,
+      if (billingTagsSource != null)
+        'BillingTagsSource': billingTagsSource?.toValue(),
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (hopDestinations != null) 'HopDestinations': hopDestinations,
+      if (jobTemplate != null) 'JobTemplate': jobTemplate,
+      if (priority != null) 'Priority': priority,
+      if (queue != null) 'Queue': queue,
+      if (simulateReservedQueue != null)
+        'SimulateReservedQueue': simulateReservedQueue?.toValue(),
+      if (statusUpdateInterval != null)
+        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -303,14 +307,16 @@ class MediaConvert {
     final $payload = <String, dynamic>{
       'Name': name,
       'Settings': settings,
-      'AccelerationSettings': accelerationSettings,
-      'Category': category,
-      'Description': description,
-      'HopDestinations': hopDestinations,
-      'Priority': priority,
-      'Queue': queue,
-      'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      'Tags': tags,
+      if (accelerationSettings != null)
+        'AccelerationSettings': accelerationSettings,
+      if (category != null) 'Category': category,
+      if (description != null) 'Description': description,
+      if (hopDestinations != null) 'HopDestinations': hopDestinations,
+      if (priority != null) 'Priority': priority,
+      if (queue != null) 'Queue': queue,
+      if (statusUpdateInterval != null)
+        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -358,9 +364,9 @@ class MediaConvert {
     final $payload = <String, dynamic>{
       'Name': name,
       'Settings': settings,
-      'Category': category,
-      'Description': description,
-      'Tags': tags,
+      if (category != null) 'Category': category,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -418,11 +424,12 @@ class MediaConvert {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
-      'Description': description,
-      'PricingPlan': pricingPlan?.toValue(),
-      'ReservationPlanSettings': reservationPlanSettings,
-      'Status': status?.toValue(),
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan?.toValue(),
+      if (reservationPlanSettings != null)
+        'ReservationPlanSettings': reservationPlanSettings,
+      if (status != null) 'Status': status?.toValue(),
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -538,9 +545,9 @@ class MediaConvert {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'Mode': mode?.toValue(),
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (mode != null) 'Mode': mode?.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1003,7 +1010,7 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
+      if (tagKeys != null) 'TagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1080,14 +1087,16 @@ class MediaConvert {
       50,
     );
     final $payload = <String, dynamic>{
-      'AccelerationSettings': accelerationSettings,
-      'Category': category,
-      'Description': description,
-      'HopDestinations': hopDestinations,
-      'Priority': priority,
-      'Queue': queue,
-      'Settings': settings,
-      'StatusUpdateInterval': statusUpdateInterval?.toValue(),
+      if (accelerationSettings != null)
+        'AccelerationSettings': accelerationSettings,
+      if (category != null) 'Category': category,
+      if (description != null) 'Description': description,
+      if (hopDestinations != null) 'HopDestinations': hopDestinations,
+      if (priority != null) 'Priority': priority,
+      if (queue != null) 'Queue': queue,
+      if (settings != null) 'Settings': settings,
+      if (statusUpdateInterval != null)
+        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1127,9 +1136,9 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'Category': category,
-      'Description': description,
-      'Settings': settings,
+      if (category != null) 'Category': category,
+      if (description != null) 'Description': description,
+      if (settings != null) 'Settings': settings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1176,9 +1185,10 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'ReservationPlanSettings': reservationPlanSettings,
-      'Status': status?.toValue(),
+      if (description != null) 'Description': description,
+      if (reservationPlanSettings != null)
+        'ReservationPlanSettings': reservationPlanSettings,
+      if (status != null) 'Status': status?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

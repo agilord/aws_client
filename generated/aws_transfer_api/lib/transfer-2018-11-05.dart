@@ -142,13 +142,15 @@ class Transfer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndpointDetails': endpointDetails,
-        'EndpointType': endpointType?.toValue(),
-        'HostKey': hostKey,
-        'IdentityProviderDetails': identityProviderDetails,
-        'IdentityProviderType': identityProviderType?.toValue(),
-        'LoggingRole': loggingRole,
-        'Tags': tags,
+        if (endpointDetails != null) 'EndpointDetails': endpointDetails,
+        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (hostKey != null) 'HostKey': hostKey,
+        if (identityProviderDetails != null)
+          'IdentityProviderDetails': identityProviderDetails,
+        if (identityProviderType != null)
+          'IdentityProviderType': identityProviderType?.toValue(),
+        if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -355,12 +357,14 @@ class Transfer {
         'Role': role,
         'ServerId': serverId,
         'UserName': userName,
-        'HomeDirectory': homeDirectory,
-        'HomeDirectoryMappings': homeDirectoryMappings,
-        'HomeDirectoryType': homeDirectoryType?.toValue(),
-        'Policy': policy,
-        'SshPublicKeyBody': sshPublicKeyBody,
-        'Tags': tags,
+        if (homeDirectory != null) 'HomeDirectory': homeDirectory,
+        if (homeDirectoryMappings != null)
+          'HomeDirectoryMappings': homeDirectoryMappings,
+        if (homeDirectoryType != null)
+          'HomeDirectoryType': homeDirectoryType?.toValue(),
+        if (policy != null) 'Policy': policy,
+        if (sshPublicKeyBody != null) 'SshPublicKeyBody': sshPublicKeyBody,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -816,8 +820,8 @@ class Transfer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -890,8 +894,8 @@ class Transfer {
       headers: headers,
       payload: {
         'Arn': arn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -963,8 +967,8 @@ class Transfer {
       headers: headers,
       payload: {
         'ServerId': serverId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1206,7 +1210,7 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         'UserName': userName,
-        'UserPassword': userPassword,
+        if (userPassword != null) 'UserPassword': userPassword,
       },
     );
 
@@ -1370,11 +1374,12 @@ class Transfer {
       headers: headers,
       payload: {
         'ServerId': serverId,
-        'EndpointDetails': endpointDetails,
-        'EndpointType': endpointType?.toValue(),
-        'HostKey': hostKey,
-        'IdentityProviderDetails': identityProviderDetails,
-        'LoggingRole': loggingRole,
+        if (endpointDetails != null) 'EndpointDetails': endpointDetails,
+        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (hostKey != null) 'HostKey': hostKey,
+        if (identityProviderDetails != null)
+          'IdentityProviderDetails': identityProviderDetails,
+        if (loggingRole != null) 'LoggingRole': loggingRole,
       },
     );
 
@@ -1556,11 +1561,13 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         'UserName': userName,
-        'HomeDirectory': homeDirectory,
-        'HomeDirectoryMappings': homeDirectoryMappings,
-        'HomeDirectoryType': homeDirectoryType?.toValue(),
-        'Policy': policy,
-        'Role': role,
+        if (homeDirectory != null) 'HomeDirectory': homeDirectory,
+        if (homeDirectoryMappings != null)
+          'HomeDirectoryMappings': homeDirectoryMappings,
+        if (homeDirectoryType != null)
+          'HomeDirectoryType': homeDirectoryType?.toValue(),
+        if (policy != null) 'Policy': policy,
+        if (role != null) 'Role': role,
       },
     );
 

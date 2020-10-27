@@ -112,10 +112,11 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
-        'CWEMonitorEnabled': cWEMonitorEnabled,
-        'OpsCenterEnabled': opsCenterEnabled,
-        'OpsItemSNSTopicArn': opsItemSNSTopicArn,
-        'Tags': tags,
+        if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
+        if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
+        if (opsItemSNSTopicArn != null)
+          'OpsItemSNSTopicArn': opsItemSNSTopicArn,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -905,8 +906,8 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -967,8 +968,8 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1062,12 +1063,12 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'EventStatus': eventStatus?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceGroupName': resourceGroupName,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (eventStatus != null) 'EventStatus': eventStatus?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -1127,8 +1128,8 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1203,9 +1204,9 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PatternSetName': patternSetName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (patternSetName != null) 'PatternSetName': patternSetName,
       },
     );
 
@@ -1272,11 +1273,11 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceGroupName': resourceGroupName,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -1494,10 +1495,11 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
-        'CWEMonitorEnabled': cWEMonitorEnabled,
-        'OpsCenterEnabled': opsCenterEnabled,
-        'OpsItemSNSTopicArn': opsItemSNSTopicArn,
-        'RemoveSNSTopic': removeSNSTopic,
+        if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
+        if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
+        if (opsItemSNSTopicArn != null)
+          'OpsItemSNSTopicArn': opsItemSNSTopicArn,
+        if (removeSNSTopic != null) 'RemoveSNSTopic': removeSNSTopic,
       },
     );
 
@@ -1557,8 +1559,8 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'NewComponentName': newComponentName,
-        'ResourceList': resourceList,
+        if (newComponentName != null) 'NewComponentName': newComponentName,
+        if (resourceList != null) 'ResourceList': resourceList,
       },
     );
 
@@ -1640,9 +1642,10 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'ComponentConfiguration': componentConfiguration,
-        'Monitor': monitor,
-        'Tier': tier?.toValue(),
+        if (componentConfiguration != null)
+          'ComponentConfiguration': componentConfiguration,
+        if (monitor != null) 'Monitor': monitor,
+        if (tier != null) 'Tier': tier?.toValue(),
       },
     );
 
@@ -1739,8 +1742,8 @@ class ApplicationInsights {
         'PatternName': patternName,
         'PatternSetName': patternSetName,
         'ResourceGroupName': resourceGroupName,
-        'Pattern': pattern,
-        'Rank': rank,
+        if (pattern != null) 'Pattern': pattern,
+        if (rank != null) 'Rank': rank,
       },
     );
 

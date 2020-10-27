@@ -221,8 +221,9 @@ class DirectoryService {
       payload: {
         'DirectoryId': directoryId,
         'IpRoutes': ipRoutes,
-        'UpdateSecurityGroupForDirectoryControllers':
-            updateSecurityGroupForDirectoryControllers,
+        if (updateSecurityGroupForDirectoryControllers != null)
+          'UpdateSecurityGroupForDirectoryControllers':
+              updateSecurityGroupForDirectoryControllers,
       },
     );
 
@@ -421,9 +422,9 @@ class DirectoryService {
         'Name': name,
         'Password': password,
         'Size': size?.toValue(),
-        'Description': description,
-        'ShortName': shortName,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (shortName != null) 'ShortName': shortName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -582,9 +583,11 @@ class DirectoryService {
         'ComputerName': computerName,
         'DirectoryId': directoryId,
         'Password': password,
-        'ComputerAttributes': computerAttributes,
-        'OrganizationalUnitDistinguishedName':
-            organizationalUnitDistinguishedName,
+        if (computerAttributes != null)
+          'ComputerAttributes': computerAttributes,
+        if (organizationalUnitDistinguishedName != null)
+          'OrganizationalUnitDistinguishedName':
+              organizationalUnitDistinguishedName,
       },
     );
 
@@ -753,10 +756,10 @@ class DirectoryService {
         'Name': name,
         'Password': password,
         'Size': size?.toValue(),
-        'Description': description,
-        'ShortName': shortName,
-        'Tags': tags,
-        'VpcSettings': vpcSettings,
+        if (description != null) 'Description': description,
+        if (shortName != null) 'ShortName': shortName,
+        if (tags != null) 'Tags': tags,
+        if (vpcSettings != null) 'VpcSettings': vpcSettings,
       },
     );
 
@@ -930,10 +933,10 @@ class DirectoryService {
         'Name': name,
         'Password': password,
         'VpcSettings': vpcSettings,
-        'Description': description,
-        'Edition': edition?.toValue(),
-        'ShortName': shortName,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (edition != null) 'Edition': edition?.toValue(),
+        if (shortName != null) 'ShortName': shortName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -991,7 +994,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -1093,9 +1096,10 @@ class DirectoryService {
         'RemoteDomainName': remoteDomainName,
         'TrustDirection': trustDirection?.toValue(),
         'TrustPassword': trustPassword,
-        'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        'SelectiveAuth': selectiveAuth?.toValue(),
-        'TrustType': trustType?.toValue(),
+        if (conditionalForwarderIpAddrs != null)
+          'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
+        if (trustType != null) 'TrustType': trustType?.toValue(),
       },
     );
 
@@ -1310,8 +1314,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        'DeleteAssociatedConditionalForwarder':
-            deleteAssociatedConditionalForwarder,
+        if (deleteAssociatedConditionalForwarder != null)
+          'DeleteAssociatedConditionalForwarder':
+              deleteAssociatedConditionalForwarder,
       },
     );
 
@@ -1525,7 +1530,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'RemoteDomainNames': remoteDomainNames,
+        if (remoteDomainNames != null) 'RemoteDomainNames': remoteDomainNames,
       },
     );
 
@@ -1591,9 +1596,9 @@ class DirectoryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryIds': directoryIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (directoryIds != null) 'DirectoryIds': directoryIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1654,9 +1659,10 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'DomainControllerIds': domainControllerIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (domainControllerIds != null)
+          'DomainControllerIds': domainControllerIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1705,8 +1711,8 @@ class DirectoryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryId': directoryId,
-        'TopicNames': topicNames,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (topicNames != null) 'TopicNames': topicNames,
       },
     );
 
@@ -1765,9 +1771,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'Type': type?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (type != null) 'Type': type?.toValue(),
       },
     );
 
@@ -1827,9 +1833,10 @@ class DirectoryService {
       headers: headers,
       payload: {
         'OwnerDirectoryId': ownerDirectoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'SharedDirectoryIds': sharedDirectoryIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sharedDirectoryIds != null)
+          'SharedDirectoryIds': sharedDirectoryIds,
       },
     );
 
@@ -1897,10 +1904,10 @@ class DirectoryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'SnapshotIds': snapshotIds,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (snapshotIds != null) 'SnapshotIds': snapshotIds,
       },
     );
 
@@ -1965,10 +1972,10 @@ class DirectoryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'TrustIds': trustIds,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (trustIds != null) 'TrustIds': trustIds,
       },
     );
 
@@ -2127,8 +2134,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Password': password,
-        'UserName': userName,
+        if (password != null) 'Password': password,
+        if (userName != null) 'UserName': userName,
       },
     );
 
@@ -2300,8 +2307,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Password': password,
-        'UserName': userName,
+        if (password != null) 'Password': password,
+        if (userName != null) 'UserName': userName,
       },
     );
 
@@ -2417,8 +2424,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2474,8 +2481,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2528,9 +2535,9 @@ class DirectoryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2584,8 +2591,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2638,8 +2645,8 @@ class DirectoryService {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3117,7 +3124,7 @@ class DirectoryService {
         'DirectoryId': directoryId,
         'ShareMethod': shareMethod?.toValue(),
         'ShareTarget': shareTarget,
-        'ShareNotes': shareNotes,
+        if (shareNotes != null) 'ShareNotes': shareNotes,
       },
     );
 
@@ -3458,7 +3465,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        'SelectiveAuth': selectiveAuth?.toValue(),
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
       },
     );
 

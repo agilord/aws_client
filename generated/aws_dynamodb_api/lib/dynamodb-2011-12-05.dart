@@ -235,8 +235,8 @@ class DynamoDB {
       payload: {
         'Key': key,
         'TableName': tableName,
-        'Expected': expected,
-        'ReturnValues': returnValues?.toValue(),
+        if (expected != null) 'Expected': expected,
+        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -394,8 +394,8 @@ class DynamoDB {
       payload: {
         'Key': key,
         'TableName': tableName,
-        'AttributesToGet': attributesToGet,
-        'ConsistentRead': consistentRead,
+        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+        if (consistentRead != null) 'ConsistentRead': consistentRead,
       },
     );
 
@@ -444,8 +444,9 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExclusiveStartTableName': exclusiveStartTableName,
-        'Limit': limit,
+        if (exclusiveStartTableName != null)
+          'ExclusiveStartTableName': exclusiveStartTableName,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -506,8 +507,8 @@ class DynamoDB {
       payload: {
         'Item': item,
         'TableName': tableName,
-        'Expected': expected,
-        'ReturnValues': returnValues?.toValue(),
+        if (expected != null) 'Expected': expected,
+        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
       },
     );
 
@@ -613,13 +614,13 @@ class DynamoDB {
       payload: {
         'HashKeyValue': hashKeyValue,
         'TableName': tableName,
-        'AttributesToGet': attributesToGet,
-        'ConsistentRead': consistentRead,
-        'Count': count,
-        'ExclusiveStartKey': exclusiveStartKey,
-        'Limit': limit,
-        'RangeKeyCondition': rangeKeyCondition,
-        'ScanIndexForward': scanIndexForward,
+        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+        if (consistentRead != null) 'ConsistentRead': consistentRead,
+        if (count != null) 'Count': count,
+        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
+        if (limit != null) 'Limit': limit,
+        if (rangeKeyCondition != null) 'RangeKeyCondition': rangeKeyCondition,
+        if (scanIndexForward != null) 'ScanIndexForward': scanIndexForward,
       },
     );
 
@@ -708,11 +709,11 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TableName': tableName,
-        'AttributesToGet': attributesToGet,
-        'Count': count,
-        'ExclusiveStartKey': exclusiveStartKey,
-        'Limit': limit,
-        'ScanFilter': scanFilter,
+        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+        if (count != null) 'Count': count,
+        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
+        if (limit != null) 'Limit': limit,
+        if (scanFilter != null) 'ScanFilter': scanFilter,
       },
     );
 
@@ -774,8 +775,8 @@ class DynamoDB {
         'AttributeUpdates': attributeUpdates,
         'Key': key,
         'TableName': tableName,
-        'Expected': expected,
-        'ReturnValues': returnValues?.toValue(),
+        if (expected != null) 'Expected': expected,
+        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
       },
     );
 

@@ -338,26 +338,31 @@ class DatabaseMigrationService {
         'EndpointIdentifier': endpointIdentifier,
         'EndpointType': endpointType?.toValue(),
         'EngineName': engineName,
-        'CertificateArn': certificateArn,
-        'DatabaseName': databaseName,
-        'DmsTransferSettings': dmsTransferSettings,
-        'DynamoDbSettings': dynamoDbSettings,
-        'ElasticsearchSettings': elasticsearchSettings,
-        'ExternalTableDefinition': externalTableDefinition,
-        'ExtraConnectionAttributes': extraConnectionAttributes,
-        'KafkaSettings': kafkaSettings,
-        'KinesisSettings': kinesisSettings,
-        'KmsKeyId': kmsKeyId,
-        'MongoDbSettings': mongoDbSettings,
-        'Password': password,
-        'Port': port,
-        'RedshiftSettings': redshiftSettings,
-        'S3Settings': s3Settings,
-        'ServerName': serverName,
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode?.toValue(),
-        'Tags': tags,
-        'Username': username,
+        if (certificateArn != null) 'CertificateArn': certificateArn,
+        if (databaseName != null) 'DatabaseName': databaseName,
+        if (dmsTransferSettings != null)
+          'DmsTransferSettings': dmsTransferSettings,
+        if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
+        if (elasticsearchSettings != null)
+          'ElasticsearchSettings': elasticsearchSettings,
+        if (externalTableDefinition != null)
+          'ExternalTableDefinition': externalTableDefinition,
+        if (extraConnectionAttributes != null)
+          'ExtraConnectionAttributes': extraConnectionAttributes,
+        if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
+        if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+        if (password != null) 'Password': password,
+        if (port != null) 'Port': port,
+        if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+        if (s3Settings != null) 'S3Settings': s3Settings,
+        if (serverName != null) 'ServerName': serverName,
+        if (serviceAccessRoleArn != null)
+          'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (sslMode != null) 'SslMode': sslMode?.toValue(),
+        if (tags != null) 'Tags': tags,
+        if (username != null) 'Username': username,
       },
     );
 
@@ -461,11 +466,11 @@ class DatabaseMigrationService {
       payload: {
         'SnsTopicArn': snsTopicArn,
         'SubscriptionName': subscriptionName,
-        'Enabled': enabled,
-        'EventCategories': eventCategories,
-        'SourceIds': sourceIds,
-        'SourceType': sourceType,
-        'Tags': tags,
+        if (enabled != null) 'Enabled': enabled,
+        if (eventCategories != null) 'EventCategories': eventCategories,
+        if (sourceIds != null) 'SourceIds': sourceIds,
+        if (sourceType != null) 'SourceType': sourceType,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -620,18 +625,23 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationInstanceClass': replicationInstanceClass,
         'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-        'AllocatedStorage': allocatedStorage,
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-        'AvailabilityZone': availabilityZone,
-        'DnsNameServers': dnsNameServers,
-        'EngineVersion': engineVersion,
-        'KmsKeyId': kmsKeyId,
-        'MultiAZ': multiAZ,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        'PubliclyAccessible': publiclyAccessible,
-        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-        'Tags': tags,
-        'VpcSecurityGroupIds': vpcSecurityGroupIds,
+        if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+        if (autoMinorVersionUpgrade != null)
+          'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+        if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
+        if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (multiAZ != null) 'MultiAZ': multiAZ,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (publiclyAccessible != null)
+          'PubliclyAccessible': publiclyAccessible,
+        if (replicationSubnetGroupIdentifier != null)
+          'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
+        if (tags != null) 'Tags': tags,
+        if (vpcSecurityGroupIds != null)
+          'VpcSecurityGroupIds': vpcSecurityGroupIds,
       },
     );
 
@@ -690,7 +700,7 @@ class DatabaseMigrationService {
         'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
         'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
         'SubnetIds': subnetIds,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -829,11 +839,12 @@ class DatabaseMigrationService {
         'SourceEndpointArn': sourceEndpointArn,
         'TableMappings': tableMappings,
         'TargetEndpointArn': targetEndpointArn,
-        'CdcStartPosition': cdcStartPosition,
-        'CdcStartTime': cdcStartTime,
-        'CdcStopPosition': cdcStopPosition,
-        'ReplicationTaskSettings': replicationTaskSettings,
-        'Tags': tags,
+        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+        if (replicationTaskSettings != null)
+          'ReplicationTaskSettings': replicationTaskSettings,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1125,9 +1136,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1175,9 +1186,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1221,9 +1232,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1271,9 +1282,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1309,8 +1320,8 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'SourceType': sourceType,
+        if (filters != null) 'Filters': filters,
+        if (sourceType != null) 'SourceType': sourceType,
       },
     );
 
@@ -1365,10 +1376,10 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
-        'SubscriptionName': subscriptionName,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (subscriptionName != null) 'SubscriptionName': subscriptionName,
       },
     );
 
@@ -1441,15 +1452,15 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Duration': duration,
-        'EndTime': endTime,
-        'EventCategories': eventCategories,
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
-        'SourceIdentifier': sourceIdentifier,
-        'SourceType': sourceType?.toValue(),
-        'StartTime': startTime,
+        if (duration != null) 'Duration': duration,
+        if (endTime != null) 'EndTime': endTime,
+        if (eventCategories != null) 'EventCategories': eventCategories,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+        if (sourceType != null) 'SourceType': sourceType?.toValue(),
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -1489,8 +1500,8 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1540,10 +1551,11 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
-        'ReplicationInstanceArn': replicationInstanceArn,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (replicationInstanceArn != null)
+          'ReplicationInstanceArn': replicationInstanceArn,
       },
     );
 
@@ -1623,8 +1635,8 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationInstanceArn': replicationInstanceArn,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1673,9 +1685,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1720,9 +1732,9 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1772,9 +1784,10 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Marker': marker,
-        'MaxRecords': maxRecords,
-        'ReplicationTaskArn': replicationTaskArn,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (replicationTaskArn != null)
+          'ReplicationTaskArn': replicationTaskArn,
       },
     );
 
@@ -1830,10 +1843,10 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
-        'WithoutSettings': withoutSettings,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (withoutSettings != null) 'WithoutSettings': withoutSettings,
       },
     );
 
@@ -1882,8 +1895,8 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'EndpointArn': endpointArn,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1944,9 +1957,9 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'Filters': filters,
-        'Marker': marker,
-        'MaxRecords': maxRecords,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
       },
     );
 
@@ -1992,9 +2005,10 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'CertificateIdentifier': certificateIdentifier,
-        'CertificatePem': certificatePem,
-        'CertificateWallet': certificateWallet,
-        'Tags': tags,
+        if (certificatePem != null) 'CertificatePem': certificatePem,
+        if (certificateWallet != null)
+          'CertificateWallet': base64Encode(certificateWallet),
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2201,27 +2215,33 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'EndpointArn': endpointArn,
-        'CertificateArn': certificateArn,
-        'DatabaseName': databaseName,
-        'DmsTransferSettings': dmsTransferSettings,
-        'DynamoDbSettings': dynamoDbSettings,
-        'ElasticsearchSettings': elasticsearchSettings,
-        'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType?.toValue(),
-        'EngineName': engineName,
-        'ExternalTableDefinition': externalTableDefinition,
-        'ExtraConnectionAttributes': extraConnectionAttributes,
-        'KafkaSettings': kafkaSettings,
-        'KinesisSettings': kinesisSettings,
-        'MongoDbSettings': mongoDbSettings,
-        'Password': password,
-        'Port': port,
-        'RedshiftSettings': redshiftSettings,
-        'S3Settings': s3Settings,
-        'ServerName': serverName,
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-        'SslMode': sslMode?.toValue(),
-        'Username': username,
+        if (certificateArn != null) 'CertificateArn': certificateArn,
+        if (databaseName != null) 'DatabaseName': databaseName,
+        if (dmsTransferSettings != null)
+          'DmsTransferSettings': dmsTransferSettings,
+        if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
+        if (elasticsearchSettings != null)
+          'ElasticsearchSettings': elasticsearchSettings,
+        if (endpointIdentifier != null)
+          'EndpointIdentifier': endpointIdentifier,
+        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (engineName != null) 'EngineName': engineName,
+        if (externalTableDefinition != null)
+          'ExternalTableDefinition': externalTableDefinition,
+        if (extraConnectionAttributes != null)
+          'ExtraConnectionAttributes': extraConnectionAttributes,
+        if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
+        if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
+        if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+        if (password != null) 'Password': password,
+        if (port != null) 'Port': port,
+        if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+        if (s3Settings != null) 'S3Settings': s3Settings,
+        if (serverName != null) 'ServerName': serverName,
+        if (serviceAccessRoleArn != null)
+          'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (sslMode != null) 'SslMode': sslMode?.toValue(),
+        if (username != null) 'Username': username,
       },
     );
 
@@ -2281,10 +2301,10 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'SubscriptionName': subscriptionName,
-        'Enabled': enabled,
-        'EventCategories': eventCategories,
-        'SnsTopicArn': snsTopicArn,
-        'SourceType': sourceType,
+        if (enabled != null) 'Enabled': enabled,
+        if (eventCategories != null) 'EventCategories': eventCategories,
+        if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+        if (sourceType != null) 'SourceType': sourceType,
       },
     );
 
@@ -2413,16 +2433,22 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationInstanceArn': replicationInstanceArn,
-        'AllocatedStorage': allocatedStorage,
-        'AllowMajorVersionUpgrade': allowMajorVersionUpgrade,
-        'ApplyImmediately': applyImmediately,
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-        'EngineVersion': engineVersion,
-        'MultiAZ': multiAZ,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        'ReplicationInstanceClass': replicationInstanceClass,
-        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-        'VpcSecurityGroupIds': vpcSecurityGroupIds,
+        if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+        if (allowMajorVersionUpgrade != null)
+          'AllowMajorVersionUpgrade': allowMajorVersionUpgrade,
+        if (applyImmediately != null) 'ApplyImmediately': applyImmediately,
+        if (autoMinorVersionUpgrade != null)
+          'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+        if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (multiAZ != null) 'MultiAZ': multiAZ,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (replicationInstanceClass != null)
+          'ReplicationInstanceClass': replicationInstanceClass,
+        if (replicationInstanceIdentifier != null)
+          'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
+        if (vpcSecurityGroupIds != null)
+          'VpcSecurityGroupIds': vpcSecurityGroupIds,
       },
     );
 
@@ -2467,7 +2493,9 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
         'SubnetIds': subnetIds,
-        'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
+        if (replicationSubnetGroupDescription != null)
+          'ReplicationSubnetGroupDescription':
+              replicationSubnetGroupDescription,
       },
     );
 
@@ -2584,13 +2612,15 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'CdcStartPosition': cdcStartPosition,
-        'CdcStartTime': cdcStartTime,
-        'CdcStopPosition': cdcStopPosition,
-        'MigrationType': migrationType?.toValue(),
-        'ReplicationTaskIdentifier': replicationTaskIdentifier,
-        'ReplicationTaskSettings': replicationTaskSettings,
-        'TableMappings': tableMappings,
+        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+        if (migrationType != null) 'MigrationType': migrationType?.toValue(),
+        if (replicationTaskIdentifier != null)
+          'ReplicationTaskIdentifier': replicationTaskIdentifier,
+        if (replicationTaskSettings != null)
+          'ReplicationTaskSettings': replicationTaskSettings,
+        if (tableMappings != null) 'TableMappings': tableMappings,
       },
     );
 
@@ -2628,7 +2658,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationInstanceArn': replicationInstanceArn,
-        'ForceFailover': forceFailover,
+        if (forceFailover != null) 'ForceFailover': forceFailover,
       },
     );
 
@@ -2716,7 +2746,7 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         'TablesToReload': tablesToReload,
-        'ReloadOption': reloadOption?.toValue(),
+        if (reloadOption != null) 'ReloadOption': reloadOption?.toValue(),
       },
     );
 
@@ -2836,9 +2866,9 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         'StartReplicationTaskType': startReplicationTaskType?.toValue(),
-        'CdcStartPosition': cdcStartPosition,
-        'CdcStartTime': cdcStartTime,
-        'CdcStopPosition': cdcStopPosition,
+        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
       },
     );
 

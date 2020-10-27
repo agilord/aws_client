@@ -209,11 +209,11 @@ class PI {
         'Metric': metric,
         'ServiceType': serviceType?.toValue(),
         'StartTime': startTime,
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PartitionBy': partitionBy,
-        'PeriodInSeconds': periodInSeconds,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (partitionBy != null) 'PartitionBy': partitionBy,
+        if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,
       },
     );
 
@@ -334,9 +334,9 @@ class PI {
         'MetricQueries': metricQueries,
         'ServiceType': serviceType?.toValue(),
         'StartTime': startTime,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PeriodInSeconds': periodInSeconds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,
       },
     );
 

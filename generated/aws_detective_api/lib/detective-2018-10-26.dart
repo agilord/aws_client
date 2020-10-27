@@ -229,7 +229,7 @@ class Detective {
     final $payload = <String, dynamic>{
       'Accounts': accounts,
       'GraphArn': graphArn,
-      'Message': message,
+      if (message != null) 'Message': message,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -427,8 +427,8 @@ class Detective {
       1024,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -478,8 +478,8 @@ class Detective {
       1024,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -536,8 +536,8 @@ class Detective {
     );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,

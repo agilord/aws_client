@@ -140,9 +140,10 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
         'CertificateAuthorityType': certificateAuthorityType?.toValue(),
-        'IdempotencyToken': idempotencyToken,
-        'RevocationConfiguration': revocationConfiguration,
-        'Tags': tags,
+        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (revocationConfiguration != null)
+          'RevocationConfiguration': revocationConfiguration,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -319,7 +320,7 @@ class ACMPCA {
         'Actions': actions,
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Principal': principal,
-        'SourceAccount': sourceAccount,
+        if (sourceAccount != null) 'SourceAccount': sourceAccount,
       },
     );
   }
@@ -404,7 +405,8 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'PermanentDeletionTimeInDays': permanentDeletionTimeInDays,
+        if (permanentDeletionTimeInDays != null)
+          'PermanentDeletionTimeInDays': permanentDeletionTimeInDays,
       },
     );
   }
@@ -492,7 +494,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Principal': principal,
-        'SourceAccount': sourceAccount,
+        if (sourceAccount != null) 'SourceAccount': sourceAccount,
       },
     );
   }
@@ -949,9 +951,10 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Certificate': certificate,
+        'Certificate': base64Encode(certificate),
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'CertificateChain': certificateChain,
+        if (certificateChain != null)
+          'CertificateChain': base64Encode(certificateChain),
       },
     );
   }
@@ -1103,11 +1106,11 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'Csr': csr,
+        'Csr': base64Encode(csr),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
         'Validity': validity,
-        'IdempotencyToken': idempotencyToken,
-        'TemplateArn': templateArn,
+        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (templateArn != null) 'TemplateArn': templateArn,
       },
     );
 
@@ -1157,8 +1160,8 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1238,8 +1241,8 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1318,8 +1321,8 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1660,8 +1663,9 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'RevocationConfiguration': revocationConfiguration,
-        'Status': status?.toValue(),
+        if (revocationConfiguration != null)
+          'RevocationConfiguration': revocationConfiguration,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
   }

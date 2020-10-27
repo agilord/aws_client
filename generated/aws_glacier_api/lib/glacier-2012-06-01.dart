@@ -224,7 +224,7 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -1775,7 +1775,7 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
+      if (tagKeys != null) 'TagKeys': tagKeys,
     };
     await _protocol.send(
       payload: $payload,
@@ -1817,7 +1817,7 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final $payload = <String, dynamic>{
-      'Policy': policy,
+      if (policy != null) 'Policy': policy,
     };
     await _protocol.send(
       payload: $payload,

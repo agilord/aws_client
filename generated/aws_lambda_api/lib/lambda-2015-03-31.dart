@@ -151,7 +151,7 @@ class Lambda {
       'Action': action,
       'Principal': principal,
       'StatementId': statementId,
-      'OrganizationId': organizationId,
+      if (organizationId != null) 'OrganizationId': organizationId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -340,10 +340,10 @@ class Lambda {
       'Action': action,
       'Principal': principal,
       'StatementId': statementId,
-      'EventSourceToken': eventSourceToken,
-      'RevisionId': revisionId,
-      'SourceAccount': sourceAccount,
-      'SourceArn': sourceArn,
+      if (eventSourceToken != null) 'EventSourceToken': eventSourceToken,
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (sourceAccount != null) 'SourceAccount': sourceAccount,
+      if (sourceArn != null) 'SourceArn': sourceArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -460,8 +460,8 @@ class Lambda {
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
       'Name': name,
-      'Description': description,
-      'RoutingConfig': routingConfig,
+      if (description != null) 'Description': description,
+      if (routingConfig != null) 'RoutingConfig': routingConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -680,16 +680,23 @@ class Lambda {
     final $payload = <String, dynamic>{
       'EventSourceArn': eventSourceArn,
       'FunctionName': functionName,
-      'BatchSize': batchSize,
-      'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
-      'DestinationConfig': destinationConfig,
-      'Enabled': enabled,
-      'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
-      'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
-      'MaximumRetryAttempts': maximumRetryAttempts,
-      'ParallelizationFactor': parallelizationFactor,
-      'StartingPosition': startingPosition?.toValue(),
-      'StartingPositionTimestamp': startingPositionTimestamp,
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (bisectBatchOnFunctionError != null)
+        'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (enabled != null) 'Enabled': enabled,
+      if (maximumBatchingWindowInSeconds != null)
+        'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
+      if (maximumRecordAgeInSeconds != null)
+        'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
+      if (parallelizationFactor != null)
+        'ParallelizationFactor': parallelizationFactor,
+      if (startingPosition != null)
+        'StartingPosition': startingPosition?.toValue(),
+      if (startingPositionTimestamp != null)
+        'StartingPositionTimestamp': startingPositionTimestamp,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -927,17 +934,17 @@ class Lambda {
       'Handler': handler,
       'Role': role,
       'Runtime': runtime?.toValue(),
-      'DeadLetterConfig': deadLetterConfig,
-      'Description': description,
-      'Environment': environment,
-      'KMSKeyArn': kMSKeyArn,
-      'Layers': layers,
-      'MemorySize': memorySize,
-      'Publish': publish,
-      'Tags': tags,
-      'Timeout': timeout,
-      'TracingConfig': tracingConfig,
-      'VpcConfig': vpcConfig,
+      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+      if (description != null) 'Description': description,
+      if (environment != null) 'Environment': environment,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
+      if (layers != null) 'Layers': layers,
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (publish != null) 'Publish': publish,
+      if (tags != null) 'Tags': tags,
+      if (timeout != null) 'Timeout': timeout,
+      if (tracingConfig != null) 'TracingConfig': tracingConfig,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3003,9 +3010,9 @@ class Lambda {
     );
     final $payload = <String, dynamic>{
       'Content': content,
-      'CompatibleRuntimes': compatibleRuntimes,
-      'Description': description,
-      'LicenseInfo': licenseInfo,
+      if (compatibleRuntimes != null) 'CompatibleRuntimes': compatibleRuntimes,
+      if (description != null) 'Description': description,
+      if (licenseInfo != null) 'LicenseInfo': licenseInfo,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3099,9 +3106,9 @@ class Lambda {
       256,
     );
     final $payload = <String, dynamic>{
-      'CodeSha256': codeSha256,
-      'Description': description,
-      'RevisionId': revisionId,
+      if (codeSha256 != null) 'CodeSha256': codeSha256,
+      if (description != null) 'Description': description,
+      if (revisionId != null) 'RevisionId': revisionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3323,9 +3330,11 @@ class Lambda {
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'DestinationConfig': destinationConfig,
-      'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
-      'MaximumRetryAttempts': maximumRetryAttempts,
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (maximumEventAgeInSeconds != null)
+        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3786,10 +3795,10 @@ class Lambda {
       r'''(\$LATEST|[0-9]+)''',
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'FunctionVersion': functionVersion,
-      'RevisionId': revisionId,
-      'RoutingConfig': routingConfig,
+      if (description != null) 'Description': description,
+      if (functionVersion != null) 'FunctionVersion': functionVersion,
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (routingConfig != null) 'RoutingConfig': routingConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3959,15 +3968,20 @@ class Lambda {
       10,
     );
     final $payload = <String, dynamic>{
-      'BatchSize': batchSize,
-      'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
-      'DestinationConfig': destinationConfig,
-      'Enabled': enabled,
-      'FunctionName': functionName,
-      'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
-      'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
-      'MaximumRetryAttempts': maximumRetryAttempts,
-      'ParallelizationFactor': parallelizationFactor,
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (bisectBatchOnFunctionError != null)
+        'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (enabled != null) 'Enabled': enabled,
+      if (functionName != null) 'FunctionName': functionName,
+      if (maximumBatchingWindowInSeconds != null)
+        'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
+      if (maximumRecordAgeInSeconds != null)
+        'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
+      if (parallelizationFactor != null)
+        'ParallelizationFactor': parallelizationFactor,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4087,13 +4101,13 @@ class Lambda {
       1024,
     );
     final $payload = <String, dynamic>{
-      'DryRun': dryRun,
-      'Publish': publish,
-      'RevisionId': revisionId,
-      'S3Bucket': s3Bucket,
-      'S3Key': s3Key,
-      'S3ObjectVersion': s3ObjectVersion,
-      'ZipFile': zipFile,
+      if (dryRun != null) 'DryRun': dryRun,
+      if (publish != null) 'Publish': publish,
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+      if (zipFile != null) 'ZipFile': base64Encode(zipFile),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4288,19 +4302,19 @@ class Lambda {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'DeadLetterConfig': deadLetterConfig,
-      'Description': description,
-      'Environment': environment,
-      'Handler': handler,
-      'KMSKeyArn': kMSKeyArn,
-      'Layers': layers,
-      'MemorySize': memorySize,
-      'RevisionId': revisionId,
-      'Role': role,
-      'Runtime': runtime?.toValue(),
-      'Timeout': timeout,
-      'TracingConfig': tracingConfig,
-      'VpcConfig': vpcConfig,
+      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+      if (description != null) 'Description': description,
+      if (environment != null) 'Environment': environment,
+      if (handler != null) 'Handler': handler,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
+      if (layers != null) 'Layers': layers,
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (role != null) 'Role': role,
+      if (runtime != null) 'Runtime': runtime?.toValue(),
+      if (timeout != null) 'Timeout': timeout,
+      if (tracingConfig != null) 'TracingConfig': tracingConfig,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4422,9 +4436,11 @@ class Lambda {
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'DestinationConfig': destinationConfig,
-      'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
-      'MaximumRetryAttempts': maximumRetryAttempts,
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (maximumEventAgeInSeconds != null)
+        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
     };
     final response = await _protocol.send(
       payload: $payload,

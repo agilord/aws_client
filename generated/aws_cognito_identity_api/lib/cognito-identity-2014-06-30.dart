@@ -163,13 +163,17 @@ class CognitoIdentity {
       payload: {
         'AllowUnauthenticatedIdentities': allowUnauthenticatedIdentities,
         'IdentityPoolName': identityPoolName,
-        'AllowClassicFlow': allowClassicFlow,
-        'CognitoIdentityProviders': cognitoIdentityProviders,
-        'DeveloperProviderName': developerProviderName,
-        'IdentityPoolTags': identityPoolTags,
-        'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
-        'SamlProviderARNs': samlProviderARNs,
-        'SupportedLoginProviders': supportedLoginProviders,
+        if (allowClassicFlow != null) 'AllowClassicFlow': allowClassicFlow,
+        if (cognitoIdentityProviders != null)
+          'CognitoIdentityProviders': cognitoIdentityProviders,
+        if (developerProviderName != null)
+          'DeveloperProviderName': developerProviderName,
+        if (identityPoolTags != null) 'IdentityPoolTags': identityPoolTags,
+        if (openIdConnectProviderARNs != null)
+          'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
+        if (samlProviderARNs != null) 'SamlProviderARNs': samlProviderARNs,
+        if (supportedLoginProviders != null)
+          'SupportedLoginProviders': supportedLoginProviders,
       },
     );
 
@@ -426,8 +430,8 @@ class CognitoIdentity {
       headers: headers,
       payload: {
         'IdentityId': identityId,
-        'CustomRoleArn': customRoleArn,
-        'Logins': logins,
+        if (customRoleArn != null) 'CustomRoleArn': customRoleArn,
+        if (logins != null) 'Logins': logins,
       },
     );
 
@@ -524,8 +528,8 @@ class CognitoIdentity {
       headers: headers,
       payload: {
         'IdentityPoolId': identityPoolId,
-        'AccountId': accountId,
-        'Logins': logins,
+        if (accountId != null) 'AccountId': accountId,
+        if (logins != null) 'Logins': logins,
       },
     );
 
@@ -635,7 +639,7 @@ class CognitoIdentity {
       headers: headers,
       payload: {
         'IdentityId': identityId,
-        'Logins': logins,
+        if (logins != null) 'Logins': logins,
       },
     );
 
@@ -752,8 +756,8 @@ class CognitoIdentity {
       payload: {
         'IdentityPoolId': identityPoolId,
         'Logins': logins,
-        'IdentityId': identityId,
-        'TokenDuration': tokenDuration,
+        if (identityId != null) 'IdentityId': identityId,
+        if (tokenDuration != null) 'TokenDuration': tokenDuration,
       },
     );
 
@@ -836,8 +840,8 @@ class CognitoIdentity {
       payload: {
         'IdentityPoolId': identityPoolId,
         'MaxResults': maxResults,
-        'HideDisabled': hideDisabled,
-        'NextToken': nextToken,
+        if (hideDisabled != null) 'HideDisabled': hideDisabled,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -894,7 +898,7 @@ class CognitoIdentity {
       headers: headers,
       payload: {
         'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1064,10 +1068,11 @@ class CognitoIdentity {
       headers: headers,
       payload: {
         'IdentityPoolId': identityPoolId,
-        'DeveloperUserIdentifier': developerUserIdentifier,
-        'IdentityId': identityId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (developerUserIdentifier != null)
+          'DeveloperUserIdentifier': developerUserIdentifier,
+        if (identityId != null) 'IdentityId': identityId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1249,7 +1254,7 @@ class CognitoIdentity {
       payload: {
         'IdentityPoolId': identityPoolId,
         'Roles': roles,
-        'RoleMappings': roleMappings,
+        if (roleMappings != null) 'RoleMappings': roleMappings,
       },
     );
   }
@@ -1645,13 +1650,17 @@ class CognitoIdentity {
         'AllowUnauthenticatedIdentities': allowUnauthenticatedIdentities,
         'IdentityPoolId': identityPoolId,
         'IdentityPoolName': identityPoolName,
-        'AllowClassicFlow': allowClassicFlow,
-        'CognitoIdentityProviders': cognitoIdentityProviders,
-        'DeveloperProviderName': developerProviderName,
-        'IdentityPoolTags': identityPoolTags,
-        'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
-        'SamlProviderARNs': samlProviderARNs,
-        'SupportedLoginProviders': supportedLoginProviders,
+        if (allowClassicFlow != null) 'AllowClassicFlow': allowClassicFlow,
+        if (cognitoIdentityProviders != null)
+          'CognitoIdentityProviders': cognitoIdentityProviders,
+        if (developerProviderName != null)
+          'DeveloperProviderName': developerProviderName,
+        if (identityPoolTags != null) 'IdentityPoolTags': identityPoolTags,
+        if (openIdConnectProviderARNs != null)
+          'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
+        if (samlProviderARNs != null) 'SamlProviderARNs': samlProviderARNs,
+        if (supportedLoginProviders != null)
+          'SupportedLoginProviders': supportedLoginProviders,
       },
     );
 

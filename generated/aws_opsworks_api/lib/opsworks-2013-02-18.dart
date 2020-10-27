@@ -134,7 +134,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'VolumeId': volumeId,
-        'InstanceId': instanceId,
+        if (instanceId != null) 'InstanceId': instanceId,
       },
     );
   }
@@ -177,7 +177,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'ElasticIp': elasticIp,
-        'InstanceId': instanceId,
+        if (instanceId != null) 'InstanceId': instanceId,
       },
     );
   }
@@ -590,26 +590,33 @@ class OpsWorks {
       payload: {
         'ServiceRoleArn': serviceRoleArn,
         'SourceStackId': sourceStackId,
-        'AgentVersion': agentVersion,
-        'Attributes': attributes,
-        'ChefConfiguration': chefConfiguration,
-        'CloneAppIds': cloneAppIds,
-        'ClonePermissions': clonePermissions,
-        'ConfigurationManager': configurationManager,
-        'CustomCookbooksSource': customCookbooksSource,
-        'CustomJson': customJson,
-        'DefaultAvailabilityZone': defaultAvailabilityZone,
-        'DefaultInstanceProfileArn': defaultInstanceProfileArn,
-        'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        'DefaultSshKeyName': defaultSshKeyName,
-        'DefaultSubnetId': defaultSubnetId,
-        'HostnameTheme': hostnameTheme,
-        'Name': name,
-        'Region': region,
-        'UseCustomCookbooks': useCustomCookbooks,
-        'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
-        'VpcId': vpcId,
+        if (agentVersion != null) 'AgentVersion': agentVersion,
+        if (attributes != null) 'Attributes': attributes,
+        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
+        if (cloneAppIds != null) 'CloneAppIds': cloneAppIds,
+        if (clonePermissions != null) 'ClonePermissions': clonePermissions,
+        if (configurationManager != null)
+          'ConfigurationManager': configurationManager,
+        if (customCookbooksSource != null)
+          'CustomCookbooksSource': customCookbooksSource,
+        if (customJson != null) 'CustomJson': customJson,
+        if (defaultAvailabilityZone != null)
+          'DefaultAvailabilityZone': defaultAvailabilityZone,
+        if (defaultInstanceProfileArn != null)
+          'DefaultInstanceProfileArn': defaultInstanceProfileArn,
+        if (defaultOs != null) 'DefaultOs': defaultOs,
+        if (defaultRootDeviceType != null)
+          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
+        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
+        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
+        if (name != null) 'Name': name,
+        if (region != null) 'Region': region,
+        if (useCustomCookbooks != null)
+          'UseCustomCookbooks': useCustomCookbooks,
+        if (useOpsworksSecurityGroups != null)
+          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
+        if (vpcId != null) 'VpcId': vpcId,
       },
     );
 
@@ -719,15 +726,15 @@ class OpsWorks {
         'Name': name,
         'StackId': stackId,
         'Type': type?.toValue(),
-        'AppSource': appSource,
-        'Attributes': attributes,
-        'DataSources': dataSources,
-        'Description': description,
-        'Domains': domains,
-        'EnableSsl': enableSsl,
-        'Environment': environment,
-        'Shortname': shortname,
-        'SslConfiguration': sslConfiguration,
+        if (appSource != null) 'AppSource': appSource,
+        if (attributes != null) 'Attributes': attributes,
+        if (dataSources != null) 'DataSources': dataSources,
+        if (description != null) 'Description': description,
+        if (domains != null) 'Domains': domains,
+        if (enableSsl != null) 'EnableSsl': enableSsl,
+        if (environment != null) 'Environment': environment,
+        if (shortname != null) 'Shortname': shortname,
+        if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
       },
     );
 
@@ -806,11 +813,11 @@ class OpsWorks {
       payload: {
         'Command': command,
         'StackId': stackId,
-        'AppId': appId,
-        'Comment': comment,
-        'CustomJson': customJson,
-        'InstanceIds': instanceIds,
-        'LayerIds': layerIds,
+        if (appId != null) 'AppId': appId,
+        if (comment != null) 'Comment': comment,
+        if (customJson != null) 'CustomJson': customJson,
+        if (instanceIds != null) 'InstanceIds': instanceIds,
+        if (layerIds != null) 'LayerIds': layerIds,
       },
     );
 
@@ -1040,21 +1047,25 @@ class OpsWorks {
         'InstanceType': instanceType,
         'LayerIds': layerIds,
         'StackId': stackId,
-        'AgentVersion': agentVersion,
-        'AmiId': amiId,
-        'Architecture': architecture?.toValue(),
-        'AutoScalingType': autoScalingType?.toValue(),
-        'AvailabilityZone': availabilityZone,
-        'BlockDeviceMappings': blockDeviceMappings,
-        'EbsOptimized': ebsOptimized,
-        'Hostname': hostname,
-        'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        'Os': os,
-        'RootDeviceType': rootDeviceType?.toValue(),
-        'SshKeyName': sshKeyName,
-        'SubnetId': subnetId,
-        'Tenancy': tenancy,
-        'VirtualizationType': virtualizationType,
+        if (agentVersion != null) 'AgentVersion': agentVersion,
+        if (amiId != null) 'AmiId': amiId,
+        if (architecture != null) 'Architecture': architecture?.toValue(),
+        if (autoScalingType != null)
+          'AutoScalingType': autoScalingType?.toValue(),
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+        if (blockDeviceMappings != null)
+          'BlockDeviceMappings': blockDeviceMappings,
+        if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+        if (hostname != null) 'Hostname': hostname,
+        if (installUpdatesOnBoot != null)
+          'InstallUpdatesOnBoot': installUpdatesOnBoot,
+        if (os != null) 'Os': os,
+        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType?.toValue(),
+        if (sshKeyName != null) 'SshKeyName': sshKeyName,
+        if (subnetId != null) 'SubnetId': subnetId,
+        if (tenancy != null) 'Tenancy': tenancy,
+        if (virtualizationType != null)
+          'VirtualizationType': virtualizationType,
       },
     );
 
@@ -1220,20 +1231,29 @@ class OpsWorks {
         'Shortname': shortname,
         'StackId': stackId,
         'Type': type?.toValue(),
-        'Attributes': attributes,
-        'AutoAssignElasticIps': autoAssignElasticIps,
-        'AutoAssignPublicIps': autoAssignPublicIps,
-        'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-        'CustomInstanceProfileArn': customInstanceProfileArn,
-        'CustomJson': customJson,
-        'CustomRecipes': customRecipes,
-        'CustomSecurityGroupIds': customSecurityGroupIds,
-        'EnableAutoHealing': enableAutoHealing,
-        'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        'LifecycleEventConfiguration': lifecycleEventConfiguration,
-        'Packages': packages,
-        'UseEbsOptimizedInstances': useEbsOptimizedInstances,
-        'VolumeConfigurations': volumeConfigurations,
+        if (attributes != null) 'Attributes': attributes,
+        if (autoAssignElasticIps != null)
+          'AutoAssignElasticIps': autoAssignElasticIps,
+        if (autoAssignPublicIps != null)
+          'AutoAssignPublicIps': autoAssignPublicIps,
+        if (cloudWatchLogsConfiguration != null)
+          'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+        if (customInstanceProfileArn != null)
+          'CustomInstanceProfileArn': customInstanceProfileArn,
+        if (customJson != null) 'CustomJson': customJson,
+        if (customRecipes != null) 'CustomRecipes': customRecipes,
+        if (customSecurityGroupIds != null)
+          'CustomSecurityGroupIds': customSecurityGroupIds,
+        if (enableAutoHealing != null) 'EnableAutoHealing': enableAutoHealing,
+        if (installUpdatesOnBoot != null)
+          'InstallUpdatesOnBoot': installUpdatesOnBoot,
+        if (lifecycleEventConfiguration != null)
+          'LifecycleEventConfiguration': lifecycleEventConfiguration,
+        if (packages != null) 'Packages': packages,
+        if (useEbsOptimizedInstances != null)
+          'UseEbsOptimizedInstances': useEbsOptimizedInstances,
+        if (volumeConfigurations != null)
+          'VolumeConfigurations': volumeConfigurations,
       },
     );
 
@@ -1599,21 +1619,27 @@ class OpsWorks {
         'Name': name,
         'Region': region,
         'ServiceRoleArn': serviceRoleArn,
-        'AgentVersion': agentVersion,
-        'Attributes': attributes,
-        'ChefConfiguration': chefConfiguration,
-        'ConfigurationManager': configurationManager,
-        'CustomCookbooksSource': customCookbooksSource,
-        'CustomJson': customJson,
-        'DefaultAvailabilityZone': defaultAvailabilityZone,
-        'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        'DefaultSshKeyName': defaultSshKeyName,
-        'DefaultSubnetId': defaultSubnetId,
-        'HostnameTheme': hostnameTheme,
-        'UseCustomCookbooks': useCustomCookbooks,
-        'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
-        'VpcId': vpcId,
+        if (agentVersion != null) 'AgentVersion': agentVersion,
+        if (attributes != null) 'Attributes': attributes,
+        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
+        if (configurationManager != null)
+          'ConfigurationManager': configurationManager,
+        if (customCookbooksSource != null)
+          'CustomCookbooksSource': customCookbooksSource,
+        if (customJson != null) 'CustomJson': customJson,
+        if (defaultAvailabilityZone != null)
+          'DefaultAvailabilityZone': defaultAvailabilityZone,
+        if (defaultOs != null) 'DefaultOs': defaultOs,
+        if (defaultRootDeviceType != null)
+          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
+        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
+        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
+        if (useCustomCookbooks != null)
+          'UseCustomCookbooks': useCustomCookbooks,
+        if (useOpsworksSecurityGroups != null)
+          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
+        if (vpcId != null) 'VpcId': vpcId,
       },
     );
 
@@ -1667,9 +1693,10 @@ class OpsWorks {
       headers: headers,
       payload: {
         'IamUserArn': iamUserArn,
-        'AllowSelfManagement': allowSelfManagement,
-        'SshPublicKey': sshPublicKey,
-        'SshUsername': sshUsername,
+        if (allowSelfManagement != null)
+          'AllowSelfManagement': allowSelfManagement,
+        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
+        if (sshUsername != null) 'SshUsername': sshUsername,
       },
     );
 
@@ -1753,8 +1780,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'DeleteElasticIp': deleteElasticIp,
-        'DeleteVolumes': deleteVolumes,
+        if (deleteElasticIp != null) 'DeleteElasticIp': deleteElasticIp,
+        if (deleteVolumes != null) 'DeleteVolumes': deleteVolumes,
       },
     );
   }
@@ -2078,8 +2105,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigurationManager': configurationManager,
-        'StackId': stackId,
+        if (configurationManager != null)
+          'ConfigurationManager': configurationManager,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2123,8 +2151,8 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AppIds': appIds,
-        'StackId': stackId,
+        if (appIds != null) 'AppIds': appIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2175,9 +2203,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CommandIds': commandIds,
-        'DeploymentId': deploymentId,
-        'InstanceId': instanceId,
+        if (commandIds != null) 'CommandIds': commandIds,
+        if (deploymentId != null) 'DeploymentId': deploymentId,
+        if (instanceId != null) 'InstanceId': instanceId,
       },
     );
 
@@ -2226,9 +2254,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AppId': appId,
-        'DeploymentIds': deploymentIds,
-        'StackId': stackId,
+        if (appId != null) 'AppId': appId,
+        if (deploymentIds != null) 'DeploymentIds': deploymentIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2292,10 +2320,10 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EcsClusterArns': ecsClusterArns,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StackId': stackId,
+        if (ecsClusterArns != null) 'EcsClusterArns': ecsClusterArns,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2349,9 +2377,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceId': instanceId,
-        'Ips': ips,
-        'StackId': stackId,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (ips != null) 'Ips': ips,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2394,8 +2422,8 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LayerIds': layerIds,
-        'StackId': stackId,
+        if (layerIds != null) 'LayerIds': layerIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2444,9 +2472,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceIds': instanceIds,
-        'LayerId': layerId,
-        'StackId': stackId,
+        if (instanceIds != null) 'InstanceIds': instanceIds,
+        if (layerId != null) 'LayerId': layerId,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2489,8 +2517,8 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LayerIds': layerIds,
-        'StackId': stackId,
+        if (layerIds != null) 'LayerIds': layerIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2610,8 +2638,8 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IamUserArn': iamUserArn,
-        'StackId': stackId,
+        if (iamUserArn != null) 'IamUserArn': iamUserArn,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2660,9 +2688,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceId': instanceId,
-        'RaidArrayIds': raidArrayIds,
-        'StackId': stackId,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (raidArrayIds != null) 'RaidArrayIds': raidArrayIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2706,7 +2734,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'StackId': stackId,
-        'RdsDbInstanceArns': rdsDbInstanceArns,
+        if (rdsDbInstanceArns != null) 'RdsDbInstanceArns': rdsDbInstanceArns,
       },
     );
 
@@ -2757,9 +2785,9 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceId': instanceId,
-        'ServiceErrorIds': serviceErrorIds,
-        'StackId': stackId,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (serviceErrorIds != null) 'ServiceErrorIds': serviceErrorIds,
+        if (stackId != null) 'StackId': stackId,
       },
     );
 
@@ -2872,7 +2900,7 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'StackIds': stackIds,
+        if (stackIds != null) 'StackIds': stackIds,
       },
     );
 
@@ -2945,7 +2973,7 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IamUserArns': iamUserArns,
+        if (iamUserArns != null) 'IamUserArns': iamUserArns,
       },
     );
 
@@ -3001,10 +3029,10 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceId': instanceId,
-        'RaidArrayId': raidArrayId,
-        'StackId': stackId,
-        'VolumeIds': volumeIds,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (raidArrayId != null) 'RaidArrayId': raidArrayId,
+        if (stackId != null) 'StackId': stackId,
+        if (volumeIds != null) 'VolumeIds': volumeIds,
       },
     );
 
@@ -3165,7 +3193,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'ValidForInMinutes': validForInMinutes,
+        if (validForInMinutes != null) 'ValidForInMinutes': validForInMinutes,
       },
     );
 
@@ -3205,8 +3233,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3415,12 +3443,13 @@ class OpsWorks {
       headers: headers,
       payload: {
         'StackId': stackId,
-        'Hostname': hostname,
-        'InstanceIdentity': instanceIdentity,
-        'PrivateIp': privateIp,
-        'PublicIp': publicIp,
-        'RsaPublicKey': rsaPublicKey,
-        'RsaPublicKeyFingerprint': rsaPublicKeyFingerprint,
+        if (hostname != null) 'Hostname': hostname,
+        if (instanceIdentity != null) 'InstanceIdentity': instanceIdentity,
+        if (privateIp != null) 'PrivateIp': privateIp,
+        if (publicIp != null) 'PublicIp': publicIp,
+        if (rsaPublicKey != null) 'RsaPublicKey': rsaPublicKey,
+        if (rsaPublicKeyFingerprint != null)
+          'RsaPublicKeyFingerprint': rsaPublicKeyFingerprint,
       },
     );
 
@@ -3518,7 +3547,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'StackId': stackId,
-        'Ec2VolumeId': ec2VolumeId,
+        if (ec2VolumeId != null) 'Ec2VolumeId': ec2VolumeId,
       },
     );
 
@@ -3580,9 +3609,9 @@ class OpsWorks {
       headers: headers,
       payload: {
         'LayerId': layerId,
-        'DownScaling': downScaling,
-        'Enable': enable,
-        'UpScaling': upScaling,
+        if (downScaling != null) 'DownScaling': downScaling,
+        if (enable != null) 'Enable': enable,
+        if (upScaling != null) 'UpScaling': upScaling,
       },
     );
   }
@@ -3660,9 +3689,9 @@ class OpsWorks {
       payload: {
         'IamUserArn': iamUserArn,
         'StackId': stackId,
-        'AllowSsh': allowSsh,
-        'AllowSudo': allowSudo,
-        'Level': level,
+        if (allowSsh != null) 'AllowSsh': allowSsh,
+        if (allowSudo != null) 'AllowSudo': allowSudo,
+        if (level != null) 'Level': level,
       },
     );
   }
@@ -3704,7 +3733,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'AutoScalingSchedule': autoScalingSchedule,
+        if (autoScalingSchedule != null)
+          'AutoScalingSchedule': autoScalingSchedule,
       },
     );
   }
@@ -3824,7 +3854,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'Force': force,
+        if (force != null) 'Force': force,
       },
     );
   }
@@ -4117,16 +4147,16 @@ class OpsWorks {
       headers: headers,
       payload: {
         'AppId': appId,
-        'AppSource': appSource,
-        'Attributes': attributes,
-        'DataSources': dataSources,
-        'Description': description,
-        'Domains': domains,
-        'EnableSsl': enableSsl,
-        'Environment': environment,
-        'Name': name,
-        'SslConfiguration': sslConfiguration,
-        'Type': type?.toValue(),
+        if (appSource != null) 'AppSource': appSource,
+        if (attributes != null) 'Attributes': attributes,
+        if (dataSources != null) 'DataSources': dataSources,
+        if (description != null) 'Description': description,
+        if (domains != null) 'Domains': domains,
+        if (enableSsl != null) 'EnableSsl': enableSsl,
+        if (environment != null) 'Environment': environment,
+        if (name != null) 'Name': name,
+        if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
+        if (type != null) 'Type': type?.toValue(),
       },
     );
   }
@@ -4168,7 +4198,7 @@ class OpsWorks {
       headers: headers,
       payload: {
         'ElasticIp': elasticIp,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
   }
@@ -4337,17 +4367,19 @@ class OpsWorks {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'AgentVersion': agentVersion,
-        'AmiId': amiId,
-        'Architecture': architecture?.toValue(),
-        'AutoScalingType': autoScalingType?.toValue(),
-        'EbsOptimized': ebsOptimized,
-        'Hostname': hostname,
-        'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        'InstanceType': instanceType,
-        'LayerIds': layerIds,
-        'Os': os,
-        'SshKeyName': sshKeyName,
+        if (agentVersion != null) 'AgentVersion': agentVersion,
+        if (amiId != null) 'AmiId': amiId,
+        if (architecture != null) 'Architecture': architecture?.toValue(),
+        if (autoScalingType != null)
+          'AutoScalingType': autoScalingType?.toValue(),
+        if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+        if (hostname != null) 'Hostname': hostname,
+        if (installUpdatesOnBoot != null)
+          'InstallUpdatesOnBoot': installUpdatesOnBoot,
+        if (instanceType != null) 'InstanceType': instanceType,
+        if (layerIds != null) 'LayerIds': layerIds,
+        if (os != null) 'Os': os,
+        if (sshKeyName != null) 'SshKeyName': sshKeyName,
       },
     );
   }
@@ -4484,22 +4516,31 @@ class OpsWorks {
       headers: headers,
       payload: {
         'LayerId': layerId,
-        'Attributes': attributes,
-        'AutoAssignElasticIps': autoAssignElasticIps,
-        'AutoAssignPublicIps': autoAssignPublicIps,
-        'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-        'CustomInstanceProfileArn': customInstanceProfileArn,
-        'CustomJson': customJson,
-        'CustomRecipes': customRecipes,
-        'CustomSecurityGroupIds': customSecurityGroupIds,
-        'EnableAutoHealing': enableAutoHealing,
-        'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        'LifecycleEventConfiguration': lifecycleEventConfiguration,
-        'Name': name,
-        'Packages': packages,
-        'Shortname': shortname,
-        'UseEbsOptimizedInstances': useEbsOptimizedInstances,
-        'VolumeConfigurations': volumeConfigurations,
+        if (attributes != null) 'Attributes': attributes,
+        if (autoAssignElasticIps != null)
+          'AutoAssignElasticIps': autoAssignElasticIps,
+        if (autoAssignPublicIps != null)
+          'AutoAssignPublicIps': autoAssignPublicIps,
+        if (cloudWatchLogsConfiguration != null)
+          'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+        if (customInstanceProfileArn != null)
+          'CustomInstanceProfileArn': customInstanceProfileArn,
+        if (customJson != null) 'CustomJson': customJson,
+        if (customRecipes != null) 'CustomRecipes': customRecipes,
+        if (customSecurityGroupIds != null)
+          'CustomSecurityGroupIds': customSecurityGroupIds,
+        if (enableAutoHealing != null) 'EnableAutoHealing': enableAutoHealing,
+        if (installUpdatesOnBoot != null)
+          'InstallUpdatesOnBoot': installUpdatesOnBoot,
+        if (lifecycleEventConfiguration != null)
+          'LifecycleEventConfiguration': lifecycleEventConfiguration,
+        if (name != null) 'Name': name,
+        if (packages != null) 'Packages': packages,
+        if (shortname != null) 'Shortname': shortname,
+        if (useEbsOptimizedInstances != null)
+          'UseEbsOptimizedInstances': useEbsOptimizedInstances,
+        if (volumeConfigurations != null)
+          'VolumeConfigurations': volumeConfigurations,
       },
     );
   }
@@ -4530,7 +4571,7 @@ class OpsWorks {
       // TODO queryParams
       headers: headers,
       payload: {
-        'SshPublicKey': sshPublicKey,
+        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
       },
     );
   }
@@ -4573,8 +4614,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'RdsDbInstanceArn': rdsDbInstanceArn,
-        'DbPassword': dbPassword,
-        'DbUser': dbUser,
+        if (dbPassword != null) 'DbPassword': dbPassword,
+        if (dbUser != null) 'DbUser': dbUser,
       },
     );
   }
@@ -4857,23 +4898,30 @@ class OpsWorks {
       headers: headers,
       payload: {
         'StackId': stackId,
-        'AgentVersion': agentVersion,
-        'Attributes': attributes,
-        'ChefConfiguration': chefConfiguration,
-        'ConfigurationManager': configurationManager,
-        'CustomCookbooksSource': customCookbooksSource,
-        'CustomJson': customJson,
-        'DefaultAvailabilityZone': defaultAvailabilityZone,
-        'DefaultInstanceProfileArn': defaultInstanceProfileArn,
-        'DefaultOs': defaultOs,
-        'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        'DefaultSshKeyName': defaultSshKeyName,
-        'DefaultSubnetId': defaultSubnetId,
-        'HostnameTheme': hostnameTheme,
-        'Name': name,
-        'ServiceRoleArn': serviceRoleArn,
-        'UseCustomCookbooks': useCustomCookbooks,
-        'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
+        if (agentVersion != null) 'AgentVersion': agentVersion,
+        if (attributes != null) 'Attributes': attributes,
+        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
+        if (configurationManager != null)
+          'ConfigurationManager': configurationManager,
+        if (customCookbooksSource != null)
+          'CustomCookbooksSource': customCookbooksSource,
+        if (customJson != null) 'CustomJson': customJson,
+        if (defaultAvailabilityZone != null)
+          'DefaultAvailabilityZone': defaultAvailabilityZone,
+        if (defaultInstanceProfileArn != null)
+          'DefaultInstanceProfileArn': defaultInstanceProfileArn,
+        if (defaultOs != null) 'DefaultOs': defaultOs,
+        if (defaultRootDeviceType != null)
+          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
+        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
+        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
+        if (name != null) 'Name': name,
+        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+        if (useCustomCookbooks != null)
+          'UseCustomCookbooks': useCustomCookbooks,
+        if (useOpsworksSecurityGroups != null)
+          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
       },
     );
   }
@@ -4926,9 +4974,10 @@ class OpsWorks {
       headers: headers,
       payload: {
         'IamUserArn': iamUserArn,
-        'AllowSelfManagement': allowSelfManagement,
-        'SshPublicKey': sshPublicKey,
-        'SshUsername': sshUsername,
+        if (allowSelfManagement != null)
+          'AllowSelfManagement': allowSelfManagement,
+        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
+        if (sshUsername != null) 'SshUsername': sshUsername,
       },
     );
   }
@@ -4974,8 +5023,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'VolumeId': volumeId,
-        'MountPoint': mountPoint,
-        'Name': name,
+        if (mountPoint != null) 'MountPoint': mountPoint,
+        if (name != null) 'Name': name,
       },
     );
   }

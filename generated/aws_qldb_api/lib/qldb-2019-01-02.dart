@@ -92,8 +92,8 @@ class QLDB {
     final $payload = <String, dynamic>{
       'Name': name,
       'PermissionsMode': permissionsMode?.toValue(),
-      'DeletionProtection': deletionProtection,
-      'Tags': tags,
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -406,7 +406,7 @@ class QLDB {
     );
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
-      'DigestTipAddress': digestTipAddress,
+      if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -520,7 +520,7 @@ class QLDB {
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       'DocumentId': documentId,
-      'DigestTipAddress': digestTipAddress,
+      if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -858,7 +858,7 @@ class QLDB {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'DeletionProtection': deletionProtection,
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
     };
     final response = await _protocol.send(
       payload: $payload,

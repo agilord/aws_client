@@ -293,8 +293,8 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'GameServerData': gameServerData,
-        'GameServerId': gameServerId,
+        if (gameServerData != null) 'GameServerData': gameServerData,
+        if (gameServerId != null) 'GameServerId': gameServerId,
       },
     );
 
@@ -409,8 +409,8 @@ class GameLift {
       payload: {
         'Name': name,
         'RoutingStrategy': routingStrategy,
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -558,11 +558,12 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Name': name,
-        'OperatingSystem': operatingSystem?.toValue(),
-        'StorageLocation': storageLocation,
-        'Tags': tags,
-        'Version': version,
+        if (name != null) 'Name': name,
+        if (operatingSystem != null)
+          'OperatingSystem': operatingSystem?.toValue(),
+        if (storageLocation != null) 'StorageLocation': storageLocation,
+        if (tags != null) 'Tags': tags,
+        if (version != null) 'Version': version,
       },
     );
 
@@ -919,24 +920,31 @@ class GameLift {
       payload: {
         'EC2InstanceType': eC2InstanceType?.toValue(),
         'Name': name,
-        'BuildId': buildId,
-        'CertificateConfiguration': certificateConfiguration,
-        'Description': description,
-        'EC2InboundPermissions': eC2InboundPermissions,
-        'FleetType': fleetType?.toValue(),
-        'InstanceRoleArn': instanceRoleArn,
-        'LogPaths': logPaths,
-        'MetricGroups': metricGroups,
-        'NewGameSessionProtectionPolicy':
-            newGameSessionProtectionPolicy?.toValue(),
-        'PeerVpcAwsAccountId': peerVpcAwsAccountId,
-        'PeerVpcId': peerVpcId,
-        'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
-        'RuntimeConfiguration': runtimeConfiguration,
-        'ScriptId': scriptId,
-        'ServerLaunchParameters': serverLaunchParameters,
-        'ServerLaunchPath': serverLaunchPath,
-        'Tags': tags,
+        if (buildId != null) 'BuildId': buildId,
+        if (certificateConfiguration != null)
+          'CertificateConfiguration': certificateConfiguration,
+        if (description != null) 'Description': description,
+        if (eC2InboundPermissions != null)
+          'EC2InboundPermissions': eC2InboundPermissions,
+        if (fleetType != null) 'FleetType': fleetType?.toValue(),
+        if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
+        if (logPaths != null) 'LogPaths': logPaths,
+        if (metricGroups != null) 'MetricGroups': metricGroups,
+        if (newGameSessionProtectionPolicy != null)
+          'NewGameSessionProtectionPolicy':
+              newGameSessionProtectionPolicy?.toValue(),
+        if (peerVpcAwsAccountId != null)
+          'PeerVpcAwsAccountId': peerVpcAwsAccountId,
+        if (peerVpcId != null) 'PeerVpcId': peerVpcId,
+        if (resourceCreationLimitPolicy != null)
+          'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
+        if (runtimeConfiguration != null)
+          'RuntimeConfiguration': runtimeConfiguration,
+        if (scriptId != null) 'ScriptId': scriptId,
+        if (serverLaunchParameters != null)
+          'ServerLaunchParameters': serverLaunchParameters,
+        if (serverLaunchPath != null) 'ServerLaunchPath': serverLaunchPath,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1205,11 +1213,13 @@ class GameLift {
         'MaxSize': maxSize,
         'MinSize': minSize,
         'RoleArn': roleArn,
-        'AutoScalingPolicy': autoScalingPolicy,
-        'BalancingStrategy': balancingStrategy?.toValue(),
-        'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
-        'Tags': tags,
-        'VpcSubnets': vpcSubnets,
+        if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
+        if (balancingStrategy != null)
+          'BalancingStrategy': balancingStrategy?.toValue(),
+        if (gameServerProtectionPolicy != null)
+          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
+        if (tags != null) 'Tags': tags,
+        if (vpcSubnets != null) 'VpcSubnets': vpcSubnets,
       },
     );
 
@@ -1434,14 +1444,14 @@ class GameLift {
       headers: headers,
       payload: {
         'MaximumPlayerSessionCount': maximumPlayerSessionCount,
-        'AliasId': aliasId,
-        'CreatorId': creatorId,
-        'FleetId': fleetId,
-        'GameProperties': gameProperties,
-        'GameSessionData': gameSessionData,
-        'GameSessionId': gameSessionId,
-        'IdempotencyToken': idempotencyToken,
-        'Name': name,
+        if (aliasId != null) 'AliasId': aliasId,
+        if (creatorId != null) 'CreatorId': creatorId,
+        if (fleetId != null) 'FleetId': fleetId,
+        if (gameProperties != null) 'GameProperties': gameProperties,
+        if (gameSessionData != null) 'GameSessionData': gameSessionData,
+        if (gameSessionId != null) 'GameSessionId': gameSessionId,
+        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -1591,10 +1601,11 @@ class GameLift {
       headers: headers,
       payload: {
         'Name': name,
-        'Destinations': destinations,
-        'PlayerLatencyPolicies': playerLatencyPolicies,
-        'Tags': tags,
-        'TimeoutInSeconds': timeoutInSeconds,
+        if (destinations != null) 'Destinations': destinations,
+        if (playerLatencyPolicies != null)
+          'PlayerLatencyPolicies': playerLatencyPolicies,
+        if (tags != null) 'Tags': tags,
+        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
       },
     );
 
@@ -1870,15 +1881,18 @@ class GameLift {
         'Name': name,
         'RequestTimeoutSeconds': requestTimeoutSeconds,
         'RuleSetName': ruleSetName,
-        'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
-        'AdditionalPlayerCount': additionalPlayerCount,
-        'BackfillMode': backfillMode?.toValue(),
-        'CustomEventData': customEventData,
-        'Description': description,
-        'GameProperties': gameProperties,
-        'GameSessionData': gameSessionData,
-        'NotificationTarget': notificationTarget,
-        'Tags': tags,
+        if (acceptanceTimeoutSeconds != null)
+          'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
+        if (additionalPlayerCount != null)
+          'AdditionalPlayerCount': additionalPlayerCount,
+        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
+        if (customEventData != null) 'CustomEventData': customEventData,
+        if (description != null) 'Description': description,
+        if (gameProperties != null) 'GameProperties': gameProperties,
+        if (gameSessionData != null) 'GameSessionData': gameSessionData,
+        if (notificationTarget != null)
+          'NotificationTarget': notificationTarget,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2013,7 +2027,7 @@ class GameLift {
       payload: {
         'Name': name,
         'RuleSetBody': ruleSetBody,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2124,7 +2138,7 @@ class GameLift {
       payload: {
         'GameSessionId': gameSessionId,
         'PlayerId': playerId,
-        'PlayerData': playerData,
+        if (playerData != null) 'PlayerData': playerData,
       },
     );
 
@@ -2226,7 +2240,7 @@ class GameLift {
       payload: {
         'GameSessionId': gameSessionId,
         'PlayerIds': playerIds,
-        'PlayerDataMap': playerDataMap,
+        if (playerDataMap != null) 'PlayerDataMap': playerDataMap,
       },
     );
 
@@ -2369,11 +2383,11 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Name': name,
-        'StorageLocation': storageLocation,
-        'Tags': tags,
-        'Version': version,
-        'ZipFile': zipFile,
+        if (name != null) 'Name': name,
+        if (storageLocation != null) 'StorageLocation': storageLocation,
+        if (tags != null) 'Tags': tags,
+        if (version != null) 'Version': version,
+        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
       },
     );
 
@@ -2924,7 +2938,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'DeleteOption': deleteOption?.toValue(),
+        if (deleteOption != null) 'DeleteOption': deleteOption?.toValue(),
       },
     );
 
@@ -3799,7 +3813,8 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EC2InstanceType': eC2InstanceType?.toValue(),
+        if (eC2InstanceType != null)
+          'EC2InstanceType': eC2InstanceType?.toValue(),
       },
     );
 
@@ -3923,9 +3938,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FleetIds': fleetIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (fleetIds != null) 'FleetIds': fleetIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4052,9 +4067,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FleetIds': fleetIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (fleetIds != null) 'FleetIds': fleetIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4185,10 +4200,10 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'EndTime': endTime,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -4415,9 +4430,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FleetIds': fleetIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (fleetIds != null) 'FleetIds': fleetIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4745,12 +4760,12 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AliasId': aliasId,
-        'FleetId': fleetId,
-        'GameSessionId': gameSessionId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'StatusFilter': statusFilter,
+        if (aliasId != null) 'AliasId': aliasId,
+        if (fleetId != null) 'FleetId': fleetId,
+        if (gameSessionId != null) 'GameSessionId': gameSessionId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (statusFilter != null) 'StatusFilter': statusFilter,
       },
     );
 
@@ -4914,9 +4929,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Names': names,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5061,12 +5076,12 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AliasId': aliasId,
-        'FleetId': fleetId,
-        'GameSessionId': gameSessionId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'StatusFilter': statusFilter,
+        if (aliasId != null) 'AliasId': aliasId,
+        if (fleetId != null) 'FleetId': fleetId,
+        if (gameSessionId != null) 'GameSessionId': gameSessionId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (statusFilter != null) 'StatusFilter': statusFilter,
       },
     );
 
@@ -5166,9 +5181,9 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'InstanceId': instanceId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5355,10 +5370,10 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Names': names,
-        'NextToken': nextToken,
-        'RuleSetName': ruleSetName,
+        if (limit != null) 'Limit': limit,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (ruleSetName != null) 'RuleSetName': ruleSetName,
       },
     );
 
@@ -5455,9 +5470,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Names': names,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5613,12 +5628,13 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GameSessionId': gameSessionId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'PlayerId': playerId,
-        'PlayerSessionId': playerSessionId,
-        'PlayerSessionStatusFilter': playerSessionStatusFilter,
+        if (gameSessionId != null) 'GameSessionId': gameSessionId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (playerId != null) 'PlayerId': playerId,
+        if (playerSessionId != null) 'PlayerSessionId': playerSessionId,
+        if (playerSessionStatusFilter != null)
+          'PlayerSessionStatusFilter': playerSessionStatusFilter,
       },
     );
 
@@ -5862,9 +5878,9 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'StatusFilter': statusFilter?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
       },
     );
 
@@ -6042,7 +6058,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FleetId': fleetId,
+        if (fleetId != null) 'FleetId': fleetId,
       },
     );
 
@@ -6327,10 +6343,11 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Name': name,
-        'NextToken': nextToken,
-        'RoutingStrategyType': routingStrategyType?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (name != null) 'Name': name,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (routingStrategyType != null)
+          'RoutingStrategyType': routingStrategyType?.toValue(),
       },
     );
 
@@ -6433,9 +6450,9 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -6542,10 +6559,10 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BuildId': buildId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'ScriptId': scriptId,
+        if (buildId != null) 'BuildId': buildId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (scriptId != null) 'ScriptId': scriptId,
       },
     );
 
@@ -6630,8 +6647,8 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6741,9 +6758,9 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'SortOrder': sortOrder?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6818,8 +6835,8 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -7207,13 +7224,16 @@ class GameLift {
         'FleetId': fleetId,
         'MetricName': metricName?.toValue(),
         'Name': name,
-        'ComparisonOperator': comparisonOperator?.toValue(),
-        'EvaluationPeriods': evaluationPeriods,
-        'PolicyType': policyType?.toValue(),
-        'ScalingAdjustment': scalingAdjustment,
-        'ScalingAdjustmentType': scalingAdjustmentType?.toValue(),
-        'TargetConfiguration': targetConfiguration,
-        'Threshold': threshold,
+        if (comparisonOperator != null)
+          'ComparisonOperator': comparisonOperator?.toValue(),
+        if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+        if (policyType != null) 'PolicyType': policyType?.toValue(),
+        if (scalingAdjustment != null) 'ScalingAdjustment': scalingAdjustment,
+        if (scalingAdjustmentType != null)
+          'ScalingAdjustmentType': scalingAdjustmentType?.toValue(),
+        if (targetConfiguration != null)
+          'TargetConfiguration': targetConfiguration,
+        if (threshold != null) 'Threshold': threshold,
       },
     );
 
@@ -7413,10 +7433,10 @@ class GameLift {
         'GameServerGroupName': gameServerGroupName,
         'GameServerId': gameServerId,
         'InstanceId': instanceId,
-        'ConnectionInfo': connectionInfo,
-        'CustomSortKey': customSortKey,
-        'GameServerData': gameServerData,
-        'Tags': tags,
+        if (connectionInfo != null) 'ConnectionInfo': connectionInfo,
+        if (customSortKey != null) 'CustomSortKey': customSortKey,
+        if (gameServerData != null) 'GameServerData': gameServerData,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -7911,12 +7931,12 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AliasId': aliasId,
-        'FilterExpression': filterExpression,
-        'FleetId': fleetId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'SortExpression': sortExpression,
+        if (aliasId != null) 'AliasId': aliasId,
+        if (filterExpression != null) 'FilterExpression': filterExpression,
+        if (fleetId != null) 'FleetId': fleetId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortExpression != null) 'SortExpression': sortExpression,
       },
     );
 
@@ -8211,11 +8231,12 @@ class GameLift {
         'GameSessionQueueName': gameSessionQueueName,
         'MaximumPlayerSessionCount': maximumPlayerSessionCount,
         'PlacementId': placementId,
-        'DesiredPlayerSessions': desiredPlayerSessions,
-        'GameProperties': gameProperties,
-        'GameSessionData': gameSessionData,
-        'GameSessionName': gameSessionName,
-        'PlayerLatencies': playerLatencies,
+        if (desiredPlayerSessions != null)
+          'DesiredPlayerSessions': desiredPlayerSessions,
+        if (gameProperties != null) 'GameProperties': gameProperties,
+        if (gameSessionData != null) 'GameSessionData': gameSessionData,
+        if (gameSessionName != null) 'GameSessionName': gameSessionName,
+        if (playerLatencies != null) 'PlayerLatencies': playerLatencies,
       },
     );
 
@@ -8382,7 +8403,7 @@ class GameLift {
         'ConfigurationName': configurationName,
         'GameSessionArn': gameSessionArn,
         'Players': players,
-        'TicketId': ticketId,
+        if (ticketId != null) 'TicketId': ticketId,
       },
     );
 
@@ -8564,7 +8585,7 @@ class GameLift {
       payload: {
         'ConfigurationName': configurationName,
         'Players': players,
-        'TicketId': ticketId,
+        if (ticketId != null) 'TicketId': ticketId,
       },
     );
 
@@ -9221,9 +9242,9 @@ class GameLift {
       headers: headers,
       payload: {
         'AliasId': aliasId,
-        'Description': description,
-        'Name': name,
-        'RoutingStrategy': routingStrategy,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (routingStrategy != null) 'RoutingStrategy': routingStrategy,
       },
     );
 
@@ -9313,8 +9334,8 @@ class GameLift {
       headers: headers,
       payload: {
         'BuildId': buildId,
-        'Name': name,
-        'Version': version,
+        if (name != null) 'Name': name,
+        if (version != null) 'Version': version,
       },
     );
 
@@ -9453,12 +9474,14 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'Description': description,
-        'MetricGroups': metricGroups,
-        'Name': name,
-        'NewGameSessionProtectionPolicy':
-            newGameSessionProtectionPolicy?.toValue(),
-        'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
+        if (description != null) 'Description': description,
+        if (metricGroups != null) 'MetricGroups': metricGroups,
+        if (name != null) 'Name': name,
+        if (newGameSessionProtectionPolicy != null)
+          'NewGameSessionProtectionPolicy':
+              newGameSessionProtectionPolicy?.toValue(),
+        if (resourceCreationLimitPolicy != null)
+          'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
       },
     );
 
@@ -9593,9 +9616,9 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'DesiredInstances': desiredInstances,
-        'MaxSize': maxSize,
-        'MinSize': minSize,
+        if (desiredInstances != null) 'DesiredInstances': desiredInstances,
+        if (maxSize != null) 'MaxSize': maxSize,
+        if (minSize != null) 'MinSize': minSize,
       },
     );
 
@@ -9694,8 +9717,10 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'InboundPermissionAuthorizations': inboundPermissionAuthorizations,
-        'InboundPermissionRevocations': inboundPermissionRevocations,
+        if (inboundPermissionAuthorizations != null)
+          'InboundPermissionAuthorizations': inboundPermissionAuthorizations,
+        if (inboundPermissionRevocations != null)
+          'InboundPermissionRevocations': inboundPermissionRevocations,
       },
     );
 
@@ -9869,10 +9894,11 @@ class GameLift {
       payload: {
         'GameServerGroupName': gameServerGroupName,
         'GameServerId': gameServerId,
-        'CustomSortKey': customSortKey,
-        'GameServerData': gameServerData,
-        'HealthCheck': healthCheck?.toValue(),
-        'UtilizationStatus': utilizationStatus?.toValue(),
+        if (customSortKey != null) 'CustomSortKey': customSortKey,
+        if (gameServerData != null) 'GameServerData': gameServerData,
+        if (healthCheck != null) 'HealthCheck': healthCheck?.toValue(),
+        if (utilizationStatus != null)
+          'UtilizationStatus': utilizationStatus?.toValue(),
       },
     );
 
@@ -10031,10 +10057,13 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'BalancingStrategy': balancingStrategy?.toValue(),
-        'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
-        'InstanceDefinitions': instanceDefinitions,
-        'RoleArn': roleArn,
+        if (balancingStrategy != null)
+          'BalancingStrategy': balancingStrategy?.toValue(),
+        if (gameServerProtectionPolicy != null)
+          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
+        if (instanceDefinitions != null)
+          'InstanceDefinitions': instanceDefinitions,
+        if (roleArn != null) 'RoleArn': roleArn,
       },
     );
 
@@ -10163,10 +10192,13 @@ class GameLift {
       headers: headers,
       payload: {
         'GameSessionId': gameSessionId,
-        'MaximumPlayerSessionCount': maximumPlayerSessionCount,
-        'Name': name,
-        'PlayerSessionCreationPolicy': playerSessionCreationPolicy?.toValue(),
-        'ProtectionPolicy': protectionPolicy?.toValue(),
+        if (maximumPlayerSessionCount != null)
+          'MaximumPlayerSessionCount': maximumPlayerSessionCount,
+        if (name != null) 'Name': name,
+        if (playerSessionCreationPolicy != null)
+          'PlayerSessionCreationPolicy': playerSessionCreationPolicy?.toValue(),
+        if (protectionPolicy != null)
+          'ProtectionPolicy': protectionPolicy?.toValue(),
       },
     );
 
@@ -10270,9 +10302,10 @@ class GameLift {
       headers: headers,
       payload: {
         'Name': name,
-        'Destinations': destinations,
-        'PlayerLatencyPolicies': playerLatencyPolicies,
-        'TimeoutInSeconds': timeoutInSeconds,
+        if (destinations != null) 'Destinations': destinations,
+        if (playerLatencyPolicies != null)
+          'PlayerLatencyPolicies': playerLatencyPolicies,
+        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
       },
     );
 
@@ -10501,18 +10534,24 @@ class GameLift {
       headers: headers,
       payload: {
         'Name': name,
-        'AcceptanceRequired': acceptanceRequired,
-        'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
-        'AdditionalPlayerCount': additionalPlayerCount,
-        'BackfillMode': backfillMode?.toValue(),
-        'CustomEventData': customEventData,
-        'Description': description,
-        'GameProperties': gameProperties,
-        'GameSessionData': gameSessionData,
-        'GameSessionQueueArns': gameSessionQueueArns,
-        'NotificationTarget': notificationTarget,
-        'RequestTimeoutSeconds': requestTimeoutSeconds,
-        'RuleSetName': ruleSetName,
+        if (acceptanceRequired != null)
+          'AcceptanceRequired': acceptanceRequired,
+        if (acceptanceTimeoutSeconds != null)
+          'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
+        if (additionalPlayerCount != null)
+          'AdditionalPlayerCount': additionalPlayerCount,
+        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
+        if (customEventData != null) 'CustomEventData': customEventData,
+        if (description != null) 'Description': description,
+        if (gameProperties != null) 'GameProperties': gameProperties,
+        if (gameSessionData != null) 'GameSessionData': gameSessionData,
+        if (gameSessionQueueArns != null)
+          'GameSessionQueueArns': gameSessionQueueArns,
+        if (notificationTarget != null)
+          'NotificationTarget': notificationTarget,
+        if (requestTimeoutSeconds != null)
+          'RequestTimeoutSeconds': requestTimeoutSeconds,
+        if (ruleSetName != null) 'RuleSetName': ruleSetName,
       },
     );
 
@@ -10744,10 +10783,10 @@ class GameLift {
       headers: headers,
       payload: {
         'ScriptId': scriptId,
-        'Name': name,
-        'StorageLocation': storageLocation,
-        'Version': version,
-        'ZipFile': zipFile,
+        if (name != null) 'Name': name,
+        if (storageLocation != null) 'StorageLocation': storageLocation,
+        if (version != null) 'Version': version,
+        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
       },
     );
 

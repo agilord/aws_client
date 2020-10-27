@@ -77,7 +77,7 @@ class MTurk {
       headers: headers,
       payload: {
         'QualificationRequestId': qualificationRequestId,
-        'IntegerValue': integerValue,
+        if (integerValue != null) 'IntegerValue': integerValue,
       },
     );
 
@@ -156,8 +156,8 @@ class MTurk {
       headers: headers,
       payload: {
         'AssignmentId': assignmentId,
-        'OverrideRejection': overrideRejection,
-        'RequesterFeedback': requesterFeedback,
+        if (overrideRejection != null) 'OverrideRejection': overrideRejection,
+        if (requesterFeedback != null) 'RequesterFeedback': requesterFeedback,
       },
     );
 
@@ -247,8 +247,8 @@ class MTurk {
       payload: {
         'QualificationTypeId': qualificationTypeId,
         'WorkerId': workerId,
-        'IntegerValue': integerValue,
-        'SendNotification': sendNotification,
+        if (integerValue != null) 'IntegerValue': integerValue,
+        if (sendNotification != null) 'SendNotification': sendNotification,
       },
     );
 
@@ -335,7 +335,8 @@ class MTurk {
       payload: {
         'HITId': hITId,
         'NumberOfAdditionalAssignments': numberOfAdditionalAssignments,
-        'UniqueRequestToken': uniqueRequestToken,
+        if (uniqueRequestToken != null)
+          'UniqueRequestToken': uniqueRequestToken,
       },
     );
 
@@ -547,17 +548,23 @@ class MTurk {
         'LifetimeInSeconds': lifetimeInSeconds,
         'Reward': reward,
         'Title': title,
-        'AssignmentReviewPolicy': assignmentReviewPolicy,
-        'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
-        'HITLayoutId': hITLayoutId,
-        'HITLayoutParameters': hITLayoutParameters,
-        'HITReviewPolicy': hITReviewPolicy,
-        'Keywords': keywords,
-        'MaxAssignments': maxAssignments,
-        'QualificationRequirements': qualificationRequirements,
-        'Question': question,
-        'RequesterAnnotation': requesterAnnotation,
-        'UniqueRequestToken': uniqueRequestToken,
+        if (assignmentReviewPolicy != null)
+          'AssignmentReviewPolicy': assignmentReviewPolicy,
+        if (autoApprovalDelayInSeconds != null)
+          'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
+        if (hITLayoutId != null) 'HITLayoutId': hITLayoutId,
+        if (hITLayoutParameters != null)
+          'HITLayoutParameters': hITLayoutParameters,
+        if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
+        if (keywords != null) 'Keywords': keywords,
+        if (maxAssignments != null) 'MaxAssignments': maxAssignments,
+        if (qualificationRequirements != null)
+          'QualificationRequirements': qualificationRequirements,
+        if (question != null) 'Question': question,
+        if (requesterAnnotation != null)
+          'RequesterAnnotation': requesterAnnotation,
+        if (uniqueRequestToken != null)
+          'UniqueRequestToken': uniqueRequestToken,
       },
     );
 
@@ -647,9 +654,11 @@ class MTurk {
         'Description': description,
         'Reward': reward,
         'Title': title,
-        'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
-        'Keywords': keywords,
-        'QualificationRequirements': qualificationRequirements,
+        if (autoApprovalDelayInSeconds != null)
+          'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
+        if (keywords != null) 'Keywords': keywords,
+        if (qualificationRequirements != null)
+          'QualificationRequirements': qualificationRequirements,
       },
     );
 
@@ -807,14 +816,18 @@ class MTurk {
       payload: {
         'HITTypeId': hITTypeId,
         'LifetimeInSeconds': lifetimeInSeconds,
-        'AssignmentReviewPolicy': assignmentReviewPolicy,
-        'HITLayoutId': hITLayoutId,
-        'HITLayoutParameters': hITLayoutParameters,
-        'HITReviewPolicy': hITReviewPolicy,
-        'MaxAssignments': maxAssignments,
-        'Question': question,
-        'RequesterAnnotation': requesterAnnotation,
-        'UniqueRequestToken': uniqueRequestToken,
+        if (assignmentReviewPolicy != null)
+          'AssignmentReviewPolicy': assignmentReviewPolicy,
+        if (hITLayoutId != null) 'HITLayoutId': hITLayoutId,
+        if (hITLayoutParameters != null)
+          'HITLayoutParameters': hITLayoutParameters,
+        if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
+        if (maxAssignments != null) 'MaxAssignments': maxAssignments,
+        if (question != null) 'Question': question,
+        if (requesterAnnotation != null)
+          'RequesterAnnotation': requesterAnnotation,
+        if (uniqueRequestToken != null)
+          'UniqueRequestToken': uniqueRequestToken,
       },
     );
 
@@ -926,13 +939,15 @@ class MTurk {
         'Description': description,
         'Name': name,
         'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
-        'AnswerKey': answerKey,
-        'AutoGranted': autoGranted,
-        'AutoGrantedValue': autoGrantedValue,
-        'Keywords': keywords,
-        'RetryDelayInSeconds': retryDelayInSeconds,
-        'Test': test,
-        'TestDurationInSeconds': testDurationInSeconds,
+        if (answerKey != null) 'AnswerKey': answerKey,
+        if (autoGranted != null) 'AutoGranted': autoGranted,
+        if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
+        if (keywords != null) 'Keywords': keywords,
+        if (retryDelayInSeconds != null)
+          'RetryDelayInSeconds': retryDelayInSeconds,
+        if (test != null) 'Test': test,
+        if (testDurationInSeconds != null)
+          'TestDurationInSeconds': testDurationInSeconds,
       },
     );
 
@@ -1160,7 +1175,7 @@ class MTurk {
       headers: headers,
       payload: {
         'WorkerId': workerId,
-        'Reason': reason,
+        if (reason != null) 'Reason': reason,
       },
     );
 
@@ -1232,7 +1247,7 @@ class MTurk {
       payload: {
         'QualificationTypeId': qualificationTypeId,
         'WorkerId': workerId,
-        'Reason': reason,
+        if (reason != null) 'Reason': reason,
       },
     );
 
@@ -1597,9 +1612,10 @@ class MTurk {
       headers: headers,
       payload: {
         'HITId': hITId,
-        'AssignmentStatuses': assignmentStatuses,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (assignmentStatuses != null)
+          'AssignmentStatuses': assignmentStatuses,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1676,10 +1692,10 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AssignmentId': assignmentId,
-        'HITId': hITId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (assignmentId != null) 'AssignmentId': assignmentId,
+        if (hITId != null) 'HITId': hITId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1722,8 +1738,8 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1791,8 +1807,8 @@ class MTurk {
       headers: headers,
       payload: {
         'QualificationTypeId': qualificationTypeId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1851,9 +1867,10 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'QualificationTypeId': qualificationTypeId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (qualificationTypeId != null)
+          'QualificationTypeId': qualificationTypeId,
       },
     );
 
@@ -1916,10 +1933,11 @@ class MTurk {
       headers: headers,
       payload: {
         'MustBeRequestable': mustBeRequestable,
-        'MaxResults': maxResults,
-        'MustBeOwnedByCaller': mustBeOwnedByCaller,
-        'NextToken': nextToken,
-        'Query': query,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (mustBeOwnedByCaller != null)
+          'MustBeOwnedByCaller': mustBeOwnedByCaller,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (query != null) 'Query': query,
       },
     );
 
@@ -2004,11 +2022,11 @@ class MTurk {
       headers: headers,
       payload: {
         'HITId': hITId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PolicyLevels': policyLevels,
-        'RetrieveActions': retrieveActions,
-        'RetrieveResults': retrieveResults,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (policyLevels != null) 'PolicyLevels': policyLevels,
+        if (retrieveActions != null) 'RetrieveActions': retrieveActions,
+        if (retrieveResults != null) 'RetrieveResults': retrieveResults,
       },
     );
 
@@ -2075,10 +2093,10 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'HITTypeId': hITTypeId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (hITTypeId != null) 'HITTypeId': hITTypeId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -2120,8 +2138,8 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2192,9 +2210,9 @@ class MTurk {
       headers: headers,
       payload: {
         'QualificationTypeId': qualificationTypeId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -2344,7 +2362,7 @@ class MTurk {
       headers: headers,
       payload: {
         'QualificationRequestId': qualificationRequestId,
-        'Reason': reason,
+        if (reason != null) 'Reason': reason,
       },
     );
 
@@ -2450,7 +2468,8 @@ class MTurk {
         'BonusAmount': bonusAmount,
         'Reason': reason,
         'WorkerId': workerId,
-        'UniqueRequestToken': uniqueRequestToken,
+        if (uniqueRequestToken != null)
+          'UniqueRequestToken': uniqueRequestToken,
       },
     );
 
@@ -2605,7 +2624,7 @@ class MTurk {
       headers: headers,
       payload: {
         'HITId': hITId,
-        'Revert': revert,
+        if (revert != null) 'Revert': revert,
       },
     );
 
@@ -2735,8 +2754,8 @@ class MTurk {
       headers: headers,
       payload: {
         'HITTypeId': hITTypeId,
-        'Active': active,
-        'Notification': notification,
+        if (active != null) 'Active': active,
+        if (notification != null) 'Notification': notification,
       },
     );
 
@@ -2866,14 +2885,17 @@ class MTurk {
       headers: headers,
       payload: {
         'QualificationTypeId': qualificationTypeId,
-        'AnswerKey': answerKey,
-        'AutoGranted': autoGranted,
-        'AutoGrantedValue': autoGrantedValue,
-        'Description': description,
-        'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
-        'RetryDelayInSeconds': retryDelayInSeconds,
-        'Test': test,
-        'TestDurationInSeconds': testDurationInSeconds,
+        if (answerKey != null) 'AnswerKey': answerKey,
+        if (autoGranted != null) 'AutoGranted': autoGranted,
+        if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
+        if (description != null) 'Description': description,
+        if (qualificationTypeStatus != null)
+          'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
+        if (retryDelayInSeconds != null)
+          'RetryDelayInSeconds': retryDelayInSeconds,
+        if (test != null) 'Test': test,
+        if (testDurationInSeconds != null)
+          'TestDurationInSeconds': testDurationInSeconds,
       },
     );
 

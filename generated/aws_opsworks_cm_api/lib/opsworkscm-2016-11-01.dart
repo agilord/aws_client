@@ -253,8 +253,8 @@ class OpsWorksCM {
       headers: headers,
       payload: {
         'ServerName': serverName,
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -752,23 +752,28 @@ class OpsWorksCM {
         'InstanceType': instanceType,
         'ServerName': serverName,
         'ServiceRoleArn': serviceRoleArn,
-        'AssociatePublicIpAddress': associatePublicIpAddress,
-        'BackupId': backupId,
-        'BackupRetentionCount': backupRetentionCount,
-        'CustomCertificate': customCertificate,
-        'CustomDomain': customDomain,
-        'CustomPrivateKey': customPrivateKey,
-        'DisableAutomatedBackup': disableAutomatedBackup,
-        'Engine': engine,
-        'EngineAttributes': engineAttributes,
-        'EngineModel': engineModel,
-        'EngineVersion': engineVersion,
-        'KeyPair': keyPair,
-        'PreferredBackupWindow': preferredBackupWindow,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        'SecurityGroupIds': securityGroupIds,
-        'SubnetIds': subnetIds,
-        'Tags': tags,
+        if (associatePublicIpAddress != null)
+          'AssociatePublicIpAddress': associatePublicIpAddress,
+        if (backupId != null) 'BackupId': backupId,
+        if (backupRetentionCount != null)
+          'BackupRetentionCount': backupRetentionCount,
+        if (customCertificate != null) 'CustomCertificate': customCertificate,
+        if (customDomain != null) 'CustomDomain': customDomain,
+        if (customPrivateKey != null) 'CustomPrivateKey': customPrivateKey,
+        if (disableAutomatedBackup != null)
+          'DisableAutomatedBackup': disableAutomatedBackup,
+        if (engine != null) 'Engine': engine,
+        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
+        if (engineModel != null) 'EngineModel': engineModel,
+        if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (keyPair != null) 'KeyPair': keyPair,
+        if (preferredBackupWindow != null)
+          'PreferredBackupWindow': preferredBackupWindow,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -984,10 +989,10 @@ class OpsWorksCM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BackupId': backupId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServerName': serverName,
+        if (backupId != null) 'BackupId': backupId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serverName != null) 'ServerName': serverName,
       },
     );
 
@@ -1075,8 +1080,8 @@ class OpsWorksCM {
       headers: headers,
       payload: {
         'ServerName': serverName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1220,9 +1225,9 @@ class OpsWorksCM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServerName': serverName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serverName != null) 'ServerName': serverName,
       },
     );
 
@@ -1311,7 +1316,7 @@ class OpsWorksCM {
       payload: {
         'NodeName': nodeName,
         'ServerName': serverName,
-        'EngineAttributes': engineAttributes,
+        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
       },
     );
 
@@ -1417,7 +1422,7 @@ class OpsWorksCM {
       payload: {
         'ExportAttributeName': exportAttributeName,
         'ServerName': serverName,
-        'InputAttributes': inputAttributes,
+        if (inputAttributes != null) 'InputAttributes': inputAttributes,
       },
     );
 
@@ -1494,8 +1499,8 @@ class OpsWorksCM {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1613,8 +1618,8 @@ class OpsWorksCM {
       payload: {
         'BackupId': backupId,
         'ServerName': serverName,
-        'InstanceType': instanceType,
-        'KeyPair': keyPair,
+        if (instanceType != null) 'InstanceType': instanceType,
+        if (keyPair != null) 'KeyPair': keyPair,
       },
     );
 
@@ -1687,7 +1692,7 @@ class OpsWorksCM {
       headers: headers,
       payload: {
         'ServerName': serverName,
-        'EngineAttributes': engineAttributes,
+        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
       },
     );
 
@@ -1879,10 +1884,14 @@ class OpsWorksCM {
       headers: headers,
       payload: {
         'ServerName': serverName,
-        'BackupRetentionCount': backupRetentionCount,
-        'DisableAutomatedBackup': disableAutomatedBackup,
-        'PreferredBackupWindow': preferredBackupWindow,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (backupRetentionCount != null)
+          'BackupRetentionCount': backupRetentionCount,
+        if (disableAutomatedBackup != null)
+          'DisableAutomatedBackup': disableAutomatedBackup,
+        if (preferredBackupWindow != null)
+          'PreferredBackupWindow': preferredBackupWindow,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
       },
     );
 
@@ -1973,7 +1982,7 @@ class OpsWorksCM {
       payload: {
         'AttributeName': attributeName,
         'ServerName': serverName,
-        'AttributeValue': attributeValue,
+        if (attributeValue != null) 'AttributeValue': attributeValue,
       },
     );
 

@@ -107,9 +107,9 @@ class EFS {
     final $payload = <String, dynamic>{
       'ClientToken': clientToken,
       'FileSystemId': fileSystemId,
-      'PosixUser': posixUser,
-      'RootDirectory': rootDirectory,
-      'Tags': tags,
+      if (posixUser != null) 'PosixUser': posixUser,
+      if (rootDirectory != null) 'RootDirectory': rootDirectory,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -293,12 +293,14 @@ class EFS {
     );
     final $payload = <String, dynamic>{
       'CreationToken': creationToken,
-      'Encrypted': encrypted,
-      'KmsKeyId': kmsKeyId,
-      'PerformanceMode': performanceMode?.toValue(),
-      'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      'Tags': tags,
-      'ThroughputMode': throughputMode?.toValue(),
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (performanceMode != null)
+        'PerformanceMode': performanceMode?.toValue(),
+      if (provisionedThroughputInMibps != null)
+        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+      if (tags != null) 'Tags': tags,
+      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -483,8 +485,8 @@ class EFS {
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'SubnetId': subnetId,
-      'IpAddress': ipAddress,
-      'SecurityGroups': securityGroups,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1191,7 +1193,7 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
     final $payload = <String, dynamic>{
-      'SecurityGroups': securityGroups,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
     await _protocol.send(
       payload: $payload,
@@ -1250,7 +1252,8 @@ class EFS {
     ArgumentError.checkNotNull(policy, 'policy');
     final $payload = <String, dynamic>{
       'Policy': policy,
-      'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
+      if (bypassPolicyLockoutSafetyCheck != null)
+        'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1390,7 +1393,7 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
+      if (tagKeys != null) 'TagKeys': tagKeys,
     };
     await _protocol.send(
       payload: $payload,
@@ -1441,8 +1444,9 @@ class EFS {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      'ThroughputMode': throughputMode?.toValue(),
+      if (provisionedThroughputInMibps != null)
+        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

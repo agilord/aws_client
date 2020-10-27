@@ -147,13 +147,15 @@ class Kafka {
       'ClusterName': clusterName,
       'KafkaVersion': kafkaVersion,
       'NumberOfBrokerNodes': numberOfBrokerNodes,
-      'ClientAuthentication': clientAuthentication,
-      'ConfigurationInfo': configurationInfo,
-      'EncryptionInfo': encryptionInfo,
-      'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      'LoggingInfo': loggingInfo,
-      'OpenMonitoring': openMonitoring,
-      'Tags': tags,
+      if (clientAuthentication != null)
+        'ClientAuthentication': clientAuthentication,
+      if (configurationInfo != null) 'ConfigurationInfo': configurationInfo,
+      if (encryptionInfo != null) 'EncryptionInfo': encryptionInfo,
+      if (enhancedMonitoring != null)
+        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
+      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -211,8 +213,8 @@ class Kafka {
     final $payload = <String, dynamic>{
       'KafkaVersions': kafkaVersions,
       'Name': name,
-      'ServerProperties': serverProperties,
-      'Description': description,
+      'ServerProperties': base64Encode(serverProperties),
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1055,9 +1057,10 @@ class Kafka {
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
-      'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      'LoggingInfo': loggingInfo,
-      'OpenMonitoring': openMonitoring,
+      if (enhancedMonitoring != null)
+        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
+      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -130,10 +130,10 @@ class SSOOIDC {
       'clientSecret': clientSecret,
       'deviceCode': deviceCode,
       'grantType': grantType,
-      'code': code,
-      'redirectUri': redirectUri,
-      'refreshToken': refreshToken,
-      'scope': scope,
+      if (code != null) 'code': code,
+      if (redirectUri != null) 'redirectUri': redirectUri,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+      if (scope != null) 'scope': scope,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -173,7 +173,7 @@ class SSOOIDC {
     final $payload = <String, dynamic>{
       'clientName': clientName,
       'clientType': clientType,
-      'scopes': scopes,
+      if (scopes != null) 'scopes': scopes,
     };
     final response = await _protocol.send(
       payload: $payload,

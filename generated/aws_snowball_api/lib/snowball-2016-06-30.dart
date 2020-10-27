@@ -343,12 +343,13 @@ class Snowball {
         'Resources': resources,
         'RoleARN': roleARN,
         'ShippingOption': shippingOption?.toValue(),
-        'Description': description,
-        'ForwardingAddressId': forwardingAddressId,
-        'KmsKeyARN': kmsKeyARN,
-        'Notification': notification,
-        'SnowballType': snowballType?.toValue(),
-        'TaxDocuments': taxDocuments,
+        if (description != null) 'Description': description,
+        if (forwardingAddressId != null)
+          'ForwardingAddressId': forwardingAddressId,
+        if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+        if (notification != null) 'Notification': notification,
+        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
+        if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
 
@@ -543,19 +544,21 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AddressId': addressId,
-        'ClusterId': clusterId,
-        'Description': description,
-        'ForwardingAddressId': forwardingAddressId,
-        'JobType': jobType?.toValue(),
-        'KmsKeyARN': kmsKeyARN,
-        'Notification': notification,
-        'Resources': resources,
-        'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue(),
-        'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
-        'SnowballType': snowballType?.toValue(),
-        'TaxDocuments': taxDocuments,
+        if (addressId != null) 'AddressId': addressId,
+        if (clusterId != null) 'ClusterId': clusterId,
+        if (description != null) 'Description': description,
+        if (forwardingAddressId != null)
+          'ForwardingAddressId': forwardingAddressId,
+        if (jobType != null) 'JobType': jobType?.toValue(),
+        if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+        if (notification != null) 'Notification': notification,
+        if (resources != null) 'Resources': resources,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
+        if (snowballCapacityPreference != null)
+          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
+        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
+        if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
 
@@ -646,8 +649,8 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -984,8 +987,8 @@ class Snowball {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1033,8 +1036,8 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1087,8 +1090,8 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1139,8 +1142,8 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1264,13 +1267,14 @@ class Snowball {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'AddressId': addressId,
-        'Description': description,
-        'ForwardingAddressId': forwardingAddressId,
-        'Notification': notification,
-        'Resources': resources,
-        'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue(),
+        if (addressId != null) 'AddressId': addressId,
+        if (description != null) 'Description': description,
+        if (forwardingAddressId != null)
+          'ForwardingAddressId': forwardingAddressId,
+        if (notification != null) 'Notification': notification,
+        if (resources != null) 'Resources': resources,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
       },
     );
 
@@ -1400,14 +1404,16 @@ class Snowball {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'AddressId': addressId,
-        'Description': description,
-        'ForwardingAddressId': forwardingAddressId,
-        'Notification': notification,
-        'Resources': resources,
-        'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue(),
-        'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
+        if (addressId != null) 'AddressId': addressId,
+        if (description != null) 'Description': description,
+        if (forwardingAddressId != null)
+          'ForwardingAddressId': forwardingAddressId,
+        if (notification != null) 'Notification': notification,
+        if (resources != null) 'Resources': resources,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
+        if (snowballCapacityPreference != null)
+          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
       },
     );
 

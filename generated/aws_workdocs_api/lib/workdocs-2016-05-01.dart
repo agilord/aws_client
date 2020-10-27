@@ -251,7 +251,8 @@ class WorkDocs {
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
       'Principals': principals,
-      'NotificationOptions': notificationOptions,
+      if (notificationOptions != null)
+        'NotificationOptions': notificationOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -381,10 +382,11 @@ class WorkDocs {
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
       'Text': text,
-      'NotifyCollaborators': notifyCollaborators,
-      'ParentId': parentId,
-      'ThreadId': threadId,
-      'Visibility': visibility?.toValue(),
+      if (notifyCollaborators != null)
+        'NotifyCollaborators': notifyCollaborators,
+      if (parentId != null) 'ParentId': parentId,
+      if (threadId != null) 'ThreadId': threadId,
+      if (visibility != null) 'Visibility': visibility?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -540,7 +542,7 @@ class WorkDocs {
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -815,10 +817,10 @@ class WorkDocs {
       'Password': password,
       'Surname': surname,
       'Username': username,
-      'EmailAddress': emailAddress,
-      'OrganizationId': organizationId,
-      'StorageRule': storageRule,
-      'TimeZoneId': timeZoneId,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (storageRule != null) 'StorageRule': storageRule,
+      if (timeZoneId != null) 'TimeZoneId': timeZoneId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2989,12 +2991,15 @@ class WorkDocs {
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
-      'ContentCreatedTimestamp': contentCreatedTimestamp,
-      'ContentModifiedTimestamp': contentModifiedTimestamp,
-      'ContentType': contentType,
-      'DocumentSizeInBytes': documentSizeInBytes,
-      'Id': id,
-      'Name': name,
+      if (contentCreatedTimestamp != null)
+        'ContentCreatedTimestamp': contentCreatedTimestamp,
+      if (contentModifiedTimestamp != null)
+        'ContentModifiedTimestamp': contentModifiedTimestamp,
+      if (contentType != null) 'ContentType': contentType,
+      if (documentSizeInBytes != null)
+        'DocumentSizeInBytes': documentSizeInBytes,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3215,9 +3220,9 @@ class WorkDocs {
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
-      'Name': name,
-      'ParentFolderId': parentFolderId,
-      'ResourceState': resourceState?.toValue(),
+      if (name != null) 'Name': name,
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState?.toValue(),
     };
     await _protocol.send(
       payload: $payload,
@@ -3299,7 +3304,7 @@ class WorkDocs {
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
-      'VersionStatus': versionStatus?.toValue(),
+      if (versionStatus != null) 'VersionStatus': versionStatus?.toValue(),
     };
     await _protocol.send(
       payload: $payload,
@@ -3393,9 +3398,9 @@ class WorkDocs {
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
-      'Name': name,
-      'ParentFolderId': parentFolderId,
-      'ResourceState': resourceState?.toValue(),
+      if (name != null) 'Name': name,
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState?.toValue(),
     };
     await _protocol.send(
       payload: $payload,
@@ -3498,13 +3503,14 @@ class WorkDocs {
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     final $payload = <String, dynamic>{
-      'GivenName': givenName,
-      'GrantPoweruserPrivileges': grantPoweruserPrivileges?.toValue(),
-      'Locale': locale?.toValue(),
-      'StorageRule': storageRule,
-      'Surname': surname,
-      'TimeZoneId': timeZoneId,
-      'Type': type?.toValue(),
+      if (givenName != null) 'GivenName': givenName,
+      if (grantPoweruserPrivileges != null)
+        'GrantPoweruserPrivileges': grantPoweruserPrivileges?.toValue(),
+      if (locale != null) 'Locale': locale?.toValue(),
+      if (storageRule != null) 'StorageRule': storageRule,
+      if (surname != null) 'Surname': surname,
+      if (timeZoneId != null) 'TimeZoneId': timeZoneId,
+      if (type != null) 'Type': type?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

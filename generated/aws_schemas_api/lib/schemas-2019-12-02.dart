@@ -77,8 +77,8 @@ class Schemas {
     );
     final $payload = <String, dynamic>{
       'SourceArn': sourceArn,
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -116,8 +116,8 @@ class Schemas {
       256,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -169,8 +169,8 @@ class Schemas {
     final $payload = <String, dynamic>{
       'Content': content,
       'Type': type?.toValue(),
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -838,7 +838,7 @@ class Schemas {
       256,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -873,7 +873,7 @@ class Schemas {
       256,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -933,10 +933,10 @@ class Schemas {
       256,
     );
     final $payload = <String, dynamic>{
-      'ClientTokenId': clientTokenId,
-      'Content': content,
-      'Description': description,
-      'Type': type?.toValue(),
+      if (clientTokenId != null) 'ClientTokenId': clientTokenId,
+      if (content != null) 'Content': content,
+      if (description != null) 'Description': description,
+      if (type != null) 'Type': type?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

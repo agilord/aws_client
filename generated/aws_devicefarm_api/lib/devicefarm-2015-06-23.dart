@@ -137,8 +137,8 @@ class DeviceFarm {
         'name': name,
         'projectArn': projectArn,
         'rules': rules,
-        'description': description,
-        'maxDevices': maxDevices,
+        if (description != null) 'description': description,
+        if (maxDevices != null) 'maxDevices': maxDevices,
       },
     );
 
@@ -206,10 +206,11 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'name': name,
-        'description': description,
-        'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
-        'packageCleanup': packageCleanup,
-        'rebootAfterUse': rebootAfterUse,
+        if (description != null) 'description': description,
+        if (excludeAppPackagesFromCleanup != null)
+          'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
+        if (packageCleanup != null) 'packageCleanup': packageCleanup,
+        if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
       },
     );
 
@@ -333,16 +334,19 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'description': description,
-        'downlinkBandwidthBits': downlinkBandwidthBits,
-        'downlinkDelayMs': downlinkDelayMs,
-        'downlinkJitterMs': downlinkJitterMs,
-        'downlinkLossPercent': downlinkLossPercent,
-        'type': type?.toValue(),
-        'uplinkBandwidthBits': uplinkBandwidthBits,
-        'uplinkDelayMs': uplinkDelayMs,
-        'uplinkJitterMs': uplinkJitterMs,
-        'uplinkLossPercent': uplinkLossPercent,
+        if (description != null) 'description': description,
+        if (downlinkBandwidthBits != null)
+          'downlinkBandwidthBits': downlinkBandwidthBits,
+        if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
+        if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
+        if (downlinkLossPercent != null)
+          'downlinkLossPercent': downlinkLossPercent,
+        if (type != null) 'type': type?.toValue(),
+        if (uplinkBandwidthBits != null)
+          'uplinkBandwidthBits': uplinkBandwidthBits,
+        if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
+        if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
+        if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
       },
     );
 
@@ -388,7 +392,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'name': name,
-        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+        if (defaultJobTimeoutMinutes != null)
+          'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
       },
     );
 
@@ -580,16 +585,20 @@ class DeviceFarm {
       payload: {
         'deviceArn': deviceArn,
         'projectArn': projectArn,
-        'clientId': clientId,
-        'configuration': configuration,
-        'instanceArn': instanceArn,
-        'interactionMode': interactionMode?.toValue(),
-        'name': name,
-        'remoteDebugEnabled': remoteDebugEnabled,
-        'remoteRecordAppArn': remoteRecordAppArn,
-        'remoteRecordEnabled': remoteRecordEnabled,
-        'skipAppResign': skipAppResign,
-        'sshPublicKey': sshPublicKey,
+        if (clientId != null) 'clientId': clientId,
+        if (configuration != null) 'configuration': configuration,
+        if (instanceArn != null) 'instanceArn': instanceArn,
+        if (interactionMode != null)
+          'interactionMode': interactionMode?.toValue(),
+        if (name != null) 'name': name,
+        if (remoteDebugEnabled != null)
+          'remoteDebugEnabled': remoteDebugEnabled,
+        if (remoteRecordAppArn != null)
+          'remoteRecordAppArn': remoteRecordAppArn,
+        if (remoteRecordEnabled != null)
+          'remoteRecordEnabled': remoteRecordEnabled,
+        if (skipAppResign != null) 'skipAppResign': skipAppResign,
+        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
       },
     );
 
@@ -647,7 +656,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'name': name,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -887,7 +896,7 @@ class DeviceFarm {
         'name': name,
         'projectArn': projectArn,
         'type': type?.toValue(),
-        'contentType': contentType,
+        if (contentType != null) 'contentType': contentType,
       },
     );
 
@@ -966,7 +975,8 @@ class DeviceFarm {
         'serviceDnsName': serviceDnsName,
         'vpceConfigurationName': vpceConfigurationName,
         'vpceServiceName': vpceServiceName,
-        'vpceConfigurationDescription': vpceConfigurationDescription,
+        if (vpceConfigurationDescription != null)
+          'vpceConfigurationDescription': vpceConfigurationDescription,
       },
     );
 
@@ -1670,10 +1680,10 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'devicePoolArn': devicePoolArn,
-        'appArn': appArn,
-        'configuration': configuration,
-        'test': test,
-        'testType': testType?.toValue(),
+        if (appArn != null) 'appArn': appArn,
+        if (configuration != null) 'configuration': configuration,
+        if (test != null) 'test': test,
+        if (testType != null) 'testType': testType?.toValue(),
       },
     );
 
@@ -1849,7 +1859,7 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2199,9 +2209,9 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'projectArn': projectArn,
-        'sessionArn': sessionArn,
-        'sessionId': sessionId,
+        if (projectArn != null) 'projectArn': projectArn,
+        if (sessionArn != null) 'sessionArn': sessionArn,
+        if (sessionId != null) 'sessionId': sessionId,
       },
     );
 
@@ -2433,7 +2443,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         'type': type?.toValue(),
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2476,8 +2486,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2549,8 +2559,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
-        'type': type?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (type != null) 'type': type?.toValue(),
       },
     );
 
@@ -2698,9 +2708,9 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'arn': arn,
-        'filters': filters,
-        'nextToken': nextToken,
+        if (arn != null) 'arn': arn,
+        if (filters != null) 'filters': filters,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2742,8 +2752,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2799,7 +2809,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2861,8 +2871,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
-        'type': type?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (type != null) 'type': type?.toValue(),
       },
     );
 
@@ -2905,7 +2915,7 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2948,7 +2958,7 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2991,7 +3001,7 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3045,8 +3055,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'arn': arn,
-        'nextToken': nextToken,
+        if (arn != null) 'arn': arn,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3103,7 +3113,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3160,7 +3170,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3216,7 +3226,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3272,7 +3282,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3365,8 +3375,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResult': maxResult,
-        'nextToken': nextToken,
+        if (maxResult != null) 'maxResult': maxResult,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3430,8 +3440,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'sessionArn': sessionArn,
-        'maxResult': maxResult,
-        'nextToken': nextToken,
+        if (maxResult != null) 'maxResult': maxResult,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3499,9 +3509,9 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'sessionArn': sessionArn,
-        'maxResult': maxResult,
-        'nextToken': nextToken,
-        'type': type?.toValue(),
+        if (maxResult != null) 'maxResult': maxResult,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (type != null) 'type': type?.toValue(),
       },
     );
 
@@ -3585,13 +3595,14 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'projectArn': projectArn,
-        'creationTimeAfter': creationTimeAfter,
-        'creationTimeBefore': creationTimeBefore,
-        'endTimeAfter': endTimeAfter,
-        'endTimeBefore': endTimeBefore,
-        'maxResult': maxResult,
-        'nextToken': nextToken,
-        'status': status?.toValue(),
+        if (creationTimeAfter != null) 'creationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'creationTimeBefore': creationTimeBefore,
+        if (endTimeAfter != null) 'endTimeAfter': endTimeAfter,
+        if (endTimeBefore != null) 'endTimeBefore': endTimeBefore,
+        if (maxResult != null) 'maxResult': maxResult,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -3647,7 +3658,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3709,7 +3720,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3871,8 +3882,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'nextToken': nextToken,
-        'type': type?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (type != null) 'type': type?.toValue(),
       },
     );
 
@@ -3913,8 +3924,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3970,9 +3981,10 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'offeringId': offeringId,
-        'offeringPromotionId': offeringPromotionId,
-        'quantity': quantity,
+        if (offeringId != null) 'offeringId': offeringId,
+        if (offeringPromotionId != null)
+          'offeringPromotionId': offeringPromotionId,
+        if (quantity != null) 'quantity': quantity,
       },
     );
 
@@ -4017,8 +4029,8 @@ class DeviceFarm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'offeringId': offeringId,
-        'quantity': quantity,
+        if (offeringId != null) 'offeringId': offeringId,
+        if (quantity != null) 'quantity': quantity,
       },
     );
 
@@ -4128,12 +4140,14 @@ class DeviceFarm {
       payload: {
         'projectArn': projectArn,
         'test': test,
-        'appArn': appArn,
-        'configuration': configuration,
-        'devicePoolArn': devicePoolArn,
-        'deviceSelectionConfiguration': deviceSelectionConfiguration,
-        'executionConfiguration': executionConfiguration,
-        'name': name,
+        if (appArn != null) 'appArn': appArn,
+        if (configuration != null) 'configuration': configuration,
+        if (devicePoolArn != null) 'devicePoolArn': devicePoolArn,
+        if (deviceSelectionConfiguration != null)
+          'deviceSelectionConfiguration': deviceSelectionConfiguration,
+        if (executionConfiguration != null)
+          'executionConfiguration': executionConfiguration,
+        if (name != null) 'name': name,
       },
     );
 
@@ -4456,8 +4470,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'labels': labels,
-        'profileArn': profileArn,
+        if (labels != null) 'labels': labels,
+        if (profileArn != null) 'profileArn': profileArn,
       },
     );
 
@@ -4556,11 +4570,11 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'clearMaxDevices': clearMaxDevices,
-        'description': description,
-        'maxDevices': maxDevices,
-        'name': name,
-        'rules': rules,
+        if (clearMaxDevices != null) 'clearMaxDevices': clearMaxDevices,
+        if (description != null) 'description': description,
+        if (maxDevices != null) 'maxDevices': maxDevices,
+        if (name != null) 'name': name,
+        if (rules != null) 'rules': rules,
       },
     );
 
@@ -4643,11 +4657,12 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'description': description,
-        'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
-        'name': name,
-        'packageCleanup': packageCleanup,
-        'rebootAfterUse': rebootAfterUse,
+        if (description != null) 'description': description,
+        if (excludeAppPackagesFromCleanup != null)
+          'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
+        if (name != null) 'name': name,
+        if (packageCleanup != null) 'packageCleanup': packageCleanup,
+        if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
       },
     );
 
@@ -4770,17 +4785,20 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'description': description,
-        'downlinkBandwidthBits': downlinkBandwidthBits,
-        'downlinkDelayMs': downlinkDelayMs,
-        'downlinkJitterMs': downlinkJitterMs,
-        'downlinkLossPercent': downlinkLossPercent,
-        'name': name,
-        'type': type?.toValue(),
-        'uplinkBandwidthBits': uplinkBandwidthBits,
-        'uplinkDelayMs': uplinkDelayMs,
-        'uplinkJitterMs': uplinkJitterMs,
-        'uplinkLossPercent': uplinkLossPercent,
+        if (description != null) 'description': description,
+        if (downlinkBandwidthBits != null)
+          'downlinkBandwidthBits': downlinkBandwidthBits,
+        if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
+        if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
+        if (downlinkLossPercent != null)
+          'downlinkLossPercent': downlinkLossPercent,
+        if (name != null) 'name': name,
+        if (type != null) 'type': type?.toValue(),
+        if (uplinkBandwidthBits != null)
+          'uplinkBandwidthBits': uplinkBandwidthBits,
+        if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
+        if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
+        if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
       },
     );
 
@@ -4841,8 +4859,9 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
-        'name': name,
+        if (defaultJobTimeoutMinutes != null)
+          'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+        if (name != null) 'name': name,
       },
     );
 
@@ -4916,8 +4935,8 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'projectArn': projectArn,
-        'description': description,
-        'name': name,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
       },
     );
 
@@ -4989,9 +5008,9 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'contentType': contentType,
-        'editContent': editContent,
-        'name': name,
+        if (contentType != null) 'contentType': contentType,
+        if (editContent != null) 'editContent': editContent,
+        if (name != null) 'name': name,
       },
     );
 
@@ -5082,10 +5101,12 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'serviceDnsName': serviceDnsName,
-        'vpceConfigurationDescription': vpceConfigurationDescription,
-        'vpceConfigurationName': vpceConfigurationName,
-        'vpceServiceName': vpceServiceName,
+        if (serviceDnsName != null) 'serviceDnsName': serviceDnsName,
+        if (vpceConfigurationDescription != null)
+          'vpceConfigurationDescription': vpceConfigurationDescription,
+        if (vpceConfigurationName != null)
+          'vpceConfigurationName': vpceConfigurationName,
+        if (vpceServiceName != null) 'vpceServiceName': vpceServiceName,
       },
     );
 

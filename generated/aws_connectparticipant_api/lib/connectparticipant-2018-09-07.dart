@@ -140,7 +140,7 @@ class ConnectParticipant {
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
-      'ClientToken': clientToken,
+      if (clientToken != null) 'ClientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -221,12 +221,12 @@ class ConnectParticipant {
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
-      'ContactId': contactId,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'ScanDirection': scanDirection?.toValue(),
-      'SortOrder': sortOrder?.toValue(),
-      'StartPosition': startPosition,
+      if (contactId != null) 'ContactId': contactId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (scanDirection != null) 'ScanDirection': scanDirection?.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+      if (startPosition != null) 'StartPosition': startPosition,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -306,8 +306,8 @@ class ConnectParticipant {
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
       'ContentType': contentType,
-      'ClientToken': clientToken,
-      'Content': content,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (content != null) 'Content': content,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -380,7 +380,7 @@ class ConnectParticipant {
     final $payload = <String, dynamic>{
       'Content': content,
       'ContentType': contentType,
-      'ClientToken': clientToken,
+      if (clientToken != null) 'ClientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,

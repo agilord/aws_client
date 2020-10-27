@@ -82,7 +82,7 @@ class CodeGuruProfiler {
       r'''^[\w-.:/]+$''',
     );
     final $payload = <String, dynamic>{
-      'fleetInstanceId': fleetInstanceId,
+      if (fleetInstanceId != null) 'fleetInstanceId': fleetInstanceId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -153,7 +153,8 @@ class CodeGuruProfiler {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'profilingGroupName': profilingGroupName,
-      'agentOrchestrationConfig': agentOrchestrationConfig,
+      if (agentOrchestrationConfig != null)
+        'agentOrchestrationConfig': agentOrchestrationConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -665,7 +666,7 @@ class CodeGuruProfiler {
     );
     final $payload = <String, dynamic>{
       'principals': principals,
-      'revisionId': revisionId,
+      if (revisionId != null) 'revisionId': revisionId,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -128,12 +128,14 @@ class LicenseManager {
       payload: {
         'LicenseCountingType': licenseCountingType?.toValue(),
         'Name': name,
-        'Description': description,
-        'LicenseCount': licenseCount,
-        'LicenseCountHardLimit': licenseCountHardLimit,
-        'LicenseRules': licenseRules,
-        'ProductInformationList': productInformationList,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (licenseCount != null) 'LicenseCount': licenseCount,
+        if (licenseCountHardLimit != null)
+          'LicenseCountHardLimit': licenseCountHardLimit,
+        if (licenseRules != null) 'LicenseRules': licenseRules,
+        if (productInformationList != null)
+          'ProductInformationList': productInformationList,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -272,8 +274,8 @@ class LicenseManager {
       headers: headers,
       payload: {
         'LicenseConfigurationArn': licenseConfigurationArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -318,8 +320,8 @@ class LicenseManager {
       headers: headers,
       payload: {
         'LicenseConfigurationArn': licenseConfigurationArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -383,10 +385,11 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'LicenseConfigurationArns': licenseConfigurationArns,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (licenseConfigurationArns != null)
+          'LicenseConfigurationArns': licenseConfigurationArns,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -429,8 +432,8 @@ class LicenseManager {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -500,9 +503,9 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -603,9 +606,9 @@ class LicenseManager {
       headers: headers,
       payload: {
         'LicenseConfigurationArn': licenseConfigurationArn,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -750,13 +753,16 @@ class LicenseManager {
       headers: headers,
       payload: {
         'LicenseConfigurationArn': licenseConfigurationArn,
-        'Description': description,
-        'LicenseConfigurationStatus': licenseConfigurationStatus?.toValue(),
-        'LicenseCount': licenseCount,
-        'LicenseCountHardLimit': licenseCountHardLimit,
-        'LicenseRules': licenseRules,
-        'Name': name,
-        'ProductInformationList': productInformationList,
+        if (description != null) 'Description': description,
+        if (licenseConfigurationStatus != null)
+          'LicenseConfigurationStatus': licenseConfigurationStatus?.toValue(),
+        if (licenseCount != null) 'LicenseCount': licenseCount,
+        if (licenseCountHardLimit != null)
+          'LicenseCountHardLimit': licenseCountHardLimit,
+        if (licenseRules != null) 'LicenseRules': licenseRules,
+        if (name != null) 'Name': name,
+        if (productInformationList != null)
+          'ProductInformationList': productInformationList,
       },
     );
 
@@ -805,8 +811,10 @@ class LicenseManager {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'AddLicenseSpecifications': addLicenseSpecifications,
-        'RemoveLicenseSpecifications': removeLicenseSpecifications,
+        if (addLicenseSpecifications != null)
+          'AddLicenseSpecifications': addLicenseSpecifications,
+        if (removeLicenseSpecifications != null)
+          'RemoveLicenseSpecifications': removeLicenseSpecifications,
       },
     );
 
@@ -852,10 +860,12 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EnableCrossAccountsDiscovery': enableCrossAccountsDiscovery,
-        'OrganizationConfiguration': organizationConfiguration,
-        'S3BucketArn': s3BucketArn,
-        'SnsTopicArn': snsTopicArn,
+        if (enableCrossAccountsDiscovery != null)
+          'EnableCrossAccountsDiscovery': enableCrossAccountsDiscovery,
+        if (organizationConfiguration != null)
+          'OrganizationConfiguration': organizationConfiguration,
+        if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
+        if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
       },
     );
 

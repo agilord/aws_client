@@ -109,8 +109,9 @@ class DynamoDBStreams {
       headers: headers,
       payload: {
         'StreamArn': streamArn,
-        'ExclusiveStartShardId': exclusiveStartShardId,
-        'Limit': limit,
+        if (exclusiveStartShardId != null)
+          'ExclusiveStartShardId': exclusiveStartShardId,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -175,7 +176,7 @@ class DynamoDBStreams {
       headers: headers,
       payload: {
         'ShardIterator': shardIterator,
-        'Limit': limit,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -273,7 +274,7 @@ class DynamoDBStreams {
         'ShardId': shardId,
         'ShardIteratorType': shardIteratorType?.toValue(),
         'StreamArn': streamArn,
-        'SequenceNumber': sequenceNumber,
+        if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
       },
     );
 
@@ -341,9 +342,10 @@ class DynamoDBStreams {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExclusiveStartStreamArn': exclusiveStartStreamArn,
-        'Limit': limit,
-        'TableName': tableName,
+        if (exclusiveStartStreamArn != null)
+          'ExclusiveStartStreamArn': exclusiveStartStreamArn,
+        if (limit != null) 'Limit': limit,
+        if (tableName != null) 'TableName': tableName,
       },
     );
 

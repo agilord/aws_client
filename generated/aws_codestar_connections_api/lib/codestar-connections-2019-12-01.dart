@@ -262,9 +262,10 @@ class CodeStarconnections {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ProviderTypeFilter': providerTypeFilter?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (providerTypeFilter != null)
+          'ProviderTypeFilter': providerTypeFilter?.toValue(),
       },
     );
 

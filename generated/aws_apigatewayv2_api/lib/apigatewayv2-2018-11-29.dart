@@ -126,16 +126,19 @@ class ApiGatewayV2 {
     final $payload = <String, dynamic>{
       'Name': name,
       'ProtocolType': protocolType?.toValue(),
-      'ApiKeySelectionExpression': apiKeySelectionExpression,
-      'CorsConfiguration': corsConfiguration,
-      'CredentialsArn': credentialsArn,
-      'Description': description,
-      'DisableSchemaValidation': disableSchemaValidation,
-      'RouteKey': routeKey,
-      'RouteSelectionExpression': routeSelectionExpression,
-      'Tags': tags,
-      'Target': target,
-      'Version': version,
+      if (apiKeySelectionExpression != null)
+        'ApiKeySelectionExpression': apiKeySelectionExpression,
+      if (corsConfiguration != null) 'CorsConfiguration': corsConfiguration,
+      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
+      if (description != null) 'Description': description,
+      if (disableSchemaValidation != null)
+        'DisableSchemaValidation': disableSchemaValidation,
+      if (routeKey != null) 'RouteKey': routeKey,
+      if (routeSelectionExpression != null)
+        'RouteSelectionExpression': routeSelectionExpression,
+      if (tags != null) 'Tags': tags,
+      if (target != null) 'Target': target,
+      if (version != null) 'Version': version,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -176,7 +179,7 @@ class ApiGatewayV2 {
     final $payload = <String, dynamic>{
       'ApiId': apiId,
       'Stage': stage,
-      'ApiMappingKey': apiMappingKey,
+      if (apiMappingKey != null) 'ApiMappingKey': apiMappingKey,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -282,11 +285,14 @@ class ApiGatewayV2 {
       'AuthorizerType': authorizerType?.toValue(),
       'IdentitySource': identitySource,
       'Name': name,
-      'AuthorizerCredentialsArn': authorizerCredentialsArn,
-      'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
-      'AuthorizerUri': authorizerUri,
-      'IdentityValidationExpression': identityValidationExpression,
-      'JwtConfiguration': jwtConfiguration,
+      if (authorizerCredentialsArn != null)
+        'AuthorizerCredentialsArn': authorizerCredentialsArn,
+      if (authorizerResultTtlInSeconds != null)
+        'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
+      if (authorizerUri != null) 'AuthorizerUri': authorizerUri,
+      if (identityValidationExpression != null)
+        'IdentityValidationExpression': identityValidationExpression,
+      if (jwtConfiguration != null) 'JwtConfiguration': jwtConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -320,8 +326,8 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'StageName': stageName,
+      if (description != null) 'Description': description,
+      if (stageName != null) 'StageName': stageName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -357,8 +363,9 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
-      'DomainNameConfigurations': domainNameConfigurations,
-      'Tags': tags,
+      if (domainNameConfigurations != null)
+        'DomainNameConfigurations': domainNameConfigurations,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -541,20 +548,24 @@ class ApiGatewayV2 {
     );
     final $payload = <String, dynamic>{
       'IntegrationType': integrationType?.toValue(),
-      'ConnectionId': connectionId,
-      'ConnectionType': connectionType?.toValue(),
-      'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      'CredentialsArn': credentialsArn,
-      'Description': description,
-      'IntegrationMethod': integrationMethod,
-      'IntegrationUri': integrationUri,
-      'PassthroughBehavior': passthroughBehavior?.toValue(),
-      'PayloadFormatVersion': payloadFormatVersion,
-      'RequestParameters': requestParameters,
-      'RequestTemplates': requestTemplates,
-      'TemplateSelectionExpression': templateSelectionExpression,
-      'TimeoutInMillis': timeoutInMillis,
-      'TlsConfig': tlsConfig,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (connectionType != null) 'ConnectionType': connectionType?.toValue(),
+      if (contentHandlingStrategy != null)
+        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
+      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
+      if (description != null) 'Description': description,
+      if (integrationMethod != null) 'IntegrationMethod': integrationMethod,
+      if (integrationUri != null) 'IntegrationUri': integrationUri,
+      if (passthroughBehavior != null)
+        'PassthroughBehavior': passthroughBehavior?.toValue(),
+      if (payloadFormatVersion != null)
+        'PayloadFormatVersion': payloadFormatVersion,
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (requestTemplates != null) 'RequestTemplates': requestTemplates,
+      if (templateSelectionExpression != null)
+        'TemplateSelectionExpression': templateSelectionExpression,
+      if (timeoutInMillis != null) 'TimeoutInMillis': timeoutInMillis,
+      if (tlsConfig != null) 'TlsConfig': tlsConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -634,10 +645,12 @@ class ApiGatewayV2 {
         integrationResponseKey, 'integrationResponseKey');
     final $payload = <String, dynamic>{
       'IntegrationResponseKey': integrationResponseKey,
-      'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      'ResponseParameters': responseParameters,
-      'ResponseTemplates': responseTemplates,
-      'TemplateSelectionExpression': templateSelectionExpression,
+      if (contentHandlingStrategy != null)
+        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
+      if (responseParameters != null) 'ResponseParameters': responseParameters,
+      if (responseTemplates != null) 'ResponseTemplates': responseTemplates,
+      if (templateSelectionExpression != null)
+        'TemplateSelectionExpression': templateSelectionExpression,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -684,8 +697,8 @@ class ApiGatewayV2 {
     final $payload = <String, dynamic>{
       'Name': name,
       'Schema': schema,
-      'ContentType': contentType,
-      'Description': description,
+      if (contentType != null) 'ContentType': contentType,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -764,16 +777,20 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(routeKey, 'routeKey');
     final $payload = <String, dynamic>{
       'RouteKey': routeKey,
-      'ApiKeyRequired': apiKeyRequired,
-      'AuthorizationScopes': authorizationScopes,
-      'AuthorizationType': authorizationType?.toValue(),
-      'AuthorizerId': authorizerId,
-      'ModelSelectionExpression': modelSelectionExpression,
-      'OperationName': operationName,
-      'RequestModels': requestModels,
-      'RequestParameters': requestParameters,
-      'RouteResponseSelectionExpression': routeResponseSelectionExpression,
-      'Target': target,
+      if (apiKeyRequired != null) 'ApiKeyRequired': apiKeyRequired,
+      if (authorizationScopes != null)
+        'AuthorizationScopes': authorizationScopes,
+      if (authorizationType != null)
+        'AuthorizationType': authorizationType?.toValue(),
+      if (authorizerId != null) 'AuthorizerId': authorizerId,
+      if (modelSelectionExpression != null)
+        'ModelSelectionExpression': modelSelectionExpression,
+      if (operationName != null) 'OperationName': operationName,
+      if (requestModels != null) 'RequestModels': requestModels,
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (routeResponseSelectionExpression != null)
+        'RouteResponseSelectionExpression': routeResponseSelectionExpression,
+      if (target != null) 'Target': target,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -822,9 +839,10 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(routeResponseKey, 'routeResponseKey');
     final $payload = <String, dynamic>{
       'RouteResponseKey': routeResponseKey,
-      'ModelSelectionExpression': modelSelectionExpression,
-      'ResponseModels': responseModels,
-      'ResponseParameters': responseParameters,
+      if (modelSelectionExpression != null)
+        'ModelSelectionExpression': modelSelectionExpression,
+      if (responseModels != null) 'ResponseModels': responseModels,
+      if (responseParameters != null) 'ResponseParameters': responseParameters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -897,15 +915,17 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
       'StageName': stageName,
-      'AccessLogSettings': accessLogSettings,
-      'AutoDeploy': autoDeploy,
-      'ClientCertificateId': clientCertificateId,
-      'DefaultRouteSettings': defaultRouteSettings,
-      'DeploymentId': deploymentId,
-      'Description': description,
-      'RouteSettings': routeSettings,
-      'StageVariables': stageVariables,
-      'Tags': tags,
+      if (accessLogSettings != null) 'AccessLogSettings': accessLogSettings,
+      if (autoDeploy != null) 'AutoDeploy': autoDeploy,
+      if (clientCertificateId != null)
+        'ClientCertificateId': clientCertificateId,
+      if (defaultRouteSettings != null)
+        'DefaultRouteSettings': defaultRouteSettings,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (description != null) 'Description': description,
+      if (routeSettings != null) 'RouteSettings': routeSettings,
+      if (stageVariables != null) 'StageVariables': stageVariables,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -943,8 +963,8 @@ class ApiGatewayV2 {
     final $payload = <String, dynamic>{
       'Name': name,
       'SubnetIds': subnetIds,
-      'SecurityGroupIds': securityGroupIds,
-      'Tags': tags,
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2325,7 +2345,7 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2444,16 +2464,19 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
-      'ApiKeySelectionExpression': apiKeySelectionExpression,
-      'CorsConfiguration': corsConfiguration,
-      'CredentialsArn': credentialsArn,
-      'Description': description,
-      'DisableSchemaValidation': disableSchemaValidation,
-      'Name': name,
-      'RouteKey': routeKey,
-      'RouteSelectionExpression': routeSelectionExpression,
-      'Target': target,
-      'Version': version,
+      if (apiKeySelectionExpression != null)
+        'ApiKeySelectionExpression': apiKeySelectionExpression,
+      if (corsConfiguration != null) 'CorsConfiguration': corsConfiguration,
+      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
+      if (description != null) 'Description': description,
+      if (disableSchemaValidation != null)
+        'DisableSchemaValidation': disableSchemaValidation,
+      if (name != null) 'Name': name,
+      if (routeKey != null) 'RouteKey': routeKey,
+      if (routeSelectionExpression != null)
+        'RouteSelectionExpression': routeSelectionExpression,
+      if (target != null) 'Target': target,
+      if (version != null) 'Version': version,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2497,8 +2520,8 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'ApiId': apiId,
-      'ApiMappingKey': apiMappingKey,
-      'Stage': stage,
+      if (apiMappingKey != null) 'ApiMappingKey': apiMappingKey,
+      if (stage != null) 'Stage': stage,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2602,14 +2625,17 @@ class ApiGatewayV2 {
       3600,
     );
     final $payload = <String, dynamic>{
-      'AuthorizerCredentialsArn': authorizerCredentialsArn,
-      'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
-      'AuthorizerType': authorizerType?.toValue(),
-      'AuthorizerUri': authorizerUri,
-      'IdentitySource': identitySource,
-      'IdentityValidationExpression': identityValidationExpression,
-      'JwtConfiguration': jwtConfiguration,
-      'Name': name,
+      if (authorizerCredentialsArn != null)
+        'AuthorizerCredentialsArn': authorizerCredentialsArn,
+      if (authorizerResultTtlInSeconds != null)
+        'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
+      if (authorizerType != null) 'AuthorizerType': authorizerType?.toValue(),
+      if (authorizerUri != null) 'AuthorizerUri': authorizerUri,
+      if (identitySource != null) 'IdentitySource': identitySource,
+      if (identityValidationExpression != null)
+        'IdentityValidationExpression': identityValidationExpression,
+      if (jwtConfiguration != null) 'JwtConfiguration': jwtConfiguration,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2644,7 +2670,7 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2674,7 +2700,8 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
-      'DomainNameConfigurations': domainNameConfigurations,
+      if (domainNameConfigurations != null)
+        'DomainNameConfigurations': domainNameConfigurations,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2861,21 +2888,26 @@ class ApiGatewayV2 {
       30000,
     );
     final $payload = <String, dynamic>{
-      'ConnectionId': connectionId,
-      'ConnectionType': connectionType?.toValue(),
-      'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      'CredentialsArn': credentialsArn,
-      'Description': description,
-      'IntegrationMethod': integrationMethod,
-      'IntegrationType': integrationType?.toValue(),
-      'IntegrationUri': integrationUri,
-      'PassthroughBehavior': passthroughBehavior?.toValue(),
-      'PayloadFormatVersion': payloadFormatVersion,
-      'RequestParameters': requestParameters,
-      'RequestTemplates': requestTemplates,
-      'TemplateSelectionExpression': templateSelectionExpression,
-      'TimeoutInMillis': timeoutInMillis,
-      'TlsConfig': tlsConfig,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (connectionType != null) 'ConnectionType': connectionType?.toValue(),
+      if (contentHandlingStrategy != null)
+        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
+      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
+      if (description != null) 'Description': description,
+      if (integrationMethod != null) 'IntegrationMethod': integrationMethod,
+      if (integrationType != null)
+        'IntegrationType': integrationType?.toValue(),
+      if (integrationUri != null) 'IntegrationUri': integrationUri,
+      if (passthroughBehavior != null)
+        'PassthroughBehavior': passthroughBehavior?.toValue(),
+      if (payloadFormatVersion != null)
+        'PayloadFormatVersion': payloadFormatVersion,
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (requestTemplates != null) 'RequestTemplates': requestTemplates,
+      if (templateSelectionExpression != null)
+        'TemplateSelectionExpression': templateSelectionExpression,
+      if (timeoutInMillis != null) 'TimeoutInMillis': timeoutInMillis,
+      if (tlsConfig != null) 'TlsConfig': tlsConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2961,11 +2993,14 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(integrationId, 'integrationId');
     ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
     final $payload = <String, dynamic>{
-      'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      'IntegrationResponseKey': integrationResponseKey,
-      'ResponseParameters': responseParameters,
-      'ResponseTemplates': responseTemplates,
-      'TemplateSelectionExpression': templateSelectionExpression,
+      if (contentHandlingStrategy != null)
+        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
+      if (integrationResponseKey != null)
+        'IntegrationResponseKey': integrationResponseKey,
+      if (responseParameters != null) 'ResponseParameters': responseParameters,
+      if (responseTemplates != null) 'ResponseTemplates': responseTemplates,
+      if (templateSelectionExpression != null)
+        'TemplateSelectionExpression': templateSelectionExpression,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3013,10 +3048,10 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
     final $payload = <String, dynamic>{
-      'ContentType': contentType,
-      'Description': description,
-      'Name': name,
-      'Schema': schema,
+      if (contentType != null) 'ContentType': contentType,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (schema != null) 'Schema': schema,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3099,17 +3134,21 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
     final $payload = <String, dynamic>{
-      'ApiKeyRequired': apiKeyRequired,
-      'AuthorizationScopes': authorizationScopes,
-      'AuthorizationType': authorizationType?.toValue(),
-      'AuthorizerId': authorizerId,
-      'ModelSelectionExpression': modelSelectionExpression,
-      'OperationName': operationName,
-      'RequestModels': requestModels,
-      'RequestParameters': requestParameters,
-      'RouteKey': routeKey,
-      'RouteResponseSelectionExpression': routeResponseSelectionExpression,
-      'Target': target,
+      if (apiKeyRequired != null) 'ApiKeyRequired': apiKeyRequired,
+      if (authorizationScopes != null)
+        'AuthorizationScopes': authorizationScopes,
+      if (authorizationType != null)
+        'AuthorizationType': authorizationType?.toValue(),
+      if (authorizerId != null) 'AuthorizerId': authorizerId,
+      if (modelSelectionExpression != null)
+        'ModelSelectionExpression': modelSelectionExpression,
+      if (operationName != null) 'OperationName': operationName,
+      if (requestModels != null) 'RequestModels': requestModels,
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (routeKey != null) 'RouteKey': routeKey,
+      if (routeResponseSelectionExpression != null)
+        'RouteResponseSelectionExpression': routeResponseSelectionExpression,
+      if (target != null) 'Target': target,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3162,10 +3201,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(routeId, 'routeId');
     ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
     final $payload = <String, dynamic>{
-      'ModelSelectionExpression': modelSelectionExpression,
-      'ResponseModels': responseModels,
-      'ResponseParameters': responseParameters,
-      'RouteResponseKey': routeResponseKey,
+      if (modelSelectionExpression != null)
+        'ModelSelectionExpression': modelSelectionExpression,
+      if (responseModels != null) 'ResponseModels': responseModels,
+      if (responseParameters != null) 'ResponseParameters': responseParameters,
+      if (routeResponseKey != null) 'RouteResponseKey': routeResponseKey,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3233,14 +3273,16 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
-      'AccessLogSettings': accessLogSettings,
-      'AutoDeploy': autoDeploy,
-      'ClientCertificateId': clientCertificateId,
-      'DefaultRouteSettings': defaultRouteSettings,
-      'DeploymentId': deploymentId,
-      'Description': description,
-      'RouteSettings': routeSettings,
-      'StageVariables': stageVariables,
+      if (accessLogSettings != null) 'AccessLogSettings': accessLogSettings,
+      if (autoDeploy != null) 'AutoDeploy': autoDeploy,
+      if (clientCertificateId != null)
+        'ClientCertificateId': clientCertificateId,
+      if (defaultRouteSettings != null)
+        'DefaultRouteSettings': defaultRouteSettings,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (description != null) 'Description': description,
+      if (routeSettings != null) 'RouteSettings': routeSettings,
+      if (stageVariables != null) 'StageVariables': stageVariables,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3269,7 +3311,7 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

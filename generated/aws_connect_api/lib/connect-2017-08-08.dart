@@ -145,11 +145,11 @@ class Connect {
       'RoutingProfileId': routingProfileId,
       'SecurityProfileIds': securityProfileIds,
       'Username': username,
-      'DirectoryUserId': directoryUserId,
-      'HierarchyGroupId': hierarchyGroupId,
-      'IdentityInfo': identityInfo,
-      'Password': password,
-      'Tags': tags,
+      if (directoryUserId != null) 'DirectoryUserId': directoryUserId,
+      if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
+      if (identityInfo != null) 'IdentityInfo': identityInfo,
+      if (password != null) 'Password': password,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -444,9 +444,9 @@ class Connect {
     final $payload = <String, dynamic>{
       'CurrentMetrics': currentMetrics,
       'Filters': filters,
-      'Groupings': groupings,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (groupings != null) 'Groupings': groupings,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -687,9 +687,9 @@ class Connect {
       'Filters': filters,
       'HistoricalMetrics': historicalMetrics,
       'StartTime': startTime,
-      'Groupings': groupings,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (groupings != null) 'Groupings': groupings,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1239,9 +1239,9 @@ class Connect {
       'ContactFlowId': contactFlowId,
       'InstanceId': instanceId,
       'ParticipantDetails': participantDetails,
-      'Attributes': attributes,
-      'ClientToken': clientToken,
-      'InitialMessage': initialMessage,
+      if (attributes != null) 'Attributes': attributes,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (initialMessage != null) 'InitialMessage': initialMessage,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1336,10 +1336,10 @@ class Connect {
       'ContactFlowId': contactFlowId,
       'DestinationPhoneNumber': destinationPhoneNumber,
       'InstanceId': instanceId,
-      'Attributes': attributes,
-      'ClientToken': clientToken,
-      'QueueId': queueId,
-      'SourcePhoneNumber': sourcePhoneNumber,
+      if (attributes != null) 'Attributes': attributes,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (queueId != null) 'QueueId': queueId,
+      if (sourcePhoneNumber != null) 'SourcePhoneNumber': sourcePhoneNumber,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1570,7 +1570,7 @@ class Connect {
     );
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
-      'HierarchyGroupId': hierarchyGroupId,
+      if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
     };
     await _protocol.send(
       payload: $payload,

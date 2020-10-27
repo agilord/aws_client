@@ -106,7 +106,7 @@ class DLM {
       'ExecutionRoleArn': executionRoleArn,
       'PolicyDetails': policyDetails,
       'State': state?.toValue(),
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -430,10 +430,10 @@ class DLM {
       r'''arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*''',
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'ExecutionRoleArn': executionRoleArn,
-      'PolicyDetails': policyDetails,
-      'State': state?.toValue(),
+      if (description != null) 'Description': description,
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
+      if (policyDetails != null) 'PolicyDetails': policyDetails,
+      if (state != null) 'State': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

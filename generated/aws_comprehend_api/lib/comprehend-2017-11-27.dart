@@ -465,12 +465,13 @@ class Comprehend {
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
-        'ClientRequestToken': clientRequestToken,
-        'Mode': mode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        'Tags': tags,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (mode != null) 'Mode': mode?.toValue(),
+        if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+        if (tags != null) 'Tags': tags,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -581,8 +582,9 @@ class Comprehend {
         'DesiredInferenceUnits': desiredInferenceUnits,
         'EndpointName': endpointName,
         'ModelArn': modelArn,
-        'ClientRequestToken': clientRequestToken,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -725,10 +727,11 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'RecognizerName': recognizerName,
-        'ClientRequestToken': clientRequestToken,
-        'Tags': tags,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (tags != null) 'Tags': tags,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -1587,9 +1590,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1641,9 +1644,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1697,9 +1700,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1751,9 +1754,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1805,9 +1808,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1866,9 +1869,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1920,9 +1923,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1974,9 +1977,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2072,9 +2075,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2218,10 +2221,11 @@ class Comprehend {
         'DocumentClassifierArn': documentClassifierArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -2345,10 +2349,11 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -2505,11 +2510,13 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'EntityRecognizerArn': entityRecognizerArn,
-        'JobName': jobName,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (entityRecognizerArn != null)
+          'EntityRecognizerArn': entityRecognizerArn,
+        if (jobName != null) 'JobName': jobName,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -2640,10 +2647,11 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -2774,10 +2782,11 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -2914,11 +2923,12 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'NumberOfTopics': numberOfTopics,
-        'VolumeKmsKeyId': volumeKmsKeyId,
-        'VpcConfig': vpcConfig,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (numberOfTopics != null) 'NumberOfTopics': numberOfTopics,
+        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 

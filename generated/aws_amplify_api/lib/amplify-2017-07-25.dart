@@ -172,22 +172,28 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'name': name,
-      'accessToken': accessToken,
-      'autoBranchCreationConfig': autoBranchCreationConfig,
-      'autoBranchCreationPatterns': autoBranchCreationPatterns,
-      'basicAuthCredentials': basicAuthCredentials,
-      'buildSpec': buildSpec,
-      'customRules': customRules,
-      'description': description,
-      'enableAutoBranchCreation': enableAutoBranchCreation,
-      'enableBasicAuth': enableBasicAuth,
-      'enableBranchAutoBuild': enableBranchAutoBuild,
-      'environmentVariables': environmentVariables,
-      'iamServiceRoleArn': iamServiceRoleArn,
-      'oauthToken': oauthToken,
-      'platform': platform?.toValue(),
-      'repository': repository,
-      'tags': tags,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (autoBranchCreationConfig != null)
+        'autoBranchCreationConfig': autoBranchCreationConfig,
+      if (autoBranchCreationPatterns != null)
+        'autoBranchCreationPatterns': autoBranchCreationPatterns,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (customRules != null) 'customRules': customRules,
+      if (description != null) 'description': description,
+      if (enableAutoBranchCreation != null)
+        'enableAutoBranchCreation': enableAutoBranchCreation,
+      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
+      if (enableBranchAutoBuild != null)
+        'enableBranchAutoBuild': enableBranchAutoBuild,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
+      if (oauthToken != null) 'oauthToken': oauthToken,
+      if (platform != null) 'platform': platform?.toValue(),
+      if (repository != null) 'repository': repository,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -253,8 +259,9 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'environmentName': environmentName,
-      'deploymentArtifacts': deploymentArtifacts,
-      'stackName': stackName,
+      if (deploymentArtifacts != null)
+        'deploymentArtifacts': deploymentArtifacts,
+      if (stackName != null) 'stackName': stackName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -404,21 +411,26 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'branchName': branchName,
-      'backendEnvironmentArn': backendEnvironmentArn,
-      'basicAuthCredentials': basicAuthCredentials,
-      'buildSpec': buildSpec,
-      'description': description,
-      'displayName': displayName,
-      'enableAutoBuild': enableAutoBuild,
-      'enableBasicAuth': enableBasicAuth,
-      'enableNotification': enableNotification,
-      'enablePullRequestPreview': enablePullRequestPreview,
-      'environmentVariables': environmentVariables,
-      'framework': framework,
-      'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      'stage': stage?.toValue(),
-      'tags': tags,
-      'ttl': ttl,
+      if (backendEnvironmentArn != null)
+        'backendEnvironmentArn': backendEnvironmentArn,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
+      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
+      if (enableNotification != null) 'enableNotification': enableNotification,
+      if (enablePullRequestPreview != null)
+        'enablePullRequestPreview': enablePullRequestPreview,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (framework != null) 'framework': framework,
+      if (pullRequestEnvironmentName != null)
+        'pullRequestEnvironmentName': pullRequestEnvironmentName,
+      if (stage != null) 'stage': stage?.toValue(),
+      if (tags != null) 'tags': tags,
+      if (ttl != null) 'ttl': ttl,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -470,7 +482,7 @@ class Amplify {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'fileMap': fileMap,
+      if (fileMap != null) 'fileMap': fileMap,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -529,7 +541,8 @@ class Amplify {
     final $payload = <String, dynamic>{
       'domainName': domainName,
       'subDomainSettings': subDomainSettings,
-      'enableAutoSubDomain': enableAutoSubDomain,
+      if (enableAutoSubDomain != null)
+        'enableAutoSubDomain': enableAutoSubDomain,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -586,7 +599,7 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'branchName': branchName,
-      'description': description,
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -890,8 +903,8 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'domainName': domainName,
-      'endTime': endTime,
-      'startTime': startTime,
+      if (endTime != null) 'endTime': endTime,
+      if (startTime != null) 'startTime': startTime,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1683,8 +1696,8 @@ class Amplify {
       1000,
     );
     final $payload = <String, dynamic>{
-      'jobId': jobId,
-      'sourceUrl': sourceUrl,
+      if (jobId != null) 'jobId': jobId,
+      if (sourceUrl != null) 'sourceUrl': sourceUrl,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1783,11 +1796,11 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'jobType': jobType?.toValue(),
-      'commitId': commitId,
-      'commitMessage': commitMessage,
-      'commitTime': commitTime,
-      'jobId': jobId,
-      'jobReason': jobReason,
+      if (commitId != null) 'commitId': commitId,
+      if (commitMessage != null) 'commitMessage': commitMessage,
+      if (commitTime != null) 'commitTime': commitTime,
+      if (jobId != null) 'jobId': jobId,
+      if (jobReason != null) 'jobReason': jobReason,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2063,22 +2076,28 @@ class Amplify {
       1000,
     );
     final $payload = <String, dynamic>{
-      'accessToken': accessToken,
-      'autoBranchCreationConfig': autoBranchCreationConfig,
-      'autoBranchCreationPatterns': autoBranchCreationPatterns,
-      'basicAuthCredentials': basicAuthCredentials,
-      'buildSpec': buildSpec,
-      'customRules': customRules,
-      'description': description,
-      'enableAutoBranchCreation': enableAutoBranchCreation,
-      'enableBasicAuth': enableBasicAuth,
-      'enableBranchAutoBuild': enableBranchAutoBuild,
-      'environmentVariables': environmentVariables,
-      'iamServiceRoleArn': iamServiceRoleArn,
-      'name': name,
-      'oauthToken': oauthToken,
-      'platform': platform?.toValue(),
-      'repository': repository,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (autoBranchCreationConfig != null)
+        'autoBranchCreationConfig': autoBranchCreationConfig,
+      if (autoBranchCreationPatterns != null)
+        'autoBranchCreationPatterns': autoBranchCreationPatterns,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (customRules != null) 'customRules': customRules,
+      if (description != null) 'description': description,
+      if (enableAutoBranchCreation != null)
+        'enableAutoBranchCreation': enableAutoBranchCreation,
+      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
+      if (enableBranchAutoBuild != null)
+        'enableBranchAutoBuild': enableBranchAutoBuild,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
+      if (name != null) 'name': name,
+      if (oauthToken != null) 'oauthToken': oauthToken,
+      if (platform != null) 'platform': platform?.toValue(),
+      if (repository != null) 'repository': repository,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2221,20 +2240,25 @@ class Amplify {
       20,
     );
     final $payload = <String, dynamic>{
-      'backendEnvironmentArn': backendEnvironmentArn,
-      'basicAuthCredentials': basicAuthCredentials,
-      'buildSpec': buildSpec,
-      'description': description,
-      'displayName': displayName,
-      'enableAutoBuild': enableAutoBuild,
-      'enableBasicAuth': enableBasicAuth,
-      'enableNotification': enableNotification,
-      'enablePullRequestPreview': enablePullRequestPreview,
-      'environmentVariables': environmentVariables,
-      'framework': framework,
-      'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      'stage': stage?.toValue(),
-      'ttl': ttl,
+      if (backendEnvironmentArn != null)
+        'backendEnvironmentArn': backendEnvironmentArn,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
+      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
+      if (enableNotification != null) 'enableNotification': enableNotification,
+      if (enablePullRequestPreview != null)
+        'enablePullRequestPreview': enablePullRequestPreview,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (framework != null) 'framework': framework,
+      if (pullRequestEnvironmentName != null)
+        'pullRequestEnvironmentName': pullRequestEnvironmentName,
+      if (stage != null) 'stage': stage?.toValue(),
+      if (ttl != null) 'ttl': ttl,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2291,7 +2315,8 @@ class Amplify {
     ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
     final $payload = <String, dynamic>{
       'subDomainSettings': subDomainSettings,
-      'enableAutoSubDomain': enableAutoSubDomain,
+      if (enableAutoSubDomain != null)
+        'enableAutoSubDomain': enableAutoSubDomain,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2345,8 +2370,8 @@ class Amplify {
       1000,
     );
     final $payload = <String, dynamic>{
-      'branchName': branchName,
-      'description': description,
+      if (branchName != null) 'branchName': branchName,
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,

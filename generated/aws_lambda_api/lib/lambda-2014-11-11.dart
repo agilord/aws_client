@@ -129,8 +129,8 @@ class Lambda {
       'EventSource': eventSource,
       'FunctionName': functionName,
       'Role': role,
-      'BatchSize': batchSize,
-      'Parameters': parameters,
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (parameters != null) 'Parameters': parameters,
     };
     final response = await _protocol.send(
       payload: $payload,

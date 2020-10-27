@@ -883,8 +883,8 @@ class CognitoSync {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'CognitoStreams': cognitoStreams,
-      'PushSync': pushSync,
+      if (cognitoStreams != null) 'CognitoStreams': cognitoStreams,
+      if (pushSync != null) 'PushSync': pushSync,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1201,8 +1201,8 @@ class CognitoSync {
     clientContext?.let((v) => headers['x-amz-Client-Context'] = v.toString());
     final $payload = <String, dynamic>{
       'SyncSessionToken': syncSessionToken,
-      'DeviceId': deviceId,
-      'RecordPatches': recordPatches,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (recordPatches != null) 'RecordPatches': recordPatches,
     };
     final response = await _protocol.send(
       payload: $payload,

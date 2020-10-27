@@ -54,7 +54,8 @@ class PinpointSMSVoice {
     String configurationSetName,
   }) async {
     final $payload = <String, dynamic>{
-      'ConfigurationSetName': configurationSetName,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -86,8 +87,9 @@ class PinpointSMSVoice {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'EventDestination': eventDestination,
-      'EventDestinationName': eventDestinationName,
+      if (eventDestination != null) 'EventDestination': eventDestination,
+      if (eventDestinationName != null)
+        'EventDestinationName': eventDestinationName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -240,11 +242,14 @@ class PinpointSMSVoice {
     String originationPhoneNumber,
   }) async {
     final $payload = <String, dynamic>{
-      'CallerId': callerId,
-      'ConfigurationSetName': configurationSetName,
-      'Content': content,
-      'DestinationPhoneNumber': destinationPhoneNumber,
-      'OriginationPhoneNumber': originationPhoneNumber,
+      if (callerId != null) 'CallerId': callerId,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (content != null) 'Content': content,
+      if (destinationPhoneNumber != null)
+        'DestinationPhoneNumber': destinationPhoneNumber,
+      if (originationPhoneNumber != null)
+        'OriginationPhoneNumber': originationPhoneNumber,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -278,7 +283,7 @@ class PinpointSMSVoice {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final $payload = <String, dynamic>{
-      'EventDestination': eventDestination,
+      if (eventDestination != null) 'EventDestination': eventDestination,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -191,11 +191,11 @@ class EKS {
       'name': name,
       'resourcesVpcConfig': resourcesVpcConfig,
       'roleArn': roleArn,
-      'clientRequestToken': clientRequestToken,
-      'encryptionConfig': encryptionConfig,
-      'logging': logging,
-      'tags': tags,
-      'version': version,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
+      if (logging != null) 'logging': logging,
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -303,10 +303,10 @@ class EKS {
     final $payload = <String, dynamic>{
       'fargateProfileName': fargateProfileName,
       'podExecutionRoleArn': podExecutionRoleArn,
-      'clientRequestToken': clientRequestToken,
-      'selectors': selectors,
-      'subnets': subnets,
-      'tags': tags,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (selectors != null) 'selectors': selectors,
+      if (subnets != null) 'subnets': subnets,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -438,16 +438,16 @@ class EKS {
       'nodeRole': nodeRole,
       'nodegroupName': nodegroupName,
       'subnets': subnets,
-      'amiType': amiType?.toValue(),
-      'clientRequestToken': clientRequestToken,
-      'diskSize': diskSize,
-      'instanceTypes': instanceTypes,
-      'labels': labels,
-      'releaseVersion': releaseVersion,
-      'remoteAccess': remoteAccess,
-      'scalingConfig': scalingConfig,
-      'tags': tags,
-      'version': version,
+      if (amiType != null) 'amiType': amiType?.toValue(),
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (diskSize != null) 'diskSize': diskSize,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (labels != null) 'labels': labels,
+      if (releaseVersion != null) 'releaseVersion': releaseVersion,
+      if (remoteAccess != null) 'remoteAccess': remoteAccess,
+      if (scalingConfig != null) 'scalingConfig': scalingConfig,
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1089,9 +1089,9 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'logging': logging,
-      'resourcesVpcConfig': resourcesVpcConfig,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (logging != null) 'logging': logging,
+      if (resourcesVpcConfig != null) 'resourcesVpcConfig': resourcesVpcConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1143,7 +1143,7 @@ class EKS {
     ArgumentError.checkNotNull(version, 'version');
     final $payload = <String, dynamic>{
       'version': version,
-      'clientRequestToken': clientRequestToken,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1194,9 +1194,9 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'labels': labels,
-      'scalingConfig': scalingConfig,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (labels != null) 'labels': labels,
+      if (scalingConfig != null) 'scalingConfig': scalingConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1275,10 +1275,10 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'force': force,
-      'releaseVersion': releaseVersion,
-      'version': version,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (force != null) 'force': force,
+      if (releaseVersion != null) 'releaseVersion': releaseVersion,
+      if (version != null) 'version': version,
     };
     final response = await _protocol.send(
       payload: $payload,

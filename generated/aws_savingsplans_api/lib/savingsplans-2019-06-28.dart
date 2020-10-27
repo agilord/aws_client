@@ -82,9 +82,10 @@ class SavingsPlans {
     final $payload = <String, dynamic>{
       'commitment': commitment,
       'savingsPlanOfferingId': savingsPlanOfferingId,
-      'clientToken': clientToken,
-      'tags': tags,
-      'upfrontPaymentAmount': upfrontPaymentAmount,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
+      if (upfrontPaymentAmount != null)
+        'upfrontPaymentAmount': upfrontPaymentAmount,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -138,9 +139,9 @@ class SavingsPlans {
     );
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -200,12 +201,12 @@ class SavingsPlans {
       r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'savingsPlanArns': savingsPlanArns,
-      'savingsPlanIds': savingsPlanIds,
-      'states': states,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (savingsPlanArns != null) 'savingsPlanArns': savingsPlanArns,
+      if (savingsPlanIds != null) 'savingsPlanIds': savingsPlanIds,
+      if (states != null) 'states': states,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -282,16 +283,18 @@ class SavingsPlans {
       r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'operations': operations,
-      'products': products,
-      'savingsPlanOfferingIds': savingsPlanOfferingIds,
-      'savingsPlanPaymentOptions': savingsPlanPaymentOptions,
-      'savingsPlanTypes': savingsPlanTypes,
-      'serviceCodes': serviceCodes,
-      'usageTypes': usageTypes,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (operations != null) 'operations': operations,
+      if (products != null) 'products': products,
+      if (savingsPlanOfferingIds != null)
+        'savingsPlanOfferingIds': savingsPlanOfferingIds,
+      if (savingsPlanPaymentOptions != null)
+        'savingsPlanPaymentOptions': savingsPlanPaymentOptions,
+      if (savingsPlanTypes != null) 'savingsPlanTypes': savingsPlanTypes,
+      if (serviceCodes != null) 'serviceCodes': serviceCodes,
+      if (usageTypes != null) 'usageTypes': usageTypes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -379,19 +382,19 @@ class SavingsPlans {
       r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
-      'currencies': currencies,
-      'descriptions': descriptions,
-      'durations': durations,
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'offeringIds': offeringIds,
-      'operations': operations,
-      'paymentOptions': paymentOptions,
-      'planTypes': planTypes,
-      'productType': productType?.toValue(),
-      'serviceCodes': serviceCodes,
-      'usageTypes': usageTypes,
+      if (currencies != null) 'currencies': currencies,
+      if (descriptions != null) 'descriptions': descriptions,
+      if (durations != null) 'durations': durations,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (offeringIds != null) 'offeringIds': offeringIds,
+      if (operations != null) 'operations': operations,
+      if (paymentOptions != null) 'paymentOptions': paymentOptions,
+      if (planTypes != null) 'planTypes': planTypes,
+      if (productType != null) 'productType': productType?.toValue(),
+      if (serviceCodes != null) 'serviceCodes': serviceCodes,
+      if (usageTypes != null) 'usageTypes': usageTypes,
     };
     final response = await _protocol.send(
       payload: $payload,

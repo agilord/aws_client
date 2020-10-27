@@ -98,9 +98,9 @@ class MarketplaceEntitlementService {
       headers: headers,
       payload: {
         'ProductCode': productCode,
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

@@ -114,8 +114,8 @@ class ResourceGroups {
     final $payload = <String, dynamic>{
       'Name': name,
       'ResourceQuery': resourceQuery,
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -356,7 +356,7 @@ class ResourceGroups {
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'Filters': filters,
+      if (filters != null) 'Filters': filters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -424,7 +424,7 @@ class ResourceGroups {
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'Filters': filters,
+      if (filters != null) 'Filters': filters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -485,8 +485,8 @@ class ResourceGroups {
     );
     final $payload = <String, dynamic>{
       'ResourceQuery': resourceQuery,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -639,7 +639,7 @@ class ResourceGroups {
       r'''[\sa-zA-Z0-9_\.-]*''',
     );
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -233,7 +233,8 @@ class AppStream {
         'DestinationImageName': destinationImageName,
         'DestinationRegion': destinationRegion,
         'SourceImageName': sourceImageName,
-        'DestinationImageDescription': destinationImageDescription,
+        if (destinationImageDescription != null)
+          'DestinationImageDescription': destinationImageDescription,
       },
     );
 
@@ -561,19 +562,23 @@ class AppStream {
         'ComputeCapacity': computeCapacity,
         'InstanceType': instanceType,
         'Name': name,
-        'Description': description,
-        'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
-        'DisplayName': displayName,
-        'DomainJoinInfo': domainJoinInfo,
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        'FleetType': fleetType?.toValue(),
-        'IamRoleArn': iamRoleArn,
-        'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
-        'ImageArn': imageArn,
-        'ImageName': imageName,
-        'MaxUserDurationInSeconds': maxUserDurationInSeconds,
-        'Tags': tags,
-        'VpcConfig': vpcConfig,
+        if (description != null) 'Description': description,
+        if (disconnectTimeoutInSeconds != null)
+          'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
+        if (displayName != null) 'DisplayName': displayName,
+        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
+        if (enableDefaultInternetAccess != null)
+          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+        if (fleetType != null) 'FleetType': fleetType?.toValue(),
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (idleDisconnectTimeoutInSeconds != null)
+          'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
+        if (imageArn != null) 'ImageArn': imageArn,
+        if (imageName != null) 'ImageName': imageName,
+        if (maxUserDurationInSeconds != null)
+          'MaxUserDurationInSeconds': maxUserDurationInSeconds,
+        if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -806,17 +811,19 @@ class AppStream {
       payload: {
         'InstanceType': instanceType,
         'Name': name,
-        'AccessEndpoints': accessEndpoints,
-        'AppstreamAgentVersion': appstreamAgentVersion,
-        'Description': description,
-        'DisplayName': displayName,
-        'DomainJoinInfo': domainJoinInfo,
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        'IamRoleArn': iamRoleArn,
-        'ImageArn': imageArn,
-        'ImageName': imageName,
-        'Tags': tags,
-        'VpcConfig': vpcConfig,
+        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (appstreamAgentVersion != null)
+          'AppstreamAgentVersion': appstreamAgentVersion,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
+        if (enableDefaultInternetAccess != null)
+          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (imageArn != null) 'ImageArn': imageArn,
+        if (imageName != null) 'ImageName': imageName,
+        if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -858,7 +865,7 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'Validity': validity,
+        if (validity != null) 'Validity': validity,
       },
     );
 
@@ -987,16 +994,17 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'AccessEndpoints': accessEndpoints,
-        'ApplicationSettings': applicationSettings,
-        'Description': description,
-        'DisplayName': displayName,
-        'EmbedHostDomains': embedHostDomains,
-        'FeedbackURL': feedbackURL,
-        'RedirectURL': redirectURL,
-        'StorageConnectors': storageConnectors,
-        'Tags': tags,
-        'UserSettings': userSettings,
+        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (applicationSettings != null)
+          'ApplicationSettings': applicationSettings,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
+        if (feedbackURL != null) 'FeedbackURL': feedbackURL,
+        if (redirectURL != null) 'RedirectURL': redirectURL,
+        if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (tags != null) 'Tags': tags,
+        if (userSettings != null) 'UserSettings': userSettings,
       },
     );
 
@@ -1097,9 +1105,9 @@ class AppStream {
         'FleetName': fleetName,
         'StackName': stackName,
         'UserId': userId,
-        'ApplicationId': applicationId,
-        'SessionContext': sessionContext,
-        'Validity': validity,
+        if (applicationId != null) 'ApplicationId': applicationId,
+        if (sessionContext != null) 'SessionContext': sessionContext,
+        if (validity != null) 'Validity': validity,
       },
     );
 
@@ -1221,9 +1229,9 @@ class AppStream {
       payload: {
         'AuthenticationType': authenticationType?.toValue(),
         'UserName': userName,
-        'FirstName': firstName,
-        'LastName': lastName,
-        'MessageAction': messageAction?.toValue(),
+        if (firstName != null) 'FirstName': firstName,
+        if (lastName != null) 'LastName': lastName,
+        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
       },
     );
 
@@ -1575,9 +1583,9 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryNames': directoryNames,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (directoryNames != null) 'DirectoryNames': directoryNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1616,8 +1624,8 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Names': names,
-        'NextToken': nextToken,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1661,9 +1669,9 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'Names': names,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1726,9 +1734,10 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SharedAwsAccountIds': sharedAwsAccountIds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sharedAwsAccountIds != null)
+          'SharedAwsAccountIds': sharedAwsAccountIds,
       },
     );
 
@@ -1787,11 +1796,11 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Arns': arns,
-        'MaxResults': maxResults,
-        'Names': names,
-        'NextToken': nextToken,
-        'Type': type?.toValue(),
+        if (arns != null) 'Arns': arns,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (type != null) 'Type': type?.toValue(),
       },
     );
 
@@ -1877,10 +1886,11 @@ class AppStream {
       payload: {
         'FleetName': fleetName,
         'StackName': stackName,
-        'AuthenticationType': authenticationType?.toValue(),
-        'Limit': limit,
-        'NextToken': nextToken,
-        'UserId': userId,
+        if (authenticationType != null)
+          'AuthenticationType': authenticationType?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (userId != null) 'UserId': userId,
       },
     );
 
@@ -1919,8 +1929,8 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Names': names,
-        'NextToken': nextToken,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1960,8 +1970,8 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2049,11 +2059,12 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StackName': stackName,
-        'UserName': userName,
+        if (authenticationType != null)
+          'AuthenticationType': authenticationType?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (stackName != null) 'StackName': stackName,
+        if (userName != null) 'UserName': userName,
       },
     );
 
@@ -2100,8 +2111,8 @@ class AppStream {
       headers: headers,
       payload: {
         'AuthenticationType': authenticationType?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2338,7 +2349,7 @@ class AppStream {
       headers: headers,
       payload: {
         'StackName': stackName,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2384,7 +2395,7 @@ class AppStream {
       headers: headers,
       payload: {
         'FleetName': fleetName,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2516,7 +2527,8 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'AppstreamAgentVersion': appstreamAgentVersion,
+        if (appstreamAgentVersion != null)
+          'AppstreamAgentVersion': appstreamAgentVersion,
       },
     );
 
@@ -2745,9 +2757,11 @@ class AppStream {
       headers: headers,
       payload: {
         'DirectoryName': directoryName,
-        'OrganizationalUnitDistinguishedNames':
-            organizationalUnitDistinguishedNames,
-        'ServiceAccountCredentials': serviceAccountCredentials,
+        if (organizationalUnitDistinguishedNames != null)
+          'OrganizationalUnitDistinguishedNames':
+              organizationalUnitDistinguishedNames,
+        if (serviceAccountCredentials != null)
+          'ServiceAccountCredentials': serviceAccountCredentials,
       },
     );
 
@@ -3004,22 +3018,27 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AttributesToDelete': attributesToDelete,
-        'ComputeCapacity': computeCapacity,
-        'DeleteVpcConfig': deleteVpcConfig,
-        'Description': description,
-        'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
-        'DisplayName': displayName,
-        'DomainJoinInfo': domainJoinInfo,
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        'IamRoleArn': iamRoleArn,
-        'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
-        'ImageArn': imageArn,
-        'ImageName': imageName,
-        'InstanceType': instanceType,
-        'MaxUserDurationInSeconds': maxUserDurationInSeconds,
-        'Name': name,
-        'VpcConfig': vpcConfig,
+        if (attributesToDelete != null)
+          'AttributesToDelete': attributesToDelete,
+        if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
+        if (deleteVpcConfig != null) 'DeleteVpcConfig': deleteVpcConfig,
+        if (description != null) 'Description': description,
+        if (disconnectTimeoutInSeconds != null)
+          'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
+        if (displayName != null) 'DisplayName': displayName,
+        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
+        if (enableDefaultInternetAccess != null)
+          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (idleDisconnectTimeoutInSeconds != null)
+          'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
+        if (imageArn != null) 'ImageArn': imageArn,
+        if (imageName != null) 'ImageName': imageName,
+        if (instanceType != null) 'InstanceType': instanceType,
+        if (maxUserDurationInSeconds != null)
+          'MaxUserDurationInSeconds': maxUserDurationInSeconds,
+        if (name != null) 'Name': name,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -3195,17 +3214,20 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'AccessEndpoints': accessEndpoints,
-        'ApplicationSettings': applicationSettings,
-        'AttributesToDelete': attributesToDelete,
-        'DeleteStorageConnectors': deleteStorageConnectors,
-        'Description': description,
-        'DisplayName': displayName,
-        'EmbedHostDomains': embedHostDomains,
-        'FeedbackURL': feedbackURL,
-        'RedirectURL': redirectURL,
-        'StorageConnectors': storageConnectors,
-        'UserSettings': userSettings,
+        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (applicationSettings != null)
+          'ApplicationSettings': applicationSettings,
+        if (attributesToDelete != null)
+          'AttributesToDelete': attributesToDelete,
+        if (deleteStorageConnectors != null)
+          'DeleteStorageConnectors': deleteStorageConnectors,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
+        if (feedbackURL != null) 'FeedbackURL': feedbackURL,
+        if (redirectURL != null) 'RedirectURL': redirectURL,
+        if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (userSettings != null) 'UserSettings': userSettings,
       },
     );
 

@@ -118,10 +118,10 @@ class Outposts {
     );
     final $payload = <String, dynamic>{
       'SiteId': siteId,
-      'AvailabilityZone': availabilityZone,
-      'AvailabilityZoneId': availabilityZoneId,
-      'Description': description,
-      'Name': name,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

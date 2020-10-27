@@ -220,8 +220,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeviceArn': deviceArn,
-        'RoomArn': roomArn,
+        if (deviceArn != null) 'DeviceArn': deviceArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -263,8 +263,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'RoomArn': roomArn,
-        'SkillGroupArn': skillGroupArn,
+        if (roomArn != null) 'RoomArn': roomArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -310,7 +310,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'SkillId': skillId,
-        'SkillGroupArn': skillGroupArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -420,8 +420,9 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Name': name,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -519,11 +520,12 @@ class AlexaForBusiness {
       payload: {
         'ContentRange': contentRange,
         'Format': format?.toValue(),
-        'ClientRequestToken': clientRequestToken,
-        'Recurrence': recurrence,
-        'S3BucketName': s3BucketName,
-        'S3KeyPrefix': s3KeyPrefix,
-        'ScheduleName': scheduleName,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (recurrence != null) 'Recurrence': recurrence,
+        if (s3BucketName != null) 'S3BucketName': s3BucketName,
+        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+        if (scheduleName != null) 'ScheduleName': scheduleName,
       },
     );
 
@@ -602,9 +604,10 @@ class AlexaForBusiness {
         'ConferenceProviderName': conferenceProviderName,
         'ConferenceProviderType': conferenceProviderType?.toValue(),
         'MeetingSetting': meetingSetting,
-        'ClientRequestToken': clientRequestToken,
-        'IPDialIn': iPDialIn,
-        'PSTNDialIn': pSTNDialIn,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (iPDialIn != null) 'IPDialIn': iPDialIn,
+        if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
       },
     );
 
@@ -721,12 +724,13 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'FirstName': firstName,
-        'ClientRequestToken': clientRequestToken,
-        'DisplayName': displayName,
-        'LastName': lastName,
-        'PhoneNumber': phoneNumber,
-        'PhoneNumbers': phoneNumbers,
-        'SipAddresses': sipAddresses,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (displayName != null) 'DisplayName': displayName,
+        if (lastName != null) 'LastName': lastName,
+        if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+        if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
+        if (sipAddresses != null) 'SipAddresses': sipAddresses,
       },
     );
 
@@ -799,7 +803,7 @@ class AlexaForBusiness {
       payload: {
         'ClientRequestToken': clientRequestToken,
         'Name': name,
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -956,12 +960,13 @@ class AlexaForBusiness {
         'NetworkProfileName': networkProfileName,
         'SecurityType': securityType?.toValue(),
         'Ssid': ssid,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'CurrentPassword': currentPassword,
-        'Description': description,
-        'EapMethod': eapMethod?.toValue(),
-        'NextPassword': nextPassword,
-        'TrustAnchors': trustAnchors,
+        if (certificateAuthorityArn != null)
+          'CertificateAuthorityArn': certificateAuthorityArn,
+        if (currentPassword != null) 'CurrentPassword': currentPassword,
+        if (description != null) 'Description': description,
+        if (eapMethod != null) 'EapMethod': eapMethod?.toValue(),
+        if (nextPassword != null) 'NextPassword': nextPassword,
+        if (trustAnchors != null) 'TrustAnchors': trustAnchors,
       },
     );
 
@@ -1091,12 +1096,14 @@ class AlexaForBusiness {
         'TemperatureUnit': temperatureUnit?.toValue(),
         'Timezone': timezone,
         'WakeWord': wakeWord?.toValue(),
-        'ClientRequestToken': clientRequestToken,
-        'Locale': locale,
-        'MaxVolumeLimit': maxVolumeLimit,
-        'MeetingRoomConfiguration': meetingRoomConfiguration,
-        'PSTNEnabled': pSTNEnabled,
-        'SetupModeDisabled': setupModeDisabled,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (locale != null) 'Locale': locale,
+        if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
+        if (meetingRoomConfiguration != null)
+          'MeetingRoomConfiguration': meetingRoomConfiguration,
+        if (pSTNEnabled != null) 'PSTNEnabled': pSTNEnabled,
+        if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
       },
     );
 
@@ -1193,11 +1200,13 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'RoomName': roomName,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
-        'ProfileArn': profileArn,
-        'ProviderCalendarId': providerCalendarId,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
+        if (profileArn != null) 'ProfileArn': profileArn,
+        if (providerCalendarId != null)
+          'ProviderCalendarId': providerCalendarId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1272,8 +1281,9 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'SkillGroupName': skillGroupName,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -1382,11 +1392,12 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'UserId': userId,
-        'ClientRequestToken': clientRequestToken,
-        'Email': email,
-        'FirstName': firstName,
-        'LastName': lastName,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (email != null) 'Email': email,
+        if (firstName != null) 'FirstName': firstName,
+        if (lastName != null) 'LastName': lastName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1710,7 +1721,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProfileArn': profileArn,
+        if (profileArn != null) 'ProfileArn': profileArn,
       },
     );
 
@@ -1743,7 +1754,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -1800,7 +1811,7 @@ class AlexaForBusiness {
       payload: {
         'ParameterKey': parameterKey,
         'SkillId': skillId,
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -1845,7 +1856,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'SkillId': skillId,
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -1878,7 +1889,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'SkillGroupArn': skillGroupArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -1924,7 +1935,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'EnrollmentId': enrollmentId,
-        'UserArn': userArn,
+        if (userArn != null) 'UserArn': userArn,
       },
     );
 
@@ -2004,7 +2015,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeviceArn': deviceArn,
+        if (deviceArn != null) 'DeviceArn': deviceArn,
       },
     );
 
@@ -2049,7 +2060,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'SkillId': skillId,
-        'SkillGroupArn': skillGroupArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -2128,8 +2139,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'RoomArn': roomArn,
-        'SkillGroupArn': skillGroupArn,
+        if (roomArn != null) 'RoomArn': roomArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -2316,7 +2327,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeviceArn': deviceArn,
+        if (deviceArn != null) 'DeviceArn': deviceArn,
       },
     );
 
@@ -2472,7 +2483,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProfileArn': profileArn,
+        if (profileArn != null) 'ProfileArn': profileArn,
       },
     );
 
@@ -2504,7 +2515,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -2562,7 +2573,7 @@ class AlexaForBusiness {
       payload: {
         'ParameterKey': parameterKey,
         'SkillId': skillId,
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -2594,7 +2605,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'SkillGroupArn': skillGroupArn,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
 
@@ -2638,8 +2649,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2681,8 +2692,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2752,9 +2763,9 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'EventType': eventType?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (eventType != null) 'EventType': eventType?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2798,8 +2809,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2852,9 +2863,9 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GatewayGroupArn': gatewayGroupArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (gatewayGroupArn != null) 'GatewayGroupArn': gatewayGroupArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2917,11 +2928,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EnablementType': enablementType?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SkillGroupArn': skillGroupArn,
-        'SkillType': skillType?.toValue(),
+        if (enablementType != null) 'EnablementType': enablementType?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
+        if (skillType != null) 'SkillType': skillType?.toValue(),
       },
     );
 
@@ -2962,8 +2973,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3019,8 +3030,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'CategoryId': categoryId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3075,8 +3086,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'RoomArn': roomArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3136,8 +3147,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Arn': arn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3231,8 +3242,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'OrganizationName': organizationName,
-        'ContactEmail': contactEmail,
-        'PrivateSkillIds': privateSkillIds,
+        if (contactEmail != null) 'ContactEmail': contactEmail,
+        if (privateSkillIds != null) 'PrivateSkillIds': privateSkillIds,
       },
     );
 
@@ -3283,7 +3294,7 @@ class AlexaForBusiness {
       payload: {
         'RoomSkillParameter': roomSkillParameter,
         'SkillId': skillId,
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -3339,7 +3350,7 @@ class AlexaForBusiness {
       payload: {
         'AuthorizationResult': authorizationResult,
         'SkillId': skillId,
-        'RoomArn': roomArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -3558,8 +3569,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EnrollmentId': enrollmentId,
-        'UserArn': userArn,
+        if (enrollmentId != null) 'EnrollmentId': enrollmentId,
+        if (userArn != null) 'UserArn': userArn,
       },
     );
 
@@ -3616,10 +3627,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3676,10 +3687,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3740,10 +3751,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3800,10 +3811,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3860,10 +3871,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3920,10 +3931,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -3980,10 +3991,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -4043,10 +4054,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortCriteria': sortCriteria,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -4117,7 +4128,8 @@ class AlexaForBusiness {
         'ClientRequestToken': clientRequestToken,
         'Content': content,
         'RoomFilters': roomFilters,
-        'TimeToLiveInSeconds': timeToLiveInSeconds,
+        if (timeToLiveInSeconds != null)
+          'TimeToLiveInSeconds': timeToLiveInSeconds,
       },
     );
 
@@ -4153,7 +4165,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'UserArn': userArn,
+        if (userArn != null) 'UserArn': userArn,
       },
     );
 
@@ -4222,8 +4234,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Features': features,
-        'DeviceArn': deviceArn,
-        'RoomArn': roomArn,
+        if (deviceArn != null) 'DeviceArn': deviceArn,
+        if (roomArn != null) 'RoomArn': roomArn,
       },
     );
 
@@ -4407,8 +4419,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'AddressBookArn': addressBookArn,
-        'Description': description,
-        'Name': name,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -4493,11 +4505,11 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ScheduleArn': scheduleArn,
-        'Format': format?.toValue(),
-        'Recurrence': recurrence,
-        'S3BucketName': s3BucketName,
-        'S3KeyPrefix': s3KeyPrefix,
-        'ScheduleName': scheduleName,
+        if (format != null) 'Format': format?.toValue(),
+        if (recurrence != null) 'Recurrence': recurrence,
+        if (s3BucketName != null) 'S3BucketName': s3BucketName,
+        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+        if (scheduleName != null) 'ScheduleName': scheduleName,
       },
     );
 
@@ -4553,8 +4565,8 @@ class AlexaForBusiness {
         'ConferenceProviderArn': conferenceProviderArn,
         'ConferenceProviderType': conferenceProviderType?.toValue(),
         'MeetingSetting': meetingSetting,
-        'IPDialIn': iPDialIn,
-        'PSTNDialIn': pSTNDialIn,
+        if (iPDialIn != null) 'IPDialIn': iPDialIn,
+        if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
       },
     );
 
@@ -4661,12 +4673,12 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContactArn': contactArn,
-        'DisplayName': displayName,
-        'FirstName': firstName,
-        'LastName': lastName,
-        'PhoneNumber': phoneNumber,
-        'PhoneNumbers': phoneNumbers,
-        'SipAddresses': sipAddresses,
+        if (displayName != null) 'DisplayName': displayName,
+        if (firstName != null) 'FirstName': firstName,
+        if (lastName != null) 'LastName': lastName,
+        if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+        if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
+        if (sipAddresses != null) 'SipAddresses': sipAddresses,
       },
     );
 
@@ -4715,8 +4727,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeviceArn': deviceArn,
-        'DeviceName': deviceName,
+        if (deviceArn != null) 'DeviceArn': deviceArn,
+        if (deviceName != null) 'DeviceName': deviceName,
       },
     );
 
@@ -4794,9 +4806,9 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'GatewayArn': gatewayArn,
-        'Description': description,
-        'Name': name,
-        'SoftwareVersion': softwareVersion,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
       },
     );
 
@@ -4858,8 +4870,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'GatewayGroupArn': gatewayGroupArn,
-        'Description': description,
-        'Name': name,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -4977,12 +4989,14 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'NetworkProfileArn': networkProfileArn,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'CurrentPassword': currentPassword,
-        'Description': description,
-        'NetworkProfileName': networkProfileName,
-        'NextPassword': nextPassword,
-        'TrustAnchors': trustAnchors,
+        if (certificateAuthorityArn != null)
+          'CertificateAuthorityArn': certificateAuthorityArn,
+        if (currentPassword != null) 'CurrentPassword': currentPassword,
+        if (description != null) 'Description': description,
+        if (networkProfileName != null)
+          'NetworkProfileName': networkProfileName,
+        if (nextPassword != null) 'NextPassword': nextPassword,
+        if (trustAnchors != null) 'TrustAnchors': trustAnchors,
       },
     );
 
@@ -5095,19 +5109,21 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Address': address,
-        'DistanceUnit': distanceUnit?.toValue(),
-        'IsDefault': isDefault,
-        'Locale': locale,
-        'MaxVolumeLimit': maxVolumeLimit,
-        'MeetingRoomConfiguration': meetingRoomConfiguration,
-        'PSTNEnabled': pSTNEnabled,
-        'ProfileArn': profileArn,
-        'ProfileName': profileName,
-        'SetupModeDisabled': setupModeDisabled,
-        'TemperatureUnit': temperatureUnit?.toValue(),
-        'Timezone': timezone,
-        'WakeWord': wakeWord?.toValue(),
+        if (address != null) 'Address': address,
+        if (distanceUnit != null) 'DistanceUnit': distanceUnit?.toValue(),
+        if (isDefault != null) 'IsDefault': isDefault,
+        if (locale != null) 'Locale': locale,
+        if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
+        if (meetingRoomConfiguration != null)
+          'MeetingRoomConfiguration': meetingRoomConfiguration,
+        if (pSTNEnabled != null) 'PSTNEnabled': pSTNEnabled,
+        if (profileArn != null) 'ProfileArn': profileArn,
+        if (profileName != null) 'ProfileName': profileName,
+        if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
+        if (temperatureUnit != null)
+          'TemperatureUnit': temperatureUnit?.toValue(),
+        if (timezone != null) 'Timezone': timezone,
+        if (wakeWord != null) 'WakeWord': wakeWord?.toValue(),
       },
     );
 
@@ -5189,11 +5205,12 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Description': description,
-        'ProfileArn': profileArn,
-        'ProviderCalendarId': providerCalendarId,
-        'RoomArn': roomArn,
-        'RoomName': roomName,
+        if (description != null) 'Description': description,
+        if (profileArn != null) 'ProfileArn': profileArn,
+        if (providerCalendarId != null)
+          'ProviderCalendarId': providerCalendarId,
+        if (roomArn != null) 'RoomArn': roomArn,
+        if (roomName != null) 'RoomName': roomName,
       },
     );
 
@@ -5257,9 +5274,9 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Description': description,
-        'SkillGroupArn': skillGroupArn,
-        'SkillGroupName': skillGroupName,
+        if (description != null) 'Description': description,
+        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
+        if (skillGroupName != null) 'SkillGroupName': skillGroupName,
       },
     );
 

@@ -222,8 +222,10 @@ class MarketplaceCommerceAnalytics {
         'destinationS3BucketName': destinationS3BucketName,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
-        'customerDefinedValues': customerDefinedValues,
-        'destinationS3Prefix': destinationS3Prefix,
+        if (customerDefinedValues != null)
+          'customerDefinedValues': customerDefinedValues,
+        if (destinationS3Prefix != null)
+          'destinationS3Prefix': destinationS3Prefix,
       },
     );
 
@@ -345,8 +347,10 @@ class MarketplaceCommerceAnalytics {
         'fromDate': fromDate,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
-        'customerDefinedValues': customerDefinedValues,
-        'destinationS3Prefix': destinationS3Prefix,
+        if (customerDefinedValues != null)
+          'customerDefinedValues': customerDefinedValues,
+        if (destinationS3Prefix != null)
+          'destinationS3Prefix': destinationS3Prefix,
       },
     );
 

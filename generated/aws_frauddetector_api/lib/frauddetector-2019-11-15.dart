@@ -183,10 +183,12 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'rules': rules,
-        'description': description,
-        'externalModelEndpoints': externalModelEndpoints,
-        'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode?.toValue(),
+        if (description != null) 'description': description,
+        if (externalModelEndpoints != null)
+          'externalModelEndpoints': externalModelEndpoints,
+        if (modelVersions != null) 'modelVersions': modelVersions,
+        if (ruleExecutionMode != null)
+          'ruleExecutionMode': ruleExecutionMode?.toValue(),
       },
     );
 
@@ -247,7 +249,7 @@ class FraudDetector {
       payload: {
         'modelId': modelId,
         'modelType': modelType?.toValue(),
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -345,7 +347,7 @@ class FraudDetector {
         'language': language?.toValue(),
         'outcomes': outcomes,
         'ruleId': ruleId,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -402,8 +404,8 @@ class FraudDetector {
         'dataType': dataType?.toValue(),
         'defaultValue': defaultValue,
         'name': name,
-        'description': description,
-        'variableType': variableType,
+        if (description != null) 'description': description,
+        if (variableType != null) 'variableType': variableType,
       },
     );
 
@@ -672,8 +674,8 @@ class FraudDetector {
       headers: headers,
       payload: {
         'detectorId': detectorId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -744,11 +746,12 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        'modelVersionNumber': modelVersionNumber,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (modelId != null) 'modelId': modelId,
+        if (modelType != null) 'modelType': modelType?.toValue(),
+        if (modelVersionNumber != null)
+          'modelVersionNumber': modelVersionNumber,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -866,9 +869,9 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'detectorId': detectorId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (detectorId != null) 'detectorId': detectorId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -919,9 +922,9 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'modelEndpoint': modelEndpoint,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1044,10 +1047,10 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (modelId != null) 'modelId': modelId,
+        if (modelType != null) 'modelType': modelType?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1107,9 +1110,9 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'name': name,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1162,9 +1165,10 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'eventId': eventId,
-        'detectorVersionId': detectorVersionId,
-        'eventAttributes': eventAttributes,
-        'externalModelEndpointDataBlobs': externalModelEndpointDataBlobs,
+        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+        if (eventAttributes != null) 'eventAttributes': eventAttributes,
+        if (externalModelEndpointDataBlobs != null)
+          'externalModelEndpointDataBlobs': externalModelEndpointDataBlobs,
       },
     );
 
@@ -1248,10 +1252,10 @@ class FraudDetector {
       headers: headers,
       payload: {
         'detectorId': detectorId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'ruleId': ruleId,
-        'ruleVersion': ruleVersion,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (ruleId != null) 'ruleId': ruleId,
+        if (ruleVersion != null) 'ruleVersion': ruleVersion,
       },
     );
 
@@ -1301,9 +1305,9 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'name': name,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1357,7 +1361,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'detectorId': detectorId,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -1497,7 +1501,7 @@ class FraudDetector {
         'modelType': modelType?.toValue(),
         'modelVariables': modelVariables,
         'trainingDataSource': trainingDataSource,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -1551,7 +1555,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'name': name,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -1653,9 +1657,10 @@ class FraudDetector {
         'detectorVersionId': detectorVersionId,
         'externalModelEndpoints': externalModelEndpoints,
         'rules': rules,
-        'description': description,
-        'modelVersions': modelVersions,
-        'ruleExecutionMode': ruleExecutionMode?.toValue(),
+        if (description != null) 'description': description,
+        if (modelVersions != null) 'modelVersions': modelVersions,
+        if (ruleExecutionMode != null)
+          'ruleExecutionMode': ruleExecutionMode?.toValue(),
       },
     );
 
@@ -1994,7 +1999,7 @@ class FraudDetector {
         'language': language?.toValue(),
         'outcomes': outcomes,
         'rule': rule,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -2038,9 +2043,9 @@ class FraudDetector {
       headers: headers,
       payload: {
         'name': name,
-        'defaultValue': defaultValue,
-        'description': description,
-        'variableType': variableType,
+        if (defaultValue != null) 'defaultValue': defaultValue,
+        if (description != null) 'description': description,
+        if (variableType != null) 'variableType': variableType,
       },
     );
 

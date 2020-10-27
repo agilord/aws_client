@@ -333,8 +333,8 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
-        'targetIds': targetIds,
+        if (deploymentId != null) 'deploymentId': deploymentId,
+        if (targetIds != null) 'targetIds': targetIds,
       },
     );
 
@@ -444,8 +444,9 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
-        'deploymentWaitType': deploymentWaitType?.toValue(),
+        if (deploymentId != null) 'deploymentId': deploymentId,
+        if (deploymentWaitType != null)
+          'deploymentWaitType': deploymentWaitType?.toValue(),
       },
     );
   }
@@ -496,8 +497,9 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'computePlatform': computePlatform?.toValue(),
-        'tags': tags,
+        if (computePlatform != null)
+          'computePlatform': computePlatform?.toValue(),
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -657,15 +659,21 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'autoRollbackConfiguration': autoRollbackConfiguration,
-        'deploymentConfigName': deploymentConfigName,
-        'deploymentGroupName': deploymentGroupName,
-        'description': description,
-        'fileExistsBehavior': fileExistsBehavior?.toValue(),
-        'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
-        'revision': revision,
-        'targetInstances': targetInstances,
-        'updateOutdatedInstancesOnly': updateOutdatedInstancesOnly,
+        if (autoRollbackConfiguration != null)
+          'autoRollbackConfiguration': autoRollbackConfiguration,
+        if (deploymentConfigName != null)
+          'deploymentConfigName': deploymentConfigName,
+        if (deploymentGroupName != null)
+          'deploymentGroupName': deploymentGroupName,
+        if (description != null) 'description': description,
+        if (fileExistsBehavior != null)
+          'fileExistsBehavior': fileExistsBehavior?.toValue(),
+        if (ignoreApplicationStopFailures != null)
+          'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
+        if (revision != null) 'revision': revision,
+        if (targetInstances != null) 'targetInstances': targetInstances,
+        if (updateOutdatedInstancesOnly != null)
+          'updateOutdatedInstancesOnly': updateOutdatedInstancesOnly,
       },
     );
 
@@ -742,9 +750,12 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentConfigName': deploymentConfigName,
-        'computePlatform': computePlatform?.toValue(),
-        'minimumHealthyHosts': minimumHealthyHosts,
-        'trafficRoutingConfig': trafficRoutingConfig,
+        if (computePlatform != null)
+          'computePlatform': computePlatform?.toValue(),
+        if (minimumHealthyHosts != null)
+          'minimumHealthyHosts': minimumHealthyHosts,
+        if (trafficRoutingConfig != null)
+          'trafficRoutingConfig': trafficRoutingConfig,
       },
     );
 
@@ -930,20 +941,26 @@ class CodeDeploy {
         'applicationName': applicationName,
         'deploymentGroupName': deploymentGroupName,
         'serviceRoleArn': serviceRoleArn,
-        'alarmConfiguration': alarmConfiguration,
-        'autoRollbackConfiguration': autoRollbackConfiguration,
-        'autoScalingGroups': autoScalingGroups,
-        'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
-        'deploymentConfigName': deploymentConfigName,
-        'deploymentStyle': deploymentStyle,
-        'ec2TagFilters': ec2TagFilters,
-        'ec2TagSet': ec2TagSet,
-        'ecsServices': ecsServices,
-        'loadBalancerInfo': loadBalancerInfo,
-        'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
-        'onPremisesTagSet': onPremisesTagSet,
-        'tags': tags,
-        'triggerConfigurations': triggerConfigurations,
+        if (alarmConfiguration != null)
+          'alarmConfiguration': alarmConfiguration,
+        if (autoRollbackConfiguration != null)
+          'autoRollbackConfiguration': autoRollbackConfiguration,
+        if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+        if (blueGreenDeploymentConfiguration != null)
+          'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
+        if (deploymentConfigName != null)
+          'deploymentConfigName': deploymentConfigName,
+        if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
+        if (ec2TagFilters != null) 'ec2TagFilters': ec2TagFilters,
+        if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
+        if (ecsServices != null) 'ecsServices': ecsServices,
+        if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
+        if (onPremisesInstanceTagFilters != null)
+          'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
+        if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
+        if (tags != null) 'tags': tags,
+        if (triggerConfigurations != null)
+          'triggerConfigurations': triggerConfigurations,
       },
     );
 
@@ -1104,7 +1121,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'tokenName': tokenName,
+        if (tokenName != null) 'tokenName': tokenName,
       },
     );
 
@@ -1426,8 +1443,8 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
-        'targetId': targetId,
+        if (deploymentId != null) 'deploymentId': deploymentId,
+        if (targetId != null) 'targetId': targetId,
       },
     );
 
@@ -1575,12 +1592,12 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'deployed': deployed?.toValue(),
-        'nextToken': nextToken,
-        's3Bucket': s3Bucket,
-        's3KeyPrefix': s3KeyPrefix,
-        'sortBy': sortBy?.toValue(),
-        'sortOrder': sortOrder?.toValue(),
+        if (deployed != null) 'deployed': deployed?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (s3Bucket != null) 's3Bucket': s3Bucket,
+        if (s3KeyPrefix != null) 's3KeyPrefix': s3KeyPrefix,
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1608,7 +1625,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1637,7 +1654,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1683,7 +1700,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1766,9 +1783,11 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentId': deploymentId,
-        'instanceStatusFilter': instanceStatusFilter,
-        'instanceTypeFilter': instanceTypeFilter,
-        'nextToken': nextToken,
+        if (instanceStatusFilter != null)
+          'instanceStatusFilter': instanceStatusFilter,
+        if (instanceTypeFilter != null)
+          'instanceTypeFilter': instanceTypeFilter,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1825,9 +1844,9 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
-        'nextToken': nextToken,
-        'targetFilters': targetFilters,
+        if (deploymentId != null) 'deploymentId': deploymentId,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (targetFilters != null) 'targetFilters': targetFilters,
       },
     );
 
@@ -1925,11 +1944,13 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'applicationName': applicationName,
-        'createTimeRange': createTimeRange,
-        'deploymentGroupName': deploymentGroupName,
-        'includeOnlyStatuses': includeOnlyStatuses,
-        'nextToken': nextToken,
+        if (applicationName != null) 'applicationName': applicationName,
+        if (createTimeRange != null) 'createTimeRange': createTimeRange,
+        if (deploymentGroupName != null)
+          'deploymentGroupName': deploymentGroupName,
+        if (includeOnlyStatuses != null)
+          'includeOnlyStatuses': includeOnlyStatuses,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1959,7 +1980,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2014,9 +2035,10 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
-        'registrationStatus': registrationStatus?.toValue(),
-        'tagFilters': tagFilters,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registrationStatus != null)
+          'registrationStatus': registrationStatus?.toValue(),
+        if (tagFilters != null) 'tagFilters': tagFilters,
       },
     );
 
@@ -2062,7 +2084,7 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2110,9 +2132,10 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
-        'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-        'status': status?.toValue(),
+        if (deploymentId != null) 'deploymentId': deploymentId,
+        if (lifecycleEventHookExecutionId != null)
+          'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -2166,7 +2189,7 @@ class CodeDeploy {
       payload: {
         'applicationName': applicationName,
         'revision': revision,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
   }
@@ -2214,8 +2237,8 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'iamSessionArn': iamSessionArn,
-        'iamUserArn': iamUserArn,
+        if (iamSessionArn != null) 'iamSessionArn': iamSessionArn,
+        if (iamUserArn != null) 'iamUserArn': iamUserArn,
       },
     );
   }
@@ -2286,7 +2309,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deploymentId': deploymentId,
+        if (deploymentId != null) 'deploymentId': deploymentId,
       },
     );
   }
@@ -2323,7 +2346,8 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'deploymentId': deploymentId,
-        'autoRollbackEnabled': autoRollbackEnabled,
+        if (autoRollbackEnabled != null)
+          'autoRollbackEnabled': autoRollbackEnabled,
       },
     );
 
@@ -2474,8 +2498,9 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        'applicationName': applicationName,
-        'newApplicationName': newApplicationName,
+        if (applicationName != null) 'applicationName': applicationName,
+        if (newApplicationName != null)
+          'newApplicationName': newApplicationName,
       },
     );
   }
@@ -2647,21 +2672,28 @@ class CodeDeploy {
       payload: {
         'applicationName': applicationName,
         'currentDeploymentGroupName': currentDeploymentGroupName,
-        'alarmConfiguration': alarmConfiguration,
-        'autoRollbackConfiguration': autoRollbackConfiguration,
-        'autoScalingGroups': autoScalingGroups,
-        'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
-        'deploymentConfigName': deploymentConfigName,
-        'deploymentStyle': deploymentStyle,
-        'ec2TagFilters': ec2TagFilters,
-        'ec2TagSet': ec2TagSet,
-        'ecsServices': ecsServices,
-        'loadBalancerInfo': loadBalancerInfo,
-        'newDeploymentGroupName': newDeploymentGroupName,
-        'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
-        'onPremisesTagSet': onPremisesTagSet,
-        'serviceRoleArn': serviceRoleArn,
-        'triggerConfigurations': triggerConfigurations,
+        if (alarmConfiguration != null)
+          'alarmConfiguration': alarmConfiguration,
+        if (autoRollbackConfiguration != null)
+          'autoRollbackConfiguration': autoRollbackConfiguration,
+        if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+        if (blueGreenDeploymentConfiguration != null)
+          'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
+        if (deploymentConfigName != null)
+          'deploymentConfigName': deploymentConfigName,
+        if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
+        if (ec2TagFilters != null) 'ec2TagFilters': ec2TagFilters,
+        if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
+        if (ecsServices != null) 'ecsServices': ecsServices,
+        if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
+        if (newDeploymentGroupName != null)
+          'newDeploymentGroupName': newDeploymentGroupName,
+        if (onPremisesInstanceTagFilters != null)
+          'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
+        if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
+        if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
+        if (triggerConfigurations != null)
+          'triggerConfigurations': triggerConfigurations,
       },
     );
 

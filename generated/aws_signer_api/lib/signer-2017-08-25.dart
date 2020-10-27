@@ -435,9 +435,9 @@ class Signer {
     final $payload = <String, dynamic>{
       'platformId': platformId,
       'signingMaterial': signingMaterial,
-      'overrides': overrides,
-      'signingParameters': signingParameters,
-      'tags': tags,
+      if (overrides != null) 'overrides': overrides,
+      if (signingParameters != null) 'signingParameters': signingParameters,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -525,7 +525,7 @@ class Signer {
       'clientRequestToken': clientRequestToken,
       'destination': destination,
       'source': source,
-      'profileName': profileName,
+      if (profileName != null) 'profileName': profileName,
     };
     final response = await _protocol.send(
       payload: $payload,

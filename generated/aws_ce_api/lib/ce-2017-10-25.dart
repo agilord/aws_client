@@ -208,7 +208,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'CostCategoryArn': costCategoryArn,
-        'EffectiveOn': effectiveOn,
+        if (effectiveOn != null) 'EffectiveOn': effectiveOn,
       },
     );
 
@@ -325,11 +325,11 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
-        'GroupBy': groupBy,
-        'Metrics': metrics,
-        'NextPageToken': nextPageToken,
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (metrics != null) 'Metrics': metrics,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
     );
 
@@ -449,11 +449,11 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
-        'GroupBy': groupBy,
-        'Metrics': metrics,
-        'NextPageToken': nextPageToken,
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (metrics != null) 'Metrics': metrics,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
     );
 
@@ -544,8 +544,9 @@ class CostExplorer {
         'Granularity': granularity?.toValue(),
         'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'PredictionIntervalLevel': predictionIntervalLevel,
+        if (filter != null) 'Filter': filter,
+        if (predictionIntervalLevel != null)
+          'PredictionIntervalLevel': predictionIntervalLevel,
       },
     );
 
@@ -766,9 +767,9 @@ class CostExplorer {
       payload: {
         'Dimension': dimension?.toValue(),
         'TimePeriod': timePeriod,
-        'Context': context?.toValue(),
-        'NextPageToken': nextPageToken,
-        'SearchString': searchString,
+        if (context != null) 'Context': context?.toValue(),
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (searchString != null) 'SearchString': searchString,
       },
     );
 
@@ -981,11 +982,11 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
-        'GroupBy': groupBy,
-        'Metrics': metrics,
-        'NextPageToken': nextPageToken,
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (metrics != null) 'Metrics': metrics,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
     );
 
@@ -1118,14 +1119,16 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Service': service,
-        'AccountId': accountId,
-        'AccountScope': accountScope?.toValue(),
-        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
-        'NextPageToken': nextPageToken,
-        'PageSize': pageSize,
-        'PaymentOption': paymentOption?.toValue(),
-        'ServiceSpecification': serviceSpecification,
-        'TermInYears': termInYears?.toValue(),
+        if (accountId != null) 'AccountId': accountId,
+        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
+        if (lookbackPeriodInDays != null)
+          'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (paymentOption != null) 'PaymentOption': paymentOption?.toValue(),
+        if (serviceSpecification != null)
+          'ServiceSpecification': serviceSpecification,
+        if (termInYears != null) 'TermInYears': termInYears?.toValue(),
       },
     );
 
@@ -1245,10 +1248,10 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
-        'GroupBy': groupBy,
-        'NextPageToken': nextPageToken,
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
     );
 
@@ -1328,9 +1331,9 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Service': service,
-        'Filter': filter,
-        'NextPageToken': nextPageToken,
-        'PageSize': pageSize,
+        if (filter != null) 'Filter': filter,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (pageSize != null) 'PageSize': pageSize,
       },
     );
 
@@ -1460,12 +1463,12 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
-        'GroupBy': groupBy,
-        'MaxResults': maxResults,
-        'Metrics': metrics,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (metrics != null) 'Metrics': metrics,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1570,10 +1573,10 @@ class CostExplorer {
         'PaymentOption': paymentOption?.toValue(),
         'SavingsPlansType': savingsPlansType?.toValue(),
         'TermInYears': termInYears?.toValue(),
-        'AccountScope': accountScope?.toValue(),
-        'Filter': filter,
-        'NextPageToken': nextPageToken,
-        'PageSize': pageSize,
+        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
+        if (filter != null) 'Filter': filter,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (pageSize != null) 'PageSize': pageSize,
       },
     );
 
@@ -1653,8 +1656,8 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'Granularity': granularity?.toValue(),
+        if (filter != null) 'Filter': filter,
+        if (granularity != null) 'Granularity': granularity?.toValue(),
       },
     );
 
@@ -1756,9 +1759,9 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1845,9 +1848,9 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
-        'NextPageToken': nextPageToken,
-        'SearchString': searchString,
-        'TagKey': tagKey,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (searchString != null) 'SearchString': searchString,
+        if (tagKey != null) 'TagKey': tagKey,
       },
     );
 
@@ -1932,8 +1935,9 @@ class CostExplorer {
         'Granularity': granularity?.toValue(),
         'Metric': metric?.toValue(),
         'TimePeriod': timePeriod,
-        'Filter': filter,
-        'PredictionIntervalLevel': predictionIntervalLevel,
+        if (filter != null) 'Filter': filter,
+        if (predictionIntervalLevel != null)
+          'PredictionIntervalLevel': predictionIntervalLevel,
       },
     );
 
@@ -2006,9 +2010,9 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EffectiveOn': effectiveOn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (effectiveOn != null) 'EffectiveOn': effectiveOn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

@@ -324,9 +324,10 @@ class CloudWatchLogs {
         'from': from,
         'logGroupName': logGroupName,
         'to': to,
-        'destinationPrefix': destinationPrefix,
-        'logStreamNamePrefix': logStreamNamePrefix,
-        'taskName': taskName,
+        if (destinationPrefix != null) 'destinationPrefix': destinationPrefix,
+        if (logStreamNamePrefix != null)
+          'logStreamNamePrefix': logStreamNamePrefix,
+        if (taskName != null) 'taskName': taskName,
       },
     );
 
@@ -423,8 +424,8 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupName': logGroupName,
-        'kmsKeyId': kmsKeyId,
-        'tags': tags,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (tags != null) 'tags': tags,
       },
     );
   }
@@ -741,7 +742,7 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'policyName': policyName,
+        if (policyName != null) 'policyName': policyName,
       },
     );
   }
@@ -908,9 +909,10 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DestinationNamePrefix': destinationNamePrefix,
-        'limit': limit,
-        'nextToken': nextToken,
+        if (destinationNamePrefix != null)
+          'DestinationNamePrefix': destinationNamePrefix,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -973,10 +975,10 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'limit': limit,
-        'nextToken': nextToken,
-        'statusCode': statusCode?.toValue(),
-        'taskId': taskId,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (statusCode != null) 'statusCode': statusCode?.toValue(),
+        if (taskId != null) 'taskId': taskId,
       },
     );
 
@@ -1038,9 +1040,10 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'limit': limit,
-        'logGroupNamePrefix': logGroupNamePrefix,
-        'nextToken': nextToken,
+        if (limit != null) 'limit': limit,
+        if (logGroupNamePrefix != null)
+          'logGroupNamePrefix': logGroupNamePrefix,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1151,11 +1154,12 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupName': logGroupName,
-        'descending': descending,
-        'limit': limit,
-        'logStreamNamePrefix': logStreamNamePrefix,
-        'nextToken': nextToken,
-        'orderBy': orderBy?.toValue(),
+        if (descending != null) 'descending': descending,
+        if (limit != null) 'limit': limit,
+        if (logStreamNamePrefix != null)
+          'logStreamNamePrefix': logStreamNamePrefix,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (orderBy != null) 'orderBy': orderBy?.toValue(),
       },
     );
 
@@ -1268,12 +1272,12 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filterNamePrefix': filterNamePrefix,
-        'limit': limit,
-        'logGroupName': logGroupName,
-        'metricName': metricName,
-        'metricNamespace': metricNamespace,
-        'nextToken': nextToken,
+        if (filterNamePrefix != null) 'filterNamePrefix': filterNamePrefix,
+        if (limit != null) 'limit': limit,
+        if (logGroupName != null) 'logGroupName': logGroupName,
+        if (metricName != null) 'metricName': metricName,
+        if (metricNamespace != null) 'metricNamespace': metricNamespace,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1339,10 +1343,10 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'logGroupName': logGroupName,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'status': status?.toValue(),
+        if (logGroupName != null) 'logGroupName': logGroupName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -1384,8 +1388,8 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'limit': limit,
-        'nextToken': nextToken,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1469,9 +1473,9 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupName': logGroupName,
-        'filterNamePrefix': filterNamePrefix,
-        'limit': limit,
-        'nextToken': nextToken,
+        if (filterNamePrefix != null) 'filterNamePrefix': filterNamePrefix,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1675,14 +1679,15 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupName': logGroupName,
-        'endTime': endTime,
-        'filterPattern': filterPattern,
-        'interleaved': interleaved,
-        'limit': limit,
-        'logStreamNamePrefix': logStreamNamePrefix,
-        'logStreamNames': logStreamNames,
-        'nextToken': nextToken,
-        'startTime': startTime,
+        if (endTime != null) 'endTime': endTime,
+        if (filterPattern != null) 'filterPattern': filterPattern,
+        if (interleaved != null) 'interleaved': interleaved,
+        if (limit != null) 'limit': limit,
+        if (logStreamNamePrefix != null)
+          'logStreamNamePrefix': logStreamNamePrefix,
+        if (logStreamNames != null) 'logStreamNames': logStreamNames,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (startTime != null) 'startTime': startTime,
       },
     );
 
@@ -1810,11 +1815,11 @@ class CloudWatchLogs {
       payload: {
         'logGroupName': logGroupName,
         'logStreamName': logStreamName,
-        'endTime': endTime,
-        'limit': limit,
-        'nextToken': nextToken,
-        'startFromHead': startFromHead,
-        'startTime': startTime,
+        if (endTime != null) 'endTime': endTime,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (startFromHead != null) 'startFromHead': startFromHead,
+        if (startTime != null) 'startTime': startTime,
       },
     );
 
@@ -1883,7 +1888,7 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupName': logGroupName,
-        'time': time,
+        if (time != null) 'time': time,
       },
     );
 
@@ -2292,7 +2297,7 @@ class CloudWatchLogs {
         'logEvents': logEvents,
         'logGroupName': logGroupName,
         'logStreamName': logStreamName,
-        'sequenceToken': sequenceToken,
+        if (sequenceToken != null) 'sequenceToken': sequenceToken,
       },
     );
 
@@ -2431,8 +2436,8 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'policyDocument': policyDocument,
-        'policyName': policyName,
+        if (policyDocument != null) 'policyDocument': policyDocument,
+        if (policyName != null) 'policyName': policyName,
       },
     );
 
@@ -2641,8 +2646,8 @@ class CloudWatchLogs {
         'filterName': filterName,
         'filterPattern': filterPattern,
         'logGroupName': logGroupName,
-        'distribution': distribution?.toValue(),
-        'roleArn': roleArn,
+        if (distribution != null) 'distribution': distribution?.toValue(),
+        if (roleArn != null) 'roleArn': roleArn,
       },
     );
   }
@@ -2761,9 +2766,9 @@ class CloudWatchLogs {
         'endTime': endTime,
         'queryString': queryString,
         'startTime': startTime,
-        'limit': limit,
-        'logGroupName': logGroupName,
-        'logGroupNames': logGroupNames,
+        if (limit != null) 'limit': limit,
+        if (logGroupName != null) 'logGroupName': logGroupName,
+        if (logGroupNames != null) 'logGroupNames': logGroupNames,
       },
     );
 

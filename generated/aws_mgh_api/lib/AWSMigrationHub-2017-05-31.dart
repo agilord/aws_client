@@ -140,7 +140,7 @@ class MigrationHub {
         'CreatedArtifact': createdArtifact,
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -223,7 +223,7 @@ class MigrationHub {
         'DiscoveredResource': discoveredResource,
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -283,7 +283,7 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ProgressUpdateStreamName': progressUpdateStreamName,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -370,7 +370,7 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ProgressUpdateStreamName': progressUpdateStreamName,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -600,7 +600,7 @@ class MigrationHub {
         'CreatedArtifactName': createdArtifactName,
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -696,7 +696,7 @@ class MigrationHub {
         'ConfigurationId': configurationId,
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -776,7 +776,7 @@ class MigrationHub {
       payload: {
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -838,9 +838,9 @@ class MigrationHub {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ApplicationIds': applicationIds,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (applicationIds != null) 'ApplicationIds': applicationIds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -949,8 +949,8 @@ class MigrationHub {
       payload: {
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1046,8 +1046,8 @@ class MigrationHub {
       payload: {
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1133,9 +1133,9 @@ class MigrationHub {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceName': resourceName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceName != null) 'ResourceName': resourceName,
       },
     );
 
@@ -1191,8 +1191,8 @@ class MigrationHub {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1262,8 +1262,8 @@ class MigrationHub {
       payload: {
         'ApplicationId': applicationId,
         'Status': status?.toValue(),
-        'DryRun': dryRun,
-        'UpdateDateTime': updateDateTime,
+        if (dryRun != null) 'DryRun': dryRun,
+        if (updateDateTime != null) 'UpdateDateTime': updateDateTime,
       },
     );
 
@@ -1381,7 +1381,7 @@ class MigrationHub {
         'ProgressUpdateStream': progressUpdateStream,
         'Task': task,
         'UpdateDateTime': updateDateTime,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -1513,7 +1513,7 @@ class MigrationHub {
         'MigrationTaskName': migrationTaskName,
         'ProgressUpdateStream': progressUpdateStream,
         'ResourceAttributeList': resourceAttributeList,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 

@@ -180,7 +180,7 @@ class IoT1ClickProjects {
     );
     final $payload = <String, dynamic>{
       'placementName': placementName,
-      'attributes': attributes,
+      if (attributes != null) 'attributes': attributes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -247,9 +247,9 @@ class IoT1ClickProjects {
     );
     final $payload = <String, dynamic>{
       'projectName': projectName,
-      'description': description,
-      'placementTemplate': placementTemplate,
-      'tags': tags,
+      if (description != null) 'description': description,
+      if (placementTemplate != null) 'placementTemplate': placementTemplate,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -833,7 +833,7 @@ class IoT1ClickProjects {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'attributes': attributes,
+      if (attributes != null) 'attributes': attributes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -893,8 +893,8 @@ class IoT1ClickProjects {
       500,
     );
     final $payload = <String, dynamic>{
-      'description': description,
-      'placementTemplate': placementTemplate,
+      if (description != null) 'description': description,
+      if (placementTemplate != null) 'placementTemplate': placementTemplate,
     };
     final response = await _protocol.send(
       payload: $payload,

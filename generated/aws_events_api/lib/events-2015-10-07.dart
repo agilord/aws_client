@@ -176,8 +176,8 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'EventSourceName': eventSourceName,
-        'Tags': tags,
+        if (eventSourceName != null) 'EventSourceName': eventSourceName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -512,8 +512,8 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'EventBusName': eventBusName,
-        'Force': force,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (force != null) 'Force': force,
       },
     );
   }
@@ -559,7 +559,7 @@ class CloudWatchEvents {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -709,7 +709,7 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'EventBusName': eventBusName,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
 
@@ -774,7 +774,7 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'EventBusName': eventBusName,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
   }
@@ -838,7 +838,7 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'EventBusName': eventBusName,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
   }
@@ -898,9 +898,9 @@ class CloudWatchEvents {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NamePrefix': namePrefix,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (namePrefix != null) 'NamePrefix': namePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -963,9 +963,9 @@ class CloudWatchEvents {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NamePrefix': namePrefix,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (namePrefix != null) 'NamePrefix': namePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1034,8 +1034,8 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'EventSourceName': eventSourceName,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1103,8 +1103,8 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'NamePrefix': namePrefix,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1178,9 +1178,9 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'TargetArn': targetArn,
-        'EventBusName': eventBusName,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1259,10 +1259,10 @@ class CloudWatchEvents {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EventBusName': eventBusName,
-        'Limit': limit,
-        'NamePrefix': namePrefix,
-        'NextToken': nextToken,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (limit != null) 'Limit': limit,
+        if (namePrefix != null) 'NamePrefix': namePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1378,9 +1378,9 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Rule': rule,
-        'EventBusName': eventBusName,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1591,8 +1591,8 @@ class CloudWatchEvents {
         'Action': action,
         'Principal': principal,
         'StatementId': statementId,
-        'Condition': condition,
-        'EventBusName': eventBusName,
+        if (condition != null) 'Condition': condition,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
   }
@@ -1756,13 +1756,14 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'Name': name,
-        'Description': description,
-        'EventBusName': eventBusName,
-        'EventPattern': eventPattern,
-        'RoleArn': roleArn,
-        'ScheduleExpression': scheduleExpression,
-        'State': state?.toValue(),
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (eventPattern != null) 'EventPattern': eventPattern,
+        if (roleArn != null) 'RoleArn': roleArn,
+        if (scheduleExpression != null)
+          'ScheduleExpression': scheduleExpression,
+        if (state != null) 'State': state?.toValue(),
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1973,7 +1974,7 @@ class CloudWatchEvents {
       payload: {
         'Rule': rule,
         'Targets': targets,
-        'EventBusName': eventBusName,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
 
@@ -2038,7 +2039,7 @@ class CloudWatchEvents {
       headers: headers,
       payload: {
         'StatementId': statementId,
-        'EventBusName': eventBusName,
+        if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
   }
@@ -2121,8 +2122,8 @@ class CloudWatchEvents {
       payload: {
         'Ids': ids,
         'Rule': rule,
-        'EventBusName': eventBusName,
-        'Force': force,
+        if (eventBusName != null) 'EventBusName': eventBusName,
+        if (force != null) 'Force': force,
       },
     );
 

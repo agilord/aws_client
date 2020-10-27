@@ -85,7 +85,7 @@ class CostandUsageReportService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ReportName': reportName,
+        if (reportName != null) 'ReportName': reportName,
       },
     );
 
@@ -117,8 +117,8 @@ class CostandUsageReportService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

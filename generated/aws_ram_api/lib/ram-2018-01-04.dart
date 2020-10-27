@@ -75,7 +75,7 @@ class RAM {
         resourceShareInvitationArn, 'resourceShareInvitationArn');
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -123,9 +123,9 @@ class RAM {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
-      'clientToken': clientToken,
-      'principals': principals,
-      'resourceArns': resourceArns,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (principals != null) 'principals': principals,
+      if (resourceArns != null) 'resourceArns': resourceArns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -173,8 +173,8 @@ class RAM {
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
-      'clientToken': clientToken,
-      'replace': replace,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (replace != null) 'replace': replace,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -238,12 +238,13 @@ class RAM {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
-      'allowExternalPrincipals': allowExternalPrincipals,
-      'clientToken': clientToken,
-      'permissionArns': permissionArns,
-      'principals': principals,
-      'resourceArns': resourceArns,
-      'tags': tags,
+      if (allowExternalPrincipals != null)
+        'allowExternalPrincipals': allowExternalPrincipals,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (permissionArns != null) 'permissionArns': permissionArns,
+      if (principals != null) 'principals': principals,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -328,9 +329,9 @@ class RAM {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
-      'clientToken': clientToken,
-      'principals': principals,
-      'resourceArns': resourceArns,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (principals != null) 'principals': principals,
+      if (resourceArns != null) 'resourceArns': resourceArns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -371,7 +372,7 @@ class RAM {
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -422,7 +423,7 @@ class RAM {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
-      'permissionVersion': permissionVersion,
+      if (permissionVersion != null) 'permissionVersion': permissionVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -470,9 +471,9 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceArns': resourceArns,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'principal': principal,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principal != null) 'principal': principal,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -538,12 +539,13 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'associationType': associationType?.toValue(),
-      'associationStatus': associationStatus?.toValue(),
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'principal': principal,
-      'resourceArn': resourceArn,
-      'resourceShareArns': resourceShareArns,
+      if (associationStatus != null)
+        'associationStatus': associationStatus?.toValue(),
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principal != null) 'principal': principal,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -590,10 +592,11 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'resourceShareArns': resourceShareArns,
-      'resourceShareInvitationArns': resourceShareInvitationArns,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+      if (resourceShareInvitationArns != null)
+        'resourceShareInvitationArns': resourceShareInvitationArns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -654,12 +657,13 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
-      'maxResults': maxResults,
-      'name': name,
-      'nextToken': nextToken,
-      'resourceShareArns': resourceShareArns,
-      'resourceShareStatus': resourceShareStatus?.toValue(),
-      'tagFilters': tagFilters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (name != null) 'name': name,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+      if (resourceShareStatus != null)
+        'resourceShareStatus': resourceShareStatus?.toValue(),
+      if (tagFilters != null) 'tagFilters': tagFilters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -709,8 +713,8 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -753,9 +757,9 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'resourceType': resourceType,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceType != null) 'resourceType': resourceType,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -823,12 +827,12 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'principals': principals,
-      'resourceArn': resourceArn,
-      'resourceShareArns': resourceShareArns,
-      'resourceType': resourceType,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principals != null) 'principals': principals,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+      if (resourceType != null) 'resourceType': resourceType,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -873,8 +877,8 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -943,12 +947,12 @@ class RAM {
     );
     final $payload = <String, dynamic>{
       'resourceOwner': resourceOwner?.toValue(),
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'principal': principal,
-      'resourceArns': resourceArns,
-      'resourceShareArns': resourceShareArns,
-      'resourceType': resourceType,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principal != null) 'principal': principal,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+      if (resourceType != null) 'resourceType': resourceType,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1031,7 +1035,7 @@ class RAM {
         resourceShareInvitationArn, 'resourceShareInvitationArn');
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1140,9 +1144,10 @@ class RAM {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
-      'allowExternalPrincipals': allowExternalPrincipals,
-      'clientToken': clientToken,
-      'name': name,
+      if (allowExternalPrincipals != null)
+        'allowExternalPrincipals': allowExternalPrincipals,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (name != null) 'name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

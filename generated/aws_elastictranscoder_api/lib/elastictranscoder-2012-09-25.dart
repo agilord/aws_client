@@ -165,13 +165,13 @@ class ElasticTranscoder {
     );
     final $payload = <String, dynamic>{
       'PipelineId': pipelineId,
-      'Input': input,
-      'Inputs': inputs,
-      'Output': output,
-      'OutputKeyPrefix': outputKeyPrefix,
-      'Outputs': outputs,
-      'Playlists': playlists,
-      'UserMetadata': userMetadata,
+      if (input != null) 'Input': input,
+      if (inputs != null) 'Inputs': inputs,
+      if (output != null) 'Output': output,
+      if (outputKeyPrefix != null) 'OutputKeyPrefix': outputKeyPrefix,
+      if (outputs != null) 'Outputs': outputs,
+      if (playlists != null) 'Playlists': playlists,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -511,11 +511,11 @@ class ElasticTranscoder {
       'InputBucket': inputBucket,
       'Name': name,
       'Role': role,
-      'AwsKmsKeyArn': awsKmsKeyArn,
-      'ContentConfig': contentConfig,
-      'Notifications': notifications,
-      'OutputBucket': outputBucket,
-      'ThumbnailConfig': thumbnailConfig,
+      if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
+      if (contentConfig != null) 'ContentConfig': contentConfig,
+      if (notifications != null) 'Notifications': notifications,
+      if (outputBucket != null) 'OutputBucket': outputBucket,
+      if (thumbnailConfig != null) 'ThumbnailConfig': thumbnailConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -606,10 +606,10 @@ class ElasticTranscoder {
     final $payload = <String, dynamic>{
       'Container': container,
       'Name': name,
-      'Audio': audio,
-      'Description': description,
-      'Thumbnails': thumbnails,
-      'Video': video,
+      if (audio != null) 'Audio': audio,
+      if (description != null) 'Description': description,
+      if (thumbnails != null) 'Thumbnails': thumbnails,
+      if (video != null) 'Video': video,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1359,13 +1359,13 @@ class ElasticTranscoder {
       r'''^arn:aws:iam::\w{12}:role/.+$''',
     );
     final $payload = <String, dynamic>{
-      'AwsKmsKeyArn': awsKmsKeyArn,
-      'ContentConfig': contentConfig,
-      'InputBucket': inputBucket,
-      'Name': name,
-      'Notifications': notifications,
-      'Role': role,
-      'ThumbnailConfig': thumbnailConfig,
+      if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
+      if (contentConfig != null) 'ContentConfig': contentConfig,
+      if (inputBucket != null) 'InputBucket': inputBucket,
+      if (name != null) 'Name': name,
+      if (notifications != null) 'Notifications': notifications,
+      if (role != null) 'Role': role,
+      if (thumbnailConfig != null) 'ThumbnailConfig': thumbnailConfig,
     };
     final response = await _protocol.send(
       payload: $payload,

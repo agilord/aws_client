@@ -232,8 +232,8 @@ class WorkSpaces {
         'Name': name,
         'SourceImageId': sourceImageId,
         'SourceRegion': sourceRegion,
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -290,9 +290,9 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'GroupName': groupName,
-        'GroupDesc': groupDesc,
-        'Tags': tags,
-        'UserRules': userRules,
+        if (groupDesc != null) 'GroupDesc': groupDesc,
+        if (tags != null) 'Tags': tags,
+        if (userRules != null) 'UserRules': userRules,
       },
     );
 
@@ -598,7 +598,7 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -678,9 +678,9 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GroupIds': groupIds,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (groupIds != null) 'GroupIds': groupIds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -766,9 +766,9 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BundleIds': bundleIds,
-        'NextToken': nextToken,
-        'Owner': owner,
+        if (bundleIds != null) 'BundleIds': bundleIds,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (owner != null) 'Owner': owner,
       },
     );
 
@@ -818,9 +818,9 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryIds': directoryIds,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (directoryIds != null) 'DirectoryIds': directoryIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -870,9 +870,9 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ImageIds': imageIds,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (imageIds != null) 'ImageIds': imageIds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1005,12 +1005,12 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BundleId': bundleId,
-        'DirectoryId': directoryId,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'UserName': userName,
-        'WorkspaceIds': workspaceIds,
+        if (bundleId != null) 'BundleId': bundleId,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (userName != null) 'UserName': userName,
+        if (workspaceIds != null) 'WorkspaceIds': workspaceIds,
       },
     );
 
@@ -1049,8 +1049,8 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
-        'WorkspaceIds': workspaceIds,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (workspaceIds != null) 'WorkspaceIds': workspaceIds,
       },
     );
 
@@ -1191,7 +1191,7 @@ class WorkSpaces {
         'ImageDescription': imageDescription,
         'ImageName': imageName,
         'IngestionProcess': ingestionProcess?.toValue(),
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1259,8 +1259,8 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'ManagementCidrRangeConstraint': managementCidrRangeConstraint,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1371,9 +1371,11 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DedicatedTenancyManagementCidrRange':
-            dedicatedTenancyManagementCidrRange,
-        'DedicatedTenancySupport': dedicatedTenancySupport?.toValue(),
+        if (dedicatedTenancyManagementCidrRange != null)
+          'DedicatedTenancyManagementCidrRange':
+              dedicatedTenancyManagementCidrRange,
+        if (dedicatedTenancySupport != null)
+          'DedicatedTenancySupport': dedicatedTenancySupport?.toValue(),
       },
     );
 
@@ -1832,10 +1834,10 @@ class WorkSpaces {
       payload: {
         'DirectoryId': directoryId,
         'EnableWorkDocs': enableWorkDocs,
-        'EnableSelfService': enableSelfService,
-        'SubnetIds': subnetIds,
-        'Tags': tags,
-        'Tenancy': tenancy?.toValue(),
+        if (enableSelfService != null) 'EnableSelfService': enableSelfService,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
+        if (tags != null) 'Tags': tags,
+        if (tenancy != null) 'Tenancy': tenancy?.toValue(),
       },
     );
 

@@ -161,12 +161,14 @@ class Cloud9 {
       payload: {
         'instanceType': instanceType,
         'name': name,
-        'automaticStopTimeMinutes': automaticStopTimeMinutes,
-        'clientRequestToken': clientRequestToken,
-        'description': description,
-        'ownerArn': ownerArn,
-        'subnetId': subnetId,
-        'tags': tags,
+        if (automaticStopTimeMinutes != null)
+          'automaticStopTimeMinutes': automaticStopTimeMinutes,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (description != null) 'description': description,
+        if (ownerArn != null) 'ownerArn': ownerArn,
+        if (subnetId != null) 'subnetId': subnetId,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -420,11 +422,11 @@ class Cloud9 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'environmentId': environmentId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'permissions': permissions,
-        'userArn': userArn,
+        if (environmentId != null) 'environmentId': environmentId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (permissions != null) 'permissions': permissions,
+        if (userArn != null) 'userArn': userArn,
       },
     );
 
@@ -547,8 +549,8 @@ class Cloud9 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -738,8 +740,8 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'description': description,
-        'name': name,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
       },
     );
 

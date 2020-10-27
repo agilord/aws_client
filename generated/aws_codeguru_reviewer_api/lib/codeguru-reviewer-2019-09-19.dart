@@ -99,7 +99,7 @@ class CodeGuruReviewer {
     );
     final $payload = <String, dynamic>{
       'Repository': repository,
-      'ClientRequestToken': clientRequestToken,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
       payload: $payload,

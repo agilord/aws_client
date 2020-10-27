@@ -90,7 +90,7 @@ class NetworkManager {
     final $payload = <String, dynamic>{
       'CustomerGatewayArn': customerGatewayArn,
       'DeviceId': deviceId,
-      'LinkId': linkId,
+      if (linkId != null) 'LinkId': linkId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -203,14 +203,14 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Location': location,
-      'Model': model,
-      'SerialNumber': serialNumber,
-      'SiteId': siteId,
-      'Tags': tags,
-      'Type': type,
-      'Vendor': vendor,
+      if (description != null) 'Description': description,
+      if (location != null) 'Location': location,
+      if (model != null) 'Model': model,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (siteId != null) 'SiteId': siteId,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+      if (vendor != null) 'Vendor': vendor,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -243,8 +243,8 @@ class NetworkManager {
     List<Tag> tags,
   }) async {
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -310,10 +310,10 @@ class NetworkManager {
     final $payload = <String, dynamic>{
       'Bandwidth': bandwidth,
       'SiteId': siteId,
-      'Description': description,
-      'Provider': provider,
-      'Tags': tags,
-      'Type': type,
+      if (description != null) 'Description': description,
+      if (provider != null) 'Provider': provider,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -370,9 +370,9 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Location': location,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (location != null) 'Location': location,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1176,13 +1176,13 @@ class NetworkManager {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Location': location,
-      'Model': model,
-      'SerialNumber': serialNumber,
-      'SiteId': siteId,
-      'Type': type,
-      'Vendor': vendor,
+      if (description != null) 'Description': description,
+      if (location != null) 'Location': location,
+      if (model != null) 'Model': model,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (siteId != null) 'SiteId': siteId,
+      if (type != null) 'Type': type,
+      if (vendor != null) 'Vendor': vendor,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1217,7 +1217,7 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1274,10 +1274,10 @@ class NetworkManager {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
     final $payload = <String, dynamic>{
-      'Bandwidth': bandwidth,
-      'Description': description,
-      'Provider': provider,
-      'Type': type,
+      if (bandwidth != null) 'Bandwidth': bandwidth,
+      if (description != null) 'Description': description,
+      if (provider != null) 'Provider': provider,
+      if (type != null) 'Type': type,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1333,8 +1333,8 @@ class NetworkManager {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Location': location,
+      if (description != null) 'Description': description,
+      if (location != null) 'Location': location,
     };
     final response = await _protocol.send(
       payload: $payload,

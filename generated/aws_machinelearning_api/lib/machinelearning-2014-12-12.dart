@@ -239,7 +239,8 @@ class MachineLearning {
         'BatchPredictionId': batchPredictionId,
         'MLModelId': mLModelId,
         'OutputUri': outputUri,
-        'BatchPredictionName': batchPredictionName,
+        if (batchPredictionName != null)
+          'BatchPredictionName': batchPredictionName,
       },
     );
 
@@ -410,8 +411,8 @@ class MachineLearning {
         'DataSourceId': dataSourceId,
         'RDSData': rDSData,
         'RoleARN': roleARN,
-        'ComputeStatistics': computeStatistics,
-        'DataSourceName': dataSourceName,
+        if (computeStatistics != null) 'ComputeStatistics': computeStatistics,
+        if (dataSourceName != null) 'DataSourceName': dataSourceName,
       },
     );
 
@@ -594,8 +595,8 @@ class MachineLearning {
         'DataSourceId': dataSourceId,
         'DataSpec': dataSpec,
         'RoleARN': roleARN,
-        'ComputeStatistics': computeStatistics,
-        'DataSourceName': dataSourceName,
+        if (computeStatistics != null) 'ComputeStatistics': computeStatistics,
+        if (dataSourceName != null) 'DataSourceName': dataSourceName,
       },
     );
 
@@ -727,8 +728,8 @@ class MachineLearning {
       payload: {
         'DataSourceId': dataSourceId,
         'DataSpec': dataSpec,
-        'ComputeStatistics': computeStatistics,
-        'DataSourceName': dataSourceName,
+        if (computeStatistics != null) 'ComputeStatistics': computeStatistics,
+        if (dataSourceName != null) 'DataSourceName': dataSourceName,
       },
     );
 
@@ -851,7 +852,7 @@ class MachineLearning {
         'EvaluationDataSourceId': evaluationDataSourceId,
         'EvaluationId': evaluationId,
         'MLModelId': mLModelId,
-        'EvaluationName': evaluationName,
+        if (evaluationName != null) 'EvaluationName': evaluationName,
       },
     );
 
@@ -1055,10 +1056,10 @@ class MachineLearning {
         'MLModelId': mLModelId,
         'MLModelType': mLModelType?.toValue(),
         'TrainingDataSourceId': trainingDataSourceId,
-        'MLModelName': mLModelName,
-        'Parameters': parameters,
-        'Recipe': recipe,
-        'RecipeUri': recipeUri,
+        if (mLModelName != null) 'MLModelName': mLModelName,
+        if (parameters != null) 'Parameters': parameters,
+        if (recipe != null) 'Recipe': recipe,
+        if (recipeUri != null) 'RecipeUri': recipeUri,
       },
     );
 
@@ -1626,17 +1627,17 @@ class MachineLearning {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EQ': eq,
-        'FilterVariable': filterVariable?.toValue(),
-        'GE': ge,
-        'GT': gt,
-        'LE': le,
-        'LT': lt,
-        'Limit': limit,
-        'NE': ne,
-        'NextToken': nextToken,
-        'Prefix': prefix,
-        'SortOrder': sortOrder?.toValue(),
+        if (eq != null) 'EQ': eq,
+        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (ge != null) 'GE': ge,
+        if (gt != null) 'GT': gt,
+        if (le != null) 'LE': le,
+        if (lt != null) 'LT': lt,
+        if (limit != null) 'Limit': limit,
+        if (ne != null) 'NE': ne,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (prefix != null) 'Prefix': prefix,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1844,17 +1845,17 @@ class MachineLearning {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EQ': eq,
-        'FilterVariable': filterVariable?.toValue(),
-        'GE': ge,
-        'GT': gt,
-        'LE': le,
-        'LT': lt,
-        'Limit': limit,
-        'NE': ne,
-        'NextToken': nextToken,
-        'Prefix': prefix,
-        'SortOrder': sortOrder?.toValue(),
+        if (eq != null) 'EQ': eq,
+        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (ge != null) 'GE': ge,
+        if (gt != null) 'GT': gt,
+        if (le != null) 'LE': le,
+        if (lt != null) 'LT': lt,
+        if (limit != null) 'Limit': limit,
+        if (ne != null) 'NE': ne,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (prefix != null) 'Prefix': prefix,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2065,17 +2066,17 @@ class MachineLearning {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EQ': eq,
-        'FilterVariable': filterVariable?.toValue(),
-        'GE': ge,
-        'GT': gt,
-        'LE': le,
-        'LT': lt,
-        'Limit': limit,
-        'NE': ne,
-        'NextToken': nextToken,
-        'Prefix': prefix,
-        'SortOrder': sortOrder?.toValue(),
+        if (eq != null) 'EQ': eq,
+        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (ge != null) 'GE': ge,
+        if (gt != null) 'GT': gt,
+        if (le != null) 'LE': le,
+        if (lt != null) 'LT': lt,
+        if (limit != null) 'Limit': limit,
+        if (ne != null) 'NE': ne,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (prefix != null) 'Prefix': prefix,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2294,17 +2295,17 @@ class MachineLearning {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EQ': eq,
-        'FilterVariable': filterVariable?.toValue(),
-        'GE': ge,
-        'GT': gt,
-        'LE': le,
-        'LT': lt,
-        'Limit': limit,
-        'NE': ne,
-        'NextToken': nextToken,
-        'Prefix': prefix,
-        'SortOrder': sortOrder?.toValue(),
+        if (eq != null) 'EQ': eq,
+        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (ge != null) 'GE': ge,
+        if (gt != null) 'GT': gt,
+        if (le != null) 'LE': le,
+        if (lt != null) 'LT': lt,
+        if (limit != null) 'Limit': limit,
+        if (ne != null) 'NE': ne,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (prefix != null) 'Prefix': prefix,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -2456,7 +2457,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'DataSourceId': dataSourceId,
-        'Verbose': verbose,
+        if (verbose != null) 'Verbose': verbose,
       },
     );
 
@@ -2558,7 +2559,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'Verbose': verbose,
+        if (verbose != null) 'Verbose': verbose,
       },
     );
 
@@ -2901,8 +2902,8 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelName': mLModelName,
-        'ScoreThreshold': scoreThreshold,
+        if (mLModelName != null) 'MLModelName': mLModelName,
+        if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
       },
     );
 

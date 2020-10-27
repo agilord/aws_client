@@ -211,8 +211,8 @@ class AutoScalingPlans {
       payload: {
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -263,11 +263,13 @@ class AutoScalingPlans {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ApplicationSources': applicationSources,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ScalingPlanNames': scalingPlanNames,
-        'ScalingPlanVersion': scalingPlanVersion,
+        if (applicationSources != null)
+          'ApplicationSources': applicationSources,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (scalingPlanNames != null) 'ScalingPlanNames': scalingPlanNames,
+        if (scalingPlanVersion != null)
+          'ScalingPlanVersion': scalingPlanVersion,
       },
     );
 
@@ -486,8 +488,9 @@ class AutoScalingPlans {
       payload: {
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ApplicationSource': applicationSource,
-        'ScalingInstructions': scalingInstructions,
+        if (applicationSource != null) 'ApplicationSource': applicationSource,
+        if (scalingInstructions != null)
+          'ScalingInstructions': scalingInstructions,
       },
     );
 

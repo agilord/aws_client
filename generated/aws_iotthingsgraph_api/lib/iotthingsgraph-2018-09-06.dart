@@ -113,7 +113,7 @@ class IoTThingsGraph {
       payload: {
         'entityId': entityId,
         'thingName': thingName,
-        'namespaceVersion': namespaceVersion,
+        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
       },
     );
 
@@ -156,7 +156,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'compatibleNamespaceVersion': compatibleNamespaceVersion,
+        if (compatibleNamespaceVersion != null)
+          'compatibleNamespaceVersion': compatibleNamespaceVersion,
       },
     );
 
@@ -247,11 +248,14 @@ class IoTThingsGraph {
       payload: {
         'definition': definition,
         'target': target?.toValue(),
-        'flowActionsRoleArn': flowActionsRoleArn,
-        'greengrassGroupName': greengrassGroupName,
-        'metricsConfiguration': metricsConfiguration,
-        's3BucketName': s3BucketName,
-        'tags': tags,
+        if (flowActionsRoleArn != null)
+          'flowActionsRoleArn': flowActionsRoleArn,
+        if (greengrassGroupName != null)
+          'greengrassGroupName': greengrassGroupName,
+        if (metricsConfiguration != null)
+          'metricsConfiguration': metricsConfiguration,
+        if (s3BucketName != null) 's3BucketName': s3BucketName,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -291,7 +295,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'compatibleNamespaceVersion': compatibleNamespaceVersion,
+        if (compatibleNamespaceVersion != null)
+          'compatibleNamespaceVersion': compatibleNamespaceVersion,
       },
     );
 
@@ -409,7 +414,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'id': id,
+        if (id != null) 'id': id,
       },
     );
 
@@ -526,7 +531,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'id': id,
+        if (id != null) 'id': id,
       },
     );
 
@@ -662,7 +667,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'namespaceName': namespaceName,
+        if (namespaceName != null) 'namespaceName': namespaceName,
       },
     );
 
@@ -788,7 +793,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'ids': ids,
-        'namespaceVersion': namespaceVersion,
+        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
       },
     );
 
@@ -842,7 +847,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'id': id,
-        'revisionNumber': revisionNumber,
+        if (revisionNumber != null) 'revisionNumber': revisionNumber,
       },
     );
 
@@ -909,8 +914,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'id': id,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1034,7 +1039,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'id': id,
-        'revisionNumber': revisionNumber,
+        if (revisionNumber != null) 'revisionNumber': revisionNumber,
       },
     );
 
@@ -1101,8 +1106,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'id': id,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1189,8 +1194,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'flowExecutionId': flowExecutionId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1244,8 +1249,8 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'resourceArn': resourceArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1308,10 +1313,10 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'entityTypes': entityTypes,
-        'filters': filters,
-        'maxResults': maxResults,
-        'namespaceVersion': namespaceVersion,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1383,11 +1388,11 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'systemInstanceId': systemInstanceId,
-        'endTime': endTime,
-        'flowExecutionId': flowExecutionId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'startTime': startTime,
+        if (endTime != null) 'endTime': endTime,
+        if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (startTime != null) 'startTime': startTime,
       },
     );
 
@@ -1432,9 +1437,9 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1483,9 +1488,9 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1532,9 +1537,9 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1612,9 +1617,9 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'entityId': entityId,
-        'maxResults': maxResults,
-        'namespaceVersion': namespaceVersion,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1700,7 +1705,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'id': id,
+        if (id != null) 'id': id,
       },
     );
 
@@ -1820,7 +1825,8 @@ class IoTThingsGraph {
       payload: {
         'definition': definition,
         'id': id,
-        'compatibleNamespaceVersion': compatibleNamespaceVersion,
+        if (compatibleNamespaceVersion != null)
+          'compatibleNamespaceVersion': compatibleNamespaceVersion,
       },
     );
 
@@ -1885,7 +1891,8 @@ class IoTThingsGraph {
       payload: {
         'definition': definition,
         'id': id,
-        'compatibleNamespaceVersion': compatibleNamespaceVersion,
+        if (compatibleNamespaceVersion != null)
+          'compatibleNamespaceVersion': compatibleNamespaceVersion,
       },
     );
 
@@ -1952,9 +1959,11 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'deprecateExistingEntities': deprecateExistingEntities,
-        'document': document,
-        'syncWithPublicNamespace': syncWithPublicNamespace,
+        if (deprecateExistingEntities != null)
+          'deprecateExistingEntities': deprecateExistingEntities,
+        if (document != null) 'document': document,
+        if (syncWithPublicNamespace != null)
+          'syncWithPublicNamespace': syncWithPublicNamespace,
       },
     );
 

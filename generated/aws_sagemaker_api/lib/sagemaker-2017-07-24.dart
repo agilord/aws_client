@@ -299,10 +299,14 @@ class SageMaker {
       payload: {
         'AlgorithmName': algorithmName,
         'TrainingSpecification': trainingSpecification,
-        'AlgorithmDescription': algorithmDescription,
-        'CertifyForMarketplace': certifyForMarketplace,
-        'InferenceSpecification': inferenceSpecification,
-        'ValidationSpecification': validationSpecification,
+        if (algorithmDescription != null)
+          'AlgorithmDescription': algorithmDescription,
+        if (certifyForMarketplace != null)
+          'CertifyForMarketplace': certifyForMarketplace,
+        if (inferenceSpecification != null)
+          'InferenceSpecification': inferenceSpecification,
+        if (validationSpecification != null)
+          'ValidationSpecification': validationSpecification,
       },
     );
 
@@ -399,8 +403,8 @@ class SageMaker {
         'AppType': appType?.toValue(),
         'DomainId': domainId,
         'UserProfileName': userProfileName,
-        'ResourceSpec': resourceSpec,
-        'Tags': tags,
+        if (resourceSpec != null) 'ResourceSpec': resourceSpec,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -513,11 +517,13 @@ class SageMaker {
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
         'RoleArn': roleArn,
-        'AutoMLJobConfig': autoMLJobConfig,
-        'AutoMLJobObjective': autoMLJobObjective,
-        'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-        'ProblemType': problemType?.toValue(),
-        'Tags': tags,
+        if (autoMLJobConfig != null) 'AutoMLJobConfig': autoMLJobConfig,
+        if (autoMLJobObjective != null)
+          'AutoMLJobObjective': autoMLJobObjective,
+        if (generateCandidateDefinitionsOnly != null)
+          'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
+        if (problemType != null) 'ProblemType': problemType?.toValue(),
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -826,8 +832,9 @@ class SageMaker {
         'DomainName': domainName,
         'SubnetIds': subnetIds,
         'VpcId': vpcId,
-        'HomeEfsFileSystemKmsKeyId': homeEfsFileSystemKmsKeyId,
-        'Tags': tags,
+        if (homeEfsFileSystemKmsKeyId != null)
+          'HomeEfsFileSystemKmsKeyId': homeEfsFileSystemKmsKeyId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -936,7 +943,7 @@ class SageMaker {
       payload: {
         'EndpointConfigName': endpointConfigName,
         'EndpointName': endpointName,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1080,9 +1087,9 @@ class SageMaker {
       payload: {
         'EndpointConfigName': endpointConfigName,
         'ProductionVariants': productionVariants,
-        'DataCaptureConfig': dataCaptureConfig,
-        'KmsKeyId': kmsKeyId,
-        'Tags': tags,
+        if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1188,9 +1195,9 @@ class SageMaker {
       headers: headers,
       payload: {
         'ExperimentName': experimentName,
-        'Description': description,
-        'DisplayName': displayName,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1285,9 +1292,11 @@ class SageMaker {
         'HumanLoopConfig': humanLoopConfig,
         'OutputConfig': outputConfig,
         'RoleArn': roleArn,
-        'HumanLoopActivationConfig': humanLoopActivationConfig,
-        'HumanLoopRequestSource': humanLoopRequestSource,
-        'Tags': tags,
+        if (humanLoopActivationConfig != null)
+          'HumanLoopActivationConfig': humanLoopActivationConfig,
+        if (humanLoopRequestSource != null)
+          'HumanLoopRequestSource': humanLoopRequestSource,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1341,7 +1350,7 @@ class SageMaker {
       payload: {
         'HumanTaskUiName': humanTaskUiName,
         'UiTemplate': uiTemplate,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1449,10 +1458,12 @@ class SageMaker {
       payload: {
         'HyperParameterTuningJobConfig': hyperParameterTuningJobConfig,
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
-        'Tags': tags,
-        'TrainingJobDefinition': trainingJobDefinition,
-        'TrainingJobDefinitions': trainingJobDefinitions,
-        'WarmStartConfig': warmStartConfig,
+        if (tags != null) 'Tags': tags,
+        if (trainingJobDefinition != null)
+          'TrainingJobDefinition': trainingJobDefinition,
+        if (trainingJobDefinitions != null)
+          'TrainingJobDefinitions': trainingJobDefinitions,
+        if (warmStartConfig != null) 'WarmStartConfig': warmStartConfig,
       },
     );
 
@@ -1667,10 +1678,13 @@ class SageMaker {
         'LabelingJobName': labelingJobName,
         'OutputConfig': outputConfig,
         'RoleArn': roleArn,
-        'LabelCategoryConfigS3Uri': labelCategoryConfigS3Uri,
-        'LabelingJobAlgorithmsConfig': labelingJobAlgorithmsConfig,
-        'StoppingConditions': stoppingConditions,
-        'Tags': tags,
+        if (labelCategoryConfigS3Uri != null)
+          'LabelCategoryConfigS3Uri': labelCategoryConfigS3Uri,
+        if (labelingJobAlgorithmsConfig != null)
+          'LabelingJobAlgorithmsConfig': labelingJobAlgorithmsConfig,
+        if (stoppingConditions != null)
+          'StoppingConditions': stoppingConditions,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1806,11 +1820,12 @@ class SageMaker {
       payload: {
         'ExecutionRoleArn': executionRoleArn,
         'ModelName': modelName,
-        'Containers': containers,
-        'EnableNetworkIsolation': enableNetworkIsolation,
-        'PrimaryContainer': primaryContainer,
-        'Tags': tags,
-        'VpcConfig': vpcConfig,
+        if (containers != null) 'Containers': containers,
+        if (enableNetworkIsolation != null)
+          'EnableNetworkIsolation': enableNetworkIsolation,
+        if (primaryContainer != null) 'PrimaryContainer': primaryContainer,
+        if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -1908,11 +1923,16 @@ class SageMaker {
       headers: headers,
       payload: {
         'ModelPackageName': modelPackageName,
-        'CertifyForMarketplace': certifyForMarketplace,
-        'InferenceSpecification': inferenceSpecification,
-        'ModelPackageDescription': modelPackageDescription,
-        'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
-        'ValidationSpecification': validationSpecification,
+        if (certifyForMarketplace != null)
+          'CertifyForMarketplace': certifyForMarketplace,
+        if (inferenceSpecification != null)
+          'InferenceSpecification': inferenceSpecification,
+        if (modelPackageDescription != null)
+          'ModelPackageDescription': modelPackageDescription,
+        if (sourceAlgorithmSpecification != null)
+          'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
+        if (validationSpecification != null)
+          'ValidationSpecification': validationSpecification,
       },
     );
 
@@ -1974,7 +1994,7 @@ class SageMaker {
       payload: {
         'MonitoringScheduleConfig': monitoringScheduleConfig,
         'MonitoringScheduleName': monitoringScheduleName,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2240,17 +2260,21 @@ class SageMaker {
         'InstanceType': instanceType?.toValue(),
         'NotebookInstanceName': notebookInstanceName,
         'RoleArn': roleArn,
-        'AcceleratorTypes': acceleratorTypes,
-        'AdditionalCodeRepositories': additionalCodeRepositories,
-        'DefaultCodeRepository': defaultCodeRepository,
-        'DirectInternetAccess': directInternetAccess?.toValue(),
-        'KmsKeyId': kmsKeyId,
-        'LifecycleConfigName': lifecycleConfigName,
-        'RootAccess': rootAccess?.toValue(),
-        'SecurityGroupIds': securityGroupIds,
-        'SubnetId': subnetId,
-        'Tags': tags,
-        'VolumeSizeInGB': volumeSizeInGB,
+        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
+        if (additionalCodeRepositories != null)
+          'AdditionalCodeRepositories': additionalCodeRepositories,
+        if (defaultCodeRepository != null)
+          'DefaultCodeRepository': defaultCodeRepository,
+        if (directInternetAccess != null)
+          'DirectInternetAccess': directInternetAccess?.toValue(),
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (lifecycleConfigName != null)
+          'LifecycleConfigName': lifecycleConfigName,
+        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (subnetId != null) 'SubnetId': subnetId,
+        if (tags != null) 'Tags': tags,
+        if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
       },
     );
 
@@ -2325,8 +2349,8 @@ class SageMaker {
       payload: {
         'NotebookInstanceLifecycleConfigName':
             notebookInstanceLifecycleConfigName,
-        'OnCreate': onCreate,
-        'OnStart': onStart,
+        if (onCreate != null) 'OnCreate': onCreate,
+        if (onStart != null) 'OnStart': onStart,
       },
     );
 
@@ -2396,8 +2420,9 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         'UserProfileName': userProfileName,
-        'SessionExpirationDurationInSeconds':
-            sessionExpirationDurationInSeconds,
+        if (sessionExpirationDurationInSeconds != null)
+          'SessionExpirationDurationInSeconds':
+              sessionExpirationDurationInSeconds,
       },
     );
 
@@ -2469,8 +2494,9 @@ class SageMaker {
       headers: headers,
       payload: {
         'NotebookInstanceName': notebookInstanceName,
-        'SessionExpirationDurationInSeconds':
-            sessionExpirationDurationInSeconds,
+        if (sessionExpirationDurationInSeconds != null)
+          'SessionExpirationDurationInSeconds':
+              sessionExpirationDurationInSeconds,
       },
     );
 
@@ -2579,13 +2605,14 @@ class SageMaker {
         'ProcessingJobName': processingJobName,
         'ProcessingResources': processingResources,
         'RoleArn': roleArn,
-        'Environment': environment,
-        'ExperimentConfig': experimentConfig,
-        'NetworkConfig': networkConfig,
-        'ProcessingInputs': processingInputs,
-        'ProcessingOutputConfig': processingOutputConfig,
-        'StoppingCondition': stoppingCondition,
-        'Tags': tags,
+        if (environment != null) 'Environment': environment,
+        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
+        if (networkConfig != null) 'NetworkConfig': networkConfig,
+        if (processingInputs != null) 'ProcessingInputs': processingInputs,
+        if (processingOutputConfig != null)
+          'ProcessingOutputConfig': processingOutputConfig,
+        if (stoppingCondition != null) 'StoppingCondition': stoppingCondition,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2863,19 +2890,24 @@ class SageMaker {
         'RoleArn': roleArn,
         'StoppingCondition': stoppingCondition,
         'TrainingJobName': trainingJobName,
-        'CheckpointConfig': checkpointConfig,
-        'DebugHookConfig': debugHookConfig,
-        'DebugRuleConfigurations': debugRuleConfigurations,
-        'EnableInterContainerTrafficEncryption':
-            enableInterContainerTrafficEncryption,
-        'EnableManagedSpotTraining': enableManagedSpotTraining,
-        'EnableNetworkIsolation': enableNetworkIsolation,
-        'ExperimentConfig': experimentConfig,
-        'HyperParameters': hyperParameters,
-        'InputDataConfig': inputDataConfig,
-        'Tags': tags,
-        'TensorBoardOutputConfig': tensorBoardOutputConfig,
-        'VpcConfig': vpcConfig,
+        if (checkpointConfig != null) 'CheckpointConfig': checkpointConfig,
+        if (debugHookConfig != null) 'DebugHookConfig': debugHookConfig,
+        if (debugRuleConfigurations != null)
+          'DebugRuleConfigurations': debugRuleConfigurations,
+        if (enableInterContainerTrafficEncryption != null)
+          'EnableInterContainerTrafficEncryption':
+              enableInterContainerTrafficEncryption,
+        if (enableManagedSpotTraining != null)
+          'EnableManagedSpotTraining': enableManagedSpotTraining,
+        if (enableNetworkIsolation != null)
+          'EnableNetworkIsolation': enableNetworkIsolation,
+        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
+        if (hyperParameters != null) 'HyperParameters': hyperParameters,
+        if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+        if (tags != null) 'Tags': tags,
+        if (tensorBoardOutputConfig != null)
+          'TensorBoardOutputConfig': tensorBoardOutputConfig,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -3078,13 +3110,14 @@ class SageMaker {
         'TransformJobName': transformJobName,
         'TransformOutput': transformOutput,
         'TransformResources': transformResources,
-        'BatchStrategy': batchStrategy?.toValue(),
-        'DataProcessing': dataProcessing,
-        'Environment': environment,
-        'ExperimentConfig': experimentConfig,
-        'MaxConcurrentTransforms': maxConcurrentTransforms,
-        'MaxPayloadInMB': maxPayloadInMB,
-        'Tags': tags,
+        if (batchStrategy != null) 'BatchStrategy': batchStrategy?.toValue(),
+        if (dataProcessing != null) 'DataProcessing': dataProcessing,
+        if (environment != null) 'Environment': environment,
+        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
+        if (maxConcurrentTransforms != null)
+          'MaxConcurrentTransforms': maxConcurrentTransforms,
+        if (maxPayloadInMB != null) 'MaxPayloadInMB': maxPayloadInMB,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3183,8 +3216,8 @@ class SageMaker {
       payload: {
         'ExperimentName': experimentName,
         'TrialName': trialName,
-        'DisplayName': displayName,
-        'Tags': tags,
+        if (displayName != null) 'DisplayName': displayName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3307,14 +3340,14 @@ class SageMaker {
       headers: headers,
       payload: {
         'TrialComponentName': trialComponentName,
-        'DisplayName': displayName,
-        'EndTime': endTime,
-        'InputArtifacts': inputArtifacts,
-        'OutputArtifacts': outputArtifacts,
-        'Parameters': parameters,
-        'StartTime': startTime,
-        'Status': status,
-        'Tags': tags,
+        if (displayName != null) 'DisplayName': displayName,
+        if (endTime != null) 'EndTime': endTime,
+        if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
+        if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
+        if (parameters != null) 'Parameters': parameters,
+        if (startTime != null) 'StartTime': startTime,
+        if (status != null) 'Status': status,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3411,10 +3444,12 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         'UserProfileName': userProfileName,
-        'SingleSignOnUserIdentifier': singleSignOnUserIdentifier,
-        'SingleSignOnUserValue': singleSignOnUserValue,
-        'Tags': tags,
-        'UserSettings': userSettings,
+        if (singleSignOnUserIdentifier != null)
+          'SingleSignOnUserIdentifier': singleSignOnUserIdentifier,
+        if (singleSignOnUserValue != null)
+          'SingleSignOnUserValue': singleSignOnUserValue,
+        if (tags != null) 'Tags': tags,
+        if (userSettings != null) 'UserSettings': userSettings,
       },
     );
 
@@ -3510,8 +3545,9 @@ class SageMaker {
         'Description': description,
         'MemberDefinitions': memberDefinitions,
         'WorkteamName': workteamName,
-        'NotificationConfiguration': notificationConfiguration,
-        'Tags': tags,
+        if (notificationConfiguration != null)
+          'NotificationConfiguration': notificationConfiguration,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3709,7 +3745,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'DomainId': domainId,
-        'RetentionPolicy': retentionPolicy,
+        if (retentionPolicy != null) 'RetentionPolicy': retentionPolicy,
       },
     );
   }
@@ -5580,7 +5616,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'Resource': resource?.toValue(),
-        'SuggestionQuery': suggestionQuery,
+        if (suggestionQuery != null) 'SuggestionQuery': suggestionQuery,
       },
     );
 
@@ -5663,13 +5699,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -5749,12 +5786,13 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DomainIdEquals': domainIdEquals,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'UserProfileNameEquals': userProfileNameEquals,
+        if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (userProfileNameEquals != null)
+          'UserProfileNameEquals': userProfileNameEquals,
       },
     );
 
@@ -5844,16 +5882,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -5943,12 +5984,13 @@ class SageMaker {
       headers: headers,
       payload: {
         'AutoMLJobName': autoMLJobName,
-        'CandidateNameEquals': candidateNameEquals,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (candidateNameEquals != null)
+          'CandidateNameEquals': candidateNameEquals,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6040,15 +6082,18 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6150,16 +6195,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6206,8 +6254,8 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6289,13 +6337,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6391,16 +6440,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6468,12 +6520,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreatedAfter': createdAfter,
-        'CreatedBefore': createdBefore,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (createdAfter != null) 'CreatedAfter': createdAfter,
+        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6537,11 +6589,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6605,11 +6658,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -6706,16 +6760,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6812,16 +6869,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -6926,13 +6986,15 @@ class SageMaker {
       headers: headers,
       payload: {
         'WorkteamArn': workteamArn,
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'JobReferenceCodeContains': jobReferenceCodeContains,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (jobReferenceCodeContains != null)
+          'JobReferenceCodeContains': jobReferenceCodeContains,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7015,13 +7077,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7103,13 +7166,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7226,19 +7290,25 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'EndpointName': endpointName,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'MonitoringScheduleName': monitoringScheduleName,
-        'NextToken': nextToken,
-        'ScheduledTimeAfter': scheduledTimeAfter,
-        'ScheduledTimeBefore': scheduledTimeBefore,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (endpointName != null) 'EndpointName': endpointName,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (monitoringScheduleName != null)
+          'MonitoringScheduleName': monitoringScheduleName,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (scheduledTimeAfter != null)
+          'ScheduledTimeAfter': scheduledTimeAfter,
+        if (scheduledTimeBefore != null)
+          'ScheduledTimeBefore': scheduledTimeBefore,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7352,17 +7422,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'EndpointName': endpointName,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (endpointName != null) 'EndpointName': endpointName,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7457,15 +7530,18 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -7620,20 +7696,26 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AdditionalCodeRepositoryEquals': additionalCodeRepositoryEquals,
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'DefaultCodeRepositoryContains': defaultCodeRepositoryContains,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'NotebookInstanceLifecycleConfigNameContains':
-            notebookInstanceLifecycleConfigNameContains,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (additionalCodeRepositoryEquals != null)
+          'AdditionalCodeRepositoryEquals': additionalCodeRepositoryEquals,
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (defaultCodeRepositoryContains != null)
+          'DefaultCodeRepositoryContains': defaultCodeRepositoryContains,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (notebookInstanceLifecycleConfigNameContains != null)
+          'NotebookInstanceLifecycleConfigNameContains':
+              notebookInstanceLifecycleConfigNameContains,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7718,16 +7800,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -7793,9 +7878,9 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -7863,8 +7948,8 @@ class SageMaker {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -7960,16 +8045,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8057,11 +8145,11 @@ class SageMaker {
       headers: headers,
       payload: {
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8159,16 +8247,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreationTimeAfter': creationTimeAfter,
-        'CreationTimeBefore': creationTimeBefore,
-        'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'StatusEquals': statusEquals?.toValue(),
+        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': creationTimeBefore,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
       },
     );
 
@@ -8297,15 +8388,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreatedAfter': createdAfter,
-        'CreatedBefore': createdBefore,
-        'ExperimentName': experimentName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'SourceArn': sourceArn,
-        'TrialName': trialName,
+        if (createdAfter != null) 'CreatedAfter': createdAfter,
+        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (experimentName != null) 'ExperimentName': experimentName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sourceArn != null) 'SourceArn': sourceArn,
+        if (trialName != null) 'TrialName': trialName,
       },
     );
 
@@ -8409,14 +8500,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreatedAfter': createdAfter,
-        'CreatedBefore': createdBefore,
-        'ExperimentName': experimentName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'TrialComponentName': trialComponentName,
+        if (createdAfter != null) 'CreatedAfter': createdAfter,
+        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (experimentName != null) 'ExperimentName': experimentName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (trialComponentName != null)
+          'TrialComponentName': trialComponentName,
       },
     );
 
@@ -8496,12 +8588,13 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DomainIdEquals': domainIdEquals,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
-        'UserProfileNameContains': userProfileNameContains,
+        if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (userProfileNameContains != null)
+          'UserProfileNameContains': userProfileNameContains,
       },
     );
 
@@ -8575,11 +8668,11 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
-        'SortOrder': sortOrder?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -8725,11 +8818,11 @@ class SageMaker {
       headers: headers,
       payload: {
         'Resource': resource?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SearchExpression': searchExpression,
-        'SortBy': sortBy,
-        'SortOrder': sortOrder?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (searchExpression != null) 'SearchExpression': searchExpression,
+        if (sortBy != null) 'SortBy': sortBy,
+        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -9257,7 +9350,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'CodeRepositoryName': codeRepositoryName,
-        'GitConfig': gitConfig,
+        if (gitConfig != null) 'GitConfig': gitConfig,
       },
     );
 
@@ -9299,7 +9392,8 @@ class SageMaker {
       headers: headers,
       payload: {
         'DomainId': domainId,
-        'DefaultUserSettings': defaultUserSettings,
+        if (defaultUserSettings != null)
+          'DefaultUserSettings': defaultUserSettings,
       },
     );
 
@@ -9395,8 +9489,10 @@ class SageMaker {
       payload: {
         'EndpointConfigName': endpointConfigName,
         'EndpointName': endpointName,
-        'ExcludeRetainedVariantProperties': excludeRetainedVariantProperties,
-        'RetainAllVariantProperties': retainAllVariantProperties,
+        if (excludeRetainedVariantProperties != null)
+          'ExcludeRetainedVariantProperties': excludeRetainedVariantProperties,
+        if (retainAllVariantProperties != null)
+          'RetainAllVariantProperties': retainAllVariantProperties,
       },
     );
 
@@ -9526,8 +9622,8 @@ class SageMaker {
       headers: headers,
       payload: {
         'ExperimentName': experimentName,
-        'Description': description,
-        'DisplayName': displayName,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
       },
     );
 
@@ -9765,19 +9861,27 @@ class SageMaker {
       headers: headers,
       payload: {
         'NotebookInstanceName': notebookInstanceName,
-        'AcceleratorTypes': acceleratorTypes,
-        'AdditionalCodeRepositories': additionalCodeRepositories,
-        'DefaultCodeRepository': defaultCodeRepository,
-        'DisassociateAcceleratorTypes': disassociateAcceleratorTypes,
-        'DisassociateAdditionalCodeRepositories':
-            disassociateAdditionalCodeRepositories,
-        'DisassociateDefaultCodeRepository': disassociateDefaultCodeRepository,
-        'DisassociateLifecycleConfig': disassociateLifecycleConfig,
-        'InstanceType': instanceType?.toValue(),
-        'LifecycleConfigName': lifecycleConfigName,
-        'RoleArn': roleArn,
-        'RootAccess': rootAccess?.toValue(),
-        'VolumeSizeInGB': volumeSizeInGB,
+        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
+        if (additionalCodeRepositories != null)
+          'AdditionalCodeRepositories': additionalCodeRepositories,
+        if (defaultCodeRepository != null)
+          'DefaultCodeRepository': defaultCodeRepository,
+        if (disassociateAcceleratorTypes != null)
+          'DisassociateAcceleratorTypes': disassociateAcceleratorTypes,
+        if (disassociateAdditionalCodeRepositories != null)
+          'DisassociateAdditionalCodeRepositories':
+              disassociateAdditionalCodeRepositories,
+        if (disassociateDefaultCodeRepository != null)
+          'DisassociateDefaultCodeRepository':
+              disassociateDefaultCodeRepository,
+        if (disassociateLifecycleConfig != null)
+          'DisassociateLifecycleConfig': disassociateLifecycleConfig,
+        if (instanceType != null) 'InstanceType': instanceType?.toValue(),
+        if (lifecycleConfigName != null)
+          'LifecycleConfigName': lifecycleConfigName,
+        if (roleArn != null) 'RoleArn': roleArn,
+        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
+        if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
       },
     );
 
@@ -9833,8 +9937,8 @@ class SageMaker {
       payload: {
         'NotebookInstanceLifecycleConfigName':
             notebookInstanceLifecycleConfigName,
-        'OnCreate': onCreate,
-        'OnStart': onStart,
+        if (onCreate != null) 'OnCreate': onCreate,
+        if (onStart != null) 'OnStart': onStart,
       },
     );
 
@@ -9895,7 +9999,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'TrialName': trialName,
-        'DisplayName': displayName,
+        if (displayName != null) 'DisplayName': displayName,
       },
     );
 
@@ -9994,16 +10098,19 @@ class SageMaker {
       headers: headers,
       payload: {
         'TrialComponentName': trialComponentName,
-        'DisplayName': displayName,
-        'EndTime': endTime,
-        'InputArtifacts': inputArtifacts,
-        'InputArtifactsToRemove': inputArtifactsToRemove,
-        'OutputArtifacts': outputArtifacts,
-        'OutputArtifactsToRemove': outputArtifactsToRemove,
-        'Parameters': parameters,
-        'ParametersToRemove': parametersToRemove,
-        'StartTime': startTime,
-        'Status': status,
+        if (displayName != null) 'DisplayName': displayName,
+        if (endTime != null) 'EndTime': endTime,
+        if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
+        if (inputArtifactsToRemove != null)
+          'InputArtifactsToRemove': inputArtifactsToRemove,
+        if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
+        if (outputArtifactsToRemove != null)
+          'OutputArtifactsToRemove': outputArtifactsToRemove,
+        if (parameters != null) 'Parameters': parameters,
+        if (parametersToRemove != null)
+          'ParametersToRemove': parametersToRemove,
+        if (startTime != null) 'StartTime': startTime,
+        if (status != null) 'Status': status,
       },
     );
 
@@ -10064,7 +10171,7 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         'UserProfileName': userProfileName,
-        'UserSettings': userSettings,
+        if (userSettings != null) 'UserSettings': userSettings,
       },
     );
 
@@ -10127,7 +10234,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'WorkforceName': workforceName,
-        'SourceIpConfig': sourceIpConfig,
+        if (sourceIpConfig != null) 'SourceIpConfig': sourceIpConfig,
       },
     );
 
@@ -10193,9 +10300,10 @@ class SageMaker {
       headers: headers,
       payload: {
         'WorkteamName': workteamName,
-        'Description': description,
-        'MemberDefinitions': memberDefinitions,
-        'NotificationConfiguration': notificationConfiguration,
+        if (description != null) 'Description': description,
+        if (memberDefinitions != null) 'MemberDefinitions': memberDefinitions,
+        if (notificationConfiguration != null)
+          'NotificationConfiguration': notificationConfiguration,
       },
     );
 

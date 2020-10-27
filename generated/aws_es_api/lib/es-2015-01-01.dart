@@ -273,19 +273,26 @@ class ElasticsearchService {
     );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
-      'AccessPolicies': accessPolicies,
-      'AdvancedOptions': advancedOptions,
-      'AdvancedSecurityOptions': advancedSecurityOptions,
-      'CognitoOptions': cognitoOptions,
-      'DomainEndpointOptions': domainEndpointOptions,
-      'EBSOptions': eBSOptions,
-      'ElasticsearchClusterConfig': elasticsearchClusterConfig,
-      'ElasticsearchVersion': elasticsearchVersion,
-      'EncryptionAtRestOptions': encryptionAtRestOptions,
-      'LogPublishingOptions': logPublishingOptions,
-      'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
-      'SnapshotOptions': snapshotOptions,
-      'VPCOptions': vPCOptions,
+      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (advancedSecurityOptions != null)
+        'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
+      if (domainEndpointOptions != null)
+        'DomainEndpointOptions': domainEndpointOptions,
+      if (eBSOptions != null) 'EBSOptions': eBSOptions,
+      if (elasticsearchClusterConfig != null)
+        'ElasticsearchClusterConfig': elasticsearchClusterConfig,
+      if (elasticsearchVersion != null)
+        'ElasticsearchVersion': elasticsearchVersion,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (logPublishingOptions != null)
+        'LogPublishingOptions': logPublishingOptions,
+      if (nodeToNodeEncryptionOptions != null)
+        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -350,7 +357,7 @@ class ElasticsearchService {
       'PackageName': packageName,
       'PackageSource': packageSource,
       'PackageType': packageType?.toValue(),
-      'PackageDescription': packageDescription,
+      if (packageDescription != null) 'PackageDescription': packageDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -634,9 +641,9 @@ class ElasticsearchService {
       100,
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1208,7 +1215,7 @@ class ElasticsearchService {
       'ReservationName': reservationName,
       'ReservedElasticsearchInstanceOfferingId':
           reservedElasticsearchInstanceOfferingId,
-      'InstanceCount': instanceCount,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1377,16 +1384,20 @@ class ElasticsearchService {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccessPolicies': accessPolicies,
-      'AdvancedOptions': advancedOptions,
-      'AdvancedSecurityOptions': advancedSecurityOptions,
-      'CognitoOptions': cognitoOptions,
-      'DomainEndpointOptions': domainEndpointOptions,
-      'EBSOptions': eBSOptions,
-      'ElasticsearchClusterConfig': elasticsearchClusterConfig,
-      'LogPublishingOptions': logPublishingOptions,
-      'SnapshotOptions': snapshotOptions,
-      'VPCOptions': vPCOptions,
+      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (advancedSecurityOptions != null)
+        'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
+      if (domainEndpointOptions != null)
+        'DomainEndpointOptions': domainEndpointOptions,
+      if (eBSOptions != null) 'EBSOptions': eBSOptions,
+      if (elasticsearchClusterConfig != null)
+        'ElasticsearchClusterConfig': elasticsearchClusterConfig,
+      if (logPublishingOptions != null)
+        'LogPublishingOptions': logPublishingOptions,
+      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1437,7 +1448,7 @@ class ElasticsearchService {
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'TargetVersion': targetVersion,
-      'PerformCheckOnly': performCheckOnly,
+      if (performCheckOnly != null) 'PerformCheckOnly': performCheckOnly,
     };
     final response = await _protocol.send(
       payload: $payload,

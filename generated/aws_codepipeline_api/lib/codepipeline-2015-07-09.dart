@@ -270,9 +270,10 @@ class CodePipeline {
         'outputArtifactDetails': outputArtifactDetails,
         'provider': provider,
         'version': version,
-        'configurationProperties': configurationProperties,
-        'settings': settings,
-        'tags': tags,
+        if (configurationProperties != null)
+          'configurationProperties': configurationProperties,
+        if (settings != null) 'settings': settings,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -321,7 +322,7 @@ class CodePipeline {
       headers: headers,
       payload: {
         'pipeline': pipeline,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -524,7 +525,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'webhookName': webhookName,
+        if (webhookName != null) 'webhookName': webhookName,
       },
     );
 
@@ -789,7 +790,7 @@ class CodePipeline {
       headers: headers,
       payload: {
         'name': name,
-        'version': version,
+        if (version != null) 'version': version,
       },
     );
 
@@ -1034,9 +1035,9 @@ class CodePipeline {
       headers: headers,
       payload: {
         'pipelineName': pipelineName,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1076,8 +1077,9 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'actionOwnerFilter': actionOwnerFilter?.toValue(),
-        'nextToken': nextToken,
+        if (actionOwnerFilter != null)
+          'actionOwnerFilter': actionOwnerFilter?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1147,8 +1149,8 @@ class CodePipeline {
       headers: headers,
       payload: {
         'pipelineName': pipelineName,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1183,7 +1185,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1244,8 +1246,8 @@ class CodePipeline {
       headers: headers,
       payload: {
         'resourceArn': resourceArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1293,8 +1295,8 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1351,8 +1353,8 @@ class CodePipeline {
       headers: headers,
       payload: {
         'actionTypeId': actionTypeId,
-        'maxBatchSize': maxBatchSize,
-        'queryParam': queryParam,
+        if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
+        if (queryParam != null) 'queryParam': queryParam,
       },
     );
 
@@ -1398,7 +1400,7 @@ class CodePipeline {
       headers: headers,
       payload: {
         'actionTypeId': actionTypeId,
-        'maxBatchSize': maxBatchSize,
+        if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       },
     );
 
@@ -1707,10 +1709,10 @@ class CodePipeline {
       headers: headers,
       payload: {
         'jobId': jobId,
-        'continuationToken': continuationToken,
-        'currentRevision': currentRevision,
-        'executionDetails': executionDetails,
-        'outputVariables': outputVariables,
+        if (continuationToken != null) 'continuationToken': continuationToken,
+        if (currentRevision != null) 'currentRevision': currentRevision,
+        if (executionDetails != null) 'executionDetails': executionDetails,
+        if (outputVariables != null) 'outputVariables': outputVariables,
       },
     );
   }
@@ -1847,9 +1849,9 @@ class CodePipeline {
       payload: {
         'clientToken': clientToken,
         'jobId': jobId,
-        'continuationToken': continuationToken,
-        'currentRevision': currentRevision,
-        'executionDetails': executionDetails,
+        if (continuationToken != null) 'continuationToken': continuationToken,
+        if (currentRevision != null) 'currentRevision': currentRevision,
+        if (executionDetails != null) 'executionDetails': executionDetails,
       },
     );
   }
@@ -1899,7 +1901,7 @@ class CodePipeline {
       headers: headers,
       payload: {
         'webhook': webhook,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1940,7 +1942,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'webhookName': webhookName,
+        if (webhookName != null) 'webhookName': webhookName,
       },
     );
 
@@ -2088,7 +2090,8 @@ class CodePipeline {
       headers: headers,
       payload: {
         'name': name,
-        'clientRequestToken': clientRequestToken,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
       },
     );
 
@@ -2171,8 +2174,8 @@ class CodePipeline {
       payload: {
         'pipelineExecutionId': pipelineExecutionId,
         'pipelineName': pipelineName,
-        'abandon': abandon,
-        'reason': reason,
+        if (abandon != null) 'abandon': abandon,
+        if (reason != null) 'reason': reason,
       },
     );
 

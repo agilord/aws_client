@@ -139,7 +139,7 @@ class Personalize {
         'jobOutput': jobOutput,
         'roleArn': roleArn,
         'solutionVersionArn': solutionVersionArn,
-        'numResults': numResults,
+        if (numResults != null) 'numResults': numResults,
       },
     );
 
@@ -559,8 +559,8 @@ class Personalize {
       headers: headers,
       payload: {
         'name': name,
-        'kmsKeyArn': kmsKeyArn,
-        'roleArn': roleArn,
+        if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+        if (roleArn != null) 'roleArn': roleArn,
       },
     );
 
@@ -1047,11 +1047,11 @@ class Personalize {
       payload: {
         'datasetGroupArn': datasetGroupArn,
         'name': name,
-        'eventType': eventType,
-        'performAutoML': performAutoML,
-        'performHPO': performHPO,
-        'recipeArn': recipeArn,
-        'solutionConfig': solutionConfig,
+        if (eventType != null) 'eventType': eventType,
+        if (performAutoML != null) 'performAutoML': performAutoML,
+        if (performHPO != null) 'performHPO': performHPO,
+        if (recipeArn != null) 'recipeArn': recipeArn,
+        if (solutionConfig != null) 'solutionConfig': solutionConfig,
       },
     );
 
@@ -1155,7 +1155,7 @@ class Personalize {
       headers: headers,
       payload: {
         'solutionArn': solutionArn,
-        'trainingMode': trainingMode?.toValue(),
+        if (trainingMode != null) 'trainingMode': trainingMode?.toValue(),
       },
     );
 
@@ -2089,9 +2089,10 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'solutionVersionArn': solutionVersionArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (solutionVersionArn != null)
+          'solutionVersionArn': solutionVersionArn,
       },
     );
 
@@ -2157,9 +2158,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'solutionArn': solutionArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (solutionArn != null) 'solutionArn': solutionArn,
       },
     );
 
@@ -2205,8 +2206,8 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2273,9 +2274,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'datasetArn': datasetArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (datasetArn != null) 'datasetArn': datasetArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2340,9 +2341,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2405,9 +2406,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2456,9 +2457,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'recipeProvider': recipeProvider?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (recipeProvider != null) 'recipeProvider': recipeProvider?.toValue(),
       },
     );
 
@@ -2504,8 +2505,8 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2571,9 +2572,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'solutionArn': solutionArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (solutionArn != null) 'solutionArn': solutionArn,
       },
     );
 
@@ -2637,9 +2638,9 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2718,8 +2719,9 @@ class Personalize {
       headers: headers,
       payload: {
         'campaignArn': campaignArn,
-        'minProvisionedTPS': minProvisionedTPS,
-        'solutionVersionArn': solutionVersionArn,
+        if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
+        if (solutionVersionArn != null)
+          'solutionVersionArn': solutionVersionArn,
       },
     );
 

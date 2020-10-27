@@ -163,8 +163,8 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'E164PhoneNumbers': e164PhoneNumbers,
-      'ForceAssociate': forceAssociate,
+      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      if (forceAssociate != null) 'ForceAssociate': forceAssociate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -213,8 +213,8 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'E164PhoneNumbers': e164PhoneNumbers,
-      'ForceAssociate': forceAssociate,
+      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      if (forceAssociate != null) 'ForceAssociate': forceAssociate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -683,7 +683,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'ExternalUserId': externalUserId,
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -734,7 +734,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'DisplayName': displayName,
-      'Domain': domain,
+      if (domain != null) 'Domain': domain,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -820,11 +820,12 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken,
-      'ExternalMeetingId': externalMeetingId,
-      'MediaRegion': mediaRegion,
-      'MeetingHostId': meetingHostId,
-      'NotificationsConfiguration': notificationsConfiguration,
-      'Tags': tags,
+      if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
+      if (mediaRegion != null) 'MediaRegion': mediaRegion,
+      if (meetingHostId != null) 'MeetingHostId': meetingHostId,
+      if (notificationsConfiguration != null)
+        'NotificationsConfiguration': notificationsConfiguration,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -950,11 +951,12 @@ class Chime {
     final $payload = <String, dynamic>{
       'Capabilities': capabilities,
       'ParticipantPhoneNumbers': participantPhoneNumbers,
-      'ExpiryMinutes': expiryMinutes,
-      'GeoMatchLevel': geoMatchLevel?.toValue(),
-      'GeoMatchParams': geoMatchParams,
-      'Name': name,
-      'NumberSelectionBehavior': numberSelectionBehavior?.toValue(),
+      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel?.toValue(),
+      if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
+      if (name != null) 'Name': name,
+      if (numberSelectionBehavior != null)
+        'NumberSelectionBehavior': numberSelectionBehavior?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1011,7 +1013,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      'ClientRequestToken': clientRequestToken,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1077,7 +1079,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'MemberId': memberId,
-      'Role': role?.toValue(),
+      if (role != null) 'Role': role?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1130,9 +1132,9 @@ class Chime {
       r'''.+@.+\..+''',
     );
     final $payload = <String, dynamic>{
-      'Email': email,
-      'UserType': userType?.toValue(),
-      'Username': username,
+      if (email != null) 'Email': email,
+      if (userType != null) 'UserType': userType?.toValue(),
+      if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1188,7 +1190,7 @@ class Chime {
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
-      'AwsRegion': awsRegion?.toValue(),
+      if (awsRegion != null) 'AwsRegion': awsRegion?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1236,7 +1238,8 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      'VoiceConnectorItems': voiceConnectorItems,
+      if (voiceConnectorItems != null)
+        'VoiceConnectorItems': voiceConnectorItems,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1844,7 +1847,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Usernames': usernames,
+      if (usernames != null) 'Usernames': usernames,
     };
     await _protocol.send(
       payload: $payload,
@@ -1917,7 +1920,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'E164PhoneNumbers': e164PhoneNumbers,
+      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1959,7 +1962,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'E164PhoneNumbers': e164PhoneNumbers,
+      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2843,7 +2846,7 @@ class Chime {
     ArgumentError.checkNotNull(userEmailList, 'userEmailList');
     final $payload = <String, dynamic>{
       'UserEmailList': userEmailList,
-      'UserType': userType?.toValue(),
+      if (userType != null) 'UserType': userType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3743,8 +3746,9 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'LambdaFunctionArn': lambdaFunctionArn,
-      'OutboundEventsHTTPSEndpoint': outboundEventsHTTPSEndpoint,
+      if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
+      if (outboundEventsHTTPSEndpoint != null)
+        'OutboundEventsHTTPSEndpoint': outboundEventsHTTPSEndpoint,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3899,8 +3903,9 @@ class Chime {
     final $payload = <String, dynamic>{
       'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
       'PhoneNumberPoolCountries': phoneNumberPoolCountries,
-      'Disabled': disabled,
-      'FallBackPhoneNumber': fallBackPhoneNumber,
+      if (disabled != null) 'Disabled': disabled,
+      if (fallBackPhoneNumber != null)
+        'FallBackPhoneNumber': fallBackPhoneNumber,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4026,7 +4031,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Credentials': credentials,
+      if (credentials != null) 'Credentials': credentials,
     };
     await _protocol.send(
       payload: $payload,
@@ -4549,7 +4554,7 @@ class Chime {
       r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4644,7 +4649,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Disabled': disabled,
+      if (disabled != null) 'Disabled': disabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4729,8 +4734,8 @@ class Chime {
       r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
     );
     final $payload = <String, dynamic>{
-      'CallingName': callingName,
-      'ProductType': productType?.toValue(),
+      if (callingName != null) 'CallingName': callingName,
+      if (productType != null) 'ProductType': productType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4842,7 +4847,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'Capabilities': capabilities,
-      'ExpiryMinutes': expiryMinutes,
+      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4893,7 +4898,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4957,7 +4962,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Role': role?.toValue(),
+      if (role != null) 'Role': role?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5017,9 +5022,10 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AlexaForBusinessMetadata': alexaForBusinessMetadata,
-      'LicenseType': licenseType?.toValue(),
-      'UserType': userType?.toValue(),
+      if (alexaForBusinessMetadata != null)
+        'AlexaForBusinessMetadata': alexaForBusinessMetadata,
+      if (licenseType != null) 'LicenseType': licenseType?.toValue(),
+      if (userType != null) 'UserType': userType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

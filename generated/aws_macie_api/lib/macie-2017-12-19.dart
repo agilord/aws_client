@@ -121,7 +121,7 @@ class Macie {
       headers: headers,
       payload: {
         's3Resources': s3Resources,
-        'memberAccountId': memberAccountId,
+        if (memberAccountId != null) 'memberAccountId': memberAccountId,
       },
     );
 
@@ -200,7 +200,7 @@ class Macie {
       headers: headers,
       payload: {
         'associatedS3Resources': associatedS3Resources,
-        'memberAccountId': memberAccountId,
+        if (memberAccountId != null) 'memberAccountId': memberAccountId,
       },
     );
 
@@ -249,8 +249,8 @@ class Macie {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -313,9 +313,9 @@ class Macie {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'memberAccountId': memberAccountId,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (memberAccountId != null) 'memberAccountId': memberAccountId,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -361,7 +361,7 @@ class Macie {
       headers: headers,
       payload: {
         's3ResourcesUpdate': s3ResourcesUpdate,
-        'memberAccountId': memberAccountId,
+        if (memberAccountId != null) 'memberAccountId': memberAccountId,
       },
     );
 

@@ -89,7 +89,7 @@ class PersonalizeEvents {
       'eventList': eventList,
       'sessionId': sessionId,
       'trackingId': trackingId,
-      'userId': userId,
+      if (userId != null) 'userId': userId,
     };
     await _protocol.send(
       payload: $payload,

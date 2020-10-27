@@ -493,12 +493,13 @@ class SecretsManager {
       headers: headers,
       payload: {
         'Name': name,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
-        'KmsKeyId': kmsKeyId,
-        'SecretBinary': secretBinary,
-        'SecretString': secretString,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
+        if (secretString != null) 'SecretString': secretString,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -706,8 +707,10 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'ForceDeleteWithoutRecovery': forceDeleteWithoutRecovery,
-        'RecoveryWindowInDays': recoveryWindowInDays,
+        if (forceDeleteWithoutRecovery != null)
+          'ForceDeleteWithoutRecovery': forceDeleteWithoutRecovery,
+        if (recoveryWindowInDays != null)
+          'RecoveryWindowInDays': recoveryWindowInDays,
       },
     );
 
@@ -892,14 +895,16 @@ class SecretsManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExcludeCharacters': excludeCharacters,
-        'ExcludeLowercase': excludeLowercase,
-        'ExcludeNumbers': excludeNumbers,
-        'ExcludePunctuation': excludePunctuation,
-        'ExcludeUppercase': excludeUppercase,
-        'IncludeSpace': includeSpace,
-        'PasswordLength': passwordLength,
-        'RequireEachIncludedType': requireEachIncludedType,
+        if (excludeCharacters != null) 'ExcludeCharacters': excludeCharacters,
+        if (excludeLowercase != null) 'ExcludeLowercase': excludeLowercase,
+        if (excludeNumbers != null) 'ExcludeNumbers': excludeNumbers,
+        if (excludePunctuation != null)
+          'ExcludePunctuation': excludePunctuation,
+        if (excludeUppercase != null) 'ExcludeUppercase': excludeUppercase,
+        if (includeSpace != null) 'IncludeSpace': includeSpace,
+        if (passwordLength != null) 'PasswordLength': passwordLength,
+        if (requireEachIncludedType != null)
+          'RequireEachIncludedType': requireEachIncludedType,
       },
     );
 
@@ -1099,8 +1104,8 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'VersionId': versionId,
-        'VersionStage': versionStage,
+        if (versionId != null) 'VersionId': versionId,
+        if (versionStage != null) 'VersionStage': versionStage,
       },
     );
 
@@ -1220,9 +1225,9 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'IncludeDeprecated': includeDeprecated,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (includeDeprecated != null) 'IncludeDeprecated': includeDeprecated,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1310,8 +1315,8 @@ class SecretsManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1680,10 +1685,11 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'ClientRequestToken': clientRequestToken,
-        'SecretBinary': secretBinary,
-        'SecretString': secretString,
-        'VersionStages': versionStages,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
+        if (secretString != null) 'SecretString': secretString,
+        if (versionStages != null) 'VersionStages': versionStages,
       },
     );
 
@@ -1925,9 +1931,10 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'ClientRequestToken': clientRequestToken,
-        'RotationLambdaARN': rotationLambdaARN,
-        'RotationRules': rotationRules,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
+        if (rotationRules != null) 'RotationRules': rotationRules,
       },
     );
 
@@ -2421,11 +2428,12 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
-        'KmsKeyId': kmsKeyId,
-        'SecretBinary': secretBinary,
-        'SecretString': secretString,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
+        if (secretString != null) 'SecretString': secretString,
       },
     );
 
@@ -2566,8 +2574,9 @@ class SecretsManager {
       payload: {
         'SecretId': secretId,
         'VersionStage': versionStage,
-        'MoveToVersionId': moveToVersionId,
-        'RemoveFromVersionId': removeFromVersionId,
+        if (moveToVersionId != null) 'MoveToVersionId': moveToVersionId,
+        if (removeFromVersionId != null)
+          'RemoveFromVersionId': removeFromVersionId,
       },
     );
 

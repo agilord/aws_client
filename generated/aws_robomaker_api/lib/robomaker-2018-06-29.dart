@@ -257,8 +257,8 @@ class RoboMaker {
       'clientRequestToken': clientRequestToken,
       'deploymentApplicationConfigs': deploymentApplicationConfigs,
       'fleet': fleet,
-      'deploymentConfig': deploymentConfig,
-      'tags': tags,
+      if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -303,7 +303,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'name': name,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -373,7 +373,7 @@ class RoboMaker {
       'architecture': architecture?.toValue(),
       'greengrassGroupId': greengrassGroupId,
       'name': name,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -432,7 +432,7 @@ class RoboMaker {
       'name': name,
       'robotSoftwareSuite': robotSoftwareSuite,
       'sources': sources,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -488,7 +488,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'currentRevisionId': currentRevisionId,
+      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -558,8 +558,8 @@ class RoboMaker {
       'robotSoftwareSuite': robotSoftwareSuite,
       'simulationSoftwareSuite': simulationSoftwareSuite,
       'sources': sources,
-      'renderingEngine': renderingEngine,
-      'tags': tags,
+      if (renderingEngine != null) 'renderingEngine': renderingEngine,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -617,7 +617,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'currentRevisionId': currentRevisionId,
+      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -741,16 +741,18 @@ class RoboMaker {
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
       'maxJobDurationInSeconds': maxJobDurationInSeconds,
-      'clientRequestToken': clientRequestToken,
-      'compute': compute,
-      'dataSources': dataSources,
-      'failureBehavior': failureBehavior?.toValue(),
-      'loggingConfig': loggingConfig,
-      'outputLocation': outputLocation,
-      'robotApplications': robotApplications,
-      'simulationApplications': simulationApplications,
-      'tags': tags,
-      'vpcConfig': vpcConfig,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (compute != null) 'compute': compute,
+      if (dataSources != null) 'dataSources': dataSources,
+      if (failureBehavior != null)
+        'failureBehavior': failureBehavior?.toValue(),
+      if (loggingConfig != null) 'loggingConfig': loggingConfig,
+      if (outputLocation != null) 'outputLocation': outputLocation,
+      if (robotApplications != null) 'robotApplications': robotApplications,
+      if (simulationApplications != null)
+        'simulationApplications': simulationApplications,
+      if (tags != null) 'tags': tags,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -877,7 +879,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'applicationVersion': applicationVersion,
+      if (applicationVersion != null) 'applicationVersion': applicationVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -930,7 +932,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'applicationVersion': applicationVersion,
+      if (applicationVersion != null) 'applicationVersion': applicationVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1155,7 +1157,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'applicationVersion': applicationVersion,
+      if (applicationVersion != null) 'applicationVersion': applicationVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1209,7 +1211,7 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'application': application,
-      'applicationVersion': applicationVersion,
+      if (applicationVersion != null) 'applicationVersion': applicationVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1345,9 +1347,9 @@ class RoboMaker {
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1410,9 +1412,9 @@ class RoboMaker {
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1485,10 +1487,10 @@ class RoboMaker {
       r'''ALL''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'versionQualifier': versionQualifier,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (versionQualifier != null) 'versionQualifier': versionQualifier,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1549,9 +1551,9 @@ class RoboMaker {
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1625,10 +1627,10 @@ class RoboMaker {
       r'''ALL''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'versionQualifier': versionQualifier,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (versionQualifier != null) 'versionQualifier': versionQualifier,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1679,9 +1681,9 @@ class RoboMaker {
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1747,9 +1749,9 @@ class RoboMaker {
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1935,9 +1937,9 @@ class RoboMaker {
     );
     final $payload = <String, dynamic>{
       'createSimulationJobRequests': createSimulationJobRequests,
-      'batchPolicy': batchPolicy,
-      'clientRequestToken': clientRequestToken,
-      'tags': tags,
+      if (batchPolicy != null) 'batchPolicy': batchPolicy,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2172,7 +2174,7 @@ class RoboMaker {
       'application': application,
       'robotSoftwareSuite': robotSoftwareSuite,
       'sources': sources,
-      'currentRevisionId': currentRevisionId,
+      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2250,8 +2252,8 @@ class RoboMaker {
       'robotSoftwareSuite': robotSoftwareSuite,
       'simulationSoftwareSuite': simulationSoftwareSuite,
       'sources': sources,
-      'currentRevisionId': currentRevisionId,
-      'renderingEngine': renderingEngine,
+      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
+      if (renderingEngine != null) 'renderingEngine': renderingEngine,
     };
     final response = await _protocol.send(
       payload: $payload,

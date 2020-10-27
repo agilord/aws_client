@@ -122,9 +122,9 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'meshName': meshName,
-      'clientToken': clientToken,
-      'spec': spec,
-      'tags': tags,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (spec != null) 'spec': spec,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -247,8 +247,8 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'routeName': routeName,
       'spec': spec,
-      'clientToken': clientToken,
-      'tags': tags,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -382,8 +382,8 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualNodeName': virtualNodeName,
-      'clientToken': clientToken,
-      'tags': tags,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -493,8 +493,8 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualRouterName': virtualRouterName,
-      'clientToken': clientToken,
-      'tags': tags,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -595,8 +595,8 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualServiceName': virtualServiceName,
-      'clientToken': clientToken,
-      'tags': tags,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1817,8 +1817,8 @@ class AppMesh {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'spec': spec,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (spec != null) 'spec': spec,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1910,7 +1910,7 @@ class AppMesh {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1991,7 +1991,7 @@ class AppMesh {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2072,7 +2072,7 @@ class AppMesh {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2147,7 +2147,7 @@ class AppMesh {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,

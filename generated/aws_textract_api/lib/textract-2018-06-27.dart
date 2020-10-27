@@ -133,7 +133,7 @@ class Textract {
       payload: {
         'Document': document,
         'FeatureTypes': featureTypes,
-        'HumanLoopConfig': humanLoopConfig,
+        if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
       },
     );
 
@@ -325,8 +325,8 @@ class Textract {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -441,8 +441,8 @@ class Textract {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -558,9 +558,11 @@ class Textract {
       payload: {
         'DocumentLocation': documentLocation,
         'FeatureTypes': featureTypes,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -664,9 +666,11 @@ class Textract {
       headers: headers,
       payload: {
         'DocumentLocation': documentLocation,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 

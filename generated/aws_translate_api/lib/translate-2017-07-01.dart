@@ -261,8 +261,8 @@ class Translate {
         'MergeStrategy': mergeStrategy?.toValue(),
         'Name': name,
         'TerminologyData': terminologyData,
-        'Description': description,
-        'EncryptionKey': encryptionKey,
+        if (description != null) 'Description': description,
+        if (encryptionKey != null) 'EncryptionKey': encryptionKey,
       },
     );
 
@@ -313,8 +313,8 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -372,9 +372,9 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -515,8 +515,8 @@ class Translate {
         'OutputDataConfig': outputDataConfig,
         'SourceLanguageCode': sourceLanguageCode,
         'TargetLanguageCodes': targetLanguageCodes,
-        'JobName': jobName,
-        'TerminologyNames': terminologyNames,
+        if (jobName != null) 'JobName': jobName,
+        if (terminologyNames != null) 'TerminologyNames': terminologyNames,
       },
     );
 
@@ -665,7 +665,7 @@ class Translate {
         'SourceLanguageCode': sourceLanguageCode,
         'TargetLanguageCode': targetLanguageCode,
         'Text': text,
-        'TerminologyNames': terminologyNames,
+        if (terminologyNames != null) 'TerminologyNames': terminologyNames,
       },
     );
 

@@ -89,12 +89,12 @@ class SESV2 {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       'ConfigurationSetName': configurationSetName,
-      'DeliveryOptions': deliveryOptions,
-      'ReputationOptions': reputationOptions,
-      'SendingOptions': sendingOptions,
-      'SuppressionOptions': suppressionOptions,
-      'Tags': tags,
-      'TrackingOptions': trackingOptions,
+      if (deliveryOptions != null) 'DeliveryOptions': deliveryOptions,
+      if (reputationOptions != null) 'ReputationOptions': reputationOptions,
+      if (sendingOptions != null) 'SendingOptions': sendingOptions,
+      if (suppressionOptions != null) 'SuppressionOptions': suppressionOptions,
+      if (tags != null) 'Tags': tags,
+      if (trackingOptions != null) 'TrackingOptions': trackingOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -177,7 +177,7 @@ class SESV2 {
     ArgumentError.checkNotNull(poolName, 'poolName');
     final $payload = <String, dynamic>{
       'PoolName': poolName,
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -235,8 +235,8 @@ class SESV2 {
     final $payload = <String, dynamic>{
       'Content': content,
       'FromEmailAddress': fromEmailAddress,
-      'ReportName': reportName,
-      'Tags': tags,
+      if (reportName != null) 'ReportName': reportName,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -306,8 +306,9 @@ class SESV2 {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
-      'DkimSigningAttributes': dkimSigningAttributes,
-      'Tags': tags,
+      if (dkimSigningAttributes != null)
+        'DkimSigningAttributes': dkimSigningAttributes,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1106,7 +1107,7 @@ class SESV2 {
     bool autoWarmupEnabled,
   }) async {
     final $payload = <String, dynamic>{
-      'AutoWarmupEnabled': autoWarmupEnabled,
+      if (autoWarmupEnabled != null) 'AutoWarmupEnabled': autoWarmupEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1134,7 +1135,7 @@ class SESV2 {
     bool sendingEnabled,
   }) async {
     final $payload = <String, dynamic>{
-      'SendingEnabled': sendingEnabled,
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1171,7 +1172,7 @@ class SESV2 {
     List<String> suppressedReasons,
   }) async {
     final $payload = <String, dynamic>{
-      'SuppressedReasons': suppressedReasons,
+      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1211,8 +1212,8 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'SendingPoolName': sendingPoolName,
-      'TlsPolicy': tlsPolicy?.toValue(),
+      if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1245,7 +1246,8 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'ReputationMetricsEnabled': reputationMetricsEnabled,
+      if (reputationMetricsEnabled != null)
+        'ReputationMetricsEnabled': reputationMetricsEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1278,7 +1280,7 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'SendingEnabled': sendingEnabled,
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1323,7 +1325,7 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'SuppressedReasons': suppressedReasons,
+      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1354,7 +1356,8 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      'CustomRedirectDomain': customRedirectDomain,
+      if (customRedirectDomain != null)
+        'CustomRedirectDomain': customRedirectDomain,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1469,7 +1472,7 @@ class SESV2 {
     ArgumentError.checkNotNull(dashboardEnabled, 'dashboardEnabled');
     final $payload = <String, dynamic>{
       'DashboardEnabled': dashboardEnabled,
-      'SubscribedDomains': subscribedDomains,
+      if (subscribedDomains != null) 'SubscribedDomains': subscribedDomains,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1501,7 +1504,7 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
-      'SigningEnabled': signingEnabled,
+      if (signingEnabled != null) 'SigningEnabled': signingEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1574,7 +1577,7 @@ class SESV2 {
         signingAttributesOrigin, 'signingAttributesOrigin');
     final $payload = <String, dynamic>{
       'SigningAttributesOrigin': signingAttributesOrigin?.toValue(),
-      'SigningAttributes': signingAttributes,
+      if (signingAttributes != null) 'SigningAttributes': signingAttributes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1628,7 +1631,8 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
-      'EmailForwardingEnabled': emailForwardingEnabled,
+      if (emailForwardingEnabled != null)
+        'EmailForwardingEnabled': emailForwardingEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1687,8 +1691,9 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
-      'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
-      'MailFromDomain': mailFromDomain,
+      if (behaviorOnMxFailure != null)
+        'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
+      if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1799,11 +1804,13 @@ class SESV2 {
     final $payload = <String, dynamic>{
       'Content': content,
       'Destination': destination,
-      'ConfigurationSetName': configurationSetName,
-      'EmailTags': emailTags,
-      'FeedbackForwardingEmailAddress': feedbackForwardingEmailAddress,
-      'FromEmailAddress': fromEmailAddress,
-      'ReplyToAddresses': replyToAddresses,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (emailTags != null) 'EmailTags': emailTags,
+      if (feedbackForwardingEmailAddress != null)
+        'FeedbackForwardingEmailAddress': feedbackForwardingEmailAddress,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (replyToAddresses != null) 'ReplyToAddresses': replyToAddresses,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -86,7 +86,7 @@ class Support {
       headers: headers,
       payload: {
         'attachments': attachments,
-        'attachmentSetId': attachmentSetId,
+        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
       },
     );
 
@@ -151,9 +151,9 @@ class Support {
       headers: headers,
       payload: {
         'communicationBody': communicationBody,
-        'attachmentSetId': attachmentSetId,
-        'caseId': caseId,
-        'ccEmailAddresses': ccEmailAddresses,
+        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
+        if (caseId != null) 'caseId': caseId,
+        if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
       },
     );
 
@@ -317,13 +317,13 @@ class Support {
       payload: {
         'communicationBody': communicationBody,
         'subject': subject,
-        'attachmentSetId': attachmentSetId,
-        'categoryCode': categoryCode,
-        'ccEmailAddresses': ccEmailAddresses,
-        'issueType': issueType,
-        'language': language,
-        'serviceCode': serviceCode,
-        'severityCode': severityCode,
+        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
+        if (categoryCode != null) 'categoryCode': categoryCode,
+        if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
+        if (issueType != null) 'issueType': issueType,
+        if (language != null) 'language': language,
+        if (serviceCode != null) 'serviceCode': serviceCode,
+        if (severityCode != null) 'severityCode': severityCode,
       },
     );
 
@@ -451,15 +451,17 @@ class Support {
       // TODO queryParams
       headers: headers,
       payload: {
-        'afterTime': afterTime,
-        'beforeTime': beforeTime,
-        'caseIdList': caseIdList,
-        'displayId': displayId,
-        'includeCommunications': includeCommunications,
-        'includeResolvedCases': includeResolvedCases,
-        'language': language,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (afterTime != null) 'afterTime': afterTime,
+        if (beforeTime != null) 'beforeTime': beforeTime,
+        if (caseIdList != null) 'caseIdList': caseIdList,
+        if (displayId != null) 'displayId': displayId,
+        if (includeCommunications != null)
+          'includeCommunications': includeCommunications,
+        if (includeResolvedCases != null)
+          'includeResolvedCases': includeResolvedCases,
+        if (language != null) 'language': language,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -527,10 +529,10 @@ class Support {
       headers: headers,
       payload: {
         'caseId': caseId,
-        'afterTime': afterTime,
-        'beforeTime': beforeTime,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (afterTime != null) 'afterTime': afterTime,
+        if (beforeTime != null) 'beforeTime': beforeTime,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -576,8 +578,8 @@ class Support {
       // TODO queryParams
       headers: headers,
       payload: {
-        'language': language,
-        'serviceCodeList': serviceCodeList,
+        if (language != null) 'language': language,
+        if (serviceCodeList != null) 'serviceCodeList': serviceCodeList,
       },
     );
 
@@ -608,7 +610,7 @@ class Support {
       // TODO queryParams
       headers: headers,
       payload: {
-        'language': language,
+        if (language != null) 'language': language,
       },
     );
 
@@ -716,7 +718,7 @@ class Support {
       headers: headers,
       payload: {
         'checkId': checkId,
-        'language': language,
+        if (language != null) 'language': language,
       },
     );
 
@@ -891,7 +893,7 @@ class Support {
       // TODO queryParams
       headers: headers,
       payload: {
-        'caseId': caseId,
+        if (caseId != null) 'caseId': caseId,
       },
     );
 

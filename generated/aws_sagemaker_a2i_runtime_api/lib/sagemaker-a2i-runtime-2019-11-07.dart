@@ -309,7 +309,7 @@ class AugmentedAIRuntime {
       'FlowDefinitionArn': flowDefinitionArn,
       'HumanLoopInput': humanLoopInput,
       'HumanLoopName': humanLoopName,
-      'DataAttributes': dataAttributes,
+      if (dataAttributes != null) 'DataAttributes': dataAttributes,
     };
     final response = await _protocol.send(
       payload: $payload,

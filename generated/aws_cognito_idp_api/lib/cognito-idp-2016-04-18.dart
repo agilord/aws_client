@@ -289,7 +289,7 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'ClientMetadata': clientMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
 
@@ -536,13 +536,15 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'ClientMetadata': clientMetadata,
-        'DesiredDeliveryMediums': desiredDeliveryMediums,
-        'ForceAliasCreation': forceAliasCreation,
-        'MessageAction': messageAction?.toValue(),
-        'TemporaryPassword': temporaryPassword,
-        'UserAttributes': userAttributes,
-        'ValidationData': validationData,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (desiredDeliveryMediums != null)
+          'DesiredDeliveryMediums': desiredDeliveryMediums,
+        if (forceAliasCreation != null)
+          'ForceAliasCreation': forceAliasCreation,
+        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
+        if (temporaryPassword != null) 'TemporaryPassword': temporaryPassword,
+        if (userAttributes != null) 'UserAttributes': userAttributes,
+        if (validationData != null) 'ValidationData': validationData,
       },
     );
 
@@ -1389,10 +1391,10 @@ class CognitoIdentityProvider {
         'AuthFlow': authFlow?.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
-        'AnalyticsMetadata': analyticsMetadata,
-        'AuthParameters': authParameters,
-        'ClientMetadata': clientMetadata,
-        'ContextData': contextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (authParameters != null) 'AuthParameters': authParameters,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (contextData != null) 'ContextData': contextData,
       },
     );
 
@@ -1592,8 +1594,8 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'Limit': limit,
-        'PaginationToken': paginationToken,
+        if (limit != null) 'Limit': limit,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 
@@ -1687,8 +1689,8 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1782,8 +1784,8 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1995,7 +1997,7 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'ClientMetadata': clientMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
 
@@ -2187,11 +2189,12 @@ class CognitoIdentityProvider {
         'ChallengeName': challengeName?.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ChallengeResponses': challengeResponses,
-        'ClientMetadata': clientMetadata,
-        'ContextData': contextData,
-        'Session': session,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (challengeResponses != null)
+          'ChallengeResponses': challengeResponses,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (contextData != null) 'ContextData': contextData,
+        if (session != null) 'Session': session,
       },
     );
 
@@ -2272,8 +2275,9 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         'Username': username,
-        'SMSMfaSettings': sMSMfaSettings,
-        'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
+        if (sMSMfaSettings != null) 'SMSMfaSettings': sMSMfaSettings,
+        if (softwareTokenMfaSettings != null)
+          'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
       },
     );
 
@@ -2376,7 +2380,7 @@ class CognitoIdentityProvider {
         'Password': password,
         'UserPoolId': userPoolId,
         'Username': username,
-        'Permanent': permanent,
+        if (permanent != null) 'Permanent': permanent,
       },
     );
 
@@ -2638,7 +2642,8 @@ class CognitoIdentityProvider {
         'DeviceKey': deviceKey,
         'UserPoolId': userPoolId,
         'Username': username,
-        'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
+        if (deviceRememberedStatus != null)
+          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
       },
     );
 
@@ -2771,7 +2776,7 @@ class CognitoIdentityProvider {
         'UserAttributes': userAttributes,
         'UserPoolId': userPoolId,
         'Username': username,
-        'ClientMetadata': clientMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
 
@@ -2890,8 +2895,8 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AccessToken': accessToken,
-        'Session': session,
+        if (accessToken != null) 'AccessToken': accessToken,
+        if (session != null) 'Session': session,
       },
     );
 
@@ -3052,8 +3057,9 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
-        'DeviceName': deviceName,
-        'DeviceSecretVerifierConfig': deviceSecretVerifierConfig,
+        if (deviceName != null) 'DeviceName': deviceName,
+        if (deviceSecretVerifierConfig != null)
+          'DeviceSecretVerifierConfig': deviceSecretVerifierConfig,
       },
     );
 
@@ -3236,10 +3242,10 @@ class CognitoIdentityProvider {
         'ConfirmationCode': confirmationCode,
         'Password': password,
         'Username': username,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ClientMetadata': clientMetadata,
-        'SecretHash': secretHash,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (secretHash != null) 'SecretHash': secretHash,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -3411,11 +3417,12 @@ class CognitoIdentityProvider {
         'ClientId': clientId,
         'ConfirmationCode': confirmationCode,
         'Username': username,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ClientMetadata': clientMetadata,
-        'ForceAliasCreation': forceAliasCreation,
-        'SecretHash': secretHash,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (forceAliasCreation != null)
+          'ForceAliasCreation': forceAliasCreation,
+        if (secretHash != null) 'SecretHash': secretHash,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -3535,9 +3542,9 @@ class CognitoIdentityProvider {
       payload: {
         'GroupName': groupName,
         'UserPoolId': userPoolId,
-        'Description': description,
-        'Precedence': precedence,
-        'RoleArn': roleArn,
+        if (description != null) 'Description': description,
+        if (precedence != null) 'Precedence': precedence,
+        if (roleArn != null) 'RoleArn': roleArn,
       },
     );
 
@@ -3713,8 +3720,8 @@ class CognitoIdentityProvider {
         'ProviderName': providerName,
         'ProviderType': providerType?.toValue(),
         'UserPoolId': userPoolId,
-        'AttributeMapping': attributeMapping,
-        'IdpIdentifiers': idpIdentifiers,
+        if (attributeMapping != null) 'AttributeMapping': attributeMapping,
+        if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
       },
     );
 
@@ -3806,7 +3813,7 @@ class CognitoIdentityProvider {
         'Identifier': identifier,
         'Name': name,
         'UserPoolId': userPoolId,
-        'Scopes': scopes,
+        if (scopes != null) 'Scopes': scopes,
       },
     );
 
@@ -4105,26 +4112,39 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'PoolName': poolName,
-        'AccountRecoverySetting': accountRecoverySetting,
-        'AdminCreateUserConfig': adminCreateUserConfig,
-        'AliasAttributes': aliasAttributes,
-        'AutoVerifiedAttributes': autoVerifiedAttributes,
-        'DeviceConfiguration': deviceConfiguration,
-        'EmailConfiguration': emailConfiguration,
-        'EmailVerificationMessage': emailVerificationMessage,
-        'EmailVerificationSubject': emailVerificationSubject,
-        'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration?.toValue(),
-        'Policies': policies,
-        'Schema': schema,
-        'SmsAuthenticationMessage': smsAuthenticationMessage,
-        'SmsConfiguration': smsConfiguration,
-        'SmsVerificationMessage': smsVerificationMessage,
-        'UserPoolAddOns': userPoolAddOns,
-        'UserPoolTags': userPoolTags,
-        'UsernameAttributes': usernameAttributes,
-        'UsernameConfiguration': usernameConfiguration,
-        'VerificationMessageTemplate': verificationMessageTemplate,
+        if (accountRecoverySetting != null)
+          'AccountRecoverySetting': accountRecoverySetting,
+        if (adminCreateUserConfig != null)
+          'AdminCreateUserConfig': adminCreateUserConfig,
+        if (aliasAttributes != null) 'AliasAttributes': aliasAttributes,
+        if (autoVerifiedAttributes != null)
+          'AutoVerifiedAttributes': autoVerifiedAttributes,
+        if (deviceConfiguration != null)
+          'DeviceConfiguration': deviceConfiguration,
+        if (emailConfiguration != null)
+          'EmailConfiguration': emailConfiguration,
+        if (emailVerificationMessage != null)
+          'EmailVerificationMessage': emailVerificationMessage,
+        if (emailVerificationSubject != null)
+          'EmailVerificationSubject': emailVerificationSubject,
+        if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
+        if (mfaConfiguration != null)
+          'MfaConfiguration': mfaConfiguration?.toValue(),
+        if (policies != null) 'Policies': policies,
+        if (schema != null) 'Schema': schema,
+        if (smsAuthenticationMessage != null)
+          'SmsAuthenticationMessage': smsAuthenticationMessage,
+        if (smsConfiguration != null) 'SmsConfiguration': smsConfiguration,
+        if (smsVerificationMessage != null)
+          'SmsVerificationMessage': smsVerificationMessage,
+        if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
+        if (userPoolTags != null) 'UserPoolTags': userPoolTags,
+        if (usernameAttributes != null)
+          'UsernameAttributes': usernameAttributes,
+        if (usernameConfiguration != null)
+          'UsernameConfiguration': usernameConfiguration,
+        if (verificationMessageTemplate != null)
+          'VerificationMessageTemplate': verificationMessageTemplate,
       },
     );
 
@@ -4430,20 +4450,27 @@ class CognitoIdentityProvider {
       payload: {
         'ClientName': clientName,
         'UserPoolId': userPoolId,
-        'AllowedOAuthFlows': allowedOAuthFlows,
-        'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
-        'AllowedOAuthScopes': allowedOAuthScopes,
-        'AnalyticsConfiguration': analyticsConfiguration,
-        'CallbackURLs': callbackURLs,
-        'DefaultRedirectURI': defaultRedirectURI,
-        'ExplicitAuthFlows': explicitAuthFlows,
-        'GenerateSecret': generateSecret,
-        'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
-        'ReadAttributes': readAttributes,
-        'RefreshTokenValidity': refreshTokenValidity,
-        'SupportedIdentityProviders': supportedIdentityProviders,
-        'WriteAttributes': writeAttributes,
+        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
+        if (allowedOAuthFlowsUserPoolClient != null)
+          'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
+        if (allowedOAuthScopes != null)
+          'AllowedOAuthScopes': allowedOAuthScopes,
+        if (analyticsConfiguration != null)
+          'AnalyticsConfiguration': analyticsConfiguration,
+        if (callbackURLs != null) 'CallbackURLs': callbackURLs,
+        if (defaultRedirectURI != null)
+          'DefaultRedirectURI': defaultRedirectURI,
+        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
+        if (generateSecret != null) 'GenerateSecret': generateSecret,
+        if (logoutURLs != null) 'LogoutURLs': logoutURLs,
+        if (preventUserExistenceErrors != null)
+          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
+        if (readAttributes != null) 'ReadAttributes': readAttributes,
+        if (refreshTokenValidity != null)
+          'RefreshTokenValidity': refreshTokenValidity,
+        if (supportedIdentityProviders != null)
+          'SupportedIdentityProviders': supportedIdentityProviders,
+        if (writeAttributes != null) 'WriteAttributes': writeAttributes,
       },
     );
 
@@ -4521,7 +4548,8 @@ class CognitoIdentityProvider {
       payload: {
         'Domain': domain,
         'UserPoolId': userPoolId,
-        'CustomDomainConfig': customDomainConfig,
+        if (customDomainConfig != null)
+          'CustomDomainConfig': customDomainConfig,
       },
     );
 
@@ -5161,7 +5189,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'ClientId': clientId,
+        if (clientId != null) 'ClientId': clientId,
       },
     );
 
@@ -5440,7 +5468,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'DeviceKey': deviceKey,
-        'AccessToken': accessToken,
+        if (accessToken != null) 'AccessToken': accessToken,
       },
     );
   }
@@ -5591,10 +5619,10 @@ class CognitoIdentityProvider {
       payload: {
         'ClientId': clientId,
         'Username': username,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ClientMetadata': clientMetadata,
-        'SecretHash': secretHash,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (secretHash != null) 'SecretHash': secretHash,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -5699,7 +5727,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'DeviceKey': deviceKey,
-        'AccessToken': accessToken,
+        if (accessToken != null) 'AccessToken': accessToken,
       },
     );
 
@@ -5939,7 +5967,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'ClientId': clientId,
+        if (clientId != null) 'ClientId': clientId,
       },
     );
 
@@ -6095,7 +6123,7 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'AttributeName': attributeName,
-        'ClientMetadata': clientMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
 
@@ -6404,10 +6432,10 @@ class CognitoIdentityProvider {
       payload: {
         'AuthFlow': authFlow?.toValue(),
         'ClientId': clientId,
-        'AnalyticsMetadata': analyticsMetadata,
-        'AuthParameters': authParameters,
-        'ClientMetadata': clientMetadata,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (authParameters != null) 'AuthParameters': authParameters,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -6475,8 +6503,8 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'AccessToken': accessToken,
-        'Limit': limit,
-        'PaginationToken': paginationToken,
+        if (limit != null) 'Limit': limit,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 
@@ -6550,8 +6578,8 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6622,8 +6650,8 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6694,8 +6722,8 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6823,7 +6851,7 @@ class CognitoIdentityProvider {
       payload: {
         'MaxResults': maxResults,
         'UserPoolId': userPoolId,
-        'PaginationToken': paginationToken,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 
@@ -6897,8 +6925,8 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6954,7 +6982,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -7109,10 +7137,10 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'AttributesToGet': attributesToGet,
-        'Filter': filter,
-        'Limit': limit,
-        'PaginationToken': paginationToken,
+        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+        if (filter != null) 'Filter': filter,
+        if (limit != null) 'Limit': limit,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 
@@ -7205,8 +7233,8 @@ class CognitoIdentityProvider {
       payload: {
         'GroupName': groupName,
         'UserPoolId': userPoolId,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -7349,10 +7377,10 @@ class CognitoIdentityProvider {
       payload: {
         'ClientId': clientId,
         'Username': username,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ClientMetadata': clientMetadata,
-        'SecretHash': secretHash,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (secretHash != null) 'SecretHash': secretHash,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -7525,11 +7553,12 @@ class CognitoIdentityProvider {
       payload: {
         'ChallengeName': challengeName?.toValue(),
         'ClientId': clientId,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ChallengeResponses': challengeResponses,
-        'ClientMetadata': clientMetadata,
-        'Session': session,
-        'UserContextData': userContextData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (challengeResponses != null)
+          'ChallengeResponses': challengeResponses,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (session != null) 'Session': session,
+        if (userContextData != null) 'UserContextData': userContextData,
       },
     );
 
@@ -7621,11 +7650,14 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'AccountTakeoverRiskConfiguration': accountTakeoverRiskConfiguration,
-        'ClientId': clientId,
-        'CompromisedCredentialsRiskConfiguration':
-            compromisedCredentialsRiskConfiguration,
-        'RiskExceptionConfiguration': riskExceptionConfiguration,
+        if (accountTakeoverRiskConfiguration != null)
+          'AccountTakeoverRiskConfiguration': accountTakeoverRiskConfiguration,
+        if (clientId != null) 'ClientId': clientId,
+        if (compromisedCredentialsRiskConfiguration != null)
+          'CompromisedCredentialsRiskConfiguration':
+              compromisedCredentialsRiskConfiguration,
+        if (riskExceptionConfiguration != null)
+          'RiskExceptionConfiguration': riskExceptionConfiguration,
       },
     );
 
@@ -7707,9 +7739,9 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'CSS': css,
-        'ClientId': clientId,
-        'ImageFile': imageFile,
+        if (css != null) 'CSS': css,
+        if (clientId != null) 'ClientId': clientId,
+        if (imageFile != null) 'ImageFile': base64Encode(imageFile),
       },
     );
 
@@ -7763,8 +7795,9 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'AccessToken': accessToken,
-        'SMSMfaSettings': sMSMfaSettings,
-        'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
+        if (sMSMfaSettings != null) 'SMSMfaSettings': sMSMfaSettings,
+        if (softwareTokenMfaSettings != null)
+          'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
       },
     );
 
@@ -7837,9 +7870,12 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'MfaConfiguration': mfaConfiguration?.toValue(),
-        'SmsMfaConfiguration': smsMfaConfiguration,
-        'SoftwareTokenMfaConfiguration': softwareTokenMfaConfiguration,
+        if (mfaConfiguration != null)
+          'MfaConfiguration': mfaConfiguration?.toValue(),
+        if (smsMfaConfiguration != null)
+          'SmsMfaConfiguration': smsMfaConfiguration,
+        if (softwareTokenMfaConfiguration != null)
+          'SoftwareTokenMfaConfiguration': softwareTokenMfaConfiguration,
       },
     );
 
@@ -8063,12 +8099,12 @@ class CognitoIdentityProvider {
         'ClientId': clientId,
         'Password': password,
         'Username': username,
-        'AnalyticsMetadata': analyticsMetadata,
-        'ClientMetadata': clientMetadata,
-        'SecretHash': secretHash,
-        'UserAttributes': userAttributes,
-        'UserContextData': userContextData,
-        'ValidationData': validationData,
+        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
+        if (secretHash != null) 'SecretHash': secretHash,
+        if (userAttributes != null) 'UserAttributes': userAttributes,
+        if (userContextData != null) 'UserContextData': userContextData,
+        if (validationData != null) 'ValidationData': validationData,
       },
     );
 
@@ -8492,7 +8528,8 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
-        'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
+        if (deviceRememberedStatus != null)
+          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
       },
     );
 
@@ -8601,9 +8638,9 @@ class CognitoIdentityProvider {
       payload: {
         'GroupName': groupName,
         'UserPoolId': userPoolId,
-        'Description': description,
-        'Precedence': precedence,
-        'RoleArn': roleArn,
+        if (description != null) 'Description': description,
+        if (precedence != null) 'Precedence': precedence,
+        if (roleArn != null) 'RoleArn': roleArn,
       },
     );
 
@@ -8682,9 +8719,9 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderName': providerName,
         'UserPoolId': userPoolId,
-        'AttributeMapping': attributeMapping,
-        'IdpIdentifiers': idpIdentifiers,
-        'ProviderDetails': providerDetails,
+        if (attributeMapping != null) 'AttributeMapping': attributeMapping,
+        if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
+        if (providerDetails != null) 'ProviderDetails': providerDetails,
       },
     );
 
@@ -8777,7 +8814,7 @@ class CognitoIdentityProvider {
         'Identifier': identifier,
         'Name': name,
         'UserPoolId': userPoolId,
-        'Scopes': scopes,
+        if (scopes != null) 'Scopes': scopes,
       },
     );
 
@@ -8878,7 +8915,7 @@ class CognitoIdentityProvider {
       payload: {
         'AccessToken': accessToken,
         'UserAttributes': userAttributes,
-        'ClientMetadata': clientMetadata,
+        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
 
@@ -9069,22 +9106,33 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserPoolId': userPoolId,
-        'AccountRecoverySetting': accountRecoverySetting,
-        'AdminCreateUserConfig': adminCreateUserConfig,
-        'AutoVerifiedAttributes': autoVerifiedAttributes,
-        'DeviceConfiguration': deviceConfiguration,
-        'EmailConfiguration': emailConfiguration,
-        'EmailVerificationMessage': emailVerificationMessage,
-        'EmailVerificationSubject': emailVerificationSubject,
-        'LambdaConfig': lambdaConfig,
-        'MfaConfiguration': mfaConfiguration?.toValue(),
-        'Policies': policies,
-        'SmsAuthenticationMessage': smsAuthenticationMessage,
-        'SmsConfiguration': smsConfiguration,
-        'SmsVerificationMessage': smsVerificationMessage,
-        'UserPoolAddOns': userPoolAddOns,
-        'UserPoolTags': userPoolTags,
-        'VerificationMessageTemplate': verificationMessageTemplate,
+        if (accountRecoverySetting != null)
+          'AccountRecoverySetting': accountRecoverySetting,
+        if (adminCreateUserConfig != null)
+          'AdminCreateUserConfig': adminCreateUserConfig,
+        if (autoVerifiedAttributes != null)
+          'AutoVerifiedAttributes': autoVerifiedAttributes,
+        if (deviceConfiguration != null)
+          'DeviceConfiguration': deviceConfiguration,
+        if (emailConfiguration != null)
+          'EmailConfiguration': emailConfiguration,
+        if (emailVerificationMessage != null)
+          'EmailVerificationMessage': emailVerificationMessage,
+        if (emailVerificationSubject != null)
+          'EmailVerificationSubject': emailVerificationSubject,
+        if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
+        if (mfaConfiguration != null)
+          'MfaConfiguration': mfaConfiguration?.toValue(),
+        if (policies != null) 'Policies': policies,
+        if (smsAuthenticationMessage != null)
+          'SmsAuthenticationMessage': smsAuthenticationMessage,
+        if (smsConfiguration != null) 'SmsConfiguration': smsConfiguration,
+        if (smsVerificationMessage != null)
+          'SmsVerificationMessage': smsVerificationMessage,
+        if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
+        if (userPoolTags != null) 'UserPoolTags': userPoolTags,
+        if (verificationMessageTemplate != null)
+          'VerificationMessageTemplate': verificationMessageTemplate,
       },
     );
 
@@ -9393,20 +9441,27 @@ class CognitoIdentityProvider {
       payload: {
         'ClientId': clientId,
         'UserPoolId': userPoolId,
-        'AllowedOAuthFlows': allowedOAuthFlows,
-        'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
-        'AllowedOAuthScopes': allowedOAuthScopes,
-        'AnalyticsConfiguration': analyticsConfiguration,
-        'CallbackURLs': callbackURLs,
-        'ClientName': clientName,
-        'DefaultRedirectURI': defaultRedirectURI,
-        'ExplicitAuthFlows': explicitAuthFlows,
-        'LogoutURLs': logoutURLs,
-        'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
-        'ReadAttributes': readAttributes,
-        'RefreshTokenValidity': refreshTokenValidity,
-        'SupportedIdentityProviders': supportedIdentityProviders,
-        'WriteAttributes': writeAttributes,
+        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
+        if (allowedOAuthFlowsUserPoolClient != null)
+          'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
+        if (allowedOAuthScopes != null)
+          'AllowedOAuthScopes': allowedOAuthScopes,
+        if (analyticsConfiguration != null)
+          'AnalyticsConfiguration': analyticsConfiguration,
+        if (callbackURLs != null) 'CallbackURLs': callbackURLs,
+        if (clientName != null) 'ClientName': clientName,
+        if (defaultRedirectURI != null)
+          'DefaultRedirectURI': defaultRedirectURI,
+        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
+        if (logoutURLs != null) 'LogoutURLs': logoutURLs,
+        if (preventUserExistenceErrors != null)
+          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
+        if (readAttributes != null) 'ReadAttributes': readAttributes,
+        if (refreshTokenValidity != null)
+          'RefreshTokenValidity': refreshTokenValidity,
+        if (supportedIdentityProviders != null)
+          'SupportedIdentityProviders': supportedIdentityProviders,
+        if (writeAttributes != null) 'WriteAttributes': writeAttributes,
       },
     );
 
@@ -9595,9 +9650,10 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'UserCode': userCode,
-        'AccessToken': accessToken,
-        'FriendlyDeviceName': friendlyDeviceName,
-        'Session': session,
+        if (accessToken != null) 'AccessToken': accessToken,
+        if (friendlyDeviceName != null)
+          'FriendlyDeviceName': friendlyDeviceName,
+        if (session != null) 'Session': session,
       },
     );
 

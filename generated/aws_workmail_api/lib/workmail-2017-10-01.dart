@@ -550,7 +550,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Name': name,
-        'OrganizationId': organizationId,
+        if (organizationId != null) 'OrganizationId': organizationId,
       },
     );
 
@@ -1474,8 +1474,8 @@ class WorkMail {
       payload: {
         'EntityId': entityId,
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1550,8 +1550,8 @@ class WorkMail {
       payload: {
         'GroupId': groupId,
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1610,8 +1610,8 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1686,8 +1686,8 @@ class WorkMail {
       payload: {
         'EntityId': entityId,
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1731,8 +1731,8 @@ class WorkMail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1807,8 +1807,8 @@ class WorkMail {
       payload: {
         'OrganizationId': organizationId,
         'ResourceId': resourceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1866,8 +1866,8 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1960,8 +1960,8 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2077,12 +2077,12 @@ class WorkMail {
         'Effect': effect?.toValue(),
         'Name': name,
         'OrganizationId': organizationId,
-        'Actions': actions,
-        'IpRanges': ipRanges,
-        'NotActions': notActions,
-        'NotIpRanges': notIpRanges,
-        'NotUserIds': notUserIds,
-        'UserIds': userIds,
+        if (actions != null) 'Actions': actions,
+        if (ipRanges != null) 'IpRanges': ipRanges,
+        if (notActions != null) 'NotActions': notActions,
+        if (notIpRanges != null) 'NotIpRanges': notIpRanges,
+        if (notUserIds != null) 'NotUserIds': notUserIds,
+        if (userIds != null) 'UserIds': userIds,
       },
     );
 
@@ -2635,8 +2635,8 @@ class WorkMail {
       payload: {
         'OrganizationId': organizationId,
         'ResourceId': resourceId,
-        'BookingOptions': bookingOptions,
-        'Name': name,
+        if (bookingOptions != null) 'BookingOptions': bookingOptions,
+        if (name != null) 'Name': name,
       },
     );
 
