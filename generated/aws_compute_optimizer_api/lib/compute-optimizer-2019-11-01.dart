@@ -116,11 +116,12 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'accountIds': accountIds,
-        'autoScalingGroupArns': autoScalingGroupArns,
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (accountIds != null) 'accountIds': accountIds,
+        if (autoScalingGroupArns != null)
+          'autoScalingGroupArns': autoScalingGroupArns,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -186,11 +187,11 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'accountIds': accountIds,
-        'filters': filters,
-        'instanceArns': instanceArns,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (accountIds != null) 'accountIds': accountIds,
+        if (filters != null) 'filters': filters,
+        if (instanceArns != null) 'instanceArns': instanceArns,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -334,9 +335,9 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'accountIds': accountIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (accountIds != null) 'accountIds': accountIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -383,7 +384,8 @@ class ComputeOptimizer {
       headers: headers,
       payload: {
         'status': status?.toValue(),
-        'includeMemberAccounts': includeMemberAccounts,
+        if (includeMemberAccounts != null)
+          'includeMemberAccounts': includeMemberAccounts,
       },
     );
 

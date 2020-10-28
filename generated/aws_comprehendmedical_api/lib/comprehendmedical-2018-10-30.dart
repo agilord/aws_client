@@ -415,9 +415,9 @@ class ComprehendMedical {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -470,9 +470,9 @@ class ComprehendMedical {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -589,9 +589,10 @@ class ComprehendMedical {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'KMSKey': kMSKey,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (kMSKey != null) 'KMSKey': kMSKey,
       },
     );
 
@@ -708,9 +709,10 @@ class ComprehendMedical {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue(),
         'OutputDataConfig': outputDataConfig,
-        'ClientRequestToken': clientRequestToken,
-        'JobName': jobName,
-        'KMSKey': kMSKey,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobName != null) 'JobName': jobName,
+        if (kMSKey != null) 'KMSKey': kMSKey,
       },
     );
 

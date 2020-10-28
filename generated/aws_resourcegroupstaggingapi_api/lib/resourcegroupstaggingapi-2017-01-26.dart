@@ -175,13 +175,14 @@ class ResourceGroupsTaggingAPI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GroupBy': groupBy,
-        'MaxResults': maxResults,
-        'PaginationToken': paginationToken,
-        'RegionFilters': regionFilters,
-        'ResourceTypeFilters': resourceTypeFilters,
-        'TagKeyFilters': tagKeyFilters,
-        'TargetIdFilters': targetIdFilters,
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
+        if (regionFilters != null) 'RegionFilters': regionFilters,
+        if (resourceTypeFilters != null)
+          'ResourceTypeFilters': resourceTypeFilters,
+        if (tagKeyFilters != null) 'TagKeyFilters': tagKeyFilters,
+        if (targetIdFilters != null) 'TargetIdFilters': targetIdFilters,
       },
     );
 
@@ -383,13 +384,16 @@ class ResourceGroupsTaggingAPI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExcludeCompliantResources': excludeCompliantResources,
-        'IncludeComplianceDetails': includeComplianceDetails,
-        'PaginationToken': paginationToken,
-        'ResourceTypeFilters': resourceTypeFilters,
-        'ResourcesPerPage': resourcesPerPage,
-        'TagFilters': tagFilters,
-        'TagsPerPage': tagsPerPage,
+        if (excludeCompliantResources != null)
+          'ExcludeCompliantResources': excludeCompliantResources,
+        if (includeComplianceDetails != null)
+          'IncludeComplianceDetails': includeComplianceDetails,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
+        if (resourceTypeFilters != null)
+          'ResourceTypeFilters': resourceTypeFilters,
+        if (resourcesPerPage != null) 'ResourcesPerPage': resourcesPerPage,
+        if (tagFilters != null) 'TagFilters': tagFilters,
+        if (tagsPerPage != null) 'TagsPerPage': tagsPerPage,
       },
     );
 
@@ -433,7 +437,7 @@ class ResourceGroupsTaggingAPI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PaginationToken': paginationToken,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 
@@ -498,7 +502,7 @@ class ResourceGroupsTaggingAPI {
       headers: headers,
       payload: {
         'Key': key,
-        'PaginationToken': paginationToken,
+        if (paginationToken != null) 'PaginationToken': paginationToken,
       },
     );
 

@@ -626,8 +626,8 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProtectionId': protectionId,
-        'ResourceArn': resourceArn,
+        if (protectionId != null) 'ProtectionId': protectionId,
+        if (resourceArn != null) 'ResourceArn': resourceArn,
       },
     );
 
@@ -915,11 +915,11 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceArns': resourceArns,
-        'StartTime': startTime,
+        if (endTime != null) 'EndTime': endTime,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceArns != null) 'ResourceArns': resourceArns,
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -978,8 +978,8 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1011,7 +1011,8 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EmergencyContactList': emergencyContactList,
+        if (emergencyContactList != null)
+          'EmergencyContactList': emergencyContactList,
       },
     );
 
@@ -1049,7 +1050,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AutoRenew': autoRenew?.toValue(),
+        if (autoRenew != null) 'AutoRenew': autoRenew?.toValue(),
       },
     );
 

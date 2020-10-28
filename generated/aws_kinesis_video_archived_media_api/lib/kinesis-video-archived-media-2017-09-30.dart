@@ -418,14 +418,18 @@ class KinesisVideoArchivedMedia {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'DASHFragmentSelector': dASHFragmentSelector,
-      'DisplayFragmentNumber': displayFragmentNumber?.toValue(),
-      'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
-      'Expires': expires,
-      'MaxManifestFragmentResults': maxManifestFragmentResults,
-      'PlaybackMode': playbackMode?.toValue(),
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (dASHFragmentSelector != null)
+        'DASHFragmentSelector': dASHFragmentSelector,
+      if (displayFragmentNumber != null)
+        'DisplayFragmentNumber': displayFragmentNumber?.toValue(),
+      if (displayFragmentTimestamp != null)
+        'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
+      if (expires != null) 'Expires': expires,
+      if (maxManifestFragmentResults != null)
+        'MaxManifestFragmentResults': maxManifestFragmentResults,
+      if (playbackMode != null) 'PlaybackMode': playbackMode?.toValue(),
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -888,15 +892,20 @@ class KinesisVideoArchivedMedia {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'ContainerFormat': containerFormat?.toValue(),
-      'DiscontinuityMode': discontinuityMode?.toValue(),
-      'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
-      'Expires': expires,
-      'HLSFragmentSelector': hLSFragmentSelector,
-      'MaxMediaPlaylistFragmentResults': maxMediaPlaylistFragmentResults,
-      'PlaybackMode': playbackMode?.toValue(),
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (containerFormat != null)
+        'ContainerFormat': containerFormat?.toValue(),
+      if (discontinuityMode != null)
+        'DiscontinuityMode': discontinuityMode?.toValue(),
+      if (displayFragmentTimestamp != null)
+        'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
+      if (expires != null) 'Expires': expires,
+      if (hLSFragmentSelector != null)
+        'HLSFragmentSelector': hLSFragmentSelector,
+      if (maxMediaPlaylistFragmentResults != null)
+        'MaxMediaPlaylistFragmentResults': maxMediaPlaylistFragmentResults,
+      if (playbackMode != null) 'PlaybackMode': playbackMode?.toValue(),
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1095,9 +1104,9 @@ class KinesisVideoArchivedMedia {
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,
-      'FragmentSelector': fragmentSelector,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (fragmentSelector != null) 'FragmentSelector': fragmentSelector,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,

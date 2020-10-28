@@ -337,7 +337,8 @@ class Kinesis {
       headers: headers,
       payload: {
         'StreamName': streamName,
-        'EnforceConsumerDeletion': enforceConsumerDeletion,
+        if (enforceConsumerDeletion != null)
+          'EnforceConsumerDeletion': enforceConsumerDeletion,
       },
     );
   }
@@ -421,9 +422,9 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConsumerARN': consumerARN,
-        'ConsumerName': consumerName,
-        'StreamARN': streamARN,
+        if (consumerARN != null) 'ConsumerARN': consumerARN,
+        if (consumerName != null) 'ConsumerName': consumerName,
+        if (streamARN != null) 'StreamARN': streamARN,
       },
     );
   }
@@ -535,8 +536,9 @@ class Kinesis {
       headers: headers,
       payload: {
         'StreamName': streamName,
-        'ExclusiveStartShardId': exclusiveStartShardId,
-        'Limit': limit,
+        if (exclusiveStartShardId != null)
+          'ExclusiveStartShardId': exclusiveStartShardId,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -618,9 +620,9 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConsumerARN': consumerARN,
-        'ConsumerName': consumerName,
-        'StreamARN': streamARN,
+        if (consumerARN != null) 'ConsumerARN': consumerARN,
+        if (consumerName != null) 'ConsumerName': consumerName,
+        if (streamARN != null) 'StreamARN': streamARN,
       },
     );
 
@@ -958,7 +960,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardIterator': shardIterator,
-        'Limit': limit,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -1121,8 +1123,9 @@ class Kinesis {
         'ShardId': shardId,
         'ShardIteratorType': shardIteratorType?.toValue(),
         'StreamName': streamName,
-        'StartingSequenceNumber': startingSequenceNumber,
-        'Timestamp': timestamp,
+        if (startingSequenceNumber != null)
+          'StartingSequenceNumber': startingSequenceNumber,
+        if (timestamp != null) 'Timestamp': timestamp,
       },
     );
 
@@ -1328,11 +1331,13 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExclusiveStartShardId': exclusiveStartShardId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StreamCreationTimestamp': streamCreationTimestamp,
-        'StreamName': streamName,
+        if (exclusiveStartShardId != null)
+          'ExclusiveStartShardId': exclusiveStartShardId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (streamCreationTimestamp != null)
+          'StreamCreationTimestamp': streamCreationTimestamp,
+        if (streamName != null) 'StreamName': streamName,
       },
     );
 
@@ -1443,9 +1448,10 @@ class Kinesis {
       headers: headers,
       payload: {
         'StreamARN': streamARN,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StreamCreationTimestamp': streamCreationTimestamp,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (streamCreationTimestamp != null)
+          'StreamCreationTimestamp': streamCreationTimestamp,
       },
     );
 
@@ -1511,8 +1517,9 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExclusiveStartStreamName': exclusiveStartStreamName,
-        'Limit': limit,
+        if (exclusiveStartStreamName != null)
+          'ExclusiveStartStreamName': exclusiveStartStreamName,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -1582,8 +1589,9 @@ class Kinesis {
       headers: headers,
       payload: {
         'StreamName': streamName,
-        'ExclusiveStartTagKey': exclusiveStartTagKey,
-        'Limit': limit,
+        if (exclusiveStartTagKey != null)
+          'ExclusiveStartTagKey': exclusiveStartTagKey,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -1856,11 +1864,12 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Data': data,
+        'Data': data?.let(base64Encode),
         'PartitionKey': partitionKey,
         'StreamName': streamName,
-        'ExplicitHashKey': explicitHashKey,
-        'SequenceNumberForOrdering': sequenceNumberForOrdering,
+        if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,
+        if (sequenceNumberForOrdering != null)
+          'SequenceNumberForOrdering': sequenceNumberForOrdering,
       },
     );
 

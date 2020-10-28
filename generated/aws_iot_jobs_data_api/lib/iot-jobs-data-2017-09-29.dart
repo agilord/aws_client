@@ -203,8 +203,9 @@ class IoTJobsDataPlane {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'statusDetails': statusDetails,
-      'stepTimeoutInMinutes': stepTimeoutInMinutes,
+      if (statusDetails != null) 'statusDetails': statusDetails,
+      if (stepTimeoutInMinutes != null)
+        'stepTimeoutInMinutes': stepTimeoutInMinutes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -313,12 +314,14 @@ class IoTJobsDataPlane {
     );
     final $payload = <String, dynamic>{
       'status': status?.toValue(),
-      'executionNumber': executionNumber,
-      'expectedVersion': expectedVersion,
-      'includeJobDocument': includeJobDocument,
-      'includeJobExecutionState': includeJobExecutionState,
-      'statusDetails': statusDetails,
-      'stepTimeoutInMinutes': stepTimeoutInMinutes,
+      if (executionNumber != null) 'executionNumber': executionNumber,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
+      if (includeJobDocument != null) 'includeJobDocument': includeJobDocument,
+      if (includeJobExecutionState != null)
+        'includeJobExecutionState': includeJobExecutionState,
+      if (statusDetails != null) 'statusDetails': statusDetails,
+      if (stepTimeoutInMinutes != null)
+        'stepTimeoutInMinutes': stepTimeoutInMinutes,
     };
     final response = await _protocol.send(
       payload: $payload,

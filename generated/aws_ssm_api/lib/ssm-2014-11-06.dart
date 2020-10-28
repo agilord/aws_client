@@ -176,7 +176,7 @@ class SSM {
       headers: headers,
       payload: {
         'CommandId': commandId,
-        'InstanceIds': instanceIds,
+        if (instanceIds != null) 'InstanceIds': instanceIds,
       },
     );
 
@@ -358,11 +358,12 @@ class SSM {
       headers: headers,
       payload: {
         'IamRole': iamRole,
-        'DefaultInstanceName': defaultInstanceName,
-        'Description': description,
-        'ExpirationDate': expirationDate,
-        'RegistrationLimit': registrationLimit,
-        'Tags': tags,
+        if (defaultInstanceName != null)
+          'DefaultInstanceName': defaultInstanceName,
+        if (description != null) 'Description': description,
+        if (expirationDate != null) 'ExpirationDate': expirationDate,
+        if (registrationLimit != null) 'RegistrationLimit': registrationLimit,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -566,17 +567,20 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'AssociationName': associationName,
-        'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity?.toValue(),
-        'DocumentVersion': documentVersion,
-        'InstanceId': instanceId,
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'OutputLocation': outputLocation,
-        'Parameters': parameters,
-        'ScheduleExpression': scheduleExpression,
-        'Targets': targets,
+        if (associationName != null) 'AssociationName': associationName,
+        if (automationTargetParameterName != null)
+          'AutomationTargetParameterName': automationTargetParameterName,
+        if (complianceSeverity != null)
+          'ComplianceSeverity': complianceSeverity?.toValue(),
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
+        if (outputLocation != null) 'OutputLocation': outputLocation,
+        if (parameters != null) 'Parameters': parameters,
+        if (scheduleExpression != null)
+          'ScheduleExpression': scheduleExpression,
+        if (targets != null) 'Targets': targets,
       },
     );
 
@@ -767,13 +771,13 @@ class SSM {
       payload: {
         'Content': content,
         'Name': name,
-        'Attachments': attachments,
-        'DocumentFormat': documentFormat?.toValue(),
-        'DocumentType': documentType?.toValue(),
-        'Requires': requires,
-        'Tags': tags,
-        'TargetType': targetType,
-        'VersionName': versionName,
+        if (attachments != null) 'Attachments': attachments,
+        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
+        if (documentType != null) 'DocumentType': documentType?.toValue(),
+        if (requires != null) 'Requires': requires,
+        if (tags != null) 'Tags': tags,
+        if (targetType != null) 'TargetType': targetType,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -946,12 +950,12 @@ class SSM {
         'Duration': duration,
         'Name': name,
         'Schedule': schedule,
-        'ClientToken': clientToken,
-        'Description': description,
-        'EndDate': endDate,
-        'ScheduleTimezone': scheduleTimezone,
-        'StartDate': startDate,
-        'Tags': tags,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (description != null) 'Description': description,
+        if (endDate != null) 'EndDate': endDate,
+        if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
+        if (startDate != null) 'StartDate': startDate,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1111,13 +1115,13 @@ class SSM {
         'Description': description,
         'Source': source,
         'Title': title,
-        'Category': category,
-        'Notifications': notifications,
-        'OperationalData': operationalData,
-        'Priority': priority,
-        'RelatedOpsItems': relatedOpsItems,
-        'Severity': severity,
-        'Tags': tags,
+        if (category != null) 'Category': category,
+        if (notifications != null) 'Notifications': notifications,
+        if (operationalData != null) 'OperationalData': operationalData,
+        if (priority != null) 'Priority': priority,
+        if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
+        if (severity != null) 'Severity': severity,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1280,19 +1284,23 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'ApprovalRules': approvalRules,
-        'ApprovedPatches': approvedPatches,
-        'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel?.toValue(),
-        'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
-        'ClientToken': clientToken,
-        'Description': description,
-        'GlobalFilters': globalFilters,
-        'OperatingSystem': operatingSystem?.toValue(),
-        'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
-        'Sources': sources,
-        'Tags': tags,
+        if (approvalRules != null) 'ApprovalRules': approvalRules,
+        if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
+        if (approvedPatchesComplianceLevel != null)
+          'ApprovedPatchesComplianceLevel':
+              approvedPatchesComplianceLevel?.toValue(),
+        if (approvedPatchesEnableNonSecurity != null)
+          'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (description != null) 'Description': description,
+        if (globalFilters != null) 'GlobalFilters': globalFilters,
+        if (operatingSystem != null)
+          'OperatingSystem': operatingSystem?.toValue(),
+        if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
+        if (rejectedPatchesAction != null)
+          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
+        if (sources != null) 'Sources': sources,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1383,9 +1391,9 @@ class SSM {
       headers: headers,
       payload: {
         'SyncName': syncName,
-        'S3Destination': s3Destination,
-        'SyncSource': syncSource,
-        'SyncType': syncType,
+        if (s3Destination != null) 'S3Destination': s3Destination,
+        if (syncSource != null) 'SyncSource': syncSource,
+        if (syncType != null) 'SyncType': syncType,
       },
     );
 
@@ -1485,9 +1493,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AssociationId': associationId,
-        'InstanceId': instanceId,
-        'Name': name,
+        if (associationId != null) 'AssociationId': associationId,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -1559,9 +1567,9 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'DocumentVersion': documentVersion,
-        'Force': force,
-        'VersionName': versionName,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (force != null) 'Force': force,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -1643,9 +1651,10 @@ class SSM {
       headers: headers,
       payload: {
         'TypeName': typeName,
-        'ClientToken': clientToken,
-        'DryRun': dryRun,
-        'SchemaDeleteOption': schemaDeleteOption?.toValue(),
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (dryRun != null) 'DryRun': dryRun,
+        if (schemaDeleteOption != null)
+          'SchemaDeleteOption': schemaDeleteOption?.toValue(),
       },
     );
 
@@ -1842,7 +1851,7 @@ class SSM {
       headers: headers,
       payload: {
         'SyncName': syncName,
-        'SyncType': syncType,
+        if (syncType != null) 'SyncType': syncType,
       },
     );
 
@@ -2014,7 +2023,7 @@ class SSM {
       payload: {
         'WindowId': windowId,
         'WindowTargetId': windowTargetId,
-        'Safe': safe,
+        if (safe != null) 'Safe': safe,
       },
     );
 
@@ -2126,9 +2135,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2200,10 +2209,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AssociationId': associationId,
-        'AssociationVersion': associationVersion,
-        'InstanceId': instanceId,
-        'Name': name,
+        if (associationId != null) 'AssociationId': associationId,
+        if (associationVersion != null)
+          'AssociationVersion': associationVersion,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -2282,9 +2292,9 @@ class SSM {
       payload: {
         'AssociationId': associationId,
         'ExecutionId': executionId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2348,9 +2358,9 @@ class SSM {
       headers: headers,
       payload: {
         'AssociationId': associationId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2397,9 +2407,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2469,10 +2479,10 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ReverseOrder': reverseOrder,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (reverseOrder != null) 'ReverseOrder': reverseOrder,
       },
     );
 
@@ -2514,9 +2524,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2574,8 +2584,8 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'DocumentVersion': documentVersion,
-        'VersionName': versionName,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -2676,8 +2686,8 @@ class SSM {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2741,8 +2751,8 @@ class SSM {
       headers: headers,
       payload: {
         'BaselineId': baselineId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2798,8 +2808,8 @@ class SSM {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2872,10 +2882,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'InstanceInformationFilterList': instanceInformationFilterList,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (instanceInformationFilterList != null)
+          'InstanceInformationFilterList': instanceInformationFilterList,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2920,8 +2931,8 @@ class SSM {
       headers: headers,
       payload: {
         'InstanceIds': instanceIds,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2993,9 +3004,9 @@ class SSM {
       headers: headers,
       payload: {
         'PatchGroup': patchGroup,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3057,9 +3068,9 @@ class SSM {
       headers: headers,
       payload: {
         'InstanceId': instanceId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3105,9 +3116,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeletionId': deletionId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (deletionId != null) 'DeletionId': deletionId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3196,9 +3207,9 @@ class SSM {
       payload: {
         'TaskId': taskId,
         'WindowExecutionId': windowExecutionId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3267,9 +3278,9 @@ class SSM {
       headers: headers,
       payload: {
         'WindowExecutionId': windowExecutionId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3343,9 +3354,9 @@ class SSM {
       headers: headers,
       payload: {
         'WindowId': windowId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3418,12 +3429,12 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceType': resourceType?.toValue(),
-        'Targets': targets,
-        'WindowId': windowId,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
+        if (targets != null) 'Targets': targets,
+        if (windowId != null) 'WindowId': windowId,
       },
     );
 
@@ -3490,9 +3501,9 @@ class SSM {
       headers: headers,
       payload: {
         'WindowId': windowId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3557,9 +3568,9 @@ class SSM {
       headers: headers,
       payload: {
         'WindowId': windowId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3604,9 +3615,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3661,8 +3672,8 @@ class SSM {
       payload: {
         'ResourceType': resourceType?.toValue(),
         'Targets': targets,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3788,9 +3799,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'OpsItemFilters': opsItemFilters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (opsItemFilters != null) 'OpsItemFilters': opsItemFilters,
       },
     );
 
@@ -3852,10 +3863,10 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ParameterFilters': parameterFilters,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (parameterFilters != null) 'ParameterFilters': parameterFilters,
       },
     );
 
@@ -3901,9 +3912,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3988,9 +3999,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4070,9 +4081,9 @@ class SSM {
       payload: {
         'OperatingSystem': operatingSystem?.toValue(),
         'Property': property?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'PatchSet': patchSet?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (patchSet != null) 'PatchSet': patchSet?.toValue(),
       },
     );
 
@@ -4126,9 +4137,9 @@ class SSM {
       headers: headers,
       payload: {
         'State': state?.toValue(),
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4216,7 +4227,7 @@ class SSM {
       headers: headers,
       payload: {
         'CalendarNames': calendarNames,
-        'AtTime': atTime,
+        if (atTime != null) 'AtTime': atTime,
       },
     );
 
@@ -4283,7 +4294,7 @@ class SSM {
       payload: {
         'CommandId': commandId,
         'InstanceId': instanceId,
-        'PluginName': pluginName,
+        if (pluginName != null) 'PluginName': pluginName,
       },
     );
 
@@ -4352,7 +4363,8 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem?.toValue(),
+        if (operatingSystem != null)
+          'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -4474,9 +4486,9 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'DocumentFormat': documentFormat?.toValue(),
-        'DocumentVersion': documentVersion,
-        'VersionName': versionName,
+        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -4539,11 +4551,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregators': aggregators,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResultAttributes': resultAttributes,
+        if (aggregators != null) 'Aggregators': aggregators,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resultAttributes != null) 'ResultAttributes': resultAttributes,
       },
     );
 
@@ -4607,11 +4619,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregator': aggregator,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SubType': subType,
-        'TypeName': typeName,
+        if (aggregator != null) 'Aggregator': aggregator,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (subType != null) 'SubType': subType,
+        if (typeName != null) 'TypeName': typeName,
       },
     );
 
@@ -5017,12 +5029,12 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregators': aggregators,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResultAttributes': resultAttributes,
-        'SyncName': syncName,
+        if (aggregators != null) 'Aggregators': aggregators,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resultAttributes != null) 'ResultAttributes': resultAttributes,
+        if (syncName != null) 'SyncName': syncName,
       },
     );
 
@@ -5067,7 +5079,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'WithDecryption': withDecryption,
+        if (withDecryption != null) 'WithDecryption': withDecryption,
       },
     );
 
@@ -5128,9 +5140,9 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'WithDecryption': withDecryption,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (withDecryption != null) 'WithDecryption': withDecryption,
       },
     );
 
@@ -5167,7 +5179,7 @@ class SSM {
       headers: headers,
       payload: {
         'Names': names,
-        'WithDecryption': withDecryption,
+        if (withDecryption != null) 'WithDecryption': withDecryption,
       },
     );
 
@@ -5257,11 +5269,11 @@ class SSM {
       headers: headers,
       payload: {
         'Path': path,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ParameterFilters': parameterFilters,
-        'Recursive': recursive,
-        'WithDecryption': withDecryption,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (parameterFilters != null) 'ParameterFilters': parameterFilters,
+        if (recursive != null) 'Recursive': recursive,
+        if (withDecryption != null) 'WithDecryption': withDecryption,
       },
     );
 
@@ -5352,7 +5364,8 @@ class SSM {
       headers: headers,
       payload: {
         'PatchGroup': patchGroup,
-        'OperatingSystem': operatingSystem?.toValue(),
+        if (operatingSystem != null)
+          'OperatingSystem': operatingSystem?.toValue(),
       },
     );
 
@@ -5498,7 +5511,7 @@ class SSM {
       payload: {
         'Labels': labels,
         'Name': name,
-        'ParameterVersion': parameterVersion,
+        if (parameterVersion != null) 'ParameterVersion': parameterVersion,
       },
     );
 
@@ -5551,8 +5564,8 @@ class SSM {
       headers: headers,
       payload: {
         'AssociationId': associationId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5600,9 +5613,10 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AssociationFilterList': associationFilterList,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (associationFilterList != null)
+          'AssociationFilterList': associationFilterList,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5680,12 +5694,12 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CommandId': commandId,
-        'Details': details,
-        'Filters': filters,
-        'InstanceId': instanceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (commandId != null) 'CommandId': commandId,
+        if (details != null) 'Details': details,
+        if (filters != null) 'Filters': filters,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5753,11 +5767,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CommandId': commandId,
-        'Filters': filters,
-        'InstanceId': instanceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (commandId != null) 'CommandId': commandId,
+        if (filters != null) 'Filters': filters,
+        if (instanceId != null) 'InstanceId': instanceId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5818,11 +5832,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ResourceIds': resourceIds,
-        'ResourceTypes': resourceTypes,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceIds != null) 'ResourceIds': resourceIds,
+        if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       },
     );
 
@@ -5871,9 +5885,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5927,8 +5941,8 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5981,10 +5995,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DocumentFilterList': documentFilterList,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (documentFilterList != null)
+          'DocumentFilterList': documentFilterList,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6064,9 +6079,9 @@ class SSM {
       payload: {
         'InstanceId': instanceId,
         'TypeName': typeName,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6115,9 +6130,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6183,9 +6198,9 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SyncType': syncType,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (syncType != null) 'SyncType': syncType,
       },
     );
 
@@ -6299,9 +6314,11 @@ class SSM {
       payload: {
         'Name': name,
         'PermissionType': permissionType?.toValue(),
-        'AccountIdsToAdd': accountIdsToAdd,
-        'AccountIdsToRemove': accountIdsToRemove,
-        'SharedDocumentVersion': sharedDocumentVersion,
+        if (accountIdsToAdd != null) 'AccountIdsToAdd': accountIdsToAdd,
+        if (accountIdsToRemove != null)
+          'AccountIdsToRemove': accountIdsToRemove,
+        if (sharedDocumentVersion != null)
+          'SharedDocumentVersion': sharedDocumentVersion,
       },
     );
 
@@ -6469,7 +6486,7 @@ class SSM {
         'Items': items,
         'ResourceId': resourceId,
         'ResourceType': resourceType,
-        'ItemContentHash': itemContentHash,
+        if (itemContentHash != null) 'ItemContentHash': itemContentHash,
       },
     );
 
@@ -6836,13 +6853,13 @@ class SSM {
         'Name': name,
         'Type': type?.toValue(),
         'Value': value,
-        'AllowedPattern': allowedPattern,
-        'Description': description,
-        'KeyId': keyId,
-        'Overwrite': overwrite,
-        'Policies': policies,
-        'Tags': tags,
-        'Tier': tier?.toValue(),
+        if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+        if (description != null) 'Description': description,
+        if (keyId != null) 'KeyId': keyId,
+        if (overwrite != null) 'Overwrite': overwrite,
+        if (policies != null) 'Policies': policies,
+        if (tags != null) 'Tags': tags,
+        if (tier != null) 'Tier': tier?.toValue(),
       },
     );
 
@@ -7100,10 +7117,10 @@ class SSM {
         'ResourceType': resourceType?.toValue(),
         'Targets': targets,
         'WindowId': windowId,
-        'ClientToken': clientToken,
-        'Description': description,
-        'Name': name,
-        'OwnerInformation': ownerInformation,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (ownerInformation != null) 'OwnerInformation': ownerInformation,
       },
     );
 
@@ -7326,14 +7343,15 @@ class SSM {
         'TaskArn': taskArn,
         'TaskType': taskType?.toValue(),
         'WindowId': windowId,
-        'ClientToken': clientToken,
-        'Description': description,
-        'LoggingInfo': loggingInfo,
-        'Name': name,
-        'Priority': priority,
-        'ServiceRoleArn': serviceRoleArn,
-        'TaskInvocationParameters': taskInvocationParameters,
-        'TaskParameters': taskParameters,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (description != null) 'Description': description,
+        if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+        if (name != null) 'Name': name,
+        if (priority != null) 'Priority': priority,
+        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+        if (taskInvocationParameters != null)
+          'TaskInvocationParameters': taskInvocationParameters,
+        if (taskParameters != null) 'TaskParameters': taskParameters,
       },
     );
 
@@ -7560,7 +7578,7 @@ class SSM {
       payload: {
         'AutomationExecutionId': automationExecutionId,
         'SignalType': signalType?.toValue(),
-        'Payload': payload,
+        if (payload != null) 'Payload': payload,
       },
     );
 
@@ -7780,22 +7798,26 @@ class SSM {
       headers: headers,
       payload: {
         'DocumentName': documentName,
-        'CloudWatchOutputConfig': cloudWatchOutputConfig,
-        'Comment': comment,
-        'DocumentHash': documentHash,
-        'DocumentHashType': documentHashType?.toValue(),
-        'DocumentVersion': documentVersion,
-        'InstanceIds': instanceIds,
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'NotificationConfig': notificationConfig,
-        'OutputS3BucketName': outputS3BucketName,
-        'OutputS3KeyPrefix': outputS3KeyPrefix,
-        'OutputS3Region': outputS3Region,
-        'Parameters': parameters,
-        'ServiceRoleArn': serviceRoleArn,
-        'Targets': targets,
-        'TimeoutSeconds': timeoutSeconds,
+        if (cloudWatchOutputConfig != null)
+          'CloudWatchOutputConfig': cloudWatchOutputConfig,
+        if (comment != null) 'Comment': comment,
+        if (documentHash != null) 'DocumentHash': documentHash,
+        if (documentHashType != null)
+          'DocumentHashType': documentHashType?.toValue(),
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (instanceIds != null) 'InstanceIds': instanceIds,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
+        if (notificationConfig != null)
+          'NotificationConfig': notificationConfig,
+        if (outputS3BucketName != null)
+          'OutputS3BucketName': outputS3BucketName,
+        if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
+        if (outputS3Region != null) 'OutputS3Region': outputS3Region,
+        if (parameters != null) 'Parameters': parameters,
+        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+        if (targets != null) 'Targets': targets,
+        if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
       },
     );
 
@@ -7998,17 +8020,18 @@ class SSM {
       headers: headers,
       payload: {
         'DocumentName': documentName,
-        'ClientToken': clientToken,
-        'DocumentVersion': documentVersion,
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'Mode': mode?.toValue(),
-        'Parameters': parameters,
-        'Tags': tags,
-        'TargetLocations': targetLocations,
-        'TargetMaps': targetMaps,
-        'TargetParameterName': targetParameterName,
-        'Targets': targets,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
+        if (mode != null) 'Mode': mode?.toValue(),
+        if (parameters != null) 'Parameters': parameters,
+        if (tags != null) 'Tags': tags,
+        if (targetLocations != null) 'TargetLocations': targetLocations,
+        if (targetMaps != null) 'TargetMaps': targetMaps,
+        if (targetParameterName != null)
+          'TargetParameterName': targetParameterName,
+        if (targets != null) 'Targets': targets,
       },
     );
 
@@ -8075,8 +8098,8 @@ class SSM {
       headers: headers,
       payload: {
         'Target': target,
-        'DocumentName': documentName,
-        'Parameters': parameters,
+        if (documentName != null) 'DocumentName': documentName,
+        if (parameters != null) 'Parameters': parameters,
       },
     );
 
@@ -8119,7 +8142,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'Type': type?.toValue(),
+        if (type != null) 'Type': type?.toValue(),
       },
     );
 
@@ -8366,18 +8389,22 @@ class SSM {
       headers: headers,
       payload: {
         'AssociationId': associationId,
-        'AssociationName': associationName,
-        'AssociationVersion': associationVersion,
-        'AutomationTargetParameterName': automationTargetParameterName,
-        'ComplianceSeverity': complianceSeverity?.toValue(),
-        'DocumentVersion': documentVersion,
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'Name': name,
-        'OutputLocation': outputLocation,
-        'Parameters': parameters,
-        'ScheduleExpression': scheduleExpression,
-        'Targets': targets,
+        if (associationName != null) 'AssociationName': associationName,
+        if (associationVersion != null)
+          'AssociationVersion': associationVersion,
+        if (automationTargetParameterName != null)
+          'AutomationTargetParameterName': automationTargetParameterName,
+        if (complianceSeverity != null)
+          'ComplianceSeverity': complianceSeverity?.toValue(),
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
+        if (name != null) 'Name': name,
+        if (outputLocation != null) 'OutputLocation': outputLocation,
+        if (parameters != null) 'Parameters': parameters,
+        if (scheduleExpression != null)
+          'ScheduleExpression': scheduleExpression,
+        if (targets != null) 'Targets': targets,
       },
     );
 
@@ -8537,11 +8564,11 @@ class SSM {
       payload: {
         'Content': content,
         'Name': name,
-        'Attachments': attachments,
-        'DocumentFormat': documentFormat?.toValue(),
-        'DocumentVersion': documentVersion,
-        'TargetType': targetType,
-        'VersionName': versionName,
+        if (attachments != null) 'Attachments': attachments,
+        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (targetType != null) 'TargetType': targetType,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -8738,17 +8765,18 @@ class SSM {
       headers: headers,
       payload: {
         'WindowId': windowId,
-        'AllowUnassociatedTargets': allowUnassociatedTargets,
-        'Cutoff': cutoff,
-        'Description': description,
-        'Duration': duration,
-        'Enabled': enabled,
-        'EndDate': endDate,
-        'Name': name,
-        'Replace': replace,
-        'Schedule': schedule,
-        'ScheduleTimezone': scheduleTimezone,
-        'StartDate': startDate,
+        if (allowUnassociatedTargets != null)
+          'AllowUnassociatedTargets': allowUnassociatedTargets,
+        if (cutoff != null) 'Cutoff': cutoff,
+        if (description != null) 'Description': description,
+        if (duration != null) 'Duration': duration,
+        if (enabled != null) 'Enabled': enabled,
+        if (endDate != null) 'EndDate': endDate,
+        if (name != null) 'Name': name,
+        if (replace != null) 'Replace': replace,
+        if (schedule != null) 'Schedule': schedule,
+        if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
+        if (startDate != null) 'StartDate': startDate,
       },
     );
 
@@ -8882,11 +8910,11 @@ class SSM {
       payload: {
         'WindowId': windowId,
         'WindowTargetId': windowTargetId,
-        'Description': description,
-        'Name': name,
-        'OwnerInformation': ownerInformation,
-        'Replace': replace,
-        'Targets': targets,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+        if (replace != null) 'Replace': replace,
+        if (targets != null) 'Targets': targets,
       },
     );
 
@@ -9126,18 +9154,19 @@ class SSM {
       payload: {
         'WindowId': windowId,
         'WindowTaskId': windowTaskId,
-        'Description': description,
-        'LoggingInfo': loggingInfo,
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'Name': name,
-        'Priority': priority,
-        'Replace': replace,
-        'ServiceRoleArn': serviceRoleArn,
-        'Targets': targets,
-        'TaskArn': taskArn,
-        'TaskInvocationParameters': taskInvocationParameters,
-        'TaskParameters': taskParameters,
+        if (description != null) 'Description': description,
+        if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
+        if (name != null) 'Name': name,
+        if (priority != null) 'Priority': priority,
+        if (replace != null) 'Replace': replace,
+        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+        if (targets != null) 'Targets': targets,
+        if (taskArn != null) 'TaskArn': taskArn,
+        if (taskInvocationParameters != null)
+          'TaskInvocationParameters': taskInvocationParameters,
+        if (taskParameters != null) 'TaskParameters': taskParameters,
       },
     );
 
@@ -9339,16 +9368,17 @@ class SSM {
       headers: headers,
       payload: {
         'OpsItemId': opsItemId,
-        'Category': category,
-        'Description': description,
-        'Notifications': notifications,
-        'OperationalData': operationalData,
-        'OperationalDataToDelete': operationalDataToDelete,
-        'Priority': priority,
-        'RelatedOpsItems': relatedOpsItems,
-        'Severity': severity,
-        'Status': status?.toValue(),
-        'Title': title,
+        if (category != null) 'Category': category,
+        if (description != null) 'Description': description,
+        if (notifications != null) 'Notifications': notifications,
+        if (operationalData != null) 'OperationalData': operationalData,
+        if (operationalDataToDelete != null)
+          'OperationalDataToDelete': operationalDataToDelete,
+        if (priority != null) 'Priority': priority,
+        if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
+        if (severity != null) 'Severity': severity,
+        if (status != null) 'Status': status?.toValue(),
+        if (title != null) 'Title': title,
       },
     );
 
@@ -9494,18 +9524,21 @@ class SSM {
       headers: headers,
       payload: {
         'BaselineId': baselineId,
-        'ApprovalRules': approvalRules,
-        'ApprovedPatches': approvedPatches,
-        'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel?.toValue(),
-        'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
-        'Description': description,
-        'GlobalFilters': globalFilters,
-        'Name': name,
-        'RejectedPatches': rejectedPatches,
-        'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
-        'Replace': replace,
-        'Sources': sources,
+        if (approvalRules != null) 'ApprovalRules': approvalRules,
+        if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
+        if (approvedPatchesComplianceLevel != null)
+          'ApprovedPatchesComplianceLevel':
+              approvedPatchesComplianceLevel?.toValue(),
+        if (approvedPatchesEnableNonSecurity != null)
+          'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
+        if (description != null) 'Description': description,
+        if (globalFilters != null) 'GlobalFilters': globalFilters,
+        if (name != null) 'Name': name,
+        if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
+        if (rejectedPatchesAction != null)
+          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
+        if (replace != null) 'Replace': replace,
+        if (sources != null) 'Sources': sources,
       },
     );
 

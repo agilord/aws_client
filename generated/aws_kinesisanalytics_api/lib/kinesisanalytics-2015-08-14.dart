@@ -715,12 +715,14 @@ class KinesisAnalytics {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'ApplicationCode': applicationCode,
-        'ApplicationDescription': applicationDescription,
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-        'Inputs': inputs,
-        'Outputs': outputs,
-        'Tags': tags,
+        if (applicationCode != null) 'ApplicationCode': applicationCode,
+        if (applicationDescription != null)
+          'ApplicationDescription': applicationDescription,
+        if (cloudWatchLoggingOptions != null)
+          'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+        if (inputs != null) 'Inputs': inputs,
+        if (outputs != null) 'Outputs': outputs,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1333,12 +1335,14 @@ class KinesisAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InputProcessingConfiguration': inputProcessingConfiguration,
-        'InputStartingPositionConfiguration':
-            inputStartingPositionConfiguration,
-        'ResourceARN': resourceARN,
-        'RoleARN': roleARN,
-        'S3Configuration': s3Configuration,
+        if (inputProcessingConfiguration != null)
+          'InputProcessingConfiguration': inputProcessingConfiguration,
+        if (inputStartingPositionConfiguration != null)
+          'InputStartingPositionConfiguration':
+              inputStartingPositionConfiguration,
+        if (resourceARN != null) 'ResourceARN': resourceARN,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (s3Configuration != null) 'S3Configuration': s3Configuration,
       },
     );
 
@@ -1406,8 +1410,9 @@ class KinesisAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExclusiveStartApplicationName': exclusiveStartApplicationName,
-        'Limit': limit,
+        if (exclusiveStartApplicationName != null)
+          'ExclusiveStartApplicationName': exclusiveStartApplicationName,
+        if (limit != null) 'Limit': limit,
       },
     );
 

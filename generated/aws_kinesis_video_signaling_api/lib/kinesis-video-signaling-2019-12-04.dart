@@ -126,9 +126,9 @@ class KinesisVideoSignalingChannels {
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
-      'ClientId': clientId,
-      'Service': service?.toValue(),
-      'Username': username,
+      if (clientId != null) 'ClientId': clientId,
+      if (service != null) 'Service': service?.toValue(),
+      if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
       payload: $payload,

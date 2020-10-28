@@ -230,9 +230,10 @@ class Athena {
         'Database': database,
         'Name': name,
         'QueryString': queryString,
-        'ClientRequestToken': clientRequestToken,
-        'Description': description,
-        'WorkGroup': workGroup,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (description != null) 'Description': description,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -294,9 +295,9 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
-        'Configuration': configuration,
-        'Description': description,
-        'Tags': tags,
+        if (configuration != null) 'Configuration': configuration,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -372,7 +373,8 @@ class Athena {
       headers: headers,
       payload: {
         'WorkGroup': workGroup,
-        'RecursiveDeleteOption': recursiveDeleteOption,
+        if (recursiveDeleteOption != null)
+          'RecursiveDeleteOption': recursiveDeleteOption,
       },
     );
 
@@ -501,8 +503,8 @@ class Athena {
       headers: headers,
       payload: {
         'QueryExecutionId': queryExecutionId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -600,9 +602,9 @@ class Athena {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'WorkGroup': workGroup,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -665,9 +667,9 @@ class Athena {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'WorkGroup': workGroup,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -728,8 +730,8 @@ class Athena {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -773,8 +775,8 @@ class Athena {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -859,10 +861,13 @@ class Athena {
       headers: headers,
       payload: {
         'QueryString': queryString,
-        'ClientRequestToken': clientRequestToken,
-        'QueryExecutionContext': queryExecutionContext,
-        'ResultConfiguration': resultConfiguration,
-        'WorkGroup': workGroup,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (queryExecutionContext != null)
+          'QueryExecutionContext': queryExecutionContext,
+        if (resultConfiguration != null)
+          'ResultConfiguration': resultConfiguration,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -1057,9 +1062,10 @@ class Athena {
       headers: headers,
       payload: {
         'WorkGroup': workGroup,
-        'ConfigurationUpdates': configurationUpdates,
-        'Description': description,
-        'State': state?.toValue(),
+        if (configurationUpdates != null)
+          'ConfigurationUpdates': configurationUpdates,
+        if (description != null) 'Description': description,
+        if (state != null) 'State': state?.toValue(),
       },
     );
 

@@ -59,7 +59,7 @@ class XRay {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
     final $payload = <String, dynamic>{
       'TraceIds': traceIds,
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -95,7 +95,7 @@ class XRay {
     );
     final $payload = <String, dynamic>{
       'GroupName': groupName,
-      'FilterExpression': filterExpression,
+      if (filterExpression != null) 'FilterExpression': filterExpression,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -164,8 +164,8 @@ class XRay {
       32,
     );
     final $payload = <String, dynamic>{
-      'GroupARN': groupARN,
-      'GroupName': groupName,
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -193,8 +193,8 @@ class XRay {
     String ruleName,
   }) async {
     final $payload = <String, dynamic>{
-      'RuleARN': ruleARN,
-      'RuleName': ruleName,
+      if (ruleARN != null) 'RuleARN': ruleARN,
+      if (ruleName != null) 'RuleName': ruleName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -247,8 +247,8 @@ class XRay {
       32,
     );
     final $payload = <String, dynamic>{
-      'GroupARN': groupARN,
-      'GroupName': groupName,
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -276,7 +276,7 @@ class XRay {
       100,
     );
     final $payload = <String, dynamic>{
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -298,7 +298,7 @@ class XRay {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -321,7 +321,7 @@ class XRay {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -406,9 +406,9 @@ class XRay {
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
-      'GroupARN': groupARN,
-      'GroupName': groupName,
-      'NextToken': nextToken,
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -478,11 +478,12 @@ class XRay {
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
-      'EntitySelectorExpression': entitySelectorExpression,
-      'GroupARN': groupARN,
-      'GroupName': groupName,
-      'NextToken': nextToken,
-      'Period': period,
+      if (entitySelectorExpression != null)
+        'EntitySelectorExpression': entitySelectorExpression,
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (period != null) 'Period': period,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -510,7 +511,7 @@ class XRay {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
     final $payload = <String, dynamic>{
       'TraceIds': traceIds,
-      'NextToken': nextToken,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -584,11 +585,11 @@ class XRay {
     final $payload = <String, dynamic>{
       'EndTime': endTime,
       'StartTime': startTime,
-      'FilterExpression': filterExpression,
-      'NextToken': nextToken,
-      'Sampling': sampling,
-      'SamplingStrategy': samplingStrategy,
-      'TimeRangeType': timeRangeType?.toValue(),
+      if (filterExpression != null) 'FilterExpression': filterExpression,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sampling != null) 'Sampling': sampling,
+      if (samplingStrategy != null) 'SamplingStrategy': samplingStrategy,
+      if (timeRangeType != null) 'TimeRangeType': timeRangeType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -641,7 +642,7 @@ class XRay {
     );
     final $payload = <String, dynamic>{
       'Type': type?.toValue(),
-      'KeyId': keyId,
+      if (keyId != null) 'KeyId': keyId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -695,9 +696,9 @@ class XRay {
     );
     final $payload = <String, dynamic>{
       'TelemetryRecords': telemetryRecords,
-      'EC2InstanceId': eC2InstanceId,
-      'Hostname': hostname,
-      'ResourceARN': resourceARN,
+      if (eC2InstanceId != null) 'EC2InstanceId': eC2InstanceId,
+      if (hostname != null) 'Hostname': hostname,
+      if (resourceARN != null) 'ResourceARN': resourceARN,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -823,9 +824,9 @@ class XRay {
       32,
     );
     final $payload = <String, dynamic>{
-      'FilterExpression': filterExpression,
-      'GroupARN': groupARN,
-      'GroupName': groupName,
+      if (filterExpression != null) 'FilterExpression': filterExpression,
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -612,8 +612,8 @@ class ServiceQuotas {
       headers: headers,
       payload: {
         'ServiceCode': serviceCode,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -698,10 +698,10 @@ class ServiceQuotas {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServiceCode': serviceCode,
-        'Status': status?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serviceCode != null) 'ServiceCode': serviceCode,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -814,9 +814,9 @@ class ServiceQuotas {
       payload: {
         'QuotaCode': quotaCode,
         'ServiceCode': serviceCode,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -916,10 +916,10 @@ class ServiceQuotas {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AwsRegion': awsRegion,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServiceCode': serviceCode,
+        if (awsRegion != null) 'AwsRegion': awsRegion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (serviceCode != null) 'ServiceCode': serviceCode,
       },
     );
 
@@ -1014,8 +1014,8 @@ class ServiceQuotas {
       headers: headers,
       payload: {
         'ServiceCode': serviceCode,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1080,8 +1080,8 @@ class ServiceQuotas {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

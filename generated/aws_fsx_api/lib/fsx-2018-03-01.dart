@@ -198,8 +198,9 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        'ClientRequestToken': clientRequestToken,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -297,9 +298,10 @@ class FSx {
         'FileSystemId': fileSystemId,
         'Report': report,
         'Type': type?.toValue(),
-        'ClientRequestToken': clientRequestToken,
-        'Paths': paths,
-        'Tags': tags,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (paths != null) 'Paths': paths,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -493,13 +495,16 @@ class FSx {
         'FileSystemType': fileSystemType?.toValue(),
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
-        'ClientRequestToken': clientRequestToken,
-        'KmsKeyId': kmsKeyId,
-        'LustreConfiguration': lustreConfiguration,
-        'SecurityGroupIds': securityGroupIds,
-        'StorageType': storageType?.toValue(),
-        'Tags': tags,
-        'WindowsConfiguration': windowsConfiguration,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (lustreConfiguration != null)
+          'LustreConfiguration': lustreConfiguration,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (storageType != null) 'StorageType': storageType?.toValue(),
+        if (tags != null) 'Tags': tags,
+        if (windowsConfiguration != null)
+          'WindowsConfiguration': windowsConfiguration,
       },
     );
 
@@ -658,11 +663,13 @@ class FSx {
       payload: {
         'BackupId': backupId,
         'SubnetIds': subnetIds,
-        'ClientRequestToken': clientRequestToken,
-        'SecurityGroupIds': securityGroupIds,
-        'StorageType': storageType?.toValue(),
-        'Tags': tags,
-        'WindowsConfiguration': windowsConfiguration,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (storageType != null) 'StorageType': storageType?.toValue(),
+        if (tags != null) 'Tags': tags,
+        if (windowsConfiguration != null)
+          'WindowsConfiguration': windowsConfiguration,
       },
     );
 
@@ -735,7 +742,8 @@ class FSx {
       headers: headers,
       payload: {
         'BackupId': backupId,
-        'ClientRequestToken': clientRequestToken,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
       },
     );
 
@@ -821,8 +829,10 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        'ClientRequestToken': clientRequestToken,
-        'WindowsConfiguration': windowsConfiguration,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (windowsConfiguration != null)
+          'WindowsConfiguration': windowsConfiguration,
       },
     );
 
@@ -921,10 +931,10 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BackupIds': backupIds,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (backupIds != null) 'BackupIds': backupIds,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -993,10 +1003,10 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'TaskIds': taskIds,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (taskIds != null) 'TaskIds': taskIds,
       },
     );
 
@@ -1088,9 +1098,9 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileSystemIds': fileSystemIds,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (fileSystemIds != null) 'FileSystemIds': fileSystemIds,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1196,8 +1206,8 @@ class FSx {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1371,9 +1381,12 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        'ClientRequestToken': clientRequestToken,
-        'LustreConfiguration': lustreConfiguration,
-        'WindowsConfiguration': windowsConfiguration,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (lustreConfiguration != null)
+          'LustreConfiguration': lustreConfiguration,
+        if (windowsConfiguration != null)
+          'WindowsConfiguration': windowsConfiguration,
       },
     );
 

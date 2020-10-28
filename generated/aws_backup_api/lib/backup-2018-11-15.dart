@@ -76,8 +76,8 @@ class Backup {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     final $payload = <String, dynamic>{
       'BackupPlan': backupPlan,
-      'BackupPlanTags': backupPlanTags,
-      'CreatorRequestId': creatorRequestId,
+      if (backupPlanTags != null) 'BackupPlanTags': backupPlanTags,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -150,7 +150,7 @@ class Backup {
     ArgumentError.checkNotNull(backupSelection, 'backupSelection');
     final $payload = <String, dynamic>{
       'BackupSelection': backupSelection,
-      'CreatorRequestId': creatorRequestId,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -208,9 +208,9 @@ class Backup {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'BackupVaultTags': backupVaultTags,
-      'CreatorRequestId': creatorRequestId,
-      'EncryptionKeyArn': encryptionKeyArn,
+      if (backupVaultTags != null) 'BackupVaultTags': backupVaultTags,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+      if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1549,7 +1549,7 @@ class Backup {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Policy': policy,
+      if (policy != null) 'Policy': policy,
     };
     await _protocol.send(
       payload: $payload,
@@ -1679,11 +1679,12 @@ class Backup {
       'BackupVaultName': backupVaultName,
       'IamRoleArn': iamRoleArn,
       'ResourceArn': resourceArn,
-      'CompleteWindowMinutes': completeWindowMinutes,
-      'IdempotencyToken': idempotencyToken,
-      'Lifecycle': lifecycle,
-      'RecoveryPointTags': recoveryPointTags,
-      'StartWindowMinutes': startWindowMinutes,
+      if (completeWindowMinutes != null)
+        'CompleteWindowMinutes': completeWindowMinutes,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lifecycle != null) 'Lifecycle': lifecycle,
+      if (recoveryPointTags != null) 'RecoveryPointTags': recoveryPointTags,
+      if (startWindowMinutes != null) 'StartWindowMinutes': startWindowMinutes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1749,8 +1750,8 @@ class Backup {
       'IamRoleArn': iamRoleArn,
       'RecoveryPointArn': recoveryPointArn,
       'SourceBackupVaultName': sourceBackupVaultName,
-      'IdempotencyToken': idempotencyToken,
-      'Lifecycle': lifecycle,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lifecycle != null) 'Lifecycle': lifecycle,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1868,8 +1869,8 @@ class Backup {
       'IamRoleArn': iamRoleArn,
       'Metadata': metadata,
       'RecoveryPointArn': recoveryPointArn,
-      'IdempotencyToken': idempotencyToken,
-      'ResourceType': resourceType,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (resourceType != null) 'ResourceType': resourceType,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2053,7 +2054,7 @@ class Backup {
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final $payload = <String, dynamic>{
-      'Lifecycle': lifecycle,
+      if (lifecycle != null) 'Lifecycle': lifecycle,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -122,8 +122,8 @@ class TranscribeService {
       payload: {
         'LanguageCode': languageCode?.toValue(),
         'VocabularyName': vocabularyName,
-        'Phrases': phrases,
-        'VocabularyFileUri': vocabularyFileUri,
+        if (phrases != null) 'Phrases': phrases,
+        if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
       },
     );
 
@@ -214,8 +214,9 @@ class TranscribeService {
       payload: {
         'LanguageCode': languageCode?.toValue(),
         'VocabularyFilterName': vocabularyFilterName,
-        'VocabularyFilterFileUri': vocabularyFilterFileUri,
-        'Words': words,
+        if (vocabularyFilterFileUri != null)
+          'VocabularyFilterFileUri': vocabularyFilterFileUri,
+        if (words != null) 'Words': words,
       },
     );
 
@@ -650,10 +651,10 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'JobNameContains': jobNameContains,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (jobNameContains != null) 'JobNameContains': jobNameContains,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -729,10 +730,10 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'JobNameContains': jobNameContains,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Status': status?.toValue(),
+        if (jobNameContains != null) 'JobNameContains': jobNameContains,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status?.toValue(),
       },
     );
 
@@ -809,10 +810,10 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
-        'StateEquals': stateEquals?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (stateEquals != null) 'StateEquals': stateEquals?.toValue(),
       },
     );
 
@@ -881,9 +882,9 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NameContains': nameContains,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1064,10 +1065,12 @@ class TranscribeService {
         'OutputBucketName': outputBucketName,
         'Specialty': specialty?.toValue(),
         'Type': type?.toValue(),
-        'MediaFormat': mediaFormat?.toValue(),
-        'MediaSampleRateHertz': mediaSampleRateHertz,
-        'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
-        'Settings': settings,
+        if (mediaFormat != null) 'MediaFormat': mediaFormat?.toValue(),
+        if (mediaSampleRateHertz != null)
+          'MediaSampleRateHertz': mediaSampleRateHertz,
+        if (outputEncryptionKMSKeyId != null)
+          'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
+        if (settings != null) 'Settings': settings,
       },
     );
 
@@ -1248,13 +1251,16 @@ class TranscribeService {
         'LanguageCode': languageCode?.toValue(),
         'Media': media,
         'TranscriptionJobName': transcriptionJobName,
-        'ContentRedaction': contentRedaction,
-        'JobExecutionSettings': jobExecutionSettings,
-        'MediaFormat': mediaFormat?.toValue(),
-        'MediaSampleRateHertz': mediaSampleRateHertz,
-        'OutputBucketName': outputBucketName,
-        'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
-        'Settings': settings,
+        if (contentRedaction != null) 'ContentRedaction': contentRedaction,
+        if (jobExecutionSettings != null)
+          'JobExecutionSettings': jobExecutionSettings,
+        if (mediaFormat != null) 'MediaFormat': mediaFormat?.toValue(),
+        if (mediaSampleRateHertz != null)
+          'MediaSampleRateHertz': mediaSampleRateHertz,
+        if (outputBucketName != null) 'OutputBucketName': outputBucketName,
+        if (outputEncryptionKMSKeyId != null)
+          'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
+        if (settings != null) 'Settings': settings,
       },
     );
 
@@ -1345,8 +1351,8 @@ class TranscribeService {
       payload: {
         'LanguageCode': languageCode?.toValue(),
         'VocabularyName': vocabularyName,
-        'Phrases': phrases,
-        'VocabularyFileUri': vocabularyFileUri,
+        if (phrases != null) 'Phrases': phrases,
+        if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
       },
     );
 
@@ -1427,8 +1433,9 @@ class TranscribeService {
       headers: headers,
       payload: {
         'VocabularyFilterName': vocabularyFilterName,
-        'VocabularyFilterFileUri': vocabularyFilterFileUri,
-        'Words': words,
+        if (vocabularyFilterFileUri != null)
+          'VocabularyFilterFileUri': vocabularyFilterFileUri,
+        if (words != null) 'Words': words,
       },
     );
 

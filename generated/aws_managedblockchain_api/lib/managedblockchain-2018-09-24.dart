@@ -212,8 +212,9 @@ class ManagedBlockchain {
       'MemberConfiguration': memberConfiguration,
       'Name': name,
       'VotingPolicy': votingPolicy,
-      'Description': description,
-      'FrameworkConfiguration': frameworkConfiguration,
+      if (description != null) 'Description': description,
+      if (frameworkConfiguration != null)
+        'FrameworkConfiguration': frameworkConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -372,7 +373,7 @@ class ManagedBlockchain {
       'Actions': actions,
       'ClientRequestToken': clientRequestToken,
       'MemberId': memberId,
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1115,7 +1116,8 @@ class ManagedBlockchain {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'LogPublishingConfiguration': logPublishingConfiguration,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1177,7 +1179,8 @@ class ManagedBlockchain {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'LogPublishingConfiguration': logPublishingConfiguration,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,

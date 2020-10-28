@@ -122,7 +122,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionInputList': partitionInputList,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -168,7 +168,7 @@ class Glue {
       headers: headers,
       payload: {
         'ConnectionNameList': connectionNameList,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -255,7 +255,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionsToDelete': partitionsToDelete,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -335,7 +335,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TablesToDelete': tablesToDelete,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -424,7 +424,7 @@ class Glue {
         'DatabaseName': databaseName,
         'TableName': tableName,
         'VersionIds': versionIds,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -616,7 +616,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionsToGet': partitionsToGet,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -692,7 +692,7 @@ class Glue {
       headers: headers,
       payload: {
         'Names': names,
-        'IncludeGraph': includeGraph,
+        if (includeGraph != null) 'IncludeGraph': includeGraph,
       },
     );
 
@@ -854,10 +854,10 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CsvClassifier': csvClassifier,
-        'GrokClassifier': grokClassifier,
-        'JsonClassifier': jsonClassifier,
-        'XMLClassifier': xMLClassifier,
+        if (csvClassifier != null) 'CsvClassifier': csvClassifier,
+        if (grokClassifier != null) 'GrokClassifier': grokClassifier,
+        if (jsonClassifier != null) 'JsonClassifier': jsonClassifier,
+        if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
       },
     );
 
@@ -906,7 +906,7 @@ class Glue {
       headers: headers,
       payload: {
         'ConnectionInput': connectionInput,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -1041,15 +1041,17 @@ class Glue {
         'Name': name,
         'Role': role,
         'Targets': targets,
-        'Classifiers': classifiers,
-        'Configuration': configuration,
-        'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
-        'DatabaseName': databaseName,
-        'Description': description,
-        'Schedule': schedule,
-        'SchemaChangePolicy': schemaChangePolicy,
-        'TablePrefix': tablePrefix,
-        'Tags': tags,
+        if (classifiers != null) 'Classifiers': classifiers,
+        if (configuration != null) 'Configuration': configuration,
+        if (crawlerSecurityConfiguration != null)
+          'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
+        if (databaseName != null) 'DatabaseName': databaseName,
+        if (description != null) 'Description': description,
+        if (schedule != null) 'Schedule': schedule,
+        if (schemaChangePolicy != null)
+          'SchemaChangePolicy': schemaChangePolicy,
+        if (tablePrefix != null) 'TablePrefix': tablePrefix,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1099,7 +1101,7 @@ class Glue {
       headers: headers,
       payload: {
         'DatabaseInput': databaseInput,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -1289,19 +1291,21 @@ class Glue {
       payload: {
         'EndpointName': endpointName,
         'RoleArn': roleArn,
-        'Arguments': arguments,
-        'ExtraJarsS3Path': extraJarsS3Path,
-        'ExtraPythonLibsS3Path': extraPythonLibsS3Path,
-        'GlueVersion': glueVersion,
-        'NumberOfNodes': numberOfNodes,
-        'NumberOfWorkers': numberOfWorkers,
-        'PublicKey': publicKey,
-        'PublicKeys': publicKeys,
-        'SecurityConfiguration': securityConfiguration,
-        'SecurityGroupIds': securityGroupIds,
-        'SubnetId': subnetId,
-        'Tags': tags,
-        'WorkerType': workerType?.toValue(),
+        if (arguments != null) 'Arguments': arguments,
+        if (extraJarsS3Path != null) 'ExtraJarsS3Path': extraJarsS3Path,
+        if (extraPythonLibsS3Path != null)
+          'ExtraPythonLibsS3Path': extraPythonLibsS3Path,
+        if (glueVersion != null) 'GlueVersion': glueVersion,
+        if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (publicKey != null) 'PublicKey': publicKey,
+        if (publicKeys != null) 'PublicKeys': publicKeys,
+        if (securityConfiguration != null)
+          'SecurityConfiguration': securityConfiguration,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (subnetId != null) 'SubnetId': subnetId,
+        if (tags != null) 'Tags': tags,
+        if (workerType != null) 'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1548,22 +1552,25 @@ class Glue {
         'Command': command,
         'Name': name,
         'Role': role,
-        'AllocatedCapacity': allocatedCapacity,
-        'Connections': connections,
-        'DefaultArguments': defaultArguments,
-        'Description': description,
-        'ExecutionProperty': executionProperty,
-        'GlueVersion': glueVersion,
-        'LogUri': logUri,
-        'MaxCapacity': maxCapacity,
-        'MaxRetries': maxRetries,
-        'NonOverridableArguments': nonOverridableArguments,
-        'NotificationProperty': notificationProperty,
-        'NumberOfWorkers': numberOfWorkers,
-        'SecurityConfiguration': securityConfiguration,
-        'Tags': tags,
-        'Timeout': timeout,
-        'WorkerType': workerType?.toValue(),
+        if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+        if (connections != null) 'Connections': connections,
+        if (defaultArguments != null) 'DefaultArguments': defaultArguments,
+        if (description != null) 'Description': description,
+        if (executionProperty != null) 'ExecutionProperty': executionProperty,
+        if (glueVersion != null) 'GlueVersion': glueVersion,
+        if (logUri != null) 'LogUri': logUri,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxRetries != null) 'MaxRetries': maxRetries,
+        if (nonOverridableArguments != null)
+          'NonOverridableArguments': nonOverridableArguments,
+        if (notificationProperty != null)
+          'NotificationProperty': notificationProperty,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (securityConfiguration != null)
+          'SecurityConfiguration': securityConfiguration,
+        if (tags != null) 'Tags': tags,
+        if (timeout != null) 'Timeout': timeout,
+        if (workerType != null) 'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1810,14 +1817,14 @@ class Glue {
         'Name': name,
         'Parameters': parameters,
         'Role': role,
-        'Description': description,
-        'GlueVersion': glueVersion,
-        'MaxCapacity': maxCapacity,
-        'MaxRetries': maxRetries,
-        'NumberOfWorkers': numberOfWorkers,
-        'Tags': tags,
-        'Timeout': timeout,
-        'WorkerType': workerType?.toValue(),
+        if (description != null) 'Description': description,
+        if (glueVersion != null) 'GlueVersion': glueVersion,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxRetries != null) 'MaxRetries': maxRetries,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (tags != null) 'Tags': tags,
+        if (timeout != null) 'Timeout': timeout,
+        if (workerType != null) 'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -1906,7 +1913,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionInput': partitionInput,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -1943,9 +1950,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DagEdges': dagEdges,
-        'DagNodes': dagNodes,
-        'Language': language?.toValue(),
+        if (dagEdges != null) 'DagEdges': dagEdges,
+        if (dagNodes != null) 'DagNodes': dagNodes,
+        if (language != null) 'Language': language?.toValue(),
       },
     );
 
@@ -2074,7 +2081,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TableInput': tableInput,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -2193,12 +2200,12 @@ class Glue {
         'Actions': actions,
         'Name': name,
         'Type': type?.toValue(),
-        'Description': description,
-        'Predicate': predicate,
-        'Schedule': schedule,
-        'StartOnCreation': startOnCreation,
-        'Tags': tags,
-        'WorkflowName': workflowName,
+        if (description != null) 'Description': description,
+        if (predicate != null) 'Predicate': predicate,
+        if (schedule != null) 'Schedule': schedule,
+        if (startOnCreation != null) 'StartOnCreation': startOnCreation,
+        if (tags != null) 'Tags': tags,
+        if (workflowName != null) 'WorkflowName': workflowName,
       },
     );
 
@@ -2269,7 +2276,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'FunctionInput': functionInput,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -2330,9 +2337,10 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'DefaultRunProperties': defaultRunProperties,
-        'Description': description,
-        'Tags': tags,
+        if (defaultRunProperties != null)
+          'DefaultRunProperties': defaultRunProperties,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2433,7 +2441,7 @@ class Glue {
       headers: headers,
       payload: {
         'ConnectionName': connectionName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -2554,7 +2562,7 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -2765,7 +2773,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionValues': partitionValues,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -2807,7 +2815,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyHashCondition': policyHashCondition,
+        if (policyHashCondition != null)
+          'PolicyHashCondition': policyHashCondition,
       },
     );
 
@@ -2945,7 +2954,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3047,7 +3056,7 @@ class Glue {
         'DatabaseName': databaseName,
         'TableName': tableName,
         'VersionId': versionId,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3172,7 +3181,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'FunctionName': functionName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3256,7 +3265,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3335,8 +3344,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3406,8 +3415,8 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'CatalogId': catalogId,
-        'HidePassword': hidePassword,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (hidePassword != null) 'HidePassword': hidePassword,
       },
     );
 
@@ -3476,11 +3485,11 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
-        'Filter': filter,
-        'HidePassword': hidePassword,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (filter != null) 'Filter': filter,
+        if (hidePassword != null) 'HidePassword': hidePassword,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3563,9 +3572,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CrawlerNameList': crawlerNameList,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (crawlerNameList != null) 'CrawlerNameList': crawlerNameList,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3602,8 +3611,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3645,7 +3654,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3708,7 +3717,7 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -3764,9 +3773,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3795,7 +3804,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PythonScript': pythonScript,
+        if (pythonScript != null) 'PythonScript': pythonScript,
       },
     );
 
@@ -3878,8 +3887,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3960,7 +3969,7 @@ class Glue {
       headers: headers,
       payload: {
         'JobName': jobName,
-        'RunId': runId,
+        if (runId != null) 'RunId': runId,
       },
     );
 
@@ -4028,7 +4037,8 @@ class Glue {
       payload: {
         'JobName': jobName,
         'RunId': runId,
-        'PredecessorsIncluded': predecessorsIncluded,
+        if (predecessorsIncluded != null)
+          'PredecessorsIncluded': predecessorsIncluded,
       },
     );
 
@@ -4087,8 +4097,8 @@ class Glue {
       headers: headers,
       payload: {
         'JobName': jobName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4128,8 +4138,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4273,10 +4283,10 @@ class Glue {
       headers: headers,
       payload: {
         'TransformId': transformId,
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Sort': sort,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sort != null) 'Sort': sort,
       },
     );
 
@@ -4379,10 +4389,10 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Sort': sort,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sort != null) 'Sort': sort,
       },
     );
 
@@ -4422,8 +4432,8 @@ class Glue {
       headers: headers,
       payload: {
         'Source': source,
-        'Location': location,
-        'Sinks': sinks,
+        if (location != null) 'Location': location,
+        if (sinks != null) 'Sinks': sinks,
       },
     );
 
@@ -4510,7 +4520,7 @@ class Glue {
         'DatabaseName': databaseName,
         'PartitionValues': partitionValues,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -4707,11 +4717,11 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TableName': tableName,
-        'CatalogId': catalogId,
-        'Expression': expression,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Segment': segment,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (expression != null) 'Expression': expression,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (segment != null) 'Segment': segment,
       },
     );
 
@@ -4760,9 +4770,9 @@ class Glue {
       payload: {
         'Mapping': mapping,
         'Source': source,
-        'Language': language?.toValue(),
-        'Location': location,
-        'Sinks': sinks,
+        if (language != null) 'Language': language?.toValue(),
+        if (location != null) 'Location': location,
+        if (sinks != null) 'Sinks': sinks,
       },
     );
 
@@ -4868,8 +4878,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4953,7 +4963,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -5053,8 +5063,8 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TableName': tableName,
-        'CatalogId': catalogId,
-        'VersionId': versionId,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (versionId != null) 'VersionId': versionId,
       },
     );
 
@@ -5152,9 +5162,9 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TableName': tableName,
-        'CatalogId': catalogId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5248,10 +5258,10 @@ class Glue {
       headers: headers,
       payload: {
         'DatabaseName': databaseName,
-        'CatalogId': catalogId,
-        'Expression': expression,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (expression != null) 'Expression': expression,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5396,9 +5406,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DependentJobName': dependentJobName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (dependentJobName != null) 'DependentJobName': dependentJobName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5479,7 +5489,7 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'FunctionName': functionName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -5571,10 +5581,10 @@ class Glue {
       headers: headers,
       payload: {
         'Pattern': pattern,
-        'CatalogId': catalogId,
-        'DatabaseName': databaseName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (databaseName != null) 'DatabaseName': databaseName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5624,7 +5634,7 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'IncludeGraph': includeGraph,
+        if (includeGraph != null) 'IncludeGraph': includeGraph,
       },
     );
 
@@ -5692,7 +5702,7 @@ class Glue {
       payload: {
         'Name': name,
         'RunId': runId,
-        'IncludeGraph': includeGraph,
+        if (includeGraph != null) 'IncludeGraph': includeGraph,
       },
     );
 
@@ -5818,9 +5828,9 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'IncludeGraph': includeGraph,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (includeGraph != null) 'IncludeGraph': includeGraph,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -5860,7 +5870,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -5908,9 +5918,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Tags': tags,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -5961,9 +5971,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Tags': tags,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6014,9 +6024,9 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Tags': tags,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6075,11 +6085,11 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Sort': sort,
-        'Tags': tags,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sort != null) 'Sort': sort,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6147,10 +6157,10 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DependentJobName': dependentJobName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Tags': tags,
+        if (dependentJobName != null) 'DependentJobName': dependentJobName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6189,8 +6199,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -6240,7 +6250,7 @@ class Glue {
       headers: headers,
       payload: {
         'DataCatalogEncryptionSettings': dataCatalogEncryptionSettings,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -6305,8 +6315,10 @@ class Glue {
       headers: headers,
       payload: {
         'PolicyInJson': policyInJson,
-        'PolicyExistsCondition': policyExistsCondition?.toValue(),
-        'PolicyHashCondition': policyHashCondition,
+        if (policyExistsCondition != null)
+          'PolicyExistsCondition': policyExistsCondition?.toValue(),
+        if (policyHashCondition != null)
+          'PolicyHashCondition': policyHashCondition,
       },
     );
 
@@ -6416,7 +6428,7 @@ class Glue {
       headers: headers,
       payload: {
         'JobName': jobName,
-        'RunId': runId,
+        if (runId != null) 'RunId': runId,
       },
     );
 
@@ -6503,12 +6515,12 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SearchText': searchText,
-        'SortCriteria': sortCriteria,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (searchText != null) 'SearchText': searchText,
+        if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
     );
 
@@ -6745,7 +6757,7 @@ class Glue {
       payload: {
         'InputS3Path': inputS3Path,
         'TransformId': transformId,
-        'ReplaceAllLabels': replaceAllLabels,
+        if (replaceAllLabels != null) 'ReplaceAllLabels': replaceAllLabels,
       },
     );
 
@@ -6926,15 +6938,17 @@ class Glue {
       headers: headers,
       payload: {
         'JobName': jobName,
-        'AllocatedCapacity': allocatedCapacity,
-        'Arguments': arguments,
-        'JobRunId': jobRunId,
-        'MaxCapacity': maxCapacity,
-        'NotificationProperty': notificationProperty,
-        'NumberOfWorkers': numberOfWorkers,
-        'SecurityConfiguration': securityConfiguration,
-        'Timeout': timeout,
-        'WorkerType': workerType?.toValue(),
+        if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+        if (arguments != null) 'Arguments': arguments,
+        if (jobRunId != null) 'JobRunId': jobRunId,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (notificationProperty != null)
+          'NotificationProperty': notificationProperty,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (securityConfiguration != null)
+          'SecurityConfiguration': securityConfiguration,
+        if (timeout != null) 'Timeout': timeout,
+        if (workerType != null) 'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -7439,10 +7453,10 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CsvClassifier': csvClassifier,
-        'GrokClassifier': grokClassifier,
-        'JsonClassifier': jsonClassifier,
-        'XMLClassifier': xMLClassifier,
+        if (csvClassifier != null) 'CsvClassifier': csvClassifier,
+        if (grokClassifier != null) 'GrokClassifier': grokClassifier,
+        if (jsonClassifier != null) 'JsonClassifier': jsonClassifier,
+        if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
       },
     );
 
@@ -7511,7 +7525,7 @@ class Glue {
       payload: {
         'ConnectionInput': connectionInput,
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -7634,16 +7648,18 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'Classifiers': classifiers,
-        'Configuration': configuration,
-        'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
-        'DatabaseName': databaseName,
-        'Description': description,
-        'Role': role,
-        'Schedule': schedule,
-        'SchemaChangePolicy': schemaChangePolicy,
-        'TablePrefix': tablePrefix,
-        'Targets': targets,
+        if (classifiers != null) 'Classifiers': classifiers,
+        if (configuration != null) 'Configuration': configuration,
+        if (crawlerSecurityConfiguration != null)
+          'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
+        if (databaseName != null) 'DatabaseName': databaseName,
+        if (description != null) 'Description': description,
+        if (role != null) 'Role': role,
+        if (schedule != null) 'Schedule': schedule,
+        if (schemaChangePolicy != null)
+          'SchemaChangePolicy': schemaChangePolicy,
+        if (tablePrefix != null) 'TablePrefix': tablePrefix,
+        if (targets != null) 'Targets': targets,
       },
     );
 
@@ -7697,7 +7713,7 @@ class Glue {
       headers: headers,
       payload: {
         'CrawlerName': crawlerName,
-        'Schedule': schedule,
+        if (schedule != null) 'Schedule': schedule,
       },
     );
 
@@ -7767,7 +7783,7 @@ class Glue {
       payload: {
         'DatabaseInput': databaseInput,
         'Name': name,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -7851,13 +7867,14 @@ class Glue {
       headers: headers,
       payload: {
         'EndpointName': endpointName,
-        'AddArguments': addArguments,
-        'AddPublicKeys': addPublicKeys,
-        'CustomLibraries': customLibraries,
-        'DeleteArguments': deleteArguments,
-        'DeletePublicKeys': deletePublicKeys,
-        'PublicKey': publicKey,
-        'UpdateEtlLibraries': updateEtlLibraries,
+        if (addArguments != null) 'AddArguments': addArguments,
+        if (addPublicKeys != null) 'AddPublicKeys': addPublicKeys,
+        if (customLibraries != null) 'CustomLibraries': customLibraries,
+        if (deleteArguments != null) 'DeleteArguments': deleteArguments,
+        if (deletePublicKeys != null) 'DeletePublicKeys': deletePublicKeys,
+        if (publicKey != null) 'PublicKey': publicKey,
+        if (updateEtlLibraries != null)
+          'UpdateEtlLibraries': updateEtlLibraries,
       },
     );
 
@@ -8076,16 +8093,16 @@ class Glue {
       headers: headers,
       payload: {
         'TransformId': transformId,
-        'Description': description,
-        'GlueVersion': glueVersion,
-        'MaxCapacity': maxCapacity,
-        'MaxRetries': maxRetries,
-        'Name': name,
-        'NumberOfWorkers': numberOfWorkers,
-        'Parameters': parameters,
-        'Role': role,
-        'Timeout': timeout,
-        'WorkerType': workerType?.toValue(),
+        if (description != null) 'Description': description,
+        if (glueVersion != null) 'GlueVersion': glueVersion,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxRetries != null) 'MaxRetries': maxRetries,
+        if (name != null) 'Name': name,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (parameters != null) 'Parameters': parameters,
+        if (role != null) 'Role': role,
+        if (timeout != null) 'Timeout': timeout,
+        if (workerType != null) 'WorkerType': workerType?.toValue(),
       },
     );
 
@@ -8178,7 +8195,7 @@ class Glue {
         'PartitionInput': partitionInput,
         'PartitionValueList': partitionValueList,
         'TableName': tableName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -8256,8 +8273,8 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'TableInput': tableInput,
-        'CatalogId': catalogId,
-        'SkipArchive': skipArchive,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (skipArchive != null) 'SkipArchive': skipArchive,
       },
     );
 
@@ -8397,7 +8414,7 @@ class Glue {
         'DatabaseName': databaseName,
         'FunctionInput': functionInput,
         'FunctionName': functionName,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -8452,8 +8469,9 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
-        'DefaultRunProperties': defaultRunProperties,
-        'Description': description,
+        if (defaultRunProperties != null)
+          'DefaultRunProperties': defaultRunProperties,
+        if (description != null) 'Description': description,
       },
     );
 

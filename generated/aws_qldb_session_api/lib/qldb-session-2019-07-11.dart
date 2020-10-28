@@ -108,14 +108,14 @@ class QLDBSession {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AbortTransaction': abortTransaction,
-        'CommitTransaction': commitTransaction,
-        'EndSession': endSession,
-        'ExecuteStatement': executeStatement,
-        'FetchPage': fetchPage,
-        'SessionToken': sessionToken,
-        'StartSession': startSession,
-        'StartTransaction': startTransaction,
+        if (abortTransaction != null) 'AbortTransaction': abortTransaction,
+        if (commitTransaction != null) 'CommitTransaction': commitTransaction,
+        if (endSession != null) 'EndSession': endSession,
+        if (executeStatement != null) 'ExecuteStatement': executeStatement,
+        if (fetchPage != null) 'FetchPage': fetchPage,
+        if (sessionToken != null) 'SessionToken': sessionToken,
+        if (startSession != null) 'StartSession': startSession,
+        if (startTransaction != null) 'StartTransaction': startTransaction,
       },
     );
 

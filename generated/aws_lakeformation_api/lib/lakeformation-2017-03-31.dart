@@ -81,7 +81,7 @@ class LakeFormation {
       headers: headers,
       payload: {
         'Entries': entries,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -130,7 +130,7 @@ class LakeFormation {
       headers: headers,
       payload: {
         'Entries': entries,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -240,7 +240,7 @@ class LakeFormation {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -307,9 +307,9 @@ class LakeFormation {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'CatalogId': catalogId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -392,8 +392,9 @@ class LakeFormation {
         'Permissions': permissions,
         'Principal': principal,
         'Resource': resource,
-        'CatalogId': catalogId,
-        'PermissionsWithGrantOption': permissionsWithGrantOption,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (permissionsWithGrantOption != null)
+          'PermissionsWithGrantOption': permissionsWithGrantOption,
       },
     );
 
@@ -475,12 +476,12 @@ class LakeFormation {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CatalogId': catalogId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Principal': principal,
-        'Resource': resource,
-        'ResourceType': resourceType?.toValue(),
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (principal != null) 'Principal': principal,
+        if (resource != null) 'Resource': resource,
+        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -525,9 +526,10 @@ class LakeFormation {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FilterConditionList': filterConditionList,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filterConditionList != null)
+          'FilterConditionList': filterConditionList,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -575,7 +577,7 @@ class LakeFormation {
       headers: headers,
       payload: {
         'DataLakeSettings': dataLakeSettings,
-        'CatalogId': catalogId,
+        if (catalogId != null) 'CatalogId': catalogId,
       },
     );
 
@@ -630,8 +632,9 @@ class LakeFormation {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'RoleArn': roleArn,
-        'UseServiceLinkedRole': useServiceLinkedRole,
+        if (roleArn != null) 'RoleArn': roleArn,
+        if (useServiceLinkedRole != null)
+          'UseServiceLinkedRole': useServiceLinkedRole,
       },
     );
 
@@ -701,8 +704,9 @@ class LakeFormation {
         'Permissions': permissions,
         'Principal': principal,
         'Resource': resource,
-        'CatalogId': catalogId,
-        'PermissionsWithGrantOption': permissionsWithGrantOption,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (permissionsWithGrantOption != null)
+          'PermissionsWithGrantOption': permissionsWithGrantOption,
       },
     );
 

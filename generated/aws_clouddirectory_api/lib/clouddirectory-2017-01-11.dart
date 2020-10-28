@@ -88,7 +88,8 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'SchemaFacet': schemaFacet,
-      'ObjectAttributeList': objectAttributeList,
+      if (objectAttributeList != null)
+        'ObjectAttributeList': objectAttributeList,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -600,9 +601,9 @@ class CloudDirectory {
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'Name': name,
-      'Attributes': attributes,
-      'FacetStyle': facetStyle?.toValue(),
-      'ObjectType': objectType?.toValue(),
+      if (attributes != null) 'Attributes': attributes,
+      if (facetStyle != null) 'FacetStyle': facetStyle?.toValue(),
+      if (objectType != null) 'ObjectType': objectType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -673,8 +674,8 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'IsUnique': isUnique,
       'OrderedIndexedAttributeList': orderedIndexedAttributeList,
-      'LinkName': linkName,
-      'ParentReference': parentReference,
+      if (linkName != null) 'LinkName': linkName,
+      if (parentReference != null) 'ParentReference': parentReference,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -746,9 +747,10 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'SchemaFacets': schemaFacets,
-      'LinkName': linkName,
-      'ObjectAttributeList': objectAttributeList,
-      'ParentReference': parentReference,
+      if (linkName != null) 'LinkName': linkName,
+      if (objectAttributeList != null)
+        'ObjectAttributeList': objectAttributeList,
+      if (parentReference != null) 'ParentReference': parentReference,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1481,7 +1483,8 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'TypedLinkSpecifier': typedLinkSpecifier,
-      'ConsistencyLevel': consistencyLevel?.toValue(),
+      if (consistencyLevel != null)
+        'ConsistencyLevel': consistencyLevel?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1713,9 +1716,9 @@ class CloudDirectory {
     );
     final $payload = <String, dynamic>{
       'DirectoryArn': directoryArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'SchemaArn': schemaArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1772,8 +1775,8 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'TargetReference': targetReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1813,8 +1816,8 @@ class CloudDirectory {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1856,9 +1859,9 @@ class CloudDirectory {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'state': state?.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (state != null) 'state': state?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1923,8 +1926,8 @@ class CloudDirectory {
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'Name': name,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1970,8 +1973,8 @@ class CloudDirectory {
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2046,11 +2049,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'ConsistencyLevel': consistencyLevel?.toValue(),
-      'FilterAttributeRanges': filterAttributeRanges,
-      'FilterTypedLink': filterTypedLink,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (consistencyLevel != null)
+        'ConsistencyLevel': consistencyLevel?.toValue(),
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2118,9 +2123,10 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'RangesOnIndexedValues': rangesOnIndexedValues,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rangesOnIndexedValues != null)
+        'RangesOnIndexedValues': rangesOnIndexedValues,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2164,9 +2170,9 @@ class CloudDirectory {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'SchemaArn': schemaArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2235,9 +2241,9 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'FacetFilter': facetFilter,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (facetFilter != null) 'FacetFilter': facetFilter,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2304,8 +2310,8 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2371,8 +2377,8 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2445,9 +2451,10 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'IncludeAllLinksToEachParent': includeAllLinksToEachParent,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (includeAllLinksToEachParent != null)
+        'IncludeAllLinksToEachParent': includeAllLinksToEachParent,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2511,8 +2518,8 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2587,11 +2594,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'ConsistencyLevel': consistencyLevel?.toValue(),
-      'FilterAttributeRanges': filterAttributeRanges,
-      'FilterTypedLink': filterTypedLink,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (consistencyLevel != null)
+        'ConsistencyLevel': consistencyLevel?.toValue(),
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2657,8 +2666,8 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
     final $payload = <String, dynamic>{
       'PolicyReference': policyReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2704,9 +2713,9 @@ class CloudDirectory {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'SchemaArn': schemaArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2756,8 +2765,8 @@ class CloudDirectory {
     );
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2819,8 +2828,8 @@ class CloudDirectory {
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'Name': name,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2870,8 +2879,8 @@ class CloudDirectory {
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2934,8 +2943,8 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3023,8 +3032,8 @@ class CloudDirectory {
         ?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'Version': version,
-      'MinorVersion': minorVersion,
-      'Name': name,
+      if (minorVersion != null) 'MinorVersion': minorVersion,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3259,8 +3268,8 @@ class CloudDirectory {
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     final $payload = <String, dynamic>{
       'Name': name,
-      'AttributeUpdates': attributeUpdates,
-      'ObjectType': objectType?.toValue(),
+      if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
+      if (objectType != null) 'ObjectType': objectType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3532,7 +3541,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'DirectoryArn': directoryArn,
       'PublishedSchemaArn': publishedSchemaArn,
-      'DryRun': dryRun,
+      if (dryRun != null) 'DryRun': dryRun,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3597,7 +3606,7 @@ class CloudDirectory {
       'DevelopmentSchemaArn': developmentSchemaArn,
       'MinorVersion': minorVersion,
       'PublishedSchemaArn': publishedSchemaArn,
-      'DryRun': dryRun,
+      if (dryRun != null) 'DryRun': dryRun,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -170,8 +170,9 @@ class Rekognition {
       payload: {
         'SourceImage': sourceImage,
         'TargetImage': targetImage,
-        'QualityFilter': qualityFilter?.toValue(),
-        'SimilarityThreshold': similarityThreshold,
+        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
+        if (similarityThreshold != null)
+          'SimilarityThreshold': similarityThreshold,
       },
     );
 
@@ -895,9 +896,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'ProjectArn': projectArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'VersionNames': versionNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (versionNames != null) 'VersionNames': versionNames,
       },
     );
 
@@ -954,8 +955,8 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1120,8 +1121,8 @@ class Rekognition {
       payload: {
         'Image': image,
         'ProjectVersionArn': projectVersionArn,
-        'MaxResults': maxResults,
-        'MinConfidence': minConfidence,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (minConfidence != null) 'MinConfidence': minConfidence,
       },
     );
 
@@ -1201,7 +1202,7 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        'Attributes': attributes,
+        if (attributes != null) 'Attributes': attributes,
       },
     );
 
@@ -1342,8 +1343,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        'MaxLabels': maxLabels,
-        'MinConfidence': minConfidence,
+        if (maxLabels != null) 'MaxLabels': maxLabels,
+        if (minConfidence != null) 'MinConfidence': minConfidence,
       },
     );
 
@@ -1422,8 +1423,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        'HumanLoopConfig': humanLoopConfig,
-        'MinConfidence': minConfidence,
+        if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
+        if (minConfidence != null) 'MinConfidence': minConfidence,
       },
     );
 
@@ -1507,7 +1508,7 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        'Filters': filters,
+        if (filters != null) 'Filters': filters,
       },
     );
 
@@ -1688,9 +1689,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -1814,9 +1815,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -1913,8 +1914,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2029,9 +2030,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2147,9 +2148,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2270,9 +2271,9 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SortBy': sortBy?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy?.toValue(),
       },
     );
 
@@ -2376,8 +2377,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2631,10 +2632,11 @@ class Rekognition {
       payload: {
         'CollectionId': collectionId,
         'Image': image,
-        'DetectionAttributes': detectionAttributes,
-        'ExternalImageId': externalImageId,
-        'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter?.toValue(),
+        if (detectionAttributes != null)
+          'DetectionAttributes': detectionAttributes,
+        if (externalImageId != null) 'ExternalImageId': externalImageId,
+        if (maxFaces != null) 'MaxFaces': maxFaces,
+        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -2691,8 +2693,8 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2768,8 +2770,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'CollectionId': collectionId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2822,8 +2824,8 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3000,8 +3002,9 @@ class Rekognition {
       payload: {
         'CollectionId': collectionId,
         'FaceId': faceId,
-        'FaceMatchThreshold': faceMatchThreshold,
-        'MaxFaces': maxFaces,
+        if (faceMatchThreshold != null)
+          'FaceMatchThreshold': faceMatchThreshold,
+        if (maxFaces != null) 'MaxFaces': maxFaces,
       },
     );
 
@@ -3146,9 +3149,10 @@ class Rekognition {
       payload: {
         'CollectionId': collectionId,
         'Image': image,
-        'FaceMatchThreshold': faceMatchThreshold,
-        'MaxFaces': maxFaces,
-        'QualityFilter': qualityFilter?.toValue(),
+        if (faceMatchThreshold != null)
+          'FaceMatchThreshold': faceMatchThreshold,
+        if (maxFaces != null) 'MaxFaces': maxFaces,
+        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
       },
     );
 
@@ -3244,9 +3248,11 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -3359,10 +3365,12 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'MinConfidence': minConfidence,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -3465,10 +3473,12 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'FaceAttributes': faceAttributes?.toValue(),
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (faceAttributes != null) 'FaceAttributes': faceAttributes?.toValue(),
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -3593,10 +3603,13 @@ class Rekognition {
       payload: {
         'CollectionId': collectionId,
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'FaceMatchThreshold': faceMatchThreshold,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (faceMatchThreshold != null)
+          'FaceMatchThreshold': faceMatchThreshold,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -3714,10 +3727,12 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'MinConfidence': minConfidence,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -3810,9 +3825,11 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 
@@ -4028,10 +4045,12 @@ class Rekognition {
       headers: headers,
       payload: {
         'Video': video,
-        'ClientRequestToken': clientRequestToken,
-        'Filters': filters,
-        'JobTag': jobTag,
-        'NotificationChannel': notificationChannel,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (filters != null) 'Filters': filters,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
       },
     );
 

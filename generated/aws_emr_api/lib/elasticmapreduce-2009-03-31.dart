@@ -312,7 +312,8 @@ class EMR {
       payload: {
         'ClusterId': clusterId,
         'StepIds': stepIds,
-        'StepCancellationOption': stepCancellationOption?.toValue(),
+        if (stepCancellationOption != null)
+          'StepCancellationOption': stepCancellationOption?.toValue(),
       },
     );
 
@@ -501,10 +502,10 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreatedAfter': createdAfter,
-        'CreatedBefore': createdBefore,
-        'JobFlowIds': jobFlowIds,
-        'JobFlowStates': jobFlowStates,
+        if (createdAfter != null) 'CreatedAfter': createdAfter,
+        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (jobFlowIds != null) 'JobFlowIds': jobFlowIds,
+        if (jobFlowStates != null) 'JobFlowStates': jobFlowStates,
       },
     );
 
@@ -642,7 +643,7 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'Marker': marker,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -686,10 +687,10 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClusterStates': clusterStates,
-        'CreatedAfter': createdAfter,
-        'CreatedBefore': createdBefore,
-        'Marker': marker,
+        if (clusterStates != null) 'ClusterStates': clusterStates,
+        if (createdAfter != null) 'CreatedAfter': createdAfter,
+        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -727,7 +728,7 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'Marker': marker,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -761,7 +762,7 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'Marker': marker,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -819,12 +820,14 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'InstanceFleetId': instanceFleetId,
-        'InstanceFleetType': instanceFleetType?.toValue(),
-        'InstanceGroupId': instanceGroupId,
-        'InstanceGroupTypes': instanceGroupTypes,
-        'InstanceStates': instanceStates,
-        'Marker': marker,
+        if (instanceFleetId != null) 'InstanceFleetId': instanceFleetId,
+        if (instanceFleetType != null)
+          'InstanceFleetType': instanceFleetType?.toValue(),
+        if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
+        if (instanceGroupTypes != null)
+          'InstanceGroupTypes': instanceGroupTypes,
+        if (instanceStates != null) 'InstanceStates': instanceStates,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -855,7 +858,7 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Marker': marker,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -902,9 +905,9 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'Marker': marker,
-        'StepIds': stepIds,
-        'StepStates': stepStates,
+        if (marker != null) 'Marker': marker,
+        if (stepIds != null) 'StepIds': stepIds,
+        if (stepStates != null) 'StepStates': stepStates,
       },
     );
 
@@ -940,7 +943,8 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'StepConcurrencyLevel': stepConcurrencyLevel,
+        if (stepConcurrencyLevel != null)
+          'StepConcurrencyLevel': stepConcurrencyLevel,
       },
     );
 
@@ -1013,8 +1017,8 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClusterId': clusterId,
-        'InstanceGroups': instanceGroups,
+        if (clusterId != null) 'ClusterId': clusterId,
+        if (instanceGroups != null) 'InstanceGroups': instanceGroups,
       },
     );
   }
@@ -1566,28 +1570,34 @@ class EMR {
       payload: {
         'Instances': instances,
         'Name': name,
-        'AdditionalInfo': additionalInfo,
-        'AmiVersion': amiVersion,
-        'Applications': applications,
-        'AutoScalingRole': autoScalingRole,
-        'BootstrapActions': bootstrapActions,
-        'Configurations': configurations,
-        'CustomAmiId': customAmiId,
-        'EbsRootVolumeSize': ebsRootVolumeSize,
-        'JobFlowRole': jobFlowRole,
-        'KerberosAttributes': kerberosAttributes,
-        'LogUri': logUri,
-        'NewSupportedProducts': newSupportedProducts,
-        'ReleaseLabel': releaseLabel,
-        'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
-        'ScaleDownBehavior': scaleDownBehavior?.toValue(),
-        'SecurityConfiguration': securityConfiguration,
-        'ServiceRole': serviceRole,
-        'StepConcurrencyLevel': stepConcurrencyLevel,
-        'Steps': steps,
-        'SupportedProducts': supportedProducts,
-        'Tags': tags,
-        'VisibleToAllUsers': visibleToAllUsers,
+        if (additionalInfo != null) 'AdditionalInfo': additionalInfo,
+        if (amiVersion != null) 'AmiVersion': amiVersion,
+        if (applications != null) 'Applications': applications,
+        if (autoScalingRole != null) 'AutoScalingRole': autoScalingRole,
+        if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
+        if (configurations != null) 'Configurations': configurations,
+        if (customAmiId != null) 'CustomAmiId': customAmiId,
+        if (ebsRootVolumeSize != null) 'EbsRootVolumeSize': ebsRootVolumeSize,
+        if (jobFlowRole != null) 'JobFlowRole': jobFlowRole,
+        if (kerberosAttributes != null)
+          'KerberosAttributes': kerberosAttributes,
+        if (logUri != null) 'LogUri': logUri,
+        if (newSupportedProducts != null)
+          'NewSupportedProducts': newSupportedProducts,
+        if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
+        if (repoUpgradeOnBoot != null)
+          'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
+        if (scaleDownBehavior != null)
+          'ScaleDownBehavior': scaleDownBehavior?.toValue(),
+        if (securityConfiguration != null)
+          'SecurityConfiguration': securityConfiguration,
+        if (serviceRole != null) 'ServiceRole': serviceRole,
+        if (stepConcurrencyLevel != null)
+          'StepConcurrencyLevel': stepConcurrencyLevel,
+        if (steps != null) 'Steps': steps,
+        if (supportedProducts != null) 'SupportedProducts': supportedProducts,
+        if (tags != null) 'Tags': tags,
+        if (visibleToAllUsers != null) 'VisibleToAllUsers': visibleToAllUsers,
       },
     );
 

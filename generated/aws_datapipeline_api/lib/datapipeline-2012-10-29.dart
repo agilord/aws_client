@@ -115,8 +115,8 @@ class DataPipeline {
       headers: headers,
       payload: {
         'pipelineId': pipelineId,
-        'parameterValues': parameterValues,
-        'startTimestamp': startTimestamp,
+        if (parameterValues != null) 'parameterValues': parameterValues,
+        if (startTimestamp != null) 'startTimestamp': startTimestamp,
       },
     );
 
@@ -266,8 +266,8 @@ class DataPipeline {
       payload: {
         'name': name,
         'uniqueId': uniqueId,
-        'description': description,
-        'tags': tags,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -324,7 +324,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'pipelineId': pipelineId,
-        'cancelActive': cancelActive,
+        if (cancelActive != null) 'cancelActive': cancelActive,
       },
     );
 
@@ -451,8 +451,9 @@ class DataPipeline {
       payload: {
         'objectIds': objectIds,
         'pipelineId': pipelineId,
-        'evaluateExpressions': evaluateExpressions,
-        'marker': marker,
+        if (evaluateExpressions != null)
+          'evaluateExpressions': evaluateExpressions,
+        if (marker != null) 'marker': marker,
       },
     );
 
@@ -644,7 +645,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'pipelineId': pipelineId,
-        'version': version,
+        if (version != null) 'version': version,
       },
     );
 
@@ -687,7 +688,7 @@ class DataPipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'marker': marker,
+        if (marker != null) 'marker': marker,
       },
     );
 
@@ -778,8 +779,8 @@ class DataPipeline {
       headers: headers,
       payload: {
         'workerGroup': workerGroup,
-        'hostname': hostname,
-        'instanceIdentity': instanceIdentity,
+        if (hostname != null) 'hostname': hostname,
+        if (instanceIdentity != null) 'instanceIdentity': instanceIdentity,
       },
     );
 
@@ -853,8 +854,8 @@ class DataPipeline {
       payload: {
         'pipelineId': pipelineId,
         'pipelineObjects': pipelineObjects,
-        'parameterObjects': parameterObjects,
-        'parameterValues': parameterValues,
+        if (parameterObjects != null) 'parameterObjects': parameterObjects,
+        if (parameterValues != null) 'parameterValues': parameterValues,
       },
     );
 
@@ -951,9 +952,9 @@ class DataPipeline {
       payload: {
         'pipelineId': pipelineId,
         'sphere': sphere,
-        'limit': limit,
-        'marker': marker,
-        'query': query,
+        if (limit != null) 'limit': limit,
+        if (marker != null) 'marker': marker,
+        if (query != null) 'query': query,
       },
     );
 
@@ -1066,7 +1067,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskId': taskId,
-        'fields': fields,
+        if (fields != null) 'fields': fields,
       },
     );
 
@@ -1151,8 +1152,8 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskrunnerId': taskrunnerId,
-        'hostname': hostname,
-        'workerGroup': workerGroup,
+        if (hostname != null) 'hostname': hostname,
+        if (workerGroup != null) 'workerGroup': workerGroup,
       },
     );
 
@@ -1331,9 +1332,9 @@ class DataPipeline {
       payload: {
         'taskId': taskId,
         'taskStatus': taskStatus?.toValue(),
-        'errorId': errorId,
-        'errorMessage': errorMessage,
-        'errorStackTrace': errorStackTrace,
+        if (errorId != null) 'errorId': errorId,
+        if (errorMessage != null) 'errorMessage': errorMessage,
+        if (errorStackTrace != null) 'errorStackTrace': errorStackTrace,
       },
     );
 
@@ -1394,8 +1395,8 @@ class DataPipeline {
       payload: {
         'pipelineId': pipelineId,
         'pipelineObjects': pipelineObjects,
-        'parameterObjects': parameterObjects,
-        'parameterValues': parameterValues,
+        if (parameterObjects != null) 'parameterObjects': parameterObjects,
+        if (parameterValues != null) 'parameterValues': parameterValues,
       },
     );
 

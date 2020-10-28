@@ -48,6 +48,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           if (member.shapeClass.enumeration != null) {
             member.shapeClass.isTopLevelInputEnum = true;
             serializationSuffix = '?.toValue()';
+          } else if (member.shapeClass.type == 'blob') {
+            serializationSuffix =
+                '${member.isRequired ? '?' : ''}.let(base64Encode)';
+          }
+
+          if (!member.isRequired) {
+            buf.writeln('if (${member.fieldName} != null)');
           }
           buf.writeln(
               "'${member.name}': ${member.fieldName}$serializationSuffix,");

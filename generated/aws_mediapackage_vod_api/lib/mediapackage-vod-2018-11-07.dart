@@ -78,7 +78,7 @@ class MediaPackageVod {
       'PackagingGroupId': packagingGroupId,
       'SourceArn': sourceArn,
       'SourceRoleArn': sourceRoleArn,
-      'ResourceId': resourceId,
+      if (resourceId != null) 'ResourceId': resourceId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -116,10 +116,10 @@ class MediaPackageVod {
     final $payload = <String, dynamic>{
       'Id': id,
       'PackagingGroupId': packagingGroupId,
-      'CmafPackage': cmafPackage,
-      'DashPackage': dashPackage,
-      'HlsPackage': hlsPackage,
-      'MssPackage': mssPackage,
+      if (cmafPackage != null) 'CmafPackage': cmafPackage,
+      if (dashPackage != null) 'DashPackage': dashPackage,
+      if (hlsPackage != null) 'HlsPackage': hlsPackage,
+      if (mssPackage != null) 'MssPackage': mssPackage,
     };
     final response = await _protocol.send(
       payload: $payload,

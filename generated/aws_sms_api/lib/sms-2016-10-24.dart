@@ -89,12 +89,12 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'clientToken': clientToken,
-        'description': description,
-        'name': name,
-        'roleName': roleName,
-        'serverGroups': serverGroups,
-        'tags': tags,
+        if (clientToken != null) 'clientToken': clientToken,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
+        if (roleName != null) 'roleName': roleName,
+        if (serverGroups != null) 'serverGroups': serverGroups,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -193,14 +193,15 @@ class SMS {
       payload: {
         'seedReplicationTime': seedReplicationTime,
         'serverId': serverId,
-        'description': description,
-        'encrypted': encrypted,
-        'frequency': frequency,
-        'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType?.toValue(),
-        'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
-        'roleName': roleName,
-        'runOnce': runOnce,
+        if (description != null) 'description': description,
+        if (encrypted != null) 'encrypted': encrypted,
+        if (frequency != null) 'frequency': frequency,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (licenseType != null) 'licenseType': licenseType?.toValue(),
+        if (numberOfRecentAmisToKeep != null)
+          'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
+        if (roleName != null) 'roleName': roleName,
+        if (runOnce != null) 'runOnce': runOnce,
       },
     );
 
@@ -243,9 +244,10 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'forceStopAppReplication': forceStopAppReplication,
-        'forceTerminateApp': forceTerminateApp,
+        if (appId != null) 'appId': appId,
+        if (forceStopAppReplication != null)
+          'forceStopAppReplication': forceStopAppReplication,
+        if (forceTerminateApp != null) 'forceTerminateApp': forceTerminateApp,
       },
     );
 
@@ -277,7 +279,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -309,7 +311,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -441,8 +443,9 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'changesetFormat': changesetFormat?.toValue(),
+        if (appId != null) 'appId': appId,
+        if (changesetFormat != null)
+          'changesetFormat': changesetFormat?.toValue(),
       },
     );
 
@@ -479,8 +482,8 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'templateFormat': templateFormat?.toValue(),
+        if (appId != null) 'appId': appId,
+        if (templateFormat != null) 'templateFormat': templateFormat?.toValue(),
       },
     );
 
@@ -511,7 +514,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -544,7 +547,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -578,7 +581,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -611,8 +614,8 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -651,9 +654,9 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'replicationJobId': replicationJobId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (replicationJobId != null) 'replicationJobId': replicationJobId,
       },
     );
 
@@ -694,8 +697,8 @@ class SMS {
       headers: headers,
       payload: {
         'replicationJobId': replicationJobId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -735,9 +738,10 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'vmServerAddressList': vmServerAddressList,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (vmServerAddressList != null)
+          'vmServerAddressList': vmServerAddressList,
       },
     );
 
@@ -796,7 +800,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -837,9 +841,9 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appIds': appIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (appIds != null) 'appIds': appIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -880,9 +884,10 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'roleName': roleName,
-        'serverGroupLaunchConfigurations': serverGroupLaunchConfigurations,
+        if (appId != null) 'appId': appId,
+        if (roleName != null) 'roleName': roleName,
+        if (serverGroupLaunchConfigurations != null)
+          'serverGroupLaunchConfigurations': serverGroupLaunchConfigurations,
       },
     );
 
@@ -919,9 +924,10 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'serverGroupReplicationConfigurations':
-            serverGroupReplicationConfigurations,
+        if (appId != null) 'appId': appId,
+        if (serverGroupReplicationConfigurations != null)
+          'serverGroupReplicationConfigurations':
+              serverGroupReplicationConfigurations,
       },
     );
 
@@ -953,7 +959,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -996,7 +1002,7 @@ class SMS {
       headers: headers,
       payload: {
         'replicationJobId': replicationJobId,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -1027,7 +1033,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -1058,7 +1064,7 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
+        if (appId != null) 'appId': appId,
       },
     );
 
@@ -1109,12 +1115,12 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'appId': appId,
-        'description': description,
-        'name': name,
-        'roleName': roleName,
-        'serverGroups': serverGroups,
-        'tags': tags,
+        if (appId != null) 'appId': appId,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
+        if (roleName != null) 'roleName': roleName,
+        if (serverGroups != null) 'serverGroups': serverGroups,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1205,14 +1211,16 @@ class SMS {
       headers: headers,
       payload: {
         'replicationJobId': replicationJobId,
-        'description': description,
-        'encrypted': encrypted,
-        'frequency': frequency,
-        'kmsKeyId': kmsKeyId,
-        'licenseType': licenseType?.toValue(),
-        'nextReplicationRunStartTime': nextReplicationRunStartTime,
-        'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
-        'roleName': roleName,
+        if (description != null) 'description': description,
+        if (encrypted != null) 'encrypted': encrypted,
+        if (frequency != null) 'frequency': frequency,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (licenseType != null) 'licenseType': licenseType?.toValue(),
+        if (nextReplicationRunStartTime != null)
+          'nextReplicationRunStartTime': nextReplicationRunStartTime,
+        if (numberOfRecentAmisToKeep != null)
+          'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
+        if (roleName != null) 'roleName': roleName,
       },
     );
 

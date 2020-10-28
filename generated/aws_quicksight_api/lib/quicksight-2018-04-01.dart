@@ -249,11 +249,12 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
-      'DashboardPublishOptions': dashboardPublishOptions,
-      'Parameters': parameters,
-      'Permissions': permissions,
-      'Tags': tags,
-      'VersionDescription': versionDescription,
+      if (dashboardPublishOptions != null)
+        'DashboardPublishOptions': dashboardPublishOptions,
+      if (parameters != null) 'Parameters': parameters,
+      if (permissions != null) 'Permissions': permissions,
+      if (tags != null) 'Tags': tags,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -353,11 +354,12 @@ class QuickSight {
       'ImportMode': importMode?.toValue(),
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
-      'ColumnGroups': columnGroups,
-      'LogicalTableMap': logicalTableMap,
-      'Permissions': permissions,
-      'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
-      'Tags': tags,
+      if (columnGroups != null) 'ColumnGroups': columnGroups,
+      if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
+      if (permissions != null) 'Permissions': permissions,
+      if (rowLevelPermissionDataSet != null)
+        'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -458,12 +460,14 @@ class QuickSight {
       'DataSourceId': dataSourceId,
       'Name': name,
       'Type': type?.toValue(),
-      'Credentials': credentials,
-      'DataSourceParameters': dataSourceParameters,
-      'Permissions': permissions,
-      'SslProperties': sslProperties,
-      'Tags': tags,
-      'VpcConnectionProperties': vpcConnectionProperties,
+      if (credentials != null) 'Credentials': credentials,
+      if (dataSourceParameters != null)
+        'DataSourceParameters': dataSourceParameters,
+      if (permissions != null) 'Permissions': permissions,
+      if (sslProperties != null) 'SslProperties': sslProperties,
+      if (tags != null) 'Tags': tags,
+      if (vpcConnectionProperties != null)
+        'VpcConnectionProperties': vpcConnectionProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -561,7 +565,7 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'GroupName': groupName,
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -770,8 +774,8 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'AssignmentName': assignmentName,
       'AssignmentStatus': assignmentStatus?.toValue(),
-      'Identities': identities,
-      'PolicyArn': policyArn,
+      if (identities != null) 'Identities': identities,
+      if (policyArn != null) 'PolicyArn': policyArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -960,10 +964,10 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
-      'Name': name,
-      'Permissions': permissions,
-      'Tags': tags,
-      'VersionDescription': versionDescription,
+      if (name != null) 'Name': name,
+      if (permissions != null) 'Permissions': permissions,
+      if (tags != null) 'Tags': tags,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3969,9 +3973,9 @@ class QuickSight {
       'Email': email,
       'IdentityType': identityType?.toValue(),
       'UserRole': userRole?.toValue(),
-      'IamArn': iamArn,
-      'SessionName': sessionName,
-      'UserName': userName,
+      if (iamArn != null) 'IamArn': iamArn,
+      if (sessionName != null) 'SessionName': sessionName,
+      if (userName != null) 'UserName': userName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4037,8 +4041,8 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4266,9 +4270,10 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
-      'DashboardPublishOptions': dashboardPublishOptions,
-      'Parameters': parameters,
-      'VersionDescription': versionDescription,
+      if (dashboardPublishOptions != null)
+        'DashboardPublishOptions': dashboardPublishOptions,
+      if (parameters != null) 'Parameters': parameters,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4336,8 +4341,8 @@ class QuickSight {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'GrantPermissions': grantPermissions,
-      'RevokePermissions': revokePermissions,
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4497,9 +4502,10 @@ class QuickSight {
       'ImportMode': importMode?.toValue(),
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
-      'ColumnGroups': columnGroups,
-      'LogicalTableMap': logicalTableMap,
-      'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (columnGroups != null) 'ColumnGroups': columnGroups,
+      if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
+      if (rowLevelPermissionDataSet != null)
+        'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4557,8 +4563,8 @@ class QuickSight {
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
-      'GrantPermissions': grantPermissions,
-      'RevokePermissions': revokePermissions,
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4638,10 +4644,12 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      'Credentials': credentials,
-      'DataSourceParameters': dataSourceParameters,
-      'SslProperties': sslProperties,
-      'VpcConnectionProperties': vpcConnectionProperties,
+      if (credentials != null) 'Credentials': credentials,
+      if (dataSourceParameters != null)
+        'DataSourceParameters': dataSourceParameters,
+      if (sslProperties != null) 'SslProperties': sslProperties,
+      if (vpcConnectionProperties != null)
+        'VpcConnectionProperties': vpcConnectionProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4696,8 +4704,8 @@ class QuickSight {
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final $payload = <String, dynamic>{
-      'GrantPermissions': grantPermissions,
-      'RevokePermissions': revokePermissions,
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4786,7 +4794,7 @@ class QuickSight {
       512,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
+      if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4895,9 +4903,10 @@ class QuickSight {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AssignmentStatus': assignmentStatus?.toValue(),
-      'Identities': identities,
-      'PolicyArn': policyArn,
+      if (assignmentStatus != null)
+        'AssignmentStatus': assignmentStatus?.toValue(),
+      if (identities != null) 'Identities': identities,
+      if (policyArn != null) 'PolicyArn': policyArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4994,8 +5003,8 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
-      'Name': name,
-      'VersionDescription': versionDescription,
+      if (name != null) 'Name': name,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5155,8 +5164,8 @@ class QuickSight {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'GrantPermissions': grantPermissions,
-      'RevokePermissions': revokePermissions,
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
     };
     final response = await _protocol.send(
       payload: $payload,

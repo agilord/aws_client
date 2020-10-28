@@ -717,10 +717,10 @@ class KMS {
         'GranteePrincipal': granteePrincipal,
         'KeyId': keyId,
         'Operations': operations,
-        'Constraints': constraints,
-        'GrantTokens': grantTokens,
-        'Name': name,
-        'RetiringPrincipal': retiringPrincipal,
+        if (constraints != null) 'Constraints': constraints,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (name != null) 'Name': name,
+        if (retiringPrincipal != null) 'RetiringPrincipal': retiringPrincipal,
       },
     );
 
@@ -1083,14 +1083,16 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
-        'CustomKeyStoreId': customKeyStoreId,
-        'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
-        'Description': description,
-        'KeyUsage': keyUsage?.toValue(),
-        'Origin': origin?.toValue(),
-        'Policy': policy,
-        'Tags': tags,
+        if (bypassPolicyLockoutSafetyCheck != null)
+          'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
+        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
+        if (customerMasterKeySpec != null)
+          'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
+        if (description != null) 'Description': description,
+        if (keyUsage != null) 'KeyUsage': keyUsage?.toValue(),
+        if (origin != null) 'Origin': origin?.toValue(),
+        if (policy != null) 'Policy': policy,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1270,11 +1272,12 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': ciphertextBlob,
-        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
-        'KeyId': keyId,
+        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
+        if (encryptionAlgorithm != null)
+          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (keyId != null) 'KeyId': keyId,
       },
     );
 
@@ -1594,10 +1597,11 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-        'CustomKeyStoreName': customKeyStoreName,
-        'Limit': limit,
-        'Marker': marker,
+        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
+        if (customKeyStoreName != null)
+          'CustomKeyStoreName': customKeyStoreName,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -1725,7 +1729,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'GrantTokens': grantTokens,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
 
@@ -2279,10 +2283,11 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Plaintext': plaintext,
-        'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
+        'Plaintext': plaintext?.let(base64Encode),
+        if (encryptionAlgorithm != null)
+          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
 
@@ -2472,10 +2477,10 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
-        'KeySpec': keySpec?.toValue(),
-        'NumberOfBytes': numberOfBytes,
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
+        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
 
@@ -2625,8 +2630,8 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'KeyPairSpec': keyPairSpec?.toValue(),
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
 
@@ -2768,8 +2773,8 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'KeyPairSpec': keyPairSpec?.toValue(),
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
 
@@ -2931,10 +2936,10 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'EncryptionContext': encryptionContext,
-        'GrantTokens': grantTokens,
-        'KeySpec': keySpec?.toValue(),
-        'NumberOfBytes': numberOfBytes,
+        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
+        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
 
@@ -2994,8 +2999,8 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-        'NumberOfBytes': numberOfBytes,
+        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
+        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
 
@@ -3399,7 +3404,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'GrantTokens': grantTokens,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
 
@@ -3555,11 +3560,12 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptedKeyMaterial': encryptedKeyMaterial,
-        'ImportToken': importToken,
+        'EncryptedKeyMaterial': encryptedKeyMaterial?.let(base64Encode),
+        'ImportToken': importToken?.let(base64Encode),
         'KeyId': keyId,
-        'ExpirationModel': expirationModel?.toValue(),
-        'ValidTo': validTo,
+        if (expirationModel != null)
+          'ExpirationModel': expirationModel?.toValue(),
+        if (validTo != null) 'ValidTo': validTo,
       },
     );
 
@@ -3653,9 +3659,9 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'KeyId': keyId,
-        'Limit': limit,
-        'Marker': marker,
+        if (keyId != null) 'KeyId': keyId,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3748,8 +3754,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3843,8 +3849,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3902,8 +3908,8 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -3995,8 +4001,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -4087,8 +4093,8 @@ class KMS {
       headers: headers,
       payload: {
         'RetiringPrincipal': retiringPrincipal,
-        'Limit': limit,
-        'Marker': marker,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
       },
     );
 
@@ -4239,7 +4245,8 @@ class KMS {
         'KeyId': keyId,
         'Policy': policy,
         'PolicyName': policyName,
-        'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
+        if (bypassPolicyLockoutSafetyCheck != null)
+          'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
       },
     );
   }
@@ -4511,15 +4518,19 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': ciphertextBlob,
+        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
         'DestinationKeyId': destinationKeyId,
-        'DestinationEncryptionAlgorithm':
-            destinationEncryptionAlgorithm?.toValue(),
-        'DestinationEncryptionContext': destinationEncryptionContext,
-        'GrantTokens': grantTokens,
-        'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
-        'SourceEncryptionContext': sourceEncryptionContext,
-        'SourceKeyId': sourceKeyId,
+        if (destinationEncryptionAlgorithm != null)
+          'DestinationEncryptionAlgorithm':
+              destinationEncryptionAlgorithm?.toValue(),
+        if (destinationEncryptionContext != null)
+          'DestinationEncryptionContext': destinationEncryptionContext,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (sourceEncryptionAlgorithm != null)
+          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
+        if (sourceEncryptionContext != null)
+          'SourceEncryptionContext': sourceEncryptionContext,
+        if (sourceKeyId != null) 'SourceKeyId': sourceKeyId,
       },
     );
 
@@ -4610,9 +4621,9 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GrantId': grantId,
-        'GrantToken': grantToken,
-        'KeyId': keyId,
+        if (grantId != null) 'GrantId': grantId,
+        if (grantToken != null) 'GrantToken': grantToken,
+        if (keyId != null) 'KeyId': keyId,
       },
     );
   }
@@ -4786,7 +4797,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'PendingWindowInDays': pendingWindowInDays,
+        if (pendingWindowInDays != null)
+          'PendingWindowInDays': pendingWindowInDays,
       },
     );
 
@@ -4941,10 +4953,10 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': message,
+        'Message': message?.let(base64Encode),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
-        'GrantTokens': grantTokens,
-        'MessageType': messageType?.toValue(),
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (messageType != null) 'MessageType': messageType?.toValue(),
       },
     );
 
@@ -5341,9 +5353,10 @@ class KMS {
       headers: headers,
       payload: {
         'CustomKeyStoreId': customKeyStoreId,
-        'CloudHsmClusterId': cloudHsmClusterId,
-        'KeyStorePassword': keyStorePassword,
-        'NewCustomKeyStoreName': newCustomKeyStoreName,
+        if (cloudHsmClusterId != null) 'CloudHsmClusterId': cloudHsmClusterId,
+        if (keyStorePassword != null) 'KeyStorePassword': keyStorePassword,
+        if (newCustomKeyStoreName != null)
+          'NewCustomKeyStoreName': newCustomKeyStoreName,
       },
     );
 
@@ -5570,11 +5583,11 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': message,
-        'Signature': signature,
+        'Message': message?.let(base64Encode),
+        'Signature': signature?.let(base64Encode),
         'SigningAlgorithm': signingAlgorithm?.toValue(),
-        'GrantTokens': grantTokens,
-        'MessageType': messageType?.toValue(),
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (messageType != null) 'MessageType': messageType?.toValue(),
       },
     );
 

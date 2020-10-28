@@ -101,9 +101,9 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
       'type': type?.toValue(),
-      'archiveRules': archiveRules,
-      'clientToken': clientToken,
-      'tags': tags,
+      if (archiveRules != null) 'archiveRules': archiveRules,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -175,7 +175,7 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'filter': filter,
       'ruleName': ruleName,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     await _protocol.send(
       payload: $payload,
@@ -506,9 +506,9 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'resourceType': resourceType?.toValue(),
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceType != null) 'resourceType': resourceType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -641,10 +641,10 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
-      'filter': filter,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'sort': sort,
+      if (filter != null) 'filter': filter,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sort != null) 'sort': sort,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -844,7 +844,7 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'filter': filter,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     await _protocol.send(
       payload: $payload,
@@ -903,9 +903,9 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'status': status?.toValue(),
-      'clientToken': clientToken,
-      'ids': ids,
-      'resourceArn': resourceArn,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (ids != null) 'ids': ids,
+      if (resourceArn != null) 'resourceArn': resourceArn,
     };
     await _protocol.send(
       payload: $payload,

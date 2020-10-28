@@ -307,10 +307,10 @@ class MarketplaceCatalog {
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
-      'FilterList': filterList,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'Sort': sort,
+      if (filterList != null) 'FilterList': filterList,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sort != null) 'Sort': sort,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -407,10 +407,10 @@ class MarketplaceCatalog {
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'EntityType': entityType,
-      'FilterList': filterList,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
-      'Sort': sort,
+      if (filterList != null) 'FilterList': filterList,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sort != null) 'Sort': sort,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -490,8 +490,8 @@ class MarketplaceCatalog {
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'ChangeSet': changeSet,
-      'ChangeSetName': changeSetName,
-      'ClientRequestToken': clientRequestToken,
+      if (changeSetName != null) 'ChangeSetName': changeSetName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
       payload: $payload,

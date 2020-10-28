@@ -84,8 +84,8 @@ class AppConfig {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -210,9 +210,9 @@ class AppConfig {
       'LocationUri': locationUri,
       'Name': name,
       'RetrievalRoleArn': retrievalRoleArn,
-      'Description': description,
-      'Tags': tags,
-      'Validators': validators,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+      if (validators != null) 'Validators': validators,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -339,10 +339,11 @@ class AppConfig {
       'GrowthFactor': growthFactor,
       'Name': name,
       'ReplicateTo': replicateTo?.toValue(),
-      'Description': description,
-      'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      'GrowthType': growthType?.toValue(),
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (finalBakeTimeInMinutes != null)
+        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
+      if (growthType != null) 'GrowthType': growthType?.toValue(),
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -412,9 +413,9 @@ class AppConfig {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      'Description': description,
-      'Monitors': monitors,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (monitors != null) 'Monitors': monitors,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1226,8 +1227,8 @@ class AppConfig {
       'ConfigurationProfileId': configurationProfileId,
       'ConfigurationVersion': configurationVersion,
       'DeploymentStrategyId': deploymentStrategyId,
-      'Description': description,
-      'Tags': tags,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1414,8 +1415,8 @@ class AppConfig {
       64,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Name': name,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1498,10 +1499,10 @@ class AppConfig {
       r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Name': name,
-      'RetrievalRoleArn': retrievalRoleArn,
-      'Validators': validators,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
+      if (validators != null) 'Validators': validators,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1604,11 +1605,13 @@ class AppConfig {
       100,
     );
     final $payload = <String, dynamic>{
-      'DeploymentDurationInMinutes': deploymentDurationInMinutes,
-      'Description': description,
-      'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      'GrowthFactor': growthFactor,
-      'GrowthType': growthType?.toValue(),
+      if (deploymentDurationInMinutes != null)
+        'DeploymentDurationInMinutes': deploymentDurationInMinutes,
+      if (description != null) 'Description': description,
+      if (finalBakeTimeInMinutes != null)
+        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
+      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthType != null) 'GrowthType': growthType?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1674,9 +1677,9 @@ class AppConfig {
       64,
     );
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Monitors': monitors,
-      'Name': name,
+      if (description != null) 'Description': description,
+      if (monitors != null) 'Monitors': monitors,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

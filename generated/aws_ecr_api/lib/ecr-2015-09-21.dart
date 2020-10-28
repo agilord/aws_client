@@ -113,7 +113,7 @@ class ECR {
       payload: {
         'layerDigests': layerDigests,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -184,7 +184,7 @@ class ECR {
       payload: {
         'imageIds': imageIds,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -260,8 +260,9 @@ class ECR {
       payload: {
         'imageIds': imageIds,
         'repositoryName': repositoryName,
-        'acceptedMediaTypes': acceptedMediaTypes,
-        'registryId': registryId,
+        if (acceptedMediaTypes != null)
+          'acceptedMediaTypes': acceptedMediaTypes,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -350,7 +351,7 @@ class ECR {
         'layerDigests': layerDigests,
         'repositoryName': repositoryName,
         'uploadId': uploadId,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -424,9 +425,11 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'imageScanningConfiguration': imageScanningConfiguration,
-        'imageTagMutability': imageTagMutability?.toValue(),
-        'tags': tags,
+        if (imageScanningConfiguration != null)
+          'imageScanningConfiguration': imageScanningConfiguration,
+        if (imageTagMutability != null)
+          'imageTagMutability': imageTagMutability?.toValue(),
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -483,7 +486,7 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -545,8 +548,8 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'force': force,
-        'registryId': registryId,
+        if (force != null) 'force': force,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -604,7 +607,7 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -694,9 +697,9 @@ class ECR {
       payload: {
         'imageId': imageId,
         'repositoryName': repositoryName,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'registryId': registryId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -797,11 +800,11 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'filter': filter,
-        'imageIds': imageIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'registryId': registryId,
+        if (filter != null) 'filter': filter,
+        if (imageIds != null) 'imageIds': imageIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -878,10 +881,10 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'registryId': registryId,
-        'repositoryNames': repositoryNames,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
+        if (repositoryNames != null) 'repositoryNames': repositoryNames,
       },
     );
 
@@ -924,7 +927,7 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'registryIds': registryIds,
+        if (registryIds != null) 'registryIds': registryIds,
       },
     );
 
@@ -1005,7 +1008,7 @@ class ECR {
       payload: {
         'layerDigest': layerDigest,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1061,7 +1064,7 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1160,11 +1163,11 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'filter': filter,
-        'imageIds': imageIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'registryId': registryId,
+        if (filter != null) 'filter': filter,
+        if (imageIds != null) 'imageIds': imageIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1220,7 +1223,7 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1285,7 +1288,7 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1384,10 +1387,10 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'registryId': registryId,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1511,8 +1514,8 @@ class ECR {
       payload: {
         'imageManifest': imageManifest,
         'repositoryName': repositoryName,
-        'imageTag': imageTag,
-        'registryId': registryId,
+        if (imageTag != null) 'imageTag': imageTag,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1578,7 +1581,7 @@ class ECR {
       payload: {
         'imageScanningConfiguration': imageScanningConfiguration,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1648,7 +1651,7 @@ class ECR {
       payload: {
         'imageTagMutability': imageTagMutability?.toValue(),
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1719,7 +1722,7 @@ class ECR {
       payload: {
         'lifecyclePolicyText': lifecyclePolicyText,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1802,8 +1805,8 @@ class ECR {
       payload: {
         'policyText': policyText,
         'repositoryName': repositoryName,
-        'force': force,
-        'registryId': registryId,
+        if (force != null) 'force': force,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1866,7 +1869,7 @@ class ECR {
       payload: {
         'imageId': imageId,
         'repositoryName': repositoryName,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -1937,8 +1940,9 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'lifecyclePolicyText': lifecyclePolicyText,
-        'registryId': registryId,
+        if (lifecyclePolicyText != null)
+          'lifecyclePolicyText': lifecyclePolicyText,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 
@@ -2128,12 +2132,12 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'layerPartBlob': layerPartBlob,
+        'layerPartBlob': layerPartBlob?.let(base64Encode),
         'partFirstByte': partFirstByte,
         'partLastByte': partLastByte,
         'repositoryName': repositoryName,
         'uploadId': uploadId,
-        'registryId': registryId,
+        if (registryId != null) 'registryId': registryId,
       },
     );
 

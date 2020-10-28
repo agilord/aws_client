@@ -93,7 +93,7 @@ class MediaStore {
       headers: headers,
       payload: {
         'ContainerName': containerName,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -369,7 +369,7 @@ class MediaStore {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ContainerName': containerName,
+        if (containerName != null) 'ContainerName': containerName,
       },
     );
 
@@ -616,8 +616,8 @@ class MediaStore {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

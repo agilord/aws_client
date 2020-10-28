@@ -165,8 +165,8 @@ class ForecastService {
         'DatasetType': datasetType?.toValue(),
         'Domain': domain?.toValue(),
         'Schema': schema,
-        'DataFrequency': dataFrequency,
-        'EncryptionConfig': encryptionConfig,
+        if (dataFrequency != null) 'DataFrequency': dataFrequency,
+        if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
       },
     );
 
@@ -248,7 +248,7 @@ class ForecastService {
       payload: {
         'DatasetGroupName': datasetGroupName,
         'Domain': domain?.toValue(),
-        'DatasetArns': datasetArns,
+        if (datasetArns != null) 'DatasetArns': datasetArns,
       },
     );
 
@@ -381,7 +381,7 @@ class ForecastService {
         'DataSource': dataSource,
         'DatasetArn': datasetArn,
         'DatasetImportJobName': datasetImportJobName,
-        'TimestampFormat': timestampFormat,
+        if (timestampFormat != null) 'TimestampFormat': timestampFormat,
       },
     );
 
@@ -481,7 +481,7 @@ class ForecastService {
       payload: {
         'ForecastName': forecastName,
         'PredictorArn': predictorArn,
-        'ForecastTypes': forecastTypes,
+        if (forecastTypes != null) 'ForecastTypes': forecastTypes,
       },
     );
 
@@ -819,13 +819,15 @@ class ForecastService {
         'ForecastHorizon': forecastHorizon,
         'InputDataConfig': inputDataConfig,
         'PredictorName': predictorName,
-        'AlgorithmArn': algorithmArn,
-        'EncryptionConfig': encryptionConfig,
-        'EvaluationParameters': evaluationParameters,
-        'HPOConfig': hPOConfig,
-        'PerformAutoML': performAutoML,
-        'PerformHPO': performHPO,
-        'TrainingParameters': trainingParameters,
+        if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
+        if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
+        if (evaluationParameters != null)
+          'EvaluationParameters': evaluationParameters,
+        if (hPOConfig != null) 'HPOConfig': hPOConfig,
+        if (performAutoML != null) 'PerformAutoML': performAutoML,
+        if (performHPO != null) 'PerformHPO': performHPO,
+        if (trainingParameters != null)
+          'TrainingParameters': trainingParameters,
       },
     );
 
@@ -1598,8 +1600,8 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1681,9 +1683,9 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1731,8 +1733,8 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1815,9 +1817,9 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1900,9 +1902,9 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1984,9 +1986,9 @@ class ForecastService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

@@ -121,7 +121,7 @@ class DataExchange {
       'AssetType': assetType?.toValue(),
       'Description': description,
       'Name': name,
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -197,8 +197,8 @@ class DataExchange {
       16384,
     );
     final $payload = <String, dynamic>{
-      'Comment': comment,
-      'Tags': tags,
+      if (comment != null) 'Comment': comment,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -749,8 +749,8 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Name': name,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -798,8 +798,8 @@ class DataExchange {
       16384,
     );
     final $payload = <String, dynamic>{
-      'Comment': comment,
-      'Finalized': finalized,
+      if (comment != null) 'Comment': comment,
+      if (finalized != null) 'Finalized': finalized,
     };
     final response = await _protocol.send(
       payload: $payload,

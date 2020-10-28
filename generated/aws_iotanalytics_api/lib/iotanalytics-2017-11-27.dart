@@ -227,9 +227,9 @@ class IoTAnalytics {
     );
     final $payload = <String, dynamic>{
       'channelName': channelName,
-      'channelStorage': channelStorage,
-      'retentionPeriod': retentionPeriod,
-      'tags': tags,
+      if (channelStorage != null) 'channelStorage': channelStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -314,11 +314,13 @@ class IoTAnalytics {
     final $payload = <String, dynamic>{
       'actions': actions,
       'datasetName': datasetName,
-      'contentDeliveryRules': contentDeliveryRules,
-      'retentionPeriod': retentionPeriod,
-      'tags': tags,
-      'triggers': triggers,
-      'versioningConfiguration': versioningConfiguration,
+      if (contentDeliveryRules != null)
+        'contentDeliveryRules': contentDeliveryRules,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (tags != null) 'tags': tags,
+      if (triggers != null) 'triggers': triggers,
+      if (versioningConfiguration != null)
+        'versioningConfiguration': versioningConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -414,9 +416,9 @@ class IoTAnalytics {
     );
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
-      'datastoreStorage': datastoreStorage,
-      'retentionPeriod': retentionPeriod,
-      'tags': tags,
+      if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -482,7 +484,7 @@ class IoTAnalytics {
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
       'pipelineName': pipelineName,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1359,8 +1361,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'endTime': endTime,
-      'startTime': startTime,
+      if (endTime != null) 'endTime': endTime,
+      if (startTime != null) 'startTime': startTime,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1497,8 +1499,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'channelStorage': channelStorage,
-      'retentionPeriod': retentionPeriod,
+      if (channelStorage != null) 'channelStorage': channelStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
     await _protocol.send(
       payload: $payload,
@@ -1564,10 +1566,12 @@ class IoTAnalytics {
     );
     final $payload = <String, dynamic>{
       'actions': actions,
-      'contentDeliveryRules': contentDeliveryRules,
-      'retentionPeriod': retentionPeriod,
-      'triggers': triggers,
-      'versioningConfiguration': versioningConfiguration,
+      if (contentDeliveryRules != null)
+        'contentDeliveryRules': contentDeliveryRules,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (triggers != null) 'triggers': triggers,
+      if (versioningConfiguration != null)
+        'versioningConfiguration': versioningConfiguration,
     };
     await _protocol.send(
       payload: $payload,
@@ -1618,8 +1622,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'datastoreStorage': datastoreStorage,
-      'retentionPeriod': retentionPeriod,
+      if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
     await _protocol.send(
       payload: $payload,

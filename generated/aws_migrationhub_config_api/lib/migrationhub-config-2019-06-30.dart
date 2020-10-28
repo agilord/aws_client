@@ -117,7 +117,7 @@ class MigrationHubConfig {
       payload: {
         'HomeRegion': homeRegion,
         'Target': target,
-        'DryRun': dryRun,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
 
@@ -210,11 +210,11 @@ class MigrationHubConfig {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ControlId': controlId,
-        'HomeRegion': homeRegion,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Target': target,
+        if (controlId != null) 'ControlId': controlId,
+        if (homeRegion != null) 'HomeRegion': homeRegion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (target != null) 'Target': target,
       },
     );
 

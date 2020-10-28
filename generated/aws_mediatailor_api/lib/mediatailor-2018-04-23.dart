@@ -215,17 +215,22 @@ class MediaTailor {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'AdDecisionServerUrl': adDecisionServerUrl,
-      'AvailSuppression': availSuppression,
-      'CdnConfiguration': cdnConfiguration,
-      'DashConfiguration': dashConfiguration,
-      'LivePreRollConfiguration': livePreRollConfiguration,
-      'Name': name,
-      'PersonalizationThresholdSeconds': personalizationThresholdSeconds,
-      'SlateAdUrl': slateAdUrl,
-      'Tags': tags,
-      'TranscodeProfileName': transcodeProfileName,
-      'VideoContentSourceUrl': videoContentSourceUrl,
+      if (adDecisionServerUrl != null)
+        'AdDecisionServerUrl': adDecisionServerUrl,
+      if (availSuppression != null) 'AvailSuppression': availSuppression,
+      if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
+      if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
+      if (livePreRollConfiguration != null)
+        'LivePreRollConfiguration': livePreRollConfiguration,
+      if (name != null) 'Name': name,
+      if (personalizationThresholdSeconds != null)
+        'PersonalizationThresholdSeconds': personalizationThresholdSeconds,
+      if (slateAdUrl != null) 'SlateAdUrl': slateAdUrl,
+      if (tags != null) 'Tags': tags,
+      if (transcodeProfileName != null)
+        'TranscodeProfileName': transcodeProfileName,
+      if (videoContentSourceUrl != null)
+        'VideoContentSourceUrl': videoContentSourceUrl,
     };
     final response = await _protocol.send(
       payload: $payload,

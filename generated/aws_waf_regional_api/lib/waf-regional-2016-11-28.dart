@@ -554,7 +554,7 @@ class WAFRegional {
         'Name': name,
         'RateKey': rateKey?.toValue(),
         'RateLimit': rateLimit,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -842,7 +842,7 @@ class WAFRegional {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -931,7 +931,7 @@ class WAFRegional {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1225,7 +1225,7 @@ class WAFRegional {
         'DefaultAction': defaultAction,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2722,7 +2722,7 @@ class WAFRegional {
       headers: headers,
       payload: {
         'RuleId': ruleId,
-        'NextMarker': nextMarker,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3268,9 +3268,9 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
-        'RuleGroupId': ruleGroupId,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+        if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
       },
     );
 
@@ -3325,8 +3325,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3380,8 +3380,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3433,8 +3433,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3491,8 +3491,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3546,8 +3546,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3602,8 +3602,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3659,8 +3659,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3705,7 +3705,7 @@ class WAFRegional {
       headers: headers,
       payload: {
         'WebACLId': webACLId,
-        'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -3758,8 +3758,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3813,8 +3813,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3869,8 +3869,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3925,8 +3925,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3980,8 +3980,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -4032,8 +4032,8 @@ class WAFRegional {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -4087,8 +4087,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -4142,8 +4142,8 @@ class WAFRegional {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -5825,8 +5825,8 @@ class WAFRegional {
       payload: {
         'ChangeToken': changeToken,
         'WebACLId': webACLId,
-        'DefaultAction': defaultAction,
-        'Updates': updates,
+        if (defaultAction != null) 'DefaultAction': defaultAction,
+        if (updates != null) 'Updates': updates,
       },
     );
 

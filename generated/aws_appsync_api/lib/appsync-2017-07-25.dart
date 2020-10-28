@@ -119,8 +119,10 @@ class AppSync {
       'apiCachingBehavior': apiCachingBehavior?.toValue(),
       'ttl': ttl,
       'type': type?.toValue(),
-      'atRestEncryptionEnabled': atRestEncryptionEnabled,
-      'transitEncryptionEnabled': transitEncryptionEnabled,
+      if (atRestEncryptionEnabled != null)
+        'atRestEncryptionEnabled': atRestEncryptionEnabled,
+      if (transitEncryptionEnabled != null)
+        'transitEncryptionEnabled': transitEncryptionEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -161,8 +163,8 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
-      'description': description,
-      'expires': expires,
+      if (description != null) 'description': description,
+      if (expires != null) 'expires': expires,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -242,13 +244,15 @@ class AppSync {
     final $payload = <String, dynamic>{
       'name': name,
       'type': type?.toValue(),
-      'description': description,
-      'dynamodbConfig': dynamodbConfig,
-      'elasticsearchConfig': elasticsearchConfig,
-      'httpConfig': httpConfig,
-      'lambdaConfig': lambdaConfig,
-      'relationalDatabaseConfig': relationalDatabaseConfig,
-      'serviceRoleArn': serviceRoleArn,
+      if (description != null) 'description': description,
+      if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
+      if (elasticsearchConfig != null)
+        'elasticsearchConfig': elasticsearchConfig,
+      if (httpConfig != null) 'httpConfig': httpConfig,
+      if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
+      if (relationalDatabaseConfig != null)
+        'relationalDatabaseConfig': relationalDatabaseConfig,
+      if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -352,8 +356,9 @@ class AppSync {
       'functionVersion': functionVersion,
       'name': name,
       'requestMappingTemplate': requestMappingTemplate,
-      'description': description,
-      'responseMappingTemplate': responseMappingTemplate,
+      if (description != null) 'description': description,
+      if (responseMappingTemplate != null)
+        'responseMappingTemplate': responseMappingTemplate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -414,12 +419,14 @@ class AppSync {
     final $payload = <String, dynamic>{
       'authenticationType': authenticationType?.toValue(),
       'name': name,
-      'additionalAuthenticationProviders': additionalAuthenticationProviders,
-      'logConfig': logConfig,
-      'openIDConnectConfig': openIDConnectConfig,
-      'tags': tags,
-      'userPoolConfig': userPoolConfig,
-      'xrayEnabled': xrayEnabled,
+      if (additionalAuthenticationProviders != null)
+        'additionalAuthenticationProviders': additionalAuthenticationProviders,
+      if (logConfig != null) 'logConfig': logConfig,
+      if (openIDConnectConfig != null)
+        'openIDConnectConfig': openIDConnectConfig,
+      if (tags != null) 'tags': tags,
+      if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
+      if (xrayEnabled != null) 'xrayEnabled': xrayEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -558,12 +565,13 @@ class AppSync {
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
       'requestMappingTemplate': requestMappingTemplate,
-      'cachingConfig': cachingConfig,
-      'dataSourceName': dataSourceName,
-      'kind': kind?.toValue(),
-      'pipelineConfig': pipelineConfig,
-      'responseMappingTemplate': responseMappingTemplate,
-      'syncConfig': syncConfig,
+      if (cachingConfig != null) 'cachingConfig': cachingConfig,
+      if (dataSourceName != null) 'dataSourceName': dataSourceName,
+      if (kind != null) 'kind': kind?.toValue(),
+      if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
+      if (responseMappingTemplate != null)
+        'responseMappingTemplate': responseMappingTemplate,
+      if (syncConfig != null) 'syncConfig': syncConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1658,7 +1666,7 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     final $payload = <String, dynamic>{
-      'definition': definition,
+      'definition': definition?.let(base64Encode),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1873,8 +1881,8 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      'description': description,
-      'expires': expires,
+      if (description != null) 'description': description,
+      if (expires != null) 'expires': expires,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1953,13 +1961,15 @@ class AppSync {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type?.toValue(),
-      'description': description,
-      'dynamodbConfig': dynamodbConfig,
-      'elasticsearchConfig': elasticsearchConfig,
-      'httpConfig': httpConfig,
-      'lambdaConfig': lambdaConfig,
-      'relationalDatabaseConfig': relationalDatabaseConfig,
-      'serviceRoleArn': serviceRoleArn,
+      if (description != null) 'description': description,
+      if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
+      if (elasticsearchConfig != null)
+        'elasticsearchConfig': elasticsearchConfig,
+      if (httpConfig != null) 'httpConfig': httpConfig,
+      if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
+      if (relationalDatabaseConfig != null)
+        'relationalDatabaseConfig': relationalDatabaseConfig,
+      if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2077,8 +2087,9 @@ class AppSync {
       'functionVersion': functionVersion,
       'name': name,
       'requestMappingTemplate': requestMappingTemplate,
-      'description': description,
-      'responseMappingTemplate': responseMappingTemplate,
+      if (description != null) 'description': description,
+      if (responseMappingTemplate != null)
+        'responseMappingTemplate': responseMappingTemplate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2140,12 +2151,15 @@ class AppSync {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
-      'additionalAuthenticationProviders': additionalAuthenticationProviders,
-      'authenticationType': authenticationType?.toValue(),
-      'logConfig': logConfig,
-      'openIDConnectConfig': openIDConnectConfig,
-      'userPoolConfig': userPoolConfig,
-      'xrayEnabled': xrayEnabled,
+      if (additionalAuthenticationProviders != null)
+        'additionalAuthenticationProviders': additionalAuthenticationProviders,
+      if (authenticationType != null)
+        'authenticationType': authenticationType?.toValue(),
+      if (logConfig != null) 'logConfig': logConfig,
+      if (openIDConnectConfig != null)
+        'openIDConnectConfig': openIDConnectConfig,
+      if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
+      if (xrayEnabled != null) 'xrayEnabled': xrayEnabled,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2276,12 +2290,13 @@ class AppSync {
     );
     final $payload = <String, dynamic>{
       'requestMappingTemplate': requestMappingTemplate,
-      'cachingConfig': cachingConfig,
-      'dataSourceName': dataSourceName,
-      'kind': kind?.toValue(),
-      'pipelineConfig': pipelineConfig,
-      'responseMappingTemplate': responseMappingTemplate,
-      'syncConfig': syncConfig,
+      if (cachingConfig != null) 'cachingConfig': cachingConfig,
+      if (dataSourceName != null) 'dataSourceName': dataSourceName,
+      if (kind != null) 'kind': kind?.toValue(),
+      if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
+      if (responseMappingTemplate != null)
+        'responseMappingTemplate': responseMappingTemplate,
+      if (syncConfig != null) 'syncConfig': syncConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2336,7 +2351,7 @@ class AppSync {
     );
     final $payload = <String, dynamic>{
       'format': format?.toValue(),
-      'definition': definition,
+      if (definition != null) 'definition': definition,
     };
     final response = await _protocol.send(
       payload: $payload,

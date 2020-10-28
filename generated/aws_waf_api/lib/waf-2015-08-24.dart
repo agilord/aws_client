@@ -482,7 +482,7 @@ class WAF {
         'Name': name,
         'RateKey': rateKey?.toValue(),
         'RateLimit': rateLimit,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -770,7 +770,7 @@ class WAF {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -859,7 +859,7 @@ class WAF {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1153,7 +1153,7 @@ class WAF {
         'DefaultAction': defaultAction,
         'MetricName': metricName,
         'Name': name,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2594,7 +2594,7 @@ class WAF {
       headers: headers,
       payload: {
         'RuleId': ruleId,
-        'NextMarker': nextMarker,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3084,9 +3084,9 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
-        'RuleGroupId': ruleGroupId,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+        if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
       },
     );
 
@@ -3141,8 +3141,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3196,8 +3196,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3249,8 +3249,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3307,8 +3307,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3362,8 +3362,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3418,8 +3418,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3475,8 +3475,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3529,8 +3529,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3584,8 +3584,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3640,8 +3640,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3696,8 +3696,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3751,8 +3751,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3803,8 +3803,8 @@ class WAF {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3858,8 +3858,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3913,8 +3913,8 @@ class WAF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -5596,8 +5596,8 @@ class WAF {
       payload: {
         'ChangeToken': changeToken,
         'WebACLId': webACLId,
-        'DefaultAction': defaultAction,
-        'Updates': updates,
+        if (defaultAction != null) 'DefaultAction': defaultAction,
+        if (updates != null) 'Updates': updates,
       },
     );
 

@@ -194,10 +194,10 @@ class GlobalAccelerator {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
-        'Enabled': enabled,
-        'IpAddressType': ipAddressType?.toValue(),
-        'IpAddresses': ipAddresses,
-        'Tags': tags,
+        if (enabled != null) 'Enabled': enabled,
+        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
+        if (ipAddresses != null) 'IpAddresses': ipAddresses,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -342,13 +342,17 @@ class GlobalAccelerator {
         'EndpointGroupRegion': endpointGroupRegion,
         'IdempotencyToken': idempotencyToken,
         'ListenerArn': listenerArn,
-        'EndpointConfigurations': endpointConfigurations,
-        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-        'HealthCheckPath': healthCheckPath,
-        'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol?.toValue(),
-        'ThresholdCount': thresholdCount,
-        'TrafficDialPercentage': trafficDialPercentage,
+        if (endpointConfigurations != null)
+          'EndpointConfigurations': endpointConfigurations,
+        if (healthCheckIntervalSeconds != null)
+          'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
+        if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
+        if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
+        if (healthCheckProtocol != null)
+          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
+        if (thresholdCount != null) 'ThresholdCount': thresholdCount,
+        if (trafficDialPercentage != null)
+          'TrafficDialPercentage': trafficDialPercentage,
       },
     );
 
@@ -442,7 +446,7 @@ class GlobalAccelerator {
         'IdempotencyToken': idempotencyToken,
         'PortRanges': portRanges,
         'Protocol': protocol?.toValue(),
-        'ClientAffinity': clientAffinity?.toValue(),
+        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
       },
     );
 
@@ -829,8 +833,8 @@ class GlobalAccelerator {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -883,8 +887,8 @@ class GlobalAccelerator {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -947,8 +951,8 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'ListenerArn': listenerArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1011,8 +1015,8 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1289,9 +1293,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'Enabled': enabled,
-        'IpAddressType': ipAddressType?.toValue(),
-        'Name': name,
+        if (enabled != null) 'Enabled': enabled,
+        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
+        if (name != null) 'Name': name,
       },
     );
 
@@ -1374,9 +1378,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'FlowLogsEnabled': flowLogsEnabled,
-        'FlowLogsS3Bucket': flowLogsS3Bucket,
-        'FlowLogsS3Prefix': flowLogsS3Prefix,
+        if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
+        if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
+        if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
       },
     );
 
@@ -1490,13 +1494,17 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'EndpointGroupArn': endpointGroupArn,
-        'EndpointConfigurations': endpointConfigurations,
-        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-        'HealthCheckPath': healthCheckPath,
-        'HealthCheckPort': healthCheckPort,
-        'HealthCheckProtocol': healthCheckProtocol?.toValue(),
-        'ThresholdCount': thresholdCount,
-        'TrafficDialPercentage': trafficDialPercentage,
+        if (endpointConfigurations != null)
+          'EndpointConfigurations': endpointConfigurations,
+        if (healthCheckIntervalSeconds != null)
+          'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
+        if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
+        if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
+        if (healthCheckProtocol != null)
+          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
+        if (thresholdCount != null) 'ThresholdCount': thresholdCount,
+        if (trafficDialPercentage != null)
+          'TrafficDialPercentage': trafficDialPercentage,
       },
     );
 
@@ -1570,9 +1578,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'ListenerArn': listenerArn,
-        'ClientAffinity': clientAffinity?.toValue(),
-        'PortRanges': portRanges,
-        'Protocol': protocol?.toValue(),
+        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
+        if (portRanges != null) 'PortRanges': portRanges,
+        if (protocol != null) 'Protocol': protocol?.toValue(),
       },
     );
 

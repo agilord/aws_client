@@ -100,7 +100,7 @@ class PersonalizeRuntime {
       'campaignArn': campaignArn,
       'inputList': inputList,
       'userId': userId,
-      'context': context,
+      if (context != null) 'context': context,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -193,10 +193,10 @@ class PersonalizeRuntime {
     );
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
-      'context': context,
-      'itemId': itemId,
-      'numResults': numResults,
-      'userId': userId,
+      if (context != null) 'context': context,
+      if (itemId != null) 'itemId': itemId,
+      if (numResults != null) 'numResults': numResults,
+      if (userId != null) 'userId': userId,
     };
     final response = await _protocol.send(
       payload: $payload,

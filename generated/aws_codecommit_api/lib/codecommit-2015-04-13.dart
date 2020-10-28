@@ -285,12 +285,14 @@ class CodeCommit {
         'mergeOption': mergeOption?.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'filePaths': filePaths,
-        'maxConflictFiles': maxConflictFiles,
-        'maxMergeHunks': maxMergeHunks,
-        'nextToken': nextToken,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (filePaths != null) 'filePaths': filePaths,
+        if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
+        if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -576,7 +578,8 @@ class CodeCommit {
       payload: {
         'approvalRuleTemplateContent': approvalRuleTemplateContent,
         'approvalRuleTemplateName': approvalRuleTemplateName,
-        'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
+        if (approvalRuleTemplateDescription != null)
+          'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
       },
     );
 
@@ -781,14 +784,14 @@ class CodeCommit {
       payload: {
         'branchName': branchName,
         'repositoryName': repositoryName,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'deleteFiles': deleteFiles,
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'parentCommitId': parentCommitId,
-        'putFiles': putFiles,
-        'setFileModes': setFileModes,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (deleteFiles != null) 'deleteFiles': deleteFiles,
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (parentCommitId != null) 'parentCommitId': parentCommitId,
+        if (putFiles != null) 'putFiles': putFiles,
+        if (setFileModes != null) 'setFileModes': setFileModes,
       },
     );
 
@@ -880,8 +883,9 @@ class CodeCommit {
       payload: {
         'targets': targets,
         'title': title,
-        'clientRequestToken': clientRequestToken,
-        'description': description,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (description != null) 'description': description,
       },
     );
 
@@ -1074,8 +1078,9 @@ class CodeCommit {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'repositoryDescription': repositoryDescription,
-        'tags': tags,
+        if (repositoryDescription != null)
+          'repositoryDescription': repositoryDescription,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1222,13 +1227,16 @@ class CodeCommit {
         'mergeOption': mergeOption?.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolution != null)
+          'conflictResolution': conflictResolution,
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
       },
     );
 
@@ -1485,10 +1493,10 @@ class CodeCommit {
         'filePath': filePath,
         'parentCommitId': parentCommitId,
         'repositoryName': repositoryName,
-        'commitMessage': commitMessage,
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'name': name,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (name != null) 'name': name,
       },
     );
 
@@ -1718,10 +1726,12 @@ class CodeCommit {
         'mergeOption': mergeOption?.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'maxMergeHunks': maxMergeHunks,
-        'nextToken': nextToken,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1785,10 +1795,11 @@ class CodeCommit {
       headers: headers,
       payload: {
         'pullRequestId': pullRequestId,
-        'actorArn': actorArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'pullRequestEventType': pullRequestEventType?.toValue(),
+        if (actorArn != null) 'actorArn': actorArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (pullRequestEventType != null)
+          'pullRequestEventType': pullRequestEventType?.toValue(),
       },
     );
 
@@ -2061,8 +2072,8 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'branchName': branchName,
-        'repositoryName': repositoryName,
+        if (branchName != null) 'branchName': branchName,
+        if (repositoryName != null) 'repositoryName': repositoryName,
       },
     );
 
@@ -2172,9 +2183,9 @@ class CodeCommit {
       payload: {
         'afterCommitId': afterCommitId,
         'repositoryName': repositoryName,
-        'beforeCommitId': beforeCommitId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2256,11 +2267,11 @@ class CodeCommit {
       headers: headers,
       payload: {
         'pullRequestId': pullRequestId,
-        'afterCommitId': afterCommitId,
-        'beforeCommitId': beforeCommitId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'repositoryName': repositoryName,
+        if (afterCommitId != null) 'afterCommitId': afterCommitId,
+        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (repositoryName != null) 'repositoryName': repositoryName,
       },
     );
 
@@ -2416,11 +2427,12 @@ class CodeCommit {
       payload: {
         'afterCommitSpecifier': afterCommitSpecifier,
         'repositoryName': repositoryName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'afterPath': afterPath,
-        'beforeCommitSpecifier': beforeCommitSpecifier,
-        'beforePath': beforePath,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (afterPath != null) 'afterPath': afterPath,
+        if (beforeCommitSpecifier != null)
+          'beforeCommitSpecifier': beforeCommitSpecifier,
+        if (beforePath != null) 'beforePath': beforePath,
       },
     );
 
@@ -2490,7 +2502,7 @@ class CodeCommit {
       payload: {
         'filePath': filePath,
         'repositoryName': repositoryName,
-        'commitSpecifier': commitSpecifier,
+        if (commitSpecifier != null) 'commitSpecifier': commitSpecifier,
       },
     );
 
@@ -2561,7 +2573,7 @@ class CodeCommit {
       payload: {
         'folderPath': folderPath,
         'repositoryName': repositoryName,
-        'commitSpecifier': commitSpecifier,
+        if (commitSpecifier != null) 'commitSpecifier': commitSpecifier,
       },
     );
 
@@ -2646,8 +2658,10 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
       },
     );
 
@@ -2756,10 +2770,12 @@ class CodeCommit {
         'mergeOption': mergeOption?.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'maxConflictFiles': maxConflictFiles,
-        'nextToken': nextToken,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2849,8 +2865,10 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
       },
     );
 
@@ -3119,8 +3137,8 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3185,8 +3203,8 @@ class CodeCommit {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3241,7 +3259,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3317,10 +3335,11 @@ class CodeCommit {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'authorArn': authorArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'pullRequestStatus': pullRequestStatus?.toValue(),
+        if (authorArn != null) 'authorArn': authorArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (pullRequestStatus != null)
+          'pullRequestStatus': pullRequestStatus?.toValue(),
       },
     );
 
@@ -3360,9 +3379,9 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
-        'order': order?.toValue(),
-        'sortBy': sortBy?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (order != null) 'order': order?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
       },
     );
 
@@ -3422,8 +3441,8 @@ class CodeCommit {
       headers: headers,
       payload: {
         'approvalRuleTemplateName': approvalRuleTemplateName,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3465,7 +3484,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'resourceArn': resourceArn,
-        'nextToken': nextToken,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3550,7 +3569,7 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'targetBranch': targetBranch,
+        if (targetBranch != null) 'targetBranch': targetBranch,
       },
     );
 
@@ -3695,14 +3714,17 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'targetBranch': targetBranch,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolution != null)
+          'conflictResolution': conflictResolution,
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (targetBranch != null) 'targetBranch': targetBranch,
       },
     );
 
@@ -3847,14 +3869,17 @@ class CodeCommit {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'targetBranch': targetBranch,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolution != null)
+          'conflictResolution': conflictResolution,
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (targetBranch != null) 'targetBranch': targetBranch,
       },
     );
 
@@ -3931,7 +3956,7 @@ class CodeCommit {
       payload: {
         'pullRequestId': pullRequestId,
         'repositoryName': repositoryName,
-        'sourceCommitId': sourceCommitId,
+        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
       },
     );
 
@@ -4067,14 +4092,17 @@ class CodeCommit {
       payload: {
         'pullRequestId': pullRequestId,
         'repositoryName': repositoryName,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'sourceCommitId': sourceCommitId,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolution != null)
+          'conflictResolution': conflictResolution,
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
       },
     );
 
@@ -4210,14 +4238,17 @@ class CodeCommit {
       payload: {
         'pullRequestId': pullRequestId,
         'repositoryName': repositoryName,
-        'authorName': authorName,
-        'commitMessage': commitMessage,
-        'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        'conflictResolution': conflictResolution,
-        'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        'email': email,
-        'keepEmptyFolders': keepEmptyFolders,
-        'sourceCommitId': sourceCommitId,
+        if (authorName != null) 'authorName': authorName,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (conflictDetailLevel != null)
+          'conflictDetailLevel': conflictDetailLevel?.toValue(),
+        if (conflictResolution != null)
+          'conflictResolution': conflictResolution,
+        if (conflictResolutionStrategy != null)
+          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
+        if (email != null) 'email': email,
+        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
+        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
       },
     );
 
@@ -4372,9 +4403,10 @@ class CodeCommit {
         'afterCommitId': afterCommitId,
         'content': content,
         'repositoryName': repositoryName,
-        'beforeCommitId': beforeCommitId,
-        'clientRequestToken': clientRequestToken,
-        'location': location,
+        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (location != null) 'location': location,
       },
     );
 
@@ -4486,8 +4518,9 @@ class CodeCommit {
         'content': content,
         'pullRequestId': pullRequestId,
         'repositoryName': repositoryName,
-        'clientRequestToken': clientRequestToken,
-        'location': location,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (location != null) 'location': location,
       },
     );
 
@@ -4540,7 +4573,8 @@ class CodeCommit {
       payload: {
         'content': content,
         'inReplyTo': inReplyTo,
-        'clientRequestToken': clientRequestToken,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
       },
     );
 
@@ -4670,14 +4704,14 @@ class CodeCommit {
       headers: headers,
       payload: {
         'branchName': branchName,
-        'fileContent': fileContent,
+        'fileContent': fileContent?.let(base64Encode),
         'filePath': filePath,
         'repositoryName': repositoryName,
-        'commitMessage': commitMessage,
-        'email': email,
-        'fileMode': fileMode?.toValue(),
-        'name': name,
-        'parentCommitId': parentCommitId,
+        if (commitMessage != null) 'commitMessage': commitMessage,
+        if (email != null) 'email': email,
+        if (fileMode != null) 'fileMode': fileMode?.toValue(),
+        if (name != null) 'name': name,
+        if (parentCommitId != null) 'parentCommitId': parentCommitId,
       },
     );
 
@@ -4967,7 +5001,8 @@ class CodeCommit {
       payload: {
         'approvalRuleTemplateName': approvalRuleTemplateName,
         'newRuleContent': newRuleContent,
-        'existingRuleContentSha256': existingRuleContentSha256,
+        if (existingRuleContentSha256 != null)
+          'existingRuleContentSha256': existingRuleContentSha256,
       },
     );
 
@@ -5300,7 +5335,8 @@ class CodeCommit {
         'approvalRuleName': approvalRuleName,
         'newRuleContent': newRuleContent,
         'pullRequestId': pullRequestId,
-        'existingRuleContentSha256': existingRuleContentSha256,
+        if (existingRuleContentSha256 != null)
+          'existingRuleContentSha256': existingRuleContentSha256,
       },
     );
 
@@ -5566,7 +5602,8 @@ class CodeCommit {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
-        'repositoryDescription': repositoryDescription,
+        if (repositoryDescription != null)
+          'repositoryDescription': repositoryDescription,
       },
     );
   }

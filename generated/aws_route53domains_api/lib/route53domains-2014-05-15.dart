@@ -86,7 +86,7 @@ class Route53Domains {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'IdnLangCode': idnLangCode,
+        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
       },
     );
 
@@ -139,7 +139,7 @@ class Route53Domains {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'AuthCode': authCode,
+        if (authCode != null) 'AuthCode': authCode,
       },
     );
 
@@ -399,7 +399,7 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        'domainName': domainName,
+        if (domainName != null) 'domainName': domainName,
       },
     );
 
@@ -591,8 +591,8 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Marker': marker,
-        'MaxItems': maxItems,
+        if (marker != null) 'Marker': marker,
+        if (maxItems != null) 'MaxItems': maxItems,
       },
     );
 
@@ -650,9 +650,9 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Marker': marker,
-        'MaxItems': maxItems,
-        'SubmittedSince': submittedSince,
+        if (marker != null) 'Marker': marker,
+        if (maxItems != null) 'MaxItems': maxItems,
+        if (submittedSince != null) 'SubmittedSince': submittedSince,
       },
     );
 
@@ -863,11 +863,14 @@ class Route53Domains {
         'DurationInYears': durationInYears,
         'RegistrantContact': registrantContact,
         'TechContact': techContact,
-        'AutoRenew': autoRenew,
-        'IdnLangCode': idnLangCode,
-        'PrivacyProtectAdminContact': privacyProtectAdminContact,
-        'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
-        'PrivacyProtectTechContact': privacyProtectTechContact,
+        if (autoRenew != null) 'AutoRenew': autoRenew,
+        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
+        if (privacyProtectAdminContact != null)
+          'PrivacyProtectAdminContact': privacyProtectAdminContact,
+        if (privacyProtectRegistrantContact != null)
+          'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
+        if (privacyProtectTechContact != null)
+          'PrivacyProtectTechContact': privacyProtectTechContact,
       },
     );
 
@@ -939,7 +942,7 @@ class Route53Domains {
       payload: {
         'CurrentExpiryYear': currentExpiryYear,
         'DomainName': domainName,
-        'DurationInYears': durationInYears,
+        if (durationInYears != null) 'DurationInYears': durationInYears,
       },
     );
 
@@ -979,7 +982,7 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        'domainName': domainName,
+        if (domainName != null) 'domainName': domainName,
       },
     );
 
@@ -1188,13 +1191,16 @@ class Route53Domains {
         'DurationInYears': durationInYears,
         'RegistrantContact': registrantContact,
         'TechContact': techContact,
-        'AuthCode': authCode,
-        'AutoRenew': autoRenew,
-        'IdnLangCode': idnLangCode,
-        'Nameservers': nameservers,
-        'PrivacyProtectAdminContact': privacyProtectAdminContact,
-        'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
-        'PrivacyProtectTechContact': privacyProtectTechContact,
+        if (authCode != null) 'AuthCode': authCode,
+        if (autoRenew != null) 'AutoRenew': autoRenew,
+        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
+        if (nameservers != null) 'Nameservers': nameservers,
+        if (privacyProtectAdminContact != null)
+          'PrivacyProtectAdminContact': privacyProtectAdminContact,
+        if (privacyProtectRegistrantContact != null)
+          'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
+        if (privacyProtectTechContact != null)
+          'PrivacyProtectTechContact': privacyProtectTechContact,
       },
     );
 
@@ -1253,9 +1259,9 @@ class Route53Domains {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'AdminContact': adminContact,
-        'RegistrantContact': registrantContact,
-        'TechContact': techContact,
+        if (adminContact != null) 'AdminContact': adminContact,
+        if (registrantContact != null) 'RegistrantContact': registrantContact,
+        if (techContact != null) 'TechContact': techContact,
       },
     );
 
@@ -1333,9 +1339,9 @@ class Route53Domains {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'AdminPrivacy': adminPrivacy,
-        'RegistrantPrivacy': registrantPrivacy,
-        'TechPrivacy': techPrivacy,
+        if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
+        if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
+        if (techPrivacy != null) 'TechPrivacy': techPrivacy,
       },
     );
 
@@ -1392,7 +1398,7 @@ class Route53Domains {
       payload: {
         'DomainName': domainName,
         'Nameservers': nameservers,
-        'FIAuthKey': fIAuthKey,
+        if (fIAuthKey != null) 'FIAuthKey': fIAuthKey,
       },
     );
 
@@ -1439,7 +1445,7 @@ class Route53Domains {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'TagsToUpdate': tagsToUpdate,
+        if (tagsToUpdate != null) 'TagsToUpdate': tagsToUpdate,
       },
     );
 
@@ -1507,10 +1513,10 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        'End': end,
-        'Marker': marker,
-        'MaxItems': maxItems,
-        'Start': start,
+        if (end != null) 'End': end,
+        if (marker != null) 'Marker': marker,
+        if (maxItems != null) 'MaxItems': maxItems,
+        if (start != null) 'Start': start,
       },
     );
 

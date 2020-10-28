@@ -107,8 +107,8 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        'CreatorRequestId': creatorRequestId,
-        'Description': description,
+        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -193,8 +193,8 @@ class ServiceDiscovery {
       payload: {
         'Name': name,
         'Vpc': vpc,
-        'CreatorRequestId': creatorRequestId,
-        'Description': description,
+        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -263,8 +263,8 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        'CreatorRequestId': creatorRequestId,
-        'Description': description,
+        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -400,12 +400,13 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        'CreatorRequestId': creatorRequestId,
-        'Description': description,
-        'DnsConfig': dnsConfig,
-        'HealthCheckConfig': healthCheckConfig,
-        'HealthCheckCustomConfig': healthCheckCustomConfig,
-        'NamespaceId': namespaceId,
+        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        if (description != null) 'Description': description,
+        if (dnsConfig != null) 'DnsConfig': dnsConfig,
+        if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
+        if (healthCheckCustomConfig != null)
+          'HealthCheckCustomConfig': healthCheckCustomConfig,
+        if (namespaceId != null) 'NamespaceId': namespaceId,
       },
     );
 
@@ -612,9 +613,9 @@ class ServiceDiscovery {
       payload: {
         'NamespaceName': namespaceName,
         'ServiceName': serviceName,
-        'HealthStatus': healthStatus?.toValue(),
-        'MaxResults': maxResults,
-        'QueryParameters': queryParameters,
+        if (healthStatus != null) 'HealthStatus': healthStatus?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (queryParameters != null) 'QueryParameters': queryParameters,
       },
     );
 
@@ -750,9 +751,9 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'ServiceId': serviceId,
-        'Instances': instances,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (instances != null) 'Instances': instances,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -931,8 +932,8 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'ServiceId': serviceId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -999,9 +1000,9 @@ class ServiceDiscovery {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1068,9 +1069,9 @@ class ServiceDiscovery {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1137,9 +1138,9 @@ class ServiceDiscovery {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1390,7 +1391,7 @@ class ServiceDiscovery {
         'Attributes': attributes,
         'InstanceId': instanceId,
         'ServiceId': serviceId,
-        'CreatorRequestId': creatorRequestId,
+        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
       },
     );
 

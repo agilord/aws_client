@@ -216,11 +216,11 @@ class DataSync {
       headers: headers,
       payload: {
         'ActivationKey': activationKey,
-        'AgentName': agentName,
-        'SecurityGroupArns': securityGroupArns,
-        'SubnetArns': subnetArns,
-        'Tags': tags,
-        'VpcEndpointId': vpcEndpointId,
+        if (agentName != null) 'AgentName': agentName,
+        if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
+        if (subnetArns != null) 'SubnetArns': subnetArns,
+        if (tags != null) 'Tags': tags,
+        if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
       },
     );
 
@@ -322,8 +322,8 @@ class DataSync {
       payload: {
         'Ec2Config': ec2Config,
         'EfsFilesystemArn': efsFilesystemArn,
-        'Subdirectory': subdirectory,
-        'Tags': tags,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -452,9 +452,9 @@ class DataSync {
         'Password': password,
         'SecurityGroupArns': securityGroupArns,
         'User': user,
-        'Domain': domain,
-        'Subdirectory': subdirectory,
-        'Tags': tags,
+        if (domain != null) 'Domain': domain,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -561,8 +561,8 @@ class DataSync {
         'OnPremConfig': onPremConfig,
         'ServerHostname': serverHostname,
         'Subdirectory': subdirectory,
-        'MountOptions': mountOptions,
-        'Tags': tags,
+        if (mountOptions != null) 'MountOptions': mountOptions,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -651,9 +651,9 @@ class DataSync {
       payload: {
         'S3BucketArn': s3BucketArn,
         'S3Config': s3Config,
-        'S3StorageClass': s3StorageClass?.toValue(),
-        'Subdirectory': subdirectory,
-        'Tags': tags,
+        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass?.toValue(),
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -811,9 +811,9 @@ class DataSync {
         'ServerHostname': serverHostname,
         'Subdirectory': subdirectory,
         'User': user,
-        'Domain': domain,
-        'MountOptions': mountOptions,
-        'Tags': tags,
+        if (domain != null) 'Domain': domain,
+        if (mountOptions != null) 'MountOptions': mountOptions,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -962,12 +962,13 @@ class DataSync {
       payload: {
         'DestinationLocationArn': destinationLocationArn,
         'SourceLocationArn': sourceLocationArn,
-        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        'Excludes': excludes,
-        'Name': name,
-        'Options': options,
-        'Schedule': schedule,
-        'Tags': tags,
+        if (cloudWatchLogGroupArn != null)
+          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
+        if (excludes != null) 'Excludes': excludes,
+        if (name != null) 'Name': name,
+        if (options != null) 'Options': options,
+        if (schedule != null) 'Schedule': schedule,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1503,8 +1504,8 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1559,8 +1560,8 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1629,8 +1630,8 @@ class DataSync {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1695,9 +1696,9 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'TaskArn': taskArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (taskArn != null) 'TaskArn': taskArn,
       },
     );
 
@@ -1747,8 +1748,8 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1809,8 +1810,8 @@ class DataSync {
       headers: headers,
       payload: {
         'TaskArn': taskArn,
-        'Includes': includes,
-        'OverrideOptions': overrideOptions,
+        if (includes != null) 'Includes': includes,
+        if (overrideOptions != null) 'OverrideOptions': overrideOptions,
       },
     );
 
@@ -1964,7 +1965,7 @@ class DataSync {
       headers: headers,
       payload: {
         'AgentArn': agentArn,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -2056,11 +2057,12 @@ class DataSync {
       headers: headers,
       payload: {
         'TaskArn': taskArn,
-        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        'Excludes': excludes,
-        'Name': name,
-        'Options': options,
-        'Schedule': schedule,
+        if (cloudWatchLogGroupArn != null)
+          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
+        if (excludes != null) 'Excludes': excludes,
+        if (name != null) 'Name': name,
+        if (options != null) 'Options': options,
+        if (schedule != null) 'Schedule': schedule,
       },
     );
 

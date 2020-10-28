@@ -131,7 +131,7 @@ class ECS {
       payload: {
         'autoScalingGroupProvider': autoScalingGroupProvider,
         'name': name,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -271,11 +271,12 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'capacityProviders': capacityProviders,
-        'clusterName': clusterName,
-        'defaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
-        'settings': settings,
-        'tags': tags,
+        if (capacityProviders != null) 'capacityProviders': capacityProviders,
+        if (clusterName != null) 'clusterName': clusterName,
+        if (defaultCapacityProviderStrategy != null)
+          'defaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
+        if (settings != null) 'settings': settings,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -761,26 +762,34 @@ class ECS {
       headers: headers,
       payload: {
         'serviceName': serviceName,
-        'capacityProviderStrategy': capacityProviderStrategy,
-        'clientToken': clientToken,
-        'cluster': cluster,
-        'deploymentConfiguration': deploymentConfiguration,
-        'deploymentController': deploymentController,
-        'desiredCount': desiredCount,
-        'enableECSManagedTags': enableECSManagedTags,
-        'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        'launchType': launchType?.toValue(),
-        'loadBalancers': loadBalancers,
-        'networkConfiguration': networkConfiguration,
-        'placementConstraints': placementConstraints,
-        'placementStrategy': placementStrategy,
-        'platformVersion': platformVersion,
-        'propagateTags': propagateTags?.toValue(),
-        'role': role,
-        'schedulingStrategy': schedulingStrategy?.toValue(),
-        'serviceRegistries': serviceRegistries,
-        'tags': tags,
-        'taskDefinition': taskDefinition,
+        if (capacityProviderStrategy != null)
+          'capacityProviderStrategy': capacityProviderStrategy,
+        if (clientToken != null) 'clientToken': clientToken,
+        if (cluster != null) 'cluster': cluster,
+        if (deploymentConfiguration != null)
+          'deploymentConfiguration': deploymentConfiguration,
+        if (deploymentController != null)
+          'deploymentController': deploymentController,
+        if (desiredCount != null) 'desiredCount': desiredCount,
+        if (enableECSManagedTags != null)
+          'enableECSManagedTags': enableECSManagedTags,
+        if (healthCheckGracePeriodSeconds != null)
+          'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
+        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (loadBalancers != null) 'loadBalancers': loadBalancers,
+        if (networkConfiguration != null)
+          'networkConfiguration': networkConfiguration,
+        if (placementConstraints != null)
+          'placementConstraints': placementConstraints,
+        if (placementStrategy != null) 'placementStrategy': placementStrategy,
+        if (platformVersion != null) 'platformVersion': platformVersion,
+        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (role != null) 'role': role,
+        if (schedulingStrategy != null)
+          'schedulingStrategy': schedulingStrategy?.toValue(),
+        if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
+        if (tags != null) 'tags': tags,
+        if (taskDefinition != null) 'taskDefinition': taskDefinition,
       },
     );
 
@@ -954,16 +963,18 @@ class ECS {
         'cluster': cluster,
         'service': service,
         'taskDefinition': taskDefinition,
-        'capacityProviderStrategy': capacityProviderStrategy,
-        'clientToken': clientToken,
-        'externalId': externalId,
-        'launchType': launchType?.toValue(),
-        'loadBalancers': loadBalancers,
-        'networkConfiguration': networkConfiguration,
-        'platformVersion': platformVersion,
-        'scale': scale,
-        'serviceRegistries': serviceRegistries,
-        'tags': tags,
+        if (capacityProviderStrategy != null)
+          'capacityProviderStrategy': capacityProviderStrategy,
+        if (clientToken != null) 'clientToken': clientToken,
+        if (externalId != null) 'externalId': externalId,
+        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (loadBalancers != null) 'loadBalancers': loadBalancers,
+        if (networkConfiguration != null)
+          'networkConfiguration': networkConfiguration,
+        if (platformVersion != null) 'platformVersion': platformVersion,
+        if (scale != null) 'scale': scale,
+        if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1010,7 +1021,7 @@ class ECS {
       headers: headers,
       payload: {
         'name': name?.toValue(),
-        'principalArn': principalArn,
+        if (principalArn != null) 'principalArn': principalArn,
       },
     );
 
@@ -1050,7 +1061,7 @@ class ECS {
       headers: headers,
       payload: {
         'attributes': attributes,
-        'cluster': cluster,
+        if (cluster != null) 'cluster': cluster,
       },
     );
 
@@ -1162,8 +1173,8 @@ class ECS {
       headers: headers,
       payload: {
         'service': service,
-        'cluster': cluster,
-        'force': force,
+        if (cluster != null) 'cluster': cluster,
+        if (force != null) 'force': force,
       },
     );
 
@@ -1225,7 +1236,7 @@ class ECS {
         'cluster': cluster,
         'service': service,
         'taskSet': taskSet,
-        'force': force,
+        if (force != null) 'force': force,
       },
     );
 
@@ -1302,8 +1313,8 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstance': containerInstance,
-        'cluster': cluster,
-        'force': force,
+        if (cluster != null) 'cluster': cluster,
+        if (force != null) 'force': force,
       },
     );
 
@@ -1418,10 +1429,10 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'capacityProviders': capacityProviders,
-        'include': include,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (capacityProviders != null) 'capacityProviders': capacityProviders,
+        if (include != null) 'include': include,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1496,8 +1507,8 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'clusters': clusters,
-        'include': include,
+        if (clusters != null) 'clusters': clusters,
+        if (include != null) 'include': include,
       },
     );
 
@@ -1547,8 +1558,8 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstances': containerInstances,
-        'cluster': cluster,
-        'include': include,
+        if (cluster != null) 'cluster': cluster,
+        if (include != null) 'include': include,
       },
     );
 
@@ -1595,8 +1606,8 @@ class ECS {
       headers: headers,
       payload: {
         'services': services,
-        'cluster': cluster,
-        'include': include,
+        if (cluster != null) 'cluster': cluster,
+        if (include != null) 'include': include,
       },
     );
 
@@ -1644,7 +1655,7 @@ class ECS {
       headers: headers,
       payload: {
         'taskDefinition': taskDefinition,
-        'include': include,
+        if (include != null) 'include': include,
       },
     );
 
@@ -1703,8 +1714,8 @@ class ECS {
       payload: {
         'cluster': cluster,
         'service': service,
-        'include': include,
-        'taskSets': taskSets,
+        if (include != null) 'include': include,
+        if (taskSets != null) 'taskSets': taskSets,
       },
     );
 
@@ -1750,8 +1761,8 @@ class ECS {
       headers: headers,
       payload: {
         'tasks': tasks,
-        'cluster': cluster,
-        'include': include,
+        if (cluster != null) 'cluster': cluster,
+        if (include != null) 'include': include,
       },
     );
 
@@ -1793,8 +1804,8 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'cluster': cluster,
-        'containerInstance': containerInstance,
+        if (cluster != null) 'cluster': cluster,
+        if (containerInstance != null) 'containerInstance': containerInstance,
       },
     );
 
@@ -1867,12 +1878,12 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'effectiveSettings': effectiveSettings,
-        'maxResults': maxResults,
-        'name': name?.toValue(),
-        'nextToken': nextToken,
-        'principalArn': principalArn,
-        'value': value,
+        if (effectiveSettings != null) 'effectiveSettings': effectiveSettings,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (principalArn != null) 'principalArn': principalArn,
+        if (value != null) 'value': value,
       },
     );
 
@@ -1948,11 +1959,11 @@ class ECS {
       headers: headers,
       payload: {
         'targetType': targetType?.toValue(),
-        'attributeName': attributeName,
-        'attributeValue': attributeValue,
-        'cluster': cluster,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (attributeName != null) 'attributeName': attributeName,
+        if (attributeValue != null) 'attributeValue': attributeValue,
+        if (cluster != null) 'cluster': cluster,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2001,8 +2012,8 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2084,11 +2095,11 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'cluster': cluster,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'status': status?.toValue(),
+        if (cluster != null) 'cluster': cluster,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -2152,11 +2163,12 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'cluster': cluster,
-        'launchType': launchType?.toValue(),
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'schedulingStrategy': schedulingStrategy?.toValue(),
+        if (cluster != null) 'cluster': cluster,
+        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (schedulingStrategy != null)
+          'schedulingStrategy': schedulingStrategy?.toValue(),
       },
     );
 
@@ -2268,10 +2280,10 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'familyPrefix': familyPrefix,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'status': status?.toValue(),
+        if (familyPrefix != null) 'familyPrefix': familyPrefix,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -2351,11 +2363,11 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'familyPrefix': familyPrefix,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sort': sort?.toValue(),
-        'status': status?.toValue(),
+        if (familyPrefix != null) 'familyPrefix': familyPrefix,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sort != null) 'sort': sort?.toValue(),
+        if (status != null) 'status': status?.toValue(),
       },
     );
 
@@ -2463,15 +2475,15 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'cluster': cluster,
-        'containerInstance': containerInstance,
-        'desiredStatus': desiredStatus?.toValue(),
-        'family': family,
-        'launchType': launchType?.toValue(),
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'serviceName': serviceName,
-        'startedBy': startedBy,
+        if (cluster != null) 'cluster': cluster,
+        if (containerInstance != null) 'containerInstance': containerInstance,
+        if (desiredStatus != null) 'desiredStatus': desiredStatus?.toValue(),
+        if (family != null) 'family': family,
+        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (serviceName != null) 'serviceName': serviceName,
+        if (startedBy != null) 'startedBy': startedBy,
       },
     );
 
@@ -2562,7 +2574,7 @@ class ECS {
       payload: {
         'name': name?.toValue(),
         'value': value,
-        'principalArn': principalArn,
+        if (principalArn != null) 'principalArn': principalArn,
       },
     );
 
@@ -2656,7 +2668,7 @@ class ECS {
       headers: headers,
       payload: {
         'attributes': attributes,
-        'cluster': cluster,
+        if (cluster != null) 'cluster': cluster,
       },
     );
 
@@ -2865,15 +2877,19 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attributes': attributes,
-        'cluster': cluster,
-        'containerInstanceArn': containerInstanceArn,
-        'instanceIdentityDocument': instanceIdentityDocument,
-        'instanceIdentityDocumentSignature': instanceIdentityDocumentSignature,
-        'platformDevices': platformDevices,
-        'tags': tags,
-        'totalResources': totalResources,
-        'versionInfo': versionInfo,
+        if (attributes != null) 'attributes': attributes,
+        if (cluster != null) 'cluster': cluster,
+        if (containerInstanceArn != null)
+          'containerInstanceArn': containerInstanceArn,
+        if (instanceIdentityDocument != null)
+          'instanceIdentityDocument': instanceIdentityDocument,
+        if (instanceIdentityDocumentSignature != null)
+          'instanceIdentityDocumentSignature':
+              instanceIdentityDocumentSignature,
+        if (platformDevices != null) 'platformDevices': platformDevices,
+        if (tags != null) 'tags': tags,
+        if (totalResources != null) 'totalResources': totalResources,
+        if (versionInfo != null) 'versionInfo': versionInfo,
       },
     );
 
@@ -3214,19 +3230,23 @@ class ECS {
       payload: {
         'containerDefinitions': containerDefinitions,
         'family': family,
-        'cpu': cpu,
-        'executionRoleArn': executionRoleArn,
-        'inferenceAccelerators': inferenceAccelerators,
-        'ipcMode': ipcMode?.toValue(),
-        'memory': memory,
-        'networkMode': networkMode?.toValue(),
-        'pidMode': pidMode?.toValue(),
-        'placementConstraints': placementConstraints,
-        'proxyConfiguration': proxyConfiguration,
-        'requiresCompatibilities': requiresCompatibilities,
-        'tags': tags,
-        'taskRoleArn': taskRoleArn,
-        'volumes': volumes,
+        if (cpu != null) 'cpu': cpu,
+        if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+        if (inferenceAccelerators != null)
+          'inferenceAccelerators': inferenceAccelerators,
+        if (ipcMode != null) 'ipcMode': ipcMode?.toValue(),
+        if (memory != null) 'memory': memory,
+        if (networkMode != null) 'networkMode': networkMode?.toValue(),
+        if (pidMode != null) 'pidMode': pidMode?.toValue(),
+        if (placementConstraints != null)
+          'placementConstraints': placementConstraints,
+        if (proxyConfiguration != null)
+          'proxyConfiguration': proxyConfiguration,
+        if (requiresCompatibilities != null)
+          'requiresCompatibilities': requiresCompatibilities,
+        if (tags != null) 'tags': tags,
+        if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
+        if (volumes != null) 'volumes': volumes,
       },
     );
 
@@ -3482,21 +3502,25 @@ class ECS {
       headers: headers,
       payload: {
         'taskDefinition': taskDefinition,
-        'capacityProviderStrategy': capacityProviderStrategy,
-        'cluster': cluster,
-        'count': count,
-        'enableECSManagedTags': enableECSManagedTags,
-        'group': group,
-        'launchType': launchType?.toValue(),
-        'networkConfiguration': networkConfiguration,
-        'overrides': overrides,
-        'placementConstraints': placementConstraints,
-        'placementStrategy': placementStrategy,
-        'platformVersion': platformVersion,
-        'propagateTags': propagateTags?.toValue(),
-        'referenceId': referenceId,
-        'startedBy': startedBy,
-        'tags': tags,
+        if (capacityProviderStrategy != null)
+          'capacityProviderStrategy': capacityProviderStrategy,
+        if (cluster != null) 'cluster': cluster,
+        if (count != null) 'count': count,
+        if (enableECSManagedTags != null)
+          'enableECSManagedTags': enableECSManagedTags,
+        if (group != null) 'group': group,
+        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (networkConfiguration != null)
+          'networkConfiguration': networkConfiguration,
+        if (overrides != null) 'overrides': overrides,
+        if (placementConstraints != null)
+          'placementConstraints': placementConstraints,
+        if (placementStrategy != null) 'placementStrategy': placementStrategy,
+        if (platformVersion != null) 'platformVersion': platformVersion,
+        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (referenceId != null) 'referenceId': referenceId,
+        if (startedBy != null) 'startedBy': startedBy,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -3650,15 +3674,17 @@ class ECS {
       payload: {
         'containerInstances': containerInstances,
         'taskDefinition': taskDefinition,
-        'cluster': cluster,
-        'enableECSManagedTags': enableECSManagedTags,
-        'group': group,
-        'networkConfiguration': networkConfiguration,
-        'overrides': overrides,
-        'propagateTags': propagateTags?.toValue(),
-        'referenceId': referenceId,
-        'startedBy': startedBy,
-        'tags': tags,
+        if (cluster != null) 'cluster': cluster,
+        if (enableECSManagedTags != null)
+          'enableECSManagedTags': enableECSManagedTags,
+        if (group != null) 'group': group,
+        if (networkConfiguration != null)
+          'networkConfiguration': networkConfiguration,
+        if (overrides != null) 'overrides': overrides,
+        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (referenceId != null) 'referenceId': referenceId,
+        if (startedBy != null) 'startedBy': startedBy,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -3720,8 +3746,8 @@ class ECS {
       headers: headers,
       payload: {
         'task': task,
-        'cluster': cluster,
-        'reason': reason,
+        if (cluster != null) 'cluster': cluster,
+        if (reason != null) 'reason': reason,
       },
     );
 
@@ -3763,7 +3789,7 @@ class ECS {
       headers: headers,
       payload: {
         'attachments': attachments,
-        'cluster': cluster,
+        if (cluster != null) 'cluster': cluster,
       },
     );
 
@@ -3826,14 +3852,14 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'cluster': cluster,
-        'containerName': containerName,
-        'exitCode': exitCode,
-        'networkBindings': networkBindings,
-        'reason': reason,
-        'runtimeId': runtimeId,
-        'status': status,
-        'task': task,
+        if (cluster != null) 'cluster': cluster,
+        if (containerName != null) 'containerName': containerName,
+        if (exitCode != null) 'exitCode': exitCode,
+        if (networkBindings != null) 'networkBindings': networkBindings,
+        if (reason != null) 'reason': reason,
+        if (runtimeId != null) 'runtimeId': runtimeId,
+        if (status != null) 'status': status,
+        if (task != null) 'task': task,
       },
     );
 
@@ -3900,15 +3926,16 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attachments': attachments,
-        'cluster': cluster,
-        'containers': containers,
-        'executionStoppedAt': executionStoppedAt,
-        'pullStartedAt': pullStartedAt,
-        'pullStoppedAt': pullStoppedAt,
-        'reason': reason,
-        'status': status,
-        'task': task,
+        if (attachments != null) 'attachments': attachments,
+        if (cluster != null) 'cluster': cluster,
+        if (containers != null) 'containers': containers,
+        if (executionStoppedAt != null)
+          'executionStoppedAt': executionStoppedAt,
+        if (pullStartedAt != null) 'pullStartedAt': pullStartedAt,
+        if (pullStoppedAt != null) 'pullStoppedAt': pullStoppedAt,
+        if (reason != null) 'reason': reason,
+        if (status != null) 'status': status,
+        if (task != null) 'task': task,
       },
     );
 
@@ -4119,7 +4146,7 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstance': containerInstance,
-        'cluster': cluster,
+        if (cluster != null) 'cluster': cluster,
       },
     );
 
@@ -4230,7 +4257,7 @@ class ECS {
       payload: {
         'containerInstances': containerInstances,
         'status': status?.toValue(),
-        'cluster': cluster,
+        if (cluster != null) 'cluster': cluster,
       },
     );
 
@@ -4510,17 +4537,23 @@ class ECS {
       headers: headers,
       payload: {
         'service': service,
-        'capacityProviderStrategy': capacityProviderStrategy,
-        'cluster': cluster,
-        'deploymentConfiguration': deploymentConfiguration,
-        'desiredCount': desiredCount,
-        'forceNewDeployment': forceNewDeployment,
-        'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        'networkConfiguration': networkConfiguration,
-        'placementConstraints': placementConstraints,
-        'placementStrategy': placementStrategy,
-        'platformVersion': platformVersion,
-        'taskDefinition': taskDefinition,
+        if (capacityProviderStrategy != null)
+          'capacityProviderStrategy': capacityProviderStrategy,
+        if (cluster != null) 'cluster': cluster,
+        if (deploymentConfiguration != null)
+          'deploymentConfiguration': deploymentConfiguration,
+        if (desiredCount != null) 'desiredCount': desiredCount,
+        if (forceNewDeployment != null)
+          'forceNewDeployment': forceNewDeployment,
+        if (healthCheckGracePeriodSeconds != null)
+          'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
+        if (networkConfiguration != null)
+          'networkConfiguration': networkConfiguration,
+        if (placementConstraints != null)
+          'placementConstraints': placementConstraints,
+        if (placementStrategy != null) 'placementStrategy': placementStrategy,
+        if (platformVersion != null) 'platformVersion': platformVersion,
+        if (taskDefinition != null) 'taskDefinition': taskDefinition,
       },
     );
 

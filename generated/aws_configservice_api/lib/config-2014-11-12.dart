@@ -645,7 +645,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRuleName': configRuleName,
-        'ResourceType': resourceType,
+        if (resourceType != null) 'ResourceType': resourceType,
       },
     );
 
@@ -912,9 +912,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -958,8 +958,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1032,9 +1032,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ComplianceTypes': complianceTypes,
-        'ConfigRuleNames': configRuleNames,
-        'NextToken': nextToken,
+        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1138,11 +1138,11 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ComplianceTypes': complianceTypes,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'ResourceId': resourceId,
-        'ResourceType': resourceType,
+        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceId != null) 'ResourceId': resourceId,
+        if (resourceType != null) 'ResourceType': resourceType,
       },
     );
 
@@ -1199,9 +1199,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigRuleNames': configRuleNames,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1236,8 +1236,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigRuleNames': configRuleNames,
-        'NextToken': nextToken,
+        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1320,9 +1320,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'UpdateStatus': updateStatus,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (updateStatus != null) 'UpdateStatus': updateStatus,
       },
     );
 
@@ -1372,9 +1372,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigurationAggregatorNames': configurationAggregatorNames,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (configurationAggregatorNames != null)
+          'ConfigurationAggregatorNames': configurationAggregatorNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1410,7 +1411,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigurationRecorderNames': configurationRecorderNames,
+        if (configurationRecorderNames != null)
+          'ConfigurationRecorderNames': configurationRecorderNames,
       },
     );
 
@@ -1445,7 +1447,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigurationRecorderNames': configurationRecorderNames,
+        if (configurationRecorderNames != null)
+          'ConfigurationRecorderNames': configurationRecorderNames,
       },
     );
 
@@ -1515,9 +1518,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConformancePackName': conformancePackName,
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1564,9 +1567,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConformancePackNames': conformancePackNames,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (conformancePackNames != null)
+          'ConformancePackNames': conformancePackNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1612,9 +1616,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConformancePackNames': conformancePackNames,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (conformancePackNames != null)
+          'ConformancePackNames': conformancePackNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1647,7 +1652,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryChannelNames': deliveryChannelNames,
+        if (deliveryChannelNames != null)
+          'DeliveryChannelNames': deliveryChannelNames,
       },
     );
 
@@ -1680,7 +1686,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryChannelNames': deliveryChannelNames,
+        if (deliveryChannelNames != null)
+          'DeliveryChannelNames': deliveryChannelNames,
       },
     );
 
@@ -1743,9 +1750,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
-        'OrganizationConfigRuleNames': organizationConfigRuleNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (organizationConfigRuleNames != null)
+          'OrganizationConfigRuleNames': organizationConfigRuleNames,
       },
     );
 
@@ -1804,9 +1812,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
-        'OrganizationConfigRuleNames': organizationConfigRuleNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (organizationConfigRuleNames != null)
+          'OrganizationConfigRuleNames': organizationConfigRuleNames,
       },
     );
 
@@ -1870,9 +1879,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
-        'OrganizationConformancePackNames': organizationConformancePackNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (organizationConformancePackNames != null)
+          'OrganizationConformancePackNames': organizationConformancePackNames,
       },
     );
 
@@ -1931,9 +1941,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
-        'OrganizationConformancePackNames': organizationConformancePackNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (organizationConformancePackNames != null)
+          'OrganizationConformancePackNames': organizationConformancePackNames,
       },
     );
 
@@ -1976,8 +1987,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2083,9 +2094,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRuleName': configRuleName,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'ResourceKeys': resourceKeys,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceKeys != null) 'ResourceKeys': resourceKeys,
       },
     );
 
@@ -2153,9 +2164,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRuleName': configRuleName,
-        'Limit': limit,
-        'NextToken': nextToken,
-        'ResourceKeys': resourceKeys,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceKeys != null) 'ResourceKeys': resourceKeys,
       },
     );
 
@@ -2203,8 +2214,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
-        'RetentionConfigurationNames': retentionConfigurationNames,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (retentionConfigurationNames != null)
+          'RetentionConfigurationNames': retentionConfigurationNames,
       },
     );
 
@@ -2330,9 +2342,9 @@ class ConfigService {
         'AwsRegion': awsRegion,
         'ConfigRuleName': configRuleName,
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ComplianceType': complianceType?.toValue(),
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (complianceType != null) 'ComplianceType': complianceType?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2412,10 +2424,10 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'Filters': filters,
-        'GroupByKey': groupByKey?.toValue(),
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2496,10 +2508,10 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'Filters': filters,
-        'GroupByKey': groupByKey?.toValue(),
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2618,9 +2630,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRuleName': configRuleName,
-        'ComplianceTypes': complianceTypes,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2684,8 +2696,8 @@ class ConfigService {
       payload: {
         'ResourceId': resourceId,
         'ResourceType': resourceType,
-        'ComplianceTypes': complianceTypes,
-        'NextToken': nextToken,
+        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2739,7 +2751,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceTypes': resourceTypes,
+        if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       },
     );
 
@@ -2808,9 +2820,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConformancePackName': conformancePackName,
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2859,8 +2871,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConformancePackNames': conformancePackNames,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2967,9 +2979,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'limit': limit,
-        'nextToken': nextToken,
-        'resourceTypes': resourceTypes,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (resourceTypes != null) 'resourceTypes': resourceTypes,
       },
     );
 
@@ -3043,9 +3055,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'OrganizationConfigRuleName': organizationConfigRuleName,
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3120,9 +3132,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'OrganizationConformancePackName': organizationConformancePackName,
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3221,11 +3233,12 @@ class ConfigService {
       payload: {
         'resourceId': resourceId,
         'resourceType': resourceType?.toValue(),
-        'chronologicalOrder': chronologicalOrder?.toValue(),
-        'earlierTime': earlierTime,
-        'laterTime': laterTime,
-        'limit': limit,
-        'nextToken': nextToken,
+        if (chronologicalOrder != null)
+          'chronologicalOrder': chronologicalOrder?.toValue(),
+        if (earlierTime != null) 'earlierTime': earlierTime,
+        if (laterTime != null) 'laterTime': laterTime,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -3309,9 +3322,9 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'ResourceType': resourceType?.toValue(),
-        'Filters': filters,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3392,11 +3405,12 @@ class ConfigService {
       headers: headers,
       payload: {
         'resourceType': resourceType?.toValue(),
-        'includeDeletedResources': includeDeletedResources,
-        'limit': limit,
-        'nextToken': nextToken,
-        'resourceIds': resourceIds,
-        'resourceName': resourceName,
+        if (includeDeletedResources != null)
+          'includeDeletedResources': includeDeletedResources,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (resourceIds != null) 'resourceIds': resourceIds,
+        if (resourceName != null) 'resourceName': resourceName,
       },
     );
 
@@ -3455,8 +3469,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3509,7 +3523,7 @@ class ConfigService {
       payload: {
         'AuthorizedAccountId': authorizedAccountId,
         'AuthorizedAwsRegion': authorizedAwsRegion,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3588,7 +3602,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRule': configRule,
-        'Tags': tags,
+        if (tags != null) 'Tags': tags,
       },
     );
   }
@@ -3657,9 +3671,11 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'AccountAggregationSources': accountAggregationSources,
-        'OrganizationAggregationSource': organizationAggregationSource,
-        'Tags': tags,
+        if (accountAggregationSources != null)
+          'AccountAggregationSources': accountAggregationSources,
+        if (organizationAggregationSource != null)
+          'OrganizationAggregationSource': organizationAggregationSource,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3827,10 +3843,12 @@ class ConfigService {
       payload: {
         'ConformancePackName': conformancePackName,
         'DeliveryS3Bucket': deliveryS3Bucket,
-        'ConformancePackInputParameters': conformancePackInputParameters,
-        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-        'TemplateBody': templateBody,
-        'TemplateS3Uri': templateS3Uri,
+        if (conformancePackInputParameters != null)
+          'ConformancePackInputParameters': conformancePackInputParameters,
+        if (deliveryS3KeyPrefix != null)
+          'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
+        if (templateBody != null) 'TemplateBody': templateBody,
+        if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
       },
     );
 
@@ -3929,8 +3947,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'ResultToken': resultToken,
-        'Evaluations': evaluations,
-        'TestMode': testMode,
+        if (evaluations != null) 'Evaluations': evaluations,
+        if (testMode != null) 'TestMode': testMode,
       },
     );
 
@@ -4019,9 +4037,11 @@ class ConfigService {
       headers: headers,
       payload: {
         'OrganizationConfigRuleName': organizationConfigRuleName,
-        'ExcludedAccounts': excludedAccounts,
-        'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
-        'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
+        if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
+        if (organizationCustomRuleMetadata != null)
+          'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
+        if (organizationManagedRuleMetadata != null)
+          'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
       },
     );
 
@@ -4163,11 +4183,13 @@ class ConfigService {
       payload: {
         'DeliveryS3Bucket': deliveryS3Bucket,
         'OrganizationConformancePackName': organizationConformancePackName,
-        'ConformancePackInputParameters': conformancePackInputParameters,
-        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-        'ExcludedAccounts': excludedAccounts,
-        'TemplateBody': templateBody,
-        'TemplateS3Uri': templateS3Uri,
+        if (conformancePackInputParameters != null)
+          'ConformancePackInputParameters': conformancePackInputParameters,
+        if (deliveryS3KeyPrefix != null)
+          'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
+        if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
+        if (templateBody != null) 'TemplateBody': templateBody,
+        if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
       },
     );
 
@@ -4270,8 +4292,8 @@ class ConfigService {
       payload: {
         'ConfigRuleName': configRuleName,
         'ResourceKeys': resourceKeys,
-        'ExpirationTime': expirationTime,
-        'Message': message,
+        if (expirationTime != null) 'ExpirationTime': expirationTime,
+        if (message != null) 'Message': message,
       },
     );
 
@@ -4379,8 +4401,8 @@ class ConfigService {
         'ResourceId': resourceId,
         'ResourceType': resourceType,
         'SchemaVersionId': schemaVersionId,
-        'ResourceName': resourceName,
-        'Tags': tags,
+        if (resourceName != null) 'ResourceName': resourceName,
+        if (tags != null) 'Tags': tags,
       },
     );
   }
@@ -4514,9 +4536,9 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         'Expression': expression,
-        'Limit': limit,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4575,8 +4597,8 @@ class ConfigService {
       headers: headers,
       payload: {
         'Expression': expression,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4645,7 +4667,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ConfigRuleNames': configRuleNames,
+        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
       },
     );
 

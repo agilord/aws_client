@@ -109,7 +109,7 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'meshName': meshName,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -195,7 +195,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'routeName': routeName,
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -294,7 +294,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualNodeName': virtualNodeName,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -363,7 +363,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualRouterName': virtualRouterName,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1078,7 +1078,7 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1140,7 +1140,7 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1202,7 +1202,7 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'spec': spec,
-      'clientToken': clientToken,
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -175,7 +175,7 @@ class Kendra {
       payload: {
         'Documents': documents,
         'IndexId': indexId,
-        'RoleArn': roleArn,
+        if (roleArn != null) 'RoleArn': roleArn,
       },
     );
 
@@ -313,8 +313,8 @@ class Kendra {
         'Name': name,
         'RoleArn': roleArn,
         'Type': type?.toValue(),
-        'Description': description,
-        'Schedule': schedule,
+        if (description != null) 'Description': description,
+        if (schedule != null) 'Schedule': schedule,
       },
     );
 
@@ -425,7 +425,7 @@ class Kendra {
         'Name': name,
         'RoleArn': roleArn,
         'S3Path': s3Path,
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -535,9 +535,11 @@ class Kendra {
       payload: {
         'Name': name,
         'RoleArn': roleArn,
-        'ClientToken': clientToken,
-        'Description': description,
-        'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (description != null) 'Description': description,
+        if (serverSideEncryptionConfiguration != null)
+          'ServerSideEncryptionConfiguration':
+              serverSideEncryptionConfiguration,
       },
     );
 
@@ -920,10 +922,10 @@ class Kendra {
       payload: {
         'Id': id,
         'IndexId': indexId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'StartTimeFilter': startTimeFilter,
-        'StatusFilter': statusFilter?.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startTimeFilter != null) 'StartTimeFilter': startTimeFilter,
+        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
       },
     );
 
@@ -992,8 +994,8 @@ class Kendra {
       headers: headers,
       payload: {
         'IndexId': indexId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1062,8 +1064,8 @@ class Kendra {
       headers: headers,
       payload: {
         'IndexId': indexId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1112,8 +1114,8 @@ class Kendra {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1241,12 +1243,14 @@ class Kendra {
       payload: {
         'IndexId': indexId,
         'QueryText': queryText,
-        'AttributeFilter': attributeFilter,
-        'Facets': facets,
-        'PageNumber': pageNumber,
-        'PageSize': pageSize,
-        'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
-        'RequestedDocumentAttributes': requestedDocumentAttributes,
+        if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+        if (facets != null) 'Facets': facets,
+        if (pageNumber != null) 'PageNumber': pageNumber,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (queryResultTypeFilter != null)
+          'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
+        if (requestedDocumentAttributes != null)
+          'RequestedDocumentAttributes': requestedDocumentAttributes,
       },
     );
 
@@ -1450,8 +1454,10 @@ class Kendra {
       payload: {
         'IndexId': indexId,
         'QueryId': queryId,
-        'ClickFeedbackItems': clickFeedbackItems,
-        'RelevanceFeedbackItems': relevanceFeedbackItems,
+        if (clickFeedbackItems != null)
+          'ClickFeedbackItems': clickFeedbackItems,
+        if (relevanceFeedbackItems != null)
+          'RelevanceFeedbackItems': relevanceFeedbackItems,
       },
     );
   }
@@ -1568,11 +1574,11 @@ class Kendra {
       payload: {
         'Id': id,
         'IndexId': indexId,
-        'Configuration': configuration,
-        'Description': description,
-        'Name': name,
-        'RoleArn': roleArn,
-        'Schedule': schedule,
+        if (configuration != null) 'Configuration': configuration,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (roleArn != null) 'RoleArn': roleArn,
+        if (schedule != null) 'Schedule': schedule,
       },
     );
   }
@@ -1667,11 +1673,12 @@ class Kendra {
       headers: headers,
       payload: {
         'Id': id,
-        'Description': description,
-        'DocumentMetadataConfigurationUpdates':
-            documentMetadataConfigurationUpdates,
-        'Name': name,
-        'RoleArn': roleArn,
+        if (description != null) 'Description': description,
+        if (documentMetadataConfigurationUpdates != null)
+          'DocumentMetadataConfigurationUpdates':
+              documentMetadataConfigurationUpdates,
+        if (name != null) 'Name': name,
+        if (roleArn != null) 'RoleArn': roleArn,
       },
     );
   }

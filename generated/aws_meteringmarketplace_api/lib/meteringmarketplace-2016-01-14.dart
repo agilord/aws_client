@@ -182,8 +182,8 @@ class MarketplaceMetering {
         'ProductCode': productCode,
         'Timestamp': timestamp,
         'UsageDimension': usageDimension,
-        'DryRun': dryRun,
-        'UsageQuantity': usageQuantity,
+        if (dryRun != null) 'DryRun': dryRun,
+        if (usageQuantity != null) 'UsageQuantity': usageQuantity,
       },
     );
 
@@ -290,7 +290,7 @@ class MarketplaceMetering {
       payload: {
         'ProductCode': productCode,
         'PublicKeyVersion': publicKeyVersion,
-        'Nonce': nonce,
+        if (nonce != null) 'Nonce': nonce,
       },
     );
 

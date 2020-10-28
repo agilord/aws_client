@@ -210,15 +210,18 @@ class DAX {
         'IamRoleArn': iamRoleArn,
         'NodeType': nodeType,
         'ReplicationFactor': replicationFactor,
-        'AvailabilityZones': availabilityZones,
-        'Description': description,
-        'NotificationTopicArn': notificationTopicArn,
-        'ParameterGroupName': parameterGroupName,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        'SSESpecification': sSESpecification,
-        'SecurityGroupIds': securityGroupIds,
-        'SubnetGroupName': subnetGroupName,
-        'Tags': tags,
+        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+        if (description != null) 'Description': description,
+        if (notificationTopicArn != null)
+          'NotificationTopicArn': notificationTopicArn,
+        if (parameterGroupName != null)
+          'ParameterGroupName': parameterGroupName,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (sSESpecification != null) 'SSESpecification': sSESpecification,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+        if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -258,7 +261,7 @@ class DAX {
       headers: headers,
       payload: {
         'ParameterGroupName': parameterGroupName,
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -301,7 +304,7 @@ class DAX {
       payload: {
         'SubnetGroupName': subnetGroupName,
         'SubnetIds': subnetIds,
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -354,8 +357,8 @@ class DAX {
       payload: {
         'ClusterName': clusterName,
         'NewReplicationFactor': newReplicationFactor,
-        'AvailabilityZones': availabilityZones,
-        'NodeIdsToRemove': nodeIdsToRemove,
+        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+        if (nodeIdsToRemove != null) 'NodeIdsToRemove': nodeIdsToRemove,
       },
     );
 
@@ -518,9 +521,9 @@ class DAX {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClusterNames': clusterNames,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (clusterNames != null) 'ClusterNames': clusterNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -561,8 +564,8 @@ class DAX {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -632,13 +635,13 @@ class DAX {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Duration': duration,
-        'EndTime': endTime,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SourceName': sourceName,
-        'SourceType': sourceType?.toValue(),
-        'StartTime': startTime,
+        if (duration != null) 'Duration': duration,
+        if (endTime != null) 'EndTime': endTime,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sourceName != null) 'SourceName': sourceName,
+        if (sourceType != null) 'SourceType': sourceType?.toValue(),
+        if (startTime != null) 'StartTime': startTime,
       },
     );
 
@@ -684,9 +687,10 @@ class DAX {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ParameterGroupNames': parameterGroupNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (parameterGroupNames != null)
+          'ParameterGroupNames': parameterGroupNames,
       },
     );
 
@@ -738,9 +742,9 @@ class DAX {
       headers: headers,
       payload: {
         'ParameterGroupName': parameterGroupName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'Source': source,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (source != null) 'Source': source,
       },
     );
 
@@ -784,9 +788,9 @@ class DAX {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'SubnetGroupNames': subnetGroupNames,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (subnetGroupNames != null) 'SubnetGroupNames': subnetGroupNames,
       },
     );
 
@@ -836,7 +840,7 @@ class DAX {
       payload: {
         'ClusterName': clusterName,
         'NewReplicationFactor': newReplicationFactor,
-        'AvailabilityZones': availabilityZones,
+        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
       },
     );
 
@@ -877,7 +881,7 @@ class DAX {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1070,12 +1074,16 @@ class DAX {
       headers: headers,
       payload: {
         'ClusterName': clusterName,
-        'Description': description,
-        'NotificationTopicArn': notificationTopicArn,
-        'NotificationTopicStatus': notificationTopicStatus,
-        'ParameterGroupName': parameterGroupName,
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        'SecurityGroupIds': securityGroupIds,
+        if (description != null) 'Description': description,
+        if (notificationTopicArn != null)
+          'NotificationTopicArn': notificationTopicArn,
+        if (notificationTopicStatus != null)
+          'NotificationTopicStatus': notificationTopicStatus,
+        if (parameterGroupName != null)
+          'ParameterGroupName': parameterGroupName,
+        if (preferredMaintenanceWindow != null)
+          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
       },
     );
 
@@ -1157,8 +1165,8 @@ class DAX {
       headers: headers,
       payload: {
         'SubnetGroupName': subnetGroupName,
-        'Description': description,
-        'SubnetIds': subnetIds,
+        if (description != null) 'Description': description,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
       },
     );
 

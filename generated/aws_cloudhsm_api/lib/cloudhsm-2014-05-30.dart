@@ -288,10 +288,10 @@ class CloudHSM {
         'SshKey': sshKey,
         'SubnetId': subnetId,
         'SubscriptionType': subscriptionType?.toValue(),
-        'ClientToken': clientToken,
-        'EniIp': eniIp,
-        'ExternalId': externalId,
-        'SyslogIp': syslogIp,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (eniIp != null) 'EniIp': eniIp,
+        if (externalId != null) 'ExternalId': externalId,
+        if (syslogIp != null) 'SyslogIp': syslogIp,
       },
     );
 
@@ -361,7 +361,7 @@ class CloudHSM {
       headers: headers,
       payload: {
         'Certificate': certificate,
-        'Label': label,
+        if (label != null) 'Label': label,
       },
     );
 
@@ -632,8 +632,8 @@ class CloudHSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'HsmArn': hsmArn,
-        'HsmSerialNumber': hsmSerialNumber,
+        if (hsmArn != null) 'HsmArn': hsmArn,
+        if (hsmSerialNumber != null) 'HsmSerialNumber': hsmSerialNumber,
       },
     );
 
@@ -692,8 +692,9 @@ class CloudHSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CertificateFingerprint': certificateFingerprint,
-        'ClientArn': clientArn,
+        if (certificateFingerprint != null)
+          'CertificateFingerprint': certificateFingerprint,
+        if (clientArn != null) 'ClientArn': clientArn,
       },
     );
 
@@ -853,7 +854,7 @@ class CloudHSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -911,7 +912,7 @@ class CloudHSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -968,7 +969,7 @@ class CloudHSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1087,8 +1088,9 @@ class CloudHSM {
       headers: headers,
       payload: {
         'HapgArn': hapgArn,
-        'Label': label,
-        'PartitionSerialList': partitionSerialList,
+        if (label != null) 'Label': label,
+        if (partitionSerialList != null)
+          'PartitionSerialList': partitionSerialList,
       },
     );
 
@@ -1200,11 +1202,11 @@ class CloudHSM {
       headers: headers,
       payload: {
         'HsmArn': hsmArn,
-        'EniIp': eniIp,
-        'ExternalId': externalId,
-        'IamRoleArn': iamRoleArn,
-        'SubnetId': subnetId,
-        'SyslogIp': syslogIp,
+        if (eniIp != null) 'EniIp': eniIp,
+        if (externalId != null) 'ExternalId': externalId,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (subnetId != null) 'SubnetId': subnetId,
+        if (syslogIp != null) 'SyslogIp': syslogIp,
       },
     );
 

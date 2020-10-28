@@ -76,7 +76,7 @@ class IoTSecureTunneling {
       headers: headers,
       payload: {
         'tunnelId': tunnelId,
-        'delete': delete,
+        if (delete != null) 'delete': delete,
       },
     );
 
@@ -201,9 +201,9 @@ class IoTSecureTunneling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'thingName': thingName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (thingName != null) 'thingName': thingName,
       },
     );
 
@@ -248,10 +248,10 @@ class IoTSecureTunneling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'description': description,
-        'destinationConfig': destinationConfig,
-        'tags': tags,
-        'timeoutConfig': timeoutConfig,
+        if (description != null) 'description': description,
+        if (destinationConfig != null) 'destinationConfig': destinationConfig,
+        if (tags != null) 'tags': tags,
+        if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
       },
     );
 

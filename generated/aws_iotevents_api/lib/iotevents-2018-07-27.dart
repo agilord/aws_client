@@ -133,10 +133,12 @@ class IoTEvents {
       'detectorModelDefinition': detectorModelDefinition,
       'detectorModelName': detectorModelName,
       'roleArn': roleArn,
-      'detectorModelDescription': detectorModelDescription,
-      'evaluationMethod': evaluationMethod?.toValue(),
-      'key': key,
-      'tags': tags,
+      if (detectorModelDescription != null)
+        'detectorModelDescription': detectorModelDescription,
+      if (evaluationMethod != null)
+        'evaluationMethod': evaluationMethod?.toValue(),
+      if (key != null) 'key': key,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -196,8 +198,8 @@ class IoTEvents {
     final $payload = <String, dynamic>{
       'inputDefinition': inputDefinition,
       'inputName': inputName,
-      'inputDescription': inputDescription,
-      'tags': tags,
+      if (inputDescription != null) 'inputDescription': inputDescription,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -740,8 +742,10 @@ class IoTEvents {
     final $payload = <String, dynamic>{
       'detectorModelDefinition': detectorModelDefinition,
       'roleArn': roleArn,
-      'detectorModelDescription': detectorModelDescription,
-      'evaluationMethod': evaluationMethod?.toValue(),
+      if (detectorModelDescription != null)
+        'detectorModelDescription': detectorModelDescription,
+      if (evaluationMethod != null)
+        'evaluationMethod': evaluationMethod?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -798,7 +802,7 @@ class IoTEvents {
     );
     final $payload = <String, dynamic>{
       'inputDefinition': inputDefinition,
-      'inputDescription': inputDescription,
+      if (inputDescription != null) 'inputDescription': inputDescription,
     };
     final response = await _protocol.send(
       payload: $payload,

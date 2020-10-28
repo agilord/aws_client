@@ -652,10 +652,13 @@ class KinesisAnalyticsV2 {
         'ApplicationName': applicationName,
         'RuntimeEnvironment': runtimeEnvironment?.toValue(),
         'ServiceExecutionRole': serviceExecutionRole,
-        'ApplicationConfiguration': applicationConfiguration,
-        'ApplicationDescription': applicationDescription,
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-        'Tags': tags,
+        if (applicationConfiguration != null)
+          'ApplicationConfiguration': applicationConfiguration,
+        if (applicationDescription != null)
+          'ApplicationDescription': applicationDescription,
+        if (cloudWatchLoggingOptions != null)
+          'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1335,7 +1338,8 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'IncludeAdditionalDetails': includeAdditionalDetails,
+        if (includeAdditionalDetails != null)
+          'IncludeAdditionalDetails': includeAdditionalDetails,
       },
     );
 
@@ -1483,11 +1487,13 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ServiceExecutionRole': serviceExecutionRole,
-        'InputProcessingConfiguration': inputProcessingConfiguration,
-        'InputStartingPositionConfiguration':
-            inputStartingPositionConfiguration,
-        'ResourceARN': resourceARN,
-        'S3Configuration': s3Configuration,
+        if (inputProcessingConfiguration != null)
+          'InputProcessingConfiguration': inputProcessingConfiguration,
+        if (inputStartingPositionConfiguration != null)
+          'InputStartingPositionConfiguration':
+              inputStartingPositionConfiguration,
+        if (resourceARN != null) 'ResourceARN': resourceARN,
+        if (s3Configuration != null) 'S3Configuration': s3Configuration,
       },
     );
 
@@ -1553,8 +1559,8 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1611,8 +1617,8 @@ class KinesisAnalyticsV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextToken': nextToken,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1968,10 +1974,14 @@ class KinesisAnalyticsV2 {
       payload: {
         'ApplicationName': applicationName,
         'CurrentApplicationVersionId': currentApplicationVersionId,
-        'ApplicationConfigurationUpdate': applicationConfigurationUpdate,
-        'CloudWatchLoggingOptionUpdates': cloudWatchLoggingOptionUpdates,
-        'RunConfigurationUpdate': runConfigurationUpdate,
-        'ServiceExecutionRoleUpdate': serviceExecutionRoleUpdate,
+        if (applicationConfigurationUpdate != null)
+          'ApplicationConfigurationUpdate': applicationConfigurationUpdate,
+        if (cloudWatchLoggingOptionUpdates != null)
+          'CloudWatchLoggingOptionUpdates': cloudWatchLoggingOptionUpdates,
+        if (runConfigurationUpdate != null)
+          'RunConfigurationUpdate': runConfigurationUpdate,
+        if (serviceExecutionRoleUpdate != null)
+          'ServiceExecutionRoleUpdate': serviceExecutionRoleUpdate,
       },
     );
 

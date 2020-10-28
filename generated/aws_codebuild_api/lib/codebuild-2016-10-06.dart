@@ -396,20 +396,24 @@ class CodeBuild {
         'name': name,
         'serviceRole': serviceRole,
         'source': source,
-        'badgeEnabled': badgeEnabled,
-        'cache': cache,
-        'description': description,
-        'encryptionKey': encryptionKey,
-        'fileSystemLocations': fileSystemLocations,
-        'logsConfig': logsConfig,
-        'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
-        'secondaryArtifacts': secondaryArtifacts,
-        'secondarySourceVersions': secondarySourceVersions,
-        'secondarySources': secondarySources,
-        'sourceVersion': sourceVersion,
-        'tags': tags,
-        'timeoutInMinutes': timeoutInMinutes,
-        'vpcConfig': vpcConfig,
+        if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
+        if (cache != null) 'cache': cache,
+        if (description != null) 'description': description,
+        if (encryptionKey != null) 'encryptionKey': encryptionKey,
+        if (fileSystemLocations != null)
+          'fileSystemLocations': fileSystemLocations,
+        if (logsConfig != null) 'logsConfig': logsConfig,
+        if (queuedTimeoutInMinutes != null)
+          'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
+        if (secondaryArtifacts != null)
+          'secondaryArtifacts': secondaryArtifacts,
+        if (secondarySourceVersions != null)
+          'secondarySourceVersions': secondarySourceVersions,
+        if (secondarySources != null) 'secondarySources': secondarySources,
+        if (sourceVersion != null) 'sourceVersion': sourceVersion,
+        if (tags != null) 'tags': tags,
+        if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
+        if (vpcConfig != null) 'vpcConfig': vpcConfig,
       },
     );
 
@@ -539,8 +543,8 @@ class CodeBuild {
       headers: headers,
       payload: {
         'projectName': projectName,
-        'branchFilter': branchFilter,
-        'filterGroups': filterGroups,
+        if (branchFilter != null) 'branchFilter': branchFilter,
+        if (filterGroups != null) 'filterGroups': filterGroups,
       },
     );
 
@@ -826,9 +830,9 @@ class CodeBuild {
       headers: headers,
       payload: {
         'reportArn': reportArn,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -936,8 +940,8 @@ class CodeBuild {
         'authType': authType?.toValue(),
         'serverType': serverType?.toValue(),
         'token': token,
-        'shouldOverwrite': shouldOverwrite,
-        'username': username,
+        if (shouldOverwrite != null) 'shouldOverwrite': shouldOverwrite,
+        if (username != null) 'username': username,
       },
     );
 
@@ -1019,8 +1023,8 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
-        'sortOrder': sortOrder?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1081,8 +1085,8 @@ class CodeBuild {
       headers: headers,
       payload: {
         'projectName': projectName,
-        'nextToken': nextToken,
-        'sortOrder': sortOrder?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1175,9 +1179,9 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'nextToken': nextToken,
-        'sortBy': sortBy?.toValue(),
-        'sortOrder': sortOrder?.toValue(),
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1246,10 +1250,10 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sortBy': sortBy?.toValue(),
-        'sortOrder': sortOrder?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1314,10 +1318,10 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sortOrder': sortOrder?.toValue(),
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1379,10 +1383,10 @@ class CodeBuild {
       headers: headers,
       payload: {
         'reportGroupArn': reportGroupArn,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sortOrder': sortOrder?.toValue(),
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1461,10 +1465,10 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sortBy': sortBy?.toValue(),
-        'sortOrder': sortOrder?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1538,10 +1542,10 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'sortBy': sortBy?.toValue(),
-        'sortOrder': sortOrder?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
       },
     );
 
@@ -1902,35 +1906,57 @@ class CodeBuild {
       headers: headers,
       payload: {
         'projectName': projectName,
-        'artifactsOverride': artifactsOverride,
-        'buildspecOverride': buildspecOverride,
-        'cacheOverride': cacheOverride,
-        'certificateOverride': certificateOverride,
-        'computeTypeOverride': computeTypeOverride?.toValue(),
-        'encryptionKeyOverride': encryptionKeyOverride,
-        'environmentTypeOverride': environmentTypeOverride?.toValue(),
-        'environmentVariablesOverride': environmentVariablesOverride,
-        'gitCloneDepthOverride': gitCloneDepthOverride,
-        'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
-        'idempotencyToken': idempotencyToken,
-        'imageOverride': imageOverride,
-        'imagePullCredentialsTypeOverride':
-            imagePullCredentialsTypeOverride?.toValue(),
-        'insecureSslOverride': insecureSslOverride,
-        'logsConfigOverride': logsConfigOverride,
-        'privilegedModeOverride': privilegedModeOverride,
-        'queuedTimeoutInMinutesOverride': queuedTimeoutInMinutesOverride,
-        'registryCredentialOverride': registryCredentialOverride,
-        'reportBuildStatusOverride': reportBuildStatusOverride,
-        'secondaryArtifactsOverride': secondaryArtifactsOverride,
-        'secondarySourcesOverride': secondarySourcesOverride,
-        'secondarySourcesVersionOverride': secondarySourcesVersionOverride,
-        'serviceRoleOverride': serviceRoleOverride,
-        'sourceAuthOverride': sourceAuthOverride,
-        'sourceLocationOverride': sourceLocationOverride,
-        'sourceTypeOverride': sourceTypeOverride?.toValue(),
-        'sourceVersion': sourceVersion,
-        'timeoutInMinutesOverride': timeoutInMinutesOverride,
+        if (artifactsOverride != null) 'artifactsOverride': artifactsOverride,
+        if (buildspecOverride != null) 'buildspecOverride': buildspecOverride,
+        if (cacheOverride != null) 'cacheOverride': cacheOverride,
+        if (certificateOverride != null)
+          'certificateOverride': certificateOverride,
+        if (computeTypeOverride != null)
+          'computeTypeOverride': computeTypeOverride?.toValue(),
+        if (encryptionKeyOverride != null)
+          'encryptionKeyOverride': encryptionKeyOverride,
+        if (environmentTypeOverride != null)
+          'environmentTypeOverride': environmentTypeOverride?.toValue(),
+        if (environmentVariablesOverride != null)
+          'environmentVariablesOverride': environmentVariablesOverride,
+        if (gitCloneDepthOverride != null)
+          'gitCloneDepthOverride': gitCloneDepthOverride,
+        if (gitSubmodulesConfigOverride != null)
+          'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
+        if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
+        if (imageOverride != null) 'imageOverride': imageOverride,
+        if (imagePullCredentialsTypeOverride != null)
+          'imagePullCredentialsTypeOverride':
+              imagePullCredentialsTypeOverride?.toValue(),
+        if (insecureSslOverride != null)
+          'insecureSslOverride': insecureSslOverride,
+        if (logsConfigOverride != null)
+          'logsConfigOverride': logsConfigOverride,
+        if (privilegedModeOverride != null)
+          'privilegedModeOverride': privilegedModeOverride,
+        if (queuedTimeoutInMinutesOverride != null)
+          'queuedTimeoutInMinutesOverride': queuedTimeoutInMinutesOverride,
+        if (registryCredentialOverride != null)
+          'registryCredentialOverride': registryCredentialOverride,
+        if (reportBuildStatusOverride != null)
+          'reportBuildStatusOverride': reportBuildStatusOverride,
+        if (secondaryArtifactsOverride != null)
+          'secondaryArtifactsOverride': secondaryArtifactsOverride,
+        if (secondarySourcesOverride != null)
+          'secondarySourcesOverride': secondarySourcesOverride,
+        if (secondarySourcesVersionOverride != null)
+          'secondarySourcesVersionOverride': secondarySourcesVersionOverride,
+        if (serviceRoleOverride != null)
+          'serviceRoleOverride': serviceRoleOverride,
+        if (sourceAuthOverride != null)
+          'sourceAuthOverride': sourceAuthOverride,
+        if (sourceLocationOverride != null)
+          'sourceLocationOverride': sourceLocationOverride,
+        if (sourceTypeOverride != null)
+          'sourceTypeOverride': sourceTypeOverride?.toValue(),
+        if (sourceVersion != null) 'sourceVersion': sourceVersion,
+        if (timeoutInMinutesOverride != null)
+          'timeoutInMinutesOverride': timeoutInMinutesOverride,
       },
     );
 
@@ -2168,24 +2194,28 @@ class CodeBuild {
       headers: headers,
       payload: {
         'name': name,
-        'artifacts': artifacts,
-        'badgeEnabled': badgeEnabled,
-        'cache': cache,
-        'description': description,
-        'encryptionKey': encryptionKey,
-        'environment': environment,
-        'fileSystemLocations': fileSystemLocations,
-        'logsConfig': logsConfig,
-        'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
-        'secondaryArtifacts': secondaryArtifacts,
-        'secondarySourceVersions': secondarySourceVersions,
-        'secondarySources': secondarySources,
-        'serviceRole': serviceRole,
-        'source': source,
-        'sourceVersion': sourceVersion,
-        'tags': tags,
-        'timeoutInMinutes': timeoutInMinutes,
-        'vpcConfig': vpcConfig,
+        if (artifacts != null) 'artifacts': artifacts,
+        if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
+        if (cache != null) 'cache': cache,
+        if (description != null) 'description': description,
+        if (encryptionKey != null) 'encryptionKey': encryptionKey,
+        if (environment != null) 'environment': environment,
+        if (fileSystemLocations != null)
+          'fileSystemLocations': fileSystemLocations,
+        if (logsConfig != null) 'logsConfig': logsConfig,
+        if (queuedTimeoutInMinutes != null)
+          'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
+        if (secondaryArtifacts != null)
+          'secondaryArtifacts': secondaryArtifacts,
+        if (secondarySourceVersions != null)
+          'secondarySourceVersions': secondarySourceVersions,
+        if (secondarySources != null) 'secondarySources': secondarySources,
+        if (serviceRole != null) 'serviceRole': serviceRole,
+        if (source != null) 'source': source,
+        if (sourceVersion != null) 'sourceVersion': sourceVersion,
+        if (tags != null) 'tags': tags,
+        if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
+        if (vpcConfig != null) 'vpcConfig': vpcConfig,
       },
     );
 
@@ -2235,7 +2265,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         'arn': arn,
-        'exportConfig': exportConfig,
+        if (exportConfig != null) 'exportConfig': exportConfig,
       },
     );
 
@@ -2306,9 +2336,9 @@ class CodeBuild {
       headers: headers,
       payload: {
         'projectName': projectName,
-        'branchFilter': branchFilter,
-        'filterGroups': filterGroups,
-        'rotateSecret': rotateSecret,
+        if (branchFilter != null) 'branchFilter': branchFilter,
+        if (filterGroups != null) 'filterGroups': filterGroups,
+        if (rotateSecret != null) 'rotateSecret': rotateSecret,
       },
     );
 

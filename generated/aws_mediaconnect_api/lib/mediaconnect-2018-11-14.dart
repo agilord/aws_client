@@ -177,13 +177,14 @@ class MediaConnect {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
-      'AvailabilityZone': availabilityZone,
-      'Entitlements': entitlements,
-      'Outputs': outputs,
-      'Source': source,
-      'SourceFailoverConfig': sourceFailoverConfig,
-      'Sources': sources,
-      'VpcInterfaces': vpcInterfaces,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (entitlements != null) 'Entitlements': entitlements,
+      if (outputs != null) 'Outputs': outputs,
+      if (source != null) 'Source': source,
+      if (sourceFailoverConfig != null)
+        'SourceFailoverConfig': sourceFailoverConfig,
+      if (sources != null) 'Sources': sources,
+      if (vpcInterfaces != null) 'VpcInterfaces': vpcInterfaces,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -662,7 +663,8 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
-      'SourceFailoverConfig': sourceFailoverConfig,
+      if (sourceFailoverConfig != null)
+        'SourceFailoverConfig': sourceFailoverConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -713,9 +715,9 @@ class MediaConnect {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
-      'Description': description,
-      'Encryption': encryption,
-      'Subscribers': subscribers,
+      if (description != null) 'Description': description,
+      if (encryption != null) 'Encryption': encryption,
+      if (subscribers != null) 'Subscribers': subscribers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -797,17 +799,18 @@ class MediaConnect {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
     final $payload = <String, dynamic>{
-      'CidrAllowList': cidrAllowList,
-      'Description': description,
-      'Destination': destination,
-      'Encryption': encryption,
-      'MaxLatency': maxLatency,
-      'Port': port,
-      'Protocol': protocol?.toValue(),
-      'RemoteId': remoteId,
-      'SmoothingLatency': smoothingLatency,
-      'StreamId': streamId,
-      'VpcInterfaceAttachment': vpcInterfaceAttachment,
+      if (cidrAllowList != null) 'CidrAllowList': cidrAllowList,
+      if (description != null) 'Description': description,
+      if (destination != null) 'Destination': destination,
+      if (encryption != null) 'Encryption': encryption,
+      if (maxLatency != null) 'MaxLatency': maxLatency,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol?.toValue(),
+      if (remoteId != null) 'RemoteId': remoteId,
+      if (smoothingLatency != null) 'SmoothingLatency': smoothingLatency,
+      if (streamId != null) 'StreamId': streamId,
+      if (vpcInterfaceAttachment != null)
+        'VpcInterfaceAttachment': vpcInterfaceAttachment,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -887,16 +890,16 @@ class MediaConnect {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     final $payload = <String, dynamic>{
-      'Decryption': decryption,
-      'Description': description,
-      'EntitlementArn': entitlementArn,
-      'IngestPort': ingestPort,
-      'MaxBitrate': maxBitrate,
-      'MaxLatency': maxLatency,
-      'Protocol': protocol?.toValue(),
-      'StreamId': streamId,
-      'VpcInterfaceName': vpcInterfaceName,
-      'WhitelistCidr': whitelistCidr,
+      if (decryption != null) 'Decryption': decryption,
+      if (description != null) 'Description': description,
+      if (entitlementArn != null) 'EntitlementArn': entitlementArn,
+      if (ingestPort != null) 'IngestPort': ingestPort,
+      if (maxBitrate != null) 'MaxBitrate': maxBitrate,
+      if (maxLatency != null) 'MaxLatency': maxLatency,
+      if (protocol != null) 'Protocol': protocol?.toValue(),
+      if (streamId != null) 'StreamId': streamId,
+      if (vpcInterfaceName != null) 'VpcInterfaceName': vpcInterfaceName,
+      if (whitelistCidr != null) 'WhitelistCidr': whitelistCidr,
     };
     final response = await _protocol.send(
       payload: $payload,

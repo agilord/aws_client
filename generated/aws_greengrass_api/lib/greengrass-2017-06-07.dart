@@ -129,9 +129,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -167,7 +167,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Connectors': connectors,
+      if (connectors != null) 'Connectors': connectors,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -206,9 +206,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -242,7 +242,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Cores': cores,
+      if (cores != null) 'Cores': cores,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -288,8 +288,8 @@ class Greengrass {
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
       'DeploymentType': deploymentType?.toValue(),
-      'DeploymentId': deploymentId,
-      'GroupVersionId': groupVersionId,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (groupVersionId != null) 'GroupVersionId': groupVersionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -328,9 +328,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -363,7 +363,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Devices': devices,
+      if (devices != null) 'Devices': devices,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -404,9 +404,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -447,8 +447,8 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'DefaultConfig': defaultConfig,
-      'Functions': functions,
+      if (defaultConfig != null) 'DefaultConfig': defaultConfig,
+      if (functions != null) 'Functions': functions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -489,9 +489,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -579,13 +579,20 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
-      'CoreDefinitionVersionArn': coreDefinitionVersionArn,
-      'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
-      'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
-      'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
-      'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
-      'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
+      if (connectorDefinitionVersionArn != null)
+        'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
+      if (coreDefinitionVersionArn != null)
+        'CoreDefinitionVersionArn': coreDefinitionVersionArn,
+      if (deviceDefinitionVersionArn != null)
+        'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
+      if (functionDefinitionVersionArn != null)
+        'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
+      if (loggerDefinitionVersionArn != null)
+        'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
+      if (resourceDefinitionVersionArn != null)
+        'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
+      if (subscriptionDefinitionVersionArn != null)
+        'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -624,9 +631,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -659,7 +666,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Loggers': loggers,
+      if (loggers != null) 'Loggers': loggers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -699,9 +706,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -735,7 +742,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Resources': resources,
+      if (resources != null) 'Resources': resources,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -783,7 +790,8 @@ class Greengrass {
       'UpdateTargets': updateTargets,
       'UpdateTargetsArchitecture': updateTargetsArchitecture?.toValue(),
       'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem?.toValue(),
-      'UpdateAgentLogLevel': updateAgentLogLevel?.toValue(),
+      if (updateAgentLogLevel != null)
+        'UpdateAgentLogLevel': updateAgentLogLevel?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -821,9 +829,9 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'InitialVersion': initialVersion,
-      'Name': name,
-      'tags': tags,
+      if (initialVersion != null) 'InitialVersion': initialVersion,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -859,7 +867,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Subscriptions': subscriptions,
+      if (subscriptions != null) 'Subscriptions': subscriptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2339,7 +2347,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'Force': force,
+      if (force != null) 'Force': force,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2393,7 +2401,7 @@ class Greengrass {
     final $payload = <String, dynamic>{
       'ExecutionRoleArn': executionRoleArn,
       'InputFileUri': inputFileUri,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2445,7 +2453,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -2501,7 +2509,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     final $payload = <String, dynamic>{
-      'ConnectivityInfo': connectivityInfo,
+      if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2528,7 +2536,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2555,7 +2563,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2582,7 +2590,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2609,7 +2617,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2636,7 +2644,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2666,7 +2674,8 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
-      'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
+      if (certificateExpiryInMilliseconds != null)
+        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2693,7 +2702,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2720,7 +2729,7 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2748,7 +2757,7 @@ class Greengrass {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

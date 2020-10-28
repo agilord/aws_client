@@ -137,8 +137,10 @@ class CodeStar {
         'projectId': projectId,
         'projectRole': projectRole,
         'userArn': userArn,
-        'clientRequestToken': clientRequestToken,
-        'remoteAccessAllowed': remoteAccessAllowed,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (remoteAccessAllowed != null)
+          'remoteAccessAllowed': remoteAccessAllowed,
       },
     );
 
@@ -255,11 +257,12 @@ class CodeStar {
       payload: {
         'id': id,
         'name': name,
-        'clientRequestToken': clientRequestToken,
-        'description': description,
-        'sourceCode': sourceCode,
-        'tags': tags,
-        'toolchain': toolchain,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (description != null) 'description': description,
+        if (sourceCode != null) 'sourceCode': sourceCode,
+        if (tags != null) 'tags': tags,
+        if (toolchain != null) 'toolchain': toolchain,
       },
     );
 
@@ -363,7 +366,7 @@ class CodeStar {
         'displayName': displayName,
         'emailAddress': emailAddress,
         'userArn': userArn,
-        'sshPublicKey': sshPublicKey,
+        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
       },
     );
 
@@ -433,8 +436,9 @@ class CodeStar {
       headers: headers,
       payload: {
         'id': id,
-        'clientRequestToken': clientRequestToken,
-        'deleteStack': deleteStack,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
+        if (deleteStack != null) 'deleteStack': deleteStack,
       },
     );
 
@@ -685,8 +689,8 @@ class CodeStar {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -757,8 +761,8 @@ class CodeStar {
       headers: headers,
       payload: {
         'projectId': projectId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -827,8 +831,8 @@ class CodeStar {
       headers: headers,
       payload: {
         'id': id,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -898,8 +902,8 @@ class CodeStar {
       headers: headers,
       payload: {
         'projectId': projectId,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -950,8 +954,8 @@ class CodeStar {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1124,8 +1128,8 @@ class CodeStar {
       headers: headers,
       payload: {
         'id': id,
-        'description': description,
-        'name': name,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
       },
     );
 
@@ -1214,8 +1218,9 @@ class CodeStar {
       payload: {
         'projectId': projectId,
         'userArn': userArn,
-        'projectRole': projectRole,
-        'remoteAccessAllowed': remoteAccessAllowed,
+        if (projectRole != null) 'projectRole': projectRole,
+        if (remoteAccessAllowed != null)
+          'remoteAccessAllowed': remoteAccessAllowed,
       },
     );
 
@@ -1310,9 +1315,9 @@ class CodeStar {
       headers: headers,
       payload: {
         'userArn': userArn,
-        'displayName': displayName,
-        'emailAddress': emailAddress,
-        'sshPublicKey': sshPublicKey,
+        if (displayName != null) 'displayName': displayName,
+        if (emailAddress != null) 'emailAddress': emailAddress,
+        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
       },
     );
 

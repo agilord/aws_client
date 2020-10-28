@@ -279,7 +279,7 @@ class ACM {
       headers: headers,
       payload: {
         'CertificateArn': certificateArn,
-        'Passphrase': passphrase,
+        'Passphrase': passphrase?.let(base64Encode),
       },
     );
 
@@ -472,11 +472,12 @@ class ACM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Certificate': certificate,
-        'PrivateKey': privateKey,
-        'CertificateArn': certificateArn,
-        'CertificateChain': certificateChain,
-        'Tags': tags,
+        'Certificate': certificate?.let(base64Encode),
+        'PrivateKey': privateKey?.let(base64Encode),
+        if (certificateArn != null) 'CertificateArn': certificateArn,
+        if (certificateChain != null)
+          'CertificateChain': certificateChain.let(base64Encode),
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -543,10 +544,11 @@ class ACM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CertificateStatuses': certificateStatuses,
-        'Includes': includes,
-        'MaxItems': maxItems,
-        'NextToken': nextToken,
+        if (certificateStatuses != null)
+          'CertificateStatuses': certificateStatuses,
+        if (includes != null) 'Includes': includes,
+        if (maxItems != null) 'MaxItems': maxItems,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -891,13 +893,17 @@ class ACM {
       headers: headers,
       payload: {
         'DomainName': domainName,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'DomainValidationOptions': domainValidationOptions,
-        'IdempotencyToken': idempotencyToken,
-        'Options': options,
-        'SubjectAlternativeNames': subjectAlternativeNames,
-        'Tags': tags,
-        'ValidationMethod': validationMethod?.toValue(),
+        if (certificateAuthorityArn != null)
+          'CertificateAuthorityArn': certificateAuthorityArn,
+        if (domainValidationOptions != null)
+          'DomainValidationOptions': domainValidationOptions,
+        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (options != null) 'Options': options,
+        if (subjectAlternativeNames != null)
+          'SubjectAlternativeNames': subjectAlternativeNames,
+        if (tags != null) 'Tags': tags,
+        if (validationMethod != null)
+          'ValidationMethod': validationMethod?.toValue(),
       },
     );
 

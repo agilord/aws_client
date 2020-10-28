@@ -65,8 +65,8 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
-      'Creates': creates,
-      'Deletes': deletes,
+      if (creates != null) 'Creates': creates,
+      if (deletes != null) 'Deletes': deletes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -133,17 +133,17 @@ class MediaLive {
     Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
-      'ChannelClass': channelClass?.toValue(),
-      'Destinations': destinations,
-      'EncoderSettings': encoderSettings,
-      'InputAttachments': inputAttachments,
-      'InputSpecification': inputSpecification,
-      'LogLevel': logLevel?.toValue(),
-      'Name': name,
-      'RequestId': requestId,
-      'Reserved': reserved,
-      'RoleArn': roleArn,
-      'Tags': tags,
+      if (channelClass != null) 'ChannelClass': channelClass?.toValue(),
+      if (destinations != null) 'Destinations': destinations,
+      if (encoderSettings != null) 'EncoderSettings': encoderSettings,
+      if (inputAttachments != null) 'InputAttachments': inputAttachments,
+      if (inputSpecification != null) 'InputSpecification': inputSpecification,
+      if (logLevel != null) 'LogLevel': logLevel?.toValue(),
+      if (name != null) 'Name': name,
+      if (requestId != null) 'RequestId': requestId,
+      if (reserved != null) 'Reserved': reserved,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -208,16 +208,17 @@ class MediaLive {
     InputVpcRequest vpc,
   }) async {
     final $payload = <String, dynamic>{
-      'Destinations': destinations,
-      'InputSecurityGroups': inputSecurityGroups,
-      'MediaConnectFlows': mediaConnectFlows,
-      'Name': name,
-      'RequestId': requestId,
-      'RoleArn': roleArn,
-      'Sources': sources,
-      'Tags': tags,
-      'Type': type?.toValue(),
-      'Vpc': vpc,
+      if (destinations != null) 'Destinations': destinations,
+      if (inputSecurityGroups != null)
+        'InputSecurityGroups': inputSecurityGroups,
+      if (mediaConnectFlows != null) 'MediaConnectFlows': mediaConnectFlows,
+      if (name != null) 'Name': name,
+      if (requestId != null) 'RequestId': requestId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sources != null) 'Sources': sources,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type?.toValue(),
+      if (vpc != null) 'Vpc': vpc,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -247,8 +248,8 @@ class MediaLive {
     List<InputWhitelistRuleCidr> whitelistRules,
   }) async {
     final $payload = <String, dynamic>{
-      'Tags': tags,
-      'WhitelistRules': whitelistRules,
+      if (tags != null) 'Tags': tags,
+      if (whitelistRules != null) 'WhitelistRules': whitelistRules,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -302,7 +303,7 @@ class MediaLive {
       'MultiplexSettings': multiplexSettings,
       'Name': name,
       'RequestId': requestId,
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -374,7 +375,7 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      if (tags != null) 'Tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -1244,10 +1245,10 @@ class MediaLive {
     ArgumentError.checkNotNull(offeringId, 'offeringId');
     final $payload = <String, dynamic>{
       'Count': count,
-      'Name': name,
-      'RequestId': requestId,
-      'Start': start,
-      'Tags': tags,
+      if (name != null) 'Name': name,
+      if (requestId != null) 'RequestId': requestId,
+      if (start != null) 'Start': start,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1418,13 +1419,13 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
-      'Destinations': destinations,
-      'EncoderSettings': encoderSettings,
-      'InputAttachments': inputAttachments,
-      'InputSpecification': inputSpecification,
-      'LogLevel': logLevel?.toValue(),
-      'Name': name,
-      'RoleArn': roleArn,
+      if (destinations != null) 'Destinations': destinations,
+      if (encoderSettings != null) 'EncoderSettings': encoderSettings,
+      if (inputAttachments != null) 'InputAttachments': inputAttachments,
+      if (inputSpecification != null) 'InputSpecification': inputSpecification,
+      if (logLevel != null) 'LogLevel': logLevel?.toValue(),
+      if (name != null) 'Name': name,
+      if (roleArn != null) 'RoleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1464,7 +1465,7 @@ class MediaLive {
     ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
       'ChannelClass': channelClass?.toValue(),
-      'Destinations': destinations,
+      if (destinations != null) 'Destinations': destinations,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1525,12 +1526,13 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
     final $payload = <String, dynamic>{
-      'Destinations': destinations,
-      'InputSecurityGroups': inputSecurityGroups,
-      'MediaConnectFlows': mediaConnectFlows,
-      'Name': name,
-      'RoleArn': roleArn,
-      'Sources': sources,
+      if (destinations != null) 'Destinations': destinations,
+      if (inputSecurityGroups != null)
+        'InputSecurityGroups': inputSecurityGroups,
+      if (mediaConnectFlows != null) 'MediaConnectFlows': mediaConnectFlows,
+      if (name != null) 'Name': name,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sources != null) 'Sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1566,8 +1568,8 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
     final $payload = <String, dynamic>{
-      'Tags': tags,
-      'WhitelistRules': whitelistRules,
+      if (tags != null) 'Tags': tags,
+      if (whitelistRules != null) 'WhitelistRules': whitelistRules,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1605,8 +1607,8 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final $payload = <String, dynamic>{
-      'MultiplexSettings': multiplexSettings,
-      'Name': name,
+      if (multiplexSettings != null) 'MultiplexSettings': multiplexSettings,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1645,7 +1647,8 @@ class MediaLive {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
     final $payload = <String, dynamic>{
-      'MultiplexProgramSettings': multiplexProgramSettings,
+      if (multiplexProgramSettings != null)
+        'MultiplexProgramSettings': multiplexProgramSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1679,7 +1682,7 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
     final $payload = <String, dynamic>{
-      'Name': name,
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,

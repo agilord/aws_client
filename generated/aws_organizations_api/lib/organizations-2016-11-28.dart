@@ -518,8 +518,9 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
-        'RoleName': roleName,
+        if (iamUserAccessToBilling != null)
+          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
+        if (roleName != null) 'RoleName': roleName,
       },
     );
 
@@ -779,8 +780,9 @@ class Organizations {
       payload: {
         'AccountName': accountName,
         'Email': email,
-        'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
-        'RoleName': roleName,
+        if (iamUserAccessToBilling != null)
+          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
+        if (roleName != null) 'RoleName': roleName,
       },
     );
 
@@ -851,7 +853,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FeatureSet': featureSet?.toValue(),
+        if (featureSet != null) 'FeatureSet': featureSet?.toValue(),
       },
     );
 
@@ -1453,7 +1455,7 @@ class Organizations {
       headers: headers,
       payload: {
         'PolicyType': policyType?.toValue(),
-        'TargetId': targetId,
+        if (targetId != null) 'TargetId': targetId,
       },
     );
 
@@ -2179,7 +2181,7 @@ class Organizations {
       headers: headers,
       payload: {
         'Target': target,
-        'Notes': notes,
+        if (notes != null) 'Notes': notes,
       },
     );
 
@@ -2327,8 +2329,8 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2397,8 +2399,8 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2483,8 +2485,8 @@ class Organizations {
       headers: headers,
       payload: {
         'ParentId': parentId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2589,8 +2591,8 @@ class Organizations {
       payload: {
         'ChildType': childType?.toValue(),
         'ParentId': parentId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2663,9 +2665,9 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'States': states,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (states != null) 'States': states,
       },
     );
 
@@ -2746,9 +2748,9 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'ServicePrincipal': servicePrincipal,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
       },
     );
 
@@ -2827,8 +2829,8 @@ class Organizations {
       headers: headers,
       payload: {
         'AccountId': accountId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2911,9 +2913,9 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2999,9 +3001,9 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3100,8 +3102,8 @@ class Organizations {
       headers: headers,
       payload: {
         'ParentId': parentId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3202,8 +3204,8 @@ class Organizations {
       headers: headers,
       payload: {
         'ChildId': childId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3276,8 +3278,8 @@ class Organizations {
       headers: headers,
       payload: {
         'Filter': filter?.toValue(),
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3385,8 +3387,8 @@ class Organizations {
       payload: {
         'Filter': filter?.toValue(),
         'TargetId': targetId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3460,8 +3462,8 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3516,7 +3518,7 @@ class Organizations {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'NextToken': nextToken,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -3602,8 +3604,8 @@ class Organizations {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -4020,7 +4022,7 @@ class Organizations {
       headers: headers,
       payload: {
         'OrganizationalUnitId': organizationalUnitId,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -4112,9 +4114,9 @@ class Organizations {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        'Content': content,
-        'Description': description,
-        'Name': name,
+        if (content != null) 'Content': content,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
       },
     );
 

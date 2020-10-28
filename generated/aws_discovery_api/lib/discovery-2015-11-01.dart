@@ -158,7 +158,7 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'name': name,
-        'description': description,
+        if (description != null) 'description': description,
       },
     );
 
@@ -279,7 +279,7 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'configurationIds': configurationIds,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -334,10 +334,10 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'agentIds': agentIds,
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (agentIds != null) 'agentIds': agentIds,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -448,9 +448,9 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'exportIds': exportIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (exportIds != null) 'exportIds': exportIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -495,9 +495,9 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'exportIds': exportIds,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (exportIds != null) 'exportIds': exportIds,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -558,10 +558,10 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'exportIds': exportIds,
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (exportIds != null) 'exportIds': exportIds,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -611,9 +611,9 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -676,9 +676,9 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -847,10 +847,10 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'configurationType': configurationType?.toValue(),
-        'filters': filters,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'orderBy': orderBy,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (orderBy != null) 'orderBy': orderBy,
       },
     );
 
@@ -906,10 +906,12 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'configurationId': configurationId,
-        'maxResults': maxResults,
-        'neighborConfigurationIds': neighborConfigurationIds,
-        'nextToken': nextToken,
-        'portInformationNeeded': portInformationNeeded,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (neighborConfigurationIds != null)
+          'neighborConfigurationIds': neighborConfigurationIds,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (portInformationNeeded != null)
+          'portInformationNeeded': portInformationNeeded,
       },
     );
 
@@ -1043,10 +1045,10 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'endTime': endTime,
-        'exportDataFormat': exportDataFormat,
-        'filters': filters,
-        'startTime': startTime,
+        if (endTime != null) 'endTime': endTime,
+        if (exportDataFormat != null) 'exportDataFormat': exportDataFormat,
+        if (filters != null) 'filters': filters,
+        if (startTime != null) 'startTime': startTime,
       },
     );
 
@@ -1158,7 +1160,8 @@ class ApplicationDiscoveryService {
       payload: {
         'importUrl': importUrl,
         'name': name,
-        'clientRequestToken': clientRequestToken,
+        if (clientRequestToken != null)
+          'clientRequestToken': clientRequestToken,
       },
     );
 
@@ -1267,8 +1270,8 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'configurationId': configurationId,
-        'description': description,
-        'name': name,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
       },
     );
 

@@ -130,9 +130,9 @@ class ForecastQueryService {
       payload: {
         'Filters': filters,
         'ForecastArn': forecastArn,
-        'EndDate': endDate,
-        'NextToken': nextToken,
-        'StartDate': startDate,
+        if (endDate != null) 'EndDate': endDate,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startDate != null) 'StartDate': startDate,
       },
     );
 

@@ -145,8 +145,8 @@ class KinesisVideoMedia {
     );
     final $payload = <String, dynamic>{
       'StartSelector': startSelector,
-      'StreamARN': streamARN,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,

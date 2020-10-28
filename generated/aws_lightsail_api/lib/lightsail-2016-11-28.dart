@@ -539,10 +539,13 @@ class Lightsail {
       payload: {
         'sourceRegion': sourceRegion?.toValue(),
         'targetSnapshotName': targetSnapshotName,
-        'restoreDate': restoreDate,
-        'sourceResourceName': sourceResourceName,
-        'sourceSnapshotName': sourceSnapshotName,
-        'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
+        if (restoreDate != null) 'restoreDate': restoreDate,
+        if (sourceResourceName != null)
+          'sourceResourceName': sourceResourceName,
+        if (sourceSnapshotName != null)
+          'sourceSnapshotName': sourceSnapshotName,
+        if (useLatestRestorableAutoSnapshot != null)
+          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
       },
     );
 
@@ -766,8 +769,8 @@ class Lightsail {
         'availabilityZone': availabilityZone,
         'diskName': diskName,
         'sizeInGb': sizeInGb,
-        'addOns': addOns,
-        'tags': tags,
+        if (addOns != null) 'addOns': addOns,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -940,12 +943,13 @@ class Lightsail {
         'availabilityZone': availabilityZone,
         'diskName': diskName,
         'sizeInGb': sizeInGb,
-        'addOns': addOns,
-        'diskSnapshotName': diskSnapshotName,
-        'restoreDate': restoreDate,
-        'sourceDiskName': sourceDiskName,
-        'tags': tags,
-        'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
+        if (addOns != null) 'addOns': addOns,
+        if (diskSnapshotName != null) 'diskSnapshotName': diskSnapshotName,
+        if (restoreDate != null) 'restoreDate': restoreDate,
+        if (sourceDiskName != null) 'sourceDiskName': sourceDiskName,
+        if (tags != null) 'tags': tags,
+        if (useLatestRestorableAutoSnapshot != null)
+          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
       },
     );
 
@@ -1052,9 +1056,9 @@ class Lightsail {
       headers: headers,
       payload: {
         'diskSnapshotName': diskSnapshotName,
-        'diskName': diskName,
-        'instanceName': instanceName,
-        'tags': tags,
+        if (diskName != null) 'diskName': diskName,
+        if (instanceName != null) 'instanceName': instanceName,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1107,7 +1111,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'domainName': domainName,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1224,7 +1228,7 @@ class Lightsail {
       payload: {
         'instanceName': instanceName,
         'instanceSnapshotName': instanceSnapshotName,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1361,11 +1365,11 @@ class Lightsail {
         'blueprintId': blueprintId,
         'bundleId': bundleId,
         'instanceNames': instanceNames,
-        'addOns': addOns,
-        'customImageName': customImageName,
-        'keyPairName': keyPairName,
-        'tags': tags,
-        'userData': userData,
+        if (addOns != null) 'addOns': addOns,
+        if (customImageName != null) 'customImageName': customImageName,
+        if (keyPairName != null) 'keyPairName': keyPairName,
+        if (tags != null) 'tags': tags,
+        if (userData != null) 'userData': userData,
       },
     );
 
@@ -1561,15 +1565,19 @@ class Lightsail {
         'availabilityZone': availabilityZone,
         'bundleId': bundleId,
         'instanceNames': instanceNames,
-        'addOns': addOns,
-        'attachedDiskMapping': attachedDiskMapping,
-        'instanceSnapshotName': instanceSnapshotName,
-        'keyPairName': keyPairName,
-        'restoreDate': restoreDate,
-        'sourceInstanceName': sourceInstanceName,
-        'tags': tags,
-        'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
-        'userData': userData,
+        if (addOns != null) 'addOns': addOns,
+        if (attachedDiskMapping != null)
+          'attachedDiskMapping': attachedDiskMapping,
+        if (instanceSnapshotName != null)
+          'instanceSnapshotName': instanceSnapshotName,
+        if (keyPairName != null) 'keyPairName': keyPairName,
+        if (restoreDate != null) 'restoreDate': restoreDate,
+        if (sourceInstanceName != null)
+          'sourceInstanceName': sourceInstanceName,
+        if (tags != null) 'tags': tags,
+        if (useLatestRestorableAutoSnapshot != null)
+          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
+        if (userData != null) 'userData': userData,
       },
     );
 
@@ -1622,7 +1630,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'keyPairName': keyPairName,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1732,11 +1740,13 @@ class Lightsail {
       payload: {
         'instancePort': instancePort,
         'loadBalancerName': loadBalancerName,
-        'certificateAlternativeNames': certificateAlternativeNames,
-        'certificateDomainName': certificateDomainName,
-        'certificateName': certificateName,
-        'healthCheckPath': healthCheckPath,
-        'tags': tags,
+        if (certificateAlternativeNames != null)
+          'certificateAlternativeNames': certificateAlternativeNames,
+        if (certificateDomainName != null)
+          'certificateDomainName': certificateDomainName,
+        if (certificateName != null) 'certificateName': certificateName,
+        if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -1826,8 +1836,9 @@ class Lightsail {
         'certificateDomainName': certificateDomainName,
         'certificateName': certificateName,
         'loadBalancerName': loadBalancerName,
-        'certificateAlternativeNames': certificateAlternativeNames,
-        'tags': tags,
+        if (certificateAlternativeNames != null)
+          'certificateAlternativeNames': certificateAlternativeNames,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -2044,12 +2055,16 @@ class Lightsail {
         'relationalDatabaseBlueprintId': relationalDatabaseBlueprintId,
         'relationalDatabaseBundleId': relationalDatabaseBundleId,
         'relationalDatabaseName': relationalDatabaseName,
-        'availabilityZone': availabilityZone,
-        'masterUserPassword': masterUserPassword,
-        'preferredBackupWindow': preferredBackupWindow,
-        'preferredMaintenanceWindow': preferredMaintenanceWindow,
-        'publiclyAccessible': publiclyAccessible,
-        'tags': tags,
+        if (availabilityZone != null) 'availabilityZone': availabilityZone,
+        if (masterUserPassword != null)
+          'masterUserPassword': masterUserPassword,
+        if (preferredBackupWindow != null)
+          'preferredBackupWindow': preferredBackupWindow,
+        if (preferredMaintenanceWindow != null)
+          'preferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (publiclyAccessible != null)
+          'publiclyAccessible': publiclyAccessible,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -2203,14 +2218,19 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'availabilityZone': availabilityZone,
-        'publiclyAccessible': publiclyAccessible,
-        'relationalDatabaseBundleId': relationalDatabaseBundleId,
-        'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-        'restoreTime': restoreTime,
-        'sourceRelationalDatabaseName': sourceRelationalDatabaseName,
-        'tags': tags,
-        'useLatestRestorableTime': useLatestRestorableTime,
+        if (availabilityZone != null) 'availabilityZone': availabilityZone,
+        if (publiclyAccessible != null)
+          'publiclyAccessible': publiclyAccessible,
+        if (relationalDatabaseBundleId != null)
+          'relationalDatabaseBundleId': relationalDatabaseBundleId,
+        if (relationalDatabaseSnapshotName != null)
+          'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
+        if (restoreTime != null) 'restoreTime': restoreTime,
+        if (sourceRelationalDatabaseName != null)
+          'sourceRelationalDatabaseName': sourceRelationalDatabaseName,
+        if (tags != null) 'tags': tags,
+        if (useLatestRestorableTime != null)
+          'useLatestRestorableTime': useLatestRestorableTime,
       },
     );
 
@@ -2293,7 +2313,7 @@ class Lightsail {
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
         'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -2500,7 +2520,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'diskName': diskName,
-        'forceDeleteAddOns': forceDeleteAddOns,
+        if (forceDeleteAddOns != null) 'forceDeleteAddOns': forceDeleteAddOns,
       },
     );
 
@@ -2693,7 +2713,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'forceDeleteAddOns': forceDeleteAddOns,
+        if (forceDeleteAddOns != null) 'forceDeleteAddOns': forceDeleteAddOns,
       },
     );
 
@@ -2957,7 +2977,7 @@ class Lightsail {
       payload: {
         'certificateName': certificateName,
         'loadBalancerName': loadBalancerName,
-        'force': force,
+        if (force != null) 'force': force,
       },
     );
 
@@ -3043,9 +3063,10 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'finalRelationalDatabaseSnapshotName':
-            finalRelationalDatabaseSnapshotName,
-        'skipFinalSnapshot': skipFinalSnapshot,
+        if (finalRelationalDatabaseSnapshotName != null)
+          'finalRelationalDatabaseSnapshotName':
+              finalRelationalDatabaseSnapshotName,
+        if (skipFinalSnapshot != null) 'skipFinalSnapshot': skipFinalSnapshot,
       },
     );
 
@@ -3459,7 +3480,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3528,9 +3549,10 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'alarmName': alarmName,
-        'monitoredResourceName': monitoredResourceName,
-        'pageToken': pageToken,
+        if (alarmName != null) 'alarmName': alarmName,
+        if (monitoredResourceName != null)
+          'monitoredResourceName': monitoredResourceName,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3626,8 +3648,8 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'includeInactive': includeInactive,
-        'pageToken': pageToken,
+        if (includeInactive != null) 'includeInactive': includeInactive,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3670,8 +3692,8 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'includeInactive': includeInactive,
-        'pageToken': pageToken,
+        if (includeInactive != null) 'includeInactive': includeInactive,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3713,7 +3735,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3759,7 +3781,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocols': protocols,
+        if (protocols != null) 'protocols': protocols,
       },
     );
 
@@ -3877,7 +3899,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3915,7 +3937,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -3986,7 +4008,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -4029,7 +4051,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -4123,7 +4145,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'protocol': protocol?.toValue(),
+        if (protocol != null) 'protocol': protocol?.toValue(),
       },
     );
 
@@ -4437,7 +4459,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -4515,7 +4537,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -4592,7 +4614,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -4968,7 +4990,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5052,7 +5074,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5103,7 +5125,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'resourceName': resourceName,
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5146,9 +5168,11 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'includeAvailabilityZones': includeAvailabilityZones,
-        'includeRelationalDatabaseAvailabilityZones':
-            includeRelationalDatabaseAvailabilityZones,
+        if (includeAvailabilityZones != null)
+          'includeAvailabilityZones': includeAvailabilityZones,
+        if (includeRelationalDatabaseAvailabilityZones != null)
+          'includeRelationalDatabaseAvailabilityZones':
+              includeRelationalDatabaseAvailabilityZones,
       },
     );
 
@@ -5232,7 +5256,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5274,7 +5298,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5334,8 +5358,8 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'durationInMinutes': durationInMinutes,
-        'pageToken': pageToken,
+        if (durationInMinutes != null) 'durationInMinutes': durationInMinutes,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5444,10 +5468,10 @@ class Lightsail {
       payload: {
         'logStreamName': logStreamName,
         'relationalDatabaseName': relationalDatabaseName,
-        'endTime': endTime,
-        'pageToken': pageToken,
-        'startFromHead': startFromHead,
-        'startTime': startTime,
+        if (endTime != null) 'endTime': endTime,
+        if (pageToken != null) 'pageToken': pageToken,
+        if (startFromHead != null) 'startFromHead': startFromHead,
+        if (startTime != null) 'startTime': startTime,
       },
     );
 
@@ -5552,7 +5576,8 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'passwordVersion': passwordVersion?.toValue(),
+        if (passwordVersion != null)
+          'passwordVersion': passwordVersion?.toValue(),
       },
     );
 
@@ -5823,7 +5848,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5904,7 +5929,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5942,7 +5967,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -6019,7 +6044,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'pageToken': pageToken,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -6403,11 +6428,14 @@ class Lightsail {
         'metricName': metricName?.toValue(),
         'monitoredResourceName': monitoredResourceName,
         'threshold': threshold,
-        'contactProtocols': contactProtocols,
-        'datapointsToAlarm': datapointsToAlarm,
-        'notificationEnabled': notificationEnabled,
-        'notificationTriggers': notificationTriggers,
-        'treatMissingData': treatMissingData?.toValue(),
+        if (contactProtocols != null) 'contactProtocols': contactProtocols,
+        if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+        if (notificationEnabled != null)
+          'notificationEnabled': notificationEnabled,
+        if (notificationTriggers != null)
+          'notificationTriggers': notificationTriggers,
+        if (treatMissingData != null)
+          'treatMissingData': treatMissingData?.toValue(),
       },
     );
 
@@ -6811,7 +6839,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        'force': force,
+        if (force != null) 'force': force,
       },
     );
 
@@ -6869,7 +6897,8 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
+        if (relationalDatabaseSnapshotName != null)
+          'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
       },
     );
 
@@ -6937,7 +6966,7 @@ class Lightsail {
       payload: {
         'resourceName': resourceName,
         'tags': tags,
-        'resourceArn': resourceArn,
+        if (resourceArn != null) 'resourceArn': resourceArn,
       },
     );
 
@@ -7097,7 +7126,7 @@ class Lightsail {
       payload: {
         'resourceName': resourceName,
         'tagKeys': tagKeys,
-        'resourceArn': resourceArn,
+        if (resourceArn != null) 'resourceArn': resourceArn,
       },
     );
 
@@ -7371,15 +7400,23 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        'applyImmediately': applyImmediately,
-        'caCertificateIdentifier': caCertificateIdentifier,
-        'disableBackupRetention': disableBackupRetention,
-        'enableBackupRetention': enableBackupRetention,
-        'masterUserPassword': masterUserPassword,
-        'preferredBackupWindow': preferredBackupWindow,
-        'preferredMaintenanceWindow': preferredMaintenanceWindow,
-        'publiclyAccessible': publiclyAccessible,
-        'rotateMasterUserPassword': rotateMasterUserPassword,
+        if (applyImmediately != null) 'applyImmediately': applyImmediately,
+        if (caCertificateIdentifier != null)
+          'caCertificateIdentifier': caCertificateIdentifier,
+        if (disableBackupRetention != null)
+          'disableBackupRetention': disableBackupRetention,
+        if (enableBackupRetention != null)
+          'enableBackupRetention': enableBackupRetention,
+        if (masterUserPassword != null)
+          'masterUserPassword': masterUserPassword,
+        if (preferredBackupWindow != null)
+          'preferredBackupWindow': preferredBackupWindow,
+        if (preferredMaintenanceWindow != null)
+          'preferredMaintenanceWindow': preferredMaintenanceWindow,
+        if (publiclyAccessible != null)
+          'publiclyAccessible': publiclyAccessible,
+        if (rotateMasterUserPassword != null)
+          'rotateMasterUserPassword': rotateMasterUserPassword,
       },
     );
 

@@ -208,12 +208,12 @@ class Imagebuilder {
       'name': name,
       'platform': platform?.toValue(),
       'semanticVersion': semanticVersion,
-      'changeDescription': changeDescription,
-      'data': data,
-      'description': description,
-      'kmsKeyId': kmsKeyId,
-      'tags': tags,
-      'uri': uri,
+      if (changeDescription != null) 'changeDescription': changeDescription,
+      if (data != null) 'data': data,
+      if (description != null) 'description': description,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (tags != null) 'tags': tags,
+      if (uri != null) 'uri': uri,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -286,8 +286,8 @@ class Imagebuilder {
       'clientToken': clientToken,
       'distributions': distributions,
       'name': name,
-      'description': description,
-      'tags': tags,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -378,10 +378,13 @@ class Imagebuilder {
       'clientToken': clientToken,
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      'distributionConfigurationArn': distributionConfigurationArn,
-      'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      'imageTestsConfiguration': imageTestsConfiguration,
-      'tags': tags,
+      if (distributionConfigurationArn != null)
+        'distributionConfigurationArn': distributionConfigurationArn,
+      if (enhancedImageMetadataEnabled != null)
+        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageTestsConfiguration != null)
+        'imageTestsConfiguration': imageTestsConfiguration,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -502,13 +505,16 @@ class Imagebuilder {
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       'name': name,
-      'description': description,
-      'distributionConfigurationArn': distributionConfigurationArn,
-      'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      'imageTestsConfiguration': imageTestsConfiguration,
-      'schedule': schedule,
-      'status': status?.toValue(),
-      'tags': tags,
+      if (description != null) 'description': description,
+      if (distributionConfigurationArn != null)
+        'distributionConfigurationArn': distributionConfigurationArn,
+      if (enhancedImageMetadataEnabled != null)
+        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageTestsConfiguration != null)
+        'imageTestsConfiguration': imageTestsConfiguration,
+      if (schedule != null) 'schedule': schedule,
+      if (status != null) 'status': status?.toValue(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -618,9 +624,10 @@ class Imagebuilder {
       'name': name,
       'parentImage': parentImage,
       'semanticVersion': semanticVersion,
-      'blockDeviceMappings': blockDeviceMappings,
-      'description': description,
-      'tags': tags,
+      if (blockDeviceMappings != null)
+        'blockDeviceMappings': blockDeviceMappings,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -754,15 +761,16 @@ class Imagebuilder {
       'clientToken': clientToken,
       'instanceProfileName': instanceProfileName,
       'name': name,
-      'description': description,
-      'instanceTypes': instanceTypes,
-      'keyPair': keyPair,
-      'logging': logging,
-      'securityGroupIds': securityGroupIds,
-      'snsTopicArn': snsTopicArn,
-      'subnetId': subnetId,
-      'tags': tags,
-      'terminateInstanceOnFailure': terminateInstanceOnFailure,
+      if (description != null) 'description': description,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (keyPair != null) 'keyPair': keyPair,
+      if (logging != null) 'logging': logging,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
+      if (subnetId != null) 'subnetId': subnetId,
+      if (tags != null) 'tags': tags,
+      if (terminateInstanceOnFailure != null)
+        'terminateInstanceOnFailure': terminateInstanceOnFailure,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1459,12 +1467,12 @@ class Imagebuilder {
       'platform': platform?.toValue(),
       'semanticVersion': semanticVersion,
       'type': type?.toValue(),
-      'changeDescription': changeDescription,
-      'data': data,
-      'description': description,
-      'kmsKeyId': kmsKeyId,
-      'tags': tags,
-      'uri': uri,
+      if (changeDescription != null) 'changeDescription': changeDescription,
+      if (data != null) 'data': data,
+      if (description != null) 'description': description,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (tags != null) 'tags': tags,
+      if (uri != null) 'uri': uri,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1522,8 +1530,8 @@ class Imagebuilder {
     );
     final $payload = <String, dynamic>{
       'componentVersionArn': componentVersionArn,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1580,10 +1588,10 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'owner': owner?.toValue(),
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (owner != null) 'owner': owner?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1632,9 +1640,9 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1695,9 +1703,9 @@ class Imagebuilder {
     );
     final $payload = <String, dynamic>{
       'imageVersionArn': imageVersionArn,
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1759,9 +1767,9 @@ class Imagebuilder {
     );
     final $payload = <String, dynamic>{
       'imagePipelineArn': imagePipelineArn,
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1809,9 +1817,9 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1867,10 +1875,10 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'owner': owner?.toValue(),
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (owner != null) 'owner': owner?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1926,10 +1934,10 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'owner': owner?.toValue(),
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (owner != null) 'owner': owner?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1978,9 +1986,9 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'filters': filters,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2366,7 +2374,7 @@ class Imagebuilder {
       'clientToken': clientToken,
       'distributionConfigurationArn': distributionConfigurationArn,
       'distributions': distributions,
-      'description': description,
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2483,12 +2491,15 @@ class Imagebuilder {
       'imagePipelineArn': imagePipelineArn,
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      'description': description,
-      'distributionConfigurationArn': distributionConfigurationArn,
-      'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      'imageTestsConfiguration': imageTestsConfiguration,
-      'schedule': schedule,
-      'status': status?.toValue(),
+      if (description != null) 'description': description,
+      if (distributionConfigurationArn != null)
+        'distributionConfigurationArn': distributionConfigurationArn,
+      if (enhancedImageMetadataEnabled != null)
+        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageTestsConfiguration != null)
+        'imageTestsConfiguration': imageTestsConfiguration,
+      if (schedule != null) 'schedule': schedule,
+      if (status != null) 'status': status?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2618,14 +2629,15 @@ class Imagebuilder {
       'clientToken': clientToken,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       'instanceProfileName': instanceProfileName,
-      'description': description,
-      'instanceTypes': instanceTypes,
-      'keyPair': keyPair,
-      'logging': logging,
-      'securityGroupIds': securityGroupIds,
-      'snsTopicArn': snsTopicArn,
-      'subnetId': subnetId,
-      'terminateInstanceOnFailure': terminateInstanceOnFailure,
+      if (description != null) 'description': description,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (keyPair != null) 'keyPair': keyPair,
+      if (logging != null) 'logging': logging,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
+      if (subnetId != null) 'subnetId': subnetId,
+      if (terminateInstanceOnFailure != null)
+        'terminateInstanceOnFailure': terminateInstanceOnFailure,
     };
     final response = await _protocol.send(
       payload: $payload,

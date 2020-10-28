@@ -144,10 +144,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'billingGroupArn': billingGroupArn,
-      'billingGroupName': billingGroupName,
-      'thingArn': thingArn,
-      'thingName': thingName,
+      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingName != null) 'thingName': thingName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -212,11 +212,12 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'overrideDynamicGroups': overrideDynamicGroups,
-      'thingArn': thingArn,
-      'thingGroupArn': thingGroupArn,
-      'thingGroupName': thingGroupName,
-      'thingName': thingName,
+      if (overrideDynamicGroups != null)
+        'overrideDynamicGroups': overrideDynamicGroups,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+      if (thingName != null) 'thingName': thingName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -291,7 +292,7 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'targets': targets,
-      'comment': comment,
+      if (comment != null) 'comment': comment,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -706,8 +707,8 @@ class IoT {
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'comment': comment,
-      'reasonCode': reasonCode,
+      if (comment != null) 'comment': comment,
+      if (reasonCode != null) 'reasonCode': reasonCode,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -799,8 +800,8 @@ class IoT {
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'expectedVersion': expectedVersion,
-      'statusDetails': statusDetails,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
+      if (statusDetails != null) 'statusDetails': statusDetails,
     };
     await _protocol.send(
       payload: $payload,
@@ -931,10 +932,11 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
-      'signingDisabled': signingDisabled,
-      'status': status?.toValue(),
-      'tokenKeyName': tokenKeyName,
-      'tokenSigningPublicKeys': tokenSigningPublicKeys,
+      if (signingDisabled != null) 'signingDisabled': signingDisabled,
+      if (status != null) 'status': status?.toValue(),
+      if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
+      if (tokenSigningPublicKeys != null)
+        'tokenSigningPublicKeys': tokenSigningPublicKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -981,8 +983,9 @@ class IoT {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'billingGroupProperties': billingGroupProperties,
-      'tags': tags,
+      if (billingGroupProperties != null)
+        'billingGroupProperties': billingGroupProperties,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1154,7 +1157,7 @@ class IoT {
       'clientRequestToken': clientRequestToken,
       'stringValues': stringValues,
       'type': type?.toValue(),
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1243,11 +1246,13 @@ class IoT {
       r'''arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/?[a-zA-Z0-9/-]+''',
     );
     final $payload = <String, dynamic>{
-      'authorizerConfig': authorizerConfig,
-      'domainName': domainName,
-      'serverCertificateArns': serverCertificateArns,
-      'serviceType': serviceType?.toValue(),
-      'validationCertificateArn': validationCertificateArn,
+      if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
+      if (domainName != null) 'domainName': domainName,
+      if (serverCertificateArns != null)
+        'serverCertificateArns': serverCertificateArns,
+      if (serviceType != null) 'serviceType': serviceType?.toValue(),
+      if (validationCertificateArn != null)
+        'validationCertificateArn': validationCertificateArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1340,10 +1345,11 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
-      'indexName': indexName,
-      'queryVersion': queryVersion,
-      'tags': tags,
-      'thingGroupProperties': thingGroupProperties,
+      if (indexName != null) 'indexName': indexName,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (tags != null) 'tags': tags,
+      if (thingGroupProperties != null)
+        'thingGroupProperties': thingGroupProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1471,15 +1477,17 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'targets': targets,
-      'abortConfig': abortConfig,
-      'description': description,
-      'document': document,
-      'documentSource': documentSource,
-      'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
-      'presignedUrlConfig': presignedUrlConfig,
-      'tags': tags,
-      'targetSelection': targetSelection?.toValue(),
-      'timeoutConfig': timeoutConfig,
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (description != null) 'description': description,
+      if (document != null) 'document': document,
+      if (documentSource != null) 'documentSource': documentSource,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
+      if (tags != null) 'tags': tags,
+      if (targetSelection != null)
+        'targetSelection': targetSelection?.toValue(),
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1578,7 +1586,7 @@ class IoT {
     final $payload = <String, dynamic>{
       'actionParams': actionParams,
       'roleArn': roleArn,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1693,13 +1701,17 @@ class IoT {
       'files': files,
       'roleArn': roleArn,
       'targets': targets,
-      'additionalParameters': additionalParameters,
-      'awsJobExecutionsRolloutConfig': awsJobExecutionsRolloutConfig,
-      'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
-      'description': description,
-      'protocols': protocols,
-      'tags': tags,
-      'targetSelection': targetSelection?.toValue(),
+      if (additionalParameters != null)
+        'additionalParameters': additionalParameters,
+      if (awsJobExecutionsRolloutConfig != null)
+        'awsJobExecutionsRolloutConfig': awsJobExecutionsRolloutConfig,
+      if (awsJobPresignedUrlConfig != null)
+        'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
+      if (description != null) 'description': description,
+      if (protocols != null) 'protocols': protocols,
+      if (tags != null) 'tags': tags,
+      if (targetSelection != null)
+        'targetSelection': targetSelection?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1951,9 +1963,9 @@ class IoT {
       'provisioningRoleArn': provisioningRoleArn,
       'templateBody': templateBody,
       'templateName': templateName,
-      'description': description,
-      'enabled': enabled,
-      'tags': tags,
+      if (description != null) 'description': description,
+      if (enabled != null) 'enabled': enabled,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2074,7 +2086,8 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'roleArn': roleArn,
-      'credentialDurationSeconds': credentialDurationSeconds,
+      if (credentialDurationSeconds != null)
+        'credentialDurationSeconds': credentialDurationSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2155,9 +2168,9 @@ class IoT {
     final $payload = <String, dynamic>{
       'frequency': frequency?.toValue(),
       'targetCheckNames': targetCheckNames,
-      'dayOfMonth': dayOfMonth,
-      'dayOfWeek': dayOfWeek?.toValue(),
-      'tags': tags,
+      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2241,12 +2254,15 @@ class IoT {
       r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
-      'additionalMetricsToRetain': additionalMetricsToRetain,
-      'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      'alertTargets': alertTargets,
-      'behaviors': behaviors,
-      'securityProfileDescription': securityProfileDescription,
-      'tags': tags,
+      if (additionalMetricsToRetain != null)
+        'additionalMetricsToRetain': additionalMetricsToRetain,
+      if (additionalMetricsToRetainV2 != null)
+        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
+      if (alertTargets != null) 'alertTargets': alertTargets,
+      if (behaviors != null) 'behaviors': behaviors,
+      if (securityProfileDescription != null)
+        'securityProfileDescription': securityProfileDescription,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2331,8 +2347,8 @@ class IoT {
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
-      'description': description,
-      'tags': tags,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2418,9 +2434,9 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'attributePayload': attributePayload,
-      'billingGroupName': billingGroupName,
-      'thingTypeName': thingTypeName,
+      if (attributePayload != null) 'attributePayload': attributePayload,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2486,9 +2502,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'parentGroupName': parentGroupName,
-      'tags': tags,
-      'thingGroupProperties': thingGroupProperties,
+      if (parentGroupName != null) 'parentGroupName': parentGroupName,
+      if (tags != null) 'tags': tags,
+      if (thingGroupProperties != null)
+        'thingGroupProperties': thingGroupProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2539,8 +2556,9 @@ class IoT {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'tags': tags,
-      'thingTypeProperties': thingTypeProperties,
+      if (tags != null) 'tags': tags,
+      if (thingTypeProperties != null)
+        'thingTypeProperties': thingTypeProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3857,7 +3875,7 @@ class IoT {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'undoDeprecate': undoDeprecate,
+      if (undoDeprecate != null) 'undoDeprecate': undoDeprecate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5188,9 +5206,9 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
-      'aggregationField': aggregationField,
-      'indexName': indexName,
-      'queryVersion': queryVersion,
+      if (aggregationField != null) 'aggregationField': aggregationField,
+      if (indexName != null) 'indexName': indexName,
+      if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5242,8 +5260,9 @@ class IoT {
       if (thingName != null) _s.toQueryParam('thingName', thingName),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'cognitoIdentityPoolId': cognitoIdentityPoolId,
-      'principal': principal,
+      if (cognitoIdentityPoolId != null)
+        'cognitoIdentityPoolId': cognitoIdentityPoolId,
+      if (principal != null) 'principal': principal,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5431,10 +5450,10 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
-      'aggregationField': aggregationField,
-      'indexName': indexName,
-      'percents': percents,
-      'queryVersion': queryVersion,
+      if (aggregationField != null) 'aggregationField': aggregationField,
+      if (indexName != null) 'indexName': indexName,
+      if (percents != null) 'percents': percents,
+      if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5610,9 +5629,9 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
-      'aggregationField': aggregationField,
-      'indexName': indexName,
-      'queryVersion': queryVersion,
+      if (aggregationField != null) 'aggregationField': aggregationField,
+      if (indexName != null) 'indexName': indexName,
+      if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5874,13 +5893,13 @@ class IoT {
       r'''[a-zA-Z0-9\-]+''',
     );
     final $payload = <String, dynamic>{
-      'checkName': checkName,
-      'endTime': endTime,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'resourceIdentifier': resourceIdentifier,
-      'startTime': startTime,
-      'taskId': taskId,
+      if (checkName != null) 'checkName': checkName,
+      if (endTime != null) 'endTime': endTime,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+      if (startTime != null) 'startTime': startTime,
+      if (taskId != null) 'taskId': taskId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8416,7 +8435,7 @@ class IoT {
     final $payload = <String, dynamic>{
       'caCertificate': caCertificate,
       'verificationCertificate': verificationCertificate,
-      'registrationConfig': registrationConfig,
+      if (registrationConfig != null) 'registrationConfig': registrationConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8478,8 +8497,8 @@ class IoT {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'certificatePem': certificatePem,
-      'caCertificatePem': caCertificatePem,
-      'status': status?.toValue(),
+      if (caCertificatePem != null) 'caCertificatePem': caCertificatePem,
+      if (status != null) 'status': status?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8521,7 +8540,7 @@ class IoT {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     final $payload = <String, dynamic>{
       'templateBody': templateBody,
-      'parameters': parameters,
+      if (parameters != null) 'parameters': parameters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8582,7 +8601,7 @@ class IoT {
       128,
     );
     final $payload = <String, dynamic>{
-      'rejectReason': rejectReason,
+      if (rejectReason != null) 'rejectReason': rejectReason,
     };
     await _protocol.send(
       payload: $payload,
@@ -8640,10 +8659,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'billingGroupArn': billingGroupArn,
-      'billingGroupName': billingGroupName,
-      'thingArn': thingArn,
-      'thingName': thingName,
+      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingName != null) 'thingName': thingName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8701,10 +8720,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'thingArn': thingArn,
-      'thingGroupArn': thingGroupArn,
-      'thingGroupName': thingGroupName,
-      'thingName': thingName,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+      if (thingName != null) 'thingName': thingName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8819,10 +8838,10 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
-      'indexName': indexName,
-      'maxResults': maxResults,
-      'nextToken': nextToken,
-      'queryVersion': queryVersion,
+      if (indexName != null) 'indexName': indexName,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9000,9 +9019,10 @@ class IoT {
     String roleArn,
   }) async {
     final $payload = <String, dynamic>{
-      'defaultLogLevel': defaultLogLevel?.toValue(),
-      'disableAllLogs': disableAllLogs,
-      'roleArn': roleArn,
+      if (defaultLogLevel != null)
+        'defaultLogLevel': defaultLogLevel?.toValue(),
+      if (disableAllLogs != null) 'disableAllLogs': disableAllLogs,
+      if (roleArn != null) 'roleArn': roleArn,
     };
     await _protocol.send(
       payload: $payload,
@@ -9312,10 +9332,11 @@ class IoT {
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       'authInfos': authInfos,
-      'cognitoIdentityPoolId': cognitoIdentityPoolId,
-      'policyNamesToAdd': policyNamesToAdd,
-      'policyNamesToSkip': policyNamesToSkip,
-      'principal': principal,
+      if (cognitoIdentityPoolId != null)
+        'cognitoIdentityPoolId': cognitoIdentityPoolId,
+      if (policyNamesToAdd != null) 'policyNamesToAdd': policyNamesToAdd,
+      if (policyNamesToSkip != null) 'policyNamesToSkip': policyNamesToSkip,
+      if (principal != null) 'principal': principal,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9396,11 +9417,11 @@ class IoT {
       r'''[A-Za-z0-9+/]+={0,2}''',
     );
     final $payload = <String, dynamic>{
-      'httpContext': httpContext,
-      'mqttContext': mqttContext,
-      'tlsContext': tlsContext,
-      'token': token,
-      'tokenSignature': tokenSignature,
+      if (httpContext != null) 'httpContext': httpContext,
+      if (mqttContext != null) 'mqttContext': mqttContext,
+      if (tlsContext != null) 'tlsContext': tlsContext,
+      if (token != null) 'token': token,
+      if (tokenSignature != null) 'tokenSignature': tokenSignature,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9488,7 +9509,7 @@ class IoT {
         _s.toQueryParam('targetAwsAccount', targetAwsAccount),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'transferMessage': transferMessage,
+      if (transferMessage != null) 'transferMessage': transferMessage,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9574,10 +9595,12 @@ class IoT {
       2048,
     );
     final $payload = <String, dynamic>{
-      'auditCheckConfigurations': auditCheckConfigurations,
-      'auditNotificationTargetConfigurations':
-          auditNotificationTargetConfigurations,
-      'roleArn': roleArn,
+      if (auditCheckConfigurations != null)
+        'auditCheckConfigurations': auditCheckConfigurations,
+      if (auditNotificationTargetConfigurations != null)
+        'auditNotificationTargetConfigurations':
+            auditNotificationTargetConfigurations,
+      if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9645,10 +9668,12 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
-      'authorizerFunctionArn': authorizerFunctionArn,
-      'status': status?.toValue(),
-      'tokenKeyName': tokenKeyName,
-      'tokenSigningPublicKeys': tokenSigningPublicKeys,
+      if (authorizerFunctionArn != null)
+        'authorizerFunctionArn': authorizerFunctionArn,
+      if (status != null) 'status': status?.toValue(),
+      if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
+      if (tokenSigningPublicKeys != null)
+        'tokenSigningPublicKeys': tokenSigningPublicKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9702,7 +9727,7 @@ class IoT {
         billingGroupProperties, 'billingGroupProperties');
     final $payload = <String, dynamic>{
       'billingGroupProperties': billingGroupProperties,
-      'expectedVersion': expectedVersion,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9769,8 +9794,9 @@ class IoT {
       if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'registrationConfig': registrationConfig,
-      'removeAutoRegistration': removeAutoRegistration,
+      if (registrationConfig != null) 'registrationConfig': registrationConfig,
+      if (removeAutoRegistration != null)
+        'removeAutoRegistration': removeAutoRegistration,
     };
     await _protocol.send(
       payload: $payload,
@@ -9941,9 +9967,11 @@ class IoT {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'authorizerConfig': authorizerConfig,
-      'domainConfigurationStatus': domainConfigurationStatus?.toValue(),
-      'removeAuthorizerConfig': removeAuthorizerConfig,
+      if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
+      if (domainConfigurationStatus != null)
+        'domainConfigurationStatus': domainConfigurationStatus?.toValue(),
+      if (removeAuthorizerConfig != null)
+        'removeAuthorizerConfig': removeAuthorizerConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10030,10 +10058,10 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
-      'expectedVersion': expectedVersion,
-      'indexName': indexName,
-      'queryString': queryString,
-      'queryVersion': queryVersion,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
+      if (indexName != null) 'indexName': indexName,
+      if (queryString != null) 'queryString': queryString,
+      if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10057,7 +10085,8 @@ class IoT {
     Map<String, Configuration> eventConfigurations,
   }) async {
     final $payload = <String, dynamic>{
-      'eventConfigurations': eventConfigurations,
+      if (eventConfigurations != null)
+        'eventConfigurations': eventConfigurations,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10086,8 +10115,10 @@ class IoT {
     ThingIndexingConfiguration thingIndexingConfiguration,
   }) async {
     final $payload = <String, dynamic>{
-      'thingGroupIndexingConfiguration': thingGroupIndexingConfiguration,
-      'thingIndexingConfiguration': thingIndexingConfiguration,
+      if (thingGroupIndexingConfiguration != null)
+        'thingGroupIndexingConfiguration': thingGroupIndexingConfiguration,
+      if (thingIndexingConfiguration != null)
+        'thingIndexingConfiguration': thingIndexingConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10160,11 +10191,12 @@ class IoT {
       r'''[^\p{C}]+''',
     );
     final $payload = <String, dynamic>{
-      'abortConfig': abortConfig,
-      'description': description,
-      'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
-      'presignedUrlConfig': presignedUrlConfig,
-      'timeoutConfig': timeoutConfig,
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (description != null) 'description': description,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
     };
     await _protocol.send(
       payload: $payload,
@@ -10217,8 +10249,8 @@ class IoT {
       2048,
     );
     final $payload = <String, dynamic>{
-      'actionParams': actionParams,
-      'roleArn': roleArn,
+      if (actionParams != null) 'actionParams': actionParams,
+      if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10292,10 +10324,11 @@ class IoT {
       2048,
     );
     final $payload = <String, dynamic>{
-      'defaultVersionId': defaultVersionId,
-      'description': description,
-      'enabled': enabled,
-      'provisioningRoleArn': provisioningRoleArn,
+      if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
+      if (description != null) 'description': description,
+      if (enabled != null) 'enabled': enabled,
+      if (provisioningRoleArn != null)
+        'provisioningRoleArn': provisioningRoleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10356,8 +10389,9 @@ class IoT {
       2048,
     );
     final $payload = <String, dynamic>{
-      'credentialDurationSeconds': credentialDurationSeconds,
-      'roleArn': roleArn,
+      if (credentialDurationSeconds != null)
+        'credentialDurationSeconds': credentialDurationSeconds,
+      if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10430,10 +10464,10 @@ class IoT {
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
     final $payload = <String, dynamic>{
-      'dayOfMonth': dayOfMonth,
-      'dayOfWeek': dayOfWeek?.toValue(),
-      'frequency': frequency?.toValue(),
-      'targetCheckNames': targetCheckNames,
+      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
+      if (frequency != null) 'frequency': frequency?.toValue(),
+      if (targetCheckNames != null) 'targetCheckNames': targetCheckNames,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10542,14 +10576,18 @@ class IoT {
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      'additionalMetricsToRetain': additionalMetricsToRetain,
-      'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      'alertTargets': alertTargets,
-      'behaviors': behaviors,
-      'deleteAdditionalMetricsToRetain': deleteAdditionalMetricsToRetain,
-      'deleteAlertTargets': deleteAlertTargets,
-      'deleteBehaviors': deleteBehaviors,
-      'securityProfileDescription': securityProfileDescription,
+      if (additionalMetricsToRetain != null)
+        'additionalMetricsToRetain': additionalMetricsToRetain,
+      if (additionalMetricsToRetainV2 != null)
+        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
+      if (alertTargets != null) 'alertTargets': alertTargets,
+      if (behaviors != null) 'behaviors': behaviors,
+      if (deleteAdditionalMetricsToRetain != null)
+        'deleteAdditionalMetricsToRetain': deleteAdditionalMetricsToRetain,
+      if (deleteAlertTargets != null) 'deleteAlertTargets': deleteAlertTargets,
+      if (deleteBehaviors != null) 'deleteBehaviors': deleteBehaviors,
+      if (securityProfileDescription != null)
+        'securityProfileDescription': securityProfileDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10620,9 +10658,9 @@ class IoT {
       2048,
     );
     final $payload = <String, dynamic>{
-      'description': description,
-      'files': files,
-      'roleArn': roleArn,
+      if (description != null) 'description': description,
+      if (files != null) 'files': files,
+      if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10699,10 +10737,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'attributePayload': attributePayload,
-      'expectedVersion': expectedVersion,
-      'removeThingType': removeThingType,
-      'thingTypeName': thingTypeName,
+      if (attributePayload != null) 'attributePayload': attributePayload,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
+      if (removeThingType != null) 'removeThingType': removeThingType,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10752,7 +10790,7 @@ class IoT {
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
-      'expectedVersion': expectedVersion,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10803,10 +10841,12 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
-      'overrideDynamicGroups': overrideDynamicGroups,
-      'thingGroupsToAdd': thingGroupsToAdd,
-      'thingGroupsToRemove': thingGroupsToRemove,
-      'thingName': thingName,
+      if (overrideDynamicGroups != null)
+        'overrideDynamicGroups': overrideDynamicGroups,
+      if (thingGroupsToAdd != null) 'thingGroupsToAdd': thingGroupsToAdd,
+      if (thingGroupsToRemove != null)
+        'thingGroupsToRemove': thingGroupsToRemove,
+      if (thingName != null) 'thingName': thingName,
     };
     final response = await _protocol.send(
       payload: $payload,

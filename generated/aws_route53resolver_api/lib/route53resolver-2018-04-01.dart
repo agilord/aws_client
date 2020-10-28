@@ -211,7 +211,7 @@ class Route53Resolver {
       payload: {
         'ResolverRuleId': resolverRuleId,
         'VPCId': vPCId,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -324,8 +324,8 @@ class Route53Resolver {
         'Direction': direction?.toValue(),
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
-        'Name': name,
-        'Tags': tags,
+        if (name != null) 'Name': name,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -434,10 +434,11 @@ class Route53Resolver {
         'CreatorRequestId': creatorRequestId,
         'DomainName': domainName,
         'RuleType': ruleType?.toValue(),
-        'Name': name,
-        'ResolverEndpointId': resolverEndpointId,
-        'Tags': tags,
-        'TargetIps': targetIps,
+        if (name != null) 'Name': name,
+        if (resolverEndpointId != null)
+          'ResolverEndpointId': resolverEndpointId,
+        if (tags != null) 'Tags': tags,
+        if (targetIps != null) 'TargetIps': targetIps,
       },
     );
 
@@ -867,8 +868,8 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'ResolverEndpointId': resolverEndpointId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -928,9 +929,9 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -992,9 +993,9 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1053,9 +1054,9 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filters': filters,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1118,8 +1119,8 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -1364,7 +1365,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'ResolverEndpointId': resolverEndpointId,
-        'Name': name,
+        if (name != null) 'Name': name,
       },
     );
 

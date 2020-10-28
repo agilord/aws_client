@@ -141,7 +141,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentTargetName': assessmentTargetName,
-        'resourceGroupArn': resourceGroupArn,
+        if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
       },
     );
 
@@ -232,7 +232,8 @@ class Inspector {
         'assessmentTemplateName': assessmentTemplateName,
         'durationInSeconds': durationInSeconds,
         'rulesPackageArns': rulesPackageArns,
-        'userAttributesForFindings': userAttributesForFindings,
+        if (userAttributesForFindings != null)
+          'userAttributesForFindings': userAttributesForFindings,
       },
     );
 
@@ -576,7 +577,7 @@ class Inspector {
       headers: headers,
       payload: {
         'exclusionArns': exclusionArns,
-        'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale?.toValue(),
       },
     );
 
@@ -611,7 +612,7 @@ class Inspector {
       headers: headers,
       payload: {
         'findingArns': findingArns,
-        'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale?.toValue(),
       },
     );
 
@@ -676,7 +677,7 @@ class Inspector {
       headers: headers,
       payload: {
         'rulesPackageArns': rulesPackageArns,
-        'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale?.toValue(),
       },
     );
 
@@ -814,9 +815,9 @@ class Inspector {
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
         'previewToken': previewToken,
-        'locale': locale?.toValue(),
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (locale != null) 'locale': locale?.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -925,9 +926,9 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -988,10 +989,11 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'assessmentTemplateArns': assessmentTemplateArns,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (assessmentTemplateArns != null)
+          'assessmentTemplateArns': assessmentTemplateArns,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1047,9 +1049,9 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1109,10 +1111,11 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'assessmentTargetArns': assessmentTargetArns,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (assessmentTargetArns != null)
+          'assessmentTargetArns': assessmentTargetArns,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1170,9 +1173,9 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
-        'resourceArn': resourceArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (resourceArn != null) 'resourceArn': resourceArn,
       },
     );
 
@@ -1230,8 +1233,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1291,10 +1294,10 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'assessmentRunArns': assessmentRunArns,
-        'filter': filter,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (assessmentRunArns != null) 'assessmentRunArns': assessmentRunArns,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1338,8 +1341,8 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1438,8 +1441,8 @@ class Inspector {
       headers: headers,
       payload: {
         'previewAgentsArn': previewAgentsArn,
-        'maxResults': maxResults,
-        'nextToken': nextToken,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1566,7 +1569,7 @@ class Inspector {
       headers: headers,
       payload: {
         'resourceArn': resourceArn,
-        'tags': tags,
+        if (tags != null) 'tags': tags,
       },
     );
   }
@@ -1621,7 +1624,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
-        'assessmentRunName': assessmentRunName,
+        if (assessmentRunName != null) 'assessmentRunName': assessmentRunName,
       },
     );
 
@@ -1670,7 +1673,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'stopAction': stopAction?.toValue(),
+        if (stopAction != null) 'stopAction': stopAction?.toValue(),
       },
     );
   }
@@ -1853,7 +1856,7 @@ class Inspector {
       payload: {
         'assessmentTargetArn': assessmentTargetArn,
         'assessmentTargetName': assessmentTargetName,
-        'resourceGroupArn': resourceGroupArn,
+        if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
       },
     );
   }

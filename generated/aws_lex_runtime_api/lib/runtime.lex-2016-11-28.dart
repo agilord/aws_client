@@ -639,8 +639,8 @@ class LexRuntimeService {
     );
     final $payload = <String, dynamic>{
       'inputText': inputText,
-      'requestAttributes': requestAttributes,
-      'sessionAttributes': sessionAttributes,
+      if (requestAttributes != null) 'requestAttributes': requestAttributes,
+      if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -784,9 +784,10 @@ class LexRuntimeService {
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
     final $payload = <String, dynamic>{
-      'dialogAction': dialogAction,
-      'recentIntentSummaryView': recentIntentSummaryView,
-      'sessionAttributes': sessionAttributes,
+      if (dialogAction != null) 'dialogAction': dialogAction,
+      if (recentIntentSummaryView != null)
+        'recentIntentSummaryView': recentIntentSummaryView,
+      if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
     };
     final response = await _protocol.send(
       payload: $payload,

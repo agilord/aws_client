@@ -216,9 +216,9 @@ class CodeStarNotifications {
       'Name': name,
       'Resource': resource,
       'Targets': targets,
-      'ClientRequestToken': clientRequestToken,
-      'Status': status?.toValue(),
-      'Tags': tags,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (status != null) 'Status': status?.toValue(),
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -286,7 +286,8 @@ class CodeStarNotifications {
     );
     final $payload = <String, dynamic>{
       'TargetAddress': targetAddress,
-      'ForceUnsubscribeAll': forceUnsubscribeAll,
+      if (forceUnsubscribeAll != null)
+        'ForceUnsubscribeAll': forceUnsubscribeAll,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -360,9 +361,9 @@ class CodeStarNotifications {
       r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -411,9 +412,9 @@ class CodeStarNotifications {
       r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -491,9 +492,9 @@ class CodeStarNotifications {
       r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
-      'Filters': filters,
-      'MaxResults': maxResults,
-      'NextToken': nextToken,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -545,7 +546,7 @@ class CodeStarNotifications {
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Target': target,
-      'ClientRequestToken': clientRequestToken,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -736,11 +737,11 @@ class CodeStarNotifications {
     );
     final $payload = <String, dynamic>{
       'Arn': arn,
-      'DetailType': detailType?.toValue(),
-      'EventTypeIds': eventTypeIds,
-      'Name': name,
-      'Status': status?.toValue(),
-      'Targets': targets,
+      if (detailType != null) 'DetailType': detailType?.toValue(),
+      if (eventTypeIds != null) 'EventTypeIds': eventTypeIds,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status?.toValue(),
+      if (targets != null) 'Targets': targets,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -94,7 +94,7 @@ class LexModelBuildingService {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'checksum': checksum,
+      if (checksum != null) 'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -158,7 +158,7 @@ class LexModelBuildingService {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'checksum': checksum,
+      if (checksum != null) 'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -223,7 +223,7 @@ class LexModelBuildingService {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'checksum': checksum,
+      if (checksum != null) 'checksum': checksum,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2298,17 +2298,20 @@ class LexModelBuildingService {
     final $payload = <String, dynamic>{
       'childDirected': childDirected,
       'locale': locale?.toValue(),
-      'abortStatement': abortStatement,
-      'checksum': checksum,
-      'clarificationPrompt': clarificationPrompt,
-      'createVersion': createVersion,
-      'description': description,
-      'detectSentiment': detectSentiment,
-      'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
-      'intents': intents,
-      'processBehavior': processBehavior?.toValue(),
-      'tags': tags,
-      'voiceId': voiceId,
+      if (abortStatement != null) 'abortStatement': abortStatement,
+      if (checksum != null) 'checksum': checksum,
+      if (clarificationPrompt != null)
+        'clarificationPrompt': clarificationPrompt,
+      if (createVersion != null) 'createVersion': createVersion,
+      if (description != null) 'description': description,
+      if (detectSentiment != null) 'detectSentiment': detectSentiment,
+      if (idleSessionTTLInSeconds != null)
+        'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
+      if (intents != null) 'intents': intents,
+      if (processBehavior != null)
+        'processBehavior': processBehavior?.toValue(),
+      if (tags != null) 'tags': tags,
+      if (voiceId != null) 'voiceId': voiceId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2426,10 +2429,10 @@ class LexModelBuildingService {
     );
     final $payload = <String, dynamic>{
       'botVersion': botVersion,
-      'checksum': checksum,
-      'conversationLogs': conversationLogs,
-      'description': description,
-      'tags': tags,
+      if (checksum != null) 'checksum': checksum,
+      if (conversationLogs != null) 'conversationLogs': conversationLogs,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2683,18 +2686,21 @@ class LexModelBuildingService {
       200,
     );
     final $payload = <String, dynamic>{
-      'checksum': checksum,
-      'conclusionStatement': conclusionStatement,
-      'confirmationPrompt': confirmationPrompt,
-      'createVersion': createVersion,
-      'description': description,
-      'dialogCodeHook': dialogCodeHook,
-      'followUpPrompt': followUpPrompt,
-      'fulfillmentActivity': fulfillmentActivity,
-      'parentIntentSignature': parentIntentSignature,
-      'rejectionStatement': rejectionStatement,
-      'sampleUtterances': sampleUtterances,
-      'slots': slots,
+      if (checksum != null) 'checksum': checksum,
+      if (conclusionStatement != null)
+        'conclusionStatement': conclusionStatement,
+      if (confirmationPrompt != null) 'confirmationPrompt': confirmationPrompt,
+      if (createVersion != null) 'createVersion': createVersion,
+      if (description != null) 'description': description,
+      if (dialogCodeHook != null) 'dialogCodeHook': dialogCodeHook,
+      if (followUpPrompt != null) 'followUpPrompt': followUpPrompt,
+      if (fulfillmentActivity != null)
+        'fulfillmentActivity': fulfillmentActivity,
+      if (parentIntentSignature != null)
+        'parentIntentSignature': parentIntentSignature,
+      if (rejectionStatement != null) 'rejectionStatement': rejectionStatement,
+      if (sampleUtterances != null) 'sampleUtterances': sampleUtterances,
+      if (slots != null) 'slots': slots,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2848,13 +2854,16 @@ class LexModelBuildingService {
       r'''^((AMAZON\.)_?|[A-Za-z]_?)+''',
     );
     final $payload = <String, dynamic>{
-      'checksum': checksum,
-      'createVersion': createVersion,
-      'description': description,
-      'enumerationValues': enumerationValues,
-      'parentSlotTypeSignature': parentSlotTypeSignature,
-      'slotTypeConfigurations': slotTypeConfigurations,
-      'valueSelectionStrategy': valueSelectionStrategy?.toValue(),
+      if (checksum != null) 'checksum': checksum,
+      if (createVersion != null) 'createVersion': createVersion,
+      if (description != null) 'description': description,
+      if (enumerationValues != null) 'enumerationValues': enumerationValues,
+      if (parentSlotTypeSignature != null)
+        'parentSlotTypeSignature': parentSlotTypeSignature,
+      if (slotTypeConfigurations != null)
+        'slotTypeConfigurations': slotTypeConfigurations,
+      if (valueSelectionStrategy != null)
+        'valueSelectionStrategy': valueSelectionStrategy?.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2921,9 +2930,9 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $payload = <String, dynamic>{
       'mergeStrategy': mergeStrategy?.toValue(),
-      'payload': payload,
+      'payload': payload?.let(base64Encode),
       'resourceType': resourceType?.toValue(),
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,

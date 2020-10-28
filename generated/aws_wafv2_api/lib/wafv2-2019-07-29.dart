@@ -419,8 +419,8 @@ class WAFV2 {
         'IPAddressVersion': iPAddressVersion?.toValue(),
         'Name': name,
         'Scope': scope?.toValue(),
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -525,8 +525,8 @@ class WAFV2 {
         'Name': name,
         'RegularExpressionList': regularExpressionList,
         'Scope': scope?.toValue(),
-        'Description': description,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -673,9 +673,9 @@ class WAFV2 {
         'Name': name,
         'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
-        'Description': description,
-        'Rules': rules,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (rules != null) 'Rules': rules,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -808,9 +808,9 @@ class WAFV2 {
         'Name': name,
         'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
-        'Description': description,
-        'Rules': rules,
-        'Tags': tags,
+        if (description != null) 'Description': description,
+        if (rules != null) 'Rules': rules,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2515,8 +2515,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Scope': scope?.toValue(),
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -2602,8 +2602,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Scope': scope?.toValue(),
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -2686,9 +2686,9 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Limit': limit,
-        'NextMarker': nextMarker,
-        'Scope': scope?.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+        if (scope != null) 'Scope': scope?.toValue(),
       },
     );
 
@@ -2774,8 +2774,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Scope': scope?.toValue(),
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -2836,7 +2836,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'WebACLArn': webACLArn,
-        'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
       },
     );
 
@@ -2922,8 +2922,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Scope': scope?.toValue(),
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3009,8 +3009,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3096,8 +3096,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Scope': scope?.toValue(),
-        'Limit': limit,
-        'NextMarker': nextMarker,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
 
@@ -3570,7 +3570,7 @@ class WAFV2 {
         'LockToken': lockToken,
         'Name': name,
         'Scope': scope?.toValue(),
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -3715,7 +3715,7 @@ class WAFV2 {
         'Name': name,
         'RegularExpressionList': regularExpressionList,
         'Scope': scope?.toValue(),
-        'Description': description,
+        if (description != null) 'Description': description,
       },
     );
 
@@ -3877,8 +3877,8 @@ class WAFV2 {
         'Name': name,
         'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
-        'Description': description,
-        'Rules': rules,
+        if (description != null) 'Description': description,
+        if (rules != null) 'Rules': rules,
       },
     );
 
@@ -4052,8 +4052,8 @@ class WAFV2 {
         'Name': name,
         'Scope': scope?.toValue(),
         'VisibilityConfig': visibilityConfig,
-        'Description': description,
-        'Rules': rules,
+        if (description != null) 'Description': description,
+        if (rules != null) 'Rules': rules,
       },
     );
 

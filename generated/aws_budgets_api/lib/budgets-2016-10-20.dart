@@ -157,7 +157,8 @@ class Budgets {
       payload: {
         'AccountId': accountId,
         'Budget': budget,
-        'NotificationsWithSubscribers': notificationsWithSubscribers,
+        if (notificationsWithSubscribers != null)
+          'NotificationsWithSubscribers': notificationsWithSubscribers,
       },
     );
 
@@ -698,9 +699,9 @@ class Budgets {
       payload: {
         'AccountId': accountId,
         'BudgetName': budgetName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
-        'TimePeriod': timePeriod,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (timePeriod != null) 'TimePeriod': timePeriod,
       },
     );
 
@@ -781,8 +782,8 @@ class Budgets {
       headers: headers,
       payload: {
         'AccountId': accountId,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -877,8 +878,8 @@ class Budgets {
       payload: {
         'AccountId': accountId,
         'BudgetName': budgetName,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -980,8 +981,8 @@ class Budgets {
         'AccountId': accountId,
         'BudgetName': budgetName,
         'Notification': notification,
-        'MaxResults': maxResults,
-        'NextToken': nextToken,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 

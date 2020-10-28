@@ -106,7 +106,7 @@ class GroundStation {
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -144,7 +144,7 @@ class GroundStation {
     ArgumentError.checkNotNull(endpointDetails, 'endpointDetails');
     final $payload = <String, dynamic>{
       'endpointDetails': endpointDetails,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -241,9 +241,11 @@ class GroundStation {
           minimumViableContactDurationSeconds,
       'name': name,
       'trackingConfigArn': trackingConfigArn,
-      'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      'tags': tags,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -556,11 +558,11 @@ class GroundStation {
       'endTime': endTime,
       'startTime': startTime,
       'statusList': statusList,
-      'groundStation': groundStation,
-      'maxResults': maxResults,
-      'missionProfileArn': missionProfileArn,
-      'nextToken': nextToken,
-      'satelliteArn': satelliteArn,
+      if (groundStation != null) 'groundStation': groundStation,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -761,7 +763,7 @@ class GroundStation {
       'missionProfileArn': missionProfileArn,
       'satelliteArn': satelliteArn,
       'startTime': startTime,
-      'tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -963,13 +965,16 @@ class GroundStation {
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
     );
     final $payload = <String, dynamic>{
-      'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      'dataflowEdges': dataflowEdges,
-      'minimumViableContactDurationSeconds':
-          minimumViableContactDurationSeconds,
-      'name': name,
-      'trackingConfigArn': trackingConfigArn,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (dataflowEdges != null) 'dataflowEdges': dataflowEdges,
+      if (minimumViableContactDurationSeconds != null)
+        'minimumViableContactDurationSeconds':
+            minimumViableContactDurationSeconds,
+      if (name != null) 'name': name,
+      if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
     };
     final response = await _protocol.send(
       payload: $payload,

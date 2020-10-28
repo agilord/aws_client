@@ -227,18 +227,26 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
-        'DeliveryStreamEncryptionConfigurationInput':
-            deliveryStreamEncryptionConfigurationInput,
-        'DeliveryStreamType': deliveryStreamType?.toValue(),
-        'ElasticsearchDestinationConfiguration':
-            elasticsearchDestinationConfiguration,
-        'ExtendedS3DestinationConfiguration':
-            extendedS3DestinationConfiguration,
-        'KinesisStreamSourceConfiguration': kinesisStreamSourceConfiguration,
-        'RedshiftDestinationConfiguration': redshiftDestinationConfiguration,
-        'S3DestinationConfiguration': s3DestinationConfiguration,
-        'SplunkDestinationConfiguration': splunkDestinationConfiguration,
-        'Tags': tags,
+        if (deliveryStreamEncryptionConfigurationInput != null)
+          'DeliveryStreamEncryptionConfigurationInput':
+              deliveryStreamEncryptionConfigurationInput,
+        if (deliveryStreamType != null)
+          'DeliveryStreamType': deliveryStreamType?.toValue(),
+        if (elasticsearchDestinationConfiguration != null)
+          'ElasticsearchDestinationConfiguration':
+              elasticsearchDestinationConfiguration,
+        if (extendedS3DestinationConfiguration != null)
+          'ExtendedS3DestinationConfiguration':
+              extendedS3DestinationConfiguration,
+        if (kinesisStreamSourceConfiguration != null)
+          'KinesisStreamSourceConfiguration': kinesisStreamSourceConfiguration,
+        if (redshiftDestinationConfiguration != null)
+          'RedshiftDestinationConfiguration': redshiftDestinationConfiguration,
+        if (s3DestinationConfiguration != null)
+          'S3DestinationConfiguration': s3DestinationConfiguration,
+        if (splunkDestinationConfiguration != null)
+          'SplunkDestinationConfiguration': splunkDestinationConfiguration,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -309,7 +317,7 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
-        'AllowForceDelete': allowForceDelete,
+        if (allowForceDelete != null) 'AllowForceDelete': allowForceDelete,
       },
     );
 
@@ -383,8 +391,9 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
-        'ExclusiveStartDestinationId': exclusiveStartDestinationId,
-        'Limit': limit,
+        if (exclusiveStartDestinationId != null)
+          'ExclusiveStartDestinationId': exclusiveStartDestinationId,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -460,9 +469,11 @@ class Firehose {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryStreamType': deliveryStreamType?.toValue(),
-        'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
-        'Limit': limit,
+        if (deliveryStreamType != null)
+          'DeliveryStreamType': deliveryStreamType?.toValue(),
+        if (exclusiveStartDeliveryStreamName != null)
+          'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -532,8 +543,9 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
-        'ExclusiveStartTagKey': exclusiveStartTagKey,
-        'Limit': limit,
+        if (exclusiveStartTagKey != null)
+          'ExclusiveStartTagKey': exclusiveStartTagKey,
+        if (limit != null) 'Limit': limit,
       },
     );
 
@@ -843,8 +855,9 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
-        'DeliveryStreamEncryptionConfigurationInput':
-            deliveryStreamEncryptionConfigurationInput,
+        if (deliveryStreamEncryptionConfigurationInput != null)
+          'DeliveryStreamEncryptionConfigurationInput':
+              deliveryStreamEncryptionConfigurationInput,
       },
     );
 
@@ -1171,11 +1184,16 @@ class Firehose {
         'CurrentDeliveryStreamVersionId': currentDeliveryStreamVersionId,
         'DeliveryStreamName': deliveryStreamName,
         'DestinationId': destinationId,
-        'ElasticsearchDestinationUpdate': elasticsearchDestinationUpdate,
-        'ExtendedS3DestinationUpdate': extendedS3DestinationUpdate,
-        'RedshiftDestinationUpdate': redshiftDestinationUpdate,
-        'S3DestinationUpdate': s3DestinationUpdate,
-        'SplunkDestinationUpdate': splunkDestinationUpdate,
+        if (elasticsearchDestinationUpdate != null)
+          'ElasticsearchDestinationUpdate': elasticsearchDestinationUpdate,
+        if (extendedS3DestinationUpdate != null)
+          'ExtendedS3DestinationUpdate': extendedS3DestinationUpdate,
+        if (redshiftDestinationUpdate != null)
+          'RedshiftDestinationUpdate': redshiftDestinationUpdate,
+        if (s3DestinationUpdate != null)
+          'S3DestinationUpdate': s3DestinationUpdate,
+        if (splunkDestinationUpdate != null)
+          'SplunkDestinationUpdate': splunkDestinationUpdate,
       },
     );
 
