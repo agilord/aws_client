@@ -20,7 +20,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class CloudFront {
   final _s.RestXmlProtocol _protocol;
   CloudFront({
-    @_s.required String region,
+    String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
     String endpointUrl,

@@ -8,11 +8,14 @@ class RestJsonServiceBuilder extends ServiceBuilder {
   RestJsonServiceBuilder(this.api);
 
   @override
-  String constructor() => '''
+  String constructor() {
+    final regionRequired = api.isGlobalService ? '' : '@_s.required';
+    return '''
   final _s.RestJsonProtocol _protocol;
-  ${api.metadata.className}({@_s.required String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+  ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
   : _protocol = _s.RestJsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
+  }
 
   @override
   String imports() => '';

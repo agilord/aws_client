@@ -131,6 +131,16 @@ class Api {
     }
     return _exceptions;
   }
+
+  bool get isGlobalService => const {
+        'budgets',
+        'cloudfront',
+        'iam',
+        'importexport',
+        'route53',
+        'sts',
+        'waf',
+      }.contains(metadata.endpointPrefix);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)

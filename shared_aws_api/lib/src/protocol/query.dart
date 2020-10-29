@@ -8,20 +8,17 @@ import 'package:xml/xml.dart';
 import '../credentials.dart';
 
 import '_sign.dart';
+import 'endpoint.dart';
 import 'shared.dart';
 
 class QueryProtocol {
   final Client _client;
-  final String _service;
-  final String _region;
-  final String _endpointUrl;
+  final Endpoint _endpoint;
   final AwsClientCredentials _credentials;
 
   QueryProtocol._(
     this._client,
-    this._service,
-    this._region,
-    this._endpointUrl,
+    this._endpoint,
     this._credentials,
   );
 
@@ -33,15 +30,11 @@ class QueryProtocol {
     AwsClientCredentials credentials,
   }) {
     client ??= Client();
-    if (service == null || region == null) {
-      ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
-    }
-    endpointUrl ??= 'https://$service.$region.amazonaws.com';
-    service ??= extractService(Uri.parse(endpointUrl));
-    region ??= extractRegion(Uri.parse(endpointUrl));
+    final endpoint = Endpoint.forProtocol(
+        service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return QueryProtocol._(client, service, region, endpointUrl, credentials);
+    return QueryProtocol._(client, endpoint, credentials);
   }
 
   Future<XmlElement> send(
@@ -87,14 +80,14 @@ class QueryProtocol {
     String version,
     String action,
   ) {
-    final rq = Request(method, Uri.parse('$_endpointUrl$requestUri'));
+    final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
     rq.body = canonical(flatQueryParams(data, shape, shapes, version, action));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
       rq: rq,
-      service: _service,
-      region: _region,
+      service: _endpoint.service,
+      region: _endpoint.signingRegion,
       credentials: _credentials,
     );
     return rq;
