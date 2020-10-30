@@ -9,7 +9,7 @@ String buildReadmeMd(Api api) {
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-${markdownText(api.documentation.replaceFirst('http', 'https'))}
+${markdownText(api.documentation.replaceFirst('http://', 'https://'))}
 
 ## Links
 
