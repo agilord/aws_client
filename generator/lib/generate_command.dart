@@ -15,6 +15,7 @@ import 'package:yaml/yaml.dart';
 import 'builders/library_builder.dart';
 import 'builders/pubspec_builder.dart';
 import 'builders/readme_builder.dart';
+import 'builders/changelog_builder.dart'
 import 'builders/test_builder.dart';
 import 'download_command.dart';
 import 'model/config.dart';
@@ -182,6 +183,7 @@ in the config file, from the downloaded models.''';
         final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
         final pubspecFile = File('$baseDir/pubspec.yaml');
         final readmeFile = File('$baseDir/README.md');
+        final changelogFile = File('$baseDir/CHANGELOG.md')
         final exampleFile = File('$baseDir/example/README.md');
 
         serviceFile.parent.createSync(recursive: true);
@@ -246,6 +248,7 @@ in the config file, from the downloaded models.''';
             latestBuiltApiVersion.compareTo(api.metadata.apiVersion) < 0) {
           latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
           readmeFile.writeAsStringSync(buildReadmeMd(api));
+          changelogFile.writeAsStringSync(buildChanglogMd(api));
           exampleFile.writeAsStringSync(buildExampleReadme(api));
         }
 
