@@ -10,7 +10,7 @@ hosted queue for storing messages as they travel between applications or
 microservices. Amazon SQS moves data between distributed application
 components and helps you decouple these components.
 
-You can use <a href="http://aws.amazon.com/tools/#sdk">AWS SDKs</a> to
+You can use <a href="https://aws.amazon.com/tools/#sdk">AWS SDKs</a> to
 access Amazon SQS using your favorite programming language. The SDKs perform
 tasks such as the following automatically:
 
@@ -29,7 +29,7 @@ Handle error responses
 
 <ul>
 <li>
-<a href="http://aws.amazon.com/sqs/">Amazon SQS Product Page</a>
+<a href="https://aws.amazon.com/sqs/">Amazon SQS Product Page</a>
 </li>
 <li>
 <i>Amazon Simple Queue Service Developer Guide</i>
@@ -53,7 +53,7 @@ SQS Dead-Letter Queues</a>
 </ul> </li>
 <li>
 <a
-href="http://docs.aws.amazon.com/cli/latest/reference/sqs/index.html">Amazon
+href="https://docs.aws.amazon.com/cli/latest/reference/sqs/index.html">Amazon
 SQS in the <i>AWS CLI Command Reference</i> </a>
 </li>
 <li>
