@@ -25,3 +25,4 @@ doc/api/
 
 # Generated directories
 **/apis/
+/all_apis/lib/

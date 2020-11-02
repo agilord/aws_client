@@ -9,6 +9,10 @@ import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model_thin/api.dart' as thin;
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:path/path.dart' as p;
+import 'package:pool/pool.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
@@ -64,16 +68,15 @@ in the config file, from the downloaded models.''';
         help: 'Generates packages in dev mode with dependency overrides',
       )
       ..addFlag(
-        'upgrade-dep',
-        help:
-            'Whether pub should run "upgrade" instead of "get" in generated packages',
+        'pub',
+        help: 'Whether to run a pub command in the generated packages',
         defaultsTo: true,
         negatable: true,
       )
       ..addFlag(
-        'optimize-build',
+        'upgrade-dep',
         help:
-            'Only run pub and build_runner in packages that have file changes according to git',
+            'Whether pub should run "upgrade" instead of "get" in generated packages',
         defaultsTo: true,
         negatable: true,
       )
@@ -148,6 +151,9 @@ in the config file, from the downloaded models.''';
           .add(api.fileBasename);
     }
 
+    final generatedDir = '../generated';
+    final allApisDir = '../all_apis';
+
     for (var i = 0; i < services.length; i++) {
       final service = services.elementAt(i);
       final def = File('./apis/$service.normal.json');
@@ -178,8 +184,9 @@ in the config file, from the downloaded models.''';
             'Generating ${api.fileBasename} for package:${api.packageName}');
 
         // create directories
-        final baseDir = '../generated/${api.packageName}';
-        final serviceFile = File('$baseDir/lib/${api.fileBasename}.dart');
+        final baseDir = '$generatedDir/${api.packageName}';
+        final serviceFile =
+            File('$allApisDir/lib/${api.packageName}/${api.fileBasename}.dart');
         final pubspecFile = File('$baseDir/pubspec.yaml');
         final readmeFile = File('$baseDir/README.md');
         final exampleFile = File('$baseDir/example/README.md');
@@ -197,7 +204,8 @@ in the config file, from the downloaded models.''';
         }
 
         if (api.usesQueryProtocol) {
-          File('$baseDir/lib/${api.fileBasename}.meta.dart')
+          File(
+              '$allApisDir/lib/${api.packageName}/${api.fileBasename}.meta.dart')
             ..writeAsStringSync(metaContents);
         }
 
@@ -269,6 +277,22 @@ in the config file, from the downloaded models.''';
     }
 
     printPercentageInPlace(100, 'Done');
+    print('\n');
+
+    if (argResults['build'] == true) {
+      await _runBuildRunner(allApisDir);
+    }
+
+    for (var api in generatedApis.keys) {
+      final targetDir = Directory('$generatedDir/$api/lib');
+      final source = Directory('$allApisDir/lib/$api');
+      if (!targetDir.existsSync()) {
+        targetDir.createSync();
+      }
+      for (var file in source.listSync().whereType<File>()) {
+        file.copySync('${targetDir.path}/${p.basename(file.path)}');
+      }
+    }
 
     print('\nGenerated packages:');
 
@@ -276,21 +300,19 @@ in the config file, from the downloaded models.''';
         .forEach(
             (e) => print('- [${e.value}](https://pub.dev/packages/${e.key})'));
 
-    if (argResults['build'] == true) {
-      print('\nRunning build_runner in generated projects');
+    if (argResults['pub'] == true) {
+      print('\nRunning pub get in generated projects');
 
       final finalDirsList = touchedDirs.toList();
-
-      final buildRunnerFutures = List.generate(
-          // (processors - 1) makes my operating system freeze - Jonathan
-          (Platform.numberOfProcessors - 2)
-              .clamp(1, Platform.numberOfProcessors)
-              .toInt(),
-          (index) async => await _runBuildRunner(
-              finalDirsList,
-              argResults['optimize-build'] as bool,
-              argResults['upgrade-dep'] as bool));
-      await Future.wait(buildRunnerFutures, eagerError: true);
+      final pubUpgrade = argResults['upgrade-dep'] as bool;
+      final pool = Pool(Platform.numberOfProcessors);
+      for (var baseDir in finalDirsList) {
+        unawaited(pool.withResource(() async {
+          print('Running pub get in $baseDir');
+          await _getDependencies(baseDir, upgrade: pubUpgrade);
+        }));
+      }
+      await pool.close();
     }
 
     final monoPkgFile = File('mono_pkg.yaml');
@@ -306,13 +328,13 @@ in the config file, from the downloaded models.''';
     printPretty(notGeneratedApis);
   }
 
-  Future<void> _getDependencies(String baseDir, {bool upgrade = true}) async {
+  Future<void> _getDependencies(String baseDir, {bool upgrade}) async {
+    upgrade ??= true;
     final pr = await Process.run(
       'dart',
       [
         'pub',
-        if (upgrade) 'upgrade',
-        if (!upgrade) 'get',
+        if (upgrade) 'upgrade' else 'get',
         '--no-precompile',
       ],
       workingDirectory: baseDir,
@@ -324,50 +346,19 @@ in the config file, from the downloaded models.''';
     }
   }
 
-  Future<void> _runBuildRunner(
-      List<String> dirs, bool optimize, bool upgrade) async {
-    while (dirs.isNotEmpty) {
-      final baseDir = dirs.removeLast();
-      final dirsLeft = dirs.length;
-      if (!optimize || await _directoryHasChanges(baseDir)) {
-        print('Running build_runner in $baseDir, dirs left: $dirsLeft');
-        await _getDependencies(baseDir, upgrade: upgrade);
-
-        final pr = await Process.run(
-          'dart',
-          [
-            'pub',
-            'run',
-            'build_runner',
-            'build',
-            '--delete-conflicting-outputs'
-          ],
-          workingDirectory: baseDir,
-        );
-
-        if (pr.exitCode != 0) {
-          print(pr.stdout);
-          print(pr.stderr);
-          throw Exception('build_runner failed at $baseDir');
-        }
-      }
-    }
-  }
-
-  Future<bool> _directoryHasChanges(String dir) async {
-    final pr = await Process.run(
-      'git',
-      ['status', '.'],
-      workingDirectory: dir,
+  Future<void> _runBuildRunner(String baseDir) async {
+    await _getDependencies(baseDir);
+    await ProcessRunner(printOutputDefault: true).runProcess(
+      [
+        'dart',
+        'pub',
+        'run',
+        'build_runner',
+        'build',
+        '--delete-conflicting-outputs'
+      ],
+      workingDirectory: Directory(baseDir),
     );
-
-    if (pr.exitCode != 0) {
-      print(pr.stdout);
-      print(pr.stderr);
-      throw Exception('git failed at $dir');
-    }
-
-    return !(pr.stdout as String).contains('working tree clean');
   }
 
   final _configDataFile = File('./apis/config/region_config_data.json');
