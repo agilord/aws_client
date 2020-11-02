@@ -249,23 +249,25 @@ in the config file, from the downloaded models.''';
         serviceFile.writeAsStringSync(serviceText);
 
         final latestBuiltApiVersion = latestBuiltApi[api.metadata.serviceId];
+        final latestBuiltApiVersionDate =
+            DateTime.parse(latestBuiltApiVersion ?? '1900-01-01');
 
-        if (latestBuiltApiVersion == null ||
-            latestBuiltApiVersion.compareTo(api.metadata.apiVersion) < 0) {
+        if (latestBuiltApiVersionDate
+                .compareTo(DateTime.parse(api.metadata.apiVersion)) <
+            0) {
           latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
           readmeFile.writeAsStringSync(buildReadmeMd(api));
           exampleFile.writeAsStringSync(buildExampleReadme(api));
+          final pathParts = baseDir.split('/')..removeAt(0);
+          final ensureBuildTestContent =
+              _formatter.format(buildTest(pathParts.join('/'), api));
+          File('$baseDir/test/ensure_build_test.dart')
+            ..createSync(recursive: true)
+            ..writeAsStringSync(ensureBuildTestContent);
         }
 
         touchedDirs.add(baseDir);
         generatedApis[api.packageName] = api.metadata.serviceFullName;
-
-        final pathParts = baseDir.split('/')..removeAt(0);
-        final ensureBuildTestContent =
-            _formatter.format(buildTest(pathParts.join('/'), api));
-        File('$baseDir/test/ensure_build_test.dart')
-          ..createSync(recursive: true)
-          ..writeAsStringSync(ensureBuildTestContent);
       } on UnrecognizedKeysException catch (e) {
         print('Error deserializing $service');
         print(e.message);
