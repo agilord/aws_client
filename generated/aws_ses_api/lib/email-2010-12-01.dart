@@ -983,6 +983,7 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetAccountSendingEnabledResult',
     );
     return GetAccountSendingEnabledResponse.fromXml($result);
@@ -1253,6 +1254,7 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetSendQuotaResult',
     );
     return GetSendQuotaResponse.fromXml($result);
@@ -1273,6 +1275,7 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetSendStatisticsResult',
     );
     return GetSendStatisticsResponse.fromXml($result);
@@ -1586,6 +1589,7 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'ListVerifiedEmailAddressesResult',
     );
     return ListVerifiedEmailAddressesResponse.fromXml($result);

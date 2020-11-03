@@ -23,6 +23,7 @@ String getListOrMapDartType(Shape shape) {
 extension StringStuff on String {
   bool isBasicType() =>
       this == 'string' ||
+      this == 'character' ||
       this == 'boolean' ||
       this == 'double' ||
       this == 'float' ||
@@ -36,6 +37,7 @@ extension StringStuff on String {
   String getDartType(Api api) {
     switch (this) {
       case 'string':
+      case 'character':
         return 'String';
       case 'boolean':
         return 'bool';

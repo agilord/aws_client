@@ -1622,6 +1622,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsAnswer.fromXml($result);
@@ -1640,6 +1641,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeAdjustmentTypesResult',
     );
     return DescribeAdjustmentTypesAnswer.fromXml($result);
@@ -1753,6 +1755,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeAutoScalingNotificationTypesResult',
     );
     return DescribeAutoScalingNotificationTypesAnswer.fromXml($result);
@@ -1826,6 +1829,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeLifecycleHookTypesResult',
     );
     return DescribeLifecycleHookTypesAnswer.fromXml($result);
@@ -2010,6 +2014,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeMetricCollectionTypesResult',
     );
     return DescribeMetricCollectionTypesAnswer.fromXml($result);
@@ -2207,6 +2212,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeScalingProcessTypesResult',
     );
     return ProcessesType.fromXml($result);
@@ -2359,6 +2365,7 @@ class AutoScaling {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeTerminationPolicyTypesResult',
     );
     return DescribeTerminationPolicyTypesAnswer.fromXml($result);

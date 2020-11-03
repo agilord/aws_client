@@ -140,10 +140,10 @@ class Shape {
     if (type.isBasicType()) {
       return false;
     }
-    if (member != null && member.shapeClass.type.isBasicType()) {
+    if (member != null && !member.shapeClass.requiresJson) {
       return false;
     }
-    if (value != null && value.shapeClass.type.isBasicType()) {
+    if (value != null && !value.shapeClass.requiresJson) {
       return false;
     }
     return generateFromJson || generateToJson;
@@ -218,6 +218,7 @@ class Member {
   @JsonKey(defaultValue: false)
   final bool eventpayload;
   final List<String> tags;
+  final String timestampFormat;
 
   Member(
     this.shape,
@@ -238,6 +239,7 @@ class Member {
     this.xmlAttribute,
     this.eventpayload,
     this.tags,
+    this.timestampFormat,
   );
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
@@ -246,7 +248,7 @@ class Member {
 
   String get fieldName {
     final lc = name.lowercaseName;
-    if (lc.isReserved) {
+    if (lc.isFieldReserved) {
       return '${lc}Value';
     } else {
       return lc;
@@ -301,6 +303,14 @@ extension NameStuff on String {
       isReserved ||
       <String>{
         'index',
+      }.contains(this);
+
+  bool get isFieldReserved =>
+      isReserved ||
+      <String>{
+        'bool',
+        'double',
+        'int',
       }.contains(this);
 
   String get lowercaseName {
