@@ -30,6 +30,7 @@ class Operation {
   final bool endpointoperation;
   final bool internal;
   final bool internalonly;
+  final String methodNameOverride;
 
   Operation(
     this.name,
@@ -49,6 +50,7 @@ class Operation {
     this.endpointoperation,
     this.internal,
     this.internalonly,
+    this.methodNameOverride,
   );
 
   factory Operation.fromJson(Map<String, dynamic> json) =>
@@ -60,8 +62,10 @@ class Operation {
     errors?.forEach((e) => e.api = api);
   }
 
-  String get methodName =>
-      name.substring(0, 1).toLowerCase() + name.substring(1);
+  String get methodName {
+    final name = methodNameOverride ?? this.name;
+    return name.substring(0, 1).toLowerCase() + name.substring(1);
+  }
 
   bool get hasReturnType => returnType != 'void';
 

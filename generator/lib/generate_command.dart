@@ -20,9 +20,11 @@ import 'builders/library_builder.dart';
 import 'builders/pubspec_builder.dart';
 import 'builders/readme_builder.dart';
 import 'builders/test_builder.dart';
+import 'builders/test_suite_builder.dart';
 import 'download_command.dart';
 import 'model/config.dart';
 import 'model/region_config.dart';
+import 'model/test_model.dart';
 
 class GenerateCommand extends Command {
   final _formatter = DartFormatter(fixes: StyleFix.all);
@@ -80,6 +82,12 @@ in the config file, from the downloaded models.''';
         defaultsTo: true,
         negatable: true,
       )
+      ..addFlag(
+        'test-suite',
+        help: 'Generates a test suite in the package "shared_aws_api"',
+        defaultsTo: true,
+        negatable: true,
+      )
       ..addMultiOption(
         'packages',
         abbr: 'p',
@@ -117,6 +125,9 @@ in the config file, from the downloaded models.''';
     }
     await _generateClasses();
     await _generateConfigFiles();
+    if (argResults['test-suite'] == true) {
+      await _generateTestSuite();
+    }
 
     print('Generator finished in ${stopwatch.elapsed}');
   }
@@ -127,7 +138,8 @@ in the config file, from the downloaded models.''';
     final protocol = argResults['protocol'];
 
     final dir = Directory('./apis');
-    final files = dir.listSync().whereType<File>();
+    final files = dir.listSync().whereType<File>().toList();
+    files.sort((a, b) => a.path.compareTo(b.path));
     final services = <String>{};
 
     files.forEach((ent) {
@@ -376,6 +388,85 @@ in the config file, from the downloaded models.''';
       ..writeAsStringSync(endpointConfigCode);
 
     print('Generated endpoint_config_data file');
+  }
+
+  Future<void> _generateTestSuite() async {
+    final sharedLibDir = '../shared_aws_api';
+    final testDir = '$sharedLibDir/test/fixtures';
+    final generatedDir = Directory('$sharedLibDir/test/generated');
+    const protocols = {'json', 'query', 'rest-json', 'rest-xml'};
+    final formatter = DartFormatter(fixes: StyleFix.all);
+    if (generatedDir.existsSync()) {
+      generatedDir.deleteSync(recursive: true);
+    }
+
+    for (var type in {'input', 'output'}) {
+      for (var protocol in protocols) {
+        final testFile = File('$testDir/$type/$protocol.json');
+        final testSuites = TestSuite.decode(testFile.readAsStringSync());
+        for (var testSuite in testSuites) {
+          final apiDef = testSuite.toApiDefinition();
+
+          final api = Api.fromJson(apiDef);
+          final thinApi = thin.Api.fromJson(apiDef);
+
+          var serviceCode = buildService(api);
+
+          serviceCode = formatter.format(serviceCode);
+
+          final baseDir = '${generatedDir.path}/$type/$protocol';
+          if (api.usesQueryProtocol) {
+            final metaContents = '''
+              // ignore_for_file: prefer_single_quotes
+              const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
+
+            File('$baseDir/${api.fileBasename}.meta.dart')
+              ..createSync(recursive: true)
+              ..writeAsStringSync(formatter.format(metaContents));
+          }
+
+          File('$baseDir/${api.fileBasename}.dart')
+            ..createSync(recursive: true)
+            ..writeAsStringSync(serviceCode);
+
+          final testCode = buildTestSuite(testSuite, api);
+          File('$baseDir/${api.fileBasename}_test.dart')
+              .writeAsStringSync(formatter.format(testCode));
+        }
+      }
+    }
+
+    _generateTestAllFile(generatedDir);
+    await _runBuildRunner(sharedLibDir);
+  }
+
+  // Generates a "test_all.dart" file with an import to all the generated tests.
+  // This is a lot faster to run this file than all the separate tests.
+  void _generateTestAllFile(Directory root) {
+    final allFiles = root
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((f) => f.path.endsWith('_test.dart'))
+        .map((file) => p.relative(file.path, from: root.path))
+        .toList();
+    allFiles.sort();
+
+    final buffer = StringBuffer();
+    buffer.writeln("import 'package:test/test.dart';");
+    for (var i = 0; i < allFiles.length; i++) {
+      final file = allFiles[i];
+      buffer.writeln("import '$file' as _i$i;");
+    }
+
+    buffer.writeln('void main() {');
+    for (var i = 0; i < allFiles.length; i++) {
+      final file = allFiles[i].replaceAll('.dart', '');
+      buffer.writeln("group('$file', _i$i.main);");
+    }
+    buffer.writeln('}');
+
+    File('${root.path}/test_all.dart')
+        .writeAsStringSync(DartFormatter().format(buffer.toString()));
   }
 }
 

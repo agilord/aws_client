@@ -24,7 +24,8 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     'endpointdiscovery',
     'endpointoperation',
     'internal',
-    'internalonly'
+    'internalonly',
+    'methodNameOverride'
   ]);
   return Operation(
     json['name'] as String,
@@ -57,6 +58,7 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     json['endpointoperation'] as bool ?? false,
     json['internal'] as bool,
     json['internalonly'] as bool,
+    json['methodNameOverride'] as String,
   );
 }
 

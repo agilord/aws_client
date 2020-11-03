@@ -52,7 +52,8 @@ class QueryServiceBuilder extends ServiceBuilder {
       'requestUri: \'${operation.http.requestUri}\', ',
       'exceptionFnMap: _exceptionFns, ',
       if (operation.input?.shape != null)
-        "shape: shapes['${operation.input.shape}'], shapes: shapes,",
+        "shape: shapes['${operation.input.shape}'], ",
+      'shapes: shapes,',
     ].join());
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output.resultWrapper}\',');

@@ -172,14 +172,7 @@ ${builder.constructor()}
 
       final enumFieldNames =
           shape.enumeration.where((s) => s.isNotEmpty).map((value) {
-        var fieldName = value
-            .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
-            .replaceAll(RegExp(r'_+'), '_')
-            .lowercaseName;
-        if (fieldName.isEnumReserved ||
-            fieldName.startsWith(RegExp(r'[0-9]'))) {
-          fieldName = '\$$fieldName';
-        }
+        final fieldName = toEnumerationFieldName(value);
         if (shape.api.generateJson) {
           writeln("  @_s.JsonValue('$value')");
         }
@@ -494,6 +487,17 @@ String _toXmlFn(
 
 String _uppercaseName(String value) =>
     value.substring(0, 1).toUpperCase() + value.substring(1);
+
+String toEnumerationFieldName(String value) {
+  var fieldName = value
+      .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
+      .replaceAll(RegExp(r'_+'), '_')
+      .lowercaseName;
+  if (fieldName.isEnumReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
+    fieldName = '\$$fieldName';
+  }
+  return fieldName;
+}
 
 extension Utils<T> on Iterable<T> {
   Iterable<E> mapIndexed<E, TYPE>(
