@@ -841,6 +841,7 @@ class ElasticBeanstalk {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'CreateStorageLocationResult',
     );
     return CreateStorageLocationResultMessage.fromXml($result);
@@ -1089,6 +1090,7 @@ class ElasticBeanstalk {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeAccountAttributesResult',
     );
     return DescribeAccountAttributesResult.fromXml($result);
@@ -1838,6 +1840,7 @@ class ElasticBeanstalk {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'ListAvailableSolutionStacksResult',
     );
     return ListAvailableSolutionStacksResultMessage.fromXml($result);

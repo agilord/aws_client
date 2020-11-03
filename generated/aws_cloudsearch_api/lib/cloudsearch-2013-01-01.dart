@@ -1165,6 +1165,7 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'ListDomainNamesResult',
     );
     return ListDomainNamesResponse.fromXml($result);

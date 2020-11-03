@@ -4007,6 +4007,7 @@ class Redshift {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'DescribeStorageResult',
     );
     return CustomerStorageMessage.fromXml($result);

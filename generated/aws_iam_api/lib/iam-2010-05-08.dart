@@ -2198,6 +2198,7 @@ class IAM {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
     );
   }
 
@@ -3783,6 +3784,7 @@ class IAM {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GenerateCredentialReportResult',
     );
     return GenerateCredentialReportResponse.fromXml($result);
@@ -4229,6 +4231,7 @@ class IAM {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetAccountPasswordPolicyResult',
     );
     return GetAccountPasswordPolicyResponse.fromXml($result);
@@ -4251,6 +4254,7 @@ class IAM {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetAccountSummaryResult',
     );
     return GetAccountSummaryResponse.fromXml($result);
@@ -4422,6 +4426,7 @@ class IAM {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      shapes: shapes,
       resultWrapper: 'GetCredentialReportResult',
     );
     return GetCredentialReportResponse.fromXml($result);
