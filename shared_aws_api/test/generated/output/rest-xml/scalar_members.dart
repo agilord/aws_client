@@ -35,7 +35,7 @@ class ScalarMembers {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body);
+    return OutputShape.fromXml($result.body, headers: $result.headers);
   }
 
   Future<OutputShape> operationName1() async {
@@ -44,7 +44,7 @@ class ScalarMembers {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body);
+    return OutputShape.fromXml($result.body, headers: $result.headers);
   }
 }
 
@@ -74,14 +74,17 @@ class OutputShape {
     this.timestamp,
     this.trueBool,
   });
-  factory OutputShape.fromXml(_s.XmlElement elem) {
+  factory OutputShape.fromXml(
+    _s.XmlElement elem, {
+    Map<String, String> headers,
+  }) {
     return OutputShape(
       char: _s.extractXmlStringValue(elem, 'Char'),
       doubleValue: _s.extractXmlDoubleValue(elem, 'Double'),
       falseBool: _s.extractXmlBoolValue(elem, 'FalseBool'),
       float: _s.extractXmlDoubleValue(elem, 'Float'),
-      imaHeader: _s.extractXmlStringValue(elem, 'ImaHeader'),
-      imaHeaderLocation: _s.extractXmlStringValue(elem, 'X-Foo'),
+      imaHeader: _s.extractHeaderStringValue(headers, 'ImaHeader'),
+      imaHeaderLocation: _s.extractHeaderStringValue(headers, 'X-Foo'),
       long: _s.extractXmlIntValue(elem, 'Long'),
       num: _s.extractXmlIntValue(elem, 'FooNum'),
       str: _s.extractXmlStringValue(elem, 'Str'),

@@ -35,7 +35,7 @@ class ScalarMembersInHeaders {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body);
+    return OutputShape.fromXml($result.body, headers: $result.headers);
   }
 }
 
@@ -61,17 +61,21 @@ class OutputShape {
     this.timestamp,
     this.trueBool,
   });
-  factory OutputShape.fromXml(_s.XmlElement elem) {
+  factory OutputShape.fromXml(
+    // ignore: avoid_unused_constructor_parameters
+    _s.XmlElement elem, {
+    Map<String, String> headers,
+  }) {
     return OutputShape(
-      char: _s.extractXmlStringValue(elem, 'x-char'),
-      doubleValue: _s.extractXmlDoubleValue(elem, 'x-double'),
-      falseBool: _s.extractXmlBoolValue(elem, 'x-false-bool'),
-      float: _s.extractXmlDoubleValue(elem, 'x-float'),
-      integer: _s.extractXmlIntValue(elem, 'x-int'),
-      long: _s.extractXmlIntValue(elem, 'x-long'),
-      str: _s.extractXmlStringValue(elem, 'x-str'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'x-timestamp'),
-      trueBool: _s.extractXmlBoolValue(elem, 'x-true-bool'),
+      char: _s.extractHeaderStringValue(headers, 'x-char'),
+      doubleValue: _s.extractHeaderDoubleValue(headers, 'x-double'),
+      falseBool: _s.extractHeaderBoolValue(headers, 'x-false-bool'),
+      float: _s.extractHeaderDoubleValue(headers, 'x-float'),
+      integer: _s.extractHeaderIntValue(headers, 'x-int'),
+      long: _s.extractHeaderIntValue(headers, 'x-long'),
+      str: _s.extractHeaderStringValue(headers, 'x-str'),
+      timestamp: _s.extractHeaderDateTimeValue(headers, 'x-timestamp'),
+      trueBool: _s.extractHeaderBoolValue(headers, 'x-true-bool'),
     );
   }
 }
