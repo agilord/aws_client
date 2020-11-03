@@ -6,27 +6,30 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:xml/xml.dart';
 
-final rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'Z'", 'en_US');
-final iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
+final _rfc822Parser = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
+final _rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'Z'", 'en_US');
+final _iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
 
 DateTime rfc822FromJson(String date) =>
-    date == null ? null : rfc822Formatter.parse(date);
+    date == null ? null : _rfc822Parser.parseUtc(date);
 
 String rfc822ToJson(DateTime date) =>
-    date == null ? null : rfc822Formatter.format(date.toUtc());
+    date == null ? null : _rfc822Formatter.format(date.toUtc());
 
 DateTime iso8601FromJson(String date) =>
-    date == null ? null : iso8601Formatter.parse(date);
+    date == null ? null : _iso8601Formatter.parseUtc(date);
 
 String iso8601ToJson(DateTime date) =>
-    date == null ? null : iso8601Formatter.format(date.toUtc());
+    date == null ? null : _iso8601Formatter.format(date.toUtc());
 
 DateTime unixTimestampFromJson(dynamic date) {
   if (date == null) return null;
   if (date is String) {
-    return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
+    return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000,
+        isUtc: true);
   } else if (date is num) {
-    return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000);
+    return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000,
+        isUtc: true);
   }
 
   throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
@@ -127,9 +130,16 @@ bool extractXmlBoolValue(XmlElement elem, String name) {
   return _parseBool(extractXmlStringValue(elem, name));
 }
 
-DateTime extractXmlDateTimeValue(XmlElement elem, String name) {
+DateTime extractXmlDateTimeValue(XmlElement elem, String name,
+    {DateTime Function(String) parser}) {
   final str = extractXmlStringValue(elem, name);
-  return str == null ? null : DateTime.parse(str);
+  if (str == null) {
+    return null;
+  }
+  if (parser != null) {
+    return parser(str);
+  }
+  return DateTime.parse(str);
 }
 
 double extractXmlDoubleValue(XmlElement elem, String name) {
@@ -225,9 +235,19 @@ bool extractHeaderBoolValue(Map<String, String> headers, String name) {
   return v?.toLowerCase() == 'true';
 }
 
-DateTime extractHeaderDateTimeValue(Map<String, String> headers, String name) {
+DateTime extractHeaderDateTimeValue(Map<String, String> headers, String name,
+    {DateTime Function(String) parser}) {
   final v = extractHeaderStringValue(headers, name);
-  return v == null ? null : DateTime.parse(v);
+
+  if (v == null) {
+    return null;
+  }
+
+  if (parser != null) {
+    return parser(v);
+  }
+
+  return DateTime.tryParse(v) ?? _rfc822Parser.parseUtc(v);
 }
 
 Map<String, String> extractHeaderMapValues(

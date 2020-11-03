@@ -237,7 +237,9 @@ ${builder.constructor()}
           } else if (member.dartType == 'DateTime') {
             var timeStampFormat = 'unixTimestamp';
 
-            if (member.shapeClass.timestampFormat != null) {
+            if (member.timestampFormat != null) {
+              timeStampFormat = member.timestampFormat;
+            } else if (member.shapeClass.timestampFormat != null) {
               timeStampFormat = member.shapeClass.timestampFormat;
             } else if (member.location == 'header') {
               timeStampFormat = 'rfc822';
@@ -312,8 +314,14 @@ ${builder.constructor()}
               extractor =
                   '_s.extractHeaderStringValue(headers, \'${member.locationName ?? member.name}\')?.to${_uppercaseName(member.dartType)}()';
             } else {
+              var extraParameters = '';
+              if (member.timestampFormat != null ||
+                  member.shapeClass.timestampFormat != null) {
+                extraParameters =
+                    ', parser: _s.${member.timestampFormat ?? member.shapeClass.timestampFormat}FromJson';
+              }
               extractor =
-                  '_s.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\')';
+                  '_s.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\'$extraParameters)';
             }
           }
 
@@ -324,6 +332,7 @@ ${builder.constructor()}
             elemName: member.locationName ?? member.name,
             flattened: member.flattened,
             parent: member.shapeClass,
+            member: member,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
         }
@@ -400,6 +409,7 @@ String _xmlExtractorFn(
   String shape,
   String elemName,
   bool flattened = false,
+  Member member,
   Shape parent,
 }) {
   final shapeRef = api.shapes[shape];
@@ -410,7 +420,12 @@ String _xmlExtractorFn(
 
   if (type.isBasicType()) {
     final dartType = type.getDartType(api);
-    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\')${enumeration ? '?.to${parent.className}()' : ''}';
+    var extraParameters = '';
+    if (shapeRef.timestampFormat != null || member?.timestampFormat != null) {
+      extraParameters =
+          ', parser: _s.${shapeRef.timestampFormat ?? member.timestampFormat}FromJson';
+    }
+    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final memberElemName = shapeRef.member.locationName ?? elemName;
