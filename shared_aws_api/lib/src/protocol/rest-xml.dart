@@ -77,11 +77,15 @@ class RestXmlProtocol {
       dynamic payload,
       Map<String, String> headers) {
     queryParams ??= <String, String>{};
+
+    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    if (queryParams.isNotEmpty) {
+      uri = uri
+          .replace(queryParameters: {...uri.queryParameters, ...queryParams});
+    }
     final rq = Request(
       method,
-      Uri.parse(
-        '${_endpoint.url}$requestUri',
-      ).replace(queryParameters: queryParams.isEmpty ? null : queryParams),
+      uri,
     );
 
     rq.headers.addAll(headers ?? {});

@@ -269,7 +269,10 @@ class Member {
     return dartType;
   }
 
-  bool get isHeader => location == 'header' || location == 'headers';
+  bool get isHeader =>
+      location == 'header' ||
+      location == 'headers' ||
+      shapeClass.location == 'header';
 
   bool get isUri => location == 'uri';
 

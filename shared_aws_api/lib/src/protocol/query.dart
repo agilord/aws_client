@@ -190,7 +190,7 @@ Iterable<MapEntry<String, String>> _flatten(
     data = data.toJson();
   }
 
-  if (data is Map && shape.type == 'structure') {
+  if (data is Map && shape?.type == 'structure') {
     for (final entry in shape.members.entries) {
       final member = entry.value;
       final value = data[entry.key];
