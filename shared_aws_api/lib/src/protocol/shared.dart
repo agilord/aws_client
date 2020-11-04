@@ -215,6 +215,11 @@ int extractHeaderIntValue(Map<String, String> headers, String name) {
   return v == null ? null : int.parse(v);
 }
 
+double extractHeaderDoubleValue(Map<String, String> headers, String name) {
+  final v = extractHeaderStringValue(headers, name);
+  return v == null ? null : num.parse(v).toDouble();
+}
+
 bool extractHeaderBoolValue(Map<String, String> headers, String name) {
   final v = extractHeaderStringValue(headers, name);
   return v?.toLowerCase() == 'true';

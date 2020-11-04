@@ -49,8 +49,10 @@ class JsonProtocol {
         queryParameters: queryParams ?? {},
       ),
     );
-    rq.body = payload == null ? null : json.encode(payload);
     rq.headers.addAll(headers ?? {});
+    if (payload != null) {
+      rq.body = json.encode(payload);
+    }
 
     signAws4HmacSha256(
       rq: rq,
