@@ -594,7 +594,8 @@ class Polly {
       requestUri: '/v1/speech',
       exceptionFnMap: _exceptionFns,
     );
-    return SynthesizeSpeechOutput.fromJson(response);
+    return SynthesizeSpeechOutput.fromJson(
+        {...response, 'AudioStream': response});
   }
 }
 

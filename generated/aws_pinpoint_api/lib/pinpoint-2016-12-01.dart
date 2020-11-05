@@ -59,7 +59,8 @@ class Pinpoint {
       requestUri: '/v1/apps',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateAppResponse.fromJson(response);
+    return CreateAppResponse.fromJson(
+        {...response, 'ApplicationResponse': response});
   }
 
   /// Creates a new campaign for an application or updates the settings of an
@@ -89,7 +90,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateCampaignResponse.fromJson(response);
+    return CreateCampaignResponse.fromJson(
+        {...response, 'CampaignResponse': response});
   }
 
   /// Creates a message template for messages that are sent through the email
@@ -119,7 +121,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateEmailTemplateResponse.fromJson(response);
+    return CreateEmailTemplateResponse.fromJson(
+        {...response, 'CreateTemplateMessageBody': response});
   }
 
   /// Creates an export job for an application.
@@ -148,7 +151,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateExportJobResponse.fromJson(response);
+    return CreateExportJobResponse.fromJson(
+        {...response, 'ExportJobResponse': response});
   }
 
   /// Creates an import job for an application.
@@ -177,7 +181,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateImportJobResponse.fromJson(response);
+    return CreateImportJobResponse.fromJson(
+        {...response, 'ImportJobResponse': response});
   }
 
   /// Creates a journey for an application.
@@ -206,7 +211,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateJourneyResponse.fromJson(response);
+    return CreateJourneyResponse.fromJson(
+        {...response, 'JourneyResponse': response});
   }
 
   /// Creates a message template for messages that are sent through a push
@@ -238,7 +244,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push',
       exceptionFnMap: _exceptionFns,
     );
-    return CreatePushTemplateResponse.fromJson(response);
+    return CreatePushTemplateResponse.fromJson(
+        {...response, 'CreateTemplateMessageBody': response});
   }
 
   /// Creates an Amazon Pinpoint configuration for a recommender model.
@@ -262,7 +269,8 @@ class Pinpoint {
       requestUri: '/v1/recommenders',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateRecommenderConfigurationResponse.fromJson(response);
+    return CreateRecommenderConfigurationResponse.fromJson(
+        {...response, 'RecommenderConfigurationResponse': response});
   }
 
   /// Creates a new segment for an application or updates the configuration,
@@ -293,7 +301,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSegmentResponse.fromJson(response);
+    return CreateSegmentResponse.fromJson(
+        {...response, 'SegmentResponse': response});
   }
 
   /// Creates a message template for messages that are sent through the SMS
@@ -323,7 +332,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSmsTemplateResponse.fromJson(response);
+    return CreateSmsTemplateResponse.fromJson(
+        {...response, 'CreateTemplateMessageBody': response});
   }
 
   /// Creates a message template for messages that are sent through the voice
@@ -353,7 +363,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVoiceTemplateResponse.fromJson(response);
+    return CreateVoiceTemplateResponse.fromJson(
+        {...response, 'CreateTemplateMessageBody': response});
   }
 
   /// Disables the ADM channel for an application and deletes any existing
@@ -382,7 +393,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAdmChannelResponse.fromJson(response);
+    return DeleteAdmChannelResponse.fromJson(
+        {...response, 'ADMChannelResponse': response});
   }
 
   /// Disables the APNs channel for an application and deletes any existing
@@ -411,7 +423,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsChannelResponse.fromJson(response);
+    return DeleteApnsChannelResponse.fromJson(
+        {...response, 'APNSChannelResponse': response});
   }
 
   /// Disables the APNs sandbox channel for an application and deletes any
@@ -440,7 +453,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsSandboxChannelResponse.fromJson(response);
+    return DeleteApnsSandboxChannelResponse.fromJson(
+        {...response, 'APNSSandboxChannelResponse': response});
   }
 
   /// Disables the APNs VoIP channel for an application and deletes any existing
@@ -469,7 +483,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsVoipChannelResponse.fromJson(response);
+    return DeleteApnsVoipChannelResponse.fromJson(
+        {...response, 'APNSVoipChannelResponse': response});
   }
 
   /// Disables the APNs VoIP sandbox channel for an application and deletes any
@@ -498,7 +513,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsVoipSandboxChannelResponse.fromJson(response);
+    return DeleteApnsVoipSandboxChannelResponse.fromJson(
+        {...response, 'APNSVoipSandboxChannelResponse': response});
   }
 
   /// Deletes an application.
@@ -525,7 +541,8 @@ class Pinpoint {
       requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAppResponse.fromJson(response);
+    return DeleteAppResponse.fromJson(
+        {...response, 'ApplicationResponse': response});
   }
 
   /// Disables the Baidu channel for an application and deletes any existing
@@ -554,7 +571,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteBaiduChannelResponse.fromJson(response);
+    return DeleteBaiduChannelResponse.fromJson(
+        {...response, 'BaiduChannelResponse': response});
   }
 
   /// Deletes a campaign from an application.
@@ -587,7 +605,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCampaignResponse.fromJson(response);
+    return DeleteCampaignResponse.fromJson(
+        {...response, 'CampaignResponse': response});
   }
 
   /// Disables the email channel for an application and deletes any existing
@@ -616,7 +635,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEmailChannelResponse.fromJson(response);
+    return DeleteEmailChannelResponse.fromJson(
+        {...response, 'EmailChannelResponse': response});
   }
 
   /// Deletes a message template for messages that were sent through the email
@@ -683,7 +703,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEmailTemplateResponse.fromJson(response);
+    return DeleteEmailTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Deletes an endpoint from an application.
@@ -716,7 +737,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEndpointResponse.fromJson(response);
+    return DeleteEndpointResponse.fromJson(
+        {...response, 'EndpointResponse': response});
   }
 
   /// Deletes the event stream for an application.
@@ -744,7 +766,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEventStreamResponse.fromJson(response);
+    return DeleteEventStreamResponse.fromJson(
+        {...response, 'EventStream': response});
   }
 
   /// Disables the GCM channel for an application and deletes any existing
@@ -773,7 +796,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteGcmChannelResponse.fromJson(response);
+    return DeleteGcmChannelResponse.fromJson(
+        {...response, 'GCMChannelResponse': response});
   }
 
   /// Deletes a journey from an application.
@@ -806,7 +830,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteJourneyResponse.fromJson(response);
+    return DeleteJourneyResponse.fromJson(
+        {...response, 'JourneyResponse': response});
   }
 
   /// Deletes a message template for messages that were sent through a push
@@ -873,7 +898,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePushTemplateResponse.fromJson(response);
+    return DeletePushTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Deletes an Amazon Pinpoint configuration for a recommender model.
@@ -903,7 +929,8 @@ class Pinpoint {
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRecommenderConfigurationResponse.fromJson(response);
+    return DeleteRecommenderConfigurationResponse.fromJson(
+        {...response, 'RecommenderConfigurationResponse': response});
   }
 
   /// Deletes a segment from an application.
@@ -936,7 +963,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSegmentResponse.fromJson(response);
+    return DeleteSegmentResponse.fromJson(
+        {...response, 'SegmentResponse': response});
   }
 
   /// Disables the SMS channel for an application and deletes any existing
@@ -965,7 +993,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSmsChannelResponse.fromJson(response);
+    return DeleteSmsChannelResponse.fromJson(
+        {...response, 'SMSChannelResponse': response});
   }
 
   /// Deletes a message template for messages that were sent through the SMS
@@ -1032,7 +1061,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSmsTemplateResponse.fromJson(response);
+    return DeleteSmsTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Deletes all the endpoints that are associated with a specific user ID.
@@ -1065,7 +1095,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteUserEndpointsResponse.fromJson(response);
+    return DeleteUserEndpointsResponse.fromJson(
+        {...response, 'EndpointsResponse': response});
   }
 
   /// Disables the voice channel for an application and deletes any existing
@@ -1094,7 +1125,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVoiceChannelResponse.fromJson(response);
+    return DeleteVoiceChannelResponse.fromJson(
+        {...response, 'VoiceChannelResponse': response});
   }
 
   /// Deletes a message template for messages that were sent through the voice
@@ -1161,7 +1193,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVoiceTemplateResponse.fromJson(response);
+    return DeleteVoiceTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Retrieves information about the status and settings of the ADM channel for
@@ -1189,7 +1222,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAdmChannelResponse.fromJson(response);
+    return GetAdmChannelResponse.fromJson(
+        {...response, 'ADMChannelResponse': response});
   }
 
   /// Retrieves information about the status and settings of the APNs channel
@@ -1217,7 +1251,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsChannelResponse.fromJson(response);
+    return GetApnsChannelResponse.fromJson(
+        {...response, 'APNSChannelResponse': response});
   }
 
   /// Retrieves information about the status and settings of the APNs sandbox
@@ -1245,7 +1280,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsSandboxChannelResponse.fromJson(response);
+    return GetApnsSandboxChannelResponse.fromJson(
+        {...response, 'APNSSandboxChannelResponse': response});
   }
 
   /// Retrieves information about the status and settings of the APNs VoIP
@@ -1273,7 +1309,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsVoipChannelResponse.fromJson(response);
+    return GetApnsVoipChannelResponse.fromJson(
+        {...response, 'APNSVoipChannelResponse': response});
   }
 
   /// Retrieves information about the status and settings of the APNs VoIP
@@ -1301,7 +1338,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsVoipSandboxChannelResponse.fromJson(response);
+    return GetApnsVoipSandboxChannelResponse.fromJson(
+        {...response, 'APNSVoipSandboxChannelResponse': response});
   }
 
   /// Retrieves information about an application.
@@ -1327,7 +1365,8 @@ class Pinpoint {
       requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAppResponse.fromJson(response);
+    return GetAppResponse.fromJson(
+        {...response, 'ApplicationResponse': response});
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard metric that applies
@@ -1401,7 +1440,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApplicationDateRangeKpiResponse.fromJson(response);
+    return GetApplicationDateRangeKpiResponse.fromJson(
+        {...response, 'ApplicationDateRangeKpiResponse': response});
   }
 
   /// Retrieves information about the settings for an application.
@@ -1428,7 +1468,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApplicationSettingsResponse.fromJson(response);
+    return GetApplicationSettingsResponse.fromJson(
+        {...response, 'ApplicationSettingsResource': response});
   }
 
   /// Retrieves information about all the applications that are associated with
@@ -1465,7 +1506,8 @@ class Pinpoint {
       requestUri: '/v1/apps$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAppsResponse.fromJson(response);
+    return GetAppsResponse.fromJson(
+        {...response, 'ApplicationsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the Baidu channel
@@ -1493,7 +1535,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBaiduChannelResponse.fromJson(response);
+    return GetBaiduChannelResponse.fromJson(
+        {...response, 'BaiduChannelResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1526,7 +1569,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignResponse.fromJson(response);
+    return GetCampaignResponse.fromJson(
+        {...response, 'CampaignResponse': response});
   }
 
   /// Retrieves information about all the activities for a campaign.
@@ -1574,7 +1618,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/activities$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignActivitiesResponse.fromJson(response);
+    return GetCampaignActivitiesResponse.fromJson(
+        {...response, 'ActivitiesResponse': response});
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard metric that applies
@@ -1653,7 +1698,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignDateRangeKpiResponse.fromJson(response);
+    return GetCampaignDateRangeKpiResponse.fromJson(
+        {...response, 'CampaignDateRangeKpiResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1691,7 +1737,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignVersionResponse.fromJson(response);
+    return GetCampaignVersionResponse.fromJson(
+        {...response, 'CampaignResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1740,7 +1787,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignVersionsResponse.fromJson(response);
+    return GetCampaignVersionsResponse.fromJson(
+        {...response, 'CampaignsResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1784,7 +1832,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignsResponse.fromJson(response);
+    return GetCampaignsResponse.fromJson(
+        {...response, 'CampaignsResponse': response});
   }
 
   /// Retrieves information about the history and status of each channel for an
@@ -1812,7 +1861,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels',
       exceptionFnMap: _exceptionFns,
     );
-    return GetChannelsResponse.fromJson(response);
+    return GetChannelsResponse.fromJson(
+        {...response, 'ChannelsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the email channel
@@ -1840,7 +1890,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEmailChannelResponse.fromJson(response);
+    return GetEmailChannelResponse.fromJson(
+        {...response, 'EmailChannelResponse': response});
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -1906,7 +1957,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEmailTemplateResponse.fromJson(response);
+    return GetEmailTemplateResponse.fromJson(
+        {...response, 'EmailTemplateResponse': response});
   }
 
   /// Retrieves information about the settings and attributes of a specific
@@ -1939,7 +1991,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEndpointResponse.fromJson(response);
+    return GetEndpointResponse.fromJson(
+        {...response, 'EndpointResponse': response});
   }
 
   /// Retrieves information about the event stream settings for an application.
@@ -1966,7 +2019,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEventStreamResponse.fromJson(response);
+    return GetEventStreamResponse.fromJson(
+        {...response, 'EventStream': response});
   }
 
   /// Retrieves information about the status and settings of a specific export
@@ -1999,7 +2053,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetExportJobResponse.fromJson(response);
+    return GetExportJobResponse.fromJson(
+        {...response, 'ExportJobResponse': response});
   }
 
   /// Retrieves information about the status and settings of all the export jobs
@@ -2043,7 +2098,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetExportJobsResponse.fromJson(response);
+    return GetExportJobsResponse.fromJson(
+        {...response, 'ExportJobsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the GCM channel for
@@ -2071,7 +2127,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return GetGcmChannelResponse.fromJson(response);
+    return GetGcmChannelResponse.fromJson(
+        {...response, 'GCMChannelResponse': response});
   }
 
   /// Retrieves information about the status and settings of a specific import
@@ -2104,7 +2161,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetImportJobResponse.fromJson(response);
+    return GetImportJobResponse.fromJson(
+        {...response, 'ImportJobResponse': response});
   }
 
   /// Retrieves information about the status and settings of all the import jobs
@@ -2148,7 +2206,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetImportJobsResponse.fromJson(response);
+    return GetImportJobsResponse.fromJson(
+        {...response, 'ImportJobsResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -2181,7 +2240,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyResponse.fromJson(response);
+    return GetJourneyResponse.fromJson(
+        {...response, 'JourneyResponse': response});
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard engagement metric
@@ -2260,7 +2320,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyDateRangeKpiResponse.fromJson(response);
+    return GetJourneyDateRangeKpiResponse.fromJson(
+        {...response, 'JourneyDateRangeKpiResponse': response});
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard execution metric
@@ -2316,7 +2377,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/activities/${Uri.encodeComponent(journeyActivityId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyExecutionActivityMetricsResponse.fromJson(response);
+    return GetJourneyExecutionActivityMetricsResponse.fromJson(
+        {...response, 'JourneyExecutionActivityMetricsResponse': response});
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard execution metric
@@ -2366,7 +2428,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyExecutionMetricsResponse.fromJson(response);
+    return GetJourneyExecutionMetricsResponse.fromJson(
+        {...response, 'JourneyExecutionMetricsResponse': response});
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -2432,7 +2495,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetPushTemplateResponse.fromJson(response);
+    return GetPushTemplateResponse.fromJson(
+        {...response, 'PushNotificationTemplateResponse': response});
   }
 
   /// Retrieves information about an Amazon Pinpoint configuration for a
@@ -2461,7 +2525,8 @@ class Pinpoint {
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRecommenderConfigurationResponse.fromJson(response);
+    return GetRecommenderConfigurationResponse.fromJson(
+        {...response, 'RecommenderConfigurationResponse': response});
   }
 
   /// Retrieves information about all the recommender model configurations that
@@ -2498,7 +2563,8 @@ class Pinpoint {
       requestUri: '/v1/recommenders$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRecommenderConfigurationsResponse.fromJson(response);
+    return GetRecommenderConfigurationsResponse.fromJson(
+        {...response, 'ListRecommenderConfigurationsResponse': response});
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2531,7 +2597,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentResponse.fromJson(response);
+    return GetSegmentResponse.fromJson(
+        {...response, 'SegmentResponse': response});
   }
 
   /// Retrieves information about the status and settings of the export jobs for
@@ -2580,7 +2647,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentExportJobsResponse.fromJson(response);
+    return GetSegmentExportJobsResponse.fromJson(
+        {...response, 'ExportJobsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the import jobs for
@@ -2629,7 +2697,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentImportJobsResponse.fromJson(response);
+    return GetSegmentImportJobsResponse.fromJson(
+        {...response, 'ImportJobsResponse': response});
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2668,7 +2737,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentVersionResponse.fromJson(response);
+    return GetSegmentVersionResponse.fromJson(
+        {...response, 'SegmentResponse': response});
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2718,7 +2788,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentVersionsResponse.fromJson(response);
+    return GetSegmentVersionsResponse.fromJson(
+        {...response, 'SegmentsResponse': response});
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2762,7 +2833,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentsResponse.fromJson(response);
+    return GetSegmentsResponse.fromJson(
+        {...response, 'SegmentsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the SMS channel for
@@ -2790,7 +2862,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSmsChannelResponse.fromJson(response);
+    return GetSmsChannelResponse.fromJson(
+        {...response, 'SMSChannelResponse': response});
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -2856,7 +2929,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSmsTemplateResponse.fromJson(response);
+    return GetSmsTemplateResponse.fromJson(
+        {...response, 'SMSTemplateResponse': response});
   }
 
   /// Retrieves information about all the endpoints that are associated with a
@@ -2889,7 +2963,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetUserEndpointsResponse.fromJson(response);
+    return GetUserEndpointsResponse.fromJson(
+        {...response, 'EndpointsResponse': response});
   }
 
   /// Retrieves information about the status and settings of the voice channel
@@ -2917,7 +2992,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVoiceChannelResponse.fromJson(response);
+    return GetVoiceChannelResponse.fromJson(
+        {...response, 'VoiceChannelResponse': response});
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -2983,7 +3059,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVoiceTemplateResponse.fromJson(response);
+    return GetVoiceTemplateResponse.fromJson(
+        {...response, 'VoiceTemplateResponse': response});
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -3027,7 +3104,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListJourneysResponse.fromJson(response);
+    return ListJourneysResponse.fromJson(
+        {...response, 'JourneysResponse': response});
   }
 
   /// Retrieves all the tags (keys and values) that are associated with an
@@ -3045,7 +3123,8 @@ class Pinpoint {
       requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTagsForResourceResponse.fromJson(response);
+    return ListTagsForResourceResponse.fromJson(
+        {...response, 'TagsModel': response});
   }
 
   /// Retrieves information about all the versions of a specific message
@@ -3098,7 +3177,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTemplateVersionsResponse.fromJson(response);
+    return ListTemplateVersionsResponse.fromJson(
+        {...response, 'TemplateVersionsResponse': response});
   }
 
   /// Retrieves information about all the message templates that are associated
@@ -3148,7 +3228,8 @@ class Pinpoint {
       requestUri: '/v1/templates$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTemplatesResponse.fromJson(response);
+    return ListTemplatesResponse.fromJson(
+        {...response, 'TemplatesResponse': response});
   }
 
   /// Retrieves information about a phone number.
@@ -3170,7 +3251,8 @@ class Pinpoint {
       requestUri: '/v1/phone/number/validate',
       exceptionFnMap: _exceptionFns,
     );
-    return PhoneNumberValidateResponse.fromJson(response);
+    return PhoneNumberValidateResponse.fromJson(
+        {...response, 'NumberValidateResponse': response});
   }
 
   /// Creates a new event stream for an application or updates the settings of
@@ -3200,7 +3282,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEventStreamResponse.fromJson(response);
+    return PutEventStreamResponse.fromJson(
+        {...response, 'EventStream': response});
   }
 
   /// Creates a new event to record for endpoints, or creates or updates
@@ -3230,7 +3313,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/events',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEventsResponse.fromJson(response);
+    return PutEventsResponse.fromJson(
+        {...response, 'EventsResponse': response});
   }
 
   /// Removes one or more attributes, of the same attribute type, from all the
@@ -3283,7 +3367,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/attributes/${Uri.encodeComponent(attributeType.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return RemoveAttributesResponse.fromJson(response);
+    return RemoveAttributesResponse.fromJson(
+        {...response, 'AttributesResource': response});
   }
 
   /// Creates and sends a direct message.
@@ -3312,7 +3397,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/messages',
       exceptionFnMap: _exceptionFns,
     );
-    return SendMessagesResponse.fromJson(response);
+    return SendMessagesResponse.fromJson(
+        {...response, 'MessageResponse': response});
   }
 
   /// Creates and sends a message to a list of users.
@@ -3342,7 +3428,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users-messages',
       exceptionFnMap: _exceptionFns,
     );
-    return SendUsersMessagesResponse.fromJson(response);
+    return SendUsersMessagesResponse.fromJson(
+        {...response, 'SendUsersMessageResponse': response});
   }
 
   /// Adds one or more tags (keys and values) to an application, campaign,
@@ -3421,7 +3508,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAdmChannelResponse.fromJson(response);
+    return UpdateAdmChannelResponse.fromJson(
+        {...response, 'ADMChannelResponse': response});
   }
 
   /// Enables the APNs channel for an application or updates the status and
@@ -3451,7 +3539,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsChannelResponse.fromJson(response);
+    return UpdateApnsChannelResponse.fromJson(
+        {...response, 'APNSChannelResponse': response});
   }
 
   /// Enables the APNs sandbox channel for an application or updates the status
@@ -3482,7 +3571,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsSandboxChannelResponse.fromJson(response);
+    return UpdateApnsSandboxChannelResponse.fromJson(
+        {...response, 'APNSSandboxChannelResponse': response});
   }
 
   /// Enables the APNs VoIP channel for an application or updates the status and
@@ -3513,7 +3603,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsVoipChannelResponse.fromJson(response);
+    return UpdateApnsVoipChannelResponse.fromJson(
+        {...response, 'APNSVoipChannelResponse': response});
   }
 
   /// Enables the APNs VoIP sandbox channel for an application or updates the
@@ -3544,7 +3635,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsVoipSandboxChannelResponse.fromJson(response);
+    return UpdateApnsVoipSandboxChannelResponse.fromJson(
+        {...response, 'APNSVoipSandboxChannelResponse': response});
   }
 
   /// Updates the settings for an application.
@@ -3575,7 +3667,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApplicationSettingsResponse.fromJson(response);
+    return UpdateApplicationSettingsResponse.fromJson(
+        {...response, 'ApplicationSettingsResource': response});
   }
 
   /// Enables the Baidu channel for an application or updates the status and
@@ -3605,7 +3698,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateBaiduChannelResponse.fromJson(response);
+    return UpdateBaiduChannelResponse.fromJson(
+        {...response, 'BaiduChannelResponse': response});
   }
 
   /// Updates the configuration and other settings for a campaign.
@@ -3639,7 +3733,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateCampaignResponse.fromJson(response);
+    return UpdateCampaignResponse.fromJson(
+        {...response, 'CampaignResponse': response});
   }
 
   /// Enables the email channel for an application or updates the status and
@@ -3669,7 +3764,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEmailChannelResponse.fromJson(response);
+    return UpdateEmailChannelResponse.fromJson(
+        {...response, 'EmailChannelResponse': response});
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -3751,7 +3847,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEmailTemplateResponse.fromJson(response);
+    return UpdateEmailTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Creates a new endpoint for an application or updates the settings and
@@ -3788,7 +3885,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEndpointResponse.fromJson(response);
+    return UpdateEndpointResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Creates a new batch of endpoints for an application or updates the
@@ -3821,7 +3919,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEndpointsBatchResponse.fromJson(response);
+    return UpdateEndpointsBatchResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Enables the GCM channel for an application or updates the status and
@@ -3851,7 +3950,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateGcmChannelResponse.fromJson(response);
+    return UpdateGcmChannelResponse.fromJson(
+        {...response, 'GCMChannelResponse': response});
   }
 
   /// Updates the configuration and other settings for a journey.
@@ -3885,7 +3985,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateJourneyResponse.fromJson(response);
+    return UpdateJourneyResponse.fromJson(
+        {...response, 'JourneyResponse': response});
   }
 
   /// Cancels (stops) an active journey.
@@ -3919,7 +4020,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/state',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateJourneyStateResponse.fromJson(response);
+    return UpdateJourneyStateResponse.fromJson(
+        {...response, 'JourneyResponse': response});
   }
 
   /// Updates an existing message template for messages that are sent through a
@@ -4003,7 +4105,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdatePushTemplateResponse.fromJson(response);
+    return UpdatePushTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Updates an Amazon Pinpoint configuration for a recommender model.
@@ -4035,7 +4138,8 @@ class Pinpoint {
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateRecommenderConfigurationResponse.fromJson(response);
+    return UpdateRecommenderConfigurationResponse.fromJson(
+        {...response, 'RecommenderConfigurationResponse': response});
   }
 
   /// Creates a new segment for an application or updates the configuration,
@@ -4071,7 +4175,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSegmentResponse.fromJson(response);
+    return UpdateSegmentResponse.fromJson(
+        {...response, 'SegmentResponse': response});
   }
 
   /// Enables the SMS channel for an application or updates the status and
@@ -4101,7 +4206,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSmsChannelResponse.fromJson(response);
+    return UpdateSmsChannelResponse.fromJson(
+        {...response, 'SMSChannelResponse': response});
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -4183,7 +4289,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSmsTemplateResponse.fromJson(response);
+    return UpdateSmsTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Changes the status of a specific version of a message template to
@@ -4222,7 +4329,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/active-version',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateTemplateActiveVersionResponse.fromJson(response);
+    return UpdateTemplateActiveVersionResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 
   /// Enables the voice channel for an application or updates the status and
@@ -4252,7 +4360,8 @@ class Pinpoint {
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVoiceChannelResponse.fromJson(response);
+    return UpdateVoiceChannelResponse.fromJson(
+        {...response, 'VoiceChannelResponse': response});
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -4334,7 +4443,8 @@ class Pinpoint {
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVoiceTemplateResponse.fromJson(response);
+    return UpdateVoiceTemplateResponse.fromJson(
+        {...response, 'MessageBody': response});
   }
 }
 

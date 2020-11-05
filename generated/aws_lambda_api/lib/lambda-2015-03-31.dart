@@ -2243,7 +2243,7 @@ class Lambda {
           '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/invocations$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return InvocationResponse.fromJson(response);
+    return InvocationResponse.fromJson({...response, 'Payload': response});
   }
 
   /// <important>

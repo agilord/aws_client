@@ -946,7 +946,7 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/output',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJobOutputOutput.fromJson(response);
+    return GetJobOutputOutput.fromJson({...response, 'body': response});
   }
 
   /// This operation retrieves the <code>access-policy</code> subresource set on
@@ -985,7 +985,8 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVaultAccessPolicyOutput.fromJson(response);
+    return GetVaultAccessPolicyOutput.fromJson(
+        {...response, 'policy': response});
   }
 
   /// This operation retrieves the following attributes from the
@@ -1103,7 +1104,8 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVaultNotificationsOutput.fromJson(response);
+    return GetVaultNotificationsOutput.fromJson(
+        {...response, 'vaultNotificationConfig': response});
   }
 
   /// This operation initiates a job of the specified type, which can be a

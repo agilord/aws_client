@@ -683,7 +683,7 @@ class AppConfig {
           '/applications/${Uri.encodeComponent(application.toString())}/environments/${Uri.encodeComponent(environment.toString())}/configurations/${Uri.encodeComponent(configuration.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return Configuration.fromJson(response);
+    return Configuration.fromJson({...response, 'Content': response});
   }
 
   /// Retrieve information about a configuration profile.

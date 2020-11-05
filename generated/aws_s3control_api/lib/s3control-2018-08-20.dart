@@ -1173,9 +1173,8 @@ class GetPublicAccessBlockOutput {
   });
   factory GetPublicAccessBlockOutput.fromXml(_s.XmlElement elem) {
     return GetPublicAccessBlockOutput(
-      publicAccessBlockConfiguration: _s
-          .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+      publicAccessBlockConfiguration:
+          elem?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
     );
   }
 }

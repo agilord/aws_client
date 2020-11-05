@@ -462,7 +462,7 @@ class LexRuntimeService {
           '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/content',
       exceptionFnMap: _exceptionFns,
     );
-    return PostContentResponse.fromJson(response);
+    return PostContentResponse.fromJson({...response, 'audioStream': response});
   }
 
   /// Sends user input to Amazon Lex. Client applications can use this API to
@@ -797,7 +797,7 @@ class LexRuntimeService {
           '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
       exceptionFnMap: _exceptionFns,
     );
-    return PutSessionResponse.fromJson(response);
+    return PutSessionResponse.fromJson({...response, 'audioStream': response});
   }
 }
 

@@ -1005,7 +1005,8 @@ class KinesisVideoArchivedMedia {
       requestUri: '/getMediaForFragmentList',
       exceptionFnMap: _exceptionFns,
     );
-    return GetMediaForFragmentListOutput.fromJson(response);
+    return GetMediaForFragmentListOutput.fromJson(
+        {...response, 'Payload': response});
   }
 
   /// Returns a list of <a>Fragment</a> objects from the specified stream and

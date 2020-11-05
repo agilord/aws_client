@@ -69,7 +69,8 @@ class WorkMailMessageFlow {
       requestUri: '/messages/${Uri.encodeComponent(messageId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRawMessageContentResponse.fromJson(response);
+    return GetRawMessageContentResponse.fromJson(
+        {...response, 'messageContent': response});
   }
 }
 

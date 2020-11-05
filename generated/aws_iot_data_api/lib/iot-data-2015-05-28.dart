@@ -85,7 +85,8 @@ class IoTDataPlane {
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThingShadowResponse.fromJson(response);
+    return DeleteThingShadowResponse.fromJson(
+        {...response, 'payload': response});
   }
 
   /// Gets the thing shadow for the specified thing.
@@ -128,7 +129,7 @@ class IoTDataPlane {
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return GetThingShadowResponse.fromJson(response);
+    return GetThingShadowResponse.fromJson({...response, 'payload': response});
   }
 
   /// Publishes state information.
@@ -220,7 +221,8 @@ class IoTDataPlane {
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThingShadowResponse.fromJson(response);
+    return UpdateThingShadowResponse.fromJson(
+        {...response, 'payload': response});
   }
 }
 

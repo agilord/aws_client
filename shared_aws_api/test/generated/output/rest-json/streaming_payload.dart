@@ -46,7 +46,7 @@ class StreamingPayload {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    return OutputShape.fromJson({...response, 'Stream': response});
   }
 }
 

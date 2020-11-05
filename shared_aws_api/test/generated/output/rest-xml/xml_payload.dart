@@ -52,9 +52,7 @@ class OutputShape {
     Map<String, String> headers,
   }) {
     return OutputShape(
-      data: _s
-          .extractXmlChild(elem, 'Data')
-          ?.let((e) => SingleStructure.fromXml(e)),
+      data: elem?.let((e) => SingleStructure.fromXml(e)),
       header: _s.extractHeaderStringValue(headers, 'X-Foo'),
     );
   }

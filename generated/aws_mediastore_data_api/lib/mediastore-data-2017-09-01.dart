@@ -191,7 +191,7 @@ class MediaStoreData {
       requestUri: '/${Uri.encodeComponent(path.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectResponse.fromJson(response);
+    return GetObjectResponse.fromJson({...response, 'Body': response});
   }
 
   /// Provides a list of metadata entries about folders and objects in the

@@ -2381,7 +2381,7 @@ class APIGateway {
           '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/exports/${Uri.encodeComponent(exportType.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ExportResponse.fromJson(response);
+    return ExportResponse.fromJson({...response, 'body': response});
   }
 
   /// Gets a <a>GatewayResponse</a> of a specified response type on the given
@@ -2991,7 +2991,7 @@ class APIGateway {
           '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/sdks/${Uri.encodeComponent(sdkType.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return SdkResponse.fromJson(response);
+    return SdkResponse.fromJson({...response, 'body': response});
   }
 
   ///
