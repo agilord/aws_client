@@ -49,7 +49,7 @@ class OutputShape {
     return OutputShape(
       listMember: _s
           .extractXmlChild(elem, 'ListMember')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ListMember')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

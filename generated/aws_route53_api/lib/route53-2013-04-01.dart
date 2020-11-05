@@ -5620,8 +5620,9 @@ class GetCheckerIpRangesResponse {
   });
   factory GetCheckerIpRangesResponse.fromXml(_s.XmlElement elem) {
     return GetCheckerIpRangesResponse(
-      checkerIpRanges: _s.extractXmlChild(elem, 'CheckerIpRanges')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'CheckerIpRanges')),
+      checkerIpRanges: _s
+          .extractXmlChild(elem, 'CheckerIpRanges')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

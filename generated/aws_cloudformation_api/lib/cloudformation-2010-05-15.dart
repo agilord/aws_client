@@ -6181,11 +6181,10 @@ class DeploymentTargets {
     return DeploymentTargets(
       accounts: _s
           .extractXmlChild(elem, 'Accounts')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Accounts')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       organizationalUnitIds: _s
           .extractXmlChild(elem, 'OrganizationalUnitIds')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'OrganizationalUnitIds')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
@@ -6250,7 +6249,7 @@ class DescribeAccountLimitsOutput {
     return DescribeAccountLimitsOutput(
       accountLimits: _s.extractXmlChild(elem, 'AccountLimits')?.let((elem) =>
           elem
-              .findElements('AccountLimits')
+              .findElements('member')
               .map((c) => AccountLimit.fromXml(c))
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -6349,21 +6348,22 @@ class DescribeChangeSetOutput {
     return DescribeChangeSetOutput(
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       changeSetName: _s.extractXmlStringValue(elem, 'ChangeSetName'),
       changes: _s.extractXmlChild(elem, 'Changes')?.let((elem) =>
-          elem.findElements('Changes').map((c) => Change.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Change.fromXml(c)).toList()),
       creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
           ?.toExecutionStatus(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      notificationARNs: _s.extractXmlChild(elem, 'NotificationARNs')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'NotificationARNs')),
+      notificationARNs: _s
+          .extractXmlChild(elem, 'NotificationARNs')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameters')
+          .findElements('member')
           .map((c) => Parameter.fromXml(c))
           .toList()),
       rollbackConfiguration: _s
@@ -6374,7 +6374,7 @@ class DescribeChangeSetOutput {
       status: _s.extractXmlStringValue(elem, 'Status')?.toChangeSetStatus(),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -6497,7 +6497,7 @@ class DescribeStackEventsOutput {
     return DescribeStackEventsOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       stackEvents: _s.extractXmlChild(elem, 'StackEvents')?.let((elem) => elem
-          .findElements('StackEvents')
+          .findElements('member')
           .map((c) => StackEvent.fromXml(c))
           .toList()),
     );
@@ -6550,7 +6550,7 @@ class DescribeStackResourceDriftsOutput {
     return DescribeStackResourceDriftsOutput(
       stackResourceDrifts: _s.extractXmlChild(elem, 'StackResourceDrifts')?.let(
           (elem) => elem
-              .findElements('StackResourceDrifts')
+              .findElements('member')
               .map((c) => StackResourceDrift.fromXml(c))
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -6588,7 +6588,7 @@ class DescribeStackResourcesOutput {
     return DescribeStackResourcesOutput(
       stackResources: _s.extractXmlChild(elem, 'StackResources')?.let((elem) =>
           elem
-              .findElements('StackResources')
+              .findElements('member')
               .map((c) => StackResource.fromXml(c))
               .toList()),
     );
@@ -6643,7 +6643,7 @@ class DescribeStacksOutput {
     return DescribeStacksOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       stacks: _s.extractXmlChild(elem, 'Stacks')?.let((elem) =>
-          elem.findElements('Stacks').map((c) => Stack.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Stack.fromXml(c)).toList()),
     );
   }
 }
@@ -7081,8 +7081,9 @@ class GetTemplateOutput {
   });
   factory GetTemplateOutput.fromXml(_s.XmlElement elem) {
     return GetTemplateOutput(
-      stagesAvailable: _s.extractXmlChild(elem, 'StagesAvailable')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'StagesAvailable')),
+      stagesAvailable: _s
+          .extractXmlChild(elem, 'StagesAvailable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
   }
@@ -7150,25 +7151,26 @@ class GetTemplateSummaryOutput {
     return GetTemplateSummaryOutput(
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
-      declaredTransforms: _s.extractXmlChild(elem, 'DeclaredTransforms')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'DeclaredTransforms')),
+      declaredTransforms: _s
+          .extractXmlChild(elem, 'DeclaredTransforms')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       description: _s.extractXmlStringValue(elem, 'Description'),
       metadata: _s.extractXmlStringValue(elem, 'Metadata'),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameters')
+          .findElements('member')
           .map((c) => ParameterDeclaration.fromXml(c))
           .toList()),
       resourceIdentifierSummaries: _s
           .extractXmlChild(elem, 'ResourceIdentifierSummaries')
           ?.let((elem) => elem
-              .findElements('ResourceIdentifierSummaries')
+              .findElements('member')
               .map((c) => ResourceIdentifierSummary.fromXml(c))
               .toList()),
       resourceTypes: _s
           .extractXmlChild(elem, 'ResourceTypes')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ResourceTypes')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       version: _s.extractXmlStringValue(elem, 'Version'),
     );
   }
@@ -7295,7 +7297,7 @@ class ListChangeSetsOutput {
     return ListChangeSetsOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
-          .findElements('Summaries')
+          .findElements('member')
           .map((c) => ChangeSetSummary.fromXml(c))
           .toList()),
     );
@@ -7318,7 +7320,7 @@ class ListExportsOutput {
   factory ListExportsOutput.fromXml(_s.XmlElement elem) {
     return ListExportsOutput(
       exports: _s.extractXmlChild(elem, 'Exports')?.let((elem) =>
-          elem.findElements('Exports').map((c) => Export.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Export.fromXml(c)).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -7341,7 +7343,7 @@ class ListImportsOutput {
     return ListImportsOutput(
       imports: _s
           .extractXmlChild(elem, 'Imports')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Imports')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -7367,7 +7369,7 @@ class ListStackInstancesOutput {
     return ListStackInstancesOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
-          .findElements('Summaries')
+          .findElements('member')
           .map((c) => StackInstanceSummary.fromXml(c))
           .toList()),
     );
@@ -7393,7 +7395,7 @@ class ListStackResourcesOutput {
       stackResourceSummaries: _s
           .extractXmlChild(elem, 'StackResourceSummaries')
           ?.let((elem) => elem
-              .findElements('StackResourceSummaries')
+              .findElements('member')
               .map((c) => StackResourceSummary.fromXml(c))
               .toList()),
     );
@@ -7421,7 +7423,7 @@ class ListStackSetOperationResultsOutput {
     return ListStackSetOperationResultsOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
-          .findElements('Summaries')
+          .findElements('member')
           .map((c) => StackSetOperationResultSummary.fromXml(c))
           .toList()),
     );
@@ -7448,7 +7450,7 @@ class ListStackSetOperationsOutput {
     return ListStackSetOperationsOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
-          .findElements('Summaries')
+          .findElements('member')
           .map((c) => StackSetOperationSummary.fromXml(c))
           .toList()),
     );
@@ -7475,7 +7477,7 @@ class ListStackSetsOutput {
     return ListStackSetsOutput(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
-          .findElements('Summaries')
+          .findElements('member')
           .map((c) => StackSetSummary.fromXml(c))
           .toList()),
     );
@@ -7501,7 +7503,7 @@ class ListStacksOutput {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       stackSummaries: _s.extractXmlChild(elem, 'StackSummaries')?.let((elem) =>
           elem
-              .findElements('StackSummaries')
+              .findElements('member')
               .map((c) => StackSummary.fromXml(c))
               .toList()),
     );
@@ -7531,8 +7533,7 @@ class ListTypeRegistrationsOutput {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       registrationTokenList: _s
           .extractXmlChild(elem, 'RegistrationTokenList')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'RegistrationTokenList')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -7559,7 +7560,7 @@ class ListTypeVersionsOutput {
       typeVersionSummaries: _s
           .extractXmlChild(elem, 'TypeVersionSummaries')
           ?.let((elem) => elem
-              .findElements('TypeVersionSummaries')
+              .findElements('member')
               .map((c) => TypeVersionSummary.fromXml(c))
               .toList()),
     );
@@ -7587,7 +7588,7 @@ class ListTypesOutput {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       typeSummaries: _s.extractXmlChild(elem, 'TypeSummaries')?.let((elem) =>
           elem
-              .findElements('TypeSummaries')
+              .findElements('member')
               .map((c) => TypeSummary.fromXml(c))
               .toList()),
     );
@@ -7797,7 +7798,7 @@ class ParameterConstraints {
     return ParameterConstraints(
       allowedValues: _s
           .extractXmlChild(elem, 'AllowedValues')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'AllowedValues')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -8222,7 +8223,7 @@ class ResourceChange {
     return ResourceChange(
       action: _s.extractXmlStringValue(elem, 'Action')?.toChangeAction(),
       details: _s.extractXmlChild(elem, 'Details')?.let((elem) => elem
-          .findElements('Details')
+          .findElements('member')
           .map((c) => ResourceChangeDetail.fromXml(c))
           .toList()),
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
@@ -8232,7 +8233,7 @@ class ResourceChange {
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
       scope: _s
           .extractXmlChild(elem, 'Scope')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Scope')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -8354,10 +8355,12 @@ class ResourceIdentifierSummary {
   });
   factory ResourceIdentifierSummary.fromXml(_s.XmlElement elem) {
     return ResourceIdentifierSummary(
-      logicalResourceIds: _s.extractXmlChild(elem, 'LogicalResourceIds')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'LogicalResourceIds')),
-      resourceIdentifiers: _s.extractXmlChild(elem, 'ResourceIdentifiers')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ResourceIdentifiers')),
+      logicalResourceIds: _s
+          .extractXmlChild(elem, 'LogicalResourceIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      resourceIdentifiers: _s
+          .extractXmlChild(elem, 'ResourceIdentifiers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
     );
   }
@@ -8615,7 +8618,7 @@ class RollbackConfiguration {
           _s.extractXmlIntValue(elem, 'MonitoringTimeInMinutes'),
       rollbackTriggers: _s.extractXmlChild(elem, 'RollbackTriggers')?.let(
           (elem) => elem
-              .findElements('RollbackTriggers')
+              .findElements('member')
               .map((c) => RollbackTrigger.fromXml(c))
               .toList()),
     );
@@ -8807,7 +8810,7 @@ class Stack {
           _s.extractXmlStringValue(elem, 'StackStatus')?.toStackStatus(),
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -8818,12 +8821,13 @@ class Stack {
       enableTerminationProtection:
           _s.extractXmlBoolValue(elem, 'EnableTerminationProtection'),
       lastUpdatedTime: _s.extractXmlDateTimeValue(elem, 'LastUpdatedTime'),
-      notificationARNs: _s.extractXmlChild(elem, 'NotificationARNs')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'NotificationARNs')),
+      notificationARNs: _s
+          .extractXmlChild(elem, 'NotificationARNs')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       outputs: _s.extractXmlChild(elem, 'Outputs')?.let((elem) =>
-          elem.findElements('Outputs').map((c) => Output.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Output.fromXml(c)).toList()),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameters')
+          .findElements('member')
           .map((c) => Parameter.fromXml(c))
           .toList()),
       parentId: _s.extractXmlStringValue(elem, 'ParentId'),
@@ -8835,7 +8839,7 @@ class Stack {
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackStatusReason: _s.extractXmlStringValue(elem, 'StackStatusReason'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       timeoutInMinutes: _s.extractXmlIntValue(elem, 'TimeoutInMinutes'),
     );
   }
@@ -9188,7 +9192,7 @@ class StackInstance {
           _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       parameterOverrides: _s.extractXmlChild(elem, 'ParameterOverrides')?.let(
           (elem) => elem
-              .findElements('ParameterOverrides')
+              .findElements('member')
               .map((c) => Parameter.fromXml(c))
               .toList()),
       region: _s.extractXmlStringValue(elem, 'Region'),
@@ -9602,12 +9606,12 @@ class StackResourceDrift {
       physicalResourceIdContext: _s
           .extractXmlChild(elem, 'PhysicalResourceIdContext')
           ?.let((elem) => elem
-              .findElements('PhysicalResourceIdContext')
+              .findElements('member')
               .map((c) => PhysicalResourceIdContextKeyValuePair.fromXml(c))
               .toList()),
       propertyDifferences: _s.extractXmlChild(elem, 'PropertyDifferences')?.let(
           (elem) => elem
-              .findElements('PropertyDifferences')
+              .findElements('member')
               .map((c) => PropertyDifference.fromXml(c))
               .toList()),
     );
@@ -9922,15 +9926,14 @@ class StackSet {
           ?.let((e) => AutoDeployment.fromXml(e)),
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionRoleName: _s.extractXmlStringValue(elem, 'ExecutionRoleName'),
       organizationalUnitIds: _s
           .extractXmlChild(elem, 'OrganizationalUnitIds')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'OrganizationalUnitIds')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameters')
+          .findElements('member')
           .map((c) => Parameter.fromXml(c))
           .toList()),
       permissionModel: _s
@@ -9944,7 +9947,7 @@ class StackSet {
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toStackSetStatus(),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
   }
@@ -10405,7 +10408,7 @@ class StackSetOperationPreferences {
           _s.extractXmlIntValue(elem, 'MaxConcurrentPercentage'),
       regionOrder: _s
           .extractXmlChild(elem, 'RegionOrder')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'RegionOrder')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
@@ -11239,13 +11242,14 @@ class ValidateTemplateOutput {
     return ValidateTemplateOutput(
       capabilities: _s
           .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Capabilities')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
-      declaredTransforms: _s.extractXmlChild(elem, 'DeclaredTransforms')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'DeclaredTransforms')),
+      declaredTransforms: _s
+          .extractXmlChild(elem, 'DeclaredTransforms')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       description: _s.extractXmlStringValue(elem, 'Description'),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameters')
+          .findElements('member')
           .map((c) => TemplateParameter.fromXml(c))
           .toList()),
     );

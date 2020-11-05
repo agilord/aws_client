@@ -2035,10 +2035,10 @@ class Endpoint {
   factory Endpoint.fromXml(_s.XmlElement elem) {
     return Endpoint(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2079,10 +2079,10 @@ class GetEndpointAttributesResponse {
   factory GetEndpointAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetEndpointAttributesResponse(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2121,10 +2121,10 @@ class GetPlatformApplicationAttributesResponse {
   factory GetPlatformApplicationAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetPlatformApplicationAttributesResponse(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2143,10 +2143,10 @@ class GetSMSAttributesResponse {
   factory GetSMSAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetSMSAttributesResponse(
       attributes: Map.fromEntries(
-        elem.findElements('attributes').map(
+        elem.getElement('attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2214,10 +2214,10 @@ class GetSubscriptionAttributesResponse {
   factory GetSubscriptionAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetSubscriptionAttributesResponse(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2288,10 +2288,10 @@ class GetTopicAttributesResponse {
   factory GetTopicAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetTopicAttributesResponse(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2315,10 +2315,8 @@ class ListEndpointsByPlatformApplicationResponse {
   factory ListEndpointsByPlatformApplicationResponse.fromXml(
       _s.XmlElement elem) {
     return ListEndpointsByPlatformApplicationResponse(
-      endpoints: _s.extractXmlChild(elem, 'Endpoints')?.let((elem) => elem
-          .findElements('Endpoints')
-          .map((c) => Endpoint.fromXml(c))
-          .toList()),
+      endpoints: _s.extractXmlChild(elem, 'Endpoints')?.let((elem) =>
+          elem.findElements('member').map((c) => Endpoint.fromXml(c)).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -2344,7 +2342,7 @@ class ListPhoneNumbersOptedOutResponse {
       nextToken: _s.extractXmlStringValue(elem, 'nextToken'),
       phoneNumbers: _s
           .extractXmlChild(elem, 'phoneNumbers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'phoneNumbers')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2368,7 +2366,7 @@ class ListPlatformApplicationsResponse {
       platformApplications: _s
           .extractXmlChild(elem, 'PlatformApplications')
           ?.let((elem) => elem
-              .findElements('PlatformApplications')
+              .findElements('member')
               .map((c) => PlatformApplication.fromXml(c))
               .toList()),
     );
@@ -2394,7 +2392,7 @@ class ListSubscriptionsByTopicResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       subscriptions: _s.extractXmlChild(elem, 'Subscriptions')?.let((elem) =>
           elem
-              .findElements('Subscriptions')
+              .findElements('member')
               .map((c) => Subscription.fromXml(c))
               .toList()),
     );
@@ -2419,7 +2417,7 @@ class ListSubscriptionsResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       subscriptions: _s.extractXmlChild(elem, 'Subscriptions')?.let((elem) =>
           elem
-              .findElements('Subscriptions')
+              .findElements('member')
               .map((c) => Subscription.fromXml(c))
               .toList()),
     );
@@ -2436,7 +2434,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromXml(_s.XmlElement elem) {
     return ListTagsForResourceResponse(
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -2458,7 +2456,7 @@ class ListTopicsResponse {
     return ListTopicsResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       topics: _s.extractXmlChild(elem, 'Topics')?.let((elem) =>
-          elem.findElements('Topics').map((c) => Topic.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Topic.fromXml(c)).toList()),
     );
   }
 }
@@ -2533,10 +2531,10 @@ class PlatformApplication {
   factory PlatformApplication.fromXml(_s.XmlElement elem) {
     return PlatformApplication(
       attributes: Map.fromEntries(
-        elem.findElements('Attributes').map(
+        elem.getElement('Attributes').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),

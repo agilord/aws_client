@@ -1158,7 +1158,7 @@ class GetJobTaggingResult {
   factory GetJobTaggingResult.fromXml(_s.XmlElement elem) {
     return GetJobTaggingResult(
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => S3Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
     );
   }
 }
@@ -1274,7 +1274,7 @@ class JobDescriptor {
       description: _s.extractXmlStringValue(elem, 'Description'),
       failureReasons: _s.extractXmlChild(elem, 'FailureReasons')?.let((elem) =>
           elem
-              .findElements('FailureReasons')
+              .findElements('member')
               .map((c) => JobFailure.fromXml(c))
               .toList()),
       jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
@@ -1543,7 +1543,7 @@ class JobManifestSpec {
       format: _s.extractXmlStringValue(elem, 'Format')?.toJobManifestFormat(),
       fields: _s
           .extractXmlChild(elem, 'Fields')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Fields')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
@@ -1921,7 +1921,7 @@ class ListJobsResult {
   factory ListJobsResult.fromXml(_s.XmlElement elem) {
     return ListJobsResult(
       jobs: _s.extractXmlChild(elem, 'Jobs')?.let((elem) => elem
-          .findElements('Jobs')
+          .findElements('member')
           .map((c) => JobListDescriptor.fromXml(c))
           .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -2162,7 +2162,7 @@ class S3AccessControlList {
           .extractXmlChild(elem, 'Owner')
           ?.let((e) => S3ObjectOwner.fromXml(e)),
       grants: _s.extractXmlChild(elem, 'Grants')?.let((elem) =>
-          elem.findElements('Grants').map((c) => S3Grant.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => S3Grant.fromXml(c)).toList()),
     );
   }
 
@@ -2349,7 +2349,7 @@ class S3CopyObjectOperation {
     return S3CopyObjectOperation(
       accessControlGrants: _s.extractXmlChild(elem, 'AccessControlGrants')?.let(
           (elem) => elem
-              .findElements('AccessControlGrants')
+              .findElements('member')
               .map((c) => S3Grant.fromXml(c))
               .toList()),
       cannedAccessControlList: _s
@@ -2365,7 +2365,7 @@ class S3CopyObjectOperation {
           ?.let((e) => S3ObjectMetadata.fromXml(e)),
       newObjectTagging: _s.extractXmlChild(elem, 'NewObjectTagging')?.let(
           (elem) => elem
-              .findElements('NewObjectTagging')
+              .findElements('member')
               .map((c) => S3Tag.fromXml(c))
               .toList()),
       objectLockLegalHoldStatus: _s
@@ -2752,10 +2752,10 @@ class S3ObjectMetadata {
       sSEAlgorithm:
           _s.extractXmlStringValue(elem, 'SSEAlgorithm')?.toS3SSEAlgorithm(),
       userMetadata: Map.fromEntries(
-        elem.findElements('UserMetadata').map(
+        elem.getElement('UserMetadata').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),
@@ -2939,7 +2939,7 @@ class S3SetObjectTaggingOperation {
   factory S3SetObjectTaggingOperation.fromXml(_s.XmlElement elem) {
     return S3SetObjectTaggingOperation(
       tagSet: _s.extractXmlChild(elem, 'TagSet')?.let((elem) =>
-          elem.findElements('TagSet').map((c) => S3Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
     );
   }
 
