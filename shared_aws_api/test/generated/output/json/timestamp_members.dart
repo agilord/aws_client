@@ -70,9 +70,7 @@ class OutputShape {
       toJson: unixTimestampToJson)
   final DateTime timeArg;
   @_s.JsonKey(
-      name: 'TimeCustom',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'TimeCustom', fromJson: rfc822FromJson, toJson: rfc822ToJson)
   final DateTime timeCustom;
   @_s.JsonKey(
       name: 'TimeFormat', fromJson: iso8601FromJson, toJson: iso8601ToJson)

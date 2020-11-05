@@ -73,8 +73,10 @@ class OutputShape {
           .extractXmlChild(elem, 'StructMember')
           ?.let((e) => TimeContainer.fromXml(e)),
       timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
-      timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom'),
-      timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat'),
+      timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
+          parser: _s.rfc822FromJson),
+      timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat',
+          parser: _s.unixTimestampFromJson),
     );
   }
 }
@@ -89,7 +91,8 @@ class TimeContainer {
   });
   factory TimeContainer.fromXml(_s.XmlElement elem) {
     return TimeContainer(
-      bar: _s.extractXmlDateTimeValue(elem, 'bar'),
+      bar: _s.extractXmlDateTimeValue(elem, 'bar',
+          parser: _s.unixTimestampFromJson),
       foo: _s.extractXmlDateTimeValue(elem, 'foo'),
     );
   }
