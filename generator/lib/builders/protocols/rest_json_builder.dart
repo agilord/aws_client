@@ -83,7 +83,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
         ');');
 
     if (outputClass != null) {
-      buf.writeln('return $outputClass.fromJson(response);');
+      var responseCode = 'response';
+      final responsePayload = operation.output.shapeClass.payload;
+      if (responsePayload != null) {
+        responseCode = "{...response, '$responsePayload': response}";
+      }
+
+      buf.writeln('return $outputClass.fromJson($responseCode);');
     }
     return buf.toString();
   }
