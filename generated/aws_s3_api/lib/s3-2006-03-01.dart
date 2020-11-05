@@ -12982,7 +12982,8 @@ class GetObjectOutput {
           .extractHeaderStringValue(headers, 'x-amz-object-lock-mode')
           ?.toObjectLockMode(),
       objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-object-lock-retain-until-date'),
+          headers, 'x-amz-object-lock-retain-until-date',
+          parser: _s.iso8601FromJson),
       partsCount: _s.extractHeaderIntValue(headers, 'x-amz-mp-parts-count'),
       replicationStatus: _s
           .extractHeaderStringValue(headers, 'x-amz-replication-status')
@@ -13420,7 +13421,8 @@ class HeadObjectOutput {
           .extractHeaderStringValue(headers, 'x-amz-object-lock-mode')
           ?.toObjectLockMode(),
       objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-object-lock-retain-until-date'),
+          headers, 'x-amz-object-lock-retain-until-date',
+          parser: _s.iso8601FromJson),
       partsCount: _s.extractHeaderIntValue(headers, 'x-amz-mp-parts-count'),
       replicationStatus: _s
           .extractHeaderStringValue(headers, 'x-amz-replication-status')
@@ -14119,7 +14121,8 @@ class LifecycleExpiration {
   });
   factory LifecycleExpiration.fromXml(_s.XmlElement elem) {
     return LifecycleExpiration(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      date:
+          _s.extractXmlDateTimeValue(elem, 'Date', parser: _s.iso8601FromJson),
       days: _s.extractXmlIntValue(elem, 'Days'),
       expiredObjectDeleteMarker:
           _s.extractXmlBoolValue(elem, 'ExpiredObjectDeleteMarker'),
@@ -15870,7 +15873,8 @@ class ObjectLockRetention {
   factory ObjectLockRetention.fromXml(_s.XmlElement elem) {
     return ObjectLockRetention(
       mode: _s.extractXmlStringValue(elem, 'Mode')?.toObjectLockRetentionMode(),
-      retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate'),
+      retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate',
+          parser: _s.iso8601FromJson),
     );
   }
 
@@ -18558,7 +18562,8 @@ class Transition {
   });
   factory Transition.fromXml(_s.XmlElement elem) {
     return Transition(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      date:
+          _s.extractXmlDateTimeValue(elem, 'Date', parser: _s.iso8601FromJson),
       days: _s.extractXmlIntValue(elem, 'Days'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')

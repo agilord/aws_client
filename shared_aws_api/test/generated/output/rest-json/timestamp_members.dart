@@ -67,12 +67,12 @@ class OutputShape {
       name: 'x-amz-timearg', fromJson: rfc822FromJson, toJson: rfc822ToJson)
   final DateTime timeArgInHeader;
   @_s.JsonKey(
-      name: 'TimeCustom',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'TimeCustom', fromJson: rfc822FromJson, toJson: rfc822ToJson)
   final DateTime timeCustom;
   @_s.JsonKey(
-      name: 'x-amz-timecustom', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+      name: 'x-amz-timecustom',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
   final DateTime timeCustomInHeader;
   @_s.JsonKey(
       name: 'TimeFormat', fromJson: iso8601FromJson, toJson: iso8601ToJson)

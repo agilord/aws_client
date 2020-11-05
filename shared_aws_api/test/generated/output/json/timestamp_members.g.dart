@@ -12,7 +12,7 @@ OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
         ? null
         : TimeContainer.fromJson(json['StructMember'] as Map<String, dynamic>),
     timeArg: unixTimestampFromJson(json['TimeArg']),
-    timeCustom: unixTimestampFromJson(json['TimeCustom']),
+    timeCustom: rfc822FromJson(json['TimeCustom'] as String),
     timeFormat: iso8601FromJson(json['TimeFormat'] as String),
   );
 }

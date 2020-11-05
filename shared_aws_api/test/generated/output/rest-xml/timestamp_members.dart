@@ -67,12 +67,16 @@ class OutputShape {
           ?.let((e) => TimeContainer.fromXml(e)),
       timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
       timeArgInHeader: _s.extractHeaderDateTimeValue(headers, 'x-amz-timearg'),
-      timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom'),
-      timeCustomInHeader:
-          _s.extractHeaderDateTimeValue(headers, 'x-amz-timecustom'),
-      timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat'),
-      timeFormatInHeader:
-          _s.extractHeaderDateTimeValue(headers, 'x-amz-timeformat'),
+      timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
+          parser: _s.rfc822FromJson),
+      timeCustomInHeader: _s.extractHeaderDateTimeValue(
+          headers, 'x-amz-timecustom',
+          parser: _s.unixTimestampFromJson),
+      timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat',
+          parser: _s.unixTimestampFromJson),
+      timeFormatInHeader: _s.extractHeaderDateTimeValue(
+          headers, 'x-amz-timeformat',
+          parser: _s.unixTimestampFromJson),
     );
   }
 }
@@ -87,7 +91,8 @@ class TimeContainer {
   });
   factory TimeContainer.fromXml(_s.XmlElement elem) {
     return TimeContainer(
-      bar: _s.extractXmlDateTimeValue(elem, 'bar'),
+      bar: _s.extractXmlDateTimeValue(elem, 'bar',
+          parser: _s.unixTimestampFromJson),
       foo: _s.extractXmlDateTimeValue(elem, 'foo'),
     );
   }
