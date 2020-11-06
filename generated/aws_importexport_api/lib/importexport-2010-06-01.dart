@@ -380,10 +380,8 @@ class CreateJobOutput {
   });
   factory CreateJobOutput.fromXml(_s.XmlElement elem) {
     return CreateJobOutput(
-      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) => elem
-          .findElements('ArtifactList')
-          .map((c) => Artifact.fromXml(c))
-          .toList()),
+      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) =>
+          elem.findElements('member').map((c) => Artifact.fromXml(c)).toList()),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
       jobType: _s.extractXmlStringValue(elem, 'JobType')?.toJobType(),
       signature: _s.extractXmlStringValue(elem, 'Signature'),
@@ -479,10 +477,8 @@ class GetStatusOutput {
   });
   factory GetStatusOutput.fromXml(_s.XmlElement elem) {
     return GetStatusOutput(
-      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) => elem
-          .findElements('ArtifactList')
-          .map((c) => Artifact.fromXml(c))
-          .toList()),
+      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) =>
+          elem.findElements('member').map((c) => Artifact.fromXml(c)).toList()),
       carrier: _s.extractXmlStringValue(elem, 'Carrier'),
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       currentManifest: _s.extractXmlStringValue(elem, 'CurrentManifest'),
@@ -685,7 +681,7 @@ class ListJobsOutput {
     return ListJobsOutput(
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       jobs: _s.extractXmlChild(elem, 'Jobs')?.let((elem) =>
-          elem.findElements('Jobs').map((c) => Job.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Job.fromXml(c)).toList()),
     );
   }
 }
@@ -820,10 +816,8 @@ class UpdateJobOutput {
   });
   factory UpdateJobOutput.fromXml(_s.XmlElement elem) {
     return UpdateJobOutput(
-      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) => elem
-          .findElements('ArtifactList')
-          .map((c) => Artifact.fromXml(c))
-          .toList()),
+      artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let((elem) =>
+          elem.findElements('member').map((c) => Artifact.fromXml(c)).toList()),
       success: _s.extractXmlBoolValue(elem, 'Success'),
       warningMessage: _s.extractXmlStringValue(elem, 'WarningMessage'),
     );

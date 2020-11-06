@@ -48,11 +48,11 @@ class OutputShape {
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       map: Map.fromEntries(
-        elem.findElements('Map').map(
+        elem.getElement('Map').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
                 _s
-                    .extractXmlChild(c, 'null')
+                    .extractXmlChild(c, 'value')
                     ?.let((e) => SingleStructure.fromXml(e)),
               ),
             ),

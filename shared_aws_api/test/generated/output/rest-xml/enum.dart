@@ -75,7 +75,7 @@ class OutputShape {
           ?.toRESTJSONEnumType(),
       listEnums: _s
           .extractXmlChild(elem, 'ListEnums')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ListEnums')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

@@ -67,8 +67,8 @@ class OutputShape {
       map: Map.fromEntries(
         elem.findElements('Map').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'null'),
-                _s.extractXmlStringValue(c, 'null'),
+                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'value'),
               ),
             ),
       ),

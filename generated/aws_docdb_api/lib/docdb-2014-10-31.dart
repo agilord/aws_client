@@ -3849,8 +3849,7 @@ class DBCluster {
           _s.extractXmlDateTimeValue(elem, 'EarliestRestorableTime'),
       enabledCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'EnabledCloudwatchLogsExports')
-          ?.let((elem) => _s.extractXmlStringListValues(
-              elem, 'EnabledCloudwatchLogsExports')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
@@ -4340,8 +4339,9 @@ class DBEngineVersion {
           _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      exportableLogTypes: _s.extractXmlChild(elem, 'ExportableLogTypes')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ExportableLogTypes')),
+      exportableLogTypes: _s
+          .extractXmlChild(elem, 'ExportableLogTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportsLogExportsToCloudwatchLogs:
           _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
       validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
@@ -4527,8 +4527,7 @@ class DBInstance {
       dbiResourceId: _s.extractXmlStringValue(elem, 'DbiResourceId'),
       enabledCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'EnabledCloudwatchLogsExports')
-          ?.let((elem) => _s.extractXmlStringListValues(
-              elem, 'EnabledCloudwatchLogsExports')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       endpoint:
           _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
@@ -5201,10 +5200,12 @@ class PendingCloudwatchLogsExports {
   });
   factory PendingCloudwatchLogsExports.fromXml(_s.XmlElement elem) {
     return PendingCloudwatchLogsExports(
-      logTypesToDisable: _s.extractXmlChild(elem, 'LogTypesToDisable')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'LogTypesToDisable')),
-      logTypesToEnable: _s.extractXmlChild(elem, 'LogTypesToEnable')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'LogTypesToEnable')),
+      logTypesToDisable: _s
+          .extractXmlChild(elem, 'LogTypesToDisable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      logTypesToEnable: _s
+          .extractXmlChild(elem, 'LogTypesToEnable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }

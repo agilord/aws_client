@@ -48,7 +48,7 @@ class OutputShape {
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       map: Map.fromEntries(
-        elem.findElements('Map').map(
+        elem.getElement('Map').findElements('entry').map(
               (c) => MapEntry(
                 _s.extractXmlStringValue(c, 'foo'),
                 _s.extractXmlStringValue(c, 'bar'),

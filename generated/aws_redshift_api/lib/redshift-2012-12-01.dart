@@ -7047,7 +7047,7 @@ class Cluster {
       clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
       clusterNodes: _s.extractXmlChild(elem, 'ClusterNodes')?.let((elem) => elem
-          .findElements('ClusterNodes')
+          .findElements('member')
           .map((c) => ClusterNode.fromXml(c))
           .toList()),
       clusterParameterGroups: _s
@@ -7113,8 +7113,9 @@ class Cluster {
           _s.extractXmlDateTimeValue(elem, 'NextMaintenanceWindowStartTime'),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
       numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
-      pendingActions: _s.extractXmlChild(elem, 'PendingActions')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'PendingActions')),
+      pendingActions: _s
+          .extractXmlChild(elem, 'PendingActions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
           ?.let((e) => PendingModifiedValues.fromXml(e)),
@@ -7438,7 +7439,7 @@ class ClusterParameterGroupStatus {
       clusterParameterStatusList: _s
           .extractXmlChild(elem, 'ClusterParameterStatusList')
           ?.let((elem) => elem
-              .findElements('ClusterParameterStatusList')
+              .findElements('member')
               .map((c) => ClusterParameterStatus.fromXml(c))
               .toList()),
       parameterApplyStatus:
@@ -9961,16 +9962,13 @@ class ResizeProgressMessage {
           _s.extractXmlIntValue(elem, 'EstimatedTimeToCompletionInSeconds'),
       importTablesCompleted: _s
           .extractXmlChild(elem, 'ImportTablesCompleted')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'ImportTablesCompleted')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       importTablesInProgress: _s
           .extractXmlChild(elem, 'ImportTablesInProgress')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'ImportTablesInProgress')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       importTablesNotStarted: _s
           .extractXmlChild(elem, 'ImportTablesNotStarted')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'ImportTablesNotStarted')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       message: _s.extractXmlStringValue(elem, 'Message'),
       progressInMegaBytes: _s.extractXmlIntValue(elem, 'ProgressInMegaBytes'),
       resizeType: _s.extractXmlStringValue(elem, 'ResizeType'),

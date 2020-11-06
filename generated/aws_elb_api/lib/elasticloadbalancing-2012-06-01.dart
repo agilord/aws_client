@@ -1449,8 +1449,9 @@ class AddAvailabilityZonesOutput {
   });
   factory AddAvailabilityZonesOutput.fromXml(_s.XmlElement elem) {
     return AddAvailabilityZonesOutput(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZones')),
+      availabilityZones: _s
+          .extractXmlChild(elem, 'AvailabilityZones')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -1525,8 +1526,9 @@ class ApplySecurityGroupsToLoadBalancerOutput {
   });
   factory ApplySecurityGroupsToLoadBalancerOutput.fromXml(_s.XmlElement elem) {
     return ApplySecurityGroupsToLoadBalancerOutput(
-      securityGroups: _s.extractXmlChild(elem, 'SecurityGroups')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'SecurityGroups')),
+      securityGroups: _s
+          .extractXmlChild(elem, 'SecurityGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -1543,7 +1545,7 @@ class AttachLoadBalancerToSubnetsOutput {
     return AttachLoadBalancerToSubnetsOutput(
       subnets: _s
           .extractXmlChild(elem, 'Subnets')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Subnets')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -1565,7 +1567,7 @@ class BackendServerDescription {
       instancePort: _s.extractXmlIntValue(elem, 'InstancePort'),
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -1760,10 +1762,8 @@ class DeregisterEndPointsOutput {
   });
   factory DeregisterEndPointsOutput.fromXml(_s.XmlElement elem) {
     return DeregisterEndPointsOutput(
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) => elem
-          .findElements('Instances')
-          .map((c) => Instance.fromXml(c))
-          .toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
+          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
     );
   }
 }
@@ -1786,7 +1786,7 @@ class DescribeAccessPointsOutput {
       loadBalancerDescriptions: _s
           .extractXmlChild(elem, 'LoadBalancerDescriptions')
           ?.let((elem) => elem
-              .findElements('LoadBalancerDescriptions')
+              .findElements('member')
               .map((c) => LoadBalancerDescription.fromXml(c))
               .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
@@ -1809,7 +1809,7 @@ class DescribeAccountLimitsOutput {
   factory DescribeAccountLimitsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAccountLimitsOutput(
       limits: _s.extractXmlChild(elem, 'Limits')?.let((elem) =>
-          elem.findElements('Limits').map((c) => Limit.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Limit.fromXml(c)).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -1827,7 +1827,7 @@ class DescribeEndPointStateOutput {
     return DescribeEndPointStateOutput(
       instanceStates: _s.extractXmlChild(elem, 'InstanceStates')?.let((elem) =>
           elem
-              .findElements('InstanceStates')
+              .findElements('member')
               .map((c) => InstanceState.fromXml(c))
               .toList()),
     );
@@ -1863,7 +1863,7 @@ class DescribeLoadBalancerPoliciesOutput {
     return DescribeLoadBalancerPoliciesOutput(
       policyDescriptions: _s.extractXmlChild(elem, 'PolicyDescriptions')?.let(
           (elem) => elem
-              .findElements('PolicyDescriptions')
+              .findElements('member')
               .map((c) => PolicyDescription.fromXml(c))
               .toList()),
     );
@@ -1883,7 +1883,7 @@ class DescribeLoadBalancerPolicyTypesOutput {
       policyTypeDescriptions: _s
           .extractXmlChild(elem, 'PolicyTypeDescriptions')
           ?.let((elem) => elem
-              .findElements('PolicyTypeDescriptions')
+              .findElements('member')
               .map((c) => PolicyTypeDescription.fromXml(c))
               .toList()),
     );
@@ -1902,7 +1902,7 @@ class DescribeTagsOutput {
     return DescribeTagsOutput(
       tagDescriptions: _s.extractXmlChild(elem, 'TagDescriptions')?.let(
           (elem) => elem
-              .findElements('TagDescriptions')
+              .findElements('member')
               .map((c) => TagDescription.fromXml(c))
               .toList()),
     );
@@ -1921,7 +1921,7 @@ class DetachLoadBalancerFromSubnetsOutput {
     return DetachLoadBalancerFromSubnetsOutput(
       subnets: _s
           .extractXmlChild(elem, 'Subnets')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Subnets')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2241,7 +2241,7 @@ class ListenerDescription {
           _s.extractXmlChild(elem, 'Listener')?.let((e) => Listener.fromXml(e)),
       policyNames: _s
           .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PolicyNames')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2311,7 +2311,7 @@ class LoadBalancerAttributes {
       additionalAttributes: _s
           .extractXmlChild(elem, 'AdditionalAttributes')
           ?.let((elem) => elem
-              .findElements('AdditionalAttributes')
+              .findElements('member')
               .map((c) => AdditionalAttribute.fromXml(c))
               .toList()),
       connectionDraining: _s
@@ -2413,12 +2413,13 @@ class LoadBalancerDescription {
   });
   factory LoadBalancerDescription.fromXml(_s.XmlElement elem) {
     return LoadBalancerDescription(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZones')),
+      availabilityZones: _s
+          .extractXmlChild(elem, 'AvailabilityZones')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       backendServerDescriptions: _s
           .extractXmlChild(elem, 'BackendServerDescriptions')
           ?.let((elem) => elem
-              .findElements('BackendServerDescriptions')
+              .findElements('member')
               .map((c) => BackendServerDescription.fromXml(c))
               .toList()),
       canonicalHostedZoneName:
@@ -2430,28 +2431,27 @@ class LoadBalancerDescription {
       healthCheck: _s
           .extractXmlChild(elem, 'HealthCheck')
           ?.let((e) => HealthCheck.fromXml(e)),
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) => elem
-          .findElements('Instances')
-          .map((c) => Instance.fromXml(c))
-          .toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
+          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
       listenerDescriptions: _s
           .extractXmlChild(elem, 'ListenerDescriptions')
           ?.let((elem) => elem
-              .findElements('ListenerDescriptions')
+              .findElements('member')
               .map((c) => ListenerDescription.fromXml(c))
               .toList()),
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
       policies:
           _s.extractXmlChild(elem, 'Policies')?.let((e) => Policies.fromXml(e)),
       scheme: _s.extractXmlStringValue(elem, 'Scheme'),
-      securityGroups: _s.extractXmlChild(elem, 'SecurityGroups')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'SecurityGroups')),
+      securityGroups: _s
+          .extractXmlChild(elem, 'SecurityGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       sourceSecurityGroup: _s
           .extractXmlChild(elem, 'SourceSecurityGroup')
           ?.let((e) => SourceSecurityGroup.fromXml(e)),
       subnets: _s
           .extractXmlChild(elem, 'Subnets')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Subnets')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
     );
   }
@@ -2501,18 +2501,18 @@ class Policies {
       appCookieStickinessPolicies: _s
           .extractXmlChild(elem, 'AppCookieStickinessPolicies')
           ?.let((elem) => elem
-              .findElements('AppCookieStickinessPolicies')
+              .findElements('member')
               .map((c) => AppCookieStickinessPolicy.fromXml(c))
               .toList()),
       lBCookieStickinessPolicies: _s
           .extractXmlChild(elem, 'LBCookieStickinessPolicies')
           ?.let((elem) => elem
-              .findElements('LBCookieStickinessPolicies')
+              .findElements('member')
               .map((c) => LBCookieStickinessPolicy.fromXml(c))
               .toList()),
       otherPolicies: _s
           .extractXmlChild(elem, 'OtherPolicies')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'OtherPolicies')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2633,7 +2633,7 @@ class PolicyDescription {
       policyAttributeDescriptions: _s
           .extractXmlChild(elem, 'PolicyAttributeDescriptions')
           ?.let((elem) => elem
-              .findElements('PolicyAttributeDescriptions')
+              .findElements('member')
               .map((c) => PolicyAttributeDescription.fromXml(c))
               .toList()),
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
@@ -2665,7 +2665,7 @@ class PolicyTypeDescription {
       policyAttributeTypeDescriptions: _s
           .extractXmlChild(elem, 'PolicyAttributeTypeDescriptions')
           ?.let((elem) => elem
-              .findElements('PolicyAttributeTypeDescriptions')
+              .findElements('member')
               .map((c) => PolicyAttributeTypeDescription.fromXml(c))
               .toList()),
       policyTypeName: _s.extractXmlStringValue(elem, 'PolicyTypeName'),
@@ -2683,10 +2683,8 @@ class RegisterEndPointsOutput {
   });
   factory RegisterEndPointsOutput.fromXml(_s.XmlElement elem) {
     return RegisterEndPointsOutput(
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) => elem
-          .findElements('Instances')
-          .map((c) => Instance.fromXml(c))
-          .toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
+          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
     );
   }
 }
@@ -2701,8 +2699,9 @@ class RemoveAvailabilityZonesOutput {
   });
   factory RemoveAvailabilityZonesOutput.fromXml(_s.XmlElement elem) {
     return RemoveAvailabilityZonesOutput(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZones')),
+      availabilityZones: _s
+          .extractXmlChild(elem, 'AvailabilityZones')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -2812,7 +2811,7 @@ class TagDescription {
     return TagDescription(
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tags').map((c) => Tag.fromXml(c)).toList()),
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
 }

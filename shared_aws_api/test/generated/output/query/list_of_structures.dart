@@ -65,7 +65,7 @@ class OutputShape {
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       list: _s.extractXmlChild(elem, 'List')?.let((elem) => elem
-          .findElements('List')
+          .findElements('member')
           .map((c) => StructureShape.fromXml(c))
           .toList()),
     );

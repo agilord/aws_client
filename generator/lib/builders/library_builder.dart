@@ -332,6 +332,7 @@ ${builder.constructor()}
             elemName: member.locationName ?? member.name,
             flattened: member.flattened,
             parent: member.shapeClass,
+            container: shape,
             member: member,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
@@ -411,6 +412,7 @@ String _xmlExtractorFn(
   bool flattened = false,
   Member member,
   Shape parent,
+  Shape container,
 }) {
   final shapeRef = api.shapes[shape];
   flattened = flattened || shapeRef.flattened;
@@ -428,7 +430,13 @@ String _xmlExtractorFn(
     return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
-    final memberElemName = shapeRef.member.locationName ?? elemName;
+    var memberElemName = shapeRef.member.locationName;
+    if (flattened || shapeRef.flattened) {
+      memberElemName ??= elemName;
+    } else {
+      memberElemName ??= 'member';
+    }
+
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
@@ -447,15 +455,25 @@ String _xmlExtractorFn(
       api,
       elemVar: 'c',
       shape: shapeRef.key.shape,
-      elemName: shapeRef.key.locationName,
+      elemName: shapeRef.key.locationName ?? 'key',
+      parent: shapeRef,
+      container: container,
+    );
+    final valueExtractor = _xmlExtractorFn(
+      api,
+      elemVar: 'c',
+      shape: shapeRef.value.shape,
+      elemName: shapeRef.value.locationName ?? 'value',
       parent: shapeRef,
     );
-    final valueExtractor = _xmlExtractorFn(api,
-        elemVar: 'c',
-        shape: shapeRef.value.shape,
-        elemName: shapeRef.value.locationName,
-        parent: shapeRef);
-    return 'Map.fromEntries($elemVar.findElements(\'$elemName\')'
+    var getElementCode = '';
+    var subElementName = elemName;
+    if (!flattened) {
+      getElementCode = ".getElement('$elemName')";
+      subElementName = 'entry';
+    }
+
+    return 'Map.fromEntries($elemVar$getElementCode.findElements(\'$subElementName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
   } else {
     return '_s.extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';

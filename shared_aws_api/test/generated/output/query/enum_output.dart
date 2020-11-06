@@ -68,7 +68,7 @@ class OutputShape {
       fooEnum: _s.extractXmlStringValue(elem, 'FooEnum')?.toEC2EnumType(),
       listEnums: _s
           .extractXmlChild(elem, 'ListEnums')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ListEnums')),
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
