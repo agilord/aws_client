@@ -121,6 +121,12 @@ String extractXmlStringValue(XmlElement elem, String name) {
   return c?.text;
 }
 
+String extractXmlStringAttribute(XmlElement elem, String name) {
+  return elem.attributes
+      .firstWhere((e) => e.name.qualified == name, orElse: () => null)
+      ?.value;
+}
+
 int extractXmlIntValue(XmlElement elem, String name) {
   final str = extractXmlStringValue(elem, name);
   return str == null ? null : int.parse(str);

@@ -3,7 +3,7 @@ export 'package:json_annotation/json_annotation.dart'
     show JsonKey, JsonSerializable, JsonValue;
 export 'package:meta/meta.dart' show required;
 export 'package:xml/xml.dart'
-    show XmlElement, XmlFindExtension, XmlName, XmlNode;
+    show XmlElement, XmlAttribute, XmlFindExtension, XmlName, XmlNode;
 
 export 'src/credentials.dart';
 export 'src/model/shape.dart';

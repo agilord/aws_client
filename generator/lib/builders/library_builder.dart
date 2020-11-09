@@ -348,7 +348,7 @@ ${builder.constructor()}
       if (shape.generateToXml) {
         writeln('\n  _s.XmlElement toXml(String elemName) {');
         writeln('    final \$children = <_s.XmlNode>[');
-        for (final member in shape.members) {
+        for (final member in shape.members.where((e) => !e.xmlAttribute)) {
           if (member.isQuery || member.isUri || member.isHeader) {
             writeln(
                 '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
@@ -365,8 +365,29 @@ ${builder.constructor()}
           writeln('      $fn,');
         }
         writeln('    ];');
+
+        final membersToAttribute =
+            shape.members.where((e) => e.xmlAttribute).toList();
+        var attributeListCode = '[]';
+        if (membersToAttribute.isNotEmpty || shape.xmlNamespace != null) {
+          writeln('final \$attributes = <_s.XmlAttribute>[');
+          if (shape.xmlNamespace != null) {
+            writeln(
+                "_s.XmlAttribute(_s.XmlName('${shape.xmlNamespace.prefix}', 'xmlns'), '${shape.xmlNamespace.uri}'),");
+          }
+          for (final member in membersToAttribute) {
+            final nsPrefix = member.xmlNamespace?.prefix ?? '';
+            final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
+            final isEnum = member.shapeClass.enumeration?.isNotEmpty ?? false;
+            writeln('if (${member.fieldName} != null)');
+            writeln(
+                "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.toValue()' : ''}),");
+          }
+          writeln('];');
+          attributeListCode = '\$attributes';
+        }
         writeln(
-            '    return _s.XmlElement(_s.XmlName(elemName), [], \$children.where((e) => e != null),);');
+            '    return _s.XmlElement(_s.XmlName(elemName), $attributeListCode, \$children.where((e) => e != null),);');
         writeln('  }');
       }
 
@@ -427,7 +448,11 @@ String _xmlExtractorFn(
       extraParameters =
           ', parser: _s.${shapeRef.timestampFormat ?? member.timestampFormat}FromJson';
     }
-    return '_s.extractXml${_uppercaseName(dartType)}Value($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
+    var functionSuffix = 'Value';
+    if (member?.xmlAttribute == true) {
+      functionSuffix = 'Attribute';
+    }
+    return '_s.extractXml${_uppercaseName(dartType)}$functionSuffix($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     var memberElemName = shapeRef.member.locationName;
