@@ -411,7 +411,8 @@ class Schemas {
           '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}/source$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCodeBindingSourceResponse.fromJson(response);
+    return GetCodeBindingSourceResponse.fromJson(
+        {...response, 'Body': response});
   }
 
   /// Get the discovered schema that was generated based on sampled events.

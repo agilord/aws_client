@@ -9928,9 +9928,7 @@ class CopyObjectOutput {
     Map<String, String> headers,
   }) {
     return CopyObjectOutput(
-      copyObjectResult: _s
-          .extractXmlChild(elem, 'CopyObjectResult')
-          ?.let((e) => CopyObjectResult.fromXml(e)),
+      copyObjectResult: elem?.let((e) => CopyObjectResult.fromXml(e)),
       copySourceVersionId:
           _s.extractHeaderStringValue(headers, 'x-amz-copy-source-version-id'),
       expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
@@ -12469,9 +12467,8 @@ class GetBucketAnalyticsConfigurationOutput {
   });
   factory GetBucketAnalyticsConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketAnalyticsConfigurationOutput(
-      analyticsConfiguration: _s
-          .extractXmlChild(elem, 'AnalyticsConfiguration')
-          ?.let((e) => AnalyticsConfiguration.fromXml(e)),
+      analyticsConfiguration:
+          elem?.let((e) => AnalyticsConfiguration.fromXml(e)),
     );
   }
 }
@@ -12502,9 +12499,8 @@ class GetBucketEncryptionOutput {
   });
   factory GetBucketEncryptionOutput.fromXml(_s.XmlElement elem) {
     return GetBucketEncryptionOutput(
-      serverSideEncryptionConfiguration: _s
-          .extractXmlChild(elem, 'ServerSideEncryptionConfiguration')
-          ?.let((e) => ServerSideEncryptionConfiguration.fromXml(e)),
+      serverSideEncryptionConfiguration:
+          elem?.let((e) => ServerSideEncryptionConfiguration.fromXml(e)),
     );
   }
 }
@@ -12518,9 +12514,8 @@ class GetBucketInventoryConfigurationOutput {
   });
   factory GetBucketInventoryConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketInventoryConfigurationOutput(
-      inventoryConfiguration: _s
-          .extractXmlChild(elem, 'InventoryConfiguration')
-          ?.let((e) => InventoryConfiguration.fromXml(e)),
+      inventoryConfiguration:
+          elem?.let((e) => InventoryConfiguration.fromXml(e)),
     );
   }
 }
@@ -12599,9 +12594,7 @@ class GetBucketMetricsConfigurationOutput {
   });
   factory GetBucketMetricsConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketMetricsConfigurationOutput(
-      metricsConfiguration: _s
-          .extractXmlChild(elem, 'MetricsConfiguration')
-          ?.let((e) => MetricsConfiguration.fromXml(e)),
+      metricsConfiguration: elem?.let((e) => MetricsConfiguration.fromXml(e)),
     );
   }
 }
@@ -12629,9 +12622,7 @@ class GetBucketPolicyStatusOutput {
   });
   factory GetBucketPolicyStatusOutput.fromXml(_s.XmlElement elem) {
     return GetBucketPolicyStatusOutput(
-      policyStatus: _s
-          .extractXmlChild(elem, 'PolicyStatus')
-          ?.let((e) => PolicyStatus.fromXml(e)),
+      policyStatus: elem?.let((e) => PolicyStatus.fromXml(e)),
     );
   }
 }
@@ -12644,9 +12635,8 @@ class GetBucketReplicationOutput {
   });
   factory GetBucketReplicationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketReplicationOutput(
-      replicationConfiguration: _s
-          .extractXmlChild(elem, 'ReplicationConfiguration')
-          ?.let((e) => ReplicationConfiguration.fromXml(e)),
+      replicationConfiguration:
+          elem?.let((e) => ReplicationConfiguration.fromXml(e)),
     );
   }
 }
@@ -12780,9 +12770,7 @@ class GetObjectLegalHoldOutput {
   });
   factory GetObjectLegalHoldOutput.fromXml(_s.XmlElement elem) {
     return GetObjectLegalHoldOutput(
-      legalHold: _s
-          .extractXmlChild(elem, 'LegalHold')
-          ?.let((e) => ObjectLockLegalHold.fromXml(e)),
+      legalHold: elem?.let((e) => ObjectLockLegalHold.fromXml(e)),
     );
   }
 }
@@ -12796,9 +12784,8 @@ class GetObjectLockConfigurationOutput {
   });
   factory GetObjectLockConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetObjectLockConfigurationOutput(
-      objectLockConfiguration: _s
-          .extractXmlChild(elem, 'ObjectLockConfiguration')
-          ?.let((e) => ObjectLockConfiguration.fromXml(e)),
+      objectLockConfiguration:
+          elem?.let((e) => ObjectLockConfiguration.fromXml(e)),
     );
   }
 }
@@ -13021,9 +13008,7 @@ class GetObjectRetentionOutput {
   });
   factory GetObjectRetentionOutput.fromXml(_s.XmlElement elem) {
     return GetObjectRetentionOutput(
-      retention: _s
-          .extractXmlChild(elem, 'Retention')
-          ?.let((e) => ObjectLockRetention.fromXml(e)),
+      retention: elem?.let((e) => ObjectLockRetention.fromXml(e)),
     );
   }
 }
@@ -13083,9 +13068,8 @@ class GetPublicAccessBlockOutput {
   });
   factory GetPublicAccessBlockOutput.fromXml(_s.XmlElement elem) {
     return GetPublicAccessBlockOutput(
-      publicAccessBlockConfiguration: _s
-          .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+      publicAccessBlockConfiguration:
+          elem?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
     );
   }
 }
@@ -17838,9 +17822,7 @@ class SelectObjectContentOutput {
   });
   factory SelectObjectContentOutput.fromXml(_s.XmlElement elem) {
     return SelectObjectContentOutput(
-      payload: _s
-          .extractXmlChild(elem, 'Payload')
-          ?.let((e) => SelectObjectContentEventStream.fromXml(e)),
+      payload: elem?.let((e) => SelectObjectContentEventStream.fromXml(e)),
     );
   }
 }
@@ -18705,9 +18687,7 @@ class UploadPartCopyOutput {
     Map<String, String> headers,
   }) {
     return UploadPartCopyOutput(
-      copyPartResult: _s
-          .extractXmlChild(elem, 'CopyPartResult')
-          ?.let((e) => CopyPartResult.fromXml(e)),
+      copyPartResult: elem?.let((e) => CopyPartResult.fromXml(e)),
       copySourceVersionId:
           _s.extractHeaderStringValue(headers, 'x-amz-copy-source-version-id'),
       requestCharged: _s

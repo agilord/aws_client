@@ -1961,9 +1961,8 @@ class CreateCloudFrontOriginAccessIdentityResult {
     Map<String, String> headers,
   }) {
     return CreateCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity: _s
-          .extractXmlChild(elem, 'CloudFrontOriginAccessIdentity')
-          ?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
+      cloudFrontOriginAccessIdentity:
+          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
       location: _s.extractHeaderStringValue(headers, 'Location'),
     );
@@ -1993,9 +1992,7 @@ class CreateDistributionResult {
     Map<String, String> headers,
   }) {
     return CreateDistributionResult(
-      distribution: _s
-          .extractXmlChild(elem, 'Distribution')
-          ?.let((e) => Distribution.fromXml(e)),
+      distribution: elem?.let((e) => Distribution.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
       location: _s.extractHeaderStringValue(headers, 'Location'),
     );
@@ -2025,9 +2022,7 @@ class CreateDistributionWithTagsResult {
     Map<String, String> headers,
   }) {
     return CreateDistributionWithTagsResult(
-      distribution: _s
-          .extractXmlChild(elem, 'Distribution')
-          ?.let((e) => Distribution.fromXml(e)),
+      distribution: elem?.let((e) => Distribution.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
       location: _s.extractHeaderStringValue(headers, 'Location'),
     );
@@ -2052,9 +2047,7 @@ class CreateInvalidationResult {
     Map<String, String> headers,
   }) {
     return CreateInvalidationResult(
-      invalidation: _s
-          .extractXmlChild(elem, 'Invalidation')
-          ?.let((e) => Invalidation.fromXml(e)),
+      invalidation: elem?.let((e) => Invalidation.fromXml(e)),
       location: _s.extractHeaderStringValue(headers, 'Location'),
     );
   }
@@ -2085,9 +2078,7 @@ class CreateStreamingDistributionResult {
     return CreateStreamingDistributionResult(
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
       location: _s.extractHeaderStringValue(headers, 'Location'),
-      streamingDistribution: _s
-          .extractXmlChild(elem, 'StreamingDistribution')
-          ?.let((e) => StreamingDistribution.fromXml(e)),
+      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
     );
   }
 }
@@ -2116,9 +2107,7 @@ class CreateStreamingDistributionWithTagsResult {
     return CreateStreamingDistributionWithTagsResult(
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
       location: _s.extractHeaderStringValue(headers, 'Location'),
-      streamingDistribution: _s
-          .extractXmlChild(elem, 'StreamingDistribution')
-          ?.let((e) => StreamingDistribution.fromXml(e)),
+      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
     );
   }
 }
@@ -3411,9 +3400,8 @@ class GetCloudFrontOriginAccessIdentityConfigResult {
     Map<String, String> headers,
   }) {
     return GetCloudFrontOriginAccessIdentityConfigResult(
-      cloudFrontOriginAccessIdentityConfig: _s
-          .extractXmlChild(elem, 'CloudFrontOriginAccessIdentityConfig')
-          ?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
+      cloudFrontOriginAccessIdentityConfig:
+          elem?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -3437,9 +3425,8 @@ class GetCloudFrontOriginAccessIdentityResult {
     Map<String, String> headers,
   }) {
     return GetCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity: _s
-          .extractXmlChild(elem, 'CloudFrontOriginAccessIdentity')
-          ?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
+      cloudFrontOriginAccessIdentity:
+          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -3463,9 +3450,7 @@ class GetDistributionConfigResult {
     Map<String, String> headers,
   }) {
     return GetDistributionConfigResult(
-      distributionConfig: _s
-          .extractXmlChild(elem, 'DistributionConfig')
-          ?.let((e) => DistributionConfig.fromXml(e)),
+      distributionConfig: elem?.let((e) => DistributionConfig.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -3489,9 +3474,7 @@ class GetDistributionResult {
     Map<String, String> headers,
   }) {
     return GetDistributionResult(
-      distribution: _s
-          .extractXmlChild(elem, 'Distribution')
-          ?.let((e) => Distribution.fromXml(e)),
+      distribution: elem?.let((e) => Distribution.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -3509,9 +3492,7 @@ class GetInvalidationResult {
   });
   factory GetInvalidationResult.fromXml(_s.XmlElement elem) {
     return GetInvalidationResult(
-      invalidation: _s
-          .extractXmlChild(elem, 'Invalidation')
-          ?.let((e) => Invalidation.fromXml(e)),
+      invalidation: elem?.let((e) => Invalidation.fromXml(e)),
     );
   }
 }
@@ -3535,9 +3516,8 @@ class GetStreamingDistributionConfigResult {
   }) {
     return GetStreamingDistributionConfigResult(
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistributionConfig: _s
-          .extractXmlChild(elem, 'StreamingDistributionConfig')
-          ?.let((e) => StreamingDistributionConfig.fromXml(e)),
+      streamingDistributionConfig:
+          elem?.let((e) => StreamingDistributionConfig.fromXml(e)),
     );
   }
 }
@@ -3561,9 +3541,7 @@ class GetStreamingDistributionResult {
   }) {
     return GetStreamingDistributionResult(
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistribution: _s
-          .extractXmlChild(elem, 'StreamingDistribution')
-          ?.let((e) => StreamingDistribution.fromXml(e)),
+      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
     );
   }
 }
@@ -4338,9 +4316,8 @@ class ListCloudFrontOriginAccessIdentitiesResult {
   factory ListCloudFrontOriginAccessIdentitiesResult.fromXml(
       _s.XmlElement elem) {
     return ListCloudFrontOriginAccessIdentitiesResult(
-      cloudFrontOriginAccessIdentityList: _s
-          .extractXmlChild(elem, 'CloudFrontOriginAccessIdentityList')
-          ?.let((e) => CloudFrontOriginAccessIdentityList.fromXml(e)),
+      cloudFrontOriginAccessIdentityList:
+          elem?.let((e) => CloudFrontOriginAccessIdentityList.fromXml(e)),
     );
   }
 }
@@ -4356,9 +4333,7 @@ class ListDistributionsByWebACLIdResult {
   });
   factory ListDistributionsByWebACLIdResult.fromXml(_s.XmlElement elem) {
     return ListDistributionsByWebACLIdResult(
-      distributionList: _s
-          .extractXmlChild(elem, 'DistributionList')
-          ?.let((e) => DistributionList.fromXml(e)),
+      distributionList: elem?.let((e) => DistributionList.fromXml(e)),
     );
   }
 }
@@ -4373,9 +4348,7 @@ class ListDistributionsResult {
   });
   factory ListDistributionsResult.fromXml(_s.XmlElement elem) {
     return ListDistributionsResult(
-      distributionList: _s
-          .extractXmlChild(elem, 'DistributionList')
-          ?.let((e) => DistributionList.fromXml(e)),
+      distributionList: elem?.let((e) => DistributionList.fromXml(e)),
     );
   }
 }
@@ -4390,9 +4363,7 @@ class ListInvalidationsResult {
   });
   factory ListInvalidationsResult.fromXml(_s.XmlElement elem) {
     return ListInvalidationsResult(
-      invalidationList: _s
-          .extractXmlChild(elem, 'InvalidationList')
-          ?.let((e) => InvalidationList.fromXml(e)),
+      invalidationList: elem?.let((e) => InvalidationList.fromXml(e)),
     );
   }
 }
@@ -4407,9 +4378,8 @@ class ListStreamingDistributionsResult {
   });
   factory ListStreamingDistributionsResult.fromXml(_s.XmlElement elem) {
     return ListStreamingDistributionsResult(
-      streamingDistributionList: _s
-          .extractXmlChild(elem, 'StreamingDistributionList')
-          ?.let((e) => StreamingDistributionList.fromXml(e)),
+      streamingDistributionList:
+          elem?.let((e) => StreamingDistributionList.fromXml(e)),
     );
   }
 }
@@ -4424,7 +4394,7 @@ class ListTagsForResourceResult {
   });
   factory ListTagsForResourceResult.fromXml(_s.XmlElement elem) {
     return ListTagsForResourceResult(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((e) => Tags.fromXml(e)),
+      tags: elem?.let((e) => Tags.fromXml(e)),
     );
   }
 }
@@ -6163,9 +6133,8 @@ class UpdateCloudFrontOriginAccessIdentityResult {
     Map<String, String> headers,
   }) {
     return UpdateCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity: _s
-          .extractXmlChild(elem, 'CloudFrontOriginAccessIdentity')
-          ?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
+      cloudFrontOriginAccessIdentity:
+          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -6189,9 +6158,7 @@ class UpdateDistributionResult {
     Map<String, String> headers,
   }) {
     return UpdateDistributionResult(
-      distribution: _s
-          .extractXmlChild(elem, 'Distribution')
-          ?.let((e) => Distribution.fromXml(e)),
+      distribution: elem?.let((e) => Distribution.fromXml(e)),
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
     );
   }
@@ -6216,9 +6183,7 @@ class UpdateStreamingDistributionResult {
   }) {
     return UpdateStreamingDistributionResult(
       eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistribution: _s
-          .extractXmlChild(elem, 'StreamingDistribution')
-          ?.let((e) => StreamingDistribution.fromXml(e)),
+      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
     );
   }
 }

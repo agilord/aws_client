@@ -154,7 +154,7 @@ class KinesisVideoMedia {
       requestUri: '/getMedia',
       exceptionFnMap: _exceptionFns,
     );
-    return GetMediaOutput.fromJson(response);
+    return GetMediaOutput.fromJson({...response, 'Payload': response});
   }
 }
 

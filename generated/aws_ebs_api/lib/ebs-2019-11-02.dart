@@ -124,7 +124,8 @@ class EBS {
           '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks/${Uri.encodeComponent(blockIndex.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSnapshotBlockResponse.fromJson(response);
+    return GetSnapshotBlockResponse.fromJson(
+        {...response, 'BlockData': response});
   }
 
   /// Returns the block indexes and block tokens for blocks that are different

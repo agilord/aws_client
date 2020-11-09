@@ -46,7 +46,7 @@ class JSONPayload {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    return OutputShape.fromJson({...response, 'Data': response});
   }
 }
 

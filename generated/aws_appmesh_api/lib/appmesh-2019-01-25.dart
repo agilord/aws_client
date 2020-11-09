@@ -132,7 +132,7 @@ class AppMesh {
       requestUri: '/v20190125/meshes',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateMeshOutput.fromJson(response);
+    return CreateMeshOutput.fromJson({...response, 'mesh': response});
   }
 
   /// Creates a route that is associated with a virtual router.
@@ -257,7 +257,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateRouteOutput.fromJson(response);
+    return CreateRouteOutput.fromJson({...response, 'route': response});
   }
 
   /// Creates a virtual node within a service mesh.
@@ -392,7 +392,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualNodeOutput.fromJson(response);
+    return CreateVirtualNodeOutput.fromJson(
+        {...response, 'virtualNode': response});
   }
 
   /// Creates a virtual router within a service mesh.
@@ -503,7 +504,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualRouterOutput.fromJson(response);
+    return CreateVirtualRouterOutput.fromJson(
+        {...response, 'virtualRouter': response});
   }
 
   /// Creates a virtual service within a service mesh.
@@ -605,7 +607,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualServiceOutput.fromJson(response);
+    return CreateVirtualServiceOutput.fromJson(
+        {...response, 'virtualService': response});
   }
 
   /// Deletes an existing service mesh.
@@ -644,7 +647,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteMeshOutput.fromJson(response);
+    return DeleteMeshOutput.fromJson({...response, 'mesh': response});
   }
 
   /// Deletes an existing route.
@@ -721,7 +724,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRouteOutput.fromJson(response);
+    return DeleteRouteOutput.fromJson({...response, 'route': response});
   }
 
   /// Deletes an existing virtual node.
@@ -791,7 +794,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualNodeOutput.fromJson(response);
+    return DeleteVirtualNodeOutput.fromJson(
+        {...response, 'virtualNode': response});
   }
 
   /// Deletes an existing virtual router.
@@ -861,7 +865,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualRouterOutput.fromJson(response);
+    return DeleteVirtualRouterOutput.fromJson(
+        {...response, 'virtualRouter': response});
   }
 
   /// Deletes an existing virtual service.
@@ -918,7 +923,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualServiceOutput.fromJson(response);
+    return DeleteVirtualServiceOutput.fromJson(
+        {...response, 'virtualService': response});
   }
 
   /// Describes an existing service mesh.
@@ -969,7 +975,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeMeshOutput.fromJson(response);
+    return DescribeMeshOutput.fromJson({...response, 'mesh': response});
   }
 
   /// Describes an existing route.
@@ -1044,7 +1050,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeRouteOutput.fromJson(response);
+    return DescribeRouteOutput.fromJson({...response, 'route': response});
   }
 
   /// Describes an existing virtual node.
@@ -1107,7 +1113,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualNodeOutput.fromJson(response);
+    return DescribeVirtualNodeOutput.fromJson(
+        {...response, 'virtualNode': response});
   }
 
   /// Describes an existing virtual router.
@@ -1170,7 +1177,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualRouterOutput.fromJson(response);
+    return DescribeVirtualRouterOutput.fromJson(
+        {...response, 'virtualRouter': response});
   }
 
   /// Describes an existing virtual service.
@@ -1226,7 +1234,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualServiceOutput.fromJson(response);
+    return DescribeVirtualServiceOutput.fromJson(
+        {...response, 'virtualService': response});
   }
 
   /// Returns a list of existing service meshes.
@@ -1827,7 +1836,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateMeshOutput.fromJson(response);
+    return UpdateMeshOutput.fromJson({...response, 'mesh': response});
   }
 
   /// Updates an existing route for a specified service mesh and virtual router.
@@ -1919,7 +1928,7 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateRouteOutput.fromJson(response);
+    return UpdateRouteOutput.fromJson({...response, 'route': response});
   }
 
   /// Updates an existing virtual node in a specified service mesh.
@@ -2000,7 +2009,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualNodeOutput.fromJson(response);
+    return UpdateVirtualNodeOutput.fromJson(
+        {...response, 'virtualNode': response});
   }
 
   /// Updates an existing virtual router in a specified service mesh.
@@ -2081,7 +2091,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualRouterOutput.fromJson(response);
+    return UpdateVirtualRouterOutput.fromJson(
+        {...response, 'virtualRouter': response});
   }
 
   /// Updates an existing virtual service in a specified service mesh.
@@ -2156,7 +2167,8 @@ class AppMesh {
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualServiceOutput.fromJson(response);
+    return UpdateVirtualServiceOutput.fromJson(
+        {...response, 'virtualService': response});
   }
 }
 

@@ -1450,7 +1450,7 @@ class ApiGatewayV2 {
           '/v2/apis/${Uri.encodeComponent(apiId.toString())}/exports/${Uri.encodeComponent(specification.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ExportApiResponse.fromJson(response);
+    return ExportApiResponse.fromJson({...response, 'body': response});
   }
 
   /// Gets an Api resource.

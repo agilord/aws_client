@@ -91,7 +91,8 @@ class CodeGuruProfiler {
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/configureAgent',
       exceptionFnMap: _exceptionFns,
     );
-    return ConfigureAgentResponse.fromJson(response);
+    return ConfigureAgentResponse.fromJson(
+        {...response, 'configuration': response});
   }
 
   /// Creates a profiling group.
@@ -162,7 +163,8 @@ class CodeGuruProfiler {
       requestUri: '/profilingGroups$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateProfilingGroupResponse.fromJson(response);
+    return CreateProfilingGroupResponse.fromJson(
+        {...response, 'profilingGroup': response});
   }
 
   /// Deletes a profiling group.
@@ -235,7 +237,8 @@ class CodeGuruProfiler {
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeProfilingGroupResponse.fromJson(response);
+    return DescribeProfilingGroupResponse.fromJson(
+        {...response, 'profilingGroup': response});
   }
 
   /// Gets the profiling group policy.
@@ -371,7 +374,7 @@ class CodeGuruProfiler {
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profile$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetProfileResponse.fromJson(response);
+    return GetProfileResponse.fromJson({...response, 'profile': response});
   }
 
   /// List the start times of the available aggregated profiles of a profiling
@@ -780,7 +783,8 @@ class CodeGuruProfiler {
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateProfilingGroupResponse.fromJson(response);
+    return UpdateProfilingGroupResponse.fromJson(
+        {...response, 'profilingGroup': response});
   }
 }
 

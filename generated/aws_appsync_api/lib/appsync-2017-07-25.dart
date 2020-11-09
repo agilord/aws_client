@@ -1078,7 +1078,8 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schema$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetIntrospectionSchemaResponse.fromJson(response);
+    return GetIntrospectionSchemaResponse.fromJson(
+        {...response, 'schema': response});
   }
 
   /// Retrieves a <code>Resolver</code> object.

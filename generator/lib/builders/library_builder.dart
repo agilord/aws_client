@@ -476,7 +476,12 @@ String _xmlExtractorFn(
     return 'Map.fromEntries($elemVar$getElementCode.findElements(\'$subElementName\')'
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
   } else {
-    return '_s.extractXmlChild($elemVar, \'$elemName\')?.let((e)=>$shape.fromXml(e))';
+    final fromXmlCode = '?.let((e)=>$shape.fromXml(e))';
+    if (container?.payload == elemName) {
+      return '$elemVar$fromXmlCode';
+    } else {
+      return '_s.extractXmlChild($elemVar, \'$elemName\')$fromXmlCode';
+    }
   }
 }
 

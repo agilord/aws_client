@@ -192,7 +192,7 @@ class SageMakerRuntime {
           '/endpoints/${Uri.encodeComponent(endpointName.toString())}/invocations',
       exceptionFnMap: _exceptionFns,
     );
-    return InvokeEndpointOutput.fromJson(response);
+    return InvokeEndpointOutput.fromJson({...response, 'Body': response});
   }
 }
 
