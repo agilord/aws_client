@@ -78,7 +78,7 @@ class ItemDetailShape {
   });
   factory ItemDetailShape.fromXml(_s.XmlElement elem) {
     return ItemDetailShape(
-      type: _s.extractXmlStringValue(elem, 'xsi:type')?.toItemType(),
+      type: _s.extractXmlStringAttribute(elem, 'xsi:type')?.toItemType(),
       id: _s.extractXmlStringValue(elem, 'ID'),
     );
   }

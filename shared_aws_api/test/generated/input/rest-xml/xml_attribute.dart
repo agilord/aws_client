@@ -70,11 +70,15 @@ class Grantee {
   _s.XmlElement toXml(String elemName) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('EmailAddress', emailAddress),
-      _s.encodeXmlStringValue('xsi:type', type),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
+          'http://www.w3.org/2001/XMLSchema-instance'),
+      if (type != null) _s.XmlAttribute(_s.XmlName('xsi:type'), type),
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

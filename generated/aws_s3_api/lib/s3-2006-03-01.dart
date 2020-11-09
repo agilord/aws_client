@@ -13153,7 +13153,7 @@ class Grantee {
   });
   factory Grantee.fromXml(_s.XmlElement elem) {
     return Grantee(
-      type: _s.extractXmlStringValue(elem, 'xsi:type')?.toType(),
+      type: _s.extractXmlStringAttribute(elem, 'xsi:type')?.toType(),
       displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
       emailAddress: _s.extractXmlStringValue(elem, 'EmailAddress'),
       id: _s.extractXmlStringValue(elem, 'ID'),
@@ -13163,15 +13163,19 @@ class Grantee {
 
   _s.XmlElement toXml(String elemName) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('xsi:type', type?.toValue()),
       _s.encodeXmlStringValue('DisplayName', displayName),
       _s.encodeXmlStringValue('EmailAddress', emailAddress),
       _s.encodeXmlStringValue('ID', id),
       _s.encodeXmlStringValue('URI', uri),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
+          'http://www.w3.org/2001/XMLSchema-instance'),
+      if (type != null) _s.XmlAttribute(_s.XmlName('xsi:type'), type.toValue()),
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
