@@ -3,6 +3,8 @@ import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/operation.dart';
 
+import '../library_builder.dart';
+
 class RestXmlServiceBuilder extends ServiceBuilder {
   final Api api;
 
@@ -24,6 +26,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
   @override
   String operationContent(Operation operation) {
     final buf = StringBuffer();
+    final input = operation.input;
     final shapeClass = operation.input?.shapeClass;
     buildRequestHeaders(operation, buf);
     buildRequestQueryParams(operation, buf);
@@ -40,7 +43,23 @@ class RestXmlServiceBuilder extends ServiceBuilder {
         payloadArg = 'payload: ${payloadMember.fieldName},';
       } else {
         payloadArg =
-            'payload: ${payloadMember.fieldName}.toXml(\'${shapeClass.payload}\'),';
+            'payload: ${payloadMember.fieldName}${payloadMember.isRequired ? '' : '?'}.toXml(\'${shapeClass.payload}\'),';
+      }
+    } else if (shapeClass != null) {
+      final bodyMembers = shapeClass.members.where((m) => m.isBody);
+      if (bodyMembers.isNotEmpty) {
+        shapeClass.markUsed(true);
+        final tagName =
+            input.locationName ?? shapeClass.locationName ?? shapeClass.name;
+
+        var extraParameters = '';
+        final xmlNamespace = input.xmlNamespace;
+        if (xmlNamespace != null) {
+          extraParameters =
+              ", attributes: [${xmlNamespaceToCode(xmlNamespace, importPrefix: '_s.')},],";
+        }
+        payloadArg =
+            "payload: ${shapeClass.className}(${bodyMembers.map((m) => '${m.fieldName}: ${m.fieldName}').join(',')}).toXml('$tagName'$extraParameters),";
       }
     }
 

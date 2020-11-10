@@ -35,7 +35,34 @@ class HeaderMaps {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
+      payload: InputShape(foo: foo).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final Map<String, String> foo;
+
+  InputShape({
+    this.foo,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      if (foo != null) throw UnimplementedError('XML map: FooShape'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

@@ -35,7 +35,7 @@ class XMLAttribute {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: grant.toXml('Grant'),
+      payload: grant?.toXml('Grant'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -47,13 +47,16 @@ class Grant {
   Grant({
     this.grantee,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee.toXml('Grantee'),
+      grantee?.toXml('Grantee'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -67,11 +70,12 @@ class Grantee {
     this.emailAddress,
     this.type,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('EmailAddress', emailAddress),
     ];
     final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
       _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
           'http://www.w3.org/2001/XMLSchema-instance'),
       if (type != null) _s.XmlAttribute(_s.XmlName('xsi:type'), type),

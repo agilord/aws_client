@@ -82,6 +82,17 @@ class S3Control {
       requestUri:
           '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
       headers: headers,
+      payload: CreateAccessPointRequest(
+              bucket: bucket,
+              publicAccessBlockConfiguration: publicAccessBlockConfiguration,
+              vpcConfiguration: vpcConfiguration)
+          .toXml(
+        'CreateAccessPointRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -193,6 +204,23 @@ class S3Control {
       method: 'POST',
       requestUri: '/v20180820/jobs',
       headers: headers,
+      payload: CreateJobRequest(
+              clientRequestToken: clientRequestToken,
+              manifest: manifest,
+              operation: operation,
+              priority: priority,
+              report: report,
+              roleArn: roleArn,
+              confirmationRequired: confirmationRequired,
+              description: description,
+              tags: tags)
+          .toXml(
+        'CreateJobRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResult.fromXml($result.body);
@@ -774,6 +802,13 @@ class S3Control {
       requestUri:
           '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
       headers: headers,
+      payload: PutAccessPointPolicyRequest(policy: policy).toXml(
+        'PutAccessPointPolicyRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -823,6 +858,13 @@ class S3Control {
       requestUri:
           '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
       headers: headers,
+      payload: PutJobTaggingRequest(tags: tags).toXml(
+        'PutJobTaggingRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1026,6 +1068,131 @@ class AccessPoint {
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
           ?.let((e) => VpcConfiguration.fromXml(e)),
+    );
+  }
+}
+
+class CreateAccessPointRequest {
+  /// The AWS account ID for the owner of the bucket for which you want to create
+  /// an access point.
+  final String accountId;
+
+  /// The name of the bucket that you want to associate this access point with.
+  final String bucket;
+
+  /// The name you want to assign to this access point.
+  final String name;
+  final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
+
+  /// If you include this field, Amazon S3 restricts access to this access point
+  /// to requests from the specified Virtual Private Cloud (VPC).
+  final VpcConfiguration vpcConfiguration;
+
+  CreateAccessPointRequest({
+    @_s.required this.accountId,
+    @_s.required this.bucket,
+    @_s.required this.name,
+    this.publicAccessBlockConfiguration,
+    this.vpcConfiguration,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-account-id
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: name
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Bucket', bucket),
+      vpcConfiguration?.toXml('VpcConfiguration'),
+      publicAccessBlockConfiguration?.toXml('PublicAccessBlockConfiguration'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+class CreateJobRequest {
+  /// <p/>
+  final String accountId;
+
+  /// An idempotency token to ensure that you don't accidentally submit the same
+  /// request twice. You can use any string up to the maximum length.
+  final String clientRequestToken;
+
+  /// Configuration parameters for the manifest.
+  final JobManifest manifest;
+
+  /// The operation that you want this job to perform on each object listed in the
+  /// manifest. For more information about the available operations, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Available
+  /// Operations</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  final JobOperation operation;
+
+  /// The numerical priority for this job. Higher numbers indicate higher
+  /// priority.
+  final int priority;
+
+  /// Configuration parameters for the optional job-completion report.
+  final JobReport report;
+
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// Role that batch operations will use to execute this job's operation on each
+  /// object in the manifest.
+  final String roleArn;
+
+  /// Indicates whether confirmation is required before Amazon S3 runs the job.
+  /// Confirmation is only required for jobs created through the Amazon S3
+  /// console.
+  final bool confirmationRequired;
+
+  /// A description for this job. You can use any string within the permitted
+  /// length. Descriptions don't need to be unique and can be used for multiple
+  /// jobs.
+  final String description;
+
+  /// An optional set of tags to associate with the job when it is created.
+  final List<S3Tag> tags;
+
+  CreateJobRequest({
+    @_s.required this.accountId,
+    @_s.required this.clientRequestToken,
+    @_s.required this.manifest,
+    @_s.required this.operation,
+    @_s.required this.priority,
+    @_s.required this.report,
+    @_s.required this.roleArn,
+    this.confirmationRequired,
+    this.description,
+    this.tags,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-account-id
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlBoolValue('ConfirmationRequired', confirmationRequired),
+      operation?.toXml('Operation'),
+      report?.toXml('Report'),
+      _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
+      manifest?.toXml('Manifest'),
+      _s.encodeXmlStringValue('Description', description),
+      _s.encodeXmlIntValue('Priority', priority),
+      _s.encodeXmlStringValue('RoleArn', roleArn),
+      if (tags != null)
+        _s.XmlElement(_s.XmlName('Tags'), [],
+            <_s.XmlNode>[...tags.map((v) => v.toXml('Tags'))]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -1402,14 +1569,17 @@ class JobManifest {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      location.toXml('Location'),
-      spec.toXml('Spec'),
+      spec?.toXml('Spec'),
+      location?.toXml('Location'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1508,15 +1678,18 @@ class JobManifestLocation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ETag', eTag),
       _s.encodeXmlStringValue('ObjectArn', objectArn),
       _s.encodeXmlStringValue('ObjectVersionId', objectVersionId),
+      _s.encodeXmlStringValue('ETag', eTag),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1546,7 +1719,7 @@ class JobManifestSpec {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Format', format?.toValue()),
       if (fields != null)
@@ -1554,9 +1727,12 @@ class JobManifestSpec {
           ...fields.map((v) => _s.encodeXmlStringValue('Fields', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1614,17 +1790,20 @@ class JobOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      lambdaInvoke.toXml('LambdaInvoke'),
-      s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
-      s3PutObjectAcl.toXml('S3PutObjectAcl'),
-      s3PutObjectCopy.toXml('S3PutObjectCopy'),
-      s3PutObjectTagging.toXml('S3PutObjectTagging'),
+      lambdaInvoke?.toXml('LambdaInvoke'),
+      s3PutObjectCopy?.toXml('S3PutObjectCopy'),
+      s3PutObjectAcl?.toXml('S3PutObjectAcl'),
+      s3PutObjectTagging?.toXml('S3PutObjectTagging'),
+      s3InitiateRestoreObject?.toXml('S3InitiateRestoreObject'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1696,17 +1875,20 @@ class JobReport {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Format', format?.toValue()),
+      _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlStringValue('Prefix', prefix),
       _s.encodeXmlStringValue('ReportScope', reportScope?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1865,13 +2047,16 @@ class LambdaInvokeOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('FunctionArn', functionArn),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2090,16 +2275,96 @@ class PublicAccessBlockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
-      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
       _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
+      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
       _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+class PutAccessPointPolicyRequest {
+  /// The AWS account ID for owner of the bucket associated with the specified
+  /// access point.
+  final String accountId;
+
+  /// The name of the access point that you want to associate with the specified
+  /// policy.
+  final String name;
+
+  /// The policy that you want to apply to the specified access point. For more
+  /// information about access point policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">Managing
+  /// Data Access with Amazon S3 Access Points</a> in the <i>Amazon Simple Storage
+  /// Service Developer Guide</i>.
+  final String policy;
+
+  PutAccessPointPolicyRequest({
+    @_s.required this.accountId,
+    @_s.required this.name,
+    @_s.required this.policy,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-account-id
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: name
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+class PutJobTaggingRequest {
+  /// The account ID for the Amazon Web Services account associated with the
+  /// Amazon S3 batch operations job you want to replace tags on.
+  final String accountId;
+
+  /// The ID for the job whose tags you want to replace.
+  final String jobId;
+
+  /// The set of tags to associate with the job.
+  final List<S3Tag> tags;
+
+  PutJobTaggingRequest({
+    @_s.required this.accountId,
+    @_s.required this.jobId,
+    @_s.required this.tags,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-account-id
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: id
+      if (1 == 1) throw UnimplementedError(),
+      if (tags != null)
+        _s.XmlElement(_s.XmlName('Tags'), [],
+            <_s.XmlNode>[...tags.map((v) => v.toXml('Tags'))]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2165,16 +2430,19 @@ class S3AccessControlList {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      owner.toXml('Owner'),
+      owner?.toXml('Owner'),
       if (grants != null)
         _s.XmlElement(_s.XmlName('Grants'), [],
             <_s.XmlNode>[...grants.map((v) => v.toXml('Grants'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2203,15 +2471,18 @@ class S3AccessControlPolicy {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      accessControlList.toXml('AccessControlList'),
+      accessControlList?.toXml('AccessControlList'),
       _s.encodeXmlStringValue(
           'CannedAccessControlList', cannedAccessControlList?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2387,40 +2658,43 @@ class S3CopyObjectOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('TargetResource', targetResource),
+      _s.encodeXmlStringValue(
+          'CannedAccessControlList', cannedAccessControlList?.toValue()),
       if (accessControlGrants != null)
         _s.XmlElement(_s.XmlName('AccessControlGrants'), [], <_s.XmlNode>[
           ...accessControlGrants.map((v) => v.toXml('AccessControlGrants'))
         ]),
       _s.encodeXmlStringValue(
-          'CannedAccessControlList', cannedAccessControlList?.toValue()),
-      _s.encodeXmlStringValue(
           'MetadataDirective', metadataDirective?.toValue()),
       _s.encodeXmlDateTimeValue(
           'ModifiedSinceConstraint', modifiedSinceConstraint),
-      newObjectMetadata.toXml('NewObjectMetadata'),
+      newObjectMetadata?.toXml('NewObjectMetadata'),
       if (newObjectTagging != null)
         _s.XmlElement(_s.XmlName('NewObjectTagging'), [], <_s.XmlNode>[
           ...newObjectTagging.map((v) => v.toXml('NewObjectTagging'))
         ]),
+      _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
+      _s.encodeXmlBoolValue('RequesterPays', requesterPays),
+      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+      _s.encodeXmlDateTimeValue(
+          'UnModifiedSinceConstraint', unModifiedSinceConstraint),
+      _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
+      _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
       _s.encodeXmlStringValue(
           'ObjectLockLegalHoldStatus', objectLockLegalHoldStatus?.toValue()),
       _s.encodeXmlStringValue('ObjectLockMode', objectLockMode?.toValue()),
       _s.encodeXmlDateTimeValue(
           'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
-      _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
-      _s.encodeXmlBoolValue('RequesterPays', requesterPays),
-      _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
-      _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
-      _s.encodeXmlStringValue('TargetResource', targetResource),
-      _s.encodeXmlDateTimeValue(
-          'UnModifiedSinceConstraint', unModifiedSinceConstraint),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2476,14 +2750,17 @@ class S3Grant {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee.toXml('Grantee'),
+      grantee?.toXml('Grantee'),
       _s.encodeXmlStringValue('Permission', permission?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2515,15 +2792,18 @@ class S3Grantee {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('DisplayName', displayName),
-      _s.encodeXmlStringValue('Identifier', identifier),
       _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier?.toValue()),
+      _s.encodeXmlStringValue('Identifier', identifier),
+      _s.encodeXmlStringValue('DisplayName', displayName),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2589,14 +2869,17 @@ class S3InitiateRestoreObjectOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
       _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2761,24 +3044,27 @@ class S3ObjectMetadata {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CacheControl', cacheControl),
       _s.encodeXmlStringValue('ContentDisposition', contentDisposition),
       _s.encodeXmlStringValue('ContentEncoding', contentEncoding),
       _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
+      if (userMetadata != null)
+        throw UnimplementedError('XML map: S3UserMetadata'),
       _s.encodeXmlIntValue('ContentLength', contentLength),
       _s.encodeXmlStringValue('ContentMD5', contentMD5),
       _s.encodeXmlStringValue('ContentType', contentType),
       _s.encodeXmlDateTimeValue('HttpExpiresDate', httpExpiresDate),
       _s.encodeXmlBoolValue('RequesterCharged', requesterCharged),
       _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue()),
-      if (userMetadata != null)
-        throw UnimplementedError('XML map: S3UserMetadata'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2803,14 +3089,17 @@ class S3ObjectOwner {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('DisplayName', displayName),
       _s.encodeXmlStringValue('ID', id),
+      _s.encodeXmlStringValue('DisplayName', displayName),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2910,13 +3199,16 @@ class S3SetObjectAclOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      accessControlPolicy.toXml('AccessControlPolicy'),
+      accessControlPolicy?.toXml('AccessControlPolicy'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2942,15 +3234,18 @@ class S3SetObjectTaggingOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (tagSet != null)
         _s.XmlElement(_s.XmlName('TagSet'), [],
             <_s.XmlNode>[...tagSet.map((v) => v.toXml('TagSet'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -3024,14 +3319,17 @@ class S3Tag {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -3095,13 +3393,16 @@ class VpcConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('VpcId', vpcId),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

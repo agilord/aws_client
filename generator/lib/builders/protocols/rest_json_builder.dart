@@ -43,7 +43,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     final outputClass = operation.output?.shapeClass?.className;
 
     if (!operation.http.bodyForbidden && inputShape != null) {
-      final payload = inputShape?.payloadMember;
+      final payload = operation.input.payloadMember;
       if (payload == null) {
         buf.writeln('final \$payload = <String, dynamic>{');
         inputShape.members.where((m) => m.isBody).forEach((member) {

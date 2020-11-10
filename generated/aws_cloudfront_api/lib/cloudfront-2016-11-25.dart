@@ -1147,7 +1147,7 @@ class Aliases {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -1155,9 +1155,12 @@ class Aliases {
           ...items.map((v) => _s.encodeXmlStringValue('CNAME', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1214,18 +1217,21 @@ class AllowedMethods {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
           ...items.map((v) => _s.encodeXmlStringValue('Method', v))
         ]),
-      _s.encodeXmlIntValue('Quantity', quantity),
-      cachedMethods.toXml('CachedMethods'),
+      cachedMethods?.toXml('CachedMethods'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1475,25 +1481,28 @@ class CacheBehavior {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      forwardedValues.toXml('ForwardedValues'),
-      _s.encodeXmlIntValue('MinTTL', minTTL),
       _s.encodeXmlStringValue('PathPattern', pathPattern),
       _s.encodeXmlStringValue('TargetOriginId', targetOriginId),
-      trustedSigners.toXml('TrustedSigners'),
+      forwardedValues?.toXml('ForwardedValues'),
+      trustedSigners?.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
           'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue()),
-      allowedMethods.toXml('AllowedMethods'),
-      _s.encodeXmlBoolValue('Compress', compress),
-      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
-      lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
-      _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      _s.encodeXmlIntValue('MinTTL', minTTL),
+      allowedMethods?.toXml('AllowedMethods'),
       _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
+      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
+      _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      _s.encodeXmlBoolValue('Compress', compress),
+      lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1524,16 +1533,19 @@ class CacheBehaviors {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1579,17 +1591,20 @@ class CachedMethods {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
           ...items.map((v) => _s.encodeXmlStringValue('Method', v))
         ]),
-      _s.encodeXmlIntValue('Quantity', quantity),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1715,14 +1730,17 @@ class CloudFrontOriginAccessIdentityConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       _s.encodeXmlStringValue('Comment', comment),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1863,7 +1881,7 @@ class CookieNames {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -1871,9 +1889,12 @@ class CookieNames {
           ...items.map((v) => _s.encodeXmlStringValue('Name', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -1925,14 +1946,17 @@ class CookiePreference {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Forward', forward?.toValue()),
-      whitelistedNames.toXml('WhitelistedNames'),
+      whitelistedNames?.toXml('WhitelistedNames'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2221,16 +2245,19 @@ class CustomErrorResponse {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('ErrorCode', errorCode),
-      _s.encodeXmlIntValue('ErrorCachingMinTTL', errorCachingMinTTL),
-      _s.encodeXmlStringValue('ResponseCode', responseCode),
       _s.encodeXmlStringValue('ResponsePagePath', responsePagePath),
+      _s.encodeXmlStringValue('ResponseCode', responseCode),
+      _s.encodeXmlIntValue('ErrorCachingMinTTL', errorCachingMinTTL),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2275,16 +2302,19 @@ class CustomErrorResponses {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2314,16 +2344,19 @@ class CustomHeaders {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2363,17 +2396,20 @@ class CustomOriginConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('HTTPPort', hTTPPort),
       _s.encodeXmlIntValue('HTTPSPort', hTTPSPort),
       _s.encodeXmlStringValue(
           'OriginProtocolPolicy', originProtocolPolicy?.toValue()),
-      originSslProtocols.toXml('OriginSslProtocols'),
+      originSslProtocols?.toXml('OriginSslProtocols'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2539,24 +2575,27 @@ class DefaultCacheBehavior {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      forwardedValues.toXml('ForwardedValues'),
-      _s.encodeXmlIntValue('MinTTL', minTTL),
       _s.encodeXmlStringValue('TargetOriginId', targetOriginId),
-      trustedSigners.toXml('TrustedSigners'),
+      forwardedValues?.toXml('ForwardedValues'),
+      trustedSigners?.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
           'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue()),
-      allowedMethods.toXml('AllowedMethods'),
-      _s.encodeXmlBoolValue('Compress', compress),
-      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
-      lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
-      _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      _s.encodeXmlIntValue('MinTTL', minTTL),
+      allowedMethods?.toXml('AllowedMethods'),
       _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
+      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
+      _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      _s.encodeXmlBoolValue('Compress', compress),
+      lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2907,28 +2946,31 @@ class DistributionConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      _s.encodeXmlStringValue('Comment', comment),
-      defaultCacheBehavior.toXml('DefaultCacheBehavior'),
-      _s.encodeXmlBoolValue('Enabled', enabled),
-      origins.toXml('Origins'),
-      aliases.toXml('Aliases'),
-      cacheBehaviors.toXml('CacheBehaviors'),
-      customErrorResponses.toXml('CustomErrorResponses'),
+      aliases?.toXml('Aliases'),
       _s.encodeXmlStringValue('DefaultRootObject', defaultRootObject),
+      origins?.toXml('Origins'),
+      defaultCacheBehavior?.toXml('DefaultCacheBehavior'),
+      cacheBehaviors?.toXml('CacheBehaviors'),
+      customErrorResponses?.toXml('CustomErrorResponses'),
+      _s.encodeXmlStringValue('Comment', comment),
+      logging?.toXml('Logging'),
+      _s.encodeXmlStringValue('PriceClass', priceClass?.toValue()),
+      _s.encodeXmlBoolValue('Enabled', enabled),
+      viewerCertificate?.toXml('ViewerCertificate'),
+      restrictions?.toXml('Restrictions'),
+      _s.encodeXmlStringValue('WebACLId', webACLId),
       _s.encodeXmlStringValue('HttpVersion', httpVersion?.toValue()),
       _s.encodeXmlBoolValue('IsIPV6Enabled', isIPV6Enabled),
-      logging.toXml('Logging'),
-      _s.encodeXmlStringValue('PriceClass', priceClass?.toValue()),
-      restrictions.toXml('Restrictions'),
-      viewerCertificate.toXml('ViewerCertificate'),
-      _s.encodeXmlStringValue('WebACLId', webACLId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -2947,14 +2989,17 @@ class DistributionConfigWithTags {
     @_s.required this.distributionConfig,
     @_s.required this.tags,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      distributionConfig.toXml('DistributionConfig'),
-      tags.toXml('Tags'),
+      distributionConfig?.toXml('DistributionConfig'),
+      tags?.toXml('Tags'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -3252,16 +3297,19 @@ class ForwardedValues {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      cookies.toXml('Cookies'),
       _s.encodeXmlBoolValue('QueryString', queryString),
-      headers.toXml('Headers'),
-      queryStringCacheKeys.toXml('QueryStringCacheKeys'),
+      cookies?.toXml('Cookies'),
+      headers?.toXml('Headers'),
+      queryStringCacheKeys?.toXml('QueryStringCacheKeys'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -3330,18 +3378,21 @@ class GeoRestriction {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('Quantity', quantity),
       _s.encodeXmlStringValue('RestrictionType', restrictionType?.toValue()),
+      _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
           ...items.map((v) => _s.encodeXmlStringValue('Location', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -3610,7 +3661,7 @@ class Headers {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -3618,9 +3669,12 @@ class Headers {
           ...items.map((v) => _s.encodeXmlStringValue('Name', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4051,14 +4105,17 @@ class InvalidationBatch {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      paths?.toXml('Paths'),
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      paths.toXml('Paths'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4241,14 +4298,17 @@ class LambdaFunctionAssociation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('EventType', eventType?.toValue()),
       _s.encodeXmlStringValue('LambdaFunctionARN', lambdaFunctionARN),
+      _s.encodeXmlStringValue('EventType', eventType?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4290,16 +4350,19 @@ class LambdaFunctionAssociations {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4447,16 +4510,19 @@ class LoggingConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlBoolValue('IncludeCookies', includeCookies),
+      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Prefix', prefix),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4773,18 +4839,21 @@ class Origin {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('DomainName', domainName),
       _s.encodeXmlStringValue('Id', id),
-      customHeaders.toXml('CustomHeaders'),
-      customOriginConfig.toXml('CustomOriginConfig'),
+      _s.encodeXmlStringValue('DomainName', domainName),
       _s.encodeXmlStringValue('OriginPath', originPath),
-      s3OriginConfig.toXml('S3OriginConfig'),
+      customHeaders?.toXml('CustomHeaders'),
+      s3OriginConfig?.toXml('S3OriginConfig'),
+      customOriginConfig?.toXml('CustomOriginConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4815,14 +4884,17 @@ class OriginCustomHeader {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HeaderName', headerName),
       _s.encodeXmlStringValue('HeaderValue', headerValue),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4885,17 +4957,20 @@ class OriginSslProtocols {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
           ...items.map((v) => _s.encodeXmlStringValue('SslProtocol', v))
         ]),
-      _s.encodeXmlIntValue('Quantity', quantity),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4922,16 +4997,19 @@ class Origins {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4963,7 +5041,7 @@ class Paths {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -4971,9 +5049,12 @@ class Paths {
           ...items.map((v) => _s.encodeXmlStringValue('Path', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5051,7 +5132,7 @@ class QueryStringCacheKeys {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -5059,9 +5140,12 @@ class QueryStringCacheKeys {
           ...items.map((v) => _s.encodeXmlStringValue('Name', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5083,13 +5167,16 @@ class Restrictions {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      geoRestriction.toXml('GeoRestriction'),
+      geoRestriction?.toXml('GeoRestriction'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5135,14 +5222,17 @@ class S3Origin {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('DomainName', domainName),
       _s.encodeXmlStringValue('OriginAccessIdentity', originAccessIdentity),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5190,13 +5280,16 @@ class S3OriginConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('OriginAccessIdentity', originAccessIdentity),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5462,20 +5555,23 @@ class StreamingDistributionConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
+      s3Origin?.toXml('S3Origin'),
+      aliases?.toXml('Aliases'),
       _s.encodeXmlStringValue('Comment', comment),
-      _s.encodeXmlBoolValue('Enabled', enabled),
-      s3Origin.toXml('S3Origin'),
-      trustedSigners.toXml('TrustedSigners'),
-      aliases.toXml('Aliases'),
-      logging.toXml('Logging'),
+      logging?.toXml('Logging'),
+      trustedSigners?.toXml('TrustedSigners'),
       _s.encodeXmlStringValue('PriceClass', priceClass?.toValue()),
+      _s.encodeXmlBoolValue('Enabled', enabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5494,14 +5590,17 @@ class StreamingDistributionConfigWithTags {
     @_s.required this.streamingDistributionConfig,
     @_s.required this.tags,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      streamingDistributionConfig.toXml('StreamingDistributionConfig'),
-      tags.toXml('Tags'),
+      streamingDistributionConfig?.toXml('StreamingDistributionConfig'),
+      tags?.toXml('Tags'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5695,15 +5794,18 @@ class StreamingLoggingConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlBoolValue('Enabled', enabled),
+      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Prefix', prefix),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5737,14 +5839,17 @@ class Tag {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5758,16 +5863,19 @@ class TagKeys {
   TagKeys({
     this.items,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
           ...items.map((v) => _s.encodeXmlStringValue('Key', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -5788,15 +5896,18 @@ class Tags {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
             <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -6098,7 +6209,7 @@ class TrustedSigners {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
@@ -6107,9 +6218,12 @@ class TrustedSigners {
           ...items.map((v) => _s.encodeXmlStringValue('AwsAccountNumber', v))
         ]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -6439,22 +6553,25 @@ class ViewerCertificate {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ACMCertificateArn', aCMCertificateArn),
-      _s.encodeXmlStringValue('Certificate', certificate),
-      _s.encodeXmlStringValue(
-          'CertificateSource', certificateSource?.toValue()),
       _s.encodeXmlBoolValue(
           'CloudFrontDefaultCertificate', cloudFrontDefaultCertificate),
       _s.encodeXmlStringValue('IAMCertificateId', iAMCertificateId),
+      _s.encodeXmlStringValue('ACMCertificateArn', aCMCertificateArn),
+      _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod?.toValue()),
       _s.encodeXmlStringValue(
           'MinimumProtocolVersion', minimumProtocolVersion?.toValue()),
-      _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod?.toValue()),
+      _s.encodeXmlStringValue('Certificate', certificate),
+      _s.encodeXmlStringValue(
+          'CertificateSource', certificateSource?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

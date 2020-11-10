@@ -45,6 +45,8 @@ class Enum {
       requestUri: '/Enum/${Uri.encodeComponent(uRIFooEnum.toString())}',
       queryParams: queryParams,
       headers: headers,
+      payload: InputShape(fooEnum: fooEnum, listEnums: listEnums)
+          .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -65,7 +67,48 @@ class Enum {
       requestUri: '/path',
       queryParams: queryParams,
       headers: headers,
+      payload: InputShape(fooEnum: fooEnum, listEnums: listEnums)
+          .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final EnumType fooEnum;
+  final EnumType headerEnum;
+  final List<String> listEnums;
+  final EnumType uRIFooEnum;
+  final List<String> uRIListEnums;
+
+  InputShape({
+    this.fooEnum,
+    this.headerEnum,
+    this.listEnums,
+    this.uRIFooEnum,
+    this.uRIListEnums,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-enum
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
+// TODO: implement uri member: URIEnum
+      if (1 == 1) throw UnimplementedError(),
+      if (listEnums != null)
+        _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
+          ...listEnums.map((v) => _s.encodeXmlStringValue('ListEnums', v))
+        ]),
+// TODO: implement querystring member: ListEnums
+      if (1 == 1) throw UnimplementedError(),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

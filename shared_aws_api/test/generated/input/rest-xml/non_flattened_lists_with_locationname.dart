@@ -35,7 +35,37 @@ class NonFlattenedListsWithLocationName {
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
+      payload: InputShape(listParam: listParam).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final List<String> listParam;
+
+  InputShape({
+    this.listParam,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      if (listParam != null)
+        _s.XmlElement(_s.XmlName('AlternateName'), [], <_s.XmlNode>[
+          ...listParam.map((v) => _s.encodeXmlStringValue('NotMember', v))
+        ]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

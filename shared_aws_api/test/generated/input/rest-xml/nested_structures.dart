@@ -36,7 +36,38 @@ class NestedStructures {
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
+      payload: InputShape(description: description, subStructure: subStructure)
+          .toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final String description;
+  final SubStructure subStructure;
+
+  InputShape({
+    this.description,
+    this.subStructure,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      subStructure?.toXml('SubStructure'),
+      _s.encodeXmlStringValue('Description', description),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -49,14 +80,17 @@ class SubStructure {
     this.bar,
     this.foo,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bar', bar),
       _s.encodeXmlStringValue('Foo', foo),
+      _s.encodeXmlStringValue('Bar', bar),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
