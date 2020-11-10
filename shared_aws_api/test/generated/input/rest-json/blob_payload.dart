@@ -40,11 +40,8 @@ class BlobPayload {
   Future<void> operationName0({
     Uint8List foo,
   }) async {
-    final $payload = <String, dynamic>{
-      if (foo != null) 'foo': foo.let(base64Encode),
-    };
     await _protocol.send(
-      payload: $payload,
+      payload: foo,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -54,11 +51,8 @@ class BlobPayload {
   Future<void> operationName1({
     Uint8List foo,
   }) async {
-    final $payload = <String, dynamic>{
-      if (foo != null) 'foo': foo.let(base64Encode),
-    };
     await _protocol.send(
-      payload: $payload,
+      payload: foo,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,

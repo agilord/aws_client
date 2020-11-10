@@ -42,11 +42,8 @@ class StructurePayload {
   Future<void> operationName0({
     FooShape foo,
   }) async {
-    final $payload = <String, dynamic>{
-      if (foo != null) 'foo': foo,
-    };
     await _protocol.send(
-      payload: $payload,
+      payload: foo,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -56,11 +53,8 @@ class StructurePayload {
   Future<void> operationName1({
     FooShape foo,
   }) async {
-    final $payload = <String, dynamic>{
-      if (foo != null) 'foo': foo,
-    };
     await _protocol.send(
-      payload: $payload,
+      payload: foo,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,

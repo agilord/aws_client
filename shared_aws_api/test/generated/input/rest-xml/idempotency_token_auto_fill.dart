@@ -35,6 +35,7 @@ class IdempotencyTokenAutoFill {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(token: token).toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -45,7 +46,29 @@ class IdempotencyTokenAutoFill {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(token: token).toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final String token;
+
+  InputShape({
+    this.token,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Token', token),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

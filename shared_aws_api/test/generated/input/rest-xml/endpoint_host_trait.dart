@@ -35,6 +35,7 @@ class EndpointHostTrait {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: StaticInputShape(name: name).toXml('StaticOpRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -45,7 +46,50 @@ class EndpointHostTrait {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: MemberRefInputShape(name: name).toXml('MemberRefOpRequest'),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class StaticInputShape {
+  final String name;
+
+  StaticInputShape({
+    this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+class MemberRefInputShape {
+  final String name;
+
+  MemberRefInputShape({
+    this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

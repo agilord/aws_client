@@ -40,11 +40,8 @@ class StringPayload {
   Future<void> operationName0({
     String foo,
   }) async {
-    final $payload = <String, dynamic>{
-      if (foo != null) 'foo': foo,
-    };
     await _protocol.send(
-      payload: $payload,
+      payload: foo,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,

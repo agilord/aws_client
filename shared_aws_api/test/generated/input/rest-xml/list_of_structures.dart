@@ -35,7 +35,34 @@ class ListOfStructures {
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
+      payload: InputShape(listParam: listParam).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final List<SingleFieldStruct> listParam;
+
+  InputShape({
+    this.listParam,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      if (listParam != null) ...listParam.map((v) => v.toXml('item')),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -46,13 +73,16 @@ class SingleFieldStruct {
   SingleFieldStruct({
     this.element,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('value', element),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

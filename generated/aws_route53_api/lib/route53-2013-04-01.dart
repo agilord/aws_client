@@ -96,6 +96,14 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/associatevpc',
+      payload:
+          AssociateVPCWithHostedZoneRequest(vpc: vpc, comment: comment).toXml(
+        'AssociateVPCWithHostedZoneRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return AssociateVPCWithHostedZoneResponse.fromXml($result.body);
@@ -227,6 +235,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset/',
+      payload: ChangeResourceRecordSetsRequest(changeBatch: changeBatch).toXml(
+        'ChangeResourceRecordSetsRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ChangeResourceRecordSetsResponse.fromXml($result.body);
@@ -290,6 +305,15 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
+      payload: ChangeTagsForResourceRequest(
+              addTags: addTags, removeTagKeys: removeTagKeys)
+          .toXml(
+        'ChangeTagsForResourceRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -390,6 +414,16 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/healthcheck',
+      payload: CreateHealthCheckRequest(
+              callerReference: callerReference,
+              healthCheckConfig: healthCheckConfig)
+          .toXml(
+        'CreateHealthCheckRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateHealthCheckResponse.fromXml($result.body,
@@ -535,6 +569,19 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone',
+      payload: CreateHostedZoneRequest(
+              callerReference: callerReference,
+              name: name,
+              delegationSetId: delegationSetId,
+              hostedZoneConfig: hostedZoneConfig,
+              vpc: vpc)
+          .toXml(
+        'CreateHostedZoneRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateHostedZoneResponse.fromXml($result.body,
@@ -701,6 +748,16 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/queryloggingconfig',
+      payload: CreateQueryLoggingConfigRequest(
+              cloudWatchLogsLogGroupArn: cloudWatchLogsLogGroupArn,
+              hostedZoneId: hostedZoneId)
+          .toXml(
+        'CreateQueryLoggingConfigRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateQueryLoggingConfigResponse.fromXml($result.body,
@@ -810,6 +867,15 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/delegationset',
+      payload: CreateReusableDelegationSetRequest(
+              callerReference: callerReference, hostedZoneId: hostedZoneId)
+          .toXml(
+        'CreateReusableDelegationSetRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateReusableDelegationSetResponse.fromXml($result.body,
@@ -866,6 +932,15 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy',
+      payload: CreateTrafficPolicyRequest(
+              document: document, name: name, comment: comment)
+          .toXml(
+        'CreateTrafficPolicyRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrafficPolicyResponse.fromXml($result.body,
@@ -957,6 +1032,19 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicyinstance',
+      payload: CreateTrafficPolicyInstanceRequest(
+              hostedZoneId: hostedZoneId,
+              name: name,
+              ttl: ttl,
+              trafficPolicyId: trafficPolicyId,
+              trafficPolicyVersion: trafficPolicyVersion)
+          .toXml(
+        'CreateTrafficPolicyInstanceRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrafficPolicyInstanceResponse.fromXml($result.body,
@@ -1021,6 +1109,15 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}',
+      payload: CreateTrafficPolicyVersionRequest(
+              document: document, comment: comment)
+          .toXml(
+        'CreateTrafficPolicyVersionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrafficPolicyVersionResponse.fromXml($result.body,
@@ -1071,6 +1168,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
+      payload: CreateVPCAssociationAuthorizationRequest(vpc: vpc).toXml(
+        'CreateVPCAssociationAuthorizationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
@@ -1396,6 +1500,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/deauthorizevpcassociation',
+      payload: DeleteVPCAssociationAuthorizationRequest(vpc: vpc).toXml(
+        'DeleteVPCAssociationAuthorizationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1451,6 +1562,14 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/disassociatevpc',
+      payload: DisassociateVPCFromHostedZoneRequest(vpc: vpc, comment: comment)
+          .toXml(
+        'DisassociateVPCFromHostedZoneRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateVPCFromHostedZoneResponse.fromXml($result.body);
@@ -2794,6 +2913,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}',
+      payload: ListTagsForResourcesRequest(resourceIds: resourceIds).toXml(
+        'ListTagsForResourcesRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourcesResponse.fromXml($result.body);
@@ -3874,6 +4000,30 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
+      payload: UpdateHealthCheckRequest(
+              alarmIdentifier: alarmIdentifier,
+              childHealthChecks: childHealthChecks,
+              disabled: disabled,
+              enableSNI: enableSNI,
+              failureThreshold: failureThreshold,
+              fullyQualifiedDomainName: fullyQualifiedDomainName,
+              healthCheckVersion: healthCheckVersion,
+              healthThreshold: healthThreshold,
+              iPAddress: iPAddress,
+              insufficientDataHealthStatus: insufficientDataHealthStatus,
+              inverted: inverted,
+              port: port,
+              regions: regions,
+              resetElements: resetElements,
+              resourcePath: resourcePath,
+              searchString: searchString)
+          .toXml(
+        'UpdateHealthCheckRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHealthCheckResponse.fromXml($result.body);
@@ -3913,6 +4063,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
+      payload: UpdateHostedZoneCommentRequest(comment: comment).toXml(
+        'UpdateHostedZoneCommentRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHostedZoneCommentResponse.fromXml($result.body);
@@ -3967,6 +4124,13 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
+      payload: UpdateTrafficPolicyCommentRequest(comment: comment).toXml(
+        'UpdateTrafficPolicyCommentRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyCommentResponse.fromXml($result.body);
@@ -4058,6 +4222,17 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
+      payload: UpdateTrafficPolicyInstanceRequest(
+              ttl: ttl,
+              trafficPolicyId: trafficPolicyId,
+              trafficPolicyVersion: trafficPolicyVersion)
+          .toXml(
+        'UpdateTrafficPolicyInstanceRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyInstanceResponse.fromXml($result.body);
@@ -4199,14 +4374,17 @@ class AlarmIdentifier {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('Region', region?.toValue()),
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4590,15 +4768,58 @@ class AliasTarget {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
       _s.encodeXmlStringValue('DNSName', dNSName),
       _s.encodeXmlBoolValue('EvaluateTargetHealth', evaluateTargetHealth),
-      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+/// A complex type that contains information about the request to associate a
+/// VPC with a private hosted zone.
+class AssociateVPCWithHostedZoneRequest {
+  /// The ID of the private hosted zone that you want to associate an Amazon VPC
+  /// with.
+  ///
+  /// Note that you can't associate a VPC with a hosted zone that doesn't have an
+  /// existing VPC association.
+  final String hostedZoneId;
+
+  /// A complex type that contains information about the VPC that you want to
+  /// associate with a private hosted zone.
+  final VPC vpc;
+
+  /// <i>Optional:</i> A comment about the association request.
+  final String comment;
+
+  AssociateVPCWithHostedZoneRequest({
+    @_s.required this.hostedZoneId,
+    @_s.required this.vpc,
+    this.comment,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      vpc?.toXml('VPC'),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4658,14 +4879,17 @@ class Change {
     @_s.required this.action,
     @_s.required this.resourceRecordSet,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Action', action?.toValue()),
-      resourceRecordSet.toXml('ResourceRecordSet'),
+      resourceRecordSet?.toXml('ResourceRecordSet'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4718,16 +4942,19 @@ class ChangeBatch {
     @_s.required this.changes,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Comment', comment),
       if (changes != null)
         _s.XmlElement(_s.XmlName('Changes'), [],
             <_s.XmlNode>[...changes.map((v) => v.toXml('Changes'))]),
-      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -4770,6 +4997,37 @@ class ChangeInfo {
       status: _s.extractXmlStringValue(elem, 'Status')?.toChangeStatus(),
       submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt'),
       comment: _s.extractXmlStringValue(elem, 'Comment'),
+    );
+  }
+}
+
+/// A complex type that contains change information for the resource record set.
+class ChangeResourceRecordSetsRequest {
+  /// A complex type that contains an optional comment and the
+  /// <code>Changes</code> element.
+  final ChangeBatch changeBatch;
+
+  /// The ID of the hosted zone that contains the resource record sets that you
+  /// want to change.
+  final String hostedZoneId;
+
+  ChangeResourceRecordSetsRequest({
+    @_s.required this.changeBatch,
+    @_s.required this.hostedZoneId,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      changeBatch?.toXml('ChangeBatch'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -4822,6 +5080,66 @@ extension on String {
         return ChangeStatus.insync;
     }
     throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A complex type that contains information about the tags that you want to
+/// add, edit, or delete.
+class ChangeTagsForResourceRequest {
+  /// The ID of the resource for which you want to add, change, or delete tags.
+  final String resourceId;
+
+  /// The type of the resource.
+  ///
+  /// <ul>
+  /// <li>
+  /// The resource type for health checks is <code>healthcheck</code>.
+  /// </li>
+  /// <li>
+  /// The resource type for hosted zones is <code>hostedzone</code>.
+  /// </li>
+  /// </ul>
+  final TagResourceType resourceType;
+
+  /// A complex type that contains a list of the tags that you want to add to the
+  /// specified health check or hosted zone and/or the tags that you want to edit
+  /// <code>Value</code> for.
+  ///
+  /// You can add a maximum of 10 tags to a health check or a hosted zone.
+  final List<Tag> addTags;
+
+  /// A complex type that contains a list of the tags that you want to delete from
+  /// the specified health check or hosted zone. You can specify up to 10 keys.
+  final List<String> removeTagKeys;
+
+  ChangeTagsForResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    this.addTags,
+    this.removeTagKeys,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: ResourceType
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: ResourceId
+      if (1 == 1) throw UnimplementedError(),
+      if (addTags != null)
+        _s.XmlElement(_s.XmlName('AddTags'), [],
+            <_s.XmlNode>[...addTags.map((v) => v.toXml('AddTags'))]),
+      if (removeTagKeys != null)
+        _s.XmlElement(_s.XmlName('RemoveTagKeys'), [], <_s.XmlNode>[
+          ...removeTagKeys.map((v) => _s.encodeXmlStringValue('Key', v))
+        ]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
   }
 }
 
@@ -5068,6 +5386,61 @@ extension on String {
   }
 }
 
+/// A complex type that contains the health check request information.
+class CreateHealthCheckRequest {
+  /// A unique string that identifies the request and that allows you to retry a
+  /// failed <code>CreateHealthCheck</code> request without the risk of creating
+  /// two identical health checks:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you send a <code>CreateHealthCheck</code> request with the same
+  /// <code>CallerReference</code> and settings as a previous request, and if the
+  /// health check doesn't exist, Amazon Route 53 creates the health check. If the
+  /// health check does exist, Route 53 returns the settings for the existing
+  /// health check.
+  /// </li>
+  /// <li>
+  /// If you send a <code>CreateHealthCheck</code> request with the same
+  /// <code>CallerReference</code> as a deleted health check, regardless of the
+  /// settings, Route 53 returns a <code>HealthCheckAlreadyExists</code> error.
+  /// </li>
+  /// <li>
+  /// If you send a <code>CreateHealthCheck</code> request with the same
+  /// <code>CallerReference</code> as an existing health check but with different
+  /// settings, Route 53 returns a <code>HealthCheckAlreadyExists</code> error.
+  /// </li>
+  /// <li>
+  /// If you send a <code>CreateHealthCheck</code> request with a unique
+  /// <code>CallerReference</code> but settings identical to an existing health
+  /// check, Route 53 creates the health check.
+  /// </li>
+  /// </ul>
+  final String callerReference;
+
+  /// A complex type that contains settings for a new health check.
+  final HealthCheckConfig healthCheckConfig;
+
+  CreateHealthCheckRequest({
+    @_s.required this.callerReference,
+    @_s.required this.healthCheckConfig,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+      healthCheckConfig?.toXml('HealthCheckConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A complex type containing the response information for the new health check.
 class CreateHealthCheckResponse {
   /// A complex type that contains identifying information about the health check.
@@ -5089,6 +5462,85 @@ class CreateHealthCheckResponse {
           .extractXmlChild(elem, 'HealthCheck')
           ?.let((e) => HealthCheck.fromXml(e)),
       location: _s.extractHeaderStringValue(headers, 'Location'),
+    );
+  }
+}
+
+/// A complex type that contains information about the request to create a
+/// public or private hosted zone.
+class CreateHostedZoneRequest {
+  /// A unique string that identifies the request and that allows failed
+  /// <code>CreateHostedZone</code> requests to be retried without the risk of
+  /// executing the operation twice. You must use a unique
+  /// <code>CallerReference</code> string every time you submit a
+  /// <code>CreateHostedZone</code> request. <code>CallerReference</code> can be
+  /// any unique string, for example, a date/time stamp.
+  final String callerReference;
+
+  /// The name of the domain. Specify a fully qualified domain name, for example,
+  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
+  /// assumes that the domain name is fully qualified. This means that Route 53
+  /// treats <i>www.example.com</i> (without a trailing dot) and
+  /// <i>www.example.com.</i> (with a trailing dot) as identical.
+  ///
+  /// If you're creating a public hosted zone, this is the name you have
+  /// registered with your DNS registrar. If your domain name is registered with a
+  /// registrar other than Route 53, change the name servers for your domain to
+  /// the set of <code>NameServers</code> that <code>CreateHostedZone</code>
+  /// returns in <code>DelegationSet</code>.
+  final String name;
+
+  /// If you want to associate a reusable delegation set with this hosted zone,
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
+  /// created it. For more information about reusable delegation sets, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
+  final String delegationSetId;
+
+  /// (Optional) A complex type that contains the following optional values:
+  ///
+  /// <ul>
+  /// <li>
+  /// For public and private hosted zones, an optional comment
+  /// </li>
+  /// <li>
+  /// For private hosted zones, an optional <code>PrivateZone</code> element
+  /// </li>
+  /// </ul>
+  /// If you don't specify a comment or the <code>PrivateZone</code> element, omit
+  /// <code>HostedZoneConfig</code> and the other elements.
+  final HostedZoneConfig hostedZoneConfig;
+
+  /// (Private hosted zones only) A complex type that contains information about
+  /// the Amazon VPC that you're associating with this hosted zone.
+  ///
+  /// You can specify only one Amazon VPC when you create a private hosted zone.
+  /// To associate additional Amazon VPCs with the hosted zone, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
+  /// after you create a hosted zone.
+  final VPC vpc;
+
+  CreateHostedZoneRequest({
+    @_s.required this.callerReference,
+    @_s.required this.name,
+    this.delegationSetId,
+    this.hostedZoneConfig,
+    this.vpc,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      vpc?.toXml('VPC'),
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+      hostedZoneConfig?.toXml('HostedZoneConfig'),
+      _s.encodeXmlStringValue('DelegationSetId', delegationSetId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -5139,6 +5591,44 @@ class CreateHostedZoneResponse {
   }
 }
 
+class CreateQueryLoggingConfigRequest {
+  /// The Amazon Resource Name (ARN) for the log group that you want to Amazon
+  /// Route 53 to send query logs to. This is the format of the ARN:
+  ///
+  /// arn:aws:logs:<i>region</i>:<i>account-id</i>:log-group:<i>log_group_name</i>
+  ///
+  /// To get the ARN for a log group, you can use the CloudWatch console, the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html">DescribeLogGroups</a>
+  /// API action, the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html">describe-log-groups</a>
+  /// command, or the applicable command in one of the AWS SDKs.
+  final String cloudWatchLogsLogGroupArn;
+
+  /// The ID of the hosted zone that you want to log queries for. You can log
+  /// queries only for public hosted zones.
+  final String hostedZoneId;
+
+  CreateQueryLoggingConfigRequest({
+    @_s.required this.cloudWatchLogsLogGroupArn,
+    @_s.required this.hostedZoneId,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+      _s.encodeXmlStringValue(
+          'CloudWatchLogsLogGroupArn', cloudWatchLogsLogGroupArn),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 class CreateQueryLoggingConfigResponse {
   /// The unique URL representing the new query logging configuration.
   final String location;
@@ -5165,6 +5655,40 @@ class CreateQueryLoggingConfigResponse {
   }
 }
 
+class CreateReusableDelegationSetRequest {
+  /// A unique string that identifies the request, and that allows you to retry
+  /// failed <code>CreateReusableDelegationSet</code> requests without the risk of
+  /// executing the operation twice. You must use a unique
+  /// <code>CallerReference</code> string every time you submit a
+  /// <code>CreateReusableDelegationSet</code> request.
+  /// <code>CallerReference</code> can be any unique string, for example a
+  /// date/time stamp.
+  final String callerReference;
+
+  /// If you want to mark the delegation set for an existing hosted zone as
+  /// reusable, the ID for that hosted zone.
+  final String hostedZoneId;
+
+  CreateReusableDelegationSetRequest({
+    @_s.required this.callerReference,
+    this.hostedZoneId,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 class CreateReusableDelegationSetResponse {
   /// A complex type that contains name server information.
   final DelegationSet delegationSet;
@@ -5185,6 +5709,57 @@ class CreateReusableDelegationSetResponse {
           .extractXmlChild(elem, 'DelegationSet')
           ?.let((e) => DelegationSet.fromXml(e)),
       location: _s.extractHeaderStringValue(headers, 'Location'),
+    );
+  }
+}
+
+/// A complex type that contains information about the resource record sets that
+/// you want to create based on a specified traffic policy.
+class CreateTrafficPolicyInstanceRequest {
+  /// The ID of the hosted zone that you want Amazon Route 53 to create resource
+  /// record sets in by using the configuration in a traffic policy.
+  final String hostedZoneId;
+
+  /// The domain name (such as example.com) or subdomain name (such as
+  /// www.example.com) for which Amazon Route 53 responds to DNS queries by using
+  /// the resource record sets that Route 53 creates for this traffic policy
+  /// instance.
+  final String name;
+
+  /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the
+  /// resource record sets that it creates in the specified hosted zone.
+  final int ttl;
+
+  /// The ID of the traffic policy that you want to use to create resource record
+  /// sets in the specified hosted zone.
+  final String trafficPolicyId;
+
+  /// The version of the traffic policy that you want to use to create resource
+  /// record sets in the specified hosted zone.
+  final int trafficPolicyVersion;
+
+  CreateTrafficPolicyInstanceRequest({
+    @_s.required this.hostedZoneId,
+    @_s.required this.name,
+    @_s.required this.ttl,
+    @_s.required this.trafficPolicyId,
+    @_s.required this.trafficPolicyVersion,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlIntValue('TTL', ttl),
+      _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
+      _s.encodeXmlIntValue('TrafficPolicyVersion', trafficPolicyVersion),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -5215,6 +5790,43 @@ class CreateTrafficPolicyInstanceResponse {
   }
 }
 
+/// A complex type that contains information about the traffic policy that you
+/// want to create.
+class CreateTrafficPolicyRequest {
+  /// The definition of this traffic policy in JSON format. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html">Traffic
+  /// Policy Document Format</a>.
+  final String document;
+
+  /// The name of the traffic policy.
+  final String name;
+
+  /// (Optional) Any comments that you want to include about the traffic policy.
+  final String comment;
+
+  CreateTrafficPolicyRequest({
+    @_s.required this.document,
+    @_s.required this.name,
+    this.comment,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Document', document),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A complex type that contains the response information for the
 /// <code>CreateTrafficPolicy</code> request.
 class CreateTrafficPolicyResponse {
@@ -5237,6 +5849,45 @@ class CreateTrafficPolicyResponse {
       trafficPolicy: _s
           .extractXmlChild(elem, 'TrafficPolicy')
           ?.let((e) => TrafficPolicy.fromXml(e)),
+    );
+  }
+}
+
+/// A complex type that contains information about the traffic policy that you
+/// want to create a new version for.
+class CreateTrafficPolicyVersionRequest {
+  /// The definition of this version of the traffic policy, in JSON format. You
+  /// specified the JSON in the <code>CreateTrafficPolicyVersion</code> request.
+  /// For more information about the JSON format, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html">CreateTrafficPolicy</a>.
+  final String document;
+
+  /// The ID of the traffic policy for which you want to create a new version.
+  final String id;
+
+  /// The comment that you specified in the
+  /// <code>CreateTrafficPolicyVersion</code> request, if any.
+  final String comment;
+
+  CreateTrafficPolicyVersionRequest({
+    @_s.required this.document,
+    @_s.required this.id,
+    this.comment,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Document', document),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -5264,6 +5915,40 @@ class CreateTrafficPolicyVersionResponse {
       trafficPolicy: _s
           .extractXmlChild(elem, 'TrafficPolicy')
           ?.let((e) => TrafficPolicy.fromXml(e)),
+    );
+  }
+}
+
+/// A complex type that contains information about the request to authorize
+/// associating a VPC with your private hosted zone. Authorization is only
+/// required when a private hosted zone and a VPC were created by using
+/// different accounts.
+class CreateVPCAssociationAuthorizationRequest {
+  /// The ID of the private hosted zone that you want to authorize associating a
+  /// VPC with.
+  final String hostedZoneId;
+
+  /// A complex type that contains the VPC ID and region for the VPC that you want
+  /// to authorize associating with your hosted zone.
+  final VPC vpc;
+
+  CreateVPCAssociationAuthorizationRequest({
+    @_s.required this.hostedZoneId,
+    @_s.required this.vpc,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      vpc?.toXml('VPC'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -5389,6 +6074,41 @@ class DeleteTrafficPolicyResponse {
   }
 }
 
+/// A complex type that contains information about the request to remove
+/// authorization to associate a VPC that was created by one AWS account with a
+/// hosted zone that was created with a different AWS account.
+class DeleteVPCAssociationAuthorizationRequest {
+  /// When removing authorization to associate a VPC that was created by one AWS
+  /// account with a hosted zone that was created with a different AWS account,
+  /// the ID of the hosted zone.
+  final String hostedZoneId;
+
+  /// When removing authorization to associate a VPC that was created by one AWS
+  /// account with a hosted zone that was created with a different AWS account, a
+  /// complex type that includes the ID and region of the VPC.
+  final VPC vpc;
+
+  DeleteVPCAssociationAuthorizationRequest({
+    @_s.required this.hostedZoneId,
+    @_s.required this.vpc,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      vpc?.toXml('VPC'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// Empty response for the request.
 class DeleteVPCAssociationAuthorizationResponse {
   DeleteVPCAssociationAuthorizationResponse();
@@ -5418,6 +6138,42 @@ class Dimension {
     return Dimension(
       name: _s.extractXmlStringValue(elem, 'Name'),
       value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+}
+
+/// A complex type that contains information about the VPC that you want to
+/// disassociate from a specified private hosted zone.
+class DisassociateVPCFromHostedZoneRequest {
+  /// The ID of the private hosted zone that you want to disassociate a VPC from.
+  final String hostedZoneId;
+
+  /// A complex type that contains information about the VPC that you're
+  /// disassociating from the specified hosted zone.
+  final VPC vpc;
+
+  /// <i>Optional:</i> A comment about the disassociation request.
+  final String comment;
+
+  DisassociateVPCFromHostedZoneRequest({
+    @_s.required this.hostedZoneId,
+    @_s.required this.vpc,
+    this.comment,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      vpc?.toXml('VPC'),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -5506,15 +6262,18 @@ class GeoLocation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('ContinentCode', continentCode),
       _s.encodeXmlStringValue('CountryCode', countryCode),
       _s.encodeXmlStringValue('SubdivisionCode', subdivisionCode),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -6394,38 +7153,41 @@ class HealthCheckConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('IPAddress', iPAddress),
+      _s.encodeXmlIntValue('Port', port),
       _s.encodeXmlStringValue('Type', type?.toValue()),
-      alarmIdentifier.toXml('AlarmIdentifier'),
+      _s.encodeXmlStringValue('ResourcePath', resourcePath),
+      _s.encodeXmlStringValue(
+          'FullyQualifiedDomainName', fullyQualifiedDomainName),
+      _s.encodeXmlStringValue('SearchString', searchString),
+      _s.encodeXmlIntValue('RequestInterval', requestInterval),
+      _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
+      _s.encodeXmlBoolValue('MeasureLatency', measureLatency),
+      _s.encodeXmlBoolValue('Inverted', inverted),
+      _s.encodeXmlBoolValue('Disabled', disabled),
+      _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
       if (childHealthChecks != null)
         _s.XmlElement(_s.XmlName('ChildHealthChecks'), [], <_s.XmlNode>[
           ...childHealthChecks
               .map((v) => _s.encodeXmlStringValue('ChildHealthCheck', v))
         ]),
-      _s.encodeXmlBoolValue('Disabled', disabled),
       _s.encodeXmlBoolValue('EnableSNI', enableSNI),
-      _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
-      _s.encodeXmlStringValue(
-          'FullyQualifiedDomainName', fullyQualifiedDomainName),
-      _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
-      _s.encodeXmlStringValue('IPAddress', iPAddress),
-      _s.encodeXmlStringValue('InsufficientDataHealthStatus',
-          insufficientDataHealthStatus?.toValue()),
-      _s.encodeXmlBoolValue('Inverted', inverted),
-      _s.encodeXmlBoolValue('MeasureLatency', measureLatency),
-      _s.encodeXmlIntValue('Port', port),
       if (regions != null)
         _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
           ...regions.map((v) => _s.encodeXmlStringValue('Region', v))
         ]),
-      _s.encodeXmlIntValue('RequestInterval', requestInterval),
-      _s.encodeXmlStringValue('ResourcePath', resourcePath),
-      _s.encodeXmlStringValue('SearchString', searchString),
+      alarmIdentifier?.toXml('AlarmIdentifier'),
+      _s.encodeXmlStringValue('InsufficientDataHealthStatus',
+          insufficientDataHealthStatus?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -6654,14 +7416,17 @@ class HostedZoneConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Comment', comment),
       _s.encodeXmlBoolValue('PrivateZone', privateZone),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -7191,6 +7956,49 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// A complex type that contains information about the health checks or hosted
+/// zones for which you want to list tags.
+class ListTagsForResourcesRequest {
+  /// A complex type that contains the ResourceId element for each resource for
+  /// which you want to get a list of tags.
+  final List<String> resourceIds;
+
+  /// The type of the resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// The resource type for health checks is <code>healthcheck</code>.
+  /// </li>
+  /// <li>
+  /// The resource type for hosted zones is <code>hostedzone</code>.
+  /// </li>
+  /// </ul>
+  final TagResourceType resourceType;
+
+  ListTagsForResourcesRequest({
+    @_s.required this.resourceIds,
+    @_s.required this.resourceType,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: ResourceType
+      if (1 == 1) throw UnimplementedError(),
+      if (resourceIds != null)
+        _s.XmlElement(_s.XmlName('ResourceIds'), [], <_s.XmlNode>[
+          ...resourceIds.map((v) => _s.encodeXmlStringValue('ResourceId', v))
+        ]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A complex type containing tags for the specified resources.
 class ListTagsForResourcesResponse {
   /// A list of <code>ResourceTagSet</code>s containing tags associated with the
@@ -7703,13 +8511,16 @@ class ResourceRecord {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8345,29 +9156,32 @@ class ResourceRecordSet {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('Type', type?.toValue()),
-      aliasTarget.toXml('AliasTarget'),
-      _s.encodeXmlStringValue('Failover', failover?.toValue()),
-      geoLocation.toXml('GeoLocation'),
-      _s.encodeXmlStringValue('HealthCheckId', healthCheckId),
-      _s.encodeXmlBoolValue('MultiValueAnswer', multiValueAnswer),
+      _s.encodeXmlStringValue('SetIdentifier', setIdentifier),
+      _s.encodeXmlIntValue('Weight', weight),
       _s.encodeXmlStringValue('Region', region?.toValue()),
+      geoLocation?.toXml('GeoLocation'),
+      _s.encodeXmlStringValue('Failover', failover?.toValue()),
+      _s.encodeXmlBoolValue('MultiValueAnswer', multiValueAnswer),
+      _s.encodeXmlIntValue('TTL', ttl),
       if (resourceRecords != null)
         _s.XmlElement(_s.XmlName('ResourceRecords'), [], <_s.XmlNode>[
           ...resourceRecords.map((v) => v.toXml('ResourceRecords'))
         ]),
-      _s.encodeXmlStringValue('SetIdentifier', setIdentifier),
-      _s.encodeXmlIntValue('TTL', ttl),
+      aliasTarget?.toXml('AliasTarget'),
+      _s.encodeXmlStringValue('HealthCheckId', healthCheckId),
       _s.encodeXmlStringValue(
           'TrafficPolicyInstanceId', trafficPolicyInstanceId),
-      _s.encodeXmlIntValue('Weight', weight),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8737,14 +9551,17 @@ class Tag {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8993,6 +9810,432 @@ class TrafficPolicySummary {
   }
 }
 
+/// A complex type that contains information about a request to update a health
+/// check.
+class UpdateHealthCheckRequest {
+  /// The ID for the health check for which you want detailed information. When
+  /// you created the health check, <code>CreateHealthCheck</code> returned the ID
+  /// in the response, in the <code>HealthCheckId</code> element.
+  final String healthCheckId;
+
+  /// A complex type that identifies the CloudWatch alarm that you want Amazon
+  /// Route 53 health checkers to use to determine whether the specified health
+  /// check is healthy.
+  final AlarmIdentifier alarmIdentifier;
+
+  /// A complex type that contains one <code>ChildHealthCheck</code> element for
+  /// each health check that you want to associate with a <code>CALCULATED</code>
+  /// health check.
+  final List<String> childHealthChecks;
+
+  /// Stops Route 53 from performing health checks. When you disable a health
+  /// check, here's what happens:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Health checks that check the health of endpoints:</b> Route 53 stops
+  /// submitting requests to your application, server, or other resource.
+  /// </li>
+  /// <li>
+  /// <b>Calculated health checks:</b> Route 53 stops aggregating the status of
+  /// the referenced health checks.
+  /// </li>
+  /// <li>
+  /// <b>Health checks that monitor CloudWatch alarms:</b> Route 53 stops
+  /// monitoring the corresponding CloudWatch metrics.
+  /// </li>
+  /// </ul>
+  /// After you disable a health check, Route 53 considers the status of the
+  /// health check to always be healthy. If you configured DNS failover, Route 53
+  /// continues to route traffic to the corresponding resources. If you want to
+  /// stop routing traffic to a resource, change the value of <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted">Inverted</a>.
+  ///
+  /// Charges for a health check still apply when the health check is disabled.
+  /// For more information, see <a
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  final bool disabled;
+
+  /// Specify whether you want Amazon Route 53 to send the value of
+  /// <code>FullyQualifiedDomainName</code> to the endpoint in the
+  /// <code>client_hello</code> message during <code>TLS</code> negotiation. This
+  /// allows the endpoint to respond to <code>HTTPS</code> health check requests
+  /// with the applicable SSL/TLS certificate.
+  ///
+  /// Some endpoints require that HTTPS requests include the host name in the
+  /// <code>client_hello</code> message. If you don't enable SNI, the status of
+  /// the health check will be SSL alert <code>handshake_failure</code>. A health
+  /// check can also have that status for other reasons. If SNI is enabled and
+  /// you're still getting the error, check the SSL/TLS configuration on your
+  /// endpoint and confirm that your certificate is valid.
+  ///
+  /// The SSL/TLS certificate on your endpoint includes a domain name in the
+  /// <code>Common Name</code> field and possibly several more in the
+  /// <code>Subject Alternative Names</code> field. One of the domain names in the
+  /// certificate should match the value that you specify for
+  /// <code>FullyQualifiedDomainName</code>. If the endpoint responds to the
+  /// <code>client_hello</code> message with a certificate that does not include
+  /// the domain name that you specified in <code>FullyQualifiedDomainName</code>,
+  /// a health checker will retry the handshake. In the second attempt, the health
+  /// checker will omit <code>FullyQualifiedDomainName</code> from the
+  /// <code>client_hello</code> message.
+  final bool enableSNI;
+
+  /// The number of consecutive health checks that an endpoint must pass or fail
+  /// for Amazon Route 53 to change the current status of the endpoint from
+  /// unhealthy to healthy or vice versa. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
+  /// <i>Amazon Route 53 Developer Guide</i>.
+  ///
+  /// If you don't specify a value for <code>FailureThreshold</code>, the default
+  /// value is three health checks.
+  final int failureThreshold;
+
+  /// Amazon Route 53 behavior depends on whether you specify a value for
+  /// <code>IPAddress</code>.
+  /// <note>
+  /// If a health check already has a value for <code>IPAddress</code>, you can
+  /// change the value. However, you can't update an existing health check to add
+  /// or remove the value of <code>IPAddress</code>.
+  /// </note>
+  /// <b>If you specify a value for</b> <code>IPAddress</code>:
+  ///
+  /// Route 53 sends health check requests to the specified IPv4 or IPv6 address
+  /// and passes the value of <code>FullyQualifiedDomainName</code> in the
+  /// <code>Host</code> header for all health checks except TCP health checks.
+  /// This is typically the fully qualified DNS name of the endpoint on which you
+  /// want Route 53 to perform health checks.
+  ///
+  /// When Route 53 checks the health of an endpoint, here is how it constructs
+  /// the <code>Host</code> header:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a value of <code>80</code> for <code>Port</code> and
+  /// <code>HTTP</code> or <code>HTTP_STR_MATCH</code> for <code>Type</code>,
+  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
+  /// endpoint in the <code>Host</code> header.
+  /// </li>
+  /// <li>
+  /// If you specify a value of <code>443</code> for <code>Port</code> and
+  /// <code>HTTPS</code> or <code>HTTPS_STR_MATCH</code> for <code>Type</code>,
+  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
+  /// endpoint in the <code>Host</code> header.
+  /// </li>
+  /// <li>
+  /// If you specify another value for <code>Port</code> and any value except
+  /// <code>TCP</code> for <code>Type</code>, Route 53 passes <i>
+  /// <code>FullyQualifiedDomainName</code>:<code>Port</code> </i> to the endpoint
+  /// in the <code>Host</code> header.
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value for <code>FullyQualifiedDomainName</code>,
+  /// Route 53 substitutes the value of <code>IPAddress</code> in the
+  /// <code>Host</code> header in each of the above cases.
+  ///
+  /// <b>If you don't specify a value for</b> <code>IPAddress</code>:
+  ///
+  /// If you don't specify a value for <code>IPAddress</code>, Route 53 sends a
+  /// DNS request to the domain that you specify in
+  /// <code>FullyQualifiedDomainName</code> at the interval you specify in
+  /// <code>RequestInterval</code>. Using an IPv4 address that is returned by DNS,
+  /// Route 53 then checks the health of the endpoint.
+  /// <note>
+  /// If you don't specify a value for <code>IPAddress</code>, Route 53 uses only
+  /// IPv4 to send health checks to the endpoint. If there's no resource record
+  /// set with a type of A for the name that you specify for
+  /// <code>FullyQualifiedDomainName</code>, the health check fails with a "DNS
+  /// resolution failed" error.
+  /// </note>
+  /// If you want to check the health of weighted, latency, or failover resource
+  /// record sets and you choose to specify the endpoint only by
+  /// <code>FullyQualifiedDomainName</code>, we recommend that you create a
+  /// separate health check for each endpoint. For example, create a health check
+  /// for each HTTP server that is serving content for www.example.com. For the
+  /// value of <code>FullyQualifiedDomainName</code>, specify the domain name of
+  /// the server (such as <code>us-east-2-www.example.com</code>), not the name of
+  /// the resource record sets (www.example.com).
+  /// <important>
+  /// In this configuration, if the value of <code>FullyQualifiedDomainName</code>
+  /// matches the name of the resource record sets and you then associate the
+  /// health check with those resource record sets, health check results will be
+  /// unpredictable.
+  /// </important>
+  /// In addition, if the value of <code>Type</code> is <code>HTTP</code>,
+  /// <code>HTTPS</code>, <code>HTTP_STR_MATCH</code>, or
+  /// <code>HTTPS_STR_MATCH</code>, Route 53 passes the value of
+  /// <code>FullyQualifiedDomainName</code> in the <code>Host</code> header, as it
+  /// does when you specify a value for <code>IPAddress</code>. If the value of
+  /// <code>Type</code> is <code>TCP</code>, Route 53 doesn't pass a
+  /// <code>Host</code> header.
+  final String fullyQualifiedDomainName;
+
+  /// A sequential counter that Amazon Route 53 sets to <code>1</code> when you
+  /// create a health check and increments by 1 each time you update settings for
+  /// the health check.
+  ///
+  /// We recommend that you use <code>GetHealthCheck</code> or
+  /// <code>ListHealthChecks</code> to get the current value of
+  /// <code>HealthCheckVersion</code> for the health check that you want to
+  /// update, and that you include that value in your
+  /// <code>UpdateHealthCheck</code> request. This prevents Route 53 from
+  /// overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the <code>UpdateHealthCheck</code> request matches the value
+  /// of <code>HealthCheckVersion</code> in the health check, Route 53 updates the
+  /// health check with the new settings.
+  /// </li>
+  /// <li>
+  /// If the value of <code>HealthCheckVersion</code> in the health check is
+  /// greater, the health check was changed after you got the version number.
+  /// Route 53 does not update the health check, and it returns a
+  /// <code>HealthCheckVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  final int healthCheckVersion;
+
+  /// The number of child health checks that are associated with a
+  /// <code>CALCULATED</code> health that Amazon Route 53 must consider healthy
+  /// for the <code>CALCULATED</code> health check to be considered healthy. To
+  /// specify the child health checks that you want to associate with a
+  /// <code>CALCULATED</code> health check, use the <code>ChildHealthChecks</code>
+  /// and <code>ChildHealthCheck</code> elements.
+  ///
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a number greater than the number of child health checks,
+  /// Route 53 always considers this health check to be unhealthy.
+  /// </li>
+  /// <li>
+  /// If you specify <code>0</code>, Route 53 always considers this health check
+  /// to be healthy.
+  /// </li>
+  /// </ul>
+  final int healthThreshold;
+
+  /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
+  /// to perform health checks on. If you don't specify a value for
+  /// <code>IPAddress</code>, Route 53 sends a DNS request to resolve the domain
+  /// name that you specify in <code>FullyQualifiedDomainName</code> at the
+  /// interval that you specify in <code>RequestInterval</code>. Using an IP
+  /// address that is returned by DNS, Route 53 then checks the health of the
+  /// endpoint.
+  ///
+  /// Use one of the following formats for the value of <code>IPAddress</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>IPv4 address</b>: four values between 0 and 255, separated by periods
+  /// (.), for example, <code>192.0.2.44</code>.
+  /// </li>
+  /// <li>
+  /// <b>IPv6 address</b>: eight groups of four hexadecimal values, separated by
+  /// colons (:), for example,
+  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>. You can also shorten
+  /// IPv6 addresses as described in RFC 5952, for example,
+  /// <code>2001:db8:85a3::abcd:1:2345</code>.
+  /// </li>
+  /// </ul>
+  /// If the endpoint is an EC2 instance, we recommend that you create an Elastic
+  /// IP address, associate it with your EC2 instance, and specify the Elastic IP
+  /// address for <code>IPAddress</code>. This ensures that the IP address of your
+  /// instance never changes. For more information, see the applicable
+  /// documentation:
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux: <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instances</i>
+  /// </li>
+  /// <li>
+  /// Windows: <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Windows
+  /// Instances</i>
+  /// </li>
+  /// </ul> <note>
+  /// If a health check already has a value for <code>IPAddress</code>, you can
+  /// change the value. However, you can't update an existing health check to add
+  /// or remove the value of <code>IPAddress</code>.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
+  ///
+  /// Constraints: Route 53 can't check the health of endpoints for which the IP
+  /// address is in local, private, non-routable, or multicast ranges. For more
+  /// information about IP addresses for which you can't create health checks, see
+  /// the following documents:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc5735">RFC 5735, Special Use IPv4
+  /// Addresses</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc6598">RFC 6598, IANA-Reserved IPv4
+  /// Prefix for Shared Address Space</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc5156">RFC 5156, Special-Use IPv6
+  /// Addresses</a>
+  /// </li>
+  /// </ul>
+  final String iPAddress;
+
+  /// When CloudWatch has insufficient data about the metric to determine the
+  /// alarm state, the status that you want Amazon Route 53 to assign to the
+  /// health check:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Healthy</code>: Route 53 considers the health check to be healthy.
+  /// </li>
+  /// <li>
+  /// <code>Unhealthy</code>: Route 53 considers the health check to be unhealthy.
+  /// </li>
+  /// <li>
+  /// <code>LastKnownStatus</code>: Route 53 uses the status of the health check
+  /// from the last time CloudWatch had sufficient data to determine the alarm
+  /// state. For new health checks that have no last known status, the default
+  /// status for the health check is healthy.
+  /// </li>
+  /// </ul>
+  final InsufficientDataHealthStatus insufficientDataHealthStatus;
+
+  /// Specify whether you want Amazon Route 53 to invert the status of a health
+  /// check, for example, to consider a health check unhealthy when it otherwise
+  /// would be considered healthy.
+  final bool inverted;
+
+  /// The port on the endpoint that you want Amazon Route 53 to perform health
+  /// checks on.
+  /// <note>
+  /// Don't specify a value for <code>Port</code> when you specify a value for
+  /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
+  /// <code>CALCULATED</code>.
+  /// </note>
+  final int port;
+
+  /// A complex type that contains one <code>Region</code> element for each region
+  /// that you want Amazon Route 53 health checkers to check the specified
+  /// endpoint from.
+  final List<String> regions;
+
+  /// A complex type that contains one <code>ResettableElementName</code> element
+  /// for each element that you want to reset to the default value. Valid values
+  /// for <code>ResettableElementName</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ChildHealthChecks</code>: Amazon Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ChildHealthChecks">ChildHealthChecks</a>
+  /// to null.
+  /// </li>
+  /// <li>
+  /// <code>FullyQualifiedDomainName</code>: Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
+  /// to null.
+  /// </li>
+  /// <li>
+  /// <code>Regions</code>: Route 53 resets the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>
+  /// list to the default set of regions.
+  /// </li>
+  /// <li>
+  /// <code>ResourcePath</code>: Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ResourcePath">ResourcePath</a>
+  /// to null.
+  /// </li>
+  /// </ul>
+  final List<String> resetElements;
+
+  /// The path that you want Amazon Route 53 to request when performing health
+  /// checks. The path can be any value for which your endpoint will return an
+  /// HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the
+  /// file /docs/route53-health-check.html. You can also include query string
+  /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
+  ///
+  /// Specify this value only if you want to change it.
+  final String resourcePath;
+
+  /// If the value of <code>Type</code> is <code>HTTP_STR_MATCH</code> or
+  /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
+  /// search for in the response body from the specified resource. If the string
+  /// appears in the response body, Route 53 considers the resource healthy. (You
+  /// can't change the value of <code>Type</code> when you update a health check.)
+  final String searchString;
+
+  UpdateHealthCheckRequest({
+    @_s.required this.healthCheckId,
+    this.alarmIdentifier,
+    this.childHealthChecks,
+    this.disabled,
+    this.enableSNI,
+    this.failureThreshold,
+    this.fullyQualifiedDomainName,
+    this.healthCheckVersion,
+    this.healthThreshold,
+    this.iPAddress,
+    this.insufficientDataHealthStatus,
+    this.inverted,
+    this.port,
+    this.regions,
+    this.resetElements,
+    this.resourcePath,
+    this.searchString,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: HealthCheckId
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
+      _s.encodeXmlStringValue('IPAddress', iPAddress),
+      _s.encodeXmlIntValue('Port', port),
+      _s.encodeXmlStringValue('ResourcePath', resourcePath),
+      _s.encodeXmlStringValue(
+          'FullyQualifiedDomainName', fullyQualifiedDomainName),
+      _s.encodeXmlStringValue('SearchString', searchString),
+      _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
+      _s.encodeXmlBoolValue('Inverted', inverted),
+      _s.encodeXmlBoolValue('Disabled', disabled),
+      _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
+      if (childHealthChecks != null)
+        _s.XmlElement(_s.XmlName('ChildHealthChecks'), [], <_s.XmlNode>[
+          ...childHealthChecks
+              .map((v) => _s.encodeXmlStringValue('ChildHealthCheck', v))
+        ]),
+      _s.encodeXmlBoolValue('EnableSNI', enableSNI),
+      if (regions != null)
+        _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
+          ...regions.map((v) => _s.encodeXmlStringValue('Region', v))
+        ]),
+      alarmIdentifier?.toXml('AlarmIdentifier'),
+      _s.encodeXmlStringValue('InsufficientDataHealthStatus',
+          insufficientDataHealthStatus?.toValue()),
+      if (resetElements != null)
+        _s.XmlElement(_s.XmlName('ResetElements'), [], <_s.XmlNode>[
+          ...resetElements
+              .map((v) => _s.encodeXmlStringValue('ResettableElementName', v))
+        ]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A complex type that contains the response to the
 /// <code>UpdateHealthCheck</code> request.
 class UpdateHealthCheckResponse {
@@ -9008,6 +10251,37 @@ class UpdateHealthCheckResponse {
       healthCheck: _s
           .extractXmlChild(elem, 'HealthCheck')
           ?.let((e) => HealthCheck.fromXml(e)),
+    );
+  }
+}
+
+/// A request to update the comment for a hosted zone.
+class UpdateHostedZoneCommentRequest {
+  /// The ID for the hosted zone that you want to update the comment for.
+  final String id;
+
+  /// The new comment for the hosted zone. If you don't specify a value for
+  /// <code>Comment</code>, Amazon Route 53 deletes the existing value of the
+  /// <code>Comment</code> element, if any.
+  final String comment;
+
+  UpdateHostedZoneCommentRequest({
+    @_s.required this.id,
+    this.comment,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -9031,6 +10305,44 @@ class UpdateHostedZoneCommentResponse {
   }
 }
 
+/// A complex type that contains information about the traffic policy that you
+/// want to update the comment for.
+class UpdateTrafficPolicyCommentRequest {
+  /// The new comment for the specified traffic policy and version.
+  final String comment;
+
+  /// The value of <code>Id</code> for the traffic policy that you want to update
+  /// the comment for.
+  final String id;
+
+  /// The value of <code>Version</code> for the traffic policy that you want to
+  /// update the comment for.
+  final int version;
+
+  UpdateTrafficPolicyCommentRequest({
+    @_s.required this.comment,
+    @_s.required this.id,
+    @_s.required this.version,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: Version
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A complex type that contains the response information for the traffic
 /// policy.
 class UpdateTrafficPolicyCommentResponse {
@@ -9045,6 +10357,49 @@ class UpdateTrafficPolicyCommentResponse {
       trafficPolicy: _s
           .extractXmlChild(elem, 'TrafficPolicy')
           ?.let((e) => TrafficPolicy.fromXml(e)),
+    );
+  }
+}
+
+/// A complex type that contains information about the resource record sets that
+/// you want to update based on a specified traffic policy instance.
+class UpdateTrafficPolicyInstanceRequest {
+  /// The ID of the traffic policy instance that you want to update.
+  final String id;
+
+  /// The TTL that you want Amazon Route 53 to assign to all of the updated
+  /// resource record sets.
+  final int ttl;
+
+  /// The ID of the traffic policy that you want Amazon Route 53 to use to update
+  /// resource record sets for the specified traffic policy instance.
+  final String trafficPolicyId;
+
+  /// The version of the traffic policy that you want Amazon Route 53 to use to
+  /// update resource record sets for the specified traffic policy instance.
+  final int trafficPolicyVersion;
+
+  UpdateTrafficPolicyInstanceRequest({
+    @_s.required this.id,
+    @_s.required this.ttl,
+    @_s.required this.trafficPolicyId,
+    @_s.required this.trafficPolicyVersion,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Id
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlIntValue('TTL', ttl),
+      _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
+      _s.encodeXmlIntValue('TrafficPolicyVersion', trafficPolicyVersion),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -9087,14 +10442,17 @@ class VPC {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('VPCId', vPCId),
       _s.encodeXmlStringValue('VPCRegion', vPCRegion?.toValue()),
+      _s.encodeXmlStringValue('VPCId', vPCId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

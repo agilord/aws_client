@@ -38,7 +38,45 @@ class SerializeOtherScalarTypes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
+      payload:
+          InputShape(first: first, fourth: fourth, second: second, third: third)
+              .toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final bool first;
+  final int fourth;
+  final bool second;
+  final double third;
+
+  InputShape({
+    this.first,
+    this.fourth,
+    this.second,
+    this.third,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('First', first),
+      _s.encodeXmlBoolValue('Second', second),
+      _s.encodeXmlDoubleValue('Third', third),
+      _s.encodeXmlIntValue('Fourth', fourth),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }

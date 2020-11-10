@@ -268,7 +268,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       queryParams: queryParams,
       headers: headers,
-      payload: multipartUpload.toXml('MultipartUpload'),
+      payload: multipartUpload?.toXml('MultipartUpload'),
       exceptionFnMap: _exceptionFns,
     );
     return CompleteMultipartUploadOutput.fromXml($result.body,
@@ -1014,7 +1014,7 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       headers: headers,
-      payload: createBucketConfiguration.toXml('CreateBucketConfiguration'),
+      payload: createBucketConfiguration?.toXml('CreateBucketConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateBucketOutput.fromXml($result.body, headers: $result.headers);
@@ -5030,7 +5030,7 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?acl',
       headers: headers,
-      payload: accessControlPolicy.toXml('AccessControlPolicy'),
+      payload: accessControlPolicy?.toXml('AccessControlPolicy'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5521,7 +5521,7 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
       headers: headers,
-      payload: lifecycleConfiguration.toXml('LifecycleConfiguration'),
+      payload: lifecycleConfiguration?.toXml('LifecycleConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5628,7 +5628,7 @@ class S3 {
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?lifecycle',
-      payload: lifecycleConfiguration.toXml('LifecycleConfiguration'),
+      payload: lifecycleConfiguration?.toXml('LifecycleConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -7232,7 +7232,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?acl',
       queryParams: queryParams,
       headers: headers,
-      payload: accessControlPolicy.toXml('AccessControlPolicy'),
+      payload: accessControlPolicy?.toXml('AccessControlPolicy'),
       exceptionFnMap: _exceptionFns,
     );
     return PutObjectAclOutput.fromXml($result.body, headers: $result.headers);
@@ -7303,7 +7303,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?legal-hold',
       queryParams: queryParams,
       headers: headers,
-      payload: legalHold.toXml('LegalHold'),
+      payload: legalHold?.toXml('LegalHold'),
       exceptionFnMap: _exceptionFns,
     );
     return PutObjectLegalHoldOutput.fromXml($result.body,
@@ -7354,7 +7354,7 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?object-lock',
       headers: headers,
-      payload: objectLockConfiguration.toXml('ObjectLockConfiguration'),
+      payload: objectLockConfiguration?.toXml('ObjectLockConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
     return PutObjectLockConfigurationOutput.fromXml($result.body,
@@ -7434,7 +7434,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?retention',
       queryParams: queryParams,
       headers: headers,
-      payload: retention.toXml('Retention'),
+      payload: retention?.toXml('Retention'),
       exceptionFnMap: _exceptionFns,
     );
     return PutObjectRetentionOutput.fromXml($result.body,
@@ -7992,7 +7992,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?restore',
       queryParams: queryParams,
       headers: headers,
-      payload: restoreRequest.toXml('RestoreRequest'),
+      payload: restoreRequest?.toXml('RestoreRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return RestoreObjectOutput.fromXml($result.body, headers: $result.headers);
@@ -8214,6 +8214,20 @@ class S3 {
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?select&select-type=2',
       headers: headers,
+      payload: SelectObjectContentRequest(
+              expression: expression,
+              expressionType: expressionType,
+              inputSerialization: inputSerialization,
+              outputSerialization: outputSerialization,
+              requestProgress: requestProgress,
+              scanRange: scanRange)
+          .toXml(
+        'SelectObjectContentRequest',
+        attributes: [
+          _s.XmlAttribute(
+              _s.XmlName('xmlns'), 'http://s3.amazonaws.com/doc/2006-03-01/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return SelectObjectContentOutput.fromXml($result.body);
@@ -8758,13 +8772,16 @@ class AbortIncompleteMultipartUpload {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8801,13 +8818,16 @@ class AccelerateConfiguration {
   AccelerateConfiguration({
     this.status,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8826,16 +8846,19 @@ class AccessControlPolicy {
     this.grants,
     this.owner,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (grants != null)
         _s.XmlElement(_s.XmlName('AccessControlList'), [],
             <_s.XmlNode>[...grants.map((v) => v.toXml('AccessControlList'))]),
-      owner.toXml('Owner'),
+      owner?.toXml('Owner'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8858,13 +8881,16 @@ class AccessControlTranslation {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Owner', owner?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8893,14 +8919,17 @@ class AnalyticsAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((v) => v.toXml('Tag')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8938,15 +8967,18 @@ class AnalyticsConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      storageClassAnalysis.toXml('StorageClassAnalysis'),
-      filter.toXml('Filter'),
+      filter?.toXml('Filter'),
+      storageClassAnalysis?.toXml('StorageClassAnalysis'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -8968,13 +9000,16 @@ class AnalyticsExportDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      s3BucketDestination.toXml('S3BucketDestination'),
+      s3BucketDestination?.toXml('S3BucketDestination'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9009,15 +9044,18 @@ class AnalyticsFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      and.toXml('And'),
       _s.encodeXmlStringValue('Prefix', prefix),
-      tag.toXml('Tag'),
+      tag?.toXml('Tag'),
+      and?.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9056,16 +9094,19 @@ class AnalyticsS3BucketDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Format', format?.toValue()),
       _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+      _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Prefix', prefix),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9196,13 +9237,16 @@ class BucketLifecycleConfiguration {
   BucketLifecycleConfiguration({
     @_s.required this.rules,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (rules != null) ...rules.map((v) => v.toXml('Rule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9289,13 +9333,16 @@ class BucketLoggingStatus {
   BucketLoggingStatus({
     this.loggingEnabled,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      loggingEnabled.toXml('LoggingEnabled'),
+      loggingEnabled?.toXml('LoggingEnabled'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9377,13 +9424,16 @@ class CORSConfiguration {
   CORSConfiguration({
     @_s.required this.cORSRules,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (cORSRules != null) ...cORSRules.map((v) => v.toXml('CORSRule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9431,24 +9481,27 @@ class CORSRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      if (allowedHeaders != null)
+        ...allowedHeaders
+            .map((v) => _s.encodeXmlStringValue('AllowedHeader', v)),
       if (allowedMethods != null)
         ...allowedMethods
             .map((v) => _s.encodeXmlStringValue('AllowedMethod', v)),
       if (allowedOrigins != null)
         ...allowedOrigins
             .map((v) => _s.encodeXmlStringValue('AllowedOrigin', v)),
-      if (allowedHeaders != null)
-        ...allowedHeaders
-            .map((v) => _s.encodeXmlStringValue('AllowedHeader', v)),
       if (exposeHeaders != null)
         ...exposeHeaders.map((v) => _s.encodeXmlStringValue('ExposeHeader', v)),
       _s.encodeXmlIntValue('MaxAgeSeconds', maxAgeSeconds),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9520,20 +9573,23 @@ class CSVInput {
     this.quoteEscapeCharacter,
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue(
-          'AllowQuotedRecordDelimiter', allowQuotedRecordDelimiter),
-      _s.encodeXmlStringValue('Comments', comments),
-      _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
       _s.encodeXmlStringValue('FileHeaderInfo', fileHeaderInfo?.toValue()),
-      _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
+      _s.encodeXmlStringValue('Comments', comments),
       _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
       _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
+      _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
+      _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
+      _s.encodeXmlBoolValue(
+          'AllowQuotedRecordDelimiter', allowQuotedRecordDelimiter),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9578,17 +9634,20 @@ class CSVOutput {
     this.quoteFields,
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('QuoteFields', quoteFields?.toValue()),
+      _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
+      _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
       _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
       _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
-      _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
-      _s.encodeXmlStringValue('QuoteFields', quoteFields?.toValue()),
-      _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9625,18 +9684,21 @@ class CloudFunctionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('CloudFunction', cloudFunction),
+      _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Event', event?.toValue()),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('Id', id),
+      _s.encodeXmlStringValue('CloudFunction', cloudFunction),
       _s.encodeXmlStringValue('InvocationRole', invocationRole),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9742,13 +9804,16 @@ class CompletedMultipartUpload {
   CompletedMultipartUpload({
     this.parts,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (parts != null) ...parts.map((v) => v.toXml('Part')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9767,14 +9832,17 @@ class CompletedPart {
     this.eTag,
     this.partNumber,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('ETag', eTag),
       _s.encodeXmlIntValue('PartNumber', partNumber),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -9849,15 +9917,18 @@ class Condition {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
           'HttpErrorCodeReturnedEquals', httpErrorCodeReturnedEquals),
       _s.encodeXmlStringValue('KeyPrefixEquals', keyPrefixEquals),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10003,14 +10074,17 @@ class CreateBucketConfiguration {
   CreateBucketConfiguration({
     this.locationConstraint,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
           'LocationConstraint', locationConstraint?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10168,15 +10242,18 @@ class DefaultRetention {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('Days', days),
       _s.encodeXmlStringValue('Mode', mode?.toValue()),
+      _s.encodeXmlIntValue('Days', days),
       _s.encodeXmlIntValue('Years', years),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10195,14 +10272,17 @@ class Delete {
     @_s.required this.objects,
     this.quiet,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (objects != null) ...objects.map((v) => v.toXml('Object')),
       _s.encodeXmlBoolValue('Quiet', quiet),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10279,13 +10359,16 @@ class DeleteMarkerReplication {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10514,19 +10597,22 @@ class Destination {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Bucket', bucket),
-      accessControlTranslation.toXml('AccessControlTranslation'),
       _s.encodeXmlStringValue('Account', account),
-      encryptionConfiguration.toXml('EncryptionConfiguration'),
-      metrics.toXml('Metrics'),
-      replicationTime.toXml('ReplicationTime'),
       _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+      accessControlTranslation?.toXml('AccessControlTranslation'),
+      encryptionConfiguration?.toXml('EncryptionConfiguration'),
+      replicationTime?.toXml('ReplicationTime'),
+      metrics?.toXml('Metrics'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10586,15 +10672,18 @@ class Encryption {
     this.kMSContext,
     this.kMSKeyId,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('EncryptionType', encryptionType?.toValue()),
-      _s.encodeXmlStringValue('KMSContext', kMSContext),
       _s.encodeXmlStringValue('KMSKeyId', kMSKeyId),
+      _s.encodeXmlStringValue('KMSContext', kMSContext),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -10622,13 +10711,16 @@ class EncryptionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -12091,13 +12183,16 @@ class ErrorDocument {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -12227,13 +12322,16 @@ class ExistingObjectReplication {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -12381,14 +12479,17 @@ class FilterRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name?.toValue()),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13082,13 +13183,16 @@ class GlacierJobParameters {
   GlacierJobParameters({
     @_s.required this.tier,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Tier', tier?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13114,14 +13218,17 @@ class Grant {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee.toXml('Grantee'),
+      grantee?.toXml('Grantee'),
       _s.encodeXmlStringValue('Permission', permission?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13161,7 +13268,7 @@ class Grantee {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('DisplayName', displayName),
       _s.encodeXmlStringValue('EmailAddress', emailAddress),
@@ -13169,6 +13276,7 @@ class Grantee {
       _s.encodeXmlStringValue('URI', uri),
     ];
     final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
       _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
           'http://www.w3.org/2001/XMLSchema-instance'),
       if (type != null) _s.XmlAttribute(_s.XmlName('xsi:type'), type.toValue()),
@@ -13456,13 +13564,16 @@ class IndexDocument {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Suffix', suffix),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13510,16 +13621,19 @@ class InputSerialization {
     this.json,
     this.parquet,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      csv.toXml('CSV'),
+      csv?.toXml('CSV'),
       _s.encodeXmlStringValue('CompressionType', compressionType?.toValue()),
-      json.toXml('JSON'),
-      parquet.toXml('Parquet'),
+      json?.toXml('JSON'),
+      parquet?.toXml('Parquet'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13590,23 +13704,26 @@ class InventoryConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      destination.toXml('Destination'),
+      destination?.toXml('Destination'),
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+      filter?.toXml('Filter'),
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue(
           'IncludedObjectVersions', includedObjectVersions?.toValue()),
-      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      schedule.toXml('Schedule'),
-      filter.toXml('Filter'),
       if (optionalFields != null)
         _s.XmlElement(_s.XmlName('OptionalFields'), [], <_s.XmlNode>[
           ...optionalFields.map((v) => _s.encodeXmlStringValue('Field', v))
         ]),
+      schedule?.toXml('Schedule'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13629,13 +13746,16 @@ class InventoryDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      s3BucketDestination.toXml('S3BucketDestination'),
+      s3BucketDestination?.toXml('S3BucketDestination'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13662,14 +13782,17 @@ class InventoryEncryption {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      ssekms.toXml('SSE-KMS'),
-      sses3.toXml('SSE-S3'),
+      sses3?.toXml('SSE-S3'),
+      ssekms?.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13690,13 +13813,16 @@ class InventoryFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13907,17 +14033,20 @@ class InventoryS3BucketDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('AccountId', accountId),
       _s.encodeXmlStringValue('Bucket', bucket),
       _s.encodeXmlStringValue('Format', format?.toValue()),
-      _s.encodeXmlStringValue('AccountId', accountId),
-      encryption.toXml('Encryption'),
       _s.encodeXmlStringValue('Prefix', prefix),
+      encryption?.toXml('Encryption'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13938,13 +14067,16 @@ class InventorySchedule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Frequency', frequency?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13958,13 +14090,16 @@ class JSONInput {
   JSONInput({
     this.type,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Type', type?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -13978,13 +14113,16 @@ class JSONOutput {
   JSONOutput({
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14050,17 +14188,20 @@ class LambdaFunctionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
+      _s.encodeXmlStringValue('CloudFunction', lambdaFunctionArn),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('CloudFunction', lambdaFunctionArn),
-      filter.toXml('Filter'),
-      _s.encodeXmlStringValue('Id', id),
+      filter?.toXml('Filter'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14074,13 +14215,16 @@ class LifecycleConfiguration {
   LifecycleConfiguration({
     @_s.required this.rules,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (rules != null) ...rules.map((v) => v.toXml('Rule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14117,16 +14261,19 @@ class LifecycleExpiration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlDateTimeValue('Date', date),
       _s.encodeXmlIntValue('Days', days),
       _s.encodeXmlBoolValue(
           'ExpiredObjectDeleteMarker', expiredObjectDeleteMarker),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14202,23 +14349,26 @@ class LifecycleRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
-      abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
-      expiration.toXml('Expiration'),
-      filter.toXml('Filter'),
+      expiration?.toXml('Expiration'),
       _s.encodeXmlStringValue('ID', id),
-      noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
+      _s.encodeXmlStringValue('Prefix', prefix),
+      filter?.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status?.toValue()),
+      if (transitions != null) ...transitions.map((v) => v.toXml('Transition')),
       if (noncurrentVersionTransitions != null)
         ...noncurrentVersionTransitions
             .map((v) => v.toXml('NoncurrentVersionTransition')),
-      _s.encodeXmlStringValue('Prefix', prefix),
-      if (transitions != null) ...transitions.map((v) => v.toXml('Transition')),
+      noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+      abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14246,14 +14396,17 @@ class LifecycleRuleAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((v) => v.toXml('Tag')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -14286,15 +14439,18 @@ class LifecycleRuleFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      and.toXml('And'),
       _s.encodeXmlStringValue('Prefix', prefix),
-      tag.toXml('Tag'),
+      tag?.toXml('Tag'),
+      and?.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15003,17 +15159,20 @@ class LoggingEnabled {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('TargetBucket', targetBucket),
-      _s.encodeXmlStringValue('TargetPrefix', targetPrefix),
       if (targetGrants != null)
         _s.XmlElement(_s.XmlName('TargetGrants'), [],
             <_s.XmlNode>[...targetGrants.map((v) => v.toXml('TargetGrants'))]),
+      _s.encodeXmlStringValue('TargetPrefix', targetPrefix),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15118,14 +15277,17 @@ class MetadataEntry {
     this.name,
     this.value,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15155,14 +15317,17 @@ class Metrics {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      eventThreshold.toXml('EventThreshold'),
       _s.encodeXmlStringValue('Status', status?.toValue()),
+      eventThreshold?.toXml('EventThreshold'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15189,14 +15354,17 @@ class MetricsAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((v) => v.toXml('Tag')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15232,14 +15400,17 @@ class MetricsConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      filter.toXml('Filter'),
+      filter?.toXml('Filter'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15275,15 +15446,18 @@ class MetricsFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      and.toXml('And'),
       _s.encodeXmlStringValue('Prefix', prefix),
-      tag.toXml('Tag'),
+      tag?.toXml('Tag'),
+      and?.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15384,13 +15558,16 @@ class NoncurrentVersionExpiration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15431,14 +15608,17 @@ class NoncurrentVersionTransition {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
       _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15481,19 +15661,22 @@ class NotificationConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      if (topicConfigurations != null)
+        ...topicConfigurations.map((v) => v.toXml('TopicConfiguration')),
+      if (queueConfigurations != null)
+        ...queueConfigurations.map((v) => v.toXml('QueueConfiguration')),
       if (lambdaFunctionConfigurations != null)
         ...lambdaFunctionConfigurations
             .map((v) => v.toXml('CloudFunctionConfiguration')),
-      if (queueConfigurations != null)
-        ...queueConfigurations.map((v) => v.toXml('QueueConfiguration')),
-      if (topicConfigurations != null)
-        ...topicConfigurations.map((v) => v.toXml('TopicConfiguration')),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15532,15 +15715,18 @@ class NotificationConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      cloudFunctionConfiguration.toXml('CloudFunctionConfiguration'),
-      queueConfiguration.toXml('QueueConfiguration'),
-      topicConfiguration.toXml('TopicConfiguration'),
+      topicConfiguration?.toXml('TopicConfiguration'),
+      queueConfiguration?.toXml('QueueConfiguration'),
+      cloudFunctionConfiguration?.toXml('CloudFunctionConfiguration'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15564,13 +15750,16 @@ class NotificationConfigurationFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      key.toXml('S3Key'),
+      key?.toXml('S3Key'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15686,14 +15875,17 @@ class ObjectIdentifier {
     @_s.required this.key,
     this.versionId,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('VersionId', versionId),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15722,15 +15914,18 @@ class ObjectLockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
           'ObjectLockEnabled', objectLockEnabled?.toValue()),
-      rule.toXml('Rule'),
+      rule?.toXml('Rule'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15776,13 +15971,16 @@ class ObjectLockLegalHold {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15866,14 +16064,17 @@ class ObjectLockRetention {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Mode', mode?.toValue()),
       _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -15925,13 +16126,16 @@ class ObjectLockRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      defaultRetention.toXml('DefaultRetention'),
+      defaultRetention?.toXml('DefaultRetention'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16077,13 +16281,16 @@ class OutputLocation {
   OutputLocation({
     this.s3,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      s3.toXml('S3'),
+      s3?.toXml('S3'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16101,14 +16308,17 @@ class OutputSerialization {
     this.csv,
     this.json,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      csv.toXml('CSV'),
-      json.toXml('JSON'),
+      csv?.toXml('CSV'),
+      json?.toXml('JSON'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16133,14 +16343,17 @@ class Owner {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('DisplayName', displayName),
       _s.encodeXmlStringValue('ID', id),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16173,11 +16386,14 @@ extension on String {
 /// Container for Parquet.
 class ParquetInput {
   ParquetInput();
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16444,16 +16660,19 @@ class PublicAccessBlockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
-      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
       _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
+      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
       _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16662,17 +16881,20 @@ class QueueConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
+      _s.encodeXmlStringValue('Queue', queueArn),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('Queue', queueArn),
-      filter.toXml('Filter'),
-      _s.encodeXmlStringValue('Id', id),
+      filter?.toXml('Filter'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16708,17 +16930,20 @@ class QueueConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Event', event?.toValue()),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Queue', queue),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16815,7 +17040,7 @@ class Redirect {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostName', hostName),
       _s.encodeXmlStringValue('HttpRedirectCode', httpRedirectCode),
@@ -16823,9 +17048,12 @@ class Redirect {
       _s.encodeXmlStringValue('ReplaceKeyPrefixWith', replaceKeyPrefixWith),
       _s.encodeXmlStringValue('ReplaceKeyWith', replaceKeyWith),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16852,14 +17080,17 @@ class RedirectAllRequestsTo {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostName', hostName),
       _s.encodeXmlStringValue('Protocol', protocol?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16894,14 +17125,17 @@ class ReplicationConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Role', role),
       if (rules != null) ...rules.map((v) => v.toXml('Rule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -16993,21 +17227,24 @@ class ReplicationRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      destination.toXml('Destination'),
-      _s.encodeXmlStringValue('Status', status?.toValue()),
-      deleteMarkerReplication.toXml('DeleteMarkerReplication'),
-      existingObjectReplication.toXml('ExistingObjectReplication'),
-      filter.toXml('Filter'),
       _s.encodeXmlStringValue('ID', id),
-      _s.encodeXmlStringValue('Prefix', prefix),
       _s.encodeXmlIntValue('Priority', priority),
-      sourceSelectionCriteria.toXml('SourceSelectionCriteria'),
+      _s.encodeXmlStringValue('Prefix', prefix),
+      filter?.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status?.toValue()),
+      sourceSelectionCriteria?.toXml('SourceSelectionCriteria'),
+      existingObjectReplication?.toXml('ExistingObjectReplication'),
+      destination?.toXml('Destination'),
+      deleteMarkerReplication?.toXml('DeleteMarkerReplication'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17048,14 +17285,17 @@ class ReplicationRuleAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((v) => v.toXml('Tag')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17105,15 +17345,18 @@ class ReplicationRuleFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      and.toXml('And'),
       _s.encodeXmlStringValue('Prefix', prefix),
-      tag.toXml('Tag'),
+      tag?.toXml('Tag'),
+      and?.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17213,14 +17456,17 @@ class ReplicationTime {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
-      time.toXml('Time'),
+      time?.toXml('Time'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17272,13 +17518,16 @@ class ReplicationTimeValue {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Minutes', minutes),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17348,13 +17597,16 @@ class RequestPaymentConfiguration {
   RequestPaymentConfiguration({
     @_s.required this.payer,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Payer', payer?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17370,13 +17622,16 @@ class RequestProgress {
   RequestProgress({
     this.enabled,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17442,19 +17697,22 @@ class RestoreRequest {
     this.tier,
     this.type,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Days', days),
-      _s.encodeXmlStringValue('Description', description),
-      glacierJobParameters.toXml('GlacierJobParameters'),
-      outputLocation.toXml('OutputLocation'),
-      selectParameters.toXml('SelectParameters'),
-      _s.encodeXmlStringValue('Tier', tier?.toValue()),
+      glacierJobParameters?.toXml('GlacierJobParameters'),
       _s.encodeXmlStringValue('Type', type?.toValue()),
+      _s.encodeXmlStringValue('Tier', tier?.toValue()),
+      _s.encodeXmlStringValue('Description', description),
+      selectParameters?.toXml('SelectParameters'),
+      outputLocation?.toXml('OutputLocation'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17512,14 +17770,17 @@ class RoutingRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      redirect.toXml('Redirect'),
-      condition.toXml('Condition'),
+      condition?.toXml('Condition'),
+      redirect?.toXml('Redirect'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17585,20 +17846,23 @@ class Rule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      expiration?.toXml('Expiration'),
+      _s.encodeXmlStringValue('ID', id),
       _s.encodeXmlStringValue('Prefix', prefix),
       _s.encodeXmlStringValue('Status', status?.toValue()),
-      abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
-      expiration.toXml('Expiration'),
-      _s.encodeXmlStringValue('ID', id),
-      noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
-      noncurrentVersionTransition.toXml('NoncurrentVersionTransition'),
-      transition.toXml('Transition'),
+      transition?.toXml('Transition'),
+      noncurrentVersionTransition?.toXml('NoncurrentVersionTransition'),
+      noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+      abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17620,13 +17884,16 @@ class S3KeyFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (filterRules != null) ...filterRules.map((v) => v.toXml('FilterRule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17667,25 +17934,28 @@ class S3Location {
     this.tagging,
     this.userMetadata,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('BucketName', bucketName),
       _s.encodeXmlStringValue('Prefix', prefix),
+      encryption?.toXml('Encryption'),
+      _s.encodeXmlStringValue('CannedACL', cannedACL?.toValue()),
       if (accessControlList != null)
         _s.XmlElement(_s.XmlName('AccessControlList'), [], <_s.XmlNode>[
           ...accessControlList.map((v) => v.toXml('AccessControlList'))
         ]),
-      _s.encodeXmlStringValue('CannedACL', cannedACL?.toValue()),
-      encryption.toXml('Encryption'),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
-      tagging.toXml('Tagging'),
+      tagging?.toXml('Tagging'),
       if (userMetadata != null)
         _s.XmlElement(_s.XmlName('UserMetadata'), [],
             <_s.XmlNode>[...userMetadata.map((v) => v.toXml('UserMetadata'))]),
+      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17707,13 +17977,16 @@ class SSEKMS {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('KeyId', keyId),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17728,11 +18001,14 @@ class SSES3 {
     return SSES3();
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17762,14 +18038,17 @@ class ScanRange {
     this.end,
     this.start,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('End', end),
       _s.encodeXmlIntValue('Start', start),
+      _s.encodeXmlIntValue('End', end),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17831,6 +18110,120 @@ class SelectObjectContentOutput {
   }
 }
 
+/// Request to filter the contents of an Amazon S3 object based on a simple
+/// Structured Query Language (SQL) statement. In the request, along with the
+/// SQL expression, you must specify a data serialization format (JSON or CSV)
+/// of the object. Amazon S3 uses this to parse object data into records. It
+/// returns only records that match the specified SQL expression. You must also
+/// specify the data serialization format for the response. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html">S3Select
+/// API Documentation</a>.
+class SelectObjectContentRequest {
+  /// The S3 bucket.
+  final String bucket;
+
+  /// The expression that is used to query the object.
+  final String expression;
+
+  /// The type of the provided expression (for example, SQL).
+  final ExpressionType expressionType;
+
+  /// Describes the format of the data in the object that is being queried.
+  final InputSerialization inputSerialization;
+
+  /// The object key.
+  final String key;
+
+  /// Describes the format of the data that you want Amazon S3 to return in
+  /// response.
+  final OutputSerialization outputSerialization;
+
+  /// Specifies if periodic request progress information should be enabled.
+  final RequestProgress requestProgress;
+
+  /// The SSE Algorithm used to encrypt the object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  final String sSECustomerAlgorithm;
+
+  /// The SSE Customer Key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  final Uint8List sSECustomerKey;
+
+  /// The SSE Customer Key MD5. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  final String sSECustomerKeyMD5;
+
+  /// Specifies the byte range of the object to get the records from. A record is
+  /// processed when its first byte is contained by the range. This parameter is
+  /// optional, but when specified, it must not be empty. See RFC 2616, Section
+  /// 14.35.1 about how to specify the start and end of the range.
+  ///
+  /// <code>ScanRange</code>may be used in the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>&lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt;</code>
+  /// - process only the records starting between the bytes 50 and 100 (inclusive,
+  /// counting from zero)
+  /// </li>
+  /// <li>
+  /// <code>&lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt;</code>
+  /// - process only the records starting after the byte 50
+  /// </li>
+  /// <li>
+  /// <code>&lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt;</code> -
+  /// process only the records within the last 50 bytes of the file.
+  /// </li>
+  /// </ul>
+  final ScanRange scanRange;
+
+  SelectObjectContentRequest({
+    @_s.required this.bucket,
+    @_s.required this.expression,
+    @_s.required this.expressionType,
+    @_s.required this.inputSerialization,
+    @_s.required this.key,
+    @_s.required this.outputSerialization,
+    this.requestProgress,
+    this.sSECustomerAlgorithm,
+    this.sSECustomerKey,
+    this.sSECustomerKeyMD5,
+    this.scanRange,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement uri member: Bucket
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement uri member: Key
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement header member: x-amz-server-side-encryption-customer-algorithm
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement header member: x-amz-server-side-encryption-customer-key
+      if (1 == 1) throw UnimplementedError(),
+// TODO: implement header member: x-amz-server-side-encryption-customer-key-MD5
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('Expression', expression),
+      _s.encodeXmlStringValue('ExpressionType', expressionType?.toValue()),
+      requestProgress?.toXml('RequestProgress'),
+      inputSerialization?.toXml('InputSerialization'),
+      outputSerialization?.toXml('OutputSerialization'),
+      scanRange?.toXml('ScanRange'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// Describes the parameters for Select job types.
 class SelectParameters {
   /// The expression that is used to query the object.
@@ -17851,16 +18244,19 @@ class SelectParameters {
     @_s.required this.inputSerialization,
     @_s.required this.outputSerialization,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Expression', expression),
+      inputSerialization?.toXml('InputSerialization'),
       _s.encodeXmlStringValue('ExpressionType', expressionType?.toValue()),
-      inputSerialization.toXml('InputSerialization'),
-      outputSerialization.toXml('OutputSerialization'),
+      _s.encodeXmlStringValue('Expression', expression),
+      outputSerialization?.toXml('OutputSerialization'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17923,14 +18319,17 @@ class ServerSideEncryptionByDefault {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue()),
       _s.encodeXmlStringValue('KMSMasterKeyID', kMSMasterKeyID),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17954,13 +18353,16 @@ class ServerSideEncryptionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (rules != null) ...rules.map((v) => v.toXml('Rule')),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -17984,14 +18386,17 @@ class ServerSideEncryptionRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       applyServerSideEncryptionByDefault
-          .toXml('ApplyServerSideEncryptionByDefault'),
+          ?.toXml('ApplyServerSideEncryptionByDefault'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18019,13 +18424,16 @@ class SourceSelectionCriteria {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      sseKmsEncryptedObjects.toXml('SseKmsEncryptedObjects'),
+      sseKmsEncryptedObjects?.toXml('SseKmsEncryptedObjects'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18050,13 +18458,16 @@ class SseKmsEncryptedObjects {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18205,13 +18616,16 @@ class StorageClassAnalysis {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      dataExport.toXml('DataExport'),
+      dataExport?.toXml('DataExport'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18242,15 +18656,18 @@ class StorageClassAnalysisDataExport {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      destination.toXml('Destination'),
       _s.encodeXmlStringValue(
           'OutputSchemaVersion', outputSchemaVersion?.toValue()),
+      destination?.toXml('Destination'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18299,14 +18716,17 @@ class Tag {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18320,15 +18740,18 @@ class Tagging {
   Tagging({
     @_s.required this.tagSet,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (tagSet != null)
         _s.XmlElement(_s.XmlName('TagSet'), [],
             <_s.XmlNode>[...tagSet.map((v) => v.toXml('TagSet'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18385,14 +18808,17 @@ class TargetGrant {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee.toXml('Grantee'),
+      grantee?.toXml('Grantee'),
       _s.encodeXmlStringValue('Permission', permission?.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18465,17 +18891,20 @@ class TopicConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
+      _s.encodeXmlStringValue('Topic', topicArn),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('Topic', topicArn),
-      filter.toXml('Filter'),
-      _s.encodeXmlStringValue('Id', id),
+      filter?.toXml('Filter'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18512,17 +18941,20 @@ class TopicConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Event', event?.toValue()),
+      _s.encodeXmlStringValue('Id', id),
       if (events != null)
         ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
-      _s.encodeXmlStringValue('Id', id),
+      _s.encodeXmlStringValue('Event', event?.toValue()),
       _s.encodeXmlStringValue('Topic', topic),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18557,15 +18989,18 @@ class Transition {
     );
   }
 
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlDateTimeValue('Date', date),
       _s.encodeXmlIntValue('Days', days),
       _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18784,14 +19219,17 @@ class VersioningConfiguration {
     this.mFADelete,
     this.status,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('MfaDelete', mFADelete?.toValue()),
       _s.encodeXmlStringValue('Status', status?.toValue()),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }
@@ -18820,18 +19258,21 @@ class WebsiteConfiguration {
     this.redirectAllRequestsTo,
     this.routingRules,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      errorDocument.toXml('ErrorDocument'),
-      indexDocument.toXml('IndexDocument'),
-      redirectAllRequestsTo.toXml('RedirectAllRequestsTo'),
+      errorDocument?.toXml('ErrorDocument'),
+      indexDocument?.toXml('IndexDocument'),
+      redirectAllRequestsTo?.toXml('RedirectAllRequestsTo'),
       if (routingRules != null)
         _s.XmlElement(_s.XmlName('RoutingRules'), [],
             <_s.XmlNode>[...routingRules.map((v) => v.toXml('RoutingRules'))]),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

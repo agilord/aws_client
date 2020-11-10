@@ -35,6 +35,12 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -45,6 +51,12 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -55,6 +67,12 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -65,6 +83,12 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -75,6 +99,12 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -85,7 +115,34 @@ class RecursiveShapes {
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
+      payload: InputShape(recursiveStruct: recursiveStruct).toXml(
+        'OperationRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
+        ],
+      ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class InputShape {
+  final RecursiveStructType recursiveStruct;
+
+  InputShape({
+    this.recursiveStruct,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      recursiveStruct?.toXml('RecursiveStruct'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
@@ -102,20 +159,23 @@ class RecursiveStructType {
     this.recursiveMap,
     this.recursiveStruct,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('NoRecurse', noRecurse),
+      recursiveStruct?.toXml('RecursiveStruct'),
       if (recursiveList != null)
         _s.XmlElement(_s.XmlName('RecursiveList'), [], <_s.XmlNode>[
           ...recursiveList.map((v) => v.toXml('RecursiveList'))
         ]),
       if (recursiveMap != null)
         throw UnimplementedError('XML map: RecursiveMapType'),
-      recursiveStruct.toXml('RecursiveStruct'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

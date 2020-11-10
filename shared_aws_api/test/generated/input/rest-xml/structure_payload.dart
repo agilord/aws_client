@@ -35,7 +35,7 @@ class StructurePayload {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: foo.toXml('foo'),
+      payload: foo?.toXml('foo'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -46,7 +46,7 @@ class StructurePayload {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: foo.toXml('foo'),
+      payload: foo?.toXml('foo'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -57,7 +57,7 @@ class StructurePayload {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: foo.toXml('foo'),
+      payload: foo?.toXml('foo'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -68,7 +68,7 @@ class StructurePayload {
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: foo.toXml('foo'),
+      payload: foo?.toXml('foo'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -80,13 +80,16 @@ class FooShape {
   FooShape({
     this.baz,
   });
-  _s.XmlElement toXml(String elemName) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('baz', baz),
     ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
     return _s.XmlElement(
       _s.XmlName(elemName),
-      [],
+      $attributes,
       $children.where((e) => e != null),
     );
   }

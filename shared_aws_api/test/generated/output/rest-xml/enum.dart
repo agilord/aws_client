@@ -49,6 +49,8 @@ class Enum {
       method: 'POST',
       requestUri: '/path',
       headers: headers,
+      payload: OutputShape(fooEnum: fooEnum, listEnums: listEnums)
+          .toXml('OutputShape'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -76,6 +78,26 @@ class OutputShape {
       listEnums: _s
           .extractXmlChild(elem, 'ListEnums')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+// TODO: implement header member: x-amz-enum
+      if (1 == 1) throw UnimplementedError(),
+      _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
+      if (listEnums != null)
+        _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
+          ...listEnums.map((v) => _s.encodeXmlStringValue('ListEnums', v))
+        ]),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
     );
   }
 }
