@@ -28,8 +28,7 @@ class _JsonEqual extends _FeatureMatcher<String> {
     }
     final expectedJson = _tryParseJson(_expected);
     if (expectedJson == null) {
-      matchState['error'] = 'Expected is not valid JSON';
-      return false;
+      return equals(_expected).matches(item, matchState);
     }
 
     final itemJson = _tryParseJson(item);
@@ -78,8 +77,7 @@ class _XmlEqual extends _FeatureMatcher<String> {
     }
     final expectedXml = _tryParseXml(_expected);
     if (expectedXml == null) {
-      matchState['error'] = 'Expected is not valid XML document';
-      return false;
+      return equals(_expected).matches(item, matchState);
     }
 
     final itemXml = _tryParseXml(item);

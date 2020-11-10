@@ -157,9 +157,6 @@ class Shape {
 
   bool get generateToXml => api.generateToXml && isUsedInInput;
 
-  Member get payloadMember =>
-      _members.firstWhere((mem) => mem.name == payload, orElse: () => null);
-
   String get className {
     var cn = name.substring(0, 1).toUpperCase() + name.substring(1);
     if (cn == 'Function') cn = '\$$cn';

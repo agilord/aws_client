@@ -56,4 +56,12 @@ class Descriptor {
   }
 
   Shape get shapeClass => api.shapes[shape];
+
+  Member get payloadMember {
+    final shape = shapeClass;
+    if (shape != null) {
+      return shapeClass.membersMap[payload ?? shapeClass.payload];
+    }
+    return null;
+  }
 }

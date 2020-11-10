@@ -10,6 +10,7 @@ import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
+import 'package:aws_client.generator/model/xml_namespace.dart';
 
 import '../utils/documentation_utils.dart';
 
@@ -346,9 +347,11 @@ ${builder.constructor()}
       }
 
       if (shape.generateToXml) {
-        writeln('\n  _s.XmlElement toXml(String elemName) {');
+        writeln(
+            '\n  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {');
         writeln('    final \$children = <_s.XmlNode>[');
-        for (final member in shape.members.where((e) => !e.xmlAttribute)) {
+        for (final member
+            in shape.membersMap.values.where((e) => !e.xmlAttribute)) {
           if (member.isQuery || member.isUri || member.isHeader) {
             writeln(
                 '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
@@ -368,26 +371,22 @@ ${builder.constructor()}
 
         final membersToAttribute =
             shape.members.where((e) => e.xmlAttribute).toList();
-        var attributeListCode = '[]';
-        if (membersToAttribute.isNotEmpty || shape.xmlNamespace != null) {
-          writeln('final \$attributes = <_s.XmlAttribute>[');
-          if (shape.xmlNamespace != null) {
-            writeln(
-                "_s.XmlAttribute(_s.XmlName('${shape.xmlNamespace.prefix}', 'xmlns'), '${shape.xmlNamespace.uri}'),");
-          }
-          for (final member in membersToAttribute) {
-            final nsPrefix = member.xmlNamespace?.prefix ?? '';
-            final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
-            final isEnum = member.shapeClass.enumeration?.isNotEmpty ?? false;
-            writeln('if (${member.fieldName} != null)');
-            writeln(
-                "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.toValue()' : ''}),");
-          }
-          writeln('];');
-          attributeListCode = '\$attributes';
+        writeln('final \$attributes = <_s.XmlAttribute>[...?attributes,');
+        if (shape.xmlNamespace != null) {
+          writeln(
+              "${xmlNamespaceToCode(shape.xmlNamespace, importPrefix: '_s.')},");
         }
+        for (final member in membersToAttribute) {
+          final nsPrefix = member.xmlNamespace?.prefix ?? '';
+          final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
+          final isEnum = member.shapeClass.enumeration?.isNotEmpty ?? false;
+          writeln('if (${member.fieldName} != null)');
+          writeln(
+              "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.toValue()' : ''}),");
+        }
+        writeln('];');
         writeln(
-            '    return _s.XmlElement(_s.XmlName(elemName), $attributeListCode, \$children.where((e) => e != null),);');
+            '    return _s.XmlElement(_s.XmlName(elemName), \$attributes, \$children.where((e) => e != null),);');
         writeln('  }');
       }
 
@@ -544,7 +543,7 @@ String _toXmlFn(
     // TODO: implement
     return 'if ($fieldName != null) throw UnimplementedError(\'XML map: ${shapeRef.name}\')';
   } else {
-    return '$fieldName.toXml(\'$elemName\')';
+    return '$fieldName?.toXml(\'$elemName\')';
   }
 }
 
@@ -560,6 +559,12 @@ String toEnumerationFieldName(String value) {
     fieldName = '\$$fieldName';
   }
   return fieldName;
+}
+
+String xmlNamespaceToCode(XmlNamespace namespace, {String importPrefix = ''}) {
+  final nameCode =
+      namespace.prefix != null ? "'${namespace.prefix}', 'xmlns'" : "'xmlns'";
+  return "${importPrefix}XmlAttribute(${importPrefix}XmlName($nameCode), '${namespace.uri}')";
 }
 
 extension Utils<T> on Iterable<T> {
